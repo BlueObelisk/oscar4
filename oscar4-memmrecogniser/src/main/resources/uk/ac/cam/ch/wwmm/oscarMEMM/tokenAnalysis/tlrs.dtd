@@ -1,0 +1,44 @@
+<!--
+    PUBLIC ID: -//vendor//vocabulary//EN
+    SYSTEM ID: http://server/path/regexps.dtd
+
+--><!--
+    An example how to use this DTD from your XML document:
+
+    <?xml version="1.0"?>
+
+    <!DOCTYPE regexps SYSTEM "regexps.dtd">
+
+    <regexps>
+    ...
+    </regexps>
+-->
+
+<!ELEMENT tlrs (tlr)*>
+
+<!ELEMENT tlr EMPTY>
+<!ATTLIST tlr
+	idref CDATA #REQUIRED
+	type  CDATA #REQUIRED
+	name  CDATA #REQUIRED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT item (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT def (#PCDATA|item|insert)*>
+<!ATTLIST def
+    desc CDATA #IMPLIED
+    type CDATA #REQUIRED
+    id CDATA #REQUIRED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT insert EMPTY>
+<!ATTLIST insert
+    idref CDATA #REQUIRED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT regexps (tlrs, def*)>

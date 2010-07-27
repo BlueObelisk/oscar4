@@ -1,0 +1,2864 @@
+
+<!-- <?xml version='1.0' encoding='UTF-8'?> -->
+
+<!DOCTYPE regexps SYSTEM "regexes.dtd">
+
+<!--
+  - XML structure
+  -
+  - Start with <top>
+  - 
+  - <child type=Xxx id=Yyy>
+  -     refer to <node type=Xxx id=Yyy value=Zzz>
+  - 
+  - <regexp> in <node> matches a block of data
+  -     'parsegroup' specifies regexp match group for further parsing
+  -
+  - <node type=Xxx id=Yyy value=Zzz>  ==>  <Xxx type=Zzz> in output XML
+  -     unless value = blank          ==>  <Xxx>
+  -     unless value = ".."           ==>  no markup
+  -
+  - <insert idref=Xxx> within <regexp>
+  -     replaced with contents of <def id=Xxx>
+  -->
+<regexps>
+
+<top>
+    <child type="property" id="elemanal"/>
+    <child type="spectrum" id="hnmr"/>
+    <child type="spectrum" id="cnmr"/>
+    <child type="spectrum" id="unknownNmr"/>
+    <child type="spectrum" id="ir"/>
+    <child type="spectrum" id="uv"/>
+    <child type="property" id="hrms"/>
+    <child type="spectrum" id="massSpec"/>
+    <child type="property" id="nature"/>
+    <child type="property" id="yield"/>
+    <child type="property" id="mp"/>
+    <child type="property" id="bp"/>
+    <child type="property" id="optrot"/>
+    <child type="property" id="rf"/>
+    <child type="property" id="refractiveindex"/>
+    <child type="property" id="quantity"/>
+    <child type="property" id="state"/>
+</top>
+                                                                                <!-- formula -->                                                                                <!-- elem anal -->
+<node type="property" id="elemanal" value="elemAnal">
+    <regexp parsegroup="0">
+        [\[\(]?
+        (
+            <insert idref="elemAnalBlock"/> [;\.\s]*?
+        ){2}
+        [\)\]]?
+    </regexp>
+    <child type="quantity" id="elemanalFormula"/>
+    <child type="quantity" id="elemanalRequired"/>
+    <child type="quantity" id="elemanalFound"/>
+</node>
+
+<node type="quantity" id="elemanalFormula" value="formula">
+    <regexp parsegroup="1">
+        ((?=\w{4})<insert idref="FORMULA"/>)
+    </regexp>
+</node>
+
+<node type="quantity" id="elemanalRequired" value="required">
+    <regexp parsegroup="1">
+        (?:
+            <insert idref="elemAnalRequired"/>
+        )
+        ({1}
+            <insert idref="elemAnalData"/>
+        )
+    </regexp>
+</node>
+
+<node type="quantity" id="elemanalFound" value="found">
+    <regexp parsegroup="1">
+        (?:
+            <insert idref="elemAnalFound"/>
+        )
+        ({1}
+            <insert idref="elemAnalData"/>
+        )
+    </regexp>
+</node>
+
+
+                                                                                <!-- H-NMR -->
+<!-- TODO: something better than the current nmrDelta kludge - delta isn't a "word"
+character, and so doesn't create word boundaries in the right way -->
+
+<node type="spectrum" id="hnmr" value="hnmr">
+    <regexp parsegroup="0">
+        <insert idref="nmrDelta" />?
+        \b
+        <insert idref="hNmr.Prolog"/>
+        (?: \W* (?:for|of)\s+\w+ (?: (![\(\);]).)*?)?
+        <insert idref="nmrMethod"/>?
+        (\W+(<insert idref="nmrDelta"/>|H)+\b)?
+        [\s:=]*?
+        <!-- as opposed to [\s:=]+? -->
+        (?: \W*ppm\W*?)?
+        (?: peaks\s+at\s+)?
+        (?:\s*<insert idref="nmrDelta"/>\s+)?
+        <insert idref="nmrPeakBlock"/>
+        (?:\s*ppm)?
+    </regexp>
+     <child type="quantity" id="hnmrSolvent"/>
+     <child type="quantity" id="hnmrStandard"/>
+     <child type="quantity" id="hnmrFrequency"/>
+     <child type="quantity" id="hnmrTemperature"/>
+     <child type="peaks" id="hnmr"/>
+</node>
+
+<node type="quantity" id="hnmrSolvent" value="solvent">
+    <regexp parsegroup="1">
+        \W(<insert idref="nmrListSolvent"/>)\b
+    </regexp>
+</node>
+
+<node type="quantity" id="hnmrStandard" value="standard">
+    <regexp parsegroup="1">
+        \W(<insert idref="nmrListStandard"/>)\b
+    </regexp>
+</node>
+
+<node type="quantity" id="hnmrFrequency" value="frequency">
+    <regexp parsegroup="1">
+        \b (
+            <insert idref="FLOAT"/> \s* MHz
+        ) \b
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+    <child type="units" id="frequency"/>
+</node>
+
+<node type="quantity" id="hnmrTemperature" value="temperature">
+    <regexp parsegroup="1">
+        \b(<insert idref="FLOAT"/>)\s*K\b
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="temp"/>
+</node>
+
+<node type="peaks" id="hnmr" value="..">
+    <regexp parsegroup="1">
+        (<insert idref="nmrPeakBlock"/>)$
+    </regexp>
+    <child type="peak" id="hnmr"/>
+</node>
+
+<node type="peak" id="hnmr">
+    <regexp parsegroup="1">
+        (<insert idref="nmrPeak"/>)
+    </regexp>
+    <child type="quantity" id="hnmrPointer"/>
+    <child type="quantity" id="hnmrShift"/>
+    <child type="quantity" id="hnmrPeakType"/>
+    <child type="quantity" id="hnmrIntegral"/>
+    <child type="quantity" id="hnmrCoupling"/>
+    <child type="quantity" id="hnmrComment"/>
+</node>
+
+<node type="quantity" id="hnmrPointer" value="..">
+    <regexp parsegroup="1">
+        ((NMR\W*?)?\bdH|(1H\W+?NMR(\W*?)))
+    </regexp>
+</node>
+
+<node type="quantity" id="hnmrShift" value="shift">
+    <regexp parsegroup="1">
+	<!-- requiring a word boundary at the start prevents the correct
+	recognition of negative values as - isn't a word character. -->
+        (?:^|\W)(
+            <insert idref="VALUE"/>
+        ) \b
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+</node>
+
+<node type="quantity" id="hnmrPeakType" value="peaktype">
+    <regexp parsegroup="1">
+        <insert idref="nmrPeakType"/>
+    </regexp>
+    <unique/>
+</node>
+
+<node type="quantity" id="hnmrIntegral" value="integral">
+    <regexp parsegroup="1">
+        \&lt; (
+            <insert idref="VALUE"/>
+            \s*
+            H
+        ) \b
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+    <child type="units" id="hnmrIntegral"/>
+</node>
+
+<node type="units" id="hnmrIntegral">
+    <regexp parsegroup="1">
+        ( H )
+    </regexp>
+</node>
+
+<node type="quantity" id="hnmrCoupling" value="coupling">
+    <regexp parsegroup="1">
+        \b J \W*?
+        (
+            <insert idref="FLOAT"/>
+            (?: \s* (?: , | and ) \s* <insert idref="FLOAT"/> )*
+            (\s*Hz)?
+        ) \b(?!\s*[<insert idref="HYPHENCHARACTERS"/>x×])
+        <!-- inserting HYPHEN here breaks e.g. 1H NMR: 2.3 (d, J = 3.1 and 2.2 Hz, 2H), 2.45 (2H, d, J=3.1 and 2.2Hz) -->
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+    <child type="units" id="frequency"/>
+</node>
+
+<node type="quantity" id="hnmrComment" value="comment">
+    <regexp parsegroup="1">
+        ^\s*[\(\[\{]? [\s,]* (.+?) [\}\]\)] [^\}\]\)]*$
+    </regexp>
+</node>
+
+
+
+<!-- for NMR spectra that don't explicitly declare their element  -->
+<node type="spectrum" id="unknownNmr" value="unknownNmr">
+    <regexp parsegroup="0">
+        <insert idref="nmrDelta" />?
+        \b
+        <insert idref="unknownNmr.Prolog"/>
+        (?: \W* (?:for|of)\s+\w+ (?: (![\(\);]).)*?)?
+        <insert idref="nmrMethod"/>?
+        (\W+<insert idref="nmrDelta"/>\b)?
+        [\s:=]*?
+        <!-- as opposed to [\s:=]+? -->
+        (?: \W*ppm\W*?)?
+        (?: peaks\s+at\s+)?
+        (?:\s*<insert idref="nmrDelta"/>\s+)?
+        <insert idref="nmrPeakBlock"/>
+        (?:\s*ppm)?
+    </regexp>
+		<!-- here -->
+     <child type="quantity" id="hnmrSolvent"/>
+		<!-- here -->
+     <child type="quantity" id="hnmrStandard"/>
+		<!-- here -->
+     <child type="quantity" id="hnmrFrequency"/>
+		<!-- here -->
+     <child type="quantity" id="hnmrTemperature"/>
+		<!-- here -->
+     <child type="peaks" id="hnmr"/>
+</node>
+
+
+                                                                                <!-- C-NMR -->
+
+<node type="spectrum" id="cnmr" value="cnmr">
+    <regexp parsegroup="0">
+        <insert idref="nmrDelta" />?
+        \b
+        <insert idref="cNmr.Prolog"/>
+        (?: \W* (?:for|of)\s+\w+ (?: (![\(\);]).)*?)?
+        <insert idref="nmrMethod"/>?
+        (\W+(<insert idref="nmrDelta"/>|C)+\b)?
+        [\s:=]*?
+        (?: \W*ppm\W*?)?
+        (?: peaks\s+at\s+)?
+        (?:\s*<insert idref="nmrDelta"/>\s+)?
+        <insert idref="nmrPeakBlock"/>
+        (?:\s*ppm)?
+    </regexp>
+     <child type="quantity" id="nmrSolvent"/>
+     <child type="quantity" id="nmrStandard"/>
+     <child type="quantity" id="nmrFrequency"/>
+     <child type="quantity" id="nmrTemperature"/>
+     <child type="peaks" id="cnmr"/>
+</node>
+
+<node type="quantity" id="nmrSolvent" value="solvent">
+    <regexp parsegroup="1">
+        \W (
+            <insert idref="nmrListSolvent"/>
+        ) \b
+    </regexp>
+</node>
+
+<node type="quantity" id="nmrStandard" value="standard">
+    <regexp parsegroup="1">
+        \W ( 
+            <insert idref="nmrListStandard"/>
+        ) \b
+    </regexp>
+</node>
+
+<node type="quantity" id="nmrFrequency" value="frequency">
+    <regexp parsegroup="1">
+        \b (
+            <insert idref="FLOAT"/>
+            \s* MHz
+        ) \b
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+    <child type="units" id="frequency"/>
+</node>
+
+<node type="quantity" id="nmrTemperature" value="temperature">
+    <regexp parsegroup="1">
+        \b (
+            <insert idref="FLOAT"/>
+            \s* K
+        ) \b
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="temp"/>
+</node>
+
+<node type="peaks" id="cnmr" value="..">
+    <regexp parsegroup="1">
+        (
+            <insert idref="nmrPeakBlock"/>
+        )$
+    </regexp>
+    <child type="peak" id="cnmr"/>
+</node>
+
+<node type="peak" id="cnmr">
+    <regexp parsegroup="1">
+        (
+            <insert idref="nmrPeak"/>
+        )
+    </regexp>
+    <child type="quantity" id="cnmrPointer"/>
+    <child type="quantity" id="cnmrShift"/>
+    <child type="quantity" id="cnmrPeakType"/>
+    <child type="quantity" id="cnmrComment"/>
+</node>
+
+<node type="quantity" id="cnmrPointer" value="..">
+    <regexp parsegroup="1">
+        ((NMR\W*?)?\bdC|(13C\W+?NMR(\W*?)))
+    </regexp>
+</node>
+
+<node type="quantity" id="cnmrShift" value="shift">
+    <regexp parsegroup="1">
+	<!-- requiring a word boundary at the start prevents the correct
+	recognition of negative values as - isn't a word character -->
+		(
+            <insert idref="VALUE"/>
+        ) \b
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+</node>
+
+
+<node type="quantity" id="cnmrPeakType" value="peaktype">
+    <regexp parsegroup="1">
+        <insert idref="nmrPeakType"/>
+    </regexp>
+</node>
+
+<node type="quantity" id="cnmrComment" value="comment">
+    <regexp parsegroup="1">
+        ^[^\(\[\{]* [\(\[\{] [\s,]* (.*?) [\s,]* [\}\]\)] [^\}\]\)]*$
+    </regexp>
+</node>
+
+
+                                                                                <!-- IR -->
+<node type="spectrum" id="ir" value="ir">
+    <regexp parsegroup="0">
+        (
+                (?x-i:
+                        IR(?=\D) \s* <insert idref="BRACKET"/>? \W*? (?: 
+                        [vun??ν]?max  \s* <insert idref="BRACKET"/>? \W*? )?
+                |	[vun??ν]max \s* <insert idref="BRACKET"/>? \W*?
+                )
+                (?: <insert idref="irSpecUnit"/> [\s:]* )? (?: 
+                <insert idref="BRACKET"/> [\s:]* )? (?: n [\s:]* )? 
+                <insert idref="irSpecPeakBlock"/> (?: \s* 
+                <insert idref="irSpecUnit"/> )?
+        |
+                [a-z]?max \s* (?: <insert idref="BRACKET"/> \W*? )?
+                (?:
+                        (?: <insert idref="irSpecUnit"/> [\s:]* ) (?: 
+                        <insert idref="BRACKET"/> [\s:]* )? (?: n [\s:]* )? 
+                        <insert idref="irSpecPeakBlock"/>
+                |	(?: n [\s:]* )? <insert idref="irSpecPeakBlock"/> 
+                        (?: \s* <insert idref="irSpecUnit"/> )
+                )
+        )
+    </regexp>
+    <child type="quantity" id="irForm"/>
+    <child type="quantity" id="irPlate"/>
+    <child type="peaks" id="ir"/>
+</node>
+
+<node type="quantity" id="irForm" value="form">
+    <regexp parsegroup="1">
+        \b (
+            <insert idref="irSpecListForm"/>
+        ) \b
+    </regexp>
+</node>
+
+<node type="quantity" id="irPlate" value="plate">
+    <regexp parsegroup="1">
+        \b (
+            <insert idref="irSpecListPlate"/>
+        ) \b
+    </regexp>
+</node>
+
+<node type="peaks" id="ir" value="..">
+    <regexp parsegroup="1">
+        (?!
+            1 \b
+        )
+        (
+            <insert idref="irSpecPeakBlock"/>
+        )
+    </regexp>
+    <child type="peak" id="ir"/>
+</node>
+
+<node type="peak" id="ir">
+    <regexp parsegroup="1">
+        (
+            <insert idref="irSpecPeak"/>
+        )
+    </regexp>
+    <child type="quantity" id="irVmax"/>
+    <child type="quantity" id="irPeakType"/>
+    <child type="quantity" id="irComment"/>
+</node>
+
+<node type="quantity" id="irVmax" value="vmax">
+    <regexp parsegroup="1">
+        \b (
+            <insert idref="VALUE"/>
+        ) \b
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+</node>
+
+<node type="quantity" id="irPeakType" value="peaktype">
+    <regexp parsegroup="1">
+        \&lt; (
+            (?:
+                <insert idref="irSpecListPeakType"/>
+                [\s,]*?
+            )+
+        )
+        \&gt;\.?
+    </regexp>
+</node>
+
+<node type="quantity" id="irComment" value="comment">
+    <regexp parsegroup="1">
+        \(
+            [\s,]*
+            (.*)
+            \s*
+        \)
+    </regexp>
+</node>
+
+
+                                                                                <!-- UV -->
+<node type="spectrum" id="uv" value="uv">
+    <regexp parsegroup="0">
+        (
+            electronic \s spectrum
+            .*?
+        )?
+        (
+            (?:
+                (?: [?λl]max | UV (?: \s* [?λl]?max)? )
+                \W*?
+            )
+            (?: <insert idref="BRACKET"/> \W*? )?
+            (?: nm [\s*:] )?
+            (?: <insert idref="BRACKET"/> [\s*:] )?
+            <insert idref="uvSpecPeakBlock"/>
+            (?: \s* nm )?
+        |
+
+            max \W*? (?: <insert idref="BRACKET"/> \W*? )?
+            (?:
+                nm [\s:]*
+                (?: <insert idref="BRACKET"/> [\s:]* )?
+                <insert idref="uvSpecPeakBlock"/>
+            |	<insert idref="uvSpecPeakBlock"/> \s* nm
+            )
+        )
+    </regexp>
+    <child type="quantity" id="uvSolvent"/>
+    <child type="peaks" id="uv"/>
+</node>
+
+<node type="quantity" id="uvSolvent" value="solvent">
+    <regexp parsegroup="1">
+        \b (
+            <insert idref="uvSpecListSolvent"/>
+        ) \b
+    </regexp>
+</node>
+
+<node type="peaks" id="uv" value="..">
+    <regexp parsegroup="1">
+        (
+            <insert idref="uvSpecPeakBlock"/>
+        )
+    </regexp>
+    <child type="peak" id="uv"/>
+</node>
+
+<node type="peak" id="uv">
+    <regexp parsegroup="1">
+        (
+            <insert idref="uvSpecPeak"/>
+        )
+    </regexp>
+    <child type="quantity" id="uvLmax"/>
+    <child type="quantity" id="uvPeakType"/>
+    <child type="quantity" id="uvE"/>
+    <child type="quantity" id="uvLogE"/>
+</node>
+
+<node type="quantity" id="uvLmax" value="lmax">
+    <regexp parsegroup="1">
+        \b (
+            <insert idref="VALUE"/>
+        ) \b
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+</node>
+
+<node type="quantity" id="uvPeakType" value="peaktype">
+    <regexp parsegroup="1">
+        \b(<insert idref="uvSpecListPeakType"/>)\b\.?
+    </regexp>
+</node>
+
+<node type="quantity" id="uvE" value="E">
+    <regexp parsegroup="1">
+        \(
+            [^\)]*?
+            (?!
+                <insert idref="HYPHEN"/>
+            )
+            (
+                \d{1,2}
+                \s?
+                \d{3}
+            )
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+</node>
+
+<node type="quantity" id="uvLogE" value="logE">
+    <regexp parsegroup="1">
+        \(
+            [^\)]*?
+            (
+                \d+
+                \.
+                \d+
+            )
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+</node>
+
+
+
+
+                                                                                <!-- HRMS -->
+<node type="property" id="hrms" value="hrms">
+    <regexp parsegroup="0">
+        [\(\[]?
+        <insert idref="hrmsProlog"/>?
+        (
+            <insert idref="hrmsBlock"/>
+            \W*
+            <insert idref="hrmsPadding"/>*
+            \W*
+            <insert idref="hrmsBlock"/>
+        )
+        [\)\]]?
+    </regexp>
+    <child type="quantity" id="hrmsFormula"/>
+    <child type="quantity" id="hrmsIon"/>
+    <child type="quantity" id="hrmsRequired"/>
+    <child type="quantity" id="hrmsFound"/>
+</node>
+
+<node type="quantity" id="hrmsFormula" value="formula">
+    <regexp parsegroup="1">
+        (?=
+            \w{4,}
+        )
+        (
+            <insert idref="FORMULA"/>
+        )
+    </regexp>
+</node>
+
+<node type="quantity" id="hrmsIon" value="ion">
+    <regexp parsegroup="1">
+        (
+            <insert idref="hrmsIon"/>
+        )
+    </regexp>
+</node>
+
+<node type="quantity" id="hrmsRequired" value="required">
+    <regexp parsegroup="1">
+        <insert idref="hrmsRequired"/>
+        <insert idref="hrmsPadding"/>* \W*
+        ({1}
+            <insert idref="hrmsData"/>
+        )
+    </regexp>
+    <child type="value" id="value"/>
+</node>
+
+<node type="quantity" id="hrmsFound" value="found">
+    <regexp parsegroup="1">
+        <insert idref="hrmsFound"/>
+        <insert idref="hrmsPadding"/>*
+        \W*
+        ({1}
+            <insert idref="hrmsData"/>
+        )
+    </regexp>
+    <child type="value" id="value"/>
+</node>
+
+
+
+                                                                                <!-- mass spec -->
+<node type="spectrum" id="massSpec" value="massSpec">
+    <regexp parsegroup="0">
+        (?:
+            (?:
+                (?x-i)
+                (?!HR)
+                \b [A-Z<insert idref="HYPHENCHARACTERS"/>]* MS \b
+                (?:
+                    (?! \( )
+                    \W
+                )*?
+            |
+                m \/ [ez]
+                (?:
+                    (?! \( )
+                    \W
+                )*?
+            )+
+        )
+        (?:
+            <insert idref="ALLBRACKET"/>
+            [\s:]*
+        )?
+        <insert idref="massSpecPeakBlock"/>
+    </regexp>
+    <child type="quantity" id="massSpecMethod"/>
+    <child type="peaks" id="massSpec"/>
+</node>
+
+<node type="quantity" id="massSpecMethod" value="method">
+    <regexp parsegroup="1">
+        [\(\[]
+        \b (
+            (?:
+                <insert idref="massSpecListMethod"/>
+                \b (\+)?
+                (
+                    \W+
+                    \d+
+                    \s*
+                    ev
+                )?
+                [\s,]*?
+            )+
+        )
+        [\)\]]?
+    </regexp>
+</node>
+
+<node type="peaks" id="massSpec" value="..">
+    <regexp parsegroup="1">
+        \b (
+            <insert idref="massSpecPeakBlock"/>
+        ) $
+    </regexp>
+    <child type="peak" id="massSpec"/>
+</node>
+
+<node type="peak" id="massSpec">
+    <regexp parsegroup="1">
+        (?=
+            \d
+        ) \b
+        (
+            <insert idref="massSpecPeak"/>
+        )
+    </regexp>
+    <child type="quantity" id="massSpecMass"/>
+    <child type="quantity" id="massSpecIntensity"/>
+    <child type="quantity" id="massSpecComment"/>
+</node>
+
+<node type="quantity" id="massSpecMass" value="mass">
+    <regexp parsegroup="1">
+        (
+            \d{2,}
+            (?:
+                \.
+                \d+
+            )?
+        )
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+</node>
+
+<node type="quantity" id="massSpecIntensity" value="intensity">
+    <regexp parsegroup="1">
+        \b (
+            \d+
+            (?:
+                \.
+                \d+
+            )?
+            \%?
+        )
+        (?(?&lt;=\%)|\b)
+        \s*
+        (?:
+            (?&lt;= \% )
+            |
+            [\,\)]
+        )
+        ,?
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+    <child type="units" id="percent"/>
+</node>
+
+<node type="quantity" id="massSpecComment" value="comment">
+    <regexp parsegroup="1">
+        [\(\{\[]
+        [\s,\(\[]*
+        (
+            .*?
+        )
+        [\s,]*
+        [\)\}\]]
+    </regexp>
+</node>
+
+
+                                                                                <!-- nature -->
+<node type="property" id="nature" value="nature">
+    <regexp parsegroup="0">
+        <insert idref="natureBlock"/>
+<!--
+        (?!
+            .*
+            <insert idref="natureBlock"/>
+        )
+-->
+    </regexp>
+    <child type="quantity" id="natureColour"/>
+    <child type="quantity" id="natureStateModifier"/>
+    <child type="quantity" id="natureSolidState"/>
+    <child type="quantity" id="natureNonSolidState"/>
+</node>
+
+<node type="quantity" id="natureColour" value="colour">
+    <regexp parsegroup="1">
+        <insert idref="natureColour"/>
+    </regexp>
+</node>
+
+<node type="quantity" id="natureStateModifier" value="statemodifier">
+    <regexp parsegroup="1">
+        \&lt; (
+            <insert idref="natureListStateModifier"/>
+        ) \&gt;
+    </regexp>
+</node>
+
+<node type="quantity" id="natureSolidState" value="solidstate">
+    <regexp parsegroup="1">
+        \&lt; (
+            <insert idref="natureListSolidState"/>
+        ) \&gt;
+    </regexp>
+</node>
+
+<node type="quantity" id="natureNonSolidState" value="nonsolidstate">
+    <regexp parsegroup="1">
+        \&lt; (
+            <insert idref="natureListNonSolidState"/>
+        ) \&gt;
+    </regexp>
+</node>
+
+                                                                                <!-- yield -->
+<node type="property" id="yield" value="yield" saf="yes">
+    <regexp parsegroup="0">
+        <insert idref="yieldBlock"/>
+    </regexp>
+    <child type="quantity" id="yieldPercent"/>
+    <child type="quantity" id="yieldMass"/>
+    <child type="quantity" id="yieldAmount"/>
+</node>
+
+<node type="quantity" id="yieldPercent" value="percent">
+    <regexp parsegroup="1">
+        <insert idref="yieldPercent"/>
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="percent"/>
+</node>
+
+<node type="quantity" id="yieldMass" value="mass">
+    <regexp parsegroup="1">
+        <insert idref="yieldMass"/>
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="mass"/>
+</node>
+
+<node type="quantity" id="yieldAmount" value="amount">
+    <regexp parsegroup="1">
+        <insert idref="yieldQuantity"/>
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="amount"/>
+</node>
+
+
+                                                                                <!-- quantity -->
+<node type="property" id="quantity" value="quantity" saf="yes">
+    <regexp parsegroup="0">
+        <insert idref="quantityBlock"/>
+    </regexp>
+    <child type="quantity" id="quantityAmount"/>
+    <child type="quantity" id="quantityMass"/>
+    <child type="quantity" id="quantityVolume"/>
+    <child type="quantity" id="quantityEquiv"/>
+    <child type="quantity" id="quantityConc"/>
+    <child type="quantity" id="quantityTime"/>
+    <child type="quantity" id="quantityTemp"/>
+</node>
+
+<node type="quantity" id="quantityAmount" value="amount">
+    <regexp parsegroup="1">
+        <insert idref="quantityAmount"/>
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="amount"/>
+</node>
+
+<node type="quantity" id="quantityMass" value="mass">
+    <regexp parsegroup="1">
+        <insert idref="quantityMass"/>
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="mass"/>
+</node>
+
+<node type="quantity" id="quantityVolume" value="volume">
+    <regexp parsegroup="1">
+        <insert idref="quantityVolume"/>
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="volume"/>
+</node>
+
+<node type="quantity" id="quantityEquiv" value="equiv">
+    <regexp parsegroup="1">
+        <insert idref="quantityEquiv"/>
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="equiv"/>
+</node>
+
+<node type="quantity" id="quantityConc" value="conc">
+    <regexp parsegroup="1">
+        <insert idref="quantityConc"/>
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="conc"/>
+</node>
+
+<node type="quantity" id="quantityTime" value="time">
+    <regexp parsegroup="1">
+        <insert idref="quantityTime"/>
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="time"/>
+</node>
+
+<node type="quantity" id="quantityTemp" value="temperature">
+    <regexp parsegroup="1">
+        <insert idref="quantityTemp"/>
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="temp"/>
+</node>
+
+
+
+
+                                                                                <!-- MP -->
+<node type="property" id="mp" value="mp">
+    <regexp parsegroup="0">
+        \b (
+            m\.?p\.?
+            |
+            melted
+            (?: \s* at )?
+        ) (
+            \s*
+            <insert idref="BRACKET"/>
+        )?
+        \W+
+        (
+            <insert idref="RANGE"/>|<insert idref="FLOAT"/>
+        )
+        \s*
+        .C
+        (?:
+            (\W*lit.*?\d\W*.C\s*\d*\s*[\]\)]?)
+            |
+            (\W*dec\w*\.?[\]\)]?)
+            |
+            \W* \( from [^\(\)]+ \)
+        )*
+    </regexp>
+    <child type="quantity" id="mpSolvent"/>
+    <child type="quantity" id="mpDeleteProlog"/>
+    <child type="quantity" id="mpTemp"/>
+    <child type="quantity" id="mpLitValue"/>
+    <child type="quantity" id="mpComment"/>
+    <child type="quantity" id="mpSolvent2"/>
+</node>
+
+<node type="quantity" id="mpSolvent" value="solvent">
+    <regexp parsegroup="1">
+        ^m\.?p\.?\s*\((.*?)\)\s*(?=\d)
+    </regexp>
+</node>
+
+<node type="quantity" id="mpDeleteProlog" value=".."> <!-- TODO -->
+    <regexp parsegroup="1">
+        ^
+        (
+            [^\d<insert idref="HYPHENCHARACTERS"/>&gt;]+
+        )
+    </regexp>
+</node>
+
+<node type="quantity" id="mpTemp" value="temp">
+    <regexp parsegroup="1">
+        (
+            (?:
+                <insert idref="RANGE"/>
+                |
+                <insert idref="FLOAT"/>
+            )
+            \s*
+            .C
+        )
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+    <child type="units" id="temp"/>
+</node>
+
+<node type="quantity" id="mpLitValue" value="litvalue">
+    <regexp parsegroup="1">
+        lit.*?
+        (
+            (?:
+                <insert idref="RANGE"/>
+                |
+                <insert idref="FLOAT"/>
+            )
+            \s*
+            .C
+        )
+    </regexp>
+    <child type="value" id="value"/>
+    <child type="units" id="temp"/>
+</node>
+
+<node type="quantity" id="mpComment" value="comment">
+    <regexp parsegroup="1">
+        (
+            \b
+            dec
+            \w*
+            \.?
+        )
+    </regexp>
+</node>
+
+<node type="quantity" id="mpSolvent2" value="solvent">
+    <regexp parsegroup="1">
+        \(
+        from \s*
+        (
+            [^\(\)]*?
+        )
+        \s*
+        \)
+    </regexp>
+</node>
+
+
+
+
+                                                                                <!-- BP -->
+<node type="property" id="bp" value="bp">
+    <regexp parsegroup="0">
+        \b
+        b\.?p\.?
+        \W+?
+        (
+            <insert idref="RANGE"/>
+            |
+            <insert idref="FLOAT"/>
+        )
+        \s*.C
+        (
+            \W+?
+            (?:at\W+?)?
+            <insert idref="bpPressure"/>
+        )?
+    </regexp>
+    <child type="quantity" id="bpDeleteProlog"/>
+    <child type="quantity" id="bpTemp"/>
+    <child type="quantity" id="bpPressure"/>
+</node>
+
+<node type="quantity" id="bpDeleteProlog" value="..">
+    <regexp parsegroup="1">
+        ^
+        (
+            [^\d<insert idref="HYPHENCHARACTERS"/>]+
+        )
+    </regexp>
+</node>
+
+<node type="quantity" id="bpTemp" value="temperature">
+    <regexp parsegroup="1">
+        (
+            <insert idref="VALUE"/>
+            \s*
+            .?C
+        )
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+    <child type="units" id="temp"/>
+</node>
+
+<node type="quantity" id="bpPressure" value="pressure">
+    <regexp parsegroup="1">
+        <insert idref="bpPressure"/>
+    </regexp>
+    <unique/>
+    <child type="value" id="value"/>
+    <child type="units" id="pressure"/>
+</node>
+
+
+
+                                                                                <!-- opt rot -->
+<node type="property" id="optrot" value="optRot">
+    <regexp parsegroup="0">
+        \[.?\]\s*\d*D?\W*\d.*? <insert idref="ALLBRACKET"/>
+    </regexp>
+    <child type="quantity" id="optrotTemperature"/>
+    <child type="quantity" id="optrotRotation"/>
+    <child type="quantity" id="optrotConcentration"/>
+    <child type="quantity" id="optrotSolvent"/>
+</node>
+
+<node type="quantity" id="optrotTemperature" value="temperature">
+    <regexp parsegroup="1">
+        \[ .? \]
+        \s*
+        D?
+        (
+            (?&lt;= D )
+            \d+
+        |
+            \d+
+            (?=D)
+        )
+        D?
+    </regexp>
+    <child type="value" id="value"/>
+</node>
+
+<node type="quantity" id="optrotRotation" value="rotation">
+    <regexp parsegroup="1">
+        (
+            <insert idref="FLOAT"/>
+        )
+        \W*?
+        (?= \( )
+    </regexp>
+    <child type="value" id="value"/>
+</node>
+
+<node type="quantity" id="optrotConcentration" value="concentration">
+    <regexp parsegroup="1">
+        (?&lt;= \( )
+        \s*
+        c \W*
+        (
+            <insert idref="FLOAT"/>
+        )
+    </regexp>
+    <child type="value" id="value"/>
+    <!-- TODO concentration units? -->
+</node>
+
+<node type="quantity" id="optrotSolvent" value="solvent">
+    <regexp parsegroup="1">
+        \(
+            .*?
+            (
+                <insert idref="optRotListSolvents"/>
+            )
+            .*?
+        \)
+    </regexp>
+</node>
+
+
+
+                                                                                <!-- RF -->
+
+<node type="property" id="rf" value="rf">
+    <regexp parsegroup="0">
+        \b(Rf|TLC) \s*[:=,]?\s*  
+        (?:	<insert idref="ALLBRACKET"/> \s*[:=,]?\s* )?
+        (?: [\s,]*? <insert idref="FLOAT"/> )+
+        (?:	\s* <insert idref="ALLBRACKET"/> )?
+    </regexp>
+    <child type="quantity" id="rfSolvent"/>
+    <child type="quantity" id="rfValue"/>
+</node>
+
+<node type="quantity" id="rfSolvent" value="solvent">
+    <regexp parsegroup="1">
+        (\(.*?\)|\[.*?\])
+    </regexp>
+</node>
+
+<node type="quantity" id="rfValue" value="value">
+    <regexp parsegroup="1">
+        \b([\s,]*?<insert idref="FLOAT"/>)+\b
+    </regexp>
+    <child type="value" id="value"/>
+</node>
+
+
+
+                                                                                <!-- ref index -->
+<node type="property" id="refractiveindex" value="refractiveindex">
+    <regexp parsegroup="0">
+        \b
+        n
+        \s*
+        (?x-i:
+            \d*
+            D
+            \d*
+            \s*
+        )?
+        \d \. \d+
+    </regexp>
+    <child type="quantity" id="refindexTemp"/>
+    <child type="quantity" id="refindexValue"/>
+</node>
+
+<node type="quantity" id="refindexTemp" value="temperature">
+    <regexp parsegroup="1">
+        (
+            \d+ (?= D )
+            |
+            (?&lt;= D ) \d+
+        )
+    </regexp>
+    <child type="value" id="value"/>
+</node>
+
+<node type="quantity" id="refindexValue" value="value">
+    <regexp parsegroup="1">
+        (<insert idref="FLOAT"/>)$
+    </regexp>
+    <child type="value" id="value"/>
+</node>
+
+
+
+                                                                                <!-- state -->
+<node type="property" id="state" value="state">
+    <!-- TODO bracket type expressions etc. -->
+    <regexp parsegroup="1">
+        (?&lt;!
+            were \s
+        )
+        \b
+        (
+            <insert idref="states"/>
+        )
+        \W
+        (?!
+            \W*? \( [^#]
+        )
+    </regexp>
+    <!-- TODO state quantity? -->
+</node>                                        
+
+                                        
+                                                                                
+
+
+
+
+
+
+                                                                                <!-- value -->
+<node type="value" id="value">
+    <regexp parsegroup="1">
+        (
+            (?: ca\.? \s* )?
+            <insert idref="VALUE"/>
+        )
+    </regexp>
+    <child type="approx" id="valueApprox"/>
+    <child type="multiply" id="valueMultiply"/>
+    <child type="min" id="valueMin"/>
+    <child type="max" id="valueMax"/>
+    <child type="exponent" id="valueExponent"/>
+    <child type="point" id="valuePoint"/>
+    <!-- point moved to end of list or else it claims priority over valueMax in e.g. NMR(CDCl3): d 0.88-0.92(m, 6H), 1.50-1.85(m, 7H) -->
+</node>
+
+<node type="approx" id="valueApprox">
+    <regexp parsegroup="1">
+        (
+            ca\.?
+        )
+    </regexp>
+</node>
+
+<node type="multiply" id="valueMultiply">
+    <regexp parsegroup="1">
+        <insert idref="valueMultiply"/>
+    </regexp>
+</node>
+
+<node type="point" id="valuePoint">
+    <regexp parsegroup="1">
+        <insert idref="valuePoint"/>
+    </regexp>
+</node>
+
+<node type="exponent" id="valueExponent">
+    <regexp parsegroup="1">
+        <insert idref="valueExponent"/>
+    </regexp>
+</node>
+
+<node type="min" id="valueMin">
+    <regexp parsegroup="1">
+        <insert idref="valueLower"/>
+    </regexp>
+</node>
+
+<node type="max" id="valueMax">
+    <regexp parsegroup="1">
+        <insert idref="valueUpper"/>
+    </regexp>
+</node>
+
+
+
+                                                                                <!-- units -->
+<node type="units" id="amount">
+    <regexp parsegroup="1">
+        (
+            <insert idref="unitsAmount"/>
+        )
+    </regexp>
+</node>
+
+<node type="units" id="mass">
+    <regexp parsegroup="1">
+        (
+            <insert idref="unitsMass"/>
+        )
+    </regexp>
+</node>
+
+<node type="units" id="volume">
+    <regexp parsegroup="1">
+        (
+            <insert idref="unitsVolume"/>
+        )
+    </regexp>
+</node>
+
+<node type="units" id="equiv">
+    <regexp parsegroup="1">
+        (
+            <insert idref="unitsEquiv"/>
+        )
+    </regexp>
+</node>
+
+<node type="units" id="time">
+    <regexp parsegroup="1">
+        (
+            <insert idref="unitsTime"/>
+        )
+    </regexp>
+</node>
+
+<node type="units" id="temp">
+    <regexp parsegroup="1">
+        (
+            <insert idref="unitsTemp"/>
+        )
+    </regexp>
+</node>
+
+<node type="units" id="frequency">
+    <regexp parsegroup="1">
+        ( [kMG]? Hz )
+        <!-- obviously... -->
+    </regexp>
+</node>
+
+<node type="units" id="percent">
+    <regexp parsegroup="1">
+        ( \% )
+    </regexp>
+</node>
+
+<node type="units" id="pressure">
+    <regexp parsegroup="1">
+        ( mmHg | torr | mbar )
+    </regexp>
+</node>
+
+<def id="unknownNmr.Prolog" type="const">
+        (?:
+        	NMR(\s+[Ss]pectrum)?
+        )
+</def>
+
+                                                                                <!-- definitions -->
+<!-- dash is escaped as it is a metacharacter inside character classes -->
+<!-- TODO replace usages of HYPHEN with HYPHENCHARACTERS within character classes -->
+<def id="HYPHEN" type="const" desc="Matches a hyphen">(?:\-|&#x2010;|&#x2011;|&#x2012;|&#x2013;|&#x2014;|&#x2015;)</def>
+
+<!-- this def is to be referenced from inside character classes where - is a metacharacter and (?:|-) aren't -->
+<def id="HYPHENCHARACTERS" type="const" desc="List of hyphen-like characters">\-&#x2010;&#x2011;&#x2012;&#x2013;&#x2014;&#x2015;</def>
+
+<def id="FLOAT" type="const" desc="Matches a (signed)? floating point number">
+        [+<insert idref="HYPHENCHARACTERS"/>]?\&lt;\d+(?:\.\d+)?(?!\d)
+</def>
+
+<def id="RANGE" type="const" desc="Matches a (signed)? floating point range">
+        (?:
+            <insert idref="FLOAT"/>\s*<insert idref="HYPHEN"/>
+            |
+            &gt;
+        )
+        \s*<insert idref="FLOAT"/>
+</def>
+
+<def id="MULTIPLY" type="const" desc="Matches multiplied quantities, eg. 3 x 4.5">
+    (?:
+        \d+ \s* [xX×] \s* 
+    )?
+    <insert idref="FLOAT"/>
+</def>
+
+<def id="SCI" type="const" desc="Match scientific notation, eg. 1.2x10-3">
+    <insert idref="FLOAT"/>
+    \s* [xX×] \s* 10 \s*
+    (?:<insert idref="HYPHEN"/>)? \d+
+</def>
+
+<def id="VALUE" type="const" desc="Matches a general numeric value, range or multiply">
+    (
+        <insert idref="SCI"/>
+        |
+        <insert idref="RANGE"/>
+        |
+        <insert idref="MULTIPLY"/>
+    )
+</def>
+
+<def id="valueMultiply" type="const">
+    (?=
+        \d+ \s* [xX×] \s* 
+        (?!
+            10 (?:<insert idref="HYPHEN"/>)? \d+
+        )
+        <insert idref="FLOAT"/>
+    )
+    (\d+)
+</def>
+
+<def id="valueExponent" type="const">
+    ^
+    \s* [xX×] \s* 10 \s*
+    ({1}
+        (?:<insert idref="HYPHEN"/>)? \d+
+    )
+</def>
+
+<def id="valuePoint" type="const">
+    ^
+    (?(?=
+            <insert idref="FLOAT"/>
+            \s* [xX×] \s* 10 \s*
+            (?:<insert idref="HYPHEN"/>)? \d+
+        )
+        ({1} <insert idref="FLOAT"/> )
+        |
+        (?:
+            \s* [xX×]
+        )?
+        \s*
+        ({1}
+            <insert idref="FLOAT"/>
+        )
+        \s*
+        (?!
+            <insert idref="HYPHEN"/>
+            |
+            \.\d
+        )
+    )
+</def>
+
+<def id="valueLower" type="const">
+        ^
+        ({3}
+            &gt;
+        )?
+        \s*
+        ({1}
+            <insert idref="FLOAT"/>
+        )
+        \s*
+        (?(3) |
+            (?=
+                <insert idref="HYPHEN"/>
+            )
+        )
+</def>
+
+<def id="valueUpper" type="const">
+        ^\s*<insert idref="HYPHEN"/>\s*(<insert idref="FLOAT"/>)
+</def>
+
+<def id="ALLBRACKET" type="const" desc="Matches brackets + contents">
+        (?:
+                \( (?: [^\(\)] | \( (?: [^\(\)] | \( [^\(\)]+ \) )+ \) )+ \)
+        |	\[ (?: [^\[\]] | \[ [^\[\]]+ \] )+ \]
+        |	\{ (?: [^\{\}] | \{ [^\{\}]+ \} )+ \}
+        )
+</def>
+
+<def id="BRACKET" type="const" desc="Matches brackets + contents">
+        (?:
+                \( (?: [^\(\)] | \( (?: [^\(\)] | \( [^\(\)]+ \) )+ \) )+ \)
+        )
+</def>
+
+<def id="SEPERATOR" type="const" desc="Matches seperator peaks in spectra">
+        (?: \s* (,|and|including|&amp;|;|\/) \s* )+
+</def>
+
+<def id="ELEMENTS" type="list">
+        <item>Zr</item>
+        <item>Zn</item>
+        <item>Yb</item>
+        <item>Y</item>
+        <item>Xe</item>
+        <item>W</item>
+        <item>V</item>
+        <item>Uuu</item>
+        <item>Uut</item>
+        <item>Uus</item>
+        <item>Uuq</item>
+        <item>Uup</item>
+        <item>Uuo</item>
+        <item>Uuh</item>
+        <item>Uub</item>
+        <item>U</item>
+        <item>Tm</item>
+        <item>Tl</item>
+        <item>Ti</item>
+        <item>Th</item>
+        <item>Te</item>
+        <item>Tc</item>
+        <item>Tb</item>
+        <item>Ta</item>
+        <item>Sr</item>
+        <item>Sn</item>
+        <item>Sm</item>
+        <item>Si</item>
+        <item>Sg</item>
+        <item>Se</item>
+        <item>Sc</item>
+        <item>Sb</item>
+        <item>S</item>
+        <item>Ru</item>
+        <item>Rn</item>
+        <item>Rh</item>
+        <item>Rf</item>
+        <item>Re</item>
+        <item>Rb</item>
+        <item>Ra</item>
+        <item>Pu</item>
+        <item>Pt</item>
+        <item>Pr</item>
+        <item>Po</item>
+        <item>Pm</item>
+        <item>Pd</item>
+        <item>Pb</item>
+        <item>Pa</item>
+        <item>P</item>
+        <item>Os</item>
+        <item>O</item>
+        <item>Np</item>
+        <item>No</item>
+        <item>Ni</item>
+        <item>Ne</item>
+        <item>Nd</item>
+        <item>Nb</item>
+        <item>Na</item>
+        <item>N</item>
+        <item>Mt</item>
+        <item>Mo</item>
+        <item>Mn</item>
+        <item>Mg</item>
+        <item>Md</item>
+        <item>Lu</item>
+        <item>Lr</item>
+        <item>Li</item>
+        <item>La</item>
+        <item>Kr</item>
+        <item>K</item>
+        <item>Ir</item>
+        <item>In</item>
+        <item>I</item>
+        <item>Hs</item>
+        <item>Ho</item>
+        <item>Hg</item>
+        <item>Hf</item>
+        <item>He</item>
+        <item>H</item>
+        <item>Ge</item>
+        <item>Gd</item>
+        <item>Ga</item>
+        <item>Fr</item>
+        <item>Fm</item>
+        <item>Fe</item>
+        <item>F</item>
+        <item>Eu</item>
+        <item>Es</item>
+        <item>Er</item>
+        <item>Dy</item>
+        <item>Ds</item>
+        <item>Db</item>
+        <item>Cu</item>
+        <item>Cs</item>
+        <item>Cr</item>
+        <item>Co</item>
+        <item>Cm</item>
+        <item>Cl</item>
+        <item>Cf</item>
+        <item>Ce</item>
+        <item>Cd</item>
+        <item>Ca</item>
+        <item>C</item>
+        <item>Br</item>
+        <item>Bk</item>
+        <item>Bi</item>
+        <item>Bh</item>
+        <item>Be</item>
+        <item>Ba</item>
+        <item>B</item>
+        <item>Au</item>
+        <item>At</item>
+        <item>As</item>
+        <item>Ar</item>
+        <item>Am</item>
+        <item>Al</item>
+        <item>Ag</item>
+        <item>Ac</item>
+        <!-- <item>Me</item>
+        <item>Et</item>
+        <item>Pr</item>
+        <item>Ph</item>
+        <item>Bn</item>
+        <item>Bz</item>
+        <item>Bu</item>
+        <item>t-?Bu</item>
+        <item>s-?Bu</item>
+        <item>n-?Bu</item>
+        <item>i-?Pr</item>
+        <item>Boc</item>
+        <item>(N-)?Cbz</item>
+        <item>Ts</item>
+        <item>Ms</item>
+        <item>Tr</item>
+        <item>D</item>
+        <item>dba</item>
+        <item>TMS</item>
+        <item>TDBMS</item>
+        <item>R</item>
+        <item>X</item>
+        <item>L</item> -->
+</def>
+
+<def id="FORMULA" type="const">	
+        \b
+        (?x-i: <insert idref="ELEMENTS"/> \d* [–\-\=]? )+
+
+        (?: \s* [·.] \s*
+                (?: \d+ (?: \/ \d+)? \s* )?
+                (?x-i: [A-Z][a-z]?\d* )+
+        )?
+        \b
+</def>
+
+<!-- Unit definitions -->
+<def id="unitsAmount" type="const">
+    (
+        [nmµ]?mol \%?
+    )
+</def>
+
+<def id="unitsMass" type="const">
+    (
+        [kmuµ]?g
+    )
+</def>
+
+<def id="unitsVolume" type="const">
+    (
+        [muµ]?[lL]
+    )
+</def>
+
+<def id="unitsEquiv" type="const">
+    (
+        [m]?(eq\.?|equiv\.?)
+    )
+</def>
+
+<def id="unitsConc" type="const">
+    (
+        [muµn]? [MN\%]
+    )
+</def>
+
+<def id="unitsTime" type="const">
+    ((?x-i:
+        h
+        |
+        hr
+        |
+        hour s?
+        |
+        min
+        |
+        minute s?
+        |
+        s
+        |
+        sec
+        |
+        second s?
+    ))
+</def>
+
+<def id="unitsTemp" type="const">
+    ((?x-i:
+        .
+        [CF]
+        |
+        K
+    ))
+</def>
+
+
+
+
+<!-- Yield Definitions -->
+<def id="yieldPercent" type="const" desc="Matches percentages; does not return % sign">
+        (<insert idref="FLOAT"/>)\s*%
+</def>
+
+<def id="yieldMass" type="const" desc="Matches masses; does return units">
+        (<insert idref="FLOAT"/>\s*[kmuµ]?g\b)
+</def>
+
+<def id="yieldQuantity" type="const" desc="Matches quantities; does return units">
+        (<insert idref="FLOAT"/>\s*[nm]?mol)
+</def>
+
+<def id="yieldBlock" type="const" desc="Matches complete block of yield data">
+        (?:
+                \(
+                        (?: \W*? (?:<insert idref="yieldMass"/>|<insert idref="yieldQuantity"/>) )+
+                        \W*? <insert idref="yieldPercent"/>
+                        (?: \W*[\w\s]*steps?)?
+                        (?: \W*?yield)?
+                        \W*?
+                \)
+        |	<insert idref="yieldPercent"/>\W*yield
+                (?: \W*? \(<insert idref="yieldMass"/>\) )?
+        |	\(<insert idref="yieldPercent"/>\)
+        |	yield(?:\s+of)?\W+(?:<insert idref="yieldMass"/>\W+)?<insert idref="yieldPercent"/>
+        |	\(\s*<insert idref="yieldPercent"/>\s*\)
+        )
+</def>
+
+
+
+<!-- Quantity definitions -->
+<def id="quantityBlock" type="const" desc="Matches block of quantity data">
+    \b
+    (
+        (?:
+            \(
+                \W*
+                (?:
+                    (?:
+                        <insert idref="quantityAmount"/>
+                        |
+                        <insert idref="quantityMass"/>
+                        |
+                        <insert idref="quantityVolume"/>
+                        |
+                        <insert idref="quantityEquiv"/>
+                        |
+                        <insert idref="quantityConc"/>
+                        |
+                        <insert idref="quantityTime"/>
+                        |
+                        <insert idref="quantityTemp"/>
+                    )
+                    \W*
+                )*
+                (?:
+                    (?:
+                        <insert idref="quantityAmount"/>
+                        |
+                        <insert idref="quantityMass"/>
+                        |
+                        <insert idref="quantityVolume"/>
+                        |
+                        <insert idref="quantityEquiv"/>
+                        |
+                        <insert idref="quantityConc"/>
+                        |
+                        <insert idref="quantityTime"/>
+                        |
+                        <insert idref="quantityTemp"/>
+                    )
+                    (?!<insert idref="HYPHEN"/>)[^a-zA-Z_0-9\s]*
+                )
+            \)
+        )
+        |
+        (?:
+            (?:
+                <insert idref="quantityAmount"/>
+                |
+                <insert idref="quantityMass"/>
+                |
+                <insert idref="quantityVolume"/>
+                |
+                <insert idref="quantityEquiv"/>
+                |
+                <insert idref="quantityConc"/>
+                |
+                <insert idref="quantityTime"/>
+                |
+                <insert idref="quantityTemp"/>
+            )(?!<insert idref="HYPHEN"/>)
+            \W*
+        )*
+        (?:
+            (?:
+                <insert idref="quantityAmount"/>
+                |
+                <insert idref="quantityMass"/>
+                |
+                <insert idref="quantityVolume"/>
+                |
+                <insert idref="quantityEquiv"/>
+                |
+                <insert idref="quantityConc"/>
+                |
+                <insert idref="quantityTime"/>
+                |
+                <insert idref="quantityTemp"/>
+            )
+            (?!<insert idref="HYPHEN"/>)[^a-zA-Z_0-9\s−]*
+        )
+    )
+    \b
+    (?:
+        \s*
+        of
+        \b
+    )?
+</def>
+
+<def id="quantityAmount" type="const" desc="Match molar amount with units">
+    (
+        (?:ca\.? \s*)? <insert idref="VALUE"/>\s* <insert idref="unitsAmount"/>
+    )
+</def>
+
+<def id="quantityMass" type="const" desc="Match mass with units">
+    (
+        (?:ca\.? \s*)? <insert idref="VALUE"/>\s* <insert idref="unitsMass"/> \b
+    )
+</def>
+
+<def id="quantityVolume" type="const" desc="Match volume with units">
+    (
+        (?:ca\.? \s*)? <insert idref="VALUE"/>\s* <insert idref="unitsVolume"/> \b
+    )
+</def>
+
+<def id="quantityEquiv" type="const" desc="Match equivalents with units">
+    (
+        (?:ca\.? \s*)? <insert idref="VALUE"/>\s* <insert idref="unitsEquiv"/> \b
+    )
+</def>
+
+<def id="quantityConc" type="const" desc="Match concentrations with units">
+    (
+        (?:ca\.? \s*)? <insert idref="VALUE"/>\s* <insert idref="unitsConc"/> \b
+    )
+</def>
+
+<def id="quantityTime" type="const" desc="Match time with units">
+    (
+        (?:ca\.? \s*)? <insert idref="VALUE"/> \s* <insert idref="unitsTime"/> \b
+    )
+</def>
+
+<def id="quantityTemp" type="const">
+    (
+        (?:ca\.? \s*)? <insert idref="VALUE"/> \s* <insert idref="unitsTemp"/> \b
+        |
+        \b (?:
+            r \.? t \.?
+            |
+            (?:room|ambient)
+            .
+            temp(?: erature|\.)?
+        ) \b
+    )
+</def>
+
+
+
+
+<!-- Nature Definitions -->
+<def id="natureListStateModifier" type="list" desc="List of modifiers to compound nature">
+        <item>sticky</item>
+        <item>oily</item>
+        <item>amorphous</item>
+        <item>granular</item>
+        <item>small</item>
+        <item>flocculent</item>
+        <item>fine</item>
+        <item>very</item>
+        <item>viscous</item>
+        <item>semi</item>
+        <item>crude</item>
+        <item>hygroscopic</item>
+        <item>heavy</item>
+        <item>powdery</item>
+        <item>fluffy</item>
+        <item>volatile</item>
+</def>
+
+<def id="natureListColour.Prolog" type="list" desc="List of modifiers to compound colour">
+        <item>off</item>
+        <item>deep</item>
+        <item>light</item>
+        <item>brilliant</item>
+        <item>dark</item>
+</def>
+
+<def id="natureListColour" type="list" desc="List of colours">
+        <item>pale</item>
+        <item>emerald</item>
+        <item>creamy</item>
+        <item>canary</item>
+        <item>lemon</item>
+        <item>brick</item>
+        <item>bright</item>
+        <item>clear</item>
+        <item>cream</item>
+        <item>pink</item>
+        <item>white</item>
+        <item>colou?rless</item>
+        <item>yellow</item>
+        <item>(?&lt;!infra-)red</item>
+        <item>blue</item>
+        <item>green</item>
+        <item>brown</item>
+        <item>straw</item>
+        <item>buff</item>
+        <item>grey</item>
+        <item>gray</item>
+        <item>purple</item>
+        <item>black</item>
+        <item>beige</item>
+        <item>violet</item>
+        <item>orange</item>
+        <item>golden</item>
+        <item>colou?red</item>
+        <item>tan</item>
+</def>
+
+<def id="natureListNonSolidState" type="list" desc="List of non-solid states">
+        <item>syrupy?</item>
+        <item>foamy?</item>
+        <item>oil</item>
+        <item>liquid(?!\s+film)</item>
+        <item>resin</item>
+        <item>gum</item>
+</def>
+
+<def id="natureListSolidState" type="list" desc="List of solid states">
+        <item>glass</item>
+        <item>crystal(?!\s+data)</item>
+        <item>(?:micro)?crystals</item>
+        <item>needles</item>
+        <item>tar</item>
+        <item>solid</item>
+        <item>powder</item>
+        <item>wax</item>
+        <item>prisms</item>
+        <item>(?&lt;!the\s)solid</item>
+        <item>crystalline\ssolid</item>
+        <item>plates</item>
+        <item>rods</item>
+        <item>platelets</item>
+        <item>cubes</item>
+</def>
+
+<def id="natureColour" type="const" desc="Matches colour">
+        (	\&lt;
+                (?: <insert idref="natureListColour.Prolog"/> [\/\s<insert idref="HYPHENCHARACTERS"/>]+ )?
+                (?: <insert idref="natureListColour"/> (?:\w*ish)? \b [\/<insert idref="HYPHENCHARACTERS"/>\s]*? )+
+                \&gt;
+        )
+</def>
+
+<def id="natureState" type="const" desc="Matches state">
+        (
+                \b<insert idref="natureListSolidState"/>\b
+        |	\b<insert idref="natureListNonSolidState"/>\b
+        )
+</def>
+
+<def id="natureBlock" type="const" desc="Matches complete block of nature data">
+        (?:
+                (?: \b<insert idref="natureListStateModifier"/>\W+ )?
+                (?:
+                        <insert idref="natureColour"/>\W+
+                        (?: \b<insert idref="natureListStateModifier"/>\W+ )?
+                        <insert idref="natureState"/>
+                |	<insert idref="natureColour"/>
+                |	<insert idref="natureState"/>
+                )
+        )
+</def>
+
+
+
+<!-- Name Definitions -->
+<def id="nameListStart" type="list" desc="A list of fragments that can be either starts of, or whole words in, a chemical name">
+        <item>acet</item>
+        <item>acr</item>
+        <item>ada</item>
+        <item>aden</item>
+        <item>adi</item>
+        <item>alc</item>
+        <item>ald</item>
+        <item>(?&lt;!\s)al</item>
+        <item>all(?=[a-z])</item>
+        <item>alu</item>
+        <item>ami</item>
+        <item>amide</item>
+        <item>amine</item>
+        <item>amm</item>
+        <item>anh</item>
+        <item>ani</item>
+        <item>anti</item>
+        <item>ann</item>
+        <item>ara?(?=[a-z])</item>
+        <item>arc</item>
+        <item>asp</item>
+        <item>az[ao]?</item>
+        <item>bar</item>
+        <item>benyl</item>
+        <item>benz</item>
+        <item>bi(?!o)</item>
+        <item>bis</item>
+        <item>bor</item>
+        <item>bromo?</item>
+        <item>bur</item>
+        <item>[nt]?buta?(?!\s)</item>
+        <item>cal</item>
+        <item>camph</item>
+        <item>carb</item>
+        <item>cer</item>
+        <item>chlor?o?</item>
+        <item>cho</item>
+        <item>chr</item>
+        <item>cis</item>
+        <item>cyano?</item>
+        <item>cyclo</item>
+        <item>cyt</item>
+        <item>de(?!\s)c?a?</item>
+        <item>deoxy?</item>
+        <item>di</item>
+        <item>dodeca?</item>
+        <item>endo</item>
+        <item>en</item>
+        <item>ene</item>
+        <item>eno</item>
+        <item>enyl</item>
+        <item>epi</item>
+        <item>epo(?:xy)?</item>
+        <item>eryth</item>
+        <item>ester</item>
+        <item>ethe?r?</item>
+        <item>es?tra?</item>
+        <item>exo,?</item>
+        <item>ferr</item>
+        <item>fluoro?</item>
+        <item>form(?![\s\.])</item>
+        <item>fur</item>
+        <item>galac</item>
+        <item>gluc</item>
+        <item>glut</item>
+        <item>glyc</item>
+        <item>guan</item>
+        <item>hepta?</item>
+        <item>hexa?</item>
+        <item>hydro?</item>
+        <item>icosa</item>
+        <item>ido</item>
+        <item>imi</item>
+        <item>ind[io]</item>
+        <item>ino</item>
+        <item>iod</item>
+        <item>iron</item>
+        <item>iso</item>
+        <item>lac</item>
+        <item>lith</item>
+        <item>keto?</item>
+        <item>man?g</item>
+        <item>mal</item>
+        <item>mat</item>
+        <item>mer</item>
+        <item>met</item>
+        <item>meso</item>
+        <item>meth</item>
+        <item>molyb</item>
+        <item>mono</item>
+        <item>morph</item>
+        <item>myo</item>
+        <item>nap</item>
+        <item>neo</item>
+        <item>nic</item>
+        <item>nitro?</item>
+        <item>nona?</item>
+        <item>octa?</item>
+        <item>ol</item>
+        <item>(?&lt;!\s)one</item>
+        <item>osm</item>
+        <item>or?tho</item>
+        <item>oxa</item>
+        <item>oxo</item>
+        <item>oxy?</item>
+        <item>pal</item>
+        <item>par</item>
+        <item>penta?</item>
+        <item>per(?!\s)</item>
+        <item>(?&lt;!light\s)pet</item>
+        <item>phe</item>
+        <item>phos</item>
+        <item>phth</item>
+        <item>pic</item>
+        <item>pip</item>
+        <item>piv</item>
+        <item>plu</item>
+        <item>por</item>
+        <item>pot</item>
+        <item>poly</item>
+        <item>pre</item>
+        <item>prol</item>
+        <item>prop</item>
+        <item>pur</item>
+        <item>pyr</item>
+        <item>qui</item>
+        <item>ral</item>
+        <item>rib</item>
+        <item>roi</item>
+        <item>sam</item>
+        <item>ser</item>
+        <item>sil</item>
+        <item>sod</item>
+        <item>spiro?</item>
+        <item>suc</item>
+        <item>sul</item>
+        <item>syn</item>
+        <item>tart</item>
+        <item>tert</item>
+        <item>tetra?</item>
+        <item>thio?</item>
+        <item>thr</item>
+        <item>thu</item>
+        <item>thy</item>
+        <item>tin</item>
+        <item>tit</item>
+        <item>tol</item>
+        <item>tos</item>
+        <item>trans</item>
+        <item>tris?</item>
+        <item>undeca?</item>
+        <item>ur</item>
+        <item>urea</item>
+        <item>val (?=\w)</item>
+        <item>vana</item>
+        <item>vinyl</item>
+        <item>yat</item>
+        <item>ylide?</item>
+        <item>yl</item>
+        <item>yn</item>
+        <item>yr</item>
+</def>
+
+<def id="nameListEnd" type="list" desc="A list of fragments that occur at the end of words in chemical names">
+        <item>\sderivative</item>
+        <item>(?:ic)?\s+acid</item>
+        <item>\s+salt</item>
+        <item>ace</item>
+        <item>al</item>
+        <item>an</item>
+        <item>ane</item>
+        <item>ase</item>
+        <item>ate</item>
+        <item>cil</item>
+        <item>din</item>
+        <item>ein</item>
+        <item>el</item>
+        <item>en</item>
+        <item>ene</item>
+        <item>hye</item>
+        <item>ic</item>
+        <item>ide</item>
+        <item>ido</item>
+        <item>ile</item>
+        <item>ime</item>
+        <item>ine?</item>
+        <item>is</item>
+        <item>ite</item>
+        <item>lin</item>
+        <item>lo</item>
+        <item>min</item>
+        <item>no</item>
+        <item>ol</item>
+        <item>ole</item>
+        <item>o</item>
+        <item>(?&lt;!ti)(?&lt;=\w)on</item>
+        <item>one</item>
+        <item>ose</item>
+        <item>ous</item>
+        <item>rin</item>
+        <item>ro</item>
+        <item>tam</item>
+        <item>tin</item>
+        <item>um</item>
+        <item>yde</item>
+        <item>yne</item>
+        <item>zin</item>
+</def>
+
+<def id="nameListPointer" type="list" desc="A list of words that point to a reference number of a compound in a paper">
+        <item>adduct</item>
+        <item>compound</item>
+        <item>(?&lt;!crystal\s)data\s+for</item>
+        <item>(?: major\s+|minor\s+)?isomer</item>
+        <item>(?: major\s+|minor\s+)?diastereoisomer</item>
+        <item>(?: major\s+|minor\s+)?diastereomer</item>
+        <item>(?: major\s+|minor\s+)?enantiomer</item>
+        <item>polymer</item>
+        <item>product</item>
+        <item>photoproduct</item>
+</def>
+
+<def id="nameListStopWord" type="list" desc="A list of words that will not be recognised in a chemical name">
+        <item>(?:three-)?dimensional</item>
+        <item>anhydrous</item>
+        <item>animal</item>
+        <item>antimalarial</item>
+        <item>arisen?</item>
+        <item>arose</item>
+        <item>aromatic</item>
+        <item>artificial</item>
+        <item>barrel</item>
+        <item>cereal</item>
+        <item>data</item>
+        <item>debate</item>
+        <item>decade</item>
+        <item>decrea</item>
+        <item>decrease</item>
+        <item>demonrate</item>
+        <item>despite</item>
+        <item>determination</item>
+        <item>determine</item>
+        <item>developmental</item>
+        <item>deviation</item>
+        <item>diagnostic</item>
+        <item>diagonal</item>
+        <item>differential</item>
+        <item>digit</item>
+        <item>digital</item>
+        <item>discriminate</item>
+        <item>discuss/w*</item>
+        <item>disease</item>
+        <item>exocytosis</item>
+        <item>for</item>
+        <item>form</item>
+        <item>indicate</item>
+        <item>individual</item>
+        <item>isolate</item>
+        <item>isolation</item>
+        <item>isotop\w+</item>
+        <item>magnet\w*</item>
+        <item>MALDI</item>
+        <item>material</item>
+        <item>Mattson</item>
+        <item>monoclinic</item>
+        <item>parental</item>
+        <item>period</item>
+        <item>peripheral</item>
+        <item>perkin</item>
+        <item>personal</item>
+        <item>potato\w*</item>
+        <item>potenti\w+\b</item>
+        <item>potential</item>
+        <item>serum</item>
+        <item>synthesis</item>
+        <item>three-dimensional</item>
+        <item>thus</item>
+        <item>titration</item>
+</def>
+
+<def id="nameLocant" type="const">
+        (?: \b\d+[a-z'`]* )
+</def>
+
+<def id="nameStereochem" type="const">
+        (?:
+                (?:
+                        \(
+                                (?:	[\s,]*?
+                                        <insert idref="nameLocant"/>?
+                                        [RSEZ+<insert idref="HYPHENCHARACTERS"/>±]\*?
+                                )+
+                                \s*
+                        \)
+                        <insert idref="HYPHEN"/>
+                )+
+        )
+</def>
+
+<def id="nameWord" type="const" desc="Matches a complete word within a chemical name">
+        \b
+        (?!<insert idref="nameListStopWord"/>\b)
+        <insert idref="nameListStart"/>
+        (?:	[\w<insert idref="HYPHENCHARACTERS"/>]*
+                (?: <insert idref="nameListEnd"/> | <insert idref="nameListStart"/> )
+        )?
+        \b
+</def>
+
+<def id="namePadding" type="const" desc="Matches the 'padding' between words in a chemical name">
+        (?:
+                (?:
+                        <insert idref="HYPHEN"/>
+                |	(?:
+                                (?: (?: (?!\n)[\s,])* <insert idref="nameLocant"/> H? )+
+                        |	<insert idref="ALLBRACKET"/> 
+                        |	Deuteriated
+                        )
+                        <insert idref="HYPHEN"/>?
+                |
+                        \b[a-z](,[a-z])*<insert idref="HYPHEN"/>
+                )+
+        )
+</def>
+
+<def id="nameReferenceNumber" type="const">
+        (?: \d+[a-z]{0,2}[ivx]* )
+</def>
+
+<def id="nameReference" type="const" desc="Matches a reference number for a compound">
+        (?: \( <insert idref="nameReferenceNumber"/> \) | <insert idref="nameReferenceNumber"/> )
+</def>
+
+
+<!-- Generic NMR Definitions -->
+<def id="nmrListPeakType" type="list" desc="List of NMR signal types - singlet, doublet etc">
+        <item>s</item>
+        <item>m</item>
+        <item>[tdq]+</item>
+        <item>qn</item>
+        <item>quint\w*</item>
+        <item>sextet</item>
+        <item>sept</item>
+        <item>septet</item>
+        <item>oct</item>
+        <item>octet</item>
+        <item>AB\w*</item>
+</def>
+
+<def id="nmrListStandard" type="list" desc="List of NMR standards">
+        <item>Me4Si</item>
+        <item>CFCl3</item>
+</def>
+
+<def id="nmrListSolvent" type="list" desc="List of NMR solvents">
+        <item>\[2H6\]DMSO</item>
+        <item>Si(CH3)3</item>
+        <item>Me2CO-d6</item>
+        <item>\(CH3CH2\)2O</item>
+        <item>\(OCH2CH2\)2</item>
+        <item>Acetone-d6</item>
+        <item>C2HCl3</item>
+        <item>C4D8O</item>
+        <item>C4D8O2</item>
+        <item>C4H8O</item>
+        <item>C5D5N</item>
+        <item>C6D5CD3</item>
+        <item>C6D5NO2</item>
+        <item>C6D6</item>
+        <item>C6H5CD3</item>
+        <item>CCl4</item>
+        <item>CD2Cl2</item>
+        <item>CD3CD2OD</item>
+        <item>CD3CD2OH</item>
+        <item>CD3CN</item>
+        <item>CD3COCD3</item>
+        <item>CD3COOD</item>
+        <item>CD3NO2</item>
+        <item>CD3OD</item>
+        <item>CD3OH</item>
+        <item>CD3SOCD3</item>
+        <item>CDCl3</item>
+        <item>CF3CO2D</item>
+        <item>CF3COOD</item>
+        <item>CH3CH3OD</item>
+        <item>CH3OCH3</item>
+        <item>CH3OD</item>
+        <item>CHCl2CHCl2</item>
+        <item>Cl2CHCHCl2</item>
+        <item>Cl2DCCDCl2</item>
+        <item>CS2</item>
+        <item>D2O</item>
+        <item>d5-pyridine</item>
+        <item>d6-acetone</item>
+        <item>d6-DMSO</item>
+        <item>d6-THF</item>
+        <item>d8-toluene</item>
+        <item>DCM-d2</item>
+        <item>DCOOD</item>
+        <item>DMF-d7</item>
+        <item>DMSO-d6</item>
+        <item>Et2O</item>
+        <item>EtOD</item>
+        <item>Me2NCHO</item>
+        <item>MeOD</item>
+        <item>Pyridine-d5</item>
+        <item>THF-d6</item>
+        <item>Toluene-d8</item>
+</def>
+
+<def id="nmrPeakShift" type="const" desc="Matches chemical shift - either single value or range">
+        [+<insert idref="HYPHENCHARACTERS"/>]?
+        \d{1,3}(?:\.\d+)?
+        (?: \s* <insert idref="HYPHEN"/> \s* \d{1,3}(?:\.\d+)? )?
+        (?: \s*\* )? 
+</def>
+
+<def id="nmrPeakAnnotation" type="const" desc="Matches annotations to NMR signals">
+        \s*
+        (?:
+                <insert idref="ALLBRACKET"/> (?: \s*\* )?
+        )
+</def>
+
+<def id="nmrPeak" type="const" desc="Matches a single NMR signal with any annotation">
+        (	(?:about\s+)?
+                <insert idref="nmrPeakShift"/>
+                (?: <insert idref="nmrPeakAnnotation"/> )?
+        )
+        (?!\d*C|H)
+<!--         (?!\w|\s*=)	 -->
+        <!-- the negative lookahead to a word character gets in the way of ppm -->
+        <!-- this new lookahead only prevents picking up numbers from the beggining of a new spectrum -->
+</def>
+
+<def id="nmrPeakBlock" type="const" desc="Matches a block of NMR signals">
+        <insert idref="nmrPeak"/>
+        (?:
+                (?:<insert idref="SEPERATOR"/>|\s+)
+				<!-- "seperator" is sometimes omitted, this allows better recall -->
+                <insert idref="nmrPeak"/>
+        )+
+		<!-- allow ppm at end of peak block -->
+        (\s*ppm)?
+        (?!-)
+</def>
+
+<def id="nmrPeakType" type="const">
+        \b(
+                (br\W+|b\W*|app\w*\W+)?
+                <insert idref="nmrListPeakType"/>(\s+br)?
+        )\b
+</def>
+
+<def id="nmrMethod" type="const">
+        ( ((?![\(\[\{])\W)* <insert idref="BRACKET"/> )
+</def>
+
+<def id="nmrDelta" type="const">(?:d|đ|δ|ä)</def>
+<!-- <def id="nmrDelta" type="const">δ</def> -->
+
+<!-- HNMR defintions -->
+<def id="hNmr.Prolog" type="const">
+        (?:
+                (?:NMR\W*)? <insert idref="nmrDelta"/>H
+        |	1?H(?!\))\W*(?:NMR(\s+[Ss]pectrum)?)?
+        <!--  to match HNMR and H NMR (and variants thereof) -->
+        |	\b(?-i:H)\b(?!(?:[\)\]]|<insert idref="HYPHEN"/>))
+        )
+</def>
+
+
+
+<!-- CNMR defintions -->
+<def id="cNmr.Prolog" type="const">
+        (?:
+                (?:NMR\W*)? <insert idref="nmrDelta"/>C
+        |	(?:13)?C\W*(?:NMR)?
+        <!-- to match CNMR and C NMR -->
+        |	\b(?-i:C)\b(?!\))
+        )
+</def>
+
+
+
+<!-- IR spectra definitions -->
+<def id="irSpecListForm" type="list" desc="List of forms of IR spectra">
+        <item>((liquid|thin)?\s*)film</item>
+        <item>neat</item>
+        <item>nujol(\s*mull)?</item>
+        <item>solid</item>
+        <item>CHCl3(\s*solution)?</item>
+</def>
+
+<def id="irSpecListPlate" type="list" desc="List of IR spectra plate types">
+        <item>CaF</item>
+        <item>KBr</item>
+        <item>NaCl</item>
+</def>
+
+<def id="irSpecListPeakType" type="list" desc="List of IR spectra signal types">
+        <item>s</item>
+        <item>vs</item>
+        <item>m</item>
+        <item>w</item>
+        <item>b</item>
+        <item>br</item>
+        <item>sh</item>
+</def>
+
+<def id="irSpecPeak" type="const" desc="Matches a single peak (with annotations) in an IR spectrum">
+        (
+                \d{3,} (?:\.\d+)? (?: \s*<insert idref="HYPHEN"/>\s* \d{3,} (?:\.\d+)? )? (?:\s* cm<insert idref="HYPHEN"/>1)?
+                (?: \s* <insert idref="irSpecListPeakType"/>\b\.? )*
+                (?: \s* <insert idref="BRACKET"/> )?
+        )
+</def>
+
+<def id="irSpecPeakBlock" type="const" desc="Matches a block of peaks in an IR spectrum">
+        <insert idref="irSpecPeak"/>
+        (?:
+                <insert idref="SEPERATOR"/>
+                <insert idref="irSpecPeak"/>
+        )*
+</def>
+
+<def id="irSpecUnit" type="const">
+        (?: \/? cm \.? <insert idref="HYPHEN"/> 1 | \( cm \.? <insert idref="HYPHEN"/> 1 \) )
+</def>
+
+
+<!-- UV Spectra Definitions -->
+        <def id="uvSpecListSolvent" type="list" desc="List of solvents used to record UV spectra">
+        <item>methylbutane</item>
+        <item>acetonitrile</item>
+        <item>C4H8O2</item>
+        <item>C5H10</item>
+        <item>C5H5N</item>
+        <item>C6H12</item>
+        <item>C6H14</item>
+        <item>C6H5CH3</item>
+        <item>C6H6</item>
+        <item>CCl4</item>
+        <item>CH2Cl2</item>
+        <item>CH3CN</item>
+        <item>CH3COCH3</item>
+        <item>CHCl3</item>
+        <item>DMF</item>
+        <item>Et2O</item>
+        <item>EtOH</item>
+        <item>H2O</item>
+        <item>isooctane</item>
+        <item>isopentane</item>
+        <item>MeOH</item>
+        <item>Toluene</item>
+        <item>ethanol</item>
+        <item>MeOH</item>
+        <item>Hexane</item>
+</def>
+
+<def id="uvSpecListPeakType" type="list" desc="List of UV spectra peak types">
+        <item>inf\w*</item>
+        <item>sh</item>
+</def>
+
+<def id="uvSpecPeak" type="const">
+        (
+                <insert idref="FLOAT"/> (?: \s*<insert idref="HYPHEN"/>\s* <insert idref="FLOAT"/> )? (?: \s*nm)?
+                (?: \s* <insert idref="uvSpecListPeakType"/>\b\.? )*
+                (?: \s* <insert idref="BRACKET"/> )?
+        )
+</def>
+
+<def id="uvSpecPeakBlock" type="const">
+        <insert idref="uvSpecPeak"/>
+        (
+                <insert idref="SEPERATOR"/>
+                <insert idref="uvSpecPeak"/>
+        )*
+</def>
+
+
+
+<!-- Mass Spec Definitions -->
+<def id="massSpecListMethod" type="list">
+        <item>CI</item>
+        <item>EI</item>
+        <item>DMT</item>
+        <item>ESI(-FTMS)?</item>
+        <item>GCMS</item>
+        <item>NH3</item>
+        <item>FAB(\s*[&lt;&gt;]\s*\d+)?</item>
+        <item>NBA</item>
+        <item>ES</item>
+        <item>APCI</item>
+        <item>GT</item>
+        <item>TOF</item>
+        <item>electrospray</item>
+        <item>probe</item>
+        <item>HRFABMS</item>
+</def>
+
+<def id="massSpecFragment" type="const">
+        (?:
+                (?:
+                        <insert idref="ALLBRACKET"/> \d?[\+<insert idref="HYPHENCHARACTERS"/>]
+                |	\b
+                        \d? M (?:\/\d)?
+                        [a-z\d\+<insert idref="HYPHENCHARACTERS"/>]*
+                )
+        )
+</def>
+
+<def id="massSpecPeak" type="const">
+        (	(?:\/?\b\d+(?:\.\d+)?\b)+
+                (?:	\s*	<insert idref="massSpecFragment"/>
+                |	\s*	<insert idref="BRACKET"/>
+                )*
+                (?:\s*\[[^\]]+\][–\-\+\d]*)?
+        )
+</def>
+
+<def id="massSpecPeakBlock" type="const">
+        <insert idref="massSpecPeak"/>
+        (?:
+                <insert idref="SEPERATOR"/>
+                <insert idref="massSpecPeak"/>
+        )*
+</def>
+
+
+
+<!-- Boiling Point Definitions -->
+<def id="bpPressure" type="const">
+        (
+            (?:
+                <insert idref="FLOAT"/>
+                |
+                \d+ \s*[x×]\s* 10<insert idref="HYPHEN"/> \d+
+            )
+            \s*
+            (?: mmHg|Torr|mbar )
+        )
+</def>
+
+
+
+<!-- Optical Rotation Definitions -->
+<def id="optRotListSolvents" type="list">
+        <item>CCl4</item>
+        <item>CHCl3</item>
+        <item>chloroform</item>
+        <item>DMF</item>
+        <item>Et2O</item>
+        <item>EtOH</item>
+        <item>DMSO</item>
+        <item>CH2Cl2</item>
+        <item>C6H6</item>
+        <item>AcOH</item>
+        <item>H2O</item>
+        <item>MeOH</item>
+        <item>methanol</item>
+        <item>C2H5OH</item>
+        <item>Pyridine</item>
+</def>
+
+<!-- Elemental Analysis Definitions -->
+<def id="elemAnalFound" type="const">
+        (?:anal\.?\s+)?
+        found
+        \s*
+</def>
+
+<def id="elemAnalRequired" type="const">
+        (?:
+                (?:
+                        (?:	(?=\w{4,})<insert idref="FORMULA"/>\s*)?
+                                require[sd]?\s*
+                        |	(?:anal[\.:\s]+)?
+                                calcd?\.?
+                                (?:\s+for)?
+                                \W*
+                                (?: (?=\w{4,})<insert idref="FORMULA"/>\s*)?
+                                (?:	<insert idref="BRACKET"/>\s*)?
+                        |	for\W*
+                )
+        )
+</def>
+
+<def id="elemAnalData" type="const">
+        (
+                (?:
+                        \W*?
+                        (?x-i:[A-Z][a-z]?)
+                        [\s,:]+
+                        \d+(?:\.\d+)? \s* \%??
+                ){2,}
+        )
+</def>
+
+<def id="elemAnalBlock" type="const">
+        (
+                <insert idref="elemAnalFound"/>
+        |	<insert idref="elemAnalRequired"/>
+        ) (?: \W* (?: M\w*)? \W+)?
+        <insert idref="elemAnalData"/>%?
+</def>
+
+
+<!-- Hi-Res Mass Spec Definitions -->
+<def id="hrmsData" type="const">
+    (?:
+        \d{2,}
+        \.
+        \d{2,}
+    )
+</def>
+
+<def id="hrmsFound" type="const">
+        (?:
+                found (?: \s+ m\/z )? \s*
+        |	m\/z \s*
+        |	HRMS \s*
+        |	exact \s+ mass \s*
+        )
+</def>
+
+<def id="hrmsRequired" type="const">
+        (?:
+                (?: (?=\w{4,})<insert idref="FORMULA"/> \s+ )? require[sd]
+        |	(?: anal \.? \s+ )? calc (?: ulate )? d? \.?
+        )
+</def>
+
+<def id="hrmsIon" type="const">
+        \&lt;
+        (?&lt;!<insert idref="HYPHEN"/>)
+        (?:	(?x-i:M(?!S\b))[\s\+]*
+                <insert idref="HYPHEN"/>? \s*
+                (?x-i:
+                        <insert idref="ELEMENTS"/>\d*
+                        <insert idref="BRACKET"/>?\d*
+                )+
+        )
+</def>
+
+<def id="hrmsPadding" type="const">
+        (?:
+                \W*?
+                (?:	<insert idref="hrmsIon"/>
+                |	(?=\w{4,})<insert idref="FORMULA"/> (?: \s* [\+<insert idref="HYPHENCHARACTERS"/>] )?
+                |	m\/[ez]
+                |	M
+                |	<insert idref="BRACKET"/>
+                |	for
+                )
+                \s*
+        )
+</def>
+
+<def id="hrmsBlock" type="const">
+        (?:
+                (?:
+                    <insert idref="hrmsFound"/> |
+                    <insert idref="hrmsRequired"/>
+                )
+                <insert idref="hrmsPadding"/>*
+                \W*
+                <insert idref="hrmsData"/>
+        )
+</def>
+
+<def id="hrmsProlog" type="const">
+        (?:
+                (?:	(?x-i: [A-Z<insert idref="HYPHENCHARACTERS"/>]* MS (?:<insert idref="HYPHEN"/>[A-Z]+)? )
+                |	m\/z
+                )
+                <insert idref="hrmsPadding"/>*
+                \W*?
+        )
+</def>
+
+
+
+                                                                                <!-- state -->
+<def id="states" type="list">
+    <item>(air.)? dried</item>
+    <item>(ice.)? cold</item>
+    <item>(potentially.)?explosive</item>
+    <item>\( aq\.? \)</item>
+    <item>\( cat\.? \)</item>
+    <item>\( g \)</item>
+    <item>\b aq \.?</item>
+    <item>\b cat \.?</item>
+    <item>acidic</item>
+    <item>acidified</item>
+    <item>activated</item>
+    <item>analytical \s grade</item>
+    <item>anhydr \.?</item>
+    <item>anhydrous</item>
+    <item>aqueous</item>
+    <item>basic</item>
+    <item>boiling</item>
+    <item>catalytic \s amount \s of</item>
+    <item>conc \.?</item>
+    <item>concentrated</item>
+    <item>conjugated</item>
+    <item>crude</item>
+    <item>crushed</item>
+    <item>degassed</item>
+    <item>de .? ioni[sz]ed</item>
+    <item>dilute</item>
+    <item>dry</item>
+    <item>excess \s of</item>
+    <item>excess</item>
+    <item>flash \s grade</item>
+    <item>foaming</item>
+    <item>fuming</item>
+    <item>freshly . distilled</item>
+    <item>gel.heterogenized</item>
+    <item>hot</item>
+    <item>naturally . occurring</item>
+    <item>neat</item>
+    <item>powder(ed)?</item>
+    <item>pure</item>
+    <item>sat\.?</item>
+    <item>satd\.?</item>
+    <item>saturated</item>
+    <item>silica \s gel.heterogenized</item>
+    <item>stream \s of</item>
+    <item>unreacted</item>
+    <item>unsaturated</item>
+    <item>unstable</item>
+    <item>vapours of</item>
+    <item>volatile</item>
+</def>                                                                       
+</regexps>

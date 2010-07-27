@@ -1,0 +1,16 @@
+﻿# Additional neTerms for polymer recognition
+#
+[DEFINE]
+$TACTICITY = $( isotactic $| syndiotactic $| atactic $) $?
+[PM]
+$TACTICITY $poly-
+$TACTICITY $polybracket- $( $CM $| $GP $| $CJ $) $+ $( ) $| } $| ] $) $+
+$TACTICITY $polybracket- $( $CM $| $GP $| $CJ $) $* $( $-)s $| $-}s $| $-]s $)
+$TACTICITY poly $( ( $| { $| [ $) $( $CM $| $GP $| $CJ $) $+ $( ) $| } $| ] $) $+
+$TACTICITY poly $( ( $| { $| [ $) $( $CM $| $GP $| $CJ $) $* $( $-)s $| $-}s $| $-]s $)
+#$TACTICITY ${\(([HKBCNPOSFILRXYZ(){}\[\]\d]|Li|Na|Rb|Cs|Fr|Be|Mg|Ca|Sr|Ba|Ra|Si|Ge|Sn|Pb|As|Sb|Bi|Se|Te|Po|Cl|Br|At|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr)+\)n}
+#$TACTICITY ${\[([HKBCNPOSFILRXYZ(){}\[\]\d]|Li|Na|Rb|Cs|Fr|Be|Mg|Ca|Sr|Ba|Ra|Si|Ge|Sn|Pb|As|Sb|Bi|Se|Te|Po|Cl|Br|At|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr)+\]n}
+#$TACTICITY ${\{([HKBCNPOSFILRXYZ(){}\[\]\d]|Li|Na|Rb|Cs|Fr|Be|Mg|Ca|Sr|Ba|Ra|Si|Ge|Sn|Pb|As|Sb|Bi|Se|Te|Po|Cl|Br|At|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Y|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr)+\}n}
+#Above patterns won't match common abbreviations e.g. Me, Piv
+$TACTICITY ${\([\w()\[\]]+\)n}
+$TACTICITY ${\[[\w()\[\]]+\]n}

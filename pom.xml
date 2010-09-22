@@ -11,10 +11,19 @@
 
     <name>oscar4-parent</name>
 
+    <repositories>
+        <repository>
+            <id>ucc-repo</id>
+            <name>UCC Repository</name>
+            <url>https://maven.ch.cam.ac.uk/m2repo</url>
+        </repository>
+    </repositories>
+
     <modules>
         <module>oscar4-core</module>
         <module>oscar4-tokeniser</module>
         <module>oscar4-memmrecogniser</module>
+        <module>oscar4-patternrecogniser</module>
     </modules>
 
     <build>
@@ -28,13 +37,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>ucc-repo</id>
-            <name>UCC Repository</name>
-            <url>https://maven.ch.cam.ac.uk/m2repo</url>
-        </repository>
-    </repositories>
 
 </project>

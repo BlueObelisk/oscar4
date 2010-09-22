@@ -14,9 +14,8 @@ public class Main {
 		MEMMRecogniser MER = new MEMMRecogniser();
 		ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscarMEMM/input/");
 		String resourceName = "source.xml";
-		Document sourceDoc = rg.getXMLDocument(resourceName);//new Utils().getResourceAsXML(resourceName);
+		Document sourceDoc = rg.getXMLDocument(resourceName);
 		ProcessingDocument procDoc = null;
-		String test = "Calcuim has an atomic number of 20. Zinc sulphate is a stable compound and so is ammonium chloride.";
 		
 		try 
 		{

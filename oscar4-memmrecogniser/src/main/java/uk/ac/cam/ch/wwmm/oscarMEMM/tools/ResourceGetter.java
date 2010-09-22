@@ -147,6 +147,7 @@ public final class ResourceGetter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return doc;
 		
 	}
@@ -188,6 +189,7 @@ public final class ResourceGetter {
 //	}
 	
 	public InputStream getStream(String resourceName) throws Exception {
+		
 		InputStream inStream = this.getClass().getClassLoader().getResourceAsStream(resourcePath+resourceName);
 		
 		return inStream;

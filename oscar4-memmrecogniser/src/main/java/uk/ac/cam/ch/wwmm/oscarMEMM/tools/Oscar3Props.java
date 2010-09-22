@@ -145,6 +145,7 @@ public final class Oscar3Props {
 			}
 			propsToVariables();
 		} catch (Exception e) {
+	
 			throw new Error("Problem loading properties!");
 		}		
 	}

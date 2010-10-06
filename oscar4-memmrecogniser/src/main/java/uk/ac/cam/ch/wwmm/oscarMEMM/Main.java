@@ -4,7 +4,8 @@ import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 
 public class Main {
 
@@ -19,7 +20,8 @@ public class Main {
 		
 		try 
 		{
-			procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(sourceDoc, true, false, false);
+			procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+				Tokeniser.getInstance(), sourceDoc, true, false, false);
 		    
 		 } 
 		catch (Exception e) 

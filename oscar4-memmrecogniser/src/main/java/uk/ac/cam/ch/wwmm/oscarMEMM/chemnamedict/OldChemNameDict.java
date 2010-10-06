@@ -19,8 +19,8 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Serializer;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.xmltools.XOMTools;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 
 /** Name to structure dictionary, holds active data in memory, now obsolete.
  * The data can be written out and read in as XML. At some point there will need

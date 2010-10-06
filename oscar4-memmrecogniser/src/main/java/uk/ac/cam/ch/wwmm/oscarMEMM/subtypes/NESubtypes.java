@@ -18,13 +18,14 @@ import opennlp.maxent.TwoPassDataIndexer;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
 import uk.ac.cam.ch.wwmm.oscarMEMM.saf.SafTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.TokenTypes;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
 
 /** An experimental class to subclassify named entities.
  * 
@@ -198,7 +199,8 @@ public final class NESubtypes {
 		State state = new State();
 		state.sourceDoc = sourceDoc;
 		state.safDoc = safDoc;		
-		state.procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(sourceDoc, true, false, useTagger, safDoc);
+		state.procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+			Tokeniser.getInstance(), sourceDoc, true, false, useTagger, safDoc);
 		return state;
 	}
 	
@@ -328,7 +330,7 @@ public final class NESubtypes {
 			if(events.size() < 2) continue;
 			DataIndexer di = null;
 			di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(events)), 1);
-			if(Oscar3Props.getInstance().verbose) System.out.println(di);
+			if(OscarProperties.getInstance().verbose) System.out.println(di);
 			GISModel gm = GIS.trainModel(100, di);
 			classifiers.put(type, gm);
 		}

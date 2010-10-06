@@ -12,8 +12,8 @@ import org.apache.commons.math.stat.DescriptiveStatisticsImpl;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.chemnamedict.ChemNameDictSingleton;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
 
 /**Converts a set of named entities into a set of features for the rescorer.
  * 

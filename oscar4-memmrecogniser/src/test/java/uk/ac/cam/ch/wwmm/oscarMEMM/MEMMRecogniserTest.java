@@ -11,6 +11,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.scixml.TextToSciXML;
 
 /**
@@ -30,7 +31,8 @@ public class MEMMRecogniserTest {
 		Assert.assertTrue("Have testcard string", s != null && s.length() > 0);
 		Document doc = TextToSciXML.textToSciXML(s);
 		
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(doc, false, false, false);
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().
+			makeTokenisedDocument(Tokeniser.getInstance(), doc, false, false, false);
 		Assert.assertTrue(procDoc != null);
 		List<NamedEntity> neList;
 		ChemicalEntityRecogniser cei = new MEMMRecogniser();

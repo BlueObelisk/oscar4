@@ -1,5 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.xmltools;
 
+import uk.ac.cam.ch.wwmm.oscar.tools.XMLSpanTagger;
+import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Elements;

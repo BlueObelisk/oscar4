@@ -12,10 +12,10 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.saf.SafTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.TLRHolder;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
 
 /**Tokenisation of text.
  * 

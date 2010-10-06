@@ -3,6 +3,9 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.scixml;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import uk.ac.cam.ch.wwmm.oscar.scixml.SciXMLDocument;
+import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
+
 import nu.xom.Document;
 import nu.xom.Element;
 

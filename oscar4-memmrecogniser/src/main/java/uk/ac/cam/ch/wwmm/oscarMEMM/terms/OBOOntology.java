@@ -15,10 +15,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscarMEMM.ptcDataStruct.CacheMap;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.ResourceGetter;
 
 
 /** A class to hold and process OBO ontologies, such as ChEBI.
@@ -49,7 +49,7 @@ public class OBOOntology {
 			myInstance.read("chebi.obo");
 			myInstance.read("fix.obo");
 			myInstance.read("rex.obo");
-			if(Oscar3Props.getInstance().useDSO) myInstance.addOntology(DSOtoOBO.readDSO());
+			if(OscarProperties.getInstance().useDSO) myInstance.addOntology(DSOtoOBO.readDSO());
 			} catch (Exception e) {
 				throw new Error(e);
 			}

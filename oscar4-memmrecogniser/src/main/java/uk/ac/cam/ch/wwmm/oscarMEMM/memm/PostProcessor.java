@@ -11,12 +11,12 @@ import java.util.regex.Pattern;
 
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.TokenTypes;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
 
 /**
  * Handles postprocessing of MEMM results.
@@ -138,7 +138,7 @@ final class PostProcessor {
 
 	public void removeBlocked() {
 		for (NamedEntity ne : getBlocked()) {
-			if (Oscar3Props.getInstance().verbose)
+			if (OscarProperties.getInstance().verbose)
 				System.out.println("Removing: " + ne);
 			entities.remove(ne);
 		}

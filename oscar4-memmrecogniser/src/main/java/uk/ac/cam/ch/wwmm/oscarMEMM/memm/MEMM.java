@@ -25,15 +25,16 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.HyphenTokeniser;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.RescoreMEMMOut;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.xmltools.XOMTools;
 
 /**The main class for generating and running MEMMs
  * 
@@ -80,7 +81,7 @@ public final class MEMM {
 		
 		trainingCycles = 100;
 		featureCutOff = 1;
-		confidenceThreshold = Oscar3Props.getInstance().neThreshold / 5.0;
+		confidenceThreshold = OscarProperties.getInstance().neThreshold / 5.0;
 		rescorer = null;
 	}
 
@@ -124,7 +125,7 @@ public final class MEMM {
 	
 	private void trainOnFile(File file, String domain) throws Exception {
 		long time = System.currentTimeMillis();
-		if(Oscar3Props.getInstance().verbose) System.out.print("Train on: " + file + "... ");
+		if(OscarProperties.getInstance().verbose) System.out.print("Train on: " + file + "... ");
 		Document doc = new Builder().build(file);
 		Nodes n = doc.query("//cmlPile");
 		for(int i=0;i<n.size();i++) n.get(i).detach();
@@ -149,15 +150,16 @@ public final class MEMM {
 				Element ne = (Element)n.get(i);
 				if(ne.getAttributeValue("type").equals("RN") && ne.getValue().matches("[A-Z]\\p{Ll}\\p{Ll}.*\\s.*")) {
 					ne.addAttribute(new Attribute("type", "NRN"));
-					if(Oscar3Props.getInstance().verbose) System.out.println("NRN: " + ne.getValue());
+					if(OscarProperties.getInstance().verbose) System.out.println("NRN: " + ne.getValue());
 				} else if(ne.getAttributeValue("type").equals("CM") && ne.getValue().matches("[A-Z]\\p{Ll}\\p{Ll}.*\\s.*")) {
 					ne.addAttribute(new Attribute("type", "NCM"));
-					if(Oscar3Props.getInstance().verbose) System.out.println("NCM: " + ne.getValue());
+					if(OscarProperties.getInstance().verbose) System.out.println("NCM: " + ne.getValue());
 				}
 			}
 		}
 		
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(doc, true, false, false);
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+			Tokeniser.getInstance(), doc, true, false, false);
 		
 	//NameRecogniser nr = new NameRecogniser();
 		//nr.halfProcess(doc);
@@ -169,7 +171,7 @@ public final class MEMM {
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			trainOnSentence(ts, domain);
 		}
-		if(Oscar3Props.getInstance().verbose) System.out.println(System.currentTimeMillis() - time);
+		if(OscarProperties.getInstance().verbose) System.out.println(System.currentTimeMillis() - time);
 	}
 	
 	void trainOnSbFilesNosplit(List<File> files, Map<File,String> domains) throws Exception {
@@ -351,7 +353,7 @@ public final class MEMM {
 			ubermodel = GIS.trainModel(trainingCycles, di);
 		} else {
 			for(String prevTagg : evsByPrev.keySet()) {
-				if(Oscar3Props.getInstance().verbose) System.out.println(prevTagg);
+				if(OscarProperties.getInstance().verbose) System.out.println(prevTagg);
 				List<Event> evs = evsByPrev.get(prevTagg);
 				if(featureSel) {
 					evs = new FeatureSelector().selectFeatures(evs);						
@@ -442,7 +444,7 @@ public final class MEMM {
 	
 	private void cvFeatures(File file, String domain) throws Exception {
 		long time = System.currentTimeMillis();
-		if(Oscar3Props.getInstance().verbose) System.out.print("Cross-Validate features on: " + file + "... ");
+		if(OscarProperties.getInstance().verbose) System.out.print("Cross-Validate features on: " + file + "... ");
 		Document doc = new Builder().build(file);
 		Nodes n = doc.query("//cmlPile");
 		for(int i=0;i<n.size();i++) n.get(i).detach();
@@ -450,7 +452,8 @@ public final class MEMM {
 		for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 		
 		
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(doc, true, false, false);
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+			Tokeniser.getInstance(), doc, true, false, false);
 		//NameRecogniser nr = new NameRecogniser();
 		//nr.halfProcess(doc);
 		//if(patternFeatures) {
@@ -461,7 +464,7 @@ public final class MEMM {
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			cvFeatures(ts, domain);
 		}
-		if(Oscar3Props.getInstance().verbose) System.out.println(System.currentTimeMillis() - time);
+		if(OscarProperties.getInstance().verbose) System.out.println(System.currentTimeMillis() - time);
 	}
 
 	
@@ -518,7 +521,7 @@ public final class MEMM {
 			for(String feature : features) {
 				double score = featureCVScores.get(prev).get(feature);
 				if(score < 0.0) {
-					if(Oscar3Props.getInstance().verbose) System.out.println("Removing:\t" + prev + "\t" + feature + "\t" + score);
+					if(OscarProperties.getInstance().verbose) System.out.println("Removing:\t" + prev + "\t" + feature + "\t" + score);
 					pffp.add(feature);
 				}
 			}

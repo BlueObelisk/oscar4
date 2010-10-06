@@ -12,7 +12,7 @@ import nu.xom.Text;
  */
 public class XMLSpanTagger {
 
-	Element rootElem;
+	protected Element rootElem;
 	int tagNo;
 	int charOffset;
 	String tagPrefix;

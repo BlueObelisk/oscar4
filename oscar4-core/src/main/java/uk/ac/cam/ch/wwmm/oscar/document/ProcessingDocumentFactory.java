@@ -68,8 +68,8 @@ public class ProcessingDocumentFactory {
 	 * @return The ProcessingDocument for the source document.
 	 * @throws Exception
 	 */
-	public ProcessingDocument makeTokenisedDocument(Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) throws Exception {
-		return makeTokenisedDocument(sourceDoc, tokeniseForNEs, mergeNEs, runGenia, null);
+	public ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) throws Exception {
+		return makeTokenisedDocument(tokeniser, sourceDoc, tokeniseForNEs, mergeNEs, runGenia, null);
 	}
 	
 	/**Makes a ProcessingDocument from a source SciXML document. The SciXML
@@ -89,14 +89,13 @@ public class ProcessingDocumentFactory {
 	 * @return The ProcessingDocument for the source document.
 	 * @throws Exception
 	 */
-	public ProcessingDocument makeTokenisedDocument(Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia, Document safDoc) throws Exception {
+	public ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia, Document safDoc) throws Exception {
 		ProcessingDocument procDoc = makeDocument(sourceDoc);
 		procDoc.tokensByStart = new HashMap<Integer,Token>();
 		procDoc.tokensByEnd = new HashMap<Integer,Token>();
 		
 		procDoc.tokenSequences = new ArrayList<TokenSequence>();
 		Nodes placesForChemicals = XMLStrings.getInstance().getChemicalPlaces(procDoc.doc);
-		ITokeniser tokeniser = TokeniserFactory.getInstance();
 //		System.out.println("places=== "+placesForChemicals.size());
 		for(int i=0;i<placesForChemicals.size();i++) {
 			Element e = (Element)placesForChemicals.get(i);

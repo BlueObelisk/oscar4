@@ -13,12 +13,12 @@ import java.util.Set;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.PrefixFinder;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
 
 /** A subclass of DFAFinder, used to find named entities that are not found 
  * by the MEMM. Currently handles CUST as well as ONT and CPR.
@@ -37,7 +37,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	public static void readFromWorkspace() {
 		try {
 			//long time = System.currentTimeMillis();
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(Oscar3Props.getInstance().workspace, "dfas.dat")));
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(OscarProperties.getInstance().workspace, "dfas.dat")));
 			myInstance = (DFAONTCPRFinder)ois.readObject();
 			ois.close();
 			//System.out.println("DFAs loaded in " + (System.currentTimeMillis() - time) + " milliseconds");
@@ -53,7 +53,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	public static void writeToWorkspace() {
 		try {
 			//long time = System.currentTimeMillis();
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Oscar3Props.getInstance().workspace, "dfas.dat")));
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(OscarProperties.getInstance().workspace, "dfas.dat")));
 			oos.writeObject(getInstance());
 			oos.close();
 			//System.out.println("DFAs loaded in " + (System.currentTimeMillis() - time) + " milliseconds");
@@ -102,7 +102,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	}
 	
 	private DFAONTCPRFinder() {
-		verbose = Oscar3Props.getInstance().verbose;
+		verbose = OscarProperties.getInstance().verbose;
 		if(verbose) System.out.println("Initialising DFA ONT Finder...");
 		super.init();
 		if(verbose) System.out.println("Initialised DFA ONT Finder");

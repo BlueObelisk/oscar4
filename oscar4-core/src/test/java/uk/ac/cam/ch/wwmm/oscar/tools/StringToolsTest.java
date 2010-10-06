@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscar.tools;
 
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -211,5 +212,24 @@ public class StringToolsTest {
 		String testString = "foo" + "\u00ad" + "bar";
 		String removed = StringTools.removeCharFromString("\u00ad".charAt(0), testString);
 		assertEquals("foobar", removed);
+	}
+
+	@Test
+	public void testExpandRegex() {
+		assertEquals("[]", StringTools.expandRegex(null).toString());
+		assertEquals("[]", StringTools.expandRegex("").toString());
+		assertEquals("[12345]", StringTools.expandRegex("12345").toString());
+		assertEquals("[12345]", StringTools.expandRegex("(12345)?").toString());
+		assertEquals("[1267, 1234567]", StringTools.expandRegex("12(345)?67").toString());
+		assertEquals("[12 67 , 12 345 67 ]", StringTools.expandRegex("12 (345 )?67 ").toString());
+		assertEquals("[34, 12, 1234]", StringTools.expandRegex("(12)?(34)?").toString());
+		assertEquals("[34, 3456, 1234, 123456]", StringTools.expandRegex("(12)?34(56)?").toString());
+		assertEquals("[034, 03456, 01234, 0123456]", StringTools.expandRegex("0(12)?34(56)?").toString());
+		assertEquals("[347, 34567, 12347, 1234567]", StringTools.expandRegex("(12)?34(56)?7").toString());
+		assertEquals("[127, 12347, 1234567]", StringTools.expandRegex("12(34(56)?)?7").toString());		
+		assertEquals("[127, 12567, 1234567]", StringTools.expandRegex("12((34)?56)?7").toString());		
+		assertEquals("[127, 1278, 12567, 125678, 1234567, 12345678]", StringTools.expandRegex("12((34)?56)?7(8)?").toString());		
+		assertEquals("[12(34)+56]", StringTools.expandRegex("12(34)+56").toString());
+		assertEquals("[12(34)*56]", StringTools.expandRegex("12(34)*56").toString());
 	}
 }

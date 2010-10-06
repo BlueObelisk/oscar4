@@ -2,7 +2,7 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis;
 
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscarMEMM.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscarMEMM.types.NETypes;
 

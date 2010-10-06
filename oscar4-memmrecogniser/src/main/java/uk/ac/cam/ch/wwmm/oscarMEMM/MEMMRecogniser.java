@@ -7,12 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.ProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.finder.DFAONTCPRFinder;
-import uk.ac.cam.ch.wwmm.oscarMEMM.saf.ResolvableStandoff;
 import uk.ac.cam.ch.wwmm.oscarMEMM.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
 import uk.ac.cam.ch.wwmm.oscarMEMM.types.NETypes;
@@ -23,12 +22,6 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.types.NETypes;
  * @author j_robinson
  */
 public class MEMMRecogniser implements ChemicalEntityRecogniser {
-
-	public List<NamedEntity> findNamedEntities(ProcessingDocument procDoc)
-        throws Exception {
-
-	     return findNamedEntities(procDoc.getTokenSequences());
-	}
 
 	public List<NamedEntity> findNamedEntities(List<TokenSequence> toxicList)
 			throws Exception {

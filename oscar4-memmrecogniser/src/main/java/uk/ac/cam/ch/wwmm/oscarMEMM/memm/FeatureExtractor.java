@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
 
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.TokenTypes;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
 
 /**
  * Converts a list of tokens into features for the MEMM.

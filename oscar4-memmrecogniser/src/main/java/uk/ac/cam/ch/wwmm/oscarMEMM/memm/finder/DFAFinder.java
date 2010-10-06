@@ -12,11 +12,11 @@ import java.util.regex.Pattern;
 
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermMaps;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
@@ -51,7 +51,7 @@ public abstract class DFAFinder implements Serializable {
 	protected boolean useSimple;
 
 	protected DFAFinder() {
-		verbose = Oscar3Props.getInstance().verbose;
+		verbose = OscarProperties.getInstance().verbose;
 		useSimple = true;
 	}
 	
@@ -128,13 +128,13 @@ public abstract class DFAFinder implements Serializable {
 	
 	protected void addNE(String ne, String type, boolean alwaysAdd) {
 		//System.out.println(type + "\t" + ne);
-		if(Oscar3Props.getInstance().dfaSize > 0) {
+		if(OscarProperties.getInstance().dfaSize > 0) {
 			if(!dfaCount.containsKey(type)) {
 				dfaCount.put(type, 0);
 				dfaNumber.put(type, 1);
 			}
 			int count = dfaCount.get(type) + 1;
-			if(count > Oscar3Props.getInstance().dfaSize) {
+			if(count > OscarProperties.getInstance().dfaSize) {
 				count = 0;
 				String tmpType = type + "_" + dfaNumber.get(type);
 				buildForType(tmpType);
@@ -144,7 +144,7 @@ public abstract class DFAFinder implements Serializable {
 			dfaCount.put(type, count);
 			type = type + "_" + dfaNumber.get(type);
 			/*ontDFACount += 1;
-			if(ontDFACount > Oscar3Props.getInstance().dfaSize) {
+			if(ontDFACount > OscarProperties.getInstance().dfaSize) {
 				ontDFACount = 0;
 				ontDFANumber++;
 			}

@@ -15,9 +15,9 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Serializer;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.xmltools.XOMTools;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 
 /**Name to structure dictionary, holds active data in memory, a replacement
  * class for ChemNameDict. 
@@ -532,7 +532,7 @@ public final class ChemNameDict {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		File f = new File(new File(Oscar3Props.getInstance().workspace, "chemnamedict"), "chemnamedict.xml");
+		File f = new File(new File(OscarProperties.getInstance().workspace, "chemnamedict"), "chemnamedict.xml");
 		Document doc = new Builder().build(f);
 		ChemNameDict ncnd = new ChemNameDict();
 		ncnd.readXML(doc);

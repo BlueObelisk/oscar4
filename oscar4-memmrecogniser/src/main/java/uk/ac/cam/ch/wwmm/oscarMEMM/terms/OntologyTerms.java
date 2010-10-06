@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 
 /**Holds strings corresponding to ontology terms and their matching IDs, for
  * use during named entity recognition.
@@ -34,7 +34,7 @@ public final class OntologyTerms {
 		for(String term : TermMaps.getOntology().keySet()) {
 			addTerm(term, TermMaps.getOntology().get(term));
 		}
-		if(Oscar3Props.getInstance().useDSO) {
+		if(OscarProperties.getInstance().useDSO) {
 			try {
 				OBOOntology dso = DSOtoOBO.readDSO();
 				for(OntologyTerm term : dso.terms.values()) {

@@ -27,13 +27,14 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarMEMM.xmltools.XOMTools;
 
 /**Handles rescoring of MEMM output.
  * 
@@ -121,7 +122,7 @@ public final class RescoreMEMMOut {
 	public void trainOnFile(File f, String domain, MEMM memm) throws Exception {
 		Document doc = new Builder().build(f);
 		String name = f.getParentFile().getName();
-		if(Oscar3Props.getInstance().verbose) System.out.println(name);
+		if(OscarProperties.getInstance().verbose) System.out.println(name);
 		Nodes n = doc.query("//cmlPile");
 		for(int i=0;i<n.size();i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");
@@ -132,7 +133,8 @@ public final class RescoreMEMMOut {
 
 		nr.makeTokenisers(false);*/
 		
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(doc, true, false, false);
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+			Tokeniser.getInstance(), doc, true, false, false);
 		
 		List<NamedEntity> entities = new ArrayList<NamedEntity>();
 
@@ -221,7 +223,8 @@ public final class RescoreMEMMOut {
 		nr.halfProcess(doc);
 
 		nr.makeTokenisers(false);*/
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(doc, true, false, false);
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+			Tokeniser.getInstance(), doc, true, false, false);
 		
 		List<NamedEntity> entities = new ArrayList<NamedEntity>();
 

@@ -1,7 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.terms;
 
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /**Experimental: a class to support a custom ontology format.
  * 

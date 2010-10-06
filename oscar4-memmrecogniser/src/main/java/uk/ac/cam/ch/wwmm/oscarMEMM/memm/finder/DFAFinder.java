@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Token;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermMaps;

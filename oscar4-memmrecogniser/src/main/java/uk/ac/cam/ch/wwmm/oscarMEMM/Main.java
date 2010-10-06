@@ -1,9 +1,9 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM;
 
 import nu.xom.Document;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.ProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tools.ResourceGetter;
 
 public class Main {

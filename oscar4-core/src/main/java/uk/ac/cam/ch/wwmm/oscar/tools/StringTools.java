@@ -628,4 +628,26 @@ public final class StringTools {
 			return results;			
 		}
 	}
+
+	/**
+	 * Removes all instances of a specified char from a given string, returning
+	 * the original string if no instances exist
+	 *
+	 * @author dmj30
+	 */
+	public static String removeCharFromString(char c, String string) {
+		char [] oldChars = string.toCharArray();
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < oldChars.length; i++) {
+			char current = oldChars[i];
+			if (current != c) {
+				builder.append(current);
+			}
+		}
+		if (builder.length() == string.length()) {
+			//avoids overhead of allocating new string
+			return string;
+		}
+		return builder.toString();
+	}
 }

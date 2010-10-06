@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscar.tools;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -7,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -95,7 +97,7 @@ public class OscarProperties {
 	
 	private Properties myProperties;
 
-	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar3/resources/", true);
+	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/tools/", true);
 	
 	private static OscarProperties myInstance;
 	
@@ -209,14 +211,14 @@ public class OscarProperties {
 		urlEncodeCML = "yes".equals(myProperties.getProperty("urlEncodeCML"));
 		useCachedResources = "yes".equals(myProperties.getProperty("useCachedResources"));
 		
-		ngramThreshold = Double.parseDouble(myProperties.getProperty("ngramThreshold"));
-		neThreshold = Double.parseDouble(myProperties.getProperty("neThreshold"));
-		ontProb = Double.parseDouble(myProperties.getProperty("ontProb"));
-		cprProb = Double.parseDouble(myProperties.getProperty("cprProb"));
-		custProb = Double.parseDouble(myProperties.getProperty("custProb"));
+//		ngramThreshold = Double.parseDouble(myProperties.getProperty("ngramThreshold"));
+//		neThreshold = Double.parseDouble(myProperties.getProperty("neThreshold"));
+//		ontProb = Double.parseDouble(myProperties.getProperty("ontProb"));
+//		cprProb = Double.parseDouble(myProperties.getProperty("cprProb"));
+//		custProb = Double.parseDouble(myProperties.getProperty("custProb"));
 
-		dfaSize = Integer.parseInt(myProperties.getProperty("dfaSize"));
-		port = Integer.parseInt(myProperties.getProperty("port"));
+//		dfaSize = Integer.parseInt(myProperties.getProperty("dfaSize"));
+//		port = Integer.parseInt(myProperties.getProperty("port"));
 		
 		dbname = getPropertyOrNone("dbname");
 		dbaddress = getPropertyOrNone("dbaddress");
@@ -255,7 +257,8 @@ public class OscarProperties {
 	
 	private Properties getDefaults() throws Exception {
 		Properties def = new Properties();
-		def.load(rg.getStream("DefaultProperties.dat"));
+		InputStream stream = rg.getStream("DefaultProperties.dat");
+		def.load(stream);
 		return def;
 	}
 		

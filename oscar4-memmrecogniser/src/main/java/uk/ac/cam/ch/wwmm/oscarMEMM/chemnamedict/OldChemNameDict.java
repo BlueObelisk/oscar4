@@ -19,6 +19,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Serializer;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 

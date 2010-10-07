@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscarpattern.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscarpattern.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermSets;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
 
 /**
  * Encapsulates nGram parsing.
@@ -90,7 +90,7 @@ public class NGramBuilder {
 
 
     private void initialise() {
-		if(Oscar3Props.getInstance().verbose) System.out.print("Initialising nGrams... ");
+		if(OscarProperties.getInstance().verbose) System.out.print("Initialising nGrams... ");
 		dontUse = new HashSet<String>();
 		chemWords = new ArrayList<String>();
 		englishWords = new ArrayList<String>();
@@ -147,7 +147,7 @@ public class NGramBuilder {
 		E3C = null;
 		E4C = null;
 
-		if(Oscar3Props.getInstance().verbose) System.out.println("nGrams initialised");
+		if(OscarProperties.getInstance().verbose) System.out.println("nGrams initialised");
 	}
 
     double[][][][] getLP4C() {

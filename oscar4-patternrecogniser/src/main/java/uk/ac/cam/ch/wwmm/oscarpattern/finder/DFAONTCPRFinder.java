@@ -15,15 +15,15 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import uk.ac.cam.ch.wwmm.oscarpattern.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.Token;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.PrefixFinder;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.StringTools;
 
 /** A subclass of DFAFinder, used to find named entities that are not found 
  * by the MEMM. Currently handles CUST as well as ONT and CPR.
@@ -129,7 +129,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	}
 	
 	private DFAONTCPRFinder() {
-		verbose = Oscar3Props.getInstance().verbose;
+		verbose = OscarProperties.getInstance().verbose;
 		if(verbose) System.out.println("Initialising DFA ONT Finder...");
 		super.init();
 		if(verbose) System.out.println("Initialised DFA ONT Finder");

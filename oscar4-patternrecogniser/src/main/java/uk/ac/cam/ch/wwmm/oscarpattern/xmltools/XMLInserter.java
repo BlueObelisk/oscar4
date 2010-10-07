@@ -5,6 +5,8 @@ import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Node;
 import nu.xom.Text;
+import uk.ac.cam.ch.wwmm.oscar.tools.XMLSpanTagger;
+import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 
 /** Allows XML elements to be inserted into a document, keeping the Text content of
  * the document the same. This is essentially an XML-well-formedness safe version of

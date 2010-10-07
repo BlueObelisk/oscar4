@@ -3,10 +3,11 @@ package uk.ac.cam.ch.wwmm.oscarpattern.chemnamedict;
 import java.io.File;
 import java.util.Set;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.finder.DFANEFinder;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.StringTools;
 
 /** Provides static methods for accessing ChemNameDict.
  * 
@@ -42,24 +43,24 @@ public final class ChemNameDictSingleton {
 	
 	private static ChemNameDict getChemNameDictInstance(boolean forceFromScratch) throws Exception {
 		if(myChemNameDict == null) {
-			if(Oscar3Props.getInstance().verbose) System.out.print("Initialising ChemNameDict... ");
+			if(OscarProperties.getInstance().verbose) System.out.print("Initialising ChemNameDict... ");
 			myChemNameDict = new ChemNameDict();
 			try {
-				if("none".equals(Oscar3Props.getInstance().workspace) || forceFromScratch) {
-					myChemNameDict.readXML(rg.getXMLDocument(Oscar3Props.getInstance().chemNameDict));
+				if("none".equals(OscarProperties.getInstance().workspace) || forceFromScratch) {
+					myChemNameDict.readXML(rg.getXMLDocument(OscarProperties.getInstance().chemNameDict));
 				} else {
-					File f = new File(new File(Oscar3Props.getInstance().workspace, "chemnamedict"), Oscar3Props.getInstance().chemNameDict);
+					File f = new File(new File(OscarProperties.getInstance().workspace, "chemnamedict"), OscarProperties.getInstance().chemNameDict);
 					if(f.exists()) {
 						myChemNameDict.readFromFile(f);				
 					} else {
 						myChemNameDict.readXML(new ResourceGetter("uk/ac/cam/ch/wwmm/oscar3/chemnamedict/resources/").getXMLDocument("defaultCompounds.xml"));
-						if(!("none".equals(Oscar3Props.getInstance().workspace))) {
-							File ff = new File(new File(Oscar3Props.getInstance().workspace, "chemnamedict"), Oscar3Props.getInstance().chemNameDict);
+						if(!("none".equals(OscarProperties.getInstance().workspace))) {
+							File ff = new File(new File(OscarProperties.getInstance().workspace, "chemnamedict"), OscarProperties.getInstance().chemNameDict);
 							myChemNameDict.writeToFile(ff);
 						}
 					}
 				}
-				if(Oscar3Props.getInstance().verbose) System.out.println("ChemNameDict initialised");
+				if(OscarProperties.getInstance().verbose) System.out.println("ChemNameDict initialised");
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new Exception("Could not initialise ChemNameDict!");
@@ -80,10 +81,10 @@ public final class ChemNameDictSingleton {
 	 * @throws Exception
 	 */
 	public static void save() throws Exception {
-		if("none".equals(Oscar3Props.getInstance().workspace)) {
+		if("none".equals(OscarProperties.getInstance().workspace)) {
 			throw new Exception("Cannot save ChemNameDict when there is no workspace");
 		} else {
-			File f = new File(new File(Oscar3Props.getInstance().workspace, "chemnamedict"), Oscar3Props.getInstance().chemNameDict);
+			File f = new File(new File(OscarProperties.getInstance().workspace, "chemnamedict"), OscarProperties.getInstance().chemNameDict);
 			ChemNameDict cnd = getChemNameDictInstance();
 			cnd.writeToFile(f);			
 		}

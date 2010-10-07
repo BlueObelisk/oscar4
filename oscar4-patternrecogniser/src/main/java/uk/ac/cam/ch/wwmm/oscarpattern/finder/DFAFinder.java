@@ -10,14 +10,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscarpattern.document.Token;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermMaps;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
 import uk.ac.cam.ch.wwmm.oscarpattern.tools.RegExUtils;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.StringTools;
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
@@ -54,7 +54,7 @@ public abstract class DFAFinder implements Serializable {
 	protected final static Pattern digitOrSpace = Pattern.compile("[0-9 ]+");
 
 	protected DFAFinder() {
-		verbose = Oscar3Props.getInstance().verbose;
+		verbose = OscarProperties.getInstance().verbose;
 	}
 	
 	protected abstract void addTerms();
@@ -112,13 +112,13 @@ public abstract class DFAFinder implements Serializable {
 	
 	protected void addNE(String ne, String type, boolean alwaysAdd) {
 		//System.out.println(type + "\t" + ne);
-		if(Oscar3Props.getInstance().dfaSize > 0) {
+		if(OscarProperties.getInstance().dfaSize > 0) {
 			if(!dfaCount.containsKey(type)) {
 				dfaCount.put(type, 0);
 				dfaNumber.put(type, 1);
 			}
 			int count = dfaCount.get(type) + 1;
-			if(count > Oscar3Props.getInstance().dfaSize) {
+			if(count > OscarProperties.getInstance().dfaSize) {
 				count = 0;
 				String tmpType = type + "_" + dfaNumber.get(type);
 				buildForType(tmpType);

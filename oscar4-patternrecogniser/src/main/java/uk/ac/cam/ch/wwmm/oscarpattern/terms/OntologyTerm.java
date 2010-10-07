@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 
 /** A term in an OBO ontology.
  * 
@@ -55,7 +55,7 @@ public final class OntologyTerm {
 			if(!line.contains(":")) continue;
 			Matcher m = tagValuePattern.matcher(line);
 			boolean matches = m.matches();
-			if(Oscar3Props.getInstance().verbose && !matches) System.out.println("No match");
+			if(OscarProperties.getInstance().verbose && !matches) System.out.println("No match");
 			String tag = m.group(1);
 			String val = m.group(2);
 			Matcher c = commentPattern.matcher(val);

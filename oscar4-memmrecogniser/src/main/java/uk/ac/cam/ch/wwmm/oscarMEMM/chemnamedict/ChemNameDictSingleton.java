@@ -3,6 +3,7 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.chemnamedict;
 import java.io.File;
 import java.util.Set;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;

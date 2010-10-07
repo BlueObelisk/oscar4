@@ -19,7 +19,7 @@ public final class ProcessingDocument {
 
 	public Document doc;
 	public StandoffTable standoffTable;
-	List<TokenSequence> tokenSequences;
+	public List<TokenSequence> tokenSequences;
 	public Map<Integer, Token> tokensByStart;
 	public Map<Integer, Token> tokensByEnd;
 	List<List<Token>> sentences;

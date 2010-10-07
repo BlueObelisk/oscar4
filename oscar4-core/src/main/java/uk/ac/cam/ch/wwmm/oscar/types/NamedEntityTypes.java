@@ -36,7 +36,7 @@ public class NamedEntityTypes {
 	public final static String STOP = "STOP";
 	public final static String POLYMER = "PM";
 	
-	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscarMEMM/types/");
+	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/types/");
 	private static NamedEntityTypes myInstance;
 	private Document typeDoc;
 	private List<String> typeNames;
@@ -58,7 +58,7 @@ public class NamedEntityTypes {
 			return myInstance;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Error("Couldn't initialise NETypes");
+			throw new Error("Couldn't initialise NETypes", e);
 		}
 	}
 	

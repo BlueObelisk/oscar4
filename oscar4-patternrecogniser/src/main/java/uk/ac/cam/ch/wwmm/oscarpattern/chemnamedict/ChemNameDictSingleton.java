@@ -17,7 +17,7 @@ import uk.ac.cam.ch.wwmm.oscarpattern.finder.DFANEFinder;
 public final class ChemNameDictSingleton {
 
 	private static ChemNameDict myChemNameDict = null;
-	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscarpattern/chemnamedict/");
+	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/chemnamedict/");
 	
 	/**Re-initialise the ChemNameDict singleton.
 	 * 

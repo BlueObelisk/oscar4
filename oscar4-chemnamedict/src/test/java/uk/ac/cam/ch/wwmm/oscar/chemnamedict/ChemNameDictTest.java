@@ -12,7 +12,7 @@ public class ChemNameDictTest {
 	
 	@Test
 	public void testStopWords() throws Exception {
-		ChemNameDict dictionary = new ChemNameDict();
+		IChemNameDict dictionary = new ChemNameDict();
 		Assert.assertFalse(dictionary.hasStopWord("Uppsala"));
 		dictionary.addStopWord("Uppsala");
 		Assert.assertTrue(dictionary.hasStopWord("Uppsala"));

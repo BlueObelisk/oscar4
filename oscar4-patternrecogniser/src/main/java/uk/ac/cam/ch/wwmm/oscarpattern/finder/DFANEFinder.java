@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarpattern.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscarpattern.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermMaps;

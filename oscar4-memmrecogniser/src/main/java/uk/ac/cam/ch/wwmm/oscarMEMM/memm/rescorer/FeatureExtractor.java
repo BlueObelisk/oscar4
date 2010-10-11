@@ -9,11 +9,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.math.stat.DescriptiveStatistics;
 import org.apache.commons.math.stat.DescriptiveStatisticsImpl;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.chemnamedict.ChemNameDictSingleton;
 
 /**Converts a set of named entities into a set of features for the rescorer.
  * 

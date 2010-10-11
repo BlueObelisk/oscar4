@@ -15,19 +15,20 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Serializer;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 
 /**
  * Name to structure dictionary, holds active data in memory, a replacement
- * class for ChemNameDict. 
+ * class for OldChemNameDict. 
  * 
  * Improvements include the storage of orphan chemical names (i.e. those with no
  * structure associated) and a simpler XML serialisation (with no need for ID
  * numbers on everything).
  * 
- * NewChemNameDict stores Chemical Records, Orphan Names, and Stopwords. 
+ * ChemNameDict stores Chemical Records, Orphan Names, and Stopwords. 
  * Chemical Records must have an InChI identifier, may have a SMILES string,
  * and an unlimited number of names and ontology identifiers. The InChI
  * identifiers are unique; it is not possible to have two records with the same
@@ -46,49 +47,8 @@ import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
  * @author ptc24
  * @author egonw
  */
-public final class ChemNameDict {
+public final class ChemNameDict implements IChemNameDict {
 
-	private class ChemRecord {
-		String inchi;
-		String smiles;
-		Set<String> names;
-		Set<String> ontIDs;
-		
-		ChemRecord() {
-			inchi = null;
-			smiles = null;
-			names = new HashSet<String>();
-			ontIDs = new HashSet<String>();
-		}
-		
-		Element toXML() {
-			Element elem = new Element("record");
-			
-			Element inchiElem = new Element("InChI");
-			inchiElem.appendChild(inchi);
-			elem.appendChild(inchiElem);
-			
-			if(smiles != null) {
-				Element smilesElem = new Element("SMILES");
-				smilesElem.appendChild(smiles);
-				elem.appendChild(smilesElem);				
-			}
-			
-			for(String name : names) {
-				Element nameElem = new Element("name");
-				nameElem.appendChild(name);
-				elem.appendChild(nameElem);								
-			}
-
-			for(String ontID : ontIDs) {
-				Element ontIDElem = new Element("ontID");
-				ontIDElem.appendChild(ontID);
-				elem.appendChild(ontIDElem);								
-			}
-			return elem;
-		}
-	}
-	
 	private Set<ChemRecord> chemRecords;
 	private Map<String,ChemRecord> indexByInchi;
 	private Map<String,Set<ChemRecord>> indexByName;
@@ -108,6 +68,9 @@ public final class ChemNameDict {
 		stopWords = new HashSet<String>();
 	}
 	
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#addStopWord(java.lang.String)
+	 */
 	public void addStopWord(String word) throws Exception {
 		try {
 			rwLock.writeLock().lock();
@@ -118,6 +81,9 @@ public final class ChemNameDict {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#hasStopWord(java.lang.String)
+	 */
 	public boolean hasStopWord(String queryWord) {
 		try {
 			rwLock.readLock().lock();
@@ -128,6 +94,9 @@ public final class ChemNameDict {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#getStopWords()
+	 */
 	public Set<String> getStopWords() {
 		try {
 			rwLock.readLock().lock();
@@ -137,6 +106,9 @@ public final class ChemNameDict {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#addChemRecord(java.lang.String, java.lang.String, java.util.Set, java.util.Set)
+	 */
 	public void addChemRecord(String inchi, String smiles, Set<String> names, Set<String> ontIDs) throws Exception {
 		ChemRecord record = new ChemRecord();
 		record.inchi = inchi;
@@ -198,6 +170,9 @@ public final class ChemNameDict {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#addName(java.lang.String)
+	 */
 	public void addName(String name) throws Exception {
 		try {
 			rwLock.readLock().lock();
@@ -209,6 +184,9 @@ public final class ChemNameDict {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#addOntologyId(java.lang.String, java.lang.String)
+	 */
 	public void addOntologyId(String ontId, String inchi) throws Exception {
 		if(inchi == null) throw new Exception();
 		try {
@@ -230,6 +208,9 @@ public final class ChemNameDict {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#addChemical(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public void addChemical(String name, String smiles, String inchi) throws Exception {
 		if(inchi == null) throw new Exception();
 		ChemRecord record = new ChemRecord();
@@ -239,6 +220,9 @@ public final class ChemNameDict {
 		addChemRecord(record);
 	}
 
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#importChemNameDict(uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDict)
+	 */
 	public void importChemNameDict(ChemNameDict cnd) throws Exception {
 		try {
 			cnd.rwLock.readLock().lock();
@@ -256,6 +240,9 @@ public final class ChemNameDict {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#hasName(java.lang.String)
+	 */
 	public boolean hasName(String queryName) {
 		try {
 			rwLock.readLock().lock();
@@ -266,6 +253,9 @@ public final class ChemNameDict {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#getSMILES(java.lang.String)
+	 */
 	public Set<String> getSMILES(String queryName) {
 		try {
 			rwLock.readLock().lock();
@@ -285,6 +275,9 @@ public final class ChemNameDict {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#getShortestSMILES(java.lang.String)
+	 */
 	public String getShortestSMILES(String queryName) {
 		String s = null;
 		Set<String> smiles = getSMILES(queryName);
@@ -295,6 +288,9 @@ public final class ChemNameDict {
 		return s;
 	}
 
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#getInChI(java.lang.String)
+	 */
 	public Set<String> getInChI(String queryName) {
 		try {
 			rwLock.readLock().lock();
@@ -315,6 +311,9 @@ public final class ChemNameDict {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#getInChIforShortestSMILES(java.lang.String)
+	 */
 	public String getInChIforShortestSMILES(String queryName) {
 		try {
 			rwLock.readLock().lock();
@@ -361,6 +360,9 @@ public final class ChemNameDict {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#getNames(java.lang.String)
+	 */
 	public Set<String> getNames(String inchi) {
 		try {
 			rwLock.readLock().lock();
@@ -373,6 +375,9 @@ public final class ChemNameDict {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#getNames()
+	 */
 	public Set<String> getNames() {
 		try {
 			rwLock.readLock().lock();
@@ -385,6 +390,9 @@ public final class ChemNameDict {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#getOntologyIDsFromInChI(java.lang.String)
+	 */
 	public Set<String> getOntologyIDsFromInChI(String queryInchi) {
 		try {
 			rwLock.readLock().lock();
@@ -397,6 +405,9 @@ public final class ChemNameDict {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#hasOntologyId(java.lang.String)
+	 */
 	public boolean hasOntologyId(String ontId) {
 		try {
 			rwLock.readLock().lock();
@@ -406,6 +417,9 @@ public final class ChemNameDict {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#getInchisByOntologyId(java.lang.String)
+	 */
 	public Set<String> getInchisByOntologyId(String ontId) {
 		try {
 			rwLock.readLock().lock();

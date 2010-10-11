@@ -22,6 +22,7 @@ import nu.xom.ValidityException;
 /**Gets resource files from packages. Useful for incuding data in JAR files.
  * 
  * @author ptc24
+ * @author egonw
  *
  * Modified from ptc's original version
  */
@@ -30,8 +31,25 @@ public final class ResourceGetter {
 	//private static Builder builder = new Builder();
 	String resourcePath;
 	
-	private boolean skipFiles; 
+	private ClassLoader classLoader = null;
 	
+	private boolean skipFiles; 
+
+	/**
+	 * Sets up a ResourceGetter to get resources from a particular path
+	 * using the given {@link ClassLoader}. This constructor can be used
+	 * of the given path is not accessible from the ClassLoader if
+	 * this ResourceGetter.
+	 *
+	 * @param classLoader  ClassLoader that has access to the given
+	 *                     <code>resourcePath</code>
+	 * @param resourcePath path where to search for researches.
+	 */
+	public ResourceGetter(ClassLoader classLoader, String resourcePath) {
+		this(resourcePath);
+		this.classLoader = classLoader;
+	}
+
 	/**Sets up a resourceGetter to get resources from a particular path.
 	 *  /-separated - e.g. uk.ac.ch.cam.wwmm.ptclib.files.resources should be
 	 *  /uk/ac/cam/ch/wwmm/ptclib/files/resources/
@@ -189,8 +207,10 @@ public final class ResourceGetter {
 //	}
 	
 	public InputStream getStream(String resourceName) throws Exception {
-		
-		InputStream inStream = this.getClass().getClassLoader().getResourceAsStream(resourcePath+resourceName);
+		ClassLoader loader = this.classLoader;
+		if (loader == null)
+			loader = this.getClass().getClassLoader();
+		InputStream inStream = loader.getResourceAsStream(resourcePath+resourceName);
 		
 		return inStream;
 	}

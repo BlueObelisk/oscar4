@@ -73,11 +73,14 @@ public class Model {
 	 * @param modelName The model to load.
 	 */
 	public static void loadModelFromResources(String modelName) {
-		try {			
-			Document modelDoc = new ResourceGetter("uk/ac/cam/ch/wwmm/oscarMEMM/models/").getXMLDocument(modelName + ".xml");
+		try {
+			Document modelDoc = new ResourceGetter(
+					Model.class.getClassLoader(),
+					"uk/ac/cam/ch/wwmm/oscarMEMM/models/"
+				).getXMLDocument(modelName + ".xml");
 			restoreModel(modelDoc);
 		} catch (Exception e) {
-			throw new Error(e);
+			throw new Error("Could not find model: " + modelName, e);
 		}		
 	}
 	

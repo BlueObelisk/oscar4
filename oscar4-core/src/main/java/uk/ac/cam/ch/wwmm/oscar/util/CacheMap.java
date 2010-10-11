@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscarMEMM.ptcDataStruct;
+package uk.ac.cam.ch.wwmm.oscar.util;
 
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -26,8 +26,7 @@ public final class CacheMap<K, V> extends LinkedHashMap<K, V> {
 	}
 	
 	@Override
-	protected boolean removeEldestEntry(Entry eldest) {
-		//if(size() > capacity) System.out.println("Cache Full");
+	protected boolean removeEldestEntry(Entry<K, V> eldest) {
 		return size() > capacity;
 	}
 	

@@ -18,7 +18,7 @@ import java.util.Stack;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscarpattern.ptcDataStruct.CacheMap;
+import uk.ac.cam.ch.wwmm.oscar.util.CacheMap;
 
 /** A class to hold and process OBO ontologies, such as ChEBI.
  * 

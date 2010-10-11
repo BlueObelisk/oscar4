@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscarMEMM.chemnamedict;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
 import java.io.File;
 import java.util.Set;
@@ -8,10 +8,10 @@ import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
-/** Provides static methods for accessing ChemNameDict.
+/**
+ * Provides static methods for accessing ChemNameDict.
  * 
  * @author ptc24
- *
  */
 public final class ChemNameDictSingleton {
 

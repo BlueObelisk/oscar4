@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
-import uk.ac.cam.ch.wwmm.oscarpattern.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscarpattern.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermSets;
 

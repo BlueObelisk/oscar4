@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.OBOOntology;

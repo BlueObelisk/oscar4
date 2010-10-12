@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import uk.ac.cam.ch.wwmm.oscarpattern.scixml.XMLStrings;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 
 /**Finds sentences in lists of tokens.
  * 

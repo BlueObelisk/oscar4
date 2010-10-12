@@ -15,15 +15,16 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import uk.ac.cam.ch.wwmm.oscarpattern.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.Token;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.TokenSequence;
+import org.apache.log4j.Logger;
+
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.PrefixFinder;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.StringTools;
 
 /** A subclass of DFAFinder, used to find named entities that are not found 
  * by the MEMM. Currently handles CUST as well as ONT and CPR.
@@ -32,6 +33,9 @@ import uk.ac.cam.ch.wwmm.oscarpattern.tools.StringTools;
  *
  */
 public class DFAONTCPRFinder extends DFAFinder {
+
+	private final Logger logger = Logger.getLogger(DFAONTCPRFinder.class);
+
 	private static final long serialVersionUID = -1417523538712568934L;
 	private static DFAONTCPRFinder myInstance;
 	private static final String SERIALIZED_DFAFINDER = "dfa_ontcpr.dat.gz";
@@ -129,15 +133,14 @@ public class DFAONTCPRFinder extends DFAFinder {
 	}
 	
 	private DFAONTCPRFinder() {
-		verbose = Oscar3Props.getInstance().verbose;
-		if(verbose) System.out.println("Initialising DFA ONT Finder...");
+		logger.debug("Initialising DFA ONT Finder...");
 		super.init();
-		if(verbose) System.out.println("Initialised DFA ONT Finder");
+		logger.debug("Initialised DFA ONT Finder");
 	}
 	
 	@Override
 	protected void addTerms() {
-		if(verbose) System.out.println("Adding ontology terms to DFA finder...");
+		logger.debug("Adding ontology terms to DFA finder...");
 		for(String s : OntologyTerms.getAllTerms()){
 			addNE(s, "ONT", false);
 		}

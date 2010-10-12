@@ -10,7 +10,7 @@ import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Nodes;
 import nu.xom.xslt.XSLTransform;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
 /** This hold a list of the Named Entity types used in Oscar.
  * 

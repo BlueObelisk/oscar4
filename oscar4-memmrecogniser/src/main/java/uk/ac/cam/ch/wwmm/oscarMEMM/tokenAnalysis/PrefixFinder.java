@@ -2,8 +2,8 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis;
 
 import java.util.regex.Pattern;
 
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
 
 public class PrefixFinder {
 	private static String primesRe = "[" + StringTools.primes + "]*";

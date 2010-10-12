@@ -8,7 +8,11 @@ import java.util.regex.Pattern;
 
 import nu.xom.Element;
 import nu.xom.Nodes;
-import uk.ac.cam.ch.wwmm.oscartokeniser.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /**
  * Tokenisation of text.
@@ -16,7 +20,7 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.tools.StringTools;
  * @author ptc24
  * 
  */
-public final class Tokeniser {
+public final class Tokeniser implements ITokeniser {
 
 	private static Pattern oxidationStatePattern = Pattern.compile(
 			"\\((o|i{1,4}|i{0,3}[xv]|[xv]i{0,4})\\)", Pattern.CASE_INSENSITIVE);

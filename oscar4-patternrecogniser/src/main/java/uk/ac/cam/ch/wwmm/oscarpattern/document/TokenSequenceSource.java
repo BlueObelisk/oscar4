@@ -11,7 +11,10 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
-import uk.ac.cam.ch.wwmm.oscarpattern.scixml.XMLStrings;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 
 /**Takes a list of SciXML files, and provides an iterator over the 
  * TokenSequences corresponding to the usable parts of those documents.
@@ -84,7 +87,8 @@ public final class TokenSequenceSource implements Iterable<TokenSequence>, Itera
 				} else {
 					Document safDoc = null;
 					if(!files.get(filePointer).getName().endsWith("source.xml")) safDoc = new Builder().build(new File(f, "saf.xml"));
-					ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(doc, true, true, false, safDoc);
+					ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+						Tokeniser.getInstance(), doc, true, true, false, safDoc);
 					if(safDoc != null) {
 						tokSeqs.addAll(procDoc.getTokenSequences());
 					} else {

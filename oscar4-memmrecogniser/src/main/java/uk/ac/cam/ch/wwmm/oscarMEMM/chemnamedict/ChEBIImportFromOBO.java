@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import uk.ac.cam.ch.wwmm.oscarMEMM.terms.OBOOntology;
-import uk.ac.cam.ch.wwmm.oscarMEMM.terms.OntologyTerm;
-import uk.ac.cam.ch.wwmm.oscarMEMM.terms.Synonym;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
+import uk.ac.cam.ch.wwmm.oscar.obo.Synonym;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /** Imports chemical entries from the ChEBI OBO file into ChemNameDict. ChEBI is the EBI's
  *  small molecule database/ontology, 

@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -22,6 +24,7 @@ import nu.xom.Text;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
+import uk.ac.cam.ch.wwmm.oscarpattern.finder.DFAFinder;
 /** A regex-based parser, finds chemical formulae etcetera.
  *
  * @author  caw47, annexed by ptc24
@@ -72,7 +75,8 @@ public class TLRHolder {
      * @param document XOM Document containing regular expressions for parsing
      */
     private void readXML(Document document) throws Exception {
-    	if(OscarProperties.getInstance().verbose) System.out.print("Initialising tlrs... ");
+    	Logger logger = Logger.getLogger(DFAFinder.class);
+    	logger.debug("Initialising tlrs... ");
     	doc = document;
     	nodeDict = new HashMap<String,String>();
 
@@ -91,7 +95,7 @@ public class TLRHolder {
     	nodeDict = null;
     	
     	System.gc();
-    	if(OscarProperties.getInstance().verbose) System.out.println("tlrs initialised");
+    	logger.debug("tlrs initialised");
     }
 
     // Methods to find and parse nodes

@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.models.ExtractTrainingData;
@@ -53,7 +55,8 @@ public final class HyphenTokeniser {
 	}
 	
 	private HyphenTokeniser() throws Exception {
-		if(OscarProperties.getInstance().verbose) System.out.print("Initialising hyphen tokeniser... ");
+		Logger logger = Logger.getLogger(HyphenTokeniser.class);
+		logger.debug("Initialising hyphen tokeniser... ");
 		//splitSuffixes = TermSets.getSplitSuffixes();
 		splitSuffixes = new HashSet<String>();
 		splitSuffixes.addAll(ExtractTrainingData.getInstance().afterHyphen);
@@ -74,7 +77,7 @@ public final class HyphenTokeniser {
 		}
 
 		splitOnEnDash = OscarProperties.getInstance().splitOnEnDash;
-		if(OscarProperties.getInstance().verbose) System.out.println("hyphen tokeniser initialised");
+		logger.debug("hyphen tokeniser initialised");
 	}
 	
 	/** Initialises the singleton associated with this class. For convenience at startup.

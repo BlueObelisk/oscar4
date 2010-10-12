@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
@@ -35,6 +37,9 @@ import uk.ac.cam.ch.wwmm.oscarpattern.types.NETypes;
  *
  */
 public class DFANEFinder extends DFAFinder {
+
+	private final Logger logger = Logger.getLogger(DFANEFinder.class);
+
 	private static final long serialVersionUID = -3307600610608772402L;
 	private static DFANEFinder myInstance;
 	
@@ -109,27 +114,26 @@ public class DFANEFinder extends DFAFinder {
 	}
 
 	private DFANEFinder() {
-		verbose = OscarProperties.getInstance().verbose;
-		if(verbose) System.out.println("Initialising DFA NE Finder...");
+		logger.debug("Initialising DFA NE Finder...");
 		super.init();
-		if(verbose) System.out.println("Initialised DFA NE Finder");
+		logger.debug("Initialised DFA NE Finder");
 	}
 	
 	@Override
 	protected void addTerms() {
-		if(verbose) System.out.println("Adding terms to DFA finder...");
+		logger.debug("Adding terms to DFA finder...");
 		for(String s : TermMaps.getNeTerms().keySet()){
 			addNE(s, TermMaps.getNeTerms().get(s), true);
 		}
-		if(verbose) System.out.println("Adding ontology terms to DFA finder...");
+		logger.debug("Adding ontology terms to DFA finder...");
 		for(String s : OntologyTerms.getAllTerms()){
 			addNE(s, "ONT", false);
 		}
-		if(verbose) System.out.println("Adding custom NEs ...");
+		logger.debug("Adding custom NEs ...");
 		for(String s : TermMaps.getCustEnt().keySet()){
 			addNE(s, "CUST", true);
 		}
-		if(verbose) System.out.println("Adding names from ChemNameDict to DFA finder...");
+		logger.debug("Adding names from ChemNameDict to DFA finder...");
 		try {
 			for(String s : ChemNameDictSingleton.getAllNames()) {
 				// System.out.println(s);

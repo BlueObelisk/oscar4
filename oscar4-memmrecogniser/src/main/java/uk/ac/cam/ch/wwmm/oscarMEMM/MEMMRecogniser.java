@@ -35,6 +35,10 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 							.keySet());
 
 		}
+		System.out.println("===");
+		for (NamedEntity entity : neList) {
+			System.out.println("Ent: " + entity);
+		}
 
 		MEMMSingleton.getInstance().rescore(neList);
 		List<NamedEntity> filteredNeList = new ArrayList<NamedEntity>();
@@ -44,6 +48,10 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 			}
 
 		}
+		System.out.println("=====");
+		for (NamedEntity entity : filteredNeList) {
+			System.out.println("Ent: " + entity);
+		}
 
 		List<NamedEntity> filteredNeList2 = new ArrayList<NamedEntity>();
 		for (NamedEntity ne : filteredNeList) {
@@ -52,11 +60,19 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 			}
 
 		}
-		neList = filteredNeList2;
+		neList = filteredNeList;
+		System.out.println("=======");
+		for (NamedEntity entity : neList) {
+			System.out.println("Ent: " + entity);
+		}
 
 		
-		for (TokenSequence t : toxicList) {
-			neList.addAll(DFAONTCPRFinder.getInstance().getNEs(t));
+//		for (TokenSequence t : toxicList) {
+//			neList.addAll(DFAONTCPRFinder.getInstance().getNEs(t));
+//		}
+		System.out.println("=========");
+		for (NamedEntity entity : neList) {
+			System.out.println("Ent: " + entity);
 		}
 
 		// Make sure all NEs at a position share their ontIds and custTypes
@@ -93,6 +109,10 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 			Set<String> custTypes = custTypesForNePos.get(posStr);
 			if (custTypes != null)
 				ne.setCustTypes(custTypes);
+		}
+		System.out.println("==============");
+		for (NamedEntity entity : neList) {
+			System.out.println("Ent: " + entity);
 		}
 
 		setPseudoConfidences(neList);

@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -28,7 +30,9 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.PrefixFinder;
  */
 @SuppressWarnings("serial")
 public class DFAONTCPRFinder extends DFAFinder {
-	
+
+	private final Logger logger = Logger.getLogger(DFAONTCPRFinder.class);
+
 	private static DFAONTCPRFinder myInstance;
 	
 	/**Reads the current state of the DFAONTCPRFinder singleton from the workspace.
@@ -102,15 +106,14 @@ public class DFAONTCPRFinder extends DFAFinder {
 	}
 	
 	private DFAONTCPRFinder() {
-		verbose = OscarProperties.getInstance().verbose;
-		if(verbose) System.out.println("Initialising DFA ONT Finder...");
+		logger.debug("Initialising DFA ONT Finder...");
 		super.init();
-		if(verbose) System.out.println("Initialised DFA ONT Finder");
+		logger.debug("Initialised DFA ONT Finder");
 	}
 	
 	@Override
 	protected void addTerms() {
-		if(verbose) System.out.println("Adding ontology terms to DFA finder...");
+		logger.debug("Adding ontology terms to DFA finder...");
 		for(String s : OntologyTerms.getAllTerms()) addNE(s, "ONT", false);
 		for(String s : TermMaps.getCustEnt().keySet()) addNE(s, "CUST", true);
 		addNE("$ONTWORD", "ONT", false);

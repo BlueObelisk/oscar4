@@ -20,6 +20,9 @@ import opennlp.maxent.EventCollectorAsStream;
 import opennlp.maxent.GIS;
 import opennlp.maxent.GISModel;
 import opennlp.maxent.TwoPassDataIndexer;
+
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
@@ -42,6 +45,8 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
  *
  */
 public final class MEMM {
+
+	private final Logger logger = Logger.getLogger(MEMM.class);
 
 	private Map<String, List<Event>> evsByPrev;
 	private Map<String, Double> zeroProbs; 
@@ -125,7 +130,7 @@ public final class MEMM {
 	
 	private void trainOnFile(File file, String domain) throws Exception {
 		long time = System.currentTimeMillis();
-		if(OscarProperties.getInstance().verbose) System.out.print("Train on: " + file + "... ");
+		logger.debug("Train on: " + file + "... ");
 		Document doc = new Builder().build(file);
 		Nodes n = doc.query("//cmlPile");
 		for(int i=0;i<n.size();i++) n.get(i).detach();
@@ -150,10 +155,10 @@ public final class MEMM {
 				Element ne = (Element)n.get(i);
 				if(ne.getAttributeValue("type").equals("RN") && ne.getValue().matches("[A-Z]\\p{Ll}\\p{Ll}.*\\s.*")) {
 					ne.addAttribute(new Attribute("type", "NRN"));
-					if(OscarProperties.getInstance().verbose) System.out.println("NRN: " + ne.getValue());
+					logger.debug("NRN: " + ne.getValue());
 				} else if(ne.getAttributeValue("type").equals("CM") && ne.getValue().matches("[A-Z]\\p{Ll}\\p{Ll}.*\\s.*")) {
 					ne.addAttribute(new Attribute("type", "NCM"));
-					if(OscarProperties.getInstance().verbose) System.out.println("NCM: " + ne.getValue());
+					logger.debug("NCM: " + ne.getValue());
 				}
 			}
 		}
@@ -171,7 +176,7 @@ public final class MEMM {
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			trainOnSentence(ts, domain);
 		}
-		if(OscarProperties.getInstance().verbose) System.out.println(System.currentTimeMillis() - time);
+		logger.debug(System.currentTimeMillis() - time);
 	}
 	
 	void trainOnSbFilesNosplit(List<File> files, Map<File,String> domains) throws Exception {
@@ -353,7 +358,7 @@ public final class MEMM {
 			ubermodel = GIS.trainModel(trainingCycles, di);
 		} else {
 			for(String prevTagg : evsByPrev.keySet()) {
-				if(OscarProperties.getInstance().verbose) System.out.println(prevTagg);
+				logger.debug(prevTagg);
 				List<Event> evs = evsByPrev.get(prevTagg);
 				if(featureSel) {
 					evs = new FeatureSelector().selectFeatures(evs);						
@@ -428,6 +433,7 @@ public final class MEMM {
 
 		List<Map<String,Map<String,Double>>> classifierResults = new ArrayList<Map<String,Map<String,Double>>>();	
 		for(int i=0;i<tokens.size();i++) {
+			System.out.println(tokens.get(i) + " -> " + extractor.getFeatures(i));
 			classifierResults.add(calcResults(extractor.getFeatures(i))); 
 		}
 		
@@ -444,7 +450,7 @@ public final class MEMM {
 	
 	private void cvFeatures(File file, String domain) throws Exception {
 		long time = System.currentTimeMillis();
-		if(OscarProperties.getInstance().verbose) System.out.print("Cross-Validate features on: " + file + "... ");
+		logger.debug("Cross-Validate features on: " + file + "... ");
 		Document doc = new Builder().build(file);
 		Nodes n = doc.query("//cmlPile");
 		for(int i=0;i<n.size();i++) n.get(i).detach();
@@ -464,7 +470,7 @@ public final class MEMM {
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			cvFeatures(ts, domain);
 		}
-		if(OscarProperties.getInstance().verbose) System.out.println(System.currentTimeMillis() - time);
+		logger.debug(System.currentTimeMillis() - time);
 	}
 
 	
@@ -521,7 +527,7 @@ public final class MEMM {
 			for(String feature : features) {
 				double score = featureCVScores.get(prev).get(feature);
 				if(score < 0.0) {
-					if(OscarProperties.getInstance().verbose) System.out.println("Removing:\t" + prev + "\t" + feature + "\t" + score);
+					logger.debug("Removing:\t" + prev + "\t" + feature + "\t" + score);
 					pffp.add(feature);
 				}
 			}

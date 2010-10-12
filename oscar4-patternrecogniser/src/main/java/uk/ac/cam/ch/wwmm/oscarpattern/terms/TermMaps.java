@@ -9,9 +9,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscarpattern.finder.DFAFinder;
 
 /**A class to hold several mappings between terms and their identifiers.
  * 
@@ -135,7 +138,8 @@ public final class TermMaps {
 	}
 	
 	private TermMaps() throws Exception {
-		if(OscarProperties.getInstance().verbose) System.out.print("Initialising term maps... ");
+		Logger logger = Logger.getLogger(DFAFinder.class);
+		logger.debug("Initialising term maps... ");
 		neTerms = getTermMap("neTerms.txt", false);
 		//add additional neTerms for polymers if set to polymer mode 
 		if (OscarProperties.getInstance().polymerMode) {
@@ -156,7 +160,7 @@ public final class TermMaps {
 			ontology = new HashMap<String,String>();
 		}
 		digestSuffixes();		
-		if(OscarProperties.getInstance().verbose) System.out.println("term maps initialised");
+		logger.debug("term maps initialised");
 	}
 	
 	/**Gets the term map for neTerms.txt.

@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -253,7 +255,7 @@ public final class ExtractTrainingData {
 				//NameRecogniser nr = new NameRecogniser();
 				//nr.halfProcess(doc);
 				//n = doc.query(XMLStrings.CHEMICAL_PLACES_XPATH);
-				if(OscarProperties.getInstance().verbose) System.out.println(f);
+				Logger.getLogger(ExtractTrainingData.class).debug(f);
 				for(TokenSequence tokSeq : procDoc.getTokenSequences()) {
 					afterHyphen.addAll(tokSeq.getAfterHyphens());
 					Map<String, List<List<String>>> neMap = tokSeq.getNes();

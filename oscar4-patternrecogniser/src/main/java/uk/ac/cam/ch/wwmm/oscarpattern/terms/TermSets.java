@@ -6,9 +6,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscarpattern.finder.DFAFinder;
 
 /** A data class to hold several lists of words used in the name recogniser.
  * 
@@ -183,7 +185,8 @@ public final class TermSets {
 	}
 	
 	private TermSets() throws Exception {
-		if(OscarProperties.getInstance().verbose) System.out.print("Initialising term sets... ");
+		Logger logger = Logger.getLogger(DFAFinder.class);
+		logger.debug("Initialising term sets... ");
 		stopWords = getTermSet("stopwords.txt");
 		usrDictWords = getTermSet("usrDictWords.txt", false);
 		noSplitPrefixes = getTermSet("noSplitPrefixes.txt");
@@ -209,7 +212,7 @@ public final class TermSets {
 		sb.append(")");
 		endingInElementPattern = Pattern.compile(sb.toString());
 	
-		if(OscarProperties.getInstance().verbose) System.out.println("term sets initialised");
+		logger.debug("term sets initialised");
 	}
 	
 }

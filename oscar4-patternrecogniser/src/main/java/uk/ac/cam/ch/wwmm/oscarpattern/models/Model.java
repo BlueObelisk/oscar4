@@ -8,6 +8,9 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Serializer;
+
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarpattern.tools.FileTools;
@@ -107,9 +110,10 @@ public class Model {
 	 * 
 	 */
 	public static void loadModel() {
-		if(OscarProperties.getInstance().verbose) System.out.println("Loading model " + OscarProperties.getInstance().model + "...");
+		Logger logger = Logger.getLogger(Model.class);
+		logger.debug("Loading model " + OscarProperties.getInstance().model + "...");
 		loadModel(OscarProperties.getInstance().model);
-		if(OscarProperties.getInstance().verbose) System.out.println("...model loaded OK!");
+		logger.debug("...model loaded OK!");
 	}
 	
 	/**Compiles a model, based on the ScrapBook files in the workspace, and

@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
@@ -31,6 +33,9 @@ import dk.brics.automaton.RunAutomaton;
  *
  */
 public abstract class DFAFinder implements Serializable {
+
+	private final Logger logger = Logger.getLogger(DFAFinder.class);
+
 	private static final long serialVersionUID = 6130629462990087075L;
 	protected Map<String, List<Automaton>> autLists = new HashMap<String, List<Automaton>>();//mapping between token type and automata. Possibly these automata are only used when performing Pattern based entity recognition
 	protected Map<String, SuffixTree> simpleAuts = new HashMap<String, SuffixTree>();
@@ -48,14 +53,10 @@ public abstract class DFAFinder implements Serializable {
 	
 	protected Map<String,Pattern> subRes = new HashMap<String,Pattern>();
 	
-	protected boolean verbose;
-	
 	protected final static Pattern matchSubRe = Pattern.compile("\\$\\{.*\\}");//dl387: I'm not sure what this is actually supposed to be matching!
 	protected final static Pattern digitOrSpace = Pattern.compile("[0-9 ]+");
 
-	protected DFAFinder() {
-		verbose = OscarProperties.getInstance().verbose;
-	}
+	protected DFAFinder() {}
 	
 	protected abstract void addTerms();
 	
@@ -68,8 +69,8 @@ public abstract class DFAFinder implements Serializable {
 		literals.add("$?");
 		literals.add("$^");
 		addTerms();
-		finishInit();		
-		if(verbose) System.out.println("Finished initialising DFA Finder");
+		finishInit();
+		logger.debug("Finished initialising DFA Finder");
 	}
 	
 	private String getRepForToken(String token) {
@@ -123,7 +124,7 @@ public abstract class DFAFinder implements Serializable {
 				String tmpType = type + "_" + dfaNumber.get(type);
 				buildForType(tmpType);
 				dfaNumber.put(type, dfaNumber.get(type) + 1);
-				if(verbose) System.out.println(type + "_" + dfaNumber.get(type) + " started collecting at " + new GregorianCalendar().getTime());
+				logger.debug(type + "_" + dfaNumber.get(type) + " started collecting at " + new GregorianCalendar().getTime());
 			}
 			dfaCount.put(type, count);
 			type = type + "_" + dfaNumber.get(type);
@@ -226,27 +227,22 @@ public abstract class DFAFinder implements Serializable {
 	
 	private void buildForType(String type) {
 		if(autLists.containsKey(type)) {
-			if(verbose) System.out.print("Building DFA for: " + type + " at " + new GregorianCalendar().getTime() + "...");
-			if(verbose) System.out.println();
+			logger.debug("Building DFA for: " + type + " at " + new GregorianCalendar().getTime() + "...");
 			Automaton mainAut;
-			//if(verbose) System.out.println("Building DFA from " + autLists.get(type).size() + " items.");
+			//logger.debug("Building DFA from " + autLists.get(type).size() + " items.");
 			mainAut = Automaton.union(autLists.get(type));
 			System.gc();
-			if(verbose) {
-				System.out.println("Memory: " + Runtime.getRuntime().freeMemory() + " " + Runtime.getRuntime().totalMemory() + " " + Runtime.getRuntime().maxMemory());
-			}
+			logger.debug("Memory: " + Runtime.getRuntime().freeMemory() + " " + Runtime.getRuntime().totalMemory() + " " + Runtime.getRuntime().maxMemory());
 			mainAut.determinize();
-			if(verbose) {
-				System.out.println("DFA initialised");
-				System.out.println("Memory: " + Runtime.getRuntime().freeMemory() + " " + Runtime.getRuntime().totalMemory() + " " + Runtime.getRuntime().maxMemory());
-			}
+			logger.debug("DFA initialised");
+			logger.debug("Memory: " + Runtime.getRuntime().freeMemory() + " " + Runtime.getRuntime().totalMemory() + " " + Runtime.getRuntime().maxMemory());
 			runAuts.put(type, new RunAutomaton(mainAut, false));
 			autLists.remove(type);			
 		}
 		if(simpleAuts.containsKey(type)) {
-			if(verbose) System.out.println("Building DFA for: " + type + "b at " + new GregorianCalendar().getTime() + "... ");
+			logger.debug("Building DFA for: " + type + "b at " + new GregorianCalendar().getTime() + "... ");
 			Automaton mainAut = simpleAuts.get(type).toAutomaton();
-			if(verbose) System.out.println("DFA initialised");
+			logger.debug("DFA initialised");
 			runAuts.put(type + "b", new RunAutomaton(mainAut, false));			
 			simpleAuts.remove(type);
 		}
@@ -254,31 +250,27 @@ public abstract class DFAFinder implements Serializable {
 	
 	private void finishInit() {
 		for(String type : new HashSet<String>(autLists.keySet())) {
-			if(verbose) System.out.println("Building DFA for: " + type + " at " + new GregorianCalendar().getTime() + "...");
+			logger.debug("Building DFA for: " + type + " at " + new GregorianCalendar().getTime() + "...");
 			Automaton mainAut;
-			//if(verbose) System.out.println("Building DFA from " + autLists.get(type).size() + " items.");
+			//logger.debug("Building DFA from " + autLists.get(type).size() + " items.");
 			mainAut = Automaton.union(autLists.get(type));
 			System.gc();
-			if(verbose) {
-				System.out.println("Memory: " + Runtime.getRuntime().freeMemory() + " " + Runtime.getRuntime().totalMemory() + " " + Runtime.getRuntime().maxMemory());
-			}
+			logger.debug("Memory: " + Runtime.getRuntime().freeMemory() + " " + Runtime.getRuntime().totalMemory() + " " + Runtime.getRuntime().maxMemory());
 			mainAut.determinize();
-			if(verbose) System.out.println("DFA initialised");
-			if(verbose) {
-				System.out.println("Memory: " + Runtime.getRuntime().freeMemory() + " " + Runtime.getRuntime().totalMemory() + " " + Runtime.getRuntime().maxMemory());
-			}
+			logger.debug("DFA initialised");
+			logger.debug("Memory: " + Runtime.getRuntime().freeMemory() + " " + Runtime.getRuntime().totalMemory() + " " + Runtime.getRuntime().maxMemory());
 			runAuts.put(type, new RunAutomaton(mainAut, false));
 			autLists.remove(type);
 		}
 		for(String type : new HashSet<String>(simpleAuts.keySet())) {
-			if(verbose) System.out.println("Building DFA for: " + type + "b at " + new GregorianCalendar().getTime() + "... ");
+			logger.debug("Building DFA for: " + type + "b at " + new GregorianCalendar().getTime() + "... ");
 			Automaton mainAut = simpleAuts.get(type).toAutomaton();
-			if(verbose) System.out.println("DFA initialised");
+			logger.debug("DFA initialised");
 			runAuts.put(type + "b", new RunAutomaton(mainAut, false));			
 			simpleAuts.remove(type);
 		}
-		if(verbose) System.out.println("All DFAs built");
-		if(verbose) System.out.println("Analysing DFAs...");
+		logger.debug("All DFAs built");
+		logger.debug("Analysing DFAs...");
 		runAutToStateToOntIds = new HashMap<String,Map<Integer,Set<String>>>();
 		for(String s : runAuts.keySet()) {
 			if(!(s.startsWith("ONT") || s.startsWith("CUST"))) continue;

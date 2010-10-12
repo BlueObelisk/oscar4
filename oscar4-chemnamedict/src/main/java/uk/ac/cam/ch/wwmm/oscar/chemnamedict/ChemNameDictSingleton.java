@@ -3,6 +3,8 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 import java.io.File;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -42,7 +44,8 @@ public final class ChemNameDictSingleton {
 	
 	private static ChemNameDict getChemNameDictInstance(boolean forceFromScratch) throws Exception {
 		if(myChemNameDict == null) {
-			if(OscarProperties.getInstance().verbose) System.out.print("Initialising ChemNameDict... ");
+			Logger logger = Logger.getLogger(ChemNameDictSingleton.class);
+			logger.debug("Initialising ChemNameDict... ");
 			myChemNameDict = new ChemNameDict();
 			try {
 				if("none".equals(OscarProperties.getInstance().workspace) || forceFromScratch) {
@@ -59,7 +62,7 @@ public final class ChemNameDictSingleton {
 						}
 					}
 				}
-				if(OscarProperties.getInstance().verbose) System.out.println("ChemNameDict initialised");
+				logger.debug("ChemNameDict initialised");
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new Exception("Could not initialise ChemNameDict!");

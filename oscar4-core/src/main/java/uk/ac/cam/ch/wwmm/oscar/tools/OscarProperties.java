@@ -45,7 +45,6 @@ public class OscarProperties {
 	public boolean useJNIInChI;
 	public boolean useMEMM;
 	public boolean rescoreMEMM;
-	public boolean verbose;
 	public boolean interpretPoly;
 	public boolean dataOnlyInExperimental;
 	public boolean polymerMode;
@@ -196,7 +195,6 @@ public class OscarProperties {
 		useJNIInChI = "yes".equals(myProperties.getProperty("useJNIInChI"));
 		useMEMM = "yes".equals(myProperties.getProperty("useMEMM"));
 		rescoreMEMM = "yes".equals(myProperties.getProperty("rescoreMEMM"));
-		verbose = "yes".equals(myProperties.getProperty("verbose"));
 		interpretPoly = "yes".equals(myProperties.getProperty("interpretPoly"));
 		dataOnlyInExperimental = "yes".equals(myProperties.getProperty("dataOnlyInExperimental"));
 		chemicalEntityRecogniser = getPropertyOrNone("chemicalEntityRecogniser");

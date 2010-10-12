@@ -20,5 +20,10 @@
   		<artifactId>oscar4-core</artifactId>
   		<version>4.0-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>log4j</groupId>
+  		<artifactId>apache-log4j-extras</artifactId>
+  		<version>1.0</version>
+  	</dependency>
   </dependencies>
 </project>

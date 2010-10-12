@@ -15,10 +15,12 @@ import opennlp.maxent.EventCollectorAsStream;
 import opennlp.maxent.GIS;
 import opennlp.maxent.GISModel;
 import opennlp.maxent.TwoPassDataIndexer;
+
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
@@ -330,7 +332,7 @@ public final class NESubtypes {
 			if(events.size() < 2) continue;
 			DataIndexer di = null;
 			di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(events)), 1);
-			if(OscarProperties.getInstance().verbose) System.out.println(di);
+			Logger.getLogger(NESubtypes.class).debug(di);
 			GISModel gm = GIS.trainModel(100, di);
 			classifiers.put(type, gm);
 		}

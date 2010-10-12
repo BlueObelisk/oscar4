@@ -23,11 +23,13 @@ import opennlp.maxent.EventCollectorAsStream;
 import opennlp.maxent.GIS;
 import opennlp.maxent.GISModel;
 import opennlp.maxent.TwoPassDataIndexer;
+
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
@@ -122,7 +124,7 @@ public final class RescoreMEMMOut {
 	public void trainOnFile(File f, String domain, MEMM memm) throws Exception {
 		Document doc = new Builder().build(f);
 		String name = f.getParentFile().getName();
-		if(OscarProperties.getInstance().verbose) System.out.println(name);
+		Logger.getLogger(RescoreMEMMOut.class).debug(name);
 		Nodes n = doc.query("//cmlPile");
 		for(int i=0;i<n.size();i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");

@@ -9,10 +9,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermSets;
@@ -138,8 +139,7 @@ final class PostProcessor {
 
 	public void removeBlocked() {
 		for (NamedEntity ne : getBlocked()) {
-			if (OscarProperties.getInstance().verbose)
-				System.out.println("Removing: " + ne);
+			Logger.getLogger(PostProcessor.class).debug("Removing: " + ne);
 			entities.remove(ne);
 		}
 	}

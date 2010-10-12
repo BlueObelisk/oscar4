@@ -8,17 +8,21 @@ import java.util.regex.Pattern;
 
 import nu.xom.Element;
 import nu.xom.Nodes;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.saf.SafTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.TLRHolder;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
 
 /**Tokenisation of text.
  * 
  * @author ptc24
  *
  */
-public final class Tokeniser {
+public final class Tokeniser implements ITokeniser {
 
 	private static final Pattern OXIDATION_STATE_PATTERN = Pattern.compile("\\((o|i{1,4}|i{0,3}[xv]|[xv]i{0,4})\\)", Pattern.CASE_INSENSITIVE);
 	private static final Pattern OXIDATION_STATE_END_PATTERN = Pattern.compile(".*\\((o|i{1,4}|i{0,3}[xv]|[xv]i{0,4})\\)", Pattern.CASE_INSENSITIVE);

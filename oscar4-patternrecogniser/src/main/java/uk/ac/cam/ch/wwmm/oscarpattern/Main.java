@@ -1,10 +1,11 @@
 package uk.ac.cam.ch.wwmm.oscarpattern;
 
 import nu.xom.Document;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.ProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscarpattern.document.Tokeniser;
 
 public class Main {
 
@@ -19,6 +20,7 @@ public class Main {
 		ProcessingDocument procDoc = null;
 		try {
 			procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+				Tokeniser.getInstance(),
 					sourceDoc, true, false, false);
 		} catch (Exception e) {
 			e.printStackTrace();

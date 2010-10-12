@@ -5,11 +5,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermSets;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
 
 /** Looks for places where tokens can be split on hyphens. Needs to be a separate class
  * because it needs some word lists.
@@ -24,7 +26,9 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
  * 4) Don't split!
  */
 public final class HyphenTokeniser {
-	
+
+	private final Logger logger = Logger.getLogger(HyphenTokeniser.class);
+
 	private static HyphenTokeniser myInstance = null;
 	private Set<String> splitSuffixes;
 	private Set<String> noSplitPrefixes;
@@ -53,7 +57,7 @@ public final class HyphenTokeniser {
 	}
 	
 	private HyphenTokeniser() throws Exception {
-		if(Oscar3Props.getInstance().verbose) System.out.print("Initialising hyphen tokeniser... ");
+		logger.debug("Initialising hyphen tokeniser... ");
 		//splitSuffixes = TermSets.getSplitSuffixes();
 		splitSuffixes = new HashSet<String>();
 		splitSuffixes.addAll(ExtractTrainingData.getInstance().afterHyphen);
@@ -73,8 +77,8 @@ public final class HyphenTokeniser {
 			maxPrefixLength = Math.max(maxPrefixLength, p.length());
 		}
 
-		splitOnEnDash = Oscar3Props.getInstance().splitOnEnDash;
-		if(Oscar3Props.getInstance().verbose) System.out.println("hyphen tokeniser initialised");
+		splitOnEnDash = OscarProperties.getInstance().splitOnEnDash;
+		logger.debug("hyphen tokeniser initialised");
 	}
 	
 	/** Initialises the singleton associated with this class. For convenience at startup.

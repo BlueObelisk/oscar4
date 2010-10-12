@@ -6,9 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
+import org.apache.log4j.Logger;
+
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /** A data class to hold several lists of words used in the name recogniser.
  * 
@@ -16,6 +17,8 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
  *
  */
 public final class TermSets {
+
+	private final Logger logger = Logger.getLogger(TermSets.class);
 
 	private static TermSets myInstance;
 	
@@ -183,7 +186,7 @@ public final class TermSets {
 	}
 	
 	private TermSets() throws Exception {
-		if(Oscar3Props.getInstance().verbose) System.out.print("Initialising term sets... ");
+		logger.debug("Initialising term sets... ");
 		stopWords = getTermSet("stopwords.txt");
 		usrDictWords = getTermSet("usrDictWords.txt", false);
 		noSplitPrefixes = getTermSet("noSplitPrefixes.txt");
@@ -209,7 +212,7 @@ public final class TermSets {
 		sb.append(")");
 		endingInElementPattern = Pattern.compile(sb.toString());
 	
-		if(Oscar3Props.getInstance().verbose) System.out.println("term sets initialised");
+		logger.debug("term sets initialised");
 	}
 	
 }

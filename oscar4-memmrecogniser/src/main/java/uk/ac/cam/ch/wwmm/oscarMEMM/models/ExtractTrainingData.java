@@ -16,15 +16,15 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.HyphenTokeniser;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.ProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.ptcDataStruct.Bag;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.types.NETypes;
-import uk.ac.cam.ch.wwmm.oscarMEMM.xmltools.XOMTools;
 
 /** Extracts and holds useful data from hand-annotated text.
  * 
@@ -114,8 +114,8 @@ public final class ExtractTrainingData {
 	 * Commented out on 27th Jan
 	 */
 //	public static boolean trainFromScrapbook() {
-//		if(Oscar3Props.getInstance().workspace.equals("none")) return false;
-//		File scrapbookdir = new File(Oscar3Props.getInstance().workspace, "scrapbook");
+//	OscarPropertiesoperties.getInstance().workspace.equals("none")) return false;
+//		File scrapbookdir = nOscarPropertiesarProperties.getInstance().workspace, "scrapbook");
 //		if(!scrapbookdir.exists() || !scrapbookdir.isDirectory()) return false;
 //		List<File> sbFiles = FileTools.getFilesFromDirectoryByName(scrapbookdir, "scrapbook.xml");
 //		ExtractTrainingData etd = new ExtractTrainingData(sbFiles);
@@ -246,11 +246,11 @@ public final class ExtractTrainingData {
 				doc = copy;
 				
 				
-				ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(doc, true, false, false, safDoc);
+				ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+						Tokeniser.getInstance(), doc, true, false, false, safDoc);
 				//NameRecogniser nr = new NameRecogniser();
 				//nr.halfProcess(doc);
-				//n = doc.query(XMLStrings.CHEMICAL_PLACES_XPATH);
-				if(Oscar3Props.getInstance().verbose) System.out.println(f);
+				//n = doc.query(XMLStrings.CHEMICAL_PLACES_XPAOscarProperties(OscarProperties.getInstance().verbose) System.out.println(f);
 				for(TokenSequence tokSeq : procDoc.getTokenSequences()) {
 					afterHyphen.addAll(tokSeq.getAfterHyphens());
 					Map<String, List<List<String>>> neMap = tokSeq.getNes();

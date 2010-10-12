@@ -11,12 +11,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 
-import uk.ac.cam.ch.wwmm.oscarpattern.chemnamedict.ChemNameDictSingleton;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.Token;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.TokenSequence;
+import org.apache.log4j.Logger;
+
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.document.Tokeniser;
-import uk.ac.cam.ch.wwmm.oscarpattern.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermSets;
@@ -25,8 +29,6 @@ import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.PrefixFinder;
 import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.TLRHolder;
 import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.TokenLevelRegex;
 import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.TokenTypes;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.types.NETypes;
 
 /** A subclass of DFAFinder, used to find named entities.
@@ -35,6 +37,9 @@ import uk.ac.cam.ch.wwmm.oscarpattern.types.NETypes;
  *
  */
 public class DFANEFinder extends DFAFinder {
+
+	private final Logger logger = Logger.getLogger(DFANEFinder.class);
+
 	private static final long serialVersionUID = -3307600610608772402L;
 	private static DFANEFinder myInstance;
 	
@@ -44,7 +49,7 @@ public class DFANEFinder extends DFAFinder {
 	public static void readFromWorkspace() {
 		try {
 			//long time = System.currentTimeMillis();
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(Oscar3Props.getInstance().workspace, "dfas.dat")));
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(OscarProperties.getInstance().workspace, "dfas.dat")));
 			myInstance = (DFANEFinder)ois.readObject();
 			ois.close();
 			//System.out.println("DFAs loaded in " + (System.currentTimeMillis() - time) + " milliseconds");
@@ -60,7 +65,7 @@ public class DFANEFinder extends DFAFinder {
 	public static void writeToWorkspace() {
 		try {
 			//long time = System.currentTimeMillis();
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Oscar3Props.getInstance().workspace, "dfas.dat")));
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(OscarProperties.getInstance().workspace, "dfas.dat")));
 			oos.writeObject(getInstance());
 			oos.close();
 			//System.out.println("DFAs loaded in " + (System.currentTimeMillis() - time) + " milliseconds");
@@ -109,27 +114,26 @@ public class DFANEFinder extends DFAFinder {
 	}
 
 	private DFANEFinder() {
-		verbose = Oscar3Props.getInstance().verbose;
-		if(verbose) System.out.println("Initialising DFA NE Finder...");
+		logger.debug("Initialising DFA NE Finder...");
 		super.init();
-		if(verbose) System.out.println("Initialised DFA NE Finder");
+		logger.debug("Initialised DFA NE Finder");
 	}
 	
 	@Override
 	protected void addTerms() {
-		if(verbose) System.out.println("Adding terms to DFA finder...");
+		logger.debug("Adding terms to DFA finder...");
 		for(String s : TermMaps.getNeTerms().keySet()){
 			addNE(s, TermMaps.getNeTerms().get(s), true);
 		}
-		if(verbose) System.out.println("Adding ontology terms to DFA finder...");
+		logger.debug("Adding ontology terms to DFA finder...");
 		for(String s : OntologyTerms.getAllTerms()){
 			addNE(s, "ONT", false);
 		}
-		if(verbose) System.out.println("Adding custom NEs ...");
+		logger.debug("Adding custom NEs ...");
 		for(String s : TermMaps.getCustEnt().keySet()){
 			addNE(s, "CUST", true);
 		}
-		if(verbose) System.out.println("Adding names from ChemNameDict to DFA finder...");
+		logger.debug("Adding names from ChemNameDict to DFA finder...");
 		try {
 			for(String s : ChemNameDictSingleton.getAllNames()) {
 				// System.out.println(s);
@@ -245,7 +249,7 @@ public class DFANEFinder extends DFAFinder {
 						TermSets.getUsrDictWords().contains(t.getValue())) score = -100;
 //				if(ExtractTrainingData.getInstance().chemicalWords.contains(normValue)) score = 100;
 				if(ChemNameDictSingleton.hasName(t.getValue())) score = 100;
-				if(t.getValue().length() > 3 && score > Oscar3Props.getInstance().ngramThreshold) {
+				if(t.getValue().length() > 3 && score > OscarProperties.getInstance().ngramThreshold) {
 					tokenReps.add("$" + TokenTypes.getTypeForSuffix(t.getValue()).toUpperCase());
 					if(t.getValue().startsWith("-")) {
 						tokenReps.add("$-" + TokenTypes.getTypeForSuffix(t.getValue()).toUpperCase());
@@ -280,7 +284,7 @@ public class DFANEFinder extends DFAFinder {
 		if(OntologyTerms.hasTerm(normValue)) tokenReps.add("$ONTWORD");
 		if(!TokenTypes.twoLowerPattern.matcher(t.getValue()).find() && TokenTypes.oneCapitalPattern.matcher(t.getValue()).find()) {
 			//System.out.println("Yay!");
-			if(Oscar3Props.getInstance().useWordShapeHeuristic) tokenReps.add("$CMNONWORD");
+			if(OscarProperties.getInstance().useWordShapeHeuristic) tokenReps.add("$CMNONWORD");
 //			if(ExtractTrainingData.getInstance().chemicalNonWords.contains(t.getValue())) tokenReps.add("$CMNONWORD");
 		}
 		if(t.getDoc() != null) {

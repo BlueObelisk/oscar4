@@ -3,7 +3,11 @@ package uk.ac.cam.ch.wwmm.oscartokeniser;
 import java.util.List;
 
 import nu.xom.Document;
-import uk.ac.cam.ch.wwmm.oscartokeniser.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
 
 public class Main {
@@ -17,7 +21,7 @@ public class Main {
 
 		try {
 			procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
-					sourceDoc, true, false, false);
+				Tokeniser.getInstance(), sourceDoc, true, false, false);
 		} catch (Exception e) {
             System.err.println("Can't find file, please check your path");
 			e.printStackTrace();

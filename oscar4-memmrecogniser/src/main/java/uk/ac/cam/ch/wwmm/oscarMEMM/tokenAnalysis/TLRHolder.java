@@ -19,15 +19,21 @@ import nu.xom.Elements;
 import nu.xom.Node;
 import nu.xom.Nodes;
 import nu.xom.Text;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscarMEMM.xmltools.XOMTools;
+
+import org.apache.log4j.Logger;
+
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
+
 /** A regex-based parser, finds chemical formulae etcetera.
  *
  * @author  caw47, annexed by ptc24
  */
 public class TLRHolder {
-	
+
+	private final Logger logger = Logger.getLogger(TLRHolder.class);
+
 	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscarMEMM/tokenAnalysis/");
 	
 	// Singleton instance
@@ -72,7 +78,7 @@ public class TLRHolder {
      * @param document XOM Document containing regular expressions for parsing
      */
     private void readXML(Document document) throws Exception {
-    	if(Oscar3Props.getInstance().verbose) System.out.print("Initialising tlrs... ");
+    	logger.debug("Initialising tlrs... ");
     	doc = document;
     	nodeDict = new HashMap<String,String>();
 
@@ -80,10 +86,10 @@ public class TLRHolder {
     	Elements tlrElems = doc.getRootElement().getFirstChildElement("tlrs").getChildElements("tlr");
     	for(int i=0;i<tlrElems.size();i++) {
     		TokenLevelRegex tlr = new TokenLevelRegex(tlrElems.get(i), this);
-    		if(!Oscar3Props.getInstance().useFormulaRegex && 
+    		if(!OscarProperties.getInstance().useFormulaRegex && 
     				("formulaRegex".equals(tlr.getName()) ||
     						"groupFormulaRegex".equals(tlr.getName()))) continue;
-    		if(Oscar3Props.getInstance().useWordShapeHeuristic && 
+    		if(OscarProperties.getInstance().useWordShapeHeuristic && 
     				("potentialAcronymRegex".equals(tlr.getName()))) continue;
     		tlrs.add(tlr);
     	}      
@@ -91,7 +97,7 @@ public class TLRHolder {
     	nodeDict = null;
     	
     	System.gc();
-    	if(Oscar3Props.getInstance().verbose) System.out.println("tlrs initialised");
+    	logger.debug("tlrs initialised");
     }
 
     // Methods to find and parse nodes

@@ -8,9 +8,12 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Serializer;
+
+import org.apache.log4j.Logger;
+
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarpattern.tools.FileTools;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.ResourceGetter;
 
 /**Routines to co-ordinate the holding of experimental training data, and 
  * models from the MEMM, MEMM rescorer and other modules.
@@ -87,11 +90,11 @@ public class Model {
 	 */
 	public static void loadModel(String modelName) {
 		try {			
-			if(Oscar3Props.getInstance().workspace.equals("none")) {
+			if(OscarProperties.getInstance().workspace.equals("none")) {
 				loadModelFromResources(modelName);
 				return;
 			}
-			File trainDir = new File(Oscar3Props.getInstance().workspace, "models");
+			File trainDir = new File(OscarProperties.getInstance().workspace, "models");
 			if(!trainDir.exists() || !trainDir.isDirectory() || !new File(trainDir,modelName+".xml").exists()) {
 				loadModelFromResources(modelName);
 				return;
@@ -107,9 +110,10 @@ public class Model {
 	 * 
 	 */
 	public static void loadModel() {
-		if(Oscar3Props.getInstance().verbose) System.out.println("Loading model " + Oscar3Props.getInstance().model + "...");
-		loadModel(Oscar3Props.getInstance().model);
-		if(Oscar3Props.getInstance().verbose) System.out.println("...model loaded OK!");
+		Logger logger = Logger.getLogger(Model.class);
+		logger.debug("Loading model " + OscarProperties.getInstance().model + "...");
+		loadModel(OscarProperties.getInstance().model);
+		logger.debug("...model loaded OK!");
 	}
 	
 	/**Compiles a model, based on the ScrapBook files in the workspace, and
@@ -119,7 +123,7 @@ public class Model {
 	 * this)
 	 */
 	public static void makeModel(String modelName) {
-		makeModel(modelName, FileTools.getFilesFromDirectoryByName(new File(Oscar3Props.getInstance().workspace, "scrapbook"), "scrapbook.xml"));
+		makeModel(modelName, FileTools.getFilesFromDirectoryByName(new File(OscarProperties.getInstance().workspace, "scrapbook"), "scrapbook.xml"));
 	}
 
 	/**Compiles a model, based on the given set of ScrapBook files, and
@@ -143,10 +147,10 @@ public class Model {
 //			MEMMSingleton.train(files, rescore); // This also trains the ETD
 //			NESubtypes.trainOnFiles(files);
 			Document modelDoc = makeModel();
-			if(Oscar3Props.getInstance().workspace.equals("none")) {
+			if(OscarProperties.getInstance().workspace.equals("none")) {
 				throw new Error("You can't train a model unless you have a workspace");
 			}
-			File trainDir = new File(Oscar3Props.getInstance().workspace, "models");
+			File trainDir = new File(OscarProperties.getInstance().workspace, "models");
 			if(trainDir.exists() && !trainDir.isDirectory()) {
 				throw new Error("You have a file called models in your workspace - it should be a directory!");
 			}

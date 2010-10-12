@@ -9,9 +9,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.StringTools;
+import org.apache.log4j.Logger;
+
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscarpattern.finder.DFAFinder;
 
 /**A class to hold several mappings between terms and their identifiers.
  * 
@@ -135,20 +138,21 @@ public final class TermMaps {
 	}
 	
 	private TermMaps() throws Exception {
-		if(Oscar3Props.getInstance().verbose) System.out.print("Initialising term maps... ");
+		Logger logger = Logger.getLogger(DFAFinder.class);
+		logger.debug("Initialising term maps... ");
 		neTerms = getTermMap("neTerms.txt", false);
 		//add additional neTerms for polymers if set to polymer mode 
-		if (Oscar3Props.getInstance().polymerMode) {
+		if (OscarProperties.getInstance().polymerMode) {
 			Map <String, String> polyNeTerms = getTermMap("polyNeTerms.txt", false);
 			neTerms.putAll(polyNeTerms);
 		}
 		iePatterns = getTermMap("iePatterns.txt", false);
 		structureTypes = getTermMap("structureTypes.txt", false);
 		custEnt = getTermMap("custEnt.txt", true);
-		if(Oscar3Props.getInstance().useONT) {
+		if(OscarProperties.getInstance().useONT) {
 			ontology = getTermMap("ontology.txt", true);
 			//add polymer ontology if set to polymer mode
-			if (Oscar3Props.getInstance().polymerMode) {
+			if (OscarProperties.getInstance().polymerMode) {
 				Map<String, String> polyOntology = getTermMap("polyOntology.txt", true);
 				ontology.putAll(polyOntology);
 			}
@@ -156,7 +160,7 @@ public final class TermMaps {
 			ontology = new HashMap<String,String>();
 		}
 		digestSuffixes();		
-		if(Oscar3Props.getInstance().verbose) System.out.println("term maps initialised");
+		logger.debug("term maps initialised");
 	}
 	
 	/**Gets the term map for neTerms.txt.

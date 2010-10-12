@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
+
 /**Removes low-priority standoffs from a list, to produce a list of non-overlapping standoffs.
  * 
  * @author ptc24

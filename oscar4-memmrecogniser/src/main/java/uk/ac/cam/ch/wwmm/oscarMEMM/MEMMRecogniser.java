@@ -52,14 +52,6 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
 		}
 
-		List<NamedEntity> filteredNeList2 = new ArrayList<NamedEntity>();
-		for (NamedEntity ne : filteredNeList) {
-			if (!partialWord(ne, filteredNeList)) {
-				filteredNeList2.add(ne);
-			}
-
-		}
-		neList = filteredNeList2;
 
 		
 		for (TokenSequence t : toxicList) {
@@ -117,24 +109,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 		return neList;
 	}
 
-	private boolean partialWord(NamedEntity ne, List<NamedEntity> neList) {
-		// TODO Auto-generated method stub
-		String word = ne.getSurface();
-		boolean partialFlag = false;
-		for (NamedEntity otherNE : neList) {
-			if (!word.equals(otherNE.getSurface())) {
-				if (otherNE.getSurface().contains(word)) {
-					if (otherNE.getStart() == ne.getStart()
-							|| otherNE.getEnd() == ne.getEnd()) {
-						
-						partialFlag = true;
-					}
-				}
-			}
-		}
-		return partialFlag;
-	}
-
+	
 	public void setPseudoConfidences(List<NamedEntity> neList) {
 		for (NamedEntity ne : neList) {
 			double pseudoConf = Double.NaN;

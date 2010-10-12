@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscarpattern.chemnamedict.ChemNameDictSingleton;
+import org.apache.log4j.Logger;
+
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscarpattern.finder.DFAFinder;
 import uk.ac.cam.ch.wwmm.oscarpattern.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermSets;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
 
 /**
  * Encapsulates nGram parsing.
@@ -22,6 +24,8 @@ import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
  */
 public class NGramBuilder {
 	
+	private final Logger logger = Logger.getLogger(DFAFinder.class);
+
 	/**
 	 * Holds unique instance required by singleton pattern.
 	 */    
@@ -90,7 +94,7 @@ public class NGramBuilder {
 
 
     private void initialise() {
-		if(Oscar3Props.getInstance().verbose) System.out.print("Initialising nGrams... ");
+		logger.debug("Initialising nGrams... ");
 		dontUse = new HashSet<String>();
 		chemWords = new ArrayList<String>();
 		englishWords = new ArrayList<String>();
@@ -147,7 +151,7 @@ public class NGramBuilder {
 		E3C = null;
 		E4C = null;
 
-		if(Oscar3Props.getInstance().verbose) System.out.println("nGrams initialised");
+		logger.debug("nGrams initialised");
 	}
 
     double[][][][] getLP4C() {

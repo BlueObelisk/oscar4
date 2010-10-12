@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscarMEMM.chemnamedict.ChemNameDictSingleton;
+import org.apache.log4j.Logger;
+
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermSets;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
 
 /**
  * Encapsulates nGram parsing.
@@ -21,7 +22,9 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
  * @author caw47, annexed by ptc24
  */
 public class NGramBuilder {
-	
+
+	private final Logger logger = Logger.getLogger(NGramBuilder.class);
+
 	/**
 	 * Holds unique instance required by singleton pattern.
 	 */    
@@ -90,7 +93,7 @@ public class NGramBuilder {
 
 
     private void initialise() {
-		if(Oscar3Props.getInstance().verbose) System.out.print("Initialising nGrams... ");
+		logger.debug("Initialising nGrams... ");
 		dontUse = new HashSet<String>();
 		chemWords = new ArrayList<String>();
 		englishWords = new ArrayList<String>();
@@ -104,7 +107,7 @@ public class NGramBuilder {
 	 */    
 	private void train() {
 		//try {
-		//	betasquared = Double.parseDouble(Oscar3Props.getProperty("betasquared"));
+		//	betasquared = Double.parseDouble(OscarProperties.getProperty("betasquared"));
 		//} catch (Exception e) {
 		
 		// initialise count arrays        
@@ -147,7 +150,7 @@ public class NGramBuilder {
 		E3C = null;
 		E4C = null;
 
-		if(Oscar3Props.getInstance().verbose) System.out.println("nGrams initialised");
+		logger.debug("nGrams initialised");
 	}
 
     double[][][][] getLP4C() {

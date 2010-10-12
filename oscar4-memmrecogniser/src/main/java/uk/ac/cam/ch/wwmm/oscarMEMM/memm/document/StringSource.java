@@ -11,7 +11,7 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
-import uk.ac.cam.ch.wwmm.oscarMEMM.scixml.XMLStrings;
+import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 
 /**Takes a list of SciXML files, and provides an iterator over the strings
  * corresponding to the usable parts of those documents.

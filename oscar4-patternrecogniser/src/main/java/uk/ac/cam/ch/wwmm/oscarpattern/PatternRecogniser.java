@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import uk.ac.cam.ch.wwmm.oscarpattern.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.ProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.Token;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.finder.DFANEFinder;
-import uk.ac.cam.ch.wwmm.oscarpattern.saf.ResolvableStandoff;
 import uk.ac.cam.ch.wwmm.oscarpattern.saf.StandoffResolver;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.types.NETypes;
 
 /**
@@ -218,11 +219,11 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 		for(NamedEntity ne : neList) {
 			double pseudoConf = Double.NaN;
 			String type = ne.getType();
-			if(type.equals(NETypes.ONTOLOGY)) pseudoConf = Oscar3Props.getInstance().ontProb;
-			if(type.equals(NETypes.LOCANTPREFIX)) pseudoConf = Oscar3Props.getInstance().cprProb;
-			if(type.equals(NETypes.CUSTOM)) pseudoConf = Oscar3Props.getInstance().custProb;
+			if(type.equals(NETypes.ONTOLOGY)) pseudoConf = OscarProperties.getInstance().ontProb;
+			if(type.equals(NETypes.LOCANTPREFIX)) pseudoConf = OscarProperties.getInstance().cprProb;
+			if(type.equals(NETypes.CUSTOM)) pseudoConf = OscarProperties.getInstance().custProb;
 			ne.setPseudoConfidence(pseudoConf);
-			ne.setDeprioritiseOnt(Oscar3Props.getInstance().deprioritiseONT);
+			ne.setDeprioritiseOnt(OscarProperties.getInstance().deprioritiseONT);
 		}
 	}//setPseudoConfidences
 

@@ -8,8 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 import opennlp.maxent.Event;
+
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscarMEMM.ptcDataStruct.Bag;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
 
 /**A simple feature selection for the MEMM.
  * 
@@ -17,6 +19,8 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
  *
  */
 final class FeatureSelector {
+
+	private final Logger logger = Logger.getLogger(FeatureSelector.class);
 
 	Bag<String> featureCounts;
 	Bag<String> outcomeCounts;
@@ -37,7 +41,7 @@ final class FeatureSelector {
 	
 	public List<Event> selectFeatures(List<Event> events, double threshold) {
 		
-		if(Oscar3Props.getInstance().verbose) System.out.print("Selecting features...\t");
+		logger.debug("Selecting features...\t");
 		
 		totalEvents = events.size();
 		totalFeatures = 0;
@@ -122,7 +126,7 @@ final class FeatureSelector {
 			newEvents.add(newEvent);
 		}
 
-		if(Oscar3Props.getInstance().verbose) System.out.println("Selected " + allowableFeatures.size() + " features from " + featureCounts.size());
+		logger.debug("Selected " + allowableFeatures.size() + " features from " + featureCounts.size());
 		return newEvents;
 	}
 	

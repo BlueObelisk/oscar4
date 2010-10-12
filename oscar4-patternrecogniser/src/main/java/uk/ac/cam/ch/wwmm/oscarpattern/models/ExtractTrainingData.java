@@ -12,21 +12,24 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.document.HyphenTokeniser;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.ProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscarpattern.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarpattern.ptcDataStruct.Bag;
 import uk.ac.cam.ch.wwmm.oscarpattern.scixml.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscarpattern.tools.FileTools;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.Oscar3Props;
-import uk.ac.cam.ch.wwmm.oscarpattern.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.types.NETypes;
-import uk.ac.cam.ch.wwmm.oscarpattern.xmltools.XOMTools;
 
 /** Extracts and holds useful data from hand-annotated text.
  * 
@@ -115,8 +118,8 @@ public final class ExtractTrainingData {
 	 * @return If the procedure succeeded.
 	 */
 	public static boolean trainFromScrapbook() {
-		if(Oscar3Props.getInstance().workspace.equals("none")) return false;
-		File scrapbookdir = new File(Oscar3Props.getInstance().workspace, "scrapbook");
+		if(OscarProperties.getInstance().workspace.equals("none")) return false;
+		File scrapbookdir = new File(OscarProperties.getInstance().workspace, "scrapbook");
 		if(!scrapbookdir.exists() || !scrapbookdir.isDirectory()) return false;
 		List<File> sbFiles = FileTools.getFilesFromDirectoryByName(scrapbookdir, "scrapbook.xml");
 		ExtractTrainingData etd = new ExtractTrainingData(sbFiles);
@@ -247,11 +250,12 @@ public final class ExtractTrainingData {
 				doc = copy;
 				
 				
-				ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(doc, true, false, false, safDoc);
+				ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+					Tokeniser.getInstance(), doc, true, false, false, safDoc);
 				//NameRecogniser nr = new NameRecogniser();
 				//nr.halfProcess(doc);
 				//n = doc.query(XMLStrings.CHEMICAL_PLACES_XPATH);
-				if(Oscar3Props.getInstance().verbose) System.out.println(f);
+				Logger.getLogger(ExtractTrainingData.class).debug(f);
 				for(TokenSequence tokSeq : procDoc.getTokenSequences()) {
 					afterHyphen.addAll(tokSeq.getAfterHyphens());
 					Map<String, List<List<String>>> neMap = tokSeq.getNes();

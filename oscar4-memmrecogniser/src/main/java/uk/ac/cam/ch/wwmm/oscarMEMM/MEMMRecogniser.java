@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.ProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.finder.DFAONTCPRFinder;
-import uk.ac.cam.ch.wwmm.oscarMEMM.saf.ResolvableStandoff;
 import uk.ac.cam.ch.wwmm.oscarMEMM.saf.StandoffResolver;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tools.Oscar3Props;
 import uk.ac.cam.ch.wwmm.oscarMEMM.types.NETypes;
 
 /**
@@ -46,7 +46,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 		MEMMSingleton.getInstance().rescore(neList);
 		List<NamedEntity> filteredNeList = new ArrayList<NamedEntity>();
 		for (NamedEntity ne : neList) {
-			if (ne.getConfidence() > Oscar3Props.getInstance().neThreshold) {
+			if (ne.getConfidence() > OscarProperties.getInstance().neThreshold) {
 				filteredNeList.add(ne);
 			}
 
@@ -115,13 +115,13 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 			double pseudoConf = Double.NaN;
 			String type = ne.getType();
 			if (type.equals(NETypes.ONTOLOGY))
-				pseudoConf = Oscar3Props.getInstance().ontProb;
+				pseudoConf = OscarProperties.getInstance().ontProb;
 			if (type.equals(NETypes.LOCANTPREFIX))
-				pseudoConf = Oscar3Props.getInstance().cprProb;
+				pseudoConf = OscarProperties.getInstance().cprProb;
 			if (type.equals(NETypes.CUSTOM))
-				pseudoConf = Oscar3Props.getInstance().custProb;
+				pseudoConf = OscarProperties.getInstance().custProb;
 			ne.setPseudoConfidence(pseudoConf);
-			ne.setDeprioritiseOnt(Oscar3Props.getInstance().deprioritiseONT);
+			ne.setDeprioritiseOnt(OscarProperties.getInstance().deprioritiseONT);
 		}
 	}// setPseudoConfidences
 }

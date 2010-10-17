@@ -20,7 +20,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermSets;
@@ -30,6 +29,7 @@ import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.TLRHolder;
 import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.TokenLevelRegex;
 import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.TokenTypes;
 import uk.ac.cam.ch.wwmm.oscarpattern.types.NETypes;
+import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /** A subclass of DFAFinder, used to find named entities.
  * 

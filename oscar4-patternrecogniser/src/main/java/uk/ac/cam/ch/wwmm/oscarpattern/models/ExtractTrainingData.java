@@ -12,12 +12,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
-
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
+
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -25,11 +26,11 @@ import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.document.HyphenTokeniser;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarpattern.ptcDataStruct.Bag;
 import uk.ac.cam.ch.wwmm.oscarpattern.scixml.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscarpattern.tools.FileTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.types.NETypes;
+import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /** Extracts and holds useful data from hand-annotated text.
  * 

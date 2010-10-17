@@ -5,7 +5,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.Tokeniser;
+import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 public class Main {
 

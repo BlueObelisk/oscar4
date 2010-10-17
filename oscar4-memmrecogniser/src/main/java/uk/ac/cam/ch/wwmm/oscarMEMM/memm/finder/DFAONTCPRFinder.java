@@ -17,10 +17,10 @@ import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.PrefixFinder;
+import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /** A subclass of DFAFinder, used to find named entities that are not found 
  * by the MEMM. Currently handles CUST as well as ONT and CPR.

@@ -33,10 +33,10 @@ import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
+import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**Handles rescoring of MEMM output.
  * 

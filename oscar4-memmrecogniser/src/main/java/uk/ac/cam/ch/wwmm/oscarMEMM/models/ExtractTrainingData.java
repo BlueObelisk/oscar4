@@ -22,9 +22,9 @@ import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.HyphenTokeniser;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.ptcDataStruct.Bag;
 import uk.ac.cam.ch.wwmm.oscarMEMM.types.NETypes;
+import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /** Extracts and holds useful data from hand-annotated text.
  * 

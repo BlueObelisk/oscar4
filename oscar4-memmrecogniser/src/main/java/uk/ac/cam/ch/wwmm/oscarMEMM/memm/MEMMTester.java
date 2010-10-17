@@ -27,10 +27,10 @@ import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
 import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.HyphenTokeniser;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.Tokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.NGram;
+import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**A standalone class for experimentation with MEMMs. This class is only usable
  * by altering the source code.

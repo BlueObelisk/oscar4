@@ -53,7 +53,7 @@
         <dependency>
             <groupId>dk.brics</groupId>
             <artifactId>automaton</artifactId>
-            <version>1.11-2</version>
+            <version>1.11-3</version>
             <!-- from local repository -->
         </dependency>
         <dependency>

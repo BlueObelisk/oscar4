@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictIO;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
@@ -129,7 +130,11 @@ public final class ChEBIImportFromOBO {
 	
 	public static void main(String [] args) throws Exception {
 		ChemNameDict cnd = new ChemNameDict();
-		cnd.readXML(new ResourceGetter("uk/ac/cam/ch/wwmm/oscar3/chemnamedict/resources/").getXMLDocument("defaultCompounds.xml"));
+		ChemNameDictIO.readXML(
+			new ResourceGetter("uk/ac/cam/ch/wwmm/oscarMemm/chemnamedict/")
+				.getXMLDocument("defaultCompounds.xml"),
+			cnd
+		);
 	//fetchChEBI(new PrintWriter(System.out));
 		ChemNameDictSingleton.purge();
 		System.out.println("Importing dict");

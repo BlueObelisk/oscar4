@@ -49,16 +49,27 @@ public final class ChemNameDictSingleton {
 			myChemNameDict = new ChemNameDict();
 			try {
 				if("none".equals(OscarProperties.getInstance().workspace) || forceFromScratch) {
-					myChemNameDict.readXML(rg.getXMLDocument(OscarProperties.getInstance().chemNameDict));
+					ChemNameDictIO.readXML(
+						rg.getXMLDocument(OscarProperties.getInstance().chemNameDict),
+						myChemNameDict
+					);
 				} else {
 					File f = new File(new File(OscarProperties.getInstance().workspace, "chemnamedict"), OscarProperties.getInstance().chemNameDict);
 					if(f.exists()) {
-						myChemNameDict.readFromFile(f);				
+						ChemNameDictIO.readFromFile(
+							f, myChemNameDict
+						);				
 					} else {
-						myChemNameDict.readXML(new ResourceGetter("uk/ac/cam/ch/wwmm/oscar3/chemnamedict/resources/").getXMLDocument("defaultCompounds.xml"));
+						ChemNameDictIO.readXML(
+							new ResourceGetter("uk/ac/cam/ch/wwmm/oscar3/chemnamedict/resources/")
+								.getXMLDocument("defaultCompounds.xml"),
+							myChemNameDict
+						);
 						if(!("none".equals(OscarProperties.getInstance().workspace))) {
 							File ff = new File(new File(OscarProperties.getInstance().workspace, "chemnamedict"), OscarProperties.getInstance().chemNameDict);
-							myChemNameDict.writeToFile(ff);
+							ChemNameDictIO.writeToFile(
+								ff, myChemNameDict
+							);
 						}
 					}
 				}
@@ -88,7 +99,7 @@ public final class ChemNameDictSingleton {
 		} else {
 			File f = new File(new File(OscarProperties.getInstance().workspace, "chemnamedict"), OscarProperties.getInstance().chemNameDict);
 			ChemNameDict cnd = getChemNameDictInstance();
-			cnd.writeToFile(f);			
+			ChemNameDictIO.writeToFile(f, cnd);			
 		}
 	}
 	
@@ -318,7 +329,7 @@ public final class ChemNameDictSingleton {
 	 * @throws Exception
 	 */
 	public static int getCNDHash() throws Exception {
-		return getChemNameDictInstance().makeHash();
+		return ChemNameDictIO.makeHash(getChemNameDictInstance());
 	}
 	
 	/*public static void main(String [] args) throws Exception {

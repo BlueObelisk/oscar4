@@ -1,8 +1,5 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -10,15 +7,8 @@ import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import nu.xom.Builder;
-import nu.xom.Document;
-import nu.xom.Element;
-import nu.xom.Elements;
-import nu.xom.Serializer;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecord;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 
 /**
  * Name to structure dictionary, holds active data in memory, a replacement
@@ -118,7 +108,7 @@ public final class ChemNameDict implements ISingleChemNameDict {
 		addChemRecord(record);
 	}
 	
-	private void addChemRecord(ChemRecord record) throws Exception {
+	public void addChemRecord(ChemRecord record) throws Exception {
 		try {
 			rwLock.readLock().lock();
 			if(record.inchi != null) {
@@ -390,6 +380,28 @@ public final class ChemNameDict implements ISingleChemNameDict {
 		}
 	}
 	
+	public Set<String> getOrphanNames() {
+		try {
+			rwLock.readLock().lock();
+			Set<String> results = new HashSet<String>();
+			results.addAll(orphanNames);
+			return results;
+		} finally {
+			rwLock.readLock().unlock();			
+		}
+	}
+
+	public Set<ChemRecord> getChemRecords() {
+		try {
+			rwLock.readLock().lock();
+			Set<ChemRecord> results = new HashSet<ChemRecord>();
+			results.addAll(chemRecords);
+			return results;
+		} finally {
+			rwLock.readLock().unlock();			
+		}
+	}
+
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#getOntologyIDsFromInChI(java.lang.String)
 	 */
@@ -433,151 +445,6 @@ public final class ChemNameDict implements ISingleChemNameDict {
 		} finally {
 			rwLock.readLock().unlock();			
 		}
-	}
-
-	private Document toXML() throws Exception {
-		try {
-			rwLock.readLock().lock();
-			Element cnde = new Element("newchemnamedict");
-						
-			Element stops = new Element("stops");
-			for(String s : stopWords) {
-				Element stop = new Element("stop");
-				stop.appendChild(s);
-				stops.appendChild(stop);
-			}
-			cnde.appendChild(stops);
-			
-			Element orphans = new Element("orphanNames");
-			for(String n : orphanNames) {
-				Element name = new Element("name");
-				name.appendChild(n);
-				orphans.appendChild(name);
-			}
-			cnde.appendChild(orphans);
-			
-			Element records = new Element("records");
-			for(ChemRecord r : chemRecords) {
-				records.appendChild(r.toXML());
-			}
-			cnde.appendChild(records);
-			
-			return new Document(cnde);
-		} finally {
-			rwLock.readLock().unlock();
-		}
-	}
-	
-	public void readXML(Document doc) throws Exception {
-		Element root = doc.getRootElement();
-		if(root.getLocalName().equals("newchemnamedict")) {
-			for(int i=0;i<root.getChildCount();i++) {
-				if(root.getChild(i) instanceof Element) {
-					Element elem = (Element)root.getChild(i);
-					if(elem.getLocalName().equals("stops")) {
-						for(int j=0;j<elem.getChildCount();j++) {
-							if(elem.getChild(j) instanceof Element) addStopWord(elem.getChild(j).getValue());
-						}
-					} else if(elem.getLocalName().equals("orphanNames")) {
-						for(int j=0;j<elem.getChildCount();j++) {
-							if(elem.getChild(j) instanceof Element) addName(elem.getChild(j).getValue());
-						}					
-					} else if(elem.getLocalName().equals("records")) {
-						for(int j=0;j<elem.getChildCount();j++) {
-							if(elem.getChild(j) instanceof Element) {
-								addChemRecord(xmlToRecord((Element)elem.getChild(j)));
-							}
-						}										
-					}
-				}
-			}			
-		} else {
-			throw new Exception();
-		}
-	}
-	
-	private ChemRecord xmlToRecord(Element elem) throws Exception {
-		if(!elem.getLocalName().equals("record")) throw new Exception();
-		ChemRecord record = new ChemRecord();
-		Elements inchis = elem.getChildElements("InChI");
-		if(inchis.size() != 1) throw new Exception();
-		record.inchi = inchis.get(0).getValue();
-		Elements smiless = elem.getChildElements("SMILES");
-		if(smiless.size() > 1) {
-			throw new Exception();
-		} else if(smiless.size() == 1) {
-			record.smiles = smiless.get(0).getValue();
-		}
-		Elements names = elem.getChildElements("name");
-		for(int i=0;i<names.size();i++) {
-			record.names.add(names.get(i).getValue());
-		}
-		Elements ontIDs = elem.getChildElements("ontID");
-		for(int i=0;i<ontIDs.size();i++) {
-			record.ontIDs.add(ontIDs.get(i).getValue());
-		}		
-		return record;
-	}
-	
-	public void writeToFile(File f) throws Exception {
-		writeToFile(new FileOutputStream(f));
-	}
-	
-	public synchronized void writeToFile(OutputStream outStr) throws Exception {
-		Serializer s = new Serializer(outStr);
-		s.setIndent(2);
-		s.write(toXML());
-	}
-	
-	public void readFromFile(File f) throws Exception {
-		Document doc = new Builder().build(f);
-		readXML(doc);
-	}
-	
-	public int makeHash() throws Exception {
-		return XOMTools.documentHash(toXML());
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) throws Exception {
-		File f = new File(new File(OscarProperties.getInstance().workspace, "chemnamedict"), "chemnamedict.xml");
-		Document doc = new Builder().build(f);
-		ChemNameDict ncnd = new ChemNameDict();
-		ncnd.readXML(doc);
-		doc = ncnd.toXML();
-		System.out.println(doc.toXML().length());
-		ncnd = new ChemNameDict();
-		ncnd.readXML(doc);
-		doc = ncnd.toXML();
-		System.out.println(doc.toXML().length());
-		
-		/*NewChemNameDict ncnd = new NewChemNameDict();
-		ChemNameDict cnd = ChemNameDictSingleton.getChemNameDictInstance();
-		System.out.println("Ready!");
-		long time = System.currentTimeMillis();
-		cnd.exportToNewChemNameDict(ncnd);
-		System.out.println("Exported in " + (System.currentTimeMillis() - time));
-		time = System.currentTimeMillis();
-		Document doc = ncnd.toXML();
-		Serializer ser = new Serializer(System.out);
-		ser.setIndent(2);		
-		ser.write(doc);
-
-		System.out.println("XML output in " + (System.currentTimeMillis() - time));
-		
-		time = System.currentTimeMillis();
-		NewChemNameDict ncnd2 = new NewChemNameDict();
-		ncnd2.readXML(doc);
-		System.out.println("XML read in " + (System.currentTimeMillis() - time));
-		Document doc2 = ncnd2.toXML();
-		
-		ser = new Serializer(System.out);
-		ser.setIndent(2);		
-		ser.write(doc2);
-		System.out.println(doc.toXML().length());
-		System.out.println(doc2.toXML().length());*/
 	}
 
 }

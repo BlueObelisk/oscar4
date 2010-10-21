@@ -2,6 +2,8 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
 import java.util.Set;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecord;
+
 public interface IChemNameDict {
 
 	public boolean hasStopWord(String queryWord);
@@ -21,5 +23,9 @@ public interface IChemNameDict {
 	public Set<String> getNames(String inchi);
 
 	public Set<String> getNames();
+
+	public Set<String> getOrphanNames();
+
+	public Set<ChemRecord> getChemRecords();
 
 }

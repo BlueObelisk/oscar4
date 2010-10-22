@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -48,7 +49,8 @@ public final class ChemNameDict implements ISingleChemNameDict {
 
 	private ReadWriteLock rwLock;
 
-	public ChemNameDict() {
+	public ChemNameDict(URI uri) {
+		this.uri = uri;
 		rwLock = new ReentrantReadWriteLock();
 		chemRecords = new HashSet<ChemRecord>();
 		indexByInchi = new HashMap<String,ChemRecord>();
@@ -445,6 +447,12 @@ public final class ChemNameDict implements ISingleChemNameDict {
 		} finally {
 			rwLock.readLock().unlock();			
 		}
+	}
+
+	private URI uri;
+
+	public URI getURI() {
+		return this.uri;
 	}
 
 }

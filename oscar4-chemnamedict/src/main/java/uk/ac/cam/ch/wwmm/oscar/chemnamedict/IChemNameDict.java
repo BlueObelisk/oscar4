@@ -1,10 +1,13 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
+import java.net.URI;
 import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecord;
 
 public interface IChemNameDict {
+
+	public URI getURI();
 
 	public boolean hasStopWord(String queryWord);
 

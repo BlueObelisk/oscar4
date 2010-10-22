@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
 import java.io.File;
+import java.net.URI;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -46,7 +47,7 @@ public final class ChemNameDictSingleton {
 		if(myChemNameDict == null) {
 			Logger logger = Logger.getLogger(ChemNameDictSingleton.class);
 			logger.debug("Initialising ChemNameDict... ");
-			myChemNameDict = new ChemNameDict();
+			myChemNameDict = new ChemNameDict(new URI("http://wwmm.ch.cam.ac.uk/dictionary/old/"));
 			try {
 				if("none".equals(OscarProperties.getInstance().workspace) || forceFromScratch) {
 					ChemNameDictIO.readXML(
@@ -311,7 +312,7 @@ public final class ChemNameDictSingleton {
 	 * @throws Exception
 	 */
 	public static void purge() throws Exception {
-		myChemNameDict = new ChemNameDict();
+		myChemNameDict = new ChemNameDict(new URI("http://wwmm.ch.cam.ac.uk/dictionary/old/"));
 	}
 
 	/**Imports all of the entries in a ChemNameDict into the singleton.

@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarpattern.chemnamedict;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -129,7 +130,9 @@ public final class ChEBIImportFromOBO {
 	}
 	
 	public static void main(String [] args) throws Exception {
-		ChemNameDict cnd = new ChemNameDict();
+		ChemNameDict cnd = new ChemNameDict(
+			new URI("http://wwmm.ch.cam.ac.uk/dictiobary/defaultCompounds/")
+		);
 		ChemNameDictIO.readXML(
 			new ResourceGetter("uk/ac/cam/ch/wwmm/oscarMemm/chemnamedict/")
 				.getXMLDocument("defaultCompounds.xml"),

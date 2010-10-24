@@ -1,6 +1,5 @@
 package uk.ac.cam.ch.wwmm.oscar.tools;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -209,14 +208,14 @@ public class OscarProperties {
 		urlEncodeCML = "yes".equals(myProperties.getProperty("urlEncodeCML"));
 		useCachedResources = "yes".equals(myProperties.getProperty("useCachedResources"));
 		
-//		ngramThreshold = Double.parseDouble(myProperties.getProperty("ngramThreshold"));
-//		neThreshold = Double.parseDouble(myProperties.getProperty("neThreshold"));
-//		ontProb = Double.parseDouble(myProperties.getProperty("ontProb"));
-//		cprProb = Double.parseDouble(myProperties.getProperty("cprProb"));
-//		custProb = Double.parseDouble(myProperties.getProperty("custProb"));
+		ngramThreshold = Double.parseDouble(myProperties.getProperty("ngramThreshold"));
+		neThreshold = Double.parseDouble(myProperties.getProperty("neThreshold"));
+		ontProb = Double.parseDouble(myProperties.getProperty("ontProb"));
+		cprProb = Double.parseDouble(myProperties.getProperty("cprProb"));
+		custProb = Double.parseDouble(myProperties.getProperty("custProb"));
 
-//		dfaSize = Integer.parseInt(myProperties.getProperty("dfaSize"));
-//		port = Integer.parseInt(myProperties.getProperty("port"));
+		dfaSize = Integer.parseInt(myProperties.getProperty("dfaSize"));
+		port = Integer.parseInt(myProperties.getProperty("port"));
 		
 		dbname = getPropertyOrNone("dbname");
 		dbaddress = getPropertyOrNone("dbaddress");

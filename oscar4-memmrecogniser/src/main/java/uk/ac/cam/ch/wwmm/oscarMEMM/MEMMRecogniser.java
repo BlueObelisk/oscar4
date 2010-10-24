@@ -52,7 +52,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
 		}
 
-
+		neList = filteredNeList;
 		
 		for (TokenSequence t : toxicList) {
 			neList.addAll(DFAONTCPRFinder.getInstance().getNEs(t));

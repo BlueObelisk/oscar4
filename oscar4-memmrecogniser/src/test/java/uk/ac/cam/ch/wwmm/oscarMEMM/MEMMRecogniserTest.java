@@ -38,6 +38,7 @@ public class MEMMRecogniserTest {
 		ChemicalEntityRecogniser cei = new MEMMRecogniser();
 		neList = cei.findNamedEntities(procDoc.getTokenSequences());
 		Assert.assertTrue(neList != null);
-		Assert.assertTrue(neList.size() > 0);
+		Assert.assertEquals("Only acetone should be recognized", 1, neList.size());
+		Assert.assertEquals("acetone", neList.get(0).getSurface());
 	}
 }

@@ -14,6 +14,7 @@ public class OscarPropertiesTest {
 		OscarProperties props = OscarProperties.getInstance();
 		Assert.assertNotNull(props);
 		Assert.assertEquals("chempapers", props.model);
+		Assert.assertEquals(0.2, props.neThreshold, 0.01);
 	}
 
 }

@@ -15,14 +15,6 @@ public interface IChemNameDict {
 
 	public boolean hasName(String queryName);
 
-	public Set<String> getSMILES(String queryName);
-
-	public String getShortestSMILES(String queryName);
-
-	public Set<String> getInChI(String queryName);
-
-	public String getInChIforShortestSMILES(String queryName);
-
 	public Set<String> getNames(String inchi);
 
 	public Set<String> getNames();

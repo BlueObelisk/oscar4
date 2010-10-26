@@ -38,7 +38,8 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  * @author ptc24
  * @author egonw
  */
-public final class ChemNameDict implements ISingleChemNameDict {
+public final class ChemNameDict implements ISingleChemNameDict,
+    IInChIProvider, ISMILESProvider {
 
 	private Set<ChemRecord> chemRecords;
 	private Map<String,ChemRecord> indexByInchi;

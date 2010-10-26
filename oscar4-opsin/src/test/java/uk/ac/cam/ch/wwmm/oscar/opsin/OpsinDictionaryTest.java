@@ -17,4 +17,14 @@ public class OpsinDictionaryTest {
 		);
 	}
 
+	@Test
+	public void testBenzene() throws URISyntaxException {
+		OpsinDictionary dict = new OpsinDictionary();
+		Assert.assertNotNull(dict);
+		Assert.assertEquals(
+			"InChI=1/C6H6/c1-2-4-6-5-3-1/h1-6H",
+			dict.getInChI("benzene").iterator().next()
+		);
+	}
+
 }

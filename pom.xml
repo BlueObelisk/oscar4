@@ -26,6 +26,7 @@
         <module>oscar4-patternrecogniser</module>
         <module>oscar4-chemnamedict</module>
         <module>oscar4-obo</module>
+        <module>oscar4-opsin</module>
     </modules>
 
     <build>

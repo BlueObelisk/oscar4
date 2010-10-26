@@ -215,7 +215,12 @@ public final class ChemNameDict implements ISingleChemNameDict {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#importChemNameDict(uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDict)
 	 */
-	public void importChemNameDict(ChemNameDict cnd) throws Exception {
+	public void importChemNameDict(IChemNameDict dictionary) throws Exception {
+		if (!(dictionary instanceof ChemNameDict))
+			throw new Exception(
+				"Can only import IChemNameDict's of instance ChemNameDict"
+			);
+		ChemNameDict cnd = (ChemNameDict)dictionary;
 		try {
 			cnd.rwLock.readLock().lock();
 			for(ChemRecord record : cnd.chemRecords) {

@@ -31,11 +31,11 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  */
 public class ImmutableChemNameDict implements IChemNameDict {
 
-	private Set<ChemRecord> chemRecords;
-	private Map<String,ChemRecord> indexByInchi;
-	private Map<String,Set<ChemRecord>> indexByName;
-	private Set<String> orphanNames;
-	private Set<String> stopWords;
+	protected Set<ChemRecord> chemRecords;
+	protected Map<String,ChemRecord> indexByInchi;
+	protected Map<String,Set<ChemRecord>> indexByName;
+	protected Set<String> orphanNames;
+	protected Set<String> stopWords;
 
 	private URI uri;
 

@@ -18,6 +18,6 @@ public interface IMutableChemNameDict extends IChemNameDict {
 	public void addChemical(String name, String smiles, String inchi)
 			throws Exception;
 
-	public void importChemNameDict(ChemNameDict cnd) throws Exception;
+	public void importChemNameDict(IChemNameDict cnd) throws Exception;
 
 }

@@ -88,9 +88,12 @@ public class ChemNameDictRegistry {
 	public Set<String> getSMILES(String queryName) {
 		Set<String> allsmileses = new HashSet<String>();
 		for (IChemNameDict dict : dictionaries.values()) {
-			Set<String> smileses = dict.getSMILES(queryName);
-			if (smileses != null)
-				allsmileses.addAll(dict.getSMILES(queryName));
+			if (dict instanceof ISMILESProvider) {
+				ISMILESProvider smiDict = (ISMILESProvider)dict;
+				Set<String> smileses = smiDict.getSMILES(queryName);
+				if (smileses != null)
+					allsmileses.addAll(smiDict.getSMILES(queryName));
+			}
 		}
 		return allsmileses;
 	}
@@ -98,10 +101,13 @@ public class ChemNameDictRegistry {
 	public String getShortestSMILES(String queryName) {
 		String shortestSMILES = null;
 		for (IChemNameDict dict : dictionaries.values()) {
-			String smiles = dict.getShortestSMILES(queryName);
-			if (shortestSMILES == null ||
-				smiles.length() < shortestSMILES.length()) {
-				shortestSMILES = smiles;
+			if (dict instanceof ISMILESProvider) {
+				ISMILESProvider smiDict = (ISMILESProvider)dict;
+				String smiles = smiDict.getShortestSMILES(queryName);
+				if (shortestSMILES == null ||
+					smiles.length() < shortestSMILES.length()) {
+					shortestSMILES = smiles;
+				}
 			}
 		}
 		return shortestSMILES;
@@ -110,9 +116,12 @@ public class ChemNameDictRegistry {
 	public Set<String> getInChI(String queryName) {
 		Set<String> allInchis = new HashSet<String>();
 		for (IChemNameDict dict : dictionaries.values()) {
-			Set<String> inchis = dict.getInChI(queryName);
-			if (inchis != null)
-				allInchis.addAll(inchis);
+			if (dict instanceof IInChIProvider) {
+				IInChIProvider inchiDict = (IInChIProvider)dict;
+				Set<String> inchis = inchiDict.getInChI(queryName);
+				if (inchis != null)
+					allInchis.addAll(inchis);
+			}
 		}
 		return allInchis;
 	}

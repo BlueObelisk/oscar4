@@ -96,11 +96,6 @@ public class Oscar {
 		Class tokenizerClass = this.getClass().getClassLoader().loadClass(
 			tokeniser
 		);
-		if (!tokenizerClass.isInstance(ITokeniser.class)) {
-			throw new IllegalStateException(
-				"The given tokeniser is not an instance of ITokeniser."
-			);
-		}
 		Method getInstanceMethod = tokenizerClass.getMethod("getInstance");
 		ITokeniser tokenizer = (ITokeniser)getInstanceMethod.invoke(null);
 		ProcessingDocument procDoc = new ProcessingDocumentFactory().

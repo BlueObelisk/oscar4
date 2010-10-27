@@ -12,9 +12,11 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructureException;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IInChIProvider;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecord;
 
-public class OpsinDictionary implements IChemNameDict {
+public class OpsinDictionary implements IChemNameDict,
+    IInChIProvider {
 
 	private URI uri;
 	
@@ -36,14 +38,6 @@ public class OpsinDictionary implements IChemNameDict {
 
 	public boolean hasName(String queryName) {
 		return getInChI(queryName).size() != 0;
-	}
-
-	public Set<String> getSMILES(String queryName) {
-		return Collections.emptySet();
-	}
-
-	public String getShortestSMILES(String queryName) {
-		return null;
 	}
 
 	public Set<String> getInChI(String queryName) {

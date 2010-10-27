@@ -27,6 +27,7 @@
         <module>oscar4-chemnamedict</module>
         <module>oscar4-obo</module>
         <module>oscar4-opsin</module>
+        <module>oscar4-api</module>
     </modules>
 
     <build>

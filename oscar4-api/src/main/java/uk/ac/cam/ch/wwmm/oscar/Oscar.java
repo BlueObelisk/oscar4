@@ -1,11 +1,13 @@
 package uk.ac.cam.ch.wwmm.oscar;
 
-import java.net.URISyntaxException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import nu.xom.Builder;
+import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -14,9 +16,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
-
-import nu.xom.Builder;
-import nu.xom.Document;
 
 /**
  * Helper class with a simple API to access Oscar functionality.
@@ -92,9 +91,16 @@ public class Oscar {
 			"http://whatever.example.org/"
 		);
 		// load the tokenizer
-		ITokeniser tokenizer = (ITokeniser)this.getClass().getClassLoader().loadClass(
+		Class tokenizerClass = this.getClass().getClassLoader().loadClass(
 			tokeniser
-		).newInstance();
+		);
+		if (!tokenizerClass.isInstance(ITokeniser.class)) {
+			throw new IllegalStateException(
+				"The given tokeniser is not an instance of ITokeniser."
+			);
+		}
+		Method getInstanceMethod = tokenizerClass.getMethod("getInstance");
+		ITokeniser tokenizer = (ITokeniser)getInstanceMethod.invoke(null);
 		ProcessingDocument procDoc = new ProcessingDocumentFactory().
 			makeTokenisedDocument(
 				tokenizer, doc, true, false, false

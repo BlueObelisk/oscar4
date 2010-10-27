@@ -93,7 +93,7 @@ public class Oscar {
 			"http://whatever.example.org/"
 		);
 		// load the tokenizer
-		Class tokenizerClass = this.getClass().getClassLoader().loadClass(
+		Class tokenizerClass = this.classLoader.loadClass(
 			tokeniser
 		);
 		Method getInstanceMethod = tokenizerClass.getMethod("getInstance");
@@ -116,7 +116,7 @@ public class Oscar {
 
 	public List<NamedEntity> recognizeNamedEntities(List<TokenSequence> tokens) throws Exception {
 		ChemicalEntityRecogniser recogniserInstance =
-			(ChemicalEntityRecogniser)this.getClass().getClassLoader().
+			(ChemicalEntityRecogniser)this.classLoader.
 			loadClass(recogiser).newInstance();
 		return recogniserInstance.findNamedEntities(tokens);
 	}

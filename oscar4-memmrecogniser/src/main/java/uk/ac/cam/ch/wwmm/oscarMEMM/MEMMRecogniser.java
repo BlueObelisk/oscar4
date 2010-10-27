@@ -11,6 +11,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.finder.DFAONTCPRFinder;
@@ -31,7 +32,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 	}
 
 	public List<NamedEntity> findNamedEntities(List<TokenSequence> toxicList)
-			throws Exception {
+	throws Exception {
 
 		List<NamedEntity> neList = new ArrayList<NamedEntity>();
 

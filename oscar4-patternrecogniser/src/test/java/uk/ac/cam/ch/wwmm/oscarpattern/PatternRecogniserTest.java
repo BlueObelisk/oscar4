@@ -39,7 +39,7 @@ public class PatternRecogniserTest {
 		assertTrue(procDoc != null);
 		List<NamedEntity> neList;
 		ChemicalEntityRecogniser cei = new PatternRecogniser();
-		neList = cei.findNamedEntities(procDoc);
+		neList = cei.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neList != null);
 		assertTrue(neList.size() > 0);
 	}

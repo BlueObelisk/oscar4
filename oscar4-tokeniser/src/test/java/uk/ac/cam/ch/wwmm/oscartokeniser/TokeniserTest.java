@@ -11,4 +11,14 @@ public final class TokeniserTest {
 	@Test public void testConstructor() {
 		Assert.assertNotNull(new Tokeniser());
 	}
+
+	@Test public void testGettingInstance()
+	throws InstantiationException, IllegalAccessException,
+	       ClassNotFoundException {
+		Assert.assertNotNull(
+			getClass().getClassLoader().loadClass(
+				"uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser"
+			).newInstance()
+		);
+	}
 }

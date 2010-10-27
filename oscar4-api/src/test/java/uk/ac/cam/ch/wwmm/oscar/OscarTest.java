@@ -7,13 +7,13 @@ public class OscarTest {
 
 	@Test
 	public void testConstructore() {
-		Oscar oscar = new Oscar();
+		Oscar oscar = new Oscar(getClass().getClassLoader());
 		Assert.assertNotNull(oscar);
 	}
 	
 	@Test
 	public void testGetChemNameDict() {
-		Oscar oscar = new Oscar();
+		Oscar oscar = new Oscar(getClass().getClassLoader());
 		Assert.assertNotNull(oscar.getChemNameDict());
 	}
 	

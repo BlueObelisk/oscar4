@@ -39,11 +39,13 @@ public class Oscar {
 		"uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser";
 
 	private ChemNameDictRegistry registry;
+	private ClassLoader classLoader;
 	private String tokeniser = DEFAULT_TOKENISER;
 	private String recogiser = DEFAULT_RECOGISER;
 
-	public Oscar() {
+	public Oscar(ClassLoader classLoader) {
 		registry = ChemNameDictRegistry.getInstance();
+		this.classLoader = classLoader;
 	};
 
 	public ChemNameDictRegistry getChemNameDict() {

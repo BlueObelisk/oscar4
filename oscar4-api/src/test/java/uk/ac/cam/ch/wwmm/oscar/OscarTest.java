@@ -16,14 +16,14 @@ public class OscarTest {
 	@Test
 	public void testGetChemNameDict() {
 		Oscar oscar = new Oscar(getClass().getClassLoader());
-		Assert.assertNotNull(oscar.getChemNameDict());
+		Assert.assertNotNull(oscar.getDictionaryRegistry());
 	}
 	
 	@Test
 	public void testOscarLoadingOfDefaultDictionaries() throws Exception {
 		Oscar oscar = new Oscar(this.getClass().getClassLoader());
 		oscar.loadDefaultDictionaries();
-		ChemNameDictRegistry registry = oscar.getChemNameDict();
+		ChemNameDictRegistry registry = oscar.getDictionaryRegistry();
 		// test loading of the ChEBI dictionary
 		Assert.assertEquals(
 			"InChI=1/CH4/h1H4",

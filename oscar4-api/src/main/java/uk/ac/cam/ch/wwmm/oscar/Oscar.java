@@ -60,7 +60,7 @@ public class Oscar {
 		this.classLoader = classLoader;
 	};
 
-	public ChemNameDictRegistry getChemNameDict() {
+	public ChemNameDictRegistry getDictionaryRegistry() {
 		return registry;
 	}
 

@@ -77,6 +77,23 @@ public class Oscar {
 
 	/**
 	 * Wrapper methods that runs the follow Oscar workflow. It calls the methods
+	 * {@link #normalize(String)}, {@link #tokenize(String)}, and
+	 * {@link #recognizeNamedEntities(List)}.
+	 * 
+	 * @param input String with input.
+	 * @return      the recognized chemical entities. 
+	 * @throws Exception 
+	 */
+	public List<NamedEntity> getNamedEntities(String input)
+	throws Exception {
+		input = normalize(input);
+		List<TokenSequence> tokens = tokenize(input);
+		List<NamedEntity> entities = recognizeNamedEntities(tokens);
+		return entities;
+	}
+
+	/**
+	 * Wrapper methods that runs the follow Oscar workflow. It calls the methods
 	 * {@link #normalize(String)}, {@link #tokenize(String)},
 	 * {@link #recognizeNamedEntities(List)}, and {@link #resolveNamedEntities(List)}.
 	 * 
@@ -84,11 +101,9 @@ public class Oscar {
 	 * @return      the recognized chemical entities. 
 	 * @throws Exception 
 	 */
-	public Map<NamedEntity,String> getNamedEntities(String input)
+	public Map<NamedEntity,String> getResolvedEntities(String input)
 	throws Exception {
-		input = normalize(input);
-		List<TokenSequence> tokens = tokenize(input);
-		List<NamedEntity> entities = recognizeNamedEntities(tokens);
+		List<NamedEntity> entities = getNamedEntities(input);
 		Map<NamedEntity,String> molecules = resolveNamedEntities(entities);
 		return molecules;
 	}

@@ -9,6 +9,7 @@ import java.util.Set;
 import nu.xom.Builder;
 import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
@@ -38,6 +39,17 @@ public class Oscar {
 	public final String DEFAULT_RECOGISER =
 		"uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser";
 
+	/**
+	 * The dictionaries that are loading upon instantiation of this
+	 * class. If they are not available from the classpath, it will
+	 * silently fail though. The defaults are: {@value}.
+	 */
+	public final String[] DEFAULT_DICTIONARIES =
+	{
+		"uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary",
+		"uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary"
+	};
+
 	private ChemNameDictRegistry registry;
 	private ClassLoader classLoader;
 	private String tokeniser = DEFAULT_TOKENISER;
@@ -50,6 +62,17 @@ public class Oscar {
 
 	public ChemNameDictRegistry getChemNameDict() {
 		return registry;
+	}
+
+	public void loadDefaultDictionaries() throws Exception {
+		for (String dict : DEFAULT_DICTIONARIES) {
+			Class dictionaryClass = this.classLoader.loadClass(
+				dict
+			);
+			IChemNameDict dictionary =
+				(IChemNameDict)dictionaryClass.newInstance();
+			registry.register(dictionary);
+		}
 	}
 
 	/**

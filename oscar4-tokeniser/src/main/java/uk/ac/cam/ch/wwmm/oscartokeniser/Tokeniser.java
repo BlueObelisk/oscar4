@@ -39,8 +39,8 @@ public final class Tokeniser implements ITokeniser {
 			+ "[RSEZDLH]?|"
 			+ "\\(([RSEZDLH\u00b1]|\\+|"
 			+ StringTools.hyphensRe
-			+ ")\\)|"
 			+ "[DLRSEZ]|"
+			+ ")\\)|"
 			+ "([CNOS]|Se)\\d*|"
 			+ "\\d*["
 			+ StringTools.lowerGreek
@@ -131,12 +131,14 @@ public final class Tokeniser implements ITokeniser {
 			// System.out.println("***Before Split tokens = "+tokens.get(i).value);
 			List<Token> results = splitToken(tokens.get(i));
 
+			
 			/* Returns null if no splitting occurs */
 			if (results == null) {
 				i++;
 			} else {
 
 				tokens.remove(i);
+				
 				tokens.addAll(i, results);
 				/*
 				 * Note: NO i++ here. This allows the resulting tokens to be
@@ -225,6 +227,22 @@ public final class Tokeniser implements ITokeniser {
 	 * Localising citation bit is redundant
 	 ***********************************/
 	private List<Token> rawSplitToken(Token token) {
+		/***********************************
+		 * @lh359: Added temporarily by me
+		 *  so that it doesn't
+		 *  tokenise on abbreviations
+		 */
+		String abbreviations = "et. al. etc. e.g. i.e. vol. ca. wt. aq. ea-";
+		List<String> abvList = new ArrayList<String>();
+		for (String item : abbreviations.split(" ")) {
+			abvList.add(item);
+		}
+		
+		if (abvList.contains(token.value.toLowerCase())) return null;
+		
+		/*****************************************
+		* End of lh359 code
+		*****************************************/			
 		String middleValue = "";
 		if (token.value.length() > 2)
 			middleValue = token.value.substring(0, token.value.length() - 1);

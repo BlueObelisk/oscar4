@@ -1,0 +1,31 @@
+The classes and functions used to tokenise a document in OSCAR3. My comments are in the functions under @lh359
+
+
+ProcessingDocumentFactory.java:
+-------------------------------
+	ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia)
+          |
+          V 
+        ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia, Document safDoc)
+          |
+          -------> XMLStrings.getInstance().getChemicalPlaces(procDoc.doc);
+          |
+          -------> tokeniser.tokenise(text, procDoc, offset, safDoc != null ? safDoc.getRootElement() : e, tokeniseForNEs, mergeNEs);
+
+
+Tokeniser.java:
+---------------
+	public TokenSequence tokenise(String s, ProcessingDocument doc, int offset,
+			Element elem, boolean tokeniseForNEs, boolean mergeNEs)
+         |
+         V
+         List<Token> splitToken(Token token)
+         |
+         V
+         List<Token> rawSplitToken(Token token)
+                                                 |
+                             -------------------- --------------------
+                             |                                       |
+                             V                                       V
+List<Token> splitAt(Token token, int splitOffset)     List<Token> splitAt(Token token, int splitOffset0, int splitOffset1)
+ 

@@ -21,6 +21,7 @@ glob:*ChemicalChunker.tokens
 glob:*.tokens
 glob:*.exe
 glob:*~
+glob:*oscar4-crfrecogniser*
 \.orig\..*$
 \.orig$
 \.chg\..*$

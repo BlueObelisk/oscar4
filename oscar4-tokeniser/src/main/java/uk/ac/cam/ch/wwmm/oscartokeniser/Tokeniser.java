@@ -106,6 +106,13 @@ public final class Tokeniser implements ITokeniser {
 		List<Token> tokens = new LinkedList<Token>();
 		Matcher m = tokenPattern.matcher(s);
 		/* Initial tokenisation */
+		
+		/************************
+		 * @lh359: The words in 
+		 * "String s" match 
+		 * the regex tokenPattern
+		 * create a Token out of it
+		 */
 		while (m.find()) {
 			int start = m.start() + offset;
 			int end = m.end() + offset;
@@ -117,6 +124,9 @@ public final class Tokeniser implements ITokeniser {
 		// a linked list a lot, but it seems not to make a difference in
 		// practise.
 		int i = 0;
+		/***************************
+		 * @lh359: Let the messiness begin
+		 */
 		while (i < tokens.size()) {
 			// System.out.println("***Before Split tokens = "+tokens.get(i).value);
 			List<Token> results = splitToken(tokens.get(i));
@@ -136,6 +146,10 @@ public final class Tokeniser implements ITokeniser {
 		}
 		// System.out.println(System.nanoTime() - nt);
 		/* Discard empty tokens */
+		
+		/**********************
+		 * @lh359: Remove empty tokens
+		 */
 		List<Token> tmpTokens = new ArrayList<Token>();
 		for (Token t : tokens) {
 			if (t.value != null && !"".equals(t.value)) {
@@ -143,8 +157,16 @@ public final class Tokeniser implements ITokeniser {
 			}
 		}
 		tokens = tmpTokens;
+		
 		if (elem != null && tokeniseForNEs) {
 			try {
+				/**********************************
+				 * @lh359: This function is called
+				 * when we know the tag of the word
+				 * This is what was editing the results
+				 * in oscarCRF
+				 * 
+				 ***************************/
 				handleNEs(s, doc, offset, elem, tokens);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -174,6 +196,14 @@ public final class Tokeniser implements ITokeniser {
 		return tokenSequence;
 	}
 
+	/*****************************
+	 * @lh359: Had difficulty following
+	 * the logic of this one and rawSplitToken .
+	 *  But it seems like a set of cases 
+	 * for splitting token
+	 * @param token
+	 * @return
+	 */
 	private List<Token> splitToken(Token token) {
 		List<Token> tokenList = rawSplitToken(token);
 		if (tokenList == null)
@@ -188,6 +218,12 @@ public final class Tokeniser implements ITokeniser {
 		return null;
 	}
 
+	/************************************
+	 * @lh359: Splits tokens based on different
+	 * patterns
+	 * 
+	 * Localising citation bit is redundant
+	 ***********************************/
 	private List<Token> rawSplitToken(Token token) {
 		String middleValue = "";
 		if (token.value.length() > 2)
@@ -345,7 +381,17 @@ public final class Tokeniser implements ITokeniser {
 			return splitAt(token, token.start + token.value.indexOf("--"),
 					token.start + token.value.indexOf("--") + 2);
 		}
-		int splittableHyphenIndex = -1 ;//HyphenTokeniser.indexOfSplittableHyphen(token.value);
+		
+		/**********************************
+		 * @lh359: This function used to call
+		 * HyphenTokeniser but works better when set
+		 * to -1 for somereason. Needs to be investigated
+		 * further
+		 */
+		int splittableHyphenIndex = -1;
+		//int splittableHyphenIndex = HyphenTokeniser.indexOfSplittableHyphen(token.value);
+		
+		
 		/* Split on appropriate hyphens */
 		if (splittableHyphenIndex != -1
 				&& !token.value.matches(".*[a-z][a-z].*")
@@ -600,6 +646,7 @@ public final class Tokeniser implements ITokeniser {
 		}
 	}
 
+	
 	private List<Token> mergeNeTokens(List<Token> tokens, String sourceString,
 			int offset) {
 		List<Token> newTokens = new ArrayList<Token>();

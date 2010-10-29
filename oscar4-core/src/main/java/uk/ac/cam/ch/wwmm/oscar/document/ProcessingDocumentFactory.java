@@ -67,8 +67,15 @@ public class ProcessingDocumentFactory {
 	 * tokenisation has taken place.
 	 * @return The ProcessingDocument for the source document.
 	 * @throws Exception
+	 * 
+	 * 
 	 */
 	public ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) throws Exception {
+		/****************************
+		 * @lh359 Tokenisation Walkthrough:
+		 * This is the function used to call the tokeniser and tokensequence
+		 * and it calls makeTokenisedDocument with a null safdoc.
+		 */
 		return makeTokenisedDocument(tokeniser, sourceDoc, tokeniseForNEs, mergeNEs, runGenia, null);
 	}
 	
@@ -88,6 +95,8 @@ public class ProcessingDocumentFactory {
 	 * @param safDoc A SAF document, containing named entity information.
 	 * @return The ProcessingDocument for the source document.
 	 * @throws Exception
+	 * 
+	 * 
 	 */
 	public ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia, Document safDoc) throws Exception {
 		ProcessingDocument procDoc = makeDocument(sourceDoc);
@@ -95,15 +104,51 @@ public class ProcessingDocumentFactory {
 		procDoc.tokensByEnd = new HashMap<Integer,Token>();
 		
 		procDoc.tokenSequences = new ArrayList<TokenSequence>();
+		/******************************************* 
+		 *  @lh359: This is the function that zones 
+		 *  in on the sections that contain 
+		 *  experimental information,
+		 *  should be replaced
+		 */
+		   
 		Nodes placesForChemicals = XMLStrings.getInstance().getChemicalPlaces(procDoc.doc);
-//		System.out.println("places=== "+placesForChemicals.size());
+
+		/***************************
+		 * @lh350: Iterates through 
+		 * the chemical sections
+		 */
 		for(int i=0;i<placesForChemicals.size();i++) {
 			Element e = (Element)placesForChemicals.get(i);
+			/******************************************
+			 * @lh359: e.getValue() is sometimes faulty 
+			 * because it misses nested tags 
+			 */
+			
 			String text = e.getValue();
+			/*********************************
+			 * @lh359: This needs to be replaced
+			 * because we won't be having xtspanstart
+			 */
 			int offset = Integer.parseInt(e.getAttributeValue("xtspanstart"));
+			
+			/**************************************
+			 * @lh359: This calls the tokeniser and
+			 * returns a TokenSequence
+			 */
 			TokenSequence ts = tokeniser.tokenise(text, procDoc, offset, safDoc != null ? safDoc.getRootElement() : e, tokeniseForNEs, mergeNEs);
+			/********************************************
+			 * @lh359: Once it's done it adds the tokensequence
+			 * to the processingdocument
+			 */
 			procDoc.tokenSequences.add(ts);
 		}
+		
+		/****************************
+		 * @lh359: runGenia is rarely
+		 * set to true, from what I have seen
+		 * only accessed from oscarServer
+		 * as an option for the user.
+		 */
 		if(runGenia) {
 			procDoc.sentences = new ArrayList<List<Token>>();
 			for(TokenSequence ts : procDoc.tokenSequences) {

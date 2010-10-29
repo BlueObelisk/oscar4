@@ -2,101 +2,77 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
         <artifactId>oscar4</artifactId>
         <version>4.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>oscar4-patternrecogniser</artifactId>
     <name>oscar4-patternrecogniser</name>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <testFailureIgnore>false</testFailureIgnore>
-                    <argLine>-Xms512m -Xmx1024m -verbose:gc</argLine>
-                    <skip>false</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
     <dependencies>
 
         <dependency>
-            <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
+            <groupId>${oscar.groupId}</groupId>
             <artifactId>oscar4-core</artifactId>
-            <version>${version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-chemnamedict</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-obo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-tokenizer</artifactId>
         </dependency>
 
         <dependency>
             <groupId>openNLP</groupId>
             <artifactId>openNLP</artifactId>
-            <version>1.4.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>3.2-FINAL</version>
         </dependency>
         <dependency>
             <groupId>wwmm-expediency</groupId>
             <artifactId>maxent</artifactId>
-            <version>2.4.0</version>
         </dependency>
         <dependency>
             <groupId>dk.brics</groupId>
             <artifactId>automaton</artifactId>
-            <version>1.11-3</version>
             <!-- from local repository -->
         </dependency>
         <dependency>
             <groupId>commons-math</groupId>
             <artifactId>commons-math</artifactId>
-            <version>20040218.045431</version>
         </dependency>
         <dependency>
             <groupId>trove</groupId>
             <artifactId>trove</artifactId>
-            <version>1.1-beta-5</version>
         </dependency>
         <dependency>
             <groupId>commons-discovery</groupId>
             <artifactId>commons-discovery</artifactId>
-            <version>20040218.194635</version>
         </dependency>
         <dependency>
             <groupId>org.mod4j.org.apache.commons</groupId>
             <artifactId>lang</artifactId>
-            <version>2.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.7</version>
+            <scope>test</scope>
         </dependency>
-        <dependency>
-        	<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
-        	<artifactId>oscar4-chemnamedict</artifactId>
-        	<version>4.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-        	<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
-        	<artifactId>oscar4-obo</artifactId>
-        	<version>4.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-        	<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
-        	<artifactId>oscar4-tokenizer</artifactId>
-        	<version>4.0-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
 
 </project>

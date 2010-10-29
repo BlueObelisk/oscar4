@@ -2,13 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
         <artifactId>oscar4</artifactId>
         <version>4.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>oscar4-core</artifactId>
     <name>oscar4-core</name>
@@ -17,59 +18,13 @@
         <dependency>
             <groupId>xom</groupId>
             <artifactId>xom</artifactId>
-            <version>1.2.3</version>
         </dependency>
 
         <dependency>
         	<groupId>junit</groupId>
         	<artifactId>junit</artifactId>
-        	<version>4.8.1</version>
+        	<scope>test</scope>
         </dependency>
     </dependencies>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <reportSets>
-                     <reportSet>
-                         <reports>
-                             <report>index</report>
-                             <report>summary</report>
-                             <report>dependencies</report>
-                             <report>project-team</report>
-                             <report>license</report>
-                             <report>scm</report>
-                         </reports>
-                     </reportSet>
-                 </reportSets>
-             </plugin>
-             <plugin>
-                 <groupId>org.apache.maven.plugins</groupId>
-                 <artifactId>maven-javadoc-plugin</artifactId>
-             </plugin>
-             <plugin>
-                 <groupId>org.apache.maven.plugins</groupId>
-                 <artifactId>maven-surefire-report-plugin</artifactId>
-             </plugin>
-             <plugin>
-                 <groupId>org.apache.maven.plugins</groupId>
-                 <artifactId>maven-jxr-plugin</artifactId>
-             </plugin>
-             <plugin>
-                 <groupId>org.apache.maven.plugins</groupId>
-                 <artifactId>maven-pmd-plugin</artifactId>
-                 <configuration>
-                     <targetJdk>1.5</targetJdk>
-                     <linkXref>true</linkXref>
-                 </configuration>
-             </plugin>
-             <plugin>
-                 <groupId>org.codehaus.mojo</groupId>
-                 <artifactId>apt-maven-plugin</artifactId>
-             </plugin>
-         </plugins>
-     </reporting>
 
 </project>

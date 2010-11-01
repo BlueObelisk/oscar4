@@ -30,83 +30,31 @@ import java.util.Properties;
 public class OscarProperties {
 
 	public File propsFile;
-	
-	public boolean fulldb;
-	public boolean lockdown;
-	public boolean makeCML;
-	public boolean splitOnEnDash;
-	public boolean useONT;
-	public boolean useDSO;
-	public boolean deprioritiseONT;
-	public boolean useFormulaRegex;
-	public boolean useWordShapeHeuristic;
-	public boolean minimizeDFA;
-	public boolean useJNIInChI;
-	public boolean useMEMM;
-	public boolean rescoreMEMM;
-	public boolean interpretPoly;
-	public boolean dataOnlyInExperimental;
-	public boolean polymerMode;
-	public boolean cacheExtensionNameResolver;
-	public boolean useOPSIN;
-	public boolean scrapBookIEFix;
-	public boolean urlEncodeCML;
-	public boolean useCachedResources; 
-		
-	public double ngramThreshold;
-	public double ontProb;
-	public double cprProb;
-	public double custProb;
-	public double neThreshold;
 
-	public int dfaSize;
-	public int port;
-	
-	public String dbname;
-	public String dbaddress;
-	public String dbusername;
-	public String dbpasswd;
-	public String rdbms;
-	public String safdbusername;
-	public String safdbpasswd;
-	
-	public String serverType;
-	
-	public String hostname;
-	
-	public String oscarFlow;
-	
-	public String workspace;
-	public String geniaPath;
-	public String pcdir;
-	public String InChI;
-	public String stdInChI;
-	public String svdlibc;
-	public String openBabel;
-	public String model;
-	public String yahooKey;
-	public String extensionNameResolver;
-	public String initScript;
-	public String resourcePrefix;
-	public String chemNameDict;
-	public String serverRoot;
-	public String xmlStrings;
-	public String chemicalEntityRecogniser;
-	
 	private Properties myProperties;
 
 	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/tools/", true);
-	
+
+	private OscarPropertiesData oscarProperties;
 	private static OscarProperties myInstance;
-	
-	public static OscarProperties getInstance() {
+
+	private OscarProperties() {
+		oscarProperties = new OscarPropertiesData();
+	}
+
+	public static OscarPropertiesData getInstance() {
+		if(myInstance == null) myInstance = getMyself();
+		return myInstance.oscarProperties;
+	}
+
+	public static OscarProperties getMyself() {
 		if(myInstance == null) {
 			myInstance = new OscarProperties();
 			myInstance.initialise();
 		}
 		return myInstance;
 	}
-	
+
 	public static void initialiseWithProperties(Properties props) {
 		myInstance = new OscarProperties();
 		myInstance.initialise(props);
@@ -126,9 +74,6 @@ public class OscarProperties {
 			myInstance = null;
 			getInstance();			
 		}
-	}
-	
-	private OscarProperties() {
 	}
 	
 	private void initialise() {
@@ -181,67 +126,67 @@ public class OscarProperties {
 }
 		
 	private void propsToVariables() {
-		fulldb = "yes".equals(myProperties.getProperty("fulldb"));
-		lockdown = "yes".equals(myProperties.getProperty("lockdown"));
-		makeCML = "yes".equals(myProperties.getProperty("makeCML"));
-		splitOnEnDash = "yes".equals(myProperties.getProperty("splitOnEnDash"));
-		useONT = "yes".equals(myProperties.getProperty("useONT"));
-		useDSO = "yes".equals(myProperties.getProperty("useDSO"));
-		deprioritiseONT = "yes".equals(myProperties.getProperty("deprioritiseONT"));
-		useFormulaRegex = "yes".equals(myProperties.getProperty("useFormulaRegex"));
-		useWordShapeHeuristic = "yes".equals(myProperties.getProperty("useWordShapeHeuristic"));
-		minimizeDFA = "yes".equals(myProperties.getProperty("minimizeDFA"));
-		useJNIInChI = "yes".equals(myProperties.getProperty("useJNIInChI"));
-		useMEMM = "yes".equals(myProperties.getProperty("useMEMM"));
-		rescoreMEMM = "yes".equals(myProperties.getProperty("rescoreMEMM"));
-		interpretPoly = "yes".equals(myProperties.getProperty("interpretPoly"));
-		dataOnlyInExperimental = "yes".equals(myProperties.getProperty("dataOnlyInExperimental"));
-		chemicalEntityRecogniser = getPropertyOrNone("chemicalEntityRecogniser");
-		polymerMode = "yes".equals(myProperties.getProperty("polymerMode"));
+		oscarProperties.fulldb = "yes".equals(myProperties.getProperty("fulldb"));
+		oscarProperties.lockdown = "yes".equals(myProperties.getProperty("lockdown"));
+		oscarProperties.makeCML = "yes".equals(myProperties.getProperty("makeCML"));
+		oscarProperties.splitOnEnDash = "yes".equals(myProperties.getProperty("splitOnEnDash"));
+		oscarProperties.useONT = "yes".equals(myProperties.getProperty("useONT"));
+		oscarProperties.useDSO = "yes".equals(myProperties.getProperty("useDSO"));
+		oscarProperties.deprioritiseONT = "yes".equals(myProperties.getProperty("deprioritiseONT"));
+		oscarProperties.useFormulaRegex = "yes".equals(myProperties.getProperty("useFormulaRegex"));
+		oscarProperties.useWordShapeHeuristic = "yes".equals(myProperties.getProperty("useWordShapeHeuristic"));
+		oscarProperties.minimizeDFA = "yes".equals(myProperties.getProperty("minimizeDFA"));
+		oscarProperties.useJNIInChI = "yes".equals(myProperties.getProperty("useJNIInChI"));
+		oscarProperties.useMEMM = "yes".equals(myProperties.getProperty("useMEMM"));
+		oscarProperties.rescoreMEMM = "yes".equals(myProperties.getProperty("rescoreMEMM"));
+		oscarProperties.interpretPoly = "yes".equals(myProperties.getProperty("interpretPoly"));
+		oscarProperties.dataOnlyInExperimental = "yes".equals(myProperties.getProperty("dataOnlyInExperimental"));
+		oscarProperties.chemicalEntityRecogniser = getPropertyOrNone("chemicalEntityRecogniser");
+		oscarProperties.polymerMode = "yes".equals(myProperties.getProperty("polymerMode"));
 		//override useMEMM if operating in polymerMode
-		if (polymerMode) {
-			useMEMM = false;
+		if (oscarProperties.polymerMode) {
+			oscarProperties.useMEMM = false;
 		}
-		cacheExtensionNameResolver = "yes".equals(myProperties.getProperty("cacheExtensionNameResolver"));
-		useOPSIN = "yes".equals(myProperties.getProperty("useOPSIN"));
-		scrapBookIEFix = "yes".equals(myProperties.getProperty("scrapBookIEFix"));
-		urlEncodeCML = "yes".equals(myProperties.getProperty("urlEncodeCML"));
-		useCachedResources = "yes".equals(myProperties.getProperty("useCachedResources"));
+		oscarProperties.cacheExtensionNameResolver = "yes".equals(myProperties.getProperty("cacheExtensionNameResolver"));
+		oscarProperties.useOPSIN = "yes".equals(myProperties.getProperty("useOPSIN"));
+		oscarProperties.scrapBookIEFix = "yes".equals(myProperties.getProperty("scrapBookIEFix"));
+		oscarProperties.urlEncodeCML = "yes".equals(myProperties.getProperty("urlEncodeCML"));
+		oscarProperties.useCachedResources = "yes".equals(myProperties.getProperty("useCachedResources"));
 		
-		ngramThreshold = Double.parseDouble(myProperties.getProperty("ngramThreshold"));
-		neThreshold = Double.parseDouble(myProperties.getProperty("neThreshold"));
-		ontProb = Double.parseDouble(myProperties.getProperty("ontProb"));
-		cprProb = Double.parseDouble(myProperties.getProperty("cprProb"));
-		custProb = Double.parseDouble(myProperties.getProperty("custProb"));
+		oscarProperties.ngramThreshold = Double.parseDouble(myProperties.getProperty("ngramThreshold"));
+		oscarProperties.neThreshold = Double.parseDouble(myProperties.getProperty("neThreshold"));
+		oscarProperties.ontProb = Double.parseDouble(myProperties.getProperty("ontProb"));
+		oscarProperties.cprProb = Double.parseDouble(myProperties.getProperty("cprProb"));
+		oscarProperties.custProb = Double.parseDouble(myProperties.getProperty("custProb"));
 
-		dfaSize = Integer.parseInt(myProperties.getProperty("dfaSize"));
-		port = Integer.parseInt(myProperties.getProperty("port"));
+		oscarProperties.dfaSize = Integer.parseInt(myProperties.getProperty("dfaSize"));
+		oscarProperties.port = Integer.parseInt(myProperties.getProperty("port"));
 		
-		dbname = getPropertyOrNone("dbname");
-		dbaddress = getPropertyOrNone("dbaddress");
-		dbusername = getPropertyOrNone("dbusername");
-		dbpasswd = getPropertyOrNone("dbpasswd");
-		rdbms = getPropertyOrNone("rdbms");
-		safdbusername = getPropertyOrNone("safdbusername");
-		safdbpasswd = getPropertyOrNone("safdbpasswd");
-		serverType = getPropertyOrNone("serverType");
-		hostname = getPropertyOrNone("hostname");
-		oscarFlow = getPropertyOrNone("oscarFlow");
-		workspace = getPropertyOrNone("workspace");
-		geniaPath = getPropertyOrNone("geniaPath");
-		pcdir = getPropertyOrNone("pcdir");
-		InChI = getPropertyOrNone("InChI");
-		stdInChI = getPropertyOrNone("stdInChI");
-		openBabel = getPropertyOrNone("openBabel");
-		svdlibc = getPropertyOrNone("svdlibc");
-		model = getPropertyOrNone("model");
-		yahooKey = getPropertyOrNone("yahooKey");
-		extensionNameResolver = getPropertyOrNone("extensionNameResolver");
-		initScript = getPropertyOrNone("initScript");
-		resourcePrefix = getPropertyOrNone("resourcePrefix");
-		chemNameDict = getPropertyOrNone("chemNameDict");
-		serverRoot = getPropertyOrNone("serverRoot");
-		xmlStrings = getPropertyOrNone("xmlStrings");
+		oscarProperties.dbname = getPropertyOrNone("dbname");
+		oscarProperties.dbaddress = getPropertyOrNone("dbaddress");
+		oscarProperties.dbusername = getPropertyOrNone("dbusername");
+		oscarProperties.dbpasswd = getPropertyOrNone("dbpasswd");
+		oscarProperties.rdbms = getPropertyOrNone("rdbms");
+		oscarProperties.safdbusername = getPropertyOrNone("safdbusername");
+		oscarProperties.safdbpasswd = getPropertyOrNone("safdbpasswd");
+		oscarProperties.serverType = getPropertyOrNone("serverType");
+		oscarProperties.hostname = getPropertyOrNone("hostname");
+		oscarProperties.oscarFlow = getPropertyOrNone("oscarFlow");
+		oscarProperties.workspace = getPropertyOrNone("workspace");
+		oscarProperties.geniaPath = getPropertyOrNone("geniaPath");
+		oscarProperties.pcdir = getPropertyOrNone("pcdir");
+		oscarProperties.InChI = getPropertyOrNone("InChI");
+		oscarProperties.stdInChI = getPropertyOrNone("stdInChI");
+		oscarProperties.openBabel = getPropertyOrNone("openBabel");
+		oscarProperties.svdlibc = getPropertyOrNone("svdlibc");
+		oscarProperties.model = getPropertyOrNone("model");
+		oscarProperties.yahooKey = getPropertyOrNone("yahooKey");
+		oscarProperties.extensionNameResolver = getPropertyOrNone("extensionNameResolver");
+		oscarProperties.initScript = getPropertyOrNone("initScript");
+		oscarProperties.resourcePrefix = getPropertyOrNone("resourcePrefix");
+		oscarProperties.chemNameDict = getPropertyOrNone("chemNameDict");
+		oscarProperties.serverRoot = getPropertyOrNone("serverRoot");
+		oscarProperties.xmlStrings = getPropertyOrNone("xmlStrings");
 		
 	}
 	
@@ -260,7 +205,7 @@ public class OscarProperties {
 	}
 		
 	public static void setProperty(String name, String value) {
-		getInstance().setPropertyInternal(name, value);
+		getMyself().setPropertyInternal(name, value);
 	}
 
 	private synchronized void setPropertyInternal(String name, String value) {
@@ -269,7 +214,7 @@ public class OscarProperties {
 	}
 	
 	public static void saveProperties() throws Exception {
-		getInstance().savePropertiesInternal();
+		getMyself().savePropertiesInternal();
 	}
 		
 	private synchronized void savePropertiesInternal() throws Exception {
@@ -277,7 +222,7 @@ public class OscarProperties {
 	}
 	
 	public static void writeProperties(OutputStream os) throws Exception {
-		getInstance().writePropertiesInternal(os);
+		getMyself().writePropertiesInternal(os);
 	}
 
 	public void writePropertiesInternal(OutputStream os) throws Exception {

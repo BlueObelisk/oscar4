@@ -11,7 +11,7 @@ public class OscarPropertiesTest {
 
 	@Test
 	public void testLoadingOfDefaultValues() {
-		OscarProperties props = OscarProperties.getInstance();
+		OscarPropertiesData props = OscarProperties.getInstance();
 		Assert.assertNotNull(props);
 		Assert.assertEquals("chempapers", props.model);
 		Assert.assertEquals(0.2, props.neThreshold, 0.01);

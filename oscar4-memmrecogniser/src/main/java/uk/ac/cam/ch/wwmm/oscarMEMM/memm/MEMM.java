@@ -433,7 +433,7 @@ public final class MEMM {
 
 		List<Map<String,Map<String,Double>>> classifierResults = new ArrayList<Map<String,Map<String,Double>>>();	
 		for(int i=0;i<tokens.size();i++) {
-			System.out.println(tokens.get(i) + " -> " + extractor.getFeatures(i));
+//			System.out.println(tokens.get(i) + " -> " + extractor.getFeatures(i));
 			classifierResults.add(calcResults(extractor.getFeatures(i))); 
 		}
 		

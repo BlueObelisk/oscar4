@@ -62,10 +62,10 @@ public abstract class AbstractOscar {
 				tokenizerInstance, doc, true, false, false
 			);
 		List<TokenSequence> tokenSequences = procDoc.getTokenSequences();
-		for (TokenSequence tokens : tokenSequences) {
+		/*for (TokenSequence tokens : tokenSequences) {
 			for (Token token : tokens.getTokens())
 				System.out.println("token: " + token.getValue());
-		}
+		}*/
 		return tokenSequences;
 	}
 

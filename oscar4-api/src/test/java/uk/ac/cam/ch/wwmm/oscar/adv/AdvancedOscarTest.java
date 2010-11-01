@@ -1,27 +1,29 @@
-package uk.ac.cam.ch.wwmm.oscar;
+package uk.ac.cam.ch.wwmm.oscar.adv;
 
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.Oscar;
+import uk.ac.cam.ch.wwmm.oscar.adv.AdvancedOscar;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 
-public class OscarTest {
+public class AdvancedOscarTest {
 
 	@Test
-	public void testConstructore() throws Exception {
-		Oscar oscar = new Oscar();
+	public void testConstructor() throws Exception {
+		Oscar oscar = new AdvancedOscar(getClass().getClassLoader());
 		Assert.assertNotNull(oscar);
 	}
 	
 	@Test
 	public void testGetChemNameDict() throws Exception {
-		Oscar oscar = new Oscar();
+		Oscar oscar = new AdvancedOscar(getClass().getClassLoader());
 		Assert.assertNotNull(oscar.getDictionaryRegistry());
 	}
 	
 	@Test
 	public void testOscarLoadingOfDefaultDictionaries() throws Exception {
-		Oscar oscar = new Oscar();
+		Oscar oscar = new AdvancedOscar(this.getClass().getClassLoader());
 		ChemNameDictRegistry registry = oscar.getDictionaryRegistry();
 		// test loading of the ChEBI dictionary
 		Assert.assertEquals(

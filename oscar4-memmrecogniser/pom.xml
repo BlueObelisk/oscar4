@@ -54,10 +54,7 @@
             <artifactId>automaton</artifactId>
             <!-- from local repository -->
         </dependency>
-        <dependency>
-            <groupId>commons-math</groupId>
-            <artifactId>commons-math</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>trove</groupId>
             <artifactId>trove</artifactId>
@@ -77,6 +74,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+        	<groupId>org.apache.commons</groupId>
+        	<artifactId>commons-math</artifactId>
+        	<version>2.1</version>
+        </dependency>
     </dependencies>
 
 </project>

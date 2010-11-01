@@ -92,4 +92,14 @@ public abstract class AbstractOscar {
 			loadClass(recogiser).newInstance();
 	}
 
+	public void setTokeniser(ITokeniser tokeniser) {
+		if (tokeniser == null) throw new NullPointerException();
+		this.tokenizerInstance = tokeniser;
+	}
+
+	public void setRecogiser(ChemicalEntityRecogniser recogiser) {
+		if (recogiser == null) throw new NullPointerException();
+		this.recogniserInstance = recogiser;
+	}
+
 }

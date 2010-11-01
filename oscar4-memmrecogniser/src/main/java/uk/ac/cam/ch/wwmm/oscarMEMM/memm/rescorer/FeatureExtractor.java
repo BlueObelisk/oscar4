@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.apache.commons.math.stat.DescriptiveStatistics;
-import org.apache.commons.math.stat.DescriptiveStatisticsImpl;
+import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math.stat.descriptive.DescriptiveStatisticsImpl;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;

@@ -39,6 +39,8 @@ public class Oscar extends AbstractOscar {
 		super(Oscar.class.getClassLoader());
 		registry.register(new DefaultDictionary());
 		registry.register(new ChEBIDictionary());
+		tokenizerInstance = loadTokeniser(DEFAULT_TOKENISER);
+		recogniserInstance = loadRecogiser(DEFAULT_RECOGISER);
 	};
 
 	/**

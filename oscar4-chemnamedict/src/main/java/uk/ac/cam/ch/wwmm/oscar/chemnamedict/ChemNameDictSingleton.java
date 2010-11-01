@@ -49,13 +49,13 @@ public final class ChemNameDictSingleton {
 			logger.debug("Initialising ChemNameDict... ");
 			myChemNameDict = new ChemNameDict(new URI("http://wwmm.ch.cam.ac.uk/dictionary/old/"));
 			try {
-				if("none".equals(OscarProperties.getInstance().workspace) || forceFromScratch) {
+				if("none".equals(OscarProperties.getData().workspace) || forceFromScratch) {
 					ChemNameDictIO.readXML(
-						rg.getXMLDocument(OscarProperties.getInstance().chemNameDict),
+						rg.getXMLDocument(OscarProperties.getData().chemNameDict),
 						myChemNameDict
 					);
 				} else {
-					File f = new File(new File(OscarProperties.getInstance().workspace, "chemnamedict"), OscarProperties.getInstance().chemNameDict);
+					File f = new File(new File(OscarProperties.getData().workspace, "chemnamedict"), OscarProperties.getData().chemNameDict);
 					if(f.exists()) {
 						ChemNameDictIO.readFromFile(
 							f, myChemNameDict
@@ -66,8 +66,8 @@ public final class ChemNameDictSingleton {
 								.getXMLDocument("defaultCompounds.xml"),
 							myChemNameDict
 						);
-						if(!("none".equals(OscarProperties.getInstance().workspace))) {
-							File ff = new File(new File(OscarProperties.getInstance().workspace, "chemnamedict"), OscarProperties.getInstance().chemNameDict);
+						if(!("none".equals(OscarProperties.getData().workspace))) {
+							File ff = new File(new File(OscarProperties.getData().workspace, "chemnamedict"), OscarProperties.getData().chemNameDict);
 							ChemNameDictIO.writeToFile(
 								ff, myChemNameDict
 							);
@@ -95,10 +95,10 @@ public final class ChemNameDictSingleton {
 	 * @throws Exception
 	 */
 	public static void save() throws Exception {
-		if("none".equals(OscarProperties.getInstance().workspace)) {
+		if("none".equals(OscarProperties.getData().workspace)) {
 			throw new Exception("Cannot save ChemNameDict when there is no workspace");
 		} else {
-			File f = new File(new File(OscarProperties.getInstance().workspace, "chemnamedict"), OscarProperties.getInstance().chemNameDict);
+			File f = new File(new File(OscarProperties.getData().workspace, "chemnamedict"), OscarProperties.getData().chemNameDict);
 			ChemNameDict cnd = getChemNameDictInstance();
 			ChemNameDictIO.writeToFile(f, cnd);			
 		}

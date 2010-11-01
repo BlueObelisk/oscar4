@@ -84,10 +84,10 @@ public class TLRHolder {
     	Elements tlrElems = doc.getRootElement().getFirstChildElement("tlrs").getChildElements("tlr");
     	for(int i=0;i<tlrElems.size();i++) {
     		TokenLevelRegex tlr = new TokenLevelRegex(tlrElems.get(i), this);
-    		if(!OscarProperties.getInstance().useFormulaRegex && 
+    		if(!OscarProperties.getData().useFormulaRegex && 
     				("formulaRegex".equals(tlr.getName()) ||
     						"groupFormulaRegex".equals(tlr.getName()))) continue;
-    		if(OscarProperties.getInstance().useWordShapeHeuristic && 
+    		if(OscarProperties.getData().useWordShapeHeuristic && 
     				("potentialAcronymRegex".equals(tlr.getName()))) continue;
     		tlrs.add(tlr);
     	}      

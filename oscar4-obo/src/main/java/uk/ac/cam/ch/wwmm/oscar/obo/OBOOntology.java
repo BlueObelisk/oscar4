@@ -49,7 +49,7 @@ public class OBOOntology {
 			myInstance.read("chebi.obo");
 			myInstance.read("fix.obo");
 			myInstance.read("rex.obo");
-			if(OscarProperties.getInstance().useDSO)
+			if(OscarProperties.getData().useDSO)
 				myInstance.addOntology(DSOtoOBO.readDSO());
 			} catch (Exception e) {
 				throw new Error(e);

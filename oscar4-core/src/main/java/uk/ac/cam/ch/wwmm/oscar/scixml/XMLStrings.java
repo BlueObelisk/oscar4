@@ -111,7 +111,7 @@ public final class XMLStrings {
 	
 	public static XMLStrings getInstance() {
 		if(myInstance == null) {
-			String xmlStringsProp = OscarProperties.getInstance().xmlStrings;
+			String xmlStringsProp = OscarProperties.getData().xmlStrings;
 			if(!"none".equals(xmlStringsProp)) {
 				myInstance = new XMLStrings(xmlStringsProp);
 			} else {

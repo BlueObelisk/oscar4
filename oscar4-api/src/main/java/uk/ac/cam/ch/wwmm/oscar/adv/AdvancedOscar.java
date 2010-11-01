@@ -16,12 +16,7 @@ public class AdvancedOscar extends Oscar {
 
 	public void setTokeniser(String tokeniser)
 	throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		// load the tokenizer
-		Class tokenizerClass = this.classLoader.loadClass(
-			tokeniser
-		);
-		Method getInstanceMethod = tokenizerClass.getMethod("getInstance");
-		tokenizerInstance = (ITokeniser)getInstanceMethod.invoke(null);
+		tokenizerInstance = loadTokeniser(tokeniser);
 	}
 
 	public String getTokeniser() {
@@ -30,9 +25,7 @@ public class AdvancedOscar extends Oscar {
 
 	public void setRecogiser(String recogiser)
 	throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-		ChemicalEntityRecogniser recogniserInstance =
-			(ChemicalEntityRecogniser)this.classLoader.
-			loadClass(recogiser).newInstance();
+		recogniserInstance = loadRecogiser(recogiser);
 	}
 
 	public String getRecogiser() {

@@ -1,5 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.adv;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +75,21 @@ public abstract class AbstractOscar {
 
 	public List<NamedEntity> recognizeNamedEntities(List<TokenSequence> tokens) throws Exception {
 		return recogniserInstance.findNamedEntities(tokens);
+	}
+
+	protected ITokeniser loadTokeniser(String tokeniser)
+	throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		Class tokenizerClass = this.classLoader.loadClass(
+			tokeniser
+		);
+		Method getInstanceMethod = tokenizerClass.getMethod("getInstance");
+		return (ITokeniser)getInstanceMethod.invoke(null);
+	}
+
+	protected ChemicalEntityRecogniser loadRecogiser(String recogiser)
+	throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		return (ChemicalEntityRecogniser)this.classLoader.
+			loadClass(recogiser).newInstance();
 	}
 
 }

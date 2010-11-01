@@ -86,7 +86,7 @@ public final class MEMM {
 		
 		trainingCycles = 100;
 		featureCutOff = 1;
-		confidenceThreshold = OscarProperties.getInstance().neThreshold / 5.0;
+		confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;
 		rescorer = null;
 	}
 

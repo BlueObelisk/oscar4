@@ -49,7 +49,7 @@ public class DFANEFinder extends DFAFinder {
 	public static void readFromWorkspace() {
 		try {
 			//long time = System.currentTimeMillis();
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(OscarProperties.getInstance().workspace, "dfas.dat")));
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(OscarProperties.getData().workspace, "dfas.dat")));
 			myInstance = (DFANEFinder)ois.readObject();
 			ois.close();
 			//System.out.println("DFAs loaded in " + (System.currentTimeMillis() - time) + " milliseconds");
@@ -65,7 +65,7 @@ public class DFANEFinder extends DFAFinder {
 	public static void writeToWorkspace() {
 		try {
 			//long time = System.currentTimeMillis();
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(OscarProperties.getInstance().workspace, "dfas.dat")));
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(OscarProperties.getData().workspace, "dfas.dat")));
 			oos.writeObject(getInstance());
 			oos.close();
 			//System.out.println("DFAs loaded in " + (System.currentTimeMillis() - time) + " milliseconds");
@@ -249,7 +249,7 @@ public class DFANEFinder extends DFAFinder {
 						TermSets.getUsrDictWords().contains(t.getValue())) score = -100;
 //				if(ExtractTrainingData.getInstance().chemicalWords.contains(normValue)) score = 100;
 				if(ChemNameDictSingleton.hasName(t.getValue())) score = 100;
-				if(t.getValue().length() > 3 && score > OscarProperties.getInstance().ngramThreshold) {
+				if(t.getValue().length() > 3 && score > OscarProperties.getData().ngramThreshold) {
 					tokenReps.add("$" + TokenTypes.getTypeForSuffix(t.getValue()).toUpperCase());
 					if(t.getValue().startsWith("-")) {
 						tokenReps.add("$-" + TokenTypes.getTypeForSuffix(t.getValue()).toUpperCase());
@@ -284,7 +284,7 @@ public class DFANEFinder extends DFAFinder {
 		if(OntologyTerms.hasTerm(normValue)) tokenReps.add("$ONTWORD");
 		if(!TokenTypes.twoLowerPattern.matcher(t.getValue()).find() && TokenTypes.oneCapitalPattern.matcher(t.getValue()).find()) {
 			//System.out.println("Yay!");
-			if(OscarProperties.getInstance().useWordShapeHeuristic) tokenReps.add("$CMNONWORD");
+			if(OscarProperties.getData().useWordShapeHeuristic) tokenReps.add("$CMNONWORD");
 //			if(ExtractTrainingData.getInstance().chemicalNonWords.contains(t.getValue())) tokenReps.add("$CMNONWORD");
 		}
 		if(t.getDoc() != null) {

@@ -119,8 +119,8 @@ public final class ExtractTrainingData {
 	 * @return If the procedure succeeded.
 	 */
 	public static boolean trainFromScrapbook() {
-		if(OscarProperties.getInstance().workspace.equals("none")) return false;
-		File scrapbookdir = new File(OscarProperties.getInstance().workspace, "scrapbook");
+		if(OscarProperties.getData().workspace.equals("none")) return false;
+		File scrapbookdir = new File(OscarProperties.getData().workspace, "scrapbook");
 		if(!scrapbookdir.exists() || !scrapbookdir.isDirectory()) return false;
 		List<File> sbFiles = FileTools.getFilesFromDirectoryByName(scrapbookdir, "scrapbook.xml");
 		ExtractTrainingData etd = new ExtractTrainingData(sbFiles);

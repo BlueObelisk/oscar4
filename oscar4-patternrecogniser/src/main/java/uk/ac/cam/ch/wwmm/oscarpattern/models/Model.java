@@ -90,11 +90,11 @@ public class Model {
 	 */
 	public static void loadModel(String modelName) {
 		try {			
-			if(OscarProperties.getInstance().workspace.equals("none")) {
+			if(OscarProperties.getData().workspace.equals("none")) {
 				loadModelFromResources(modelName);
 				return;
 			}
-			File trainDir = new File(OscarProperties.getInstance().workspace, "models");
+			File trainDir = new File(OscarProperties.getData().workspace, "models");
 			if(!trainDir.exists() || !trainDir.isDirectory() || !new File(trainDir,modelName+".xml").exists()) {
 				loadModelFromResources(modelName);
 				return;
@@ -111,8 +111,8 @@ public class Model {
 	 */
 	public static void loadModel() {
 		Logger logger = Logger.getLogger(Model.class);
-		logger.debug("Loading model " + OscarProperties.getInstance().model + "...");
-		loadModel(OscarProperties.getInstance().model);
+		logger.debug("Loading model " + OscarProperties.getData().model + "...");
+		loadModel(OscarProperties.getData().model);
 		logger.debug("...model loaded OK!");
 	}
 	
@@ -123,7 +123,7 @@ public class Model {
 	 * this)
 	 */
 	public static void makeModel(String modelName) {
-		makeModel(modelName, FileTools.getFilesFromDirectoryByName(new File(OscarProperties.getInstance().workspace, "scrapbook"), "scrapbook.xml"));
+		makeModel(modelName, FileTools.getFilesFromDirectoryByName(new File(OscarProperties.getData().workspace, "scrapbook"), "scrapbook.xml"));
 	}
 
 	/**Compiles a model, based on the given set of ScrapBook files, and
@@ -147,10 +147,10 @@ public class Model {
 //			MEMMSingleton.train(files, rescore); // This also trains the ETD
 //			NESubtypes.trainOnFiles(files);
 			Document modelDoc = makeModel();
-			if(OscarProperties.getInstance().workspace.equals("none")) {
+			if(OscarProperties.getData().workspace.equals("none")) {
 				throw new Error("You can't train a model unless you have a workspace");
 			}
-			File trainDir = new File(OscarProperties.getInstance().workspace, "models");
+			File trainDir = new File(OscarProperties.getData().workspace, "models");
 			if(trainDir.exists() && !trainDir.isDirectory()) {
 				throw new Error("You have a file called models in your workspace - it should be a directory!");
 			}

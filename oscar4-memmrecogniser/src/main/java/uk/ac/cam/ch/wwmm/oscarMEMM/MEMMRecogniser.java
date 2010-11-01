@@ -47,7 +47,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 		MEMMSingleton.getInstance().rescore(neList);
 		List<NamedEntity> filteredNeList = new ArrayList<NamedEntity>();
 		for (NamedEntity ne : neList) {
-			if (ne.getConfidence() > OscarProperties.getInstance().neThreshold) {
+			if (ne.getConfidence() > OscarProperties.getData().neThreshold) {
 				filteredNeList.add(ne);
 			}
 
@@ -116,13 +116,13 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 			double pseudoConf = Double.NaN;
 			String type = ne.getType();
 			if (type.equals(NETypes.ONTOLOGY))
-				pseudoConf = OscarProperties.getInstance().ontProb;
+				pseudoConf = OscarProperties.getData().ontProb;
 			if (type.equals(NETypes.LOCANTPREFIX))
-				pseudoConf = OscarProperties.getInstance().cprProb;
+				pseudoConf = OscarProperties.getData().cprProb;
 			if (type.equals(NETypes.CUSTOM))
-				pseudoConf = OscarProperties.getInstance().custProb;
+				pseudoConf = OscarProperties.getData().custProb;
 			ne.setPseudoConfidence(pseudoConf);
-			ne.setDeprioritiseOnt(OscarProperties.getInstance().deprioritiseONT);
+			ne.setDeprioritiseOnt(OscarProperties.getData().deprioritiseONT);
 		}
 	}// setPseudoConfidences
 }

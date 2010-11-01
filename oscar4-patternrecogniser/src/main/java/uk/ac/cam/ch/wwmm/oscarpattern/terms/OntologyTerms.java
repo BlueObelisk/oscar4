@@ -38,7 +38,7 @@ public final class OntologyTerms {
 		for(String term : TermMaps.getOntology().keySet()) {
 			addTerm(term, TermMaps.getOntology().get(term));
 		}
-		if(OscarProperties.getInstance().useDSO) {
+		if(OscarProperties.getData().useDSO) {
 			try {
 				OBOOntology dso = DSOtoOBO.readDSO();
 				for(OntologyTerm term : dso.terms.values()) {

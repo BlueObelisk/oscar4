@@ -1,29 +1,20 @@
 package uk.ac.cam.ch.wwmm.oscar;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import nu.xom.Builder;
-import nu.xom.Document;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
+import uk.ac.cam.ch.wwmm.oscar.adv.AbstractOscar;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
-import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 
 /**
  * Helper class with a simple API to access Oscar functionality.
  *
  * @author egonw
  */
-public class Oscar {
+public class Oscar extends AbstractOscar {
 
 	/**
 	 * The default tokeniser is used when no other tokeniser is defined.
@@ -44,39 +35,14 @@ public class Oscar {
 	 * class. If they are not available from the classpath, it will
 	 * silently fail though. The defaults are: {@value}.
 	 */
-	public final String[] DEFAULT_DICTIONARIES =
-	{
-		"uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary",
-		"uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary"
+	public Oscar() throws Exception {
+		super(Oscar.class.getClassLoader());
+		registry.register(new DefaultDictionary());
+		registry.register(new ChEBIDictionary());
 	};
-
-	private ChemNameDictRegistry registry;
-	private ClassLoader classLoader;
-	private String tokeniser = DEFAULT_TOKENISER;
-	private String recogiser = DEFAULT_RECOGISER;
-
-	public Oscar(ClassLoader classLoader) {
-		registry = ChemNameDictRegistry.getInstance();
-		this.classLoader = classLoader;
-	};
-
-	public ChemNameDictRegistry getDictionaryRegistry() {
-		return registry;
-	}
-
-	public void loadDefaultDictionaries() throws Exception {
-		for (String dict : DEFAULT_DICTIONARIES) {
-			Class dictionaryClass = this.classLoader.loadClass(
-				dict
-			);
-			IChemNameDict dictionary =
-				(IChemNameDict)dictionaryClass.newInstance();
-			registry.register(dictionary);
-		}
-	}
 
 	/**
-	 * Wrapper methods that runs the follow Oscar workflow. It calls the methods
+	 * Wrapper methods that runs the full Oscar workflow. It calls the methods
 	 * {@link #normalize(String)}, {@link #tokenize(String)}, and
 	 * {@link #recognizeNamedEntities(List)}.
 	 * 
@@ -106,73 +72,6 @@ public class Oscar {
 		List<NamedEntity> entities = getNamedEntities(input);
 		Map<NamedEntity,String> molecules = resolveNamedEntities(entities);
 		return molecules;
-	}
-
-	public Map<NamedEntity,String> resolveNamedEntities(List<NamedEntity> entities) {
-		Map<NamedEntity,String> hits = new HashMap<NamedEntity,String>();
-		for (NamedEntity entity : entities) {
-			String name = entity.getSurface();
-			System.out.println("Entity: " + name);
-			Set<String> inchis = registry.getInChI(name);
-			if (inchis.size() == 1) {
-				hits.put(entity, inchis.iterator().next());
-			} else if (inchis.size() > 1) {
-				System.out.println("Warning: multiple hits, returning only one");
-				hits.put(entity, inchis.iterator().next());
-			}
-		}
-		return hits;
-	}
-
-	public List<TokenSequence> tokenize(String input) throws Exception {
-		Builder parser = new Builder();
-		Document doc = parser.build(
-			"<P>" + input + "</P>",
-			"http://whatever.example.org/"
-		);
-		// load the tokenizer
-		Class tokenizerClass = this.classLoader.loadClass(
-			tokeniser
-		);
-		Method getInstanceMethod = tokenizerClass.getMethod("getInstance");
-		ITokeniser tokenizer = (ITokeniser)getInstanceMethod.invoke(null);
-		ProcessingDocument procDoc = new ProcessingDocumentFactory().
-			makeTokenisedDocument(
-				tokenizer, doc, true, false, false
-			);
-		List<TokenSequence> tokenSequences = procDoc.getTokenSequences();
-		for (TokenSequence tokens : tokenSequences) {
-			for (Token token : tokens.getTokens())
-				System.out.println("token: " + token.getValue());
-		}
-		return tokenSequences;
-	}
-
-	public String normalize(String input) {
-		return input;
-	}
-
-	public List<NamedEntity> recognizeNamedEntities(List<TokenSequence> tokens) throws Exception {
-		ChemicalEntityRecogniser recogniserInstance =
-			(ChemicalEntityRecogniser)this.classLoader.
-			loadClass(recogiser).newInstance();
-		return recogniserInstance.findNamedEntities(tokens);
-	}
-
-	public void setTokeniser(String tokeniser) {
-		this.tokeniser = tokeniser;
-	}
-
-	public String getTokeniser() {
-		return tokeniser;
-	}
-
-	public void setRecogiser(String recogiser) {
-		this.recogiser = recogiser;
-	}
-
-	public String getRecogiser() {
-		return recogiser;
 	}
 
 }

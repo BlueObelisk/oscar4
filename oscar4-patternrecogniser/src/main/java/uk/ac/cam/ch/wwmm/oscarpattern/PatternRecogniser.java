@@ -219,11 +219,11 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 		for(NamedEntity ne : neList) {
 			double pseudoConf = Double.NaN;
 			String type = ne.getType();
-			if(type.equals(NETypes.ONTOLOGY)) pseudoConf = OscarProperties.getInstance().ontProb;
-			if(type.equals(NETypes.LOCANTPREFIX)) pseudoConf = OscarProperties.getInstance().cprProb;
-			if(type.equals(NETypes.CUSTOM)) pseudoConf = OscarProperties.getInstance().custProb;
+			if(type.equals(NETypes.ONTOLOGY)) pseudoConf = OscarProperties.getData().ontProb;
+			if(type.equals(NETypes.LOCANTPREFIX)) pseudoConf = OscarProperties.getData().cprProb;
+			if(type.equals(NETypes.CUSTOM)) pseudoConf = OscarProperties.getData().custProb;
 			ne.setPseudoConfidence(pseudoConf);
-			ne.setDeprioritiseOnt(OscarProperties.getInstance().deprioritiseONT);
+			ne.setDeprioritiseOnt(OscarProperties.getData().deprioritiseONT);
 		}
 	}//setPseudoConfidences
 

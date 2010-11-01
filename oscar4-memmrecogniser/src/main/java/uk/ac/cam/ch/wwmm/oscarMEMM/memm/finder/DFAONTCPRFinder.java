@@ -41,7 +41,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	public static void readFromWorkspace() {
 		try {
 			//long time = System.currentTimeMillis();
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(OscarProperties.getInstance().workspace, "dfas.dat")));
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(OscarProperties.getData().workspace, "dfas.dat")));
 			myInstance = (DFAONTCPRFinder)ois.readObject();
 			ois.close();
 			//System.out.println("DFAs loaded in " + (System.currentTimeMillis() - time) + " milliseconds");
@@ -57,7 +57,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	public static void writeToWorkspace() {
 		try {
 			//long time = System.currentTimeMillis();
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(OscarProperties.getInstance().workspace, "dfas.dat")));
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(OscarProperties.getData().workspace, "dfas.dat")));
 			oos.writeObject(getInstance());
 			oos.close();
 			//System.out.println("DFAs loaded in " + (System.currentTimeMillis() - time) + " milliseconds");

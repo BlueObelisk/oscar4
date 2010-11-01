@@ -1,6 +1,5 @@
 package uk.ac.cam.ch.wwmm.oscar.tools;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -16,10 +15,6 @@ import java.util.Properties;
  */
 public class OscarProperties {
 
-	public File propsFile;
-
-	private Properties myProperties;
-
 	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/tools/", true);
 
 	private OscarPropertiesData oscarProperties;
@@ -29,12 +24,12 @@ public class OscarProperties {
 		oscarProperties = new OscarPropertiesData();
 	}
 
-	public static OscarPropertiesData getInstance() {
-		if(myInstance == null) myInstance = getMyself();
+	public static OscarPropertiesData getData() {
+		if(myInstance == null) myInstance = getInstance();
 		return myInstance.oscarProperties;
 	}
 
-	public static OscarProperties getMyself() {
+	public static OscarProperties getInstance() {
 		if(myInstance == null) {
 			myInstance = new OscarProperties();
 			myInstance.initialise();
@@ -44,34 +39,80 @@ public class OscarProperties {
 
 	public void initialiseWithProperties(Properties props) {
 		myInstance = new OscarProperties();
-		myInstance.initialise(props);
+		propsToVariables(props);
 	}
 
 	private void initialise() {
 		try {
-			if(myProperties == null) {
-				myProperties = new Properties(getDefaults());
-			}
-			propsToVariables();
+			propsToVariables(getDefaults());
 		} catch (Exception e) {
 			throw new Error("Problem loading properties!", e);
 		}		
 	}
 
-	private void initialise(Properties props) {
-		try {
-			myProperties = new Properties(getDefaults());
-			for(Object o : props.keySet()) {
-				String s = (String)o;
-				myProperties.setProperty(s, props.getProperty(s));
-			}		
-			propsToVariables();
-		} catch (Exception e) {
-			throw new Error("Problem loading properties!");
-		}		
-}
+	private Properties variablesToProps() {
+		Properties props = new Properties();
+		props.setProperty("fulldb", oscarProperties.fulldb ? "yes" : "no");
+		props.setProperty("lockdown", oscarProperties.lockdown ? "yes" : "no");
+		props.setProperty("makeCML", oscarProperties.makeCML ? "yes" : "no");
+		props.setProperty("splitOnEnDash", oscarProperties.splitOnEnDash ? "yes" : "no");
+		props.setProperty("useONT", oscarProperties.useONT ? "yes" : "no");
+		props.setProperty("useDSO", oscarProperties.useDSO ? "yes" : "no");
+		props.setProperty("deprioritiseONT", oscarProperties.deprioritiseONT ? "yes" : "no");
+		props.setProperty("useFormulaRegex", oscarProperties.useFormulaRegex ? "yes" : "no");
+		props.setProperty("useWordShapeHeuristic", oscarProperties.useWordShapeHeuristic ? "yes" : "no");
+		props.setProperty("minimizeDFA", oscarProperties.minimizeDFA ? "yes" : "no");
+		props.setProperty("useJNIInChI", oscarProperties.useJNIInChI ? "yes" : "no");
+		props.setProperty("useMEMM", oscarProperties.useMEMM ? "yes" : "no");
+		props.setProperty("rescoreMEMM", oscarProperties.rescoreMEMM ? "yes" : "no");
+		props.setProperty("interpretPoly", oscarProperties.interpretPoly ? "yes" : "no");
+		props.setProperty("dataOnlyInExperimental", oscarProperties.dataOnlyInExperimental ? "yes" : "no");
+		props.setProperty("chemicalEntityRecogniser", oscarProperties.chemicalEntityRecogniser);
+		props.setProperty("polymerMode", oscarProperties.polymerMode ? "yes" : "no");
+		props.setProperty("cacheExtensionNameResolver", oscarProperties.cacheExtensionNameResolver ? "yes" : "no");
+		props.setProperty("useOPSIN", oscarProperties.useOPSIN ? "yes" : "no");
+		props.setProperty("scrapBookIEFix", oscarProperties.scrapBookIEFix ? "yes" : "no");
+		props.setProperty("urlEncodeCML", oscarProperties.urlEncodeCML ? "yes" : "no");
+		props.setProperty("useCachedResources", oscarProperties.useCachedResources ? "yes" : "no");
 		
-	private void propsToVariables() {
+		props.setProperty("ngramThreshold", "" + oscarProperties.ngramThreshold);
+		props.setProperty("neThreshold", "" + oscarProperties.neThreshold);
+		props.setProperty("ontProb", "" + oscarProperties.ontProb);
+		props.setProperty("cprProb", "" + oscarProperties.cprProb);
+		props.setProperty("custProb", "" + oscarProperties.custProb);
+
+		props.setProperty("dfaSize", "" + oscarProperties.dfaSize);
+		props.setProperty("port", "" + oscarProperties.port);
+		
+		props.setProperty("chemicalEntityRecogniser", oscarProperties.chemicalEntityRecogniser);
+		props.setProperty("dbaddress", oscarProperties.dbaddress);
+		props.setProperty("dbusername", oscarProperties.dbusername);
+		props.setProperty("dbpasswd", oscarProperties.dbpasswd);
+		props.setProperty("rdbms", oscarProperties.rdbms);
+		props.setProperty("safdbusername", oscarProperties.safdbusername);
+		props.setProperty("safdbpasswd", oscarProperties.safdbpasswd);
+		props.setProperty("serverType", oscarProperties.serverType);
+		props.setProperty("hostname", oscarProperties.hostname);
+		props.setProperty("oscarFlow", oscarProperties.oscarFlow);
+		props.setProperty("workspace", oscarProperties.workspace);
+		props.setProperty("geniaPath", oscarProperties.geniaPath);
+		props.setProperty("pcdir", oscarProperties.pcdir);
+		props.setProperty("InChI", oscarProperties.InChI);
+		props.setProperty("stdInChI", oscarProperties.stdInChI);
+		props.setProperty("openBabel", oscarProperties.openBabel);
+		props.setProperty("svdlibc", oscarProperties.svdlibc);
+		props.setProperty("model", oscarProperties.model);
+		props.setProperty("yahooKey", oscarProperties.yahooKey);
+		props.setProperty("extensionNameResolver", oscarProperties.extensionNameResolver);
+		props.setProperty("initScript", oscarProperties.initScript);
+		props.setProperty("resourcePrefix", oscarProperties.resourcePrefix);
+		props.setProperty("chemNameDict", oscarProperties.chemNameDict);
+		props.setProperty("serverRoot", oscarProperties.serverRoot);
+		props.setProperty("xmlStrings", oscarProperties.xmlStrings);
+		return props;
+	}
+
+	private void propsToVariables(Properties myProperties) {
 		oscarProperties.fulldb = "yes".equals(myProperties.getProperty("fulldb"));
 		oscarProperties.lockdown = "yes".equals(myProperties.getProperty("lockdown"));
 		oscarProperties.makeCML = "yes".equals(myProperties.getProperty("makeCML"));
@@ -87,7 +128,7 @@ public class OscarProperties {
 		oscarProperties.rescoreMEMM = "yes".equals(myProperties.getProperty("rescoreMEMM"));
 		oscarProperties.interpretPoly = "yes".equals(myProperties.getProperty("interpretPoly"));
 		oscarProperties.dataOnlyInExperimental = "yes".equals(myProperties.getProperty("dataOnlyInExperimental"));
-		oscarProperties.chemicalEntityRecogniser = getPropertyOrNone("chemicalEntityRecogniser");
+		oscarProperties.chemicalEntityRecogniser = getPropertyOrNone(myProperties, "chemicalEntityRecogniser");
 		oscarProperties.polymerMode = "yes".equals(myProperties.getProperty("polymerMode"));
 		//override useMEMM if operating in polymerMode
 		if (oscarProperties.polymerMode) {
@@ -108,45 +149,49 @@ public class OscarProperties {
 		oscarProperties.dfaSize = Integer.parseInt(myProperties.getProperty("dfaSize"));
 		oscarProperties.port = Integer.parseInt(myProperties.getProperty("port"));
 		
-		oscarProperties.dbname = getPropertyOrNone("dbname");
-		oscarProperties.dbaddress = getPropertyOrNone("dbaddress");
-		oscarProperties.dbusername = getPropertyOrNone("dbusername");
-		oscarProperties.dbpasswd = getPropertyOrNone("dbpasswd");
-		oscarProperties.rdbms = getPropertyOrNone("rdbms");
-		oscarProperties.safdbusername = getPropertyOrNone("safdbusername");
-		oscarProperties.safdbpasswd = getPropertyOrNone("safdbpasswd");
-		oscarProperties.serverType = getPropertyOrNone("serverType");
-		oscarProperties.hostname = getPropertyOrNone("hostname");
-		oscarProperties.oscarFlow = getPropertyOrNone("oscarFlow");
-		oscarProperties.workspace = getPropertyOrNone("workspace");
-		oscarProperties.geniaPath = getPropertyOrNone("geniaPath");
-		oscarProperties.pcdir = getPropertyOrNone("pcdir");
-		oscarProperties.InChI = getPropertyOrNone("InChI");
-		oscarProperties.stdInChI = getPropertyOrNone("stdInChI");
-		oscarProperties.openBabel = getPropertyOrNone("openBabel");
-		oscarProperties.svdlibc = getPropertyOrNone("svdlibc");
-		oscarProperties.model = getPropertyOrNone("model");
-		oscarProperties.yahooKey = getPropertyOrNone("yahooKey");
-		oscarProperties.extensionNameResolver = getPropertyOrNone("extensionNameResolver");
-		oscarProperties.initScript = getPropertyOrNone("initScript");
-		oscarProperties.resourcePrefix = getPropertyOrNone("resourcePrefix");
-		oscarProperties.chemNameDict = getPropertyOrNone("chemNameDict");
-		oscarProperties.serverRoot = getPropertyOrNone("serverRoot");
-		oscarProperties.xmlStrings = getPropertyOrNone("xmlStrings");
-		
+		oscarProperties.dbname = getPropertyOrNone(myProperties, "dbname");
+		oscarProperties.dbaddress = getPropertyOrNone(myProperties, "dbaddress");
+		oscarProperties.dbusername = getPropertyOrNone(myProperties, "dbusername");
+		oscarProperties.dbpasswd = getPropertyOrNone(myProperties, "dbpasswd");
+		oscarProperties.rdbms = getPropertyOrNone(myProperties, "rdbms");
+		oscarProperties.safdbusername = getPropertyOrNone(myProperties, "safdbusername");
+		oscarProperties.safdbpasswd = getPropertyOrNone(myProperties, "safdbpasswd");
+		oscarProperties.serverType = getPropertyOrNone(myProperties, "serverType");
+		oscarProperties.hostname = getPropertyOrNone(myProperties, "hostname");
+		oscarProperties.oscarFlow = getPropertyOrNone(myProperties, "oscarFlow");
+		oscarProperties.workspace = getPropertyOrNone(myProperties, "workspace");
+		oscarProperties.geniaPath = getPropertyOrNone(myProperties, "geniaPath");
+		oscarProperties.pcdir = getPropertyOrNone(myProperties, "pcdir");
+		oscarProperties.InChI = getPropertyOrNone(myProperties, "InChI");
+		oscarProperties.stdInChI = getPropertyOrNone(myProperties, "stdInChI");
+		oscarProperties.openBabel = getPropertyOrNone(myProperties, "openBabel");
+		oscarProperties.svdlibc = getPropertyOrNone(myProperties, "svdlibc");
+		oscarProperties.model = getPropertyOrNone(myProperties, "model");
+		oscarProperties.yahooKey = getPropertyOrNone(myProperties, "yahooKey");
+		oscarProperties.extensionNameResolver = getPropertyOrNone(myProperties, "extensionNameResolver");
+		oscarProperties.initScript = getPropertyOrNone(myProperties, "initScript");
+		oscarProperties.resourcePrefix = getPropertyOrNone(myProperties, "resourcePrefix");
+		oscarProperties.chemNameDict = getPropertyOrNone(myProperties, "chemNameDict");
+		oscarProperties.serverRoot = getPropertyOrNone(myProperties, "serverRoot");
+		oscarProperties.xmlStrings = getPropertyOrNone(myProperties, "xmlStrings");
 	}
 
-	protected Properties getProperties() {
-		return myProperties;
-	}
-	
-	private String getPropertyOrNone(String propName) {
+	private String getPropertyOrNone(Properties myProperties, String propName) {
 		String prop = myProperties.getProperty(propName);
 		if(prop == null) return "none";
 		return prop;
 	}
+
+	/**
+	 * Returns a read-only copy of the current propeties.
+	 *
+	 * @return A {@link Properties} copy of the current settings.
+	 */
+	public Properties getProperties() {
+		return new Properties(variablesToProps());
+	}
 	
-	private Properties getDefaults() throws Exception {
+	public Properties getDefaults() throws Exception {
 		Properties def = new Properties();
 		InputStream stream = rg.getStream("DefaultProperties.dat");
 		def.load(stream);
@@ -154,12 +199,13 @@ public class OscarProperties {
 	}
 		
 	public static void setProperty(String name, String value) {
-		getMyself().setPropertyInternal(name, value);
+		getInstance().setPropertyInternal(name, value);
 	}
 
 	private synchronized void setPropertyInternal(String name, String value) {
-		myProperties.setProperty(name, value);
-		propsToVariables();
+		Properties props = variablesToProps();
+		props.setProperty(name, value);
+		propsToVariables(props);
 	}
 
 }

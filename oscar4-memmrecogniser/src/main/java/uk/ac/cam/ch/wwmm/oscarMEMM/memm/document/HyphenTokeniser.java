@@ -77,7 +77,7 @@ public final class HyphenTokeniser {
 			maxPrefixLength = Math.max(maxPrefixLength, p.length());
 		}
 
-		splitOnEnDash = OscarProperties.getInstance().splitOnEnDash;
+		splitOnEnDash = OscarProperties.getData().splitOnEnDash;
 		logger.debug("hyphen tokeniser initialised");
 	}
 	

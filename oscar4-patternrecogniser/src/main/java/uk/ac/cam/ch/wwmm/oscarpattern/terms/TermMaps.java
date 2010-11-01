@@ -142,17 +142,17 @@ public final class TermMaps {
 		logger.debug("Initialising term maps... ");
 		neTerms = getTermMap("neTerms.txt", false);
 		//add additional neTerms for polymers if set to polymer mode 
-		if (OscarProperties.getInstance().polymerMode) {
+		if (OscarProperties.getData().polymerMode) {
 			Map <String, String> polyNeTerms = getTermMap("polyNeTerms.txt", false);
 			neTerms.putAll(polyNeTerms);
 		}
 		iePatterns = getTermMap("iePatterns.txt", false);
 		structureTypes = getTermMap("structureTypes.txt", false);
 		custEnt = getTermMap("custEnt.txt", true);
-		if(OscarProperties.getInstance().useONT) {
+		if(OscarProperties.getData().useONT) {
 			ontology = getTermMap("ontology.txt", true);
 			//add polymer ontology if set to polymer mode
-			if (OscarProperties.getInstance().polymerMode) {
+			if (OscarProperties.getData().polymerMode) {
 				Map<String, String> polyOntology = getTermMap("polyOntology.txt", true);
 				ontology.putAll(polyOntology);
 			}

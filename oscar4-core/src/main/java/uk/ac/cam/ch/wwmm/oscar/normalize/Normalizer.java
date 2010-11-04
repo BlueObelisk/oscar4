@@ -13,6 +13,16 @@ public class Normalizer implements ITextNormalizer {
 	private Normalizer() {
 		normals = new HashMap<Character, String>() {{
 			put('\uFB00',"ff");
+			put('\uFB01',"fi");
+			put('\uFB02',"fl");
+			put('\u2010',"-");
+			put('\u2011',"-");
+			put('\u2012',"-");
+			put('\u2013',"-");
+			put('\u2014',"-");
+			put('\u03b1',"alpha");
+			put('\u03b2',"beta");
+			put('\u03b3',"gamma");
 		}};
 	}
 

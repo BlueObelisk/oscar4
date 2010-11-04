@@ -39,6 +39,7 @@
         <module>oscar4-obo</module>
         <module>oscar4-opsin</module>
         <module>oscar4-api</module>
+        <module>oscar4-preprocessor</module>
     </modules>
 
     <dependencyManagement>

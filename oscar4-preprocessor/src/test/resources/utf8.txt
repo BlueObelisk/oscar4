@@ -1,0 +1,1 @@
+This is a UTF-8 file with Swedish words (/names): Ångstrom och öl.

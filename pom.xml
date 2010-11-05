@@ -135,6 +135,11 @@
                 <version>20040218.045431</version>
             </dependency>
             <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>1.4</version>
+            </dependency>
+            <dependency>
                 <groupId>trove</groupId>
                 <artifactId>trove</artifactId>
                 <version>1.1-beta-5</version>

@@ -3,6 +3,7 @@ package uk.ac.cam.ch.wwmm.oscar.tools;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,10 +29,9 @@ import nu.xom.ValidityException;
  */
 public final class ResourceGetter {
 
-	//private static Builder builder = new Builder();
-	String resourcePath;
+	private String resourcePath;
 	
-	private ClassLoader classLoader = null;
+	private ClassLoader classLoader;
 	
 	private boolean skipFiles; 
 
@@ -74,13 +74,13 @@ public final class ResourceGetter {
 		if(resourcePath.startsWith("/")) resourcePath = resourcePath.substring(1);
 		this.resourcePath = resourcePath;
 	}
-//	
+//
 //	private File getResDir() {
 //		if(skipFiles) return null;
 //		File resourcesTop = new File(Oscar3Props.getInstance().workspace, "resources");
 //		return new File(resourcesTop, resourcePath);
 //	}
-//	
+//
 //	private File getFile(String name) {
 //		File f = new File(getResDir(), name);
 //		if(f.isDirectory()) return null;
@@ -98,9 +98,9 @@ public final class ResourceGetter {
 //	}
 	
 	/**Sets up an output stream to which a resource file can be written; this
-	 * resource file will be in a subdirectory of the resources directory in 
+	 * resource file will be in a subdirectory of the resources directory in
 	 * the workspace.
-	 * 
+	 *
 	 * @param name The name of the file to write.
 	 * @return The output stream.
 	 * @throws Exception
@@ -110,10 +110,10 @@ public final class ResourceGetter {
 //		File f = getFileForWriting(name);
 //		return new FileOutputStream(f);
 //	}
-	
+
 	/**Fetches a data file from resourcePath,
 	 * and parses it to an XML Document.
-	 * 
+	 *
 	 * @param name The name of the file to parse.
 	 * @return The parsed document.
 	 * @throws Exception If the document can't be found, or can't parse, or is malformed/invalid.
@@ -126,15 +126,15 @@ public final class ResourceGetter {
 //			} else {
 //				ClassLoader l = Thread.currentThread().getContextClassLoader();
 //				if(!skipFiles && !"none".equals(Oscar3Props.getInstance().resourcePrefix)) {
-//					URL url = l.getResource(Oscar3Props.getInstance().resourcePrefix + resourcePath + name);        					
+//					URL url = l.getResource(Oscar3Props.getInstance().resourcePrefix + resourcePath + name);
 //					try {
-//						Document d = new Builder().build(url.toString());						
+//						Document d = new Builder().build(url.toString());
 //						if(d != null) return d;
 //					} catch (Exception e) {
 //						// Squelching the exceptions that come from failing to find a file here
 //					}
 //				}
-//				URL url = l.getResource(resourcePath + name);        
+//				URL url = l.getResource(resourcePath + name);
 //				Document d = new Builder().build(url.toString());
 //				return d;
 //			}
@@ -205,16 +205,33 @@ public final class ResourceGetter {
 //			throw new Exception("Could not get resource file: " + name);
 //		}
 //	}
-	
-	public InputStream getStream(String resourceName) throws Exception {
-		ClassLoader loader = this.classLoader;
-		if (loader == null)
-			loader = this.getClass().getClassLoader();
-		InputStream inStream = loader.getResourceAsStream(resourcePath+resourceName);
-		
-		return inStream;
+
+    public InputStream getStream(String resourceName) {
+		InputStream inStream = getStream(resourceName, Thread.currentThread().getContextClassLoader());
+        if (inStream != null) {
+            return inStream;
+        }
+        inStream = getStream(resourceName, classLoader);
+        if (inStream != null) {
+            return inStream;
+        }
+        inStream = getStream(resourceName, ClassLoader.getSystemClassLoader());
+        if (inStream != null) {
+            return inStream;
+        }
+        // TODO - should we throw exception (e.g. FileNotFoundException)
+        return null;
 	}
-//	/**Fetches a data file from resourcePath, and writes it as the given file. 
+
+    private InputStream getStream(String resourceName, ClassLoader classLoader) {
+        if (classLoader != null) {
+            InputStream inStream = classLoader.getResourceAsStream(resourcePath+resourceName);
+            return inStream;
+        }
+        return null;
+    }
+
+//	/**Fetches a data file from resourcePath, and writes it as the given file.
 //	 * 
 //	 * @param name The resource to write.
 //	 * @param file The file to write it to.

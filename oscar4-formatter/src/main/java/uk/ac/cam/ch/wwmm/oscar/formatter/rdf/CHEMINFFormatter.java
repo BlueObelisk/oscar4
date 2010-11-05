@@ -7,7 +7,8 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.formatter.IOutputFormatter;
 
 /**
- * Creates Oscar output in the RDF/Turtle format using the CHEMINF
+ * Creates Oscar output in the RDF/Turtle format using the
+ * <a href="http://code.google.com/p/semanticchemistry/">CHEMINF</a>
  * ontology.
  *
  * @author egonw

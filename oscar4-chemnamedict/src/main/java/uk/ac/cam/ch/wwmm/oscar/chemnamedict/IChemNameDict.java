@@ -9,17 +9,11 @@ public interface IChemNameDict {
 
 	public URI getURI();
 
-	public boolean hasStopWord(String queryWord);
-
-	public Set<String> getStopWords();
-
 	public boolean hasName(String queryName);
 
 	public Set<String> getNames(String inchi);
 
 	public Set<String> getNames();
-
-	public Set<String> getOrphanNames();
 
 	public Set<ChemRecord> getChemRecords();
 

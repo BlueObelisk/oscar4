@@ -37,20 +37,6 @@ public class ChemNameDictRegistryTest {
 	}
 
 	@Test
-	public void testHasStopWord() throws Exception {
-		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
-		registry.clear();
-		Assert.assertEquals(0, registry.listDictionaries().size());
-		Assert.assertFalse(registry.hasStopWord("foo"));
-		ChemNameDict dict = new ChemNameDict(new URI("http://www.example.org/"));
-		registry.register(dict);
-		Assert.assertEquals(1, registry.listDictionaries().size());
-
-		dict.addStopWord("foo");
-		Assert.assertTrue(registry.hasStopWord("foo"));
-	}
-
-	@Test
 	public void testGetDictionary() throws Exception {
 		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
 		registry.clear();

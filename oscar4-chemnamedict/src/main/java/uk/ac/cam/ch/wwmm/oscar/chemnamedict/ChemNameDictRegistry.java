@@ -71,13 +71,6 @@ public class ChemNameDictRegistry {
 		return dictionaries.get(uri);
 	}
 
-	public boolean hasStopWord(String queryWord) {
-		for (IChemNameDict dict : dictionaries.values()) {
-			if (dict.hasStopWord(queryWord)) return true;
-		}
-		return false;
-	}
-
 	public boolean hasName(String queryName) {
 		for (IChemNameDict dict : dictionaries.values()) {
 			if (dict.hasName(queryName)) return true;

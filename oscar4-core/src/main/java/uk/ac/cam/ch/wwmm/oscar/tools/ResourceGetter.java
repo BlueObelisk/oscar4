@@ -19,6 +19,7 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
+import org.apache.commons.io.IOUtils;
 
 /**Gets resource files from packages. Useful for incuding data in JAR files.
  * 
@@ -127,7 +128,7 @@ public final class ResourceGetter {
         if (inStream != null) {
             return inStream;
         }
-        // TODO - should we throw exception (e.g. FileNotFoundException)
+        // TODO - should we throw exception (e.g. FileNotFoundException) ?
         return null;
 	}
 
@@ -181,27 +182,40 @@ public final class ResourceGetter {
 	 * @throws Exception If the resouce file couldn't be found.
 	 */	
 	public List<String> getStrings(String name, boolean UTF8) throws Exception {
-		List<String> results = new ArrayList<String>();
-    	InputStream is = getStream(name);
-    	InputStreamReader isr;
-		if (UTF8) {
-    		isr = new InputStreamReader(is, "UTF-8");
-    	} else {
-    		isr = new InputStreamReader(is);
-    	}
-		BufferedReader br = new BufferedReader(isr);
-    	String line = br.readLine();
-    	while (line != null) {
-    		line = line.split("\\s*#")[0];
-    		if(line.length() == 0) {
-        		line = br.readLine();
-    			continue;
-    		}
-    		results.add(line);
-    		line = br.readLine();
-    	}
-    	return results;
-	}
+		InputStream is = getStream(name);
+        if (is != null) {
+            List<String> lines;
+            if (UTF8) {
+                lines = IOUtils.readLines(is, "UTF-8");
+            } else {
+                lines = IOUtils.readLines(is);
+            }
+            return removeComments(lines);
+        }
+        return null;
+    }
+
+    public static List<String> removeComments(List<String> lines) {
+        List<String> results = new ArrayList<String>(lines.size());
+        for (String line : lines) {
+            int i = findComment(line);
+            if (i == -1) {
+                results.add(line);
+            } else if (i > 0) {
+                results.add(line.substring(0, i));
+            }
+        }
+        return results;
+    }
+
+    private static int findComment(String line) {
+        int i = line.indexOf('#');
+        while (i > 0 && Character.isWhitespace(line.charAt(i-1))) {
+            i--;
+        }
+        return i;
+    }
+    
 
 	/**Fetches a data file from resourcePath as an InputStream, removes comments starting with \s#, and
 	 * returns each line in a set.
@@ -226,19 +240,19 @@ public final class ResourceGetter {
     	return results;
 	}
 	
-	/**Fetches a data file from resourcePath, and returns the entire contents
-	 * as a string.
+	/**
+     * Fetches a data file from resourcePath, and returns the entire contents as a UTF-8 encoded string.
 	 * 
 	 * @param name The file to fetch.
 	 * @return The string.
 	 * @throws Exception
 	 */
-	public String getString(String name) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(getStream(name), "UTF-8"));
-		StringBuffer sb = new StringBuffer();
-		while(br.ready()) sb.append((char)br.read());
-		br.close();
-		return sb.toString();
+	public String getString(String name) throws IOException {
+        InputStream is = getStream(name);
+        if (is != null) {
+            return IOUtils.toString(is, "UTF-8");
+        }
+        return null;
 	}
 
 	private List<String> findResourceInFile(File resourceFile) throws IOException {

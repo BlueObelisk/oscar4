@@ -107,12 +107,6 @@ implements IMutableChemNameDict {
 		for(ChemRecord record : cnd.getChemRecords()) {
 			addChemRecord(record);
 		}
-		for(String orphan : cnd.getOrphanNames()) {
-			addName(orphan);
-		}
-		for(String stop : cnd.getStopWords()) {
-			addStopWord(stop);
-		}
 	}
 
 }

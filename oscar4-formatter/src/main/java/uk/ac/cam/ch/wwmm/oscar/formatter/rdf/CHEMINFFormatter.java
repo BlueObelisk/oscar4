@@ -27,12 +27,17 @@ public class CHEMINFFormatter implements IOutputFormatter {
 		this.stream.println("@prefix dc: <http://purl.org/dc/elements/1.1/> .");
 		this.stream.println("@prefix ex: <http://example.org/stuff/1.0/> .");
 		this.stream.println("@prefix cheminf: <http://semanticscience.org/resource/> .");
+		this.stream.println("@prefix sio: <http://semanticscience.org/resource/>.");
 	}
 
 	public void write(NamedEntity entity, String inchi) {
 		this.stream.println("ex:entity" + (counter++) + " [");
 		this.stream.println("  a cheminf:CHEMINF_000000");
 		this.stream.println("  dc:label \"" + entity.getSurface() + "\"");
+		this.stream.println("  cheminf:CHEMINF_000200 [");
+		this.stream.println("    a cheminf:CHEMINF_000113 ;");
+		this.stream.println("    sio:SIO_000300 \"" + inchi + "\" .");
+		this.stream.println("  ] .");
 		this.stream.println("] .");
 	}
 

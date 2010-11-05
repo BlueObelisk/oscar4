@@ -15,10 +15,5 @@ public class ImmutableChemNameDictTest {
 			new ImmutableChemNameDict(new URI("http://example.com/"))
 		);
 	}
-	
-	@Test
-	public void testStopWords() throws Exception {
-		IChemNameDict dictionary = new ImmutableChemNameDict(new URI("http://example.com/"));
-		Assert.assertFalse(dictionary.hasStopWord("Uppsala"));
-	}
+
 }

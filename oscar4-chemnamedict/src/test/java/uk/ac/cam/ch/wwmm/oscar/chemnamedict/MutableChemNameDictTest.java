@@ -15,12 +15,5 @@ public class MutableChemNameDictTest {
 			new MutableChemNameDict(new URI("http://example.com/"))
 		);
 	}
-	
-	@Test
-	public void testStopWords() throws Exception {
-		IMutableChemNameDict dictionary = new MutableChemNameDict(new URI("http://example.com/"));
-		Assert.assertFalse(dictionary.hasStopWord("Uppsala"));
-		dictionary.addStopWord("Uppsala");
-		Assert.assertTrue(dictionary.hasStopWord("Uppsala"));
-	}
+
 }

@@ -45,22 +45,6 @@ public final class ChemNameDictIO {
 	private static Document toXML(IChemNameDict dictionary) throws Exception {
 		Element cnde = new Element("newchemnamedict");
 
-		Element stops = new Element("stops");
-		for(String s : dictionary.getStopWords()) {
-			Element stop = new Element("stop");
-			stop.appendChild(s);
-			stops.appendChild(stop);
-		}
-		cnde.appendChild(stops);
-
-		Element orphans = new Element("orphanNames");
-		for(String n : dictionary.getOrphanNames()) {
-			Element name = new Element("name");
-			name.appendChild(n);
-			orphans.appendChild(name);
-		}
-		cnde.appendChild(orphans);
-
 		Element records = new Element("records");
 		for(ChemRecord record : dictionary.getChemRecords()) {
 			records.appendChild(ChemRecordIO.toXML(record));

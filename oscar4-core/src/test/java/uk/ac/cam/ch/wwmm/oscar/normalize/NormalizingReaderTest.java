@@ -23,4 +23,18 @@ public class NormalizingReaderTest {
 		);
 	}
 
+	@Test
+	public void testProcessAll() throws IOException {
+		NormalizingReader stream = new NormalizingReader( 
+			this.getClass().getClassLoader().getResourceAsStream(
+				"multiline.txt"
+			)
+		);
+		
+		Assert.assertEquals("line 1", stream.readLine());
+		Assert.assertEquals("line two", stream.readLine());
+		Assert.assertEquals("line three", stream.readLine());
+		Assert.assertEquals("line four", stream.readLine());
+		Assert.assertEquals("line five", stream.readLine());
+	}
 }

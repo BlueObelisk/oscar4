@@ -4,11 +4,12 @@ import java.io.IOException;
 
 import junit.framework.Assert;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class NormalizingReaderTest {
 
-	@Test
+	@Ignore
 	public void testUTF8() throws IOException {
 		NormalizingReader stream = new NormalizingReader( 
 			this.getClass().getClassLoader().getResourceAsStream(
@@ -21,4 +22,5 @@ public class NormalizingReaderTest {
 			"ff wachten", string
 		);
 	}
+
 }

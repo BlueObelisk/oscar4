@@ -103,15 +103,24 @@ public final class Tokeniser implements ITokeniser {
 	 */
 	public TokenSequence tokenise(String s, ProcessingDocument doc, int offset,
 			Element elem, boolean tokeniseForNEs, boolean mergeNEs) {
+		/*
+		 * @dmj30: The arguments tokeniseForNEs and mergeNEs confuse me.
+		 * Under what circumstances are we calling the tokeniser after we've
+		 * already identified the named entities? I suspect the method is
+		 * trying to do too many things.
+		 */
 		List<Token> tokens = new LinkedList<Token>();
 		Matcher m = tokenPattern.matcher(s);
 		/* Initial tokenisation */
 		
-		/************************
+		/*
 		 * @lh359: The words in 
 		 * "String s" match 
 		 * the regex tokenPattern
 		 * create a Token out of it
+		 * 
+		 * @dmj30: The tokenPattern is; "[^\\s" + StringTools.whiteSpace + "]+"
+		 * creates tokens out of consecutive characters of non-whitespace
 		 */
 		while (m.find()) {
 			int start = m.start() + offset;
@@ -124,8 +133,12 @@ public final class Tokeniser implements ITokeniser {
 		// a linked list a lot, but it seems not to make a difference in
 		// practise.
 		int i = 0;
-		/***************************
+		/*
 		 * @lh359: Let the messiness begin
+		 * 
+		 * @dmj30: This loop iterates over the (whitespace separated) tokens we
+		 * just created and subtokenises them using the splitToken(Token) method.
+		 * Newly created tokens are recursively subtokenised.
 		 */
 		while (i < tokens.size()) {
 			// System.out.println("***Before Split tokens = "+tokens.get(i).value);
@@ -149,7 +162,7 @@ public final class Tokeniser implements ITokeniser {
 		// System.out.println(System.nanoTime() - nt);
 		/* Discard empty tokens */
 		
-		/**********************
+		/*
 		 * @lh359: Remove empty tokens
 		 */
 		List<Token> tmpTokens = new ArrayList<Token>();
@@ -162,7 +175,7 @@ public final class Tokeniser implements ITokeniser {
 		
 		if (elem != null && tokeniseForNEs) {
 			try {
-				/**********************************
+				/*
 				 * @lh359: This function is called
 				 * when we know the tag of the word
 				 * This is what was editing the results
@@ -184,17 +197,23 @@ public final class Tokeniser implements ITokeniser {
 			t.id = id;
 			id++;
 		}
+		
+		/* Make an index of the tokens in the ProcessingDocument */
 		if (doc != null && doc.tokensByStart != null) {
 			for (Token t : tokens) {
 				doc.tokensByStart.put((Integer) t.start, t);
 				doc.tokensByEnd.put(t.end, t);
 			}
 		}
+		
+		/* Create a TokenSequence from the tokens */
 		TokenSequence tokenSequence = new TokenSequence(s, offset, doc, tokens);
 		for (Token t : tokens) {
 			t.tokenSequence = tokenSequence;
 		}
 		tokenSequence.setElem(elem);
+		
+		
 		return tokenSequence;
 	}
 
@@ -204,7 +223,7 @@ public final class Tokeniser implements ITokeniser {
 	 *  But it seems like a set of cases 
 	 * for splitting token
 	 * @param token
-	 * @return
+	 * @return Subtokenised List or null if no subtokenisation has occurred
 	 */
 	private List<Token> splitToken(Token token) {
 		List<Token> tokenList = rawSplitToken(token);
@@ -224,14 +243,22 @@ public final class Tokeniser implements ITokeniser {
 	 * @lh359: Splits tokens based on different
 	 * patterns
 	 * 
+	 * @dmj30: Subtokenisation of hyphen-containing tokens
+	 * is currently disabled
+	 * 
 	 * Localising citation bit is redundant
+	 * 
+	 * @return Subtokenised List or null if no subtokenisation has occurred
 	 ***********************************/
 	private List<Token> rawSplitToken(Token token) {
-		/***********************************
+		/*
 		 * @lh359: Added temporarily by me
 		 *  so that it doesn't
 		 *  tokenise on abbreviations
+		 *  
+		 *  @dmj30: Using String.split for every token in the document, are we?
 		 */
+		//TODO optimise this operation if it gets left in
 		String abbreviations = "et. al. etc. e.g. i.e. vol. ca. wt. aq. ea-";
 		List<String> abvList = new ArrayList<String>();
 		for (String item : abbreviations.split(" ")) {
@@ -240,7 +267,7 @@ public final class Tokeniser implements ITokeniser {
 		
 		if (abvList.contains(token.value.toLowerCase())) return null;
 		
-		/*****************************************
+		/*
 		* End of lh359 code
 		*****************************************/			
 		String middleValue = "";
@@ -310,29 +337,29 @@ public final class Tokeniser implements ITokeniser {
 		/* Preserve oxidation states whole - don't eat for brackets */
 		if (oxidationStatePattern.matcher(token.value).matches()) {
 			return null;
-			/* Split unmatched brackets off the front */
 		}
+		/* Split unmatched brackets off the front */
 		if ("([{".indexOf(token.value.codePointAt(0)) != -1
 				&& (StringTools.isBracketed(token.value) || StringTools
 						.isLackingCloseBracket(token.value))) {
 			return splitAt(token, token.start + 1);
-			/* Split unmatched brackets off the end */
 		}
+		/* Split unmatched brackets off the end */
 		if (")]}".indexOf(token.value.codePointAt(token.value.length() - 1)) != -1
 				&& (StringTools.isBracketed(token.value) || StringTools
 						.isLackingOpenBracket(token.value))) {
 			return splitAt(token, token.end - 1);
-			/* Split oxidation state off the end */
 		}
+		/* Split oxidation state off the end */
 		if (oxidationStateEndPattern.matcher(token.value).matches()) {
 			return splitAt(token, token.start + token.value.lastIndexOf('('));
-			/* Split some characters off the front of tokens */
 		}
+		/* Split some characters off the front of tokens */
 		if ((StringTools.relations + StringTools.quoteMarks)
 				.indexOf(token.value.codePointAt(0)) != -1) {
 			return splitAt(token, token.start + 1);
-			/* Split some characters off the back of tokens */
 		}
+		/* Split some characters off the back of tokens */
 		if ((".,;:!?\u2122\u00ae-" + StringTools.quoteMarks)
 				.indexOf(token.value.codePointAt(token.value.length() - 1)) != -1) {
 			// Careful with Jones' reagent
@@ -341,6 +368,7 @@ public final class Tokeniser implements ITokeniser {
 				return splitAt(token, token.end - 1);
 			}
 		}
+		/* Split trademark symbols off the back of tokens */
 		Matcher m = trademarkPattern.matcher(token.value);
 		if (m.matches() && m.start(1) > 0) {
 			return splitAt(token, token.start + m.start(1));
@@ -400,11 +428,15 @@ public final class Tokeniser implements ITokeniser {
 					token.start + token.value.indexOf("--") + 2);
 		}
 		
-		/**********************************
+		/*
 		 * @lh359: This function used to call
 		 * HyphenTokeniser but works better when set
 		 * to -1 for somereason. Needs to be investigated
 		 * further
+		 * 
+		 * @dmj30: it appears that subtokenisation of hyphenated words
+		 * has been disabled. In phrases like "alcohol-consuming bacteria",
+		 * this prevents OSCAR from recognising the ne "alcohol".
 		 */
 		int splittableHyphenIndex = -1;
 		//int splittableHyphenIndex = HyphenTokeniser.indexOfSplittableHyphen(token.value);

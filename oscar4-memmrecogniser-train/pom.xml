@@ -8,9 +8,9 @@
     <version>4.0-SNAPSHOT</version>
   </parent>
   <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
-  <artifactId>oscar4-memmrecognizer-train</artifactId>
+  <artifactId>oscar4-memmrecogniser-train</artifactId>
   <version>4.0-SNAPSHOT</version>
-  <name>oscar4-memmrecognizer-train</name>
+  <name>oscar4-memmrecogniser-train</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

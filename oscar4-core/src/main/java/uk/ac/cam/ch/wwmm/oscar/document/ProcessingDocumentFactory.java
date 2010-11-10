@@ -148,6 +148,12 @@ public class ProcessingDocumentFactory {
 		 * set to true, from what I have seen
 		 * only accessed from oscarServer
 		 * as an option for the user.
+		 * 
+		 * @dmj30: the Genia POS tags are used by the "patterns" flow command
+		 * in OSCAR3 but the user has to install Genia and configure OSCAR to
+		 * use it. See iePatterns.txt
+		 * 
+		 * 
 		 */
 		if(runGenia) {
 			procDoc.sentences = new ArrayList<List<Token>>();

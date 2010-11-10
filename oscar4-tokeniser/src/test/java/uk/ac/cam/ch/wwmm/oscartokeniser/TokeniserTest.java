@@ -36,6 +36,9 @@ public final class TokeniserTest {
 	}
 
 	@Test
+	/**
+	 * @dmj30: I'm not convinced that this test is mandating desired behaviour
+	 */
 	public void testHyphens() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "EA- or BA-modified HPEI";
@@ -43,6 +46,7 @@ public final class TokeniserTest {
 		Assert.assertEquals(tokseq.getTokens().size(), 4);
 		checkTokens(tokseq.getTokens(), "EA- or BA-modified HPEI");
 	}
+	
 	@Test
 	public void testSlashes() {
 		Tokeniser tokeniser = new Tokeniser();

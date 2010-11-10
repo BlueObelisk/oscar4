@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermSets;
 
 /**
@@ -211,7 +211,7 @@ public class NGramBuilder {
 	private void readUdwTrainingData() {
 		Set<String> goodUDW = new HashSet<String>();
 		for(String word : TermSets.getUsrDictWords()) {
-			if(!(ChemNameDictSingleton.hasName(word) || ExtractTrainingData.getInstance().chemicalWords.contains(word))) {
+			if(!(ChemNameDictSingleton.hasName(word) || ExtractedTrainingData.getInstance().chemicalWords.contains(word))) {
 				goodUDW.add(word);
 			}
 		}
@@ -219,7 +219,7 @@ public class NGramBuilder {
 	}
 	
 	private void readExtractedTrainingData() {
-		ExtractTrainingData etd = ExtractTrainingData.getInstance();
+		ExtractedTrainingData etd = ExtractedTrainingData.getInstance();
 		readCollection(etd.chemicalWords, true);
 		readCollection(etd.nonChemicalWords, false);	
 	}

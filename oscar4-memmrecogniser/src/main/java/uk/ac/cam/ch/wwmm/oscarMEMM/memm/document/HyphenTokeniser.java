@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermSets;
 
@@ -60,7 +60,7 @@ public final class HyphenTokeniser {
 		logger.debug("Initialising hyphen tokeniser... ");
 		//splitSuffixes = TermSets.getSplitSuffixes();
 		splitSuffixes = new HashSet<String>();
-		splitSuffixes.addAll(ExtractTrainingData.getInstance().afterHyphen);
+		splitSuffixes.addAll(ExtractedTrainingData.getInstance().afterHyphen);
 
 		/*for(String s : TermSets.getUsrDictWords()) {
 			if(!ChemNameDictSingleton.hasName(s) && !ExtractTrainingData.getIntstance().chemicalWords.contains(s)) {

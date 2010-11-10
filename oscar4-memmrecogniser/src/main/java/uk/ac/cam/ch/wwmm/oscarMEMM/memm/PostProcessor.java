@@ -15,7 +15,7 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.TokenTypes;
 
@@ -87,7 +87,7 @@ final class PostProcessor {
 			return 11;
 			// Fix things for alternate annotation scheme
 		}  else if((type.length() < 4) && (!noPC &&
-			 ExtractTrainingData.getInstance().nonChemicalWords.contains(surf)))
+			 ExtractedTrainingData.getInstance().nonChemicalWords.contains(surf)))
 			 {
 //		else if ((type.length() < 4)
 //				&& (!noPC && dataModel.nonChemicalWords

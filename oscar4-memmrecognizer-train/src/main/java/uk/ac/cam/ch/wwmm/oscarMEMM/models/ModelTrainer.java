@@ -13,8 +13,9 @@ import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMTrainer;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMTrainerSingleton;
 import uk.ac.cam.ch.wwmm.oscarMEMM.subtypes.NESubtypes;
 
 /**Routines to co-ordinate the holding of experimental training data, and 
@@ -23,9 +24,9 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.subtypes.NESubtypes;
  * @author ptc24
  *
  */
-public class Model {
+public class ModelTrainer {
 	
-	private final static Logger logger = Logger.getLogger(Model.class);
+	private final static Logger logger = Logger.getLogger(ModelTrainer.class);
 
 	/**Examines the current MEMM, NESubtypes and ExtractTrainingData singletons,
 	 * and produces an XML document from their contents.
@@ -36,7 +37,7 @@ public class Model {
 	public static Document makeModel() throws Exception {
 		Element modelRoot = new Element("model");
 		modelRoot.appendChild(ExtractedTrainingData.getInstance().toXML());
-		MEMM memm = MEMMSingleton.getInstance();
+		MEMMTrainer memm = MEMMTrainerSingleton.getInstance();
 		if(memm != null) modelRoot.appendChild(memm.writeModel());
 //		NESubtypes subtypes = NESubtypes.getInstance();
 //		if(subtypes.OK) modelRoot.appendChild(subtypes.toXML());
@@ -133,6 +134,41 @@ public class Model {
 		//makeModel(modelName, FileTools.getFilesFromDirectoryByName(new File(Oscar3Props.getInstance().workspace, "scrapbook"), "scrapbook.xml"));
 	}
 
+	/**Compiles a model, based on the given set of ScrapBook files, and
+	 * saves it in the models directory.
+	 * 
+	 * @param modelName The name of the model file (".xml" will be appended to
+	 * this)
+	 */
+	public static void makeModel(String modelName, List<File> files) {
+		makeModel(modelName, files, true);
+	}
+	
+	/**Compiles a model, based on the given set of ScrapBook files, and
+	 * saves it in the models directory.
+	 * 
+	 * @param modelName The name of the model file (".xml" will be appended to
+	 * this)
+	 */
+	public static void makeModel(String modelName, List<File> files, boolean rescore) {
+		try {
+			MEMMTrainerSingleton.train(files, rescore); // This also trains the ETD
+			//NESubtypes.trainOnFiles(files); commented it out on 19 jan 2010
+			Document modelDoc = makeModel();
+			if(OscarProperties.getData().workspace.equals("none")) {
+				throw new Error("You can't train a model unless you have a workspace");
+			}
+			File trainDir = new File(OscarProperties.getData().workspace, "models");
+			if(trainDir.exists() && !trainDir.isDirectory()) {
+				throw new Error("You have a file called models in your workspace - it should be a directory!");
+			}
+			if(!trainDir.exists()) trainDir.mkdir();
+			new Serializer(new FileOutputStream(new File(trainDir, modelName + ".xml"))).write(modelDoc);
+		} catch (Exception e) {
+			throw new Error(e);
+		}
+	}
+	
 	/**Produces a hash value for the current model.
 	 * 
 	 * @return The hash value.

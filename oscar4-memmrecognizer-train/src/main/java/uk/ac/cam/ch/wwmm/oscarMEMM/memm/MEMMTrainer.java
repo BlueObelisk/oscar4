@@ -36,7 +36,7 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.RescoreMEMMOut;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**The main class for generating and running MEMMs
@@ -44,9 +44,9 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  * @author ptc24
  *
  */
-public final class MEMM {
+public final class MEMMTrainer {
 
-	private final Logger logger = Logger.getLogger(MEMM.class);
+	private final Logger logger = Logger.getLogger(MEMMTrainer.class);
 
 	private Map<String, List<Event>> evsByPrev;
 	private Map<String, Double> zeroProbs; 
@@ -77,7 +77,7 @@ public final class MEMM {
 	
 	private RescoreMEMMOut rescorer;
 			
-	MEMM() throws Exception {
+	MEMMTrainer() throws Exception {
 		evsByPrev = new HashMap<String, List<Event>>();
 		zeroProbs = new HashMap<String, Double>();
 		gmByPrev = new HashMap<String, GISModel>();
@@ -179,6 +179,158 @@ public final class MEMM {
 		logger.debug(System.currentTimeMillis() - time);
 	}
 	
+	void trainOnSbFilesNosplit(List<File> files, Map<File,String> domains) throws Exception {
+		if(retrain) {
+			HyphenTokeniser.reinitialise();
+			new ExtractTrainingData(files);
+			HyphenTokeniser.reinitialise();					
+		}
+		for(File f : files) {
+			String domain = null;
+			if(domains != null && domains.containsKey(f)) domain = domains.get(f);
+			trainOnFile(f, domain);
+		}				
+		finishTraining();
+	}
+	
+	void trainOnSbFiles(List<File> files, Map<File,String> domains) throws Exception {
+		if(!splitTrain) {
+			trainOnSbFilesNosplit(files, domains);
+			return;
+		}
+		List<Set<File>> splitTrainFiles = new ArrayList<Set<File>>();
+		List<Set<File>> splitTrainAntiFiles = new ArrayList<Set<File>>();
+		int splitNo = 2;
+		
+		for(int i=0;i<splitNo;i++) {
+			splitTrainFiles.add(new HashSet<File>());
+			splitTrainAntiFiles.add(new HashSet<File>());
+		}
+		
+		for(int i=0;i<files.size();i++) {
+			for(int j=0;j<splitNo;j++) {
+				if(j == i % splitNo) {
+					splitTrainFiles.get(j).add(files.get(i));
+				} else {
+					splitTrainAntiFiles.get(j).add(files.get(i));
+				}
+			}
+		}
+		
+		for(int split=0;split<splitNo;split++) {
+			if(retrain) {
+				HyphenTokeniser.reinitialise();
+				new ExtractTrainingData(splitTrainAntiFiles.get(split));
+				HyphenTokeniser.reinitialise();					
+			}
+			
+			int fileno = 0;
+			for(File f : splitTrainFiles.get(split)) {
+				fileno++;			
+				String domain = null;
+				if(domains != null && domains.containsKey(f)) domain = domains.get(f);
+				trainOnFile(f, domain);
+			}				
+		}
+
+		finishTraining();
+		if(retrain) {
+			HyphenTokeniser.reinitialise();
+			new ExtractTrainingData(files);
+			HyphenTokeniser.reinitialise();				
+		}
+	}
+
+	void trainOnSbFilesWithCVFS(List<File> files, Map<File,String> domains) throws Exception {
+		List<List<File>> splitTrainFiles = new ArrayList<List<File>>();
+		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();
+		int splitNo = 3;
+		
+		for(int i=0;i<splitNo;i++) {
+			splitTrainFiles.add(new ArrayList<File>());
+			splitTrainAntiFiles.add(new ArrayList<File>());
+		}
+		
+		for(int i=0;i<files.size();i++) {
+			for(int j=0;j<splitNo;j++) {
+				if(j == i % splitNo) {
+					splitTrainFiles.get(j).add(files.get(i));
+				} else {
+					splitTrainAntiFiles.get(j).add(files.get(i));
+				}
+			}
+		}
+		
+		for(int split=0;split<splitNo;split++) {
+			trainOnSbFiles(splitTrainAntiFiles.get(split), domains);
+			evsByPrev.clear();
+			for(File f : splitTrainFiles.get(split)) {
+				String domain = null;
+				if(domains != null && domains.containsKey(f)) domain = domains.get(f);
+				cvFeatures(f, domain);
+			}				
+		}
+		
+		findPerniciousFeatures();
+		trainOnSbFiles(files, domains);
+		/*if(tampering) {
+			List<String> prefixesToRemove = new ArrayList<String>();
+			prefixesToRemove.add("anchor=");
+			for(String tag : gmByPrev.keySet()) {
+				gmByPrev.put(tag, Tamperer.tamperModel(gmByPrev.get(tag), perniciousFeatures.get(tag), prefixesToRemove));
+			}			
+		}*/
+	}
+
+	void trainOnSbFilesWithRescore(List<File> files, Map<File,String> domains) throws Exception {
+		rescorer = new RescoreMEMMOut();
+		List<List<File>> splitTrainFiles = new ArrayList<List<File>>();
+		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();
+		int splitNo = 3;
+		
+		for(int i=0;i<splitNo;i++) {
+			splitTrainFiles.add(new ArrayList<File>());
+			splitTrainAntiFiles.add(new ArrayList<File>());
+		}
+		
+		for(int i=0;i<files.size();i++) {
+			for(int j=0;j<splitNo;j++) {
+				if(j == i % splitNo) {
+					splitTrainFiles.get(j).add(files.get(i));
+				} else {
+					splitTrainAntiFiles.get(j).add(files.get(i));
+				}
+			}
+		}
+		
+		for(int split=0;split<splitNo;split++) {
+			if(simpleRescore) {
+				trainOnSbFiles(splitTrainAntiFiles.get(split), domains);
+			} else {
+				trainOnSbFilesWithCVFS(splitTrainAntiFiles.get(split), domains);
+			}
+			for(File f : splitTrainFiles.get(split)) {
+				String domain = null;
+				if(domains != null && domains.containsKey(f)) domain = domains.get(f);
+				rescorer.trainOnFile(f, domain, MEMMSingleton.getInstance());
+			}				
+			evsByPrev.clear();
+			if(!simpleRescore) {
+				featureCVScores.clear();
+				perniciousFeatures.clear();
+			}
+		}
+		rescorer.finishTraining();
+		if(simpleRescore) {
+			trainOnSbFiles(files, domains);
+		} else {
+			trainOnSbFilesWithCVFS(files, domains);
+		}
+	}
+
+	
+	
+	
 	private void makeEntityTypesAndZeroProbs() {
 		entityTypes = new HashSet<String>();
 		for(String tagType : tagSet) {
@@ -189,6 +341,38 @@ public final class MEMM {
 		for(String tag : tagSet) {
 			zeroProbs.put(tag, 0.0);
 		}			
+	}
+	
+	private void finishTraining() throws Exception {
+		makeEntityTypesAndZeroProbs();
+		
+		if(useUber) {
+			List<Event> evs = new ArrayList<Event>();
+			for(String prevTagg : evsByPrev.keySet()) {
+				evs.addAll(evsByPrev.get(prevTagg));
+			}
+			DataIndexer di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), featureCutOff);
+			ubermodel = GIS.trainModel(trainingCycles, di);
+		} else {
+			for(String prevTagg : evsByPrev.keySet()) {
+				logger.debug(prevTagg);
+				List<Event> evs = evsByPrev.get(prevTagg);
+				if(featureSel) {
+					evs = new FeatureSelector().selectFeatures(evs);						
+				}		
+				if(evs.size() == 1) {
+					evs.add(evs.get(0));
+				}
+				DataIndexer di = null;
+				try {
+					di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), featureCutOff);
+					gmByPrev.put(prevTagg, GIS.trainModel(trainingCycles, di));
+				} catch (Exception e) {
+					di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), 1);				
+					gmByPrev.put(prevTagg, GIS.trainModel(trainingCycles, di));
+				}	
+			}
+		}
 	}
 	
 	private Map<String, Double> runGIS(GISModel gm, String [] context) {
@@ -250,7 +434,9 @@ public final class MEMM {
 			classifierResults.add(calcResults(extractor.getFeatures(i))); 
 		}
 		
-		EntityTokeniser lattice = new EntityTokeniser(this, tokSeq, classifierResults);
+		EntityTokeniser lattice = new EntityTokeniser(
+			MEMMSingleton.getInstance(), tokSeq, classifierResults
+		);
 		Map<NamedEntity,Double> neConfidences = lattice.getEntities(confidenceThreshold);
 		PostProcessor pp = new PostProcessor(tokSeq, neConfidences);
 		if(filtering) pp.filterEntities();
@@ -347,6 +533,27 @@ public final class MEMM {
 		}
 	}
 	
+	/**Produces an XML element containing the current MEMM model.
+	 * 
+	 * @return The XML element.
+	 * @throws Exception
+	 */
+	public Element writeModel() throws Exception {
+		Element root = new Element("memm");
+		for(String prev : gmByPrev.keySet()) {
+			Element maxent = new Element("maxent");
+			maxent.addAttribute(new Attribute("prev", prev));
+			StringGISModelWriter sgmw = new StringGISModelWriter(gmByPrev.get(prev));
+			sgmw.persist();
+			maxent.appendChild(sgmw.toString());
+			root.appendChild(maxent);
+		}
+		if(rescorer != null) {
+			root.appendChild(rescorer.writeElement());
+		}
+		return root;
+	}
+
 	/**Reads in an XML document containing a MEMM model.
 	 * 
 	 * @param doc The XML document.
@@ -385,28 +592,7 @@ public final class MEMM {
 		}
 		makeEntityTypesAndZeroProbs();
 	}
-
-	/**Produces an XML element containing the current MEMM model.
-	 * 
-	 * @return The XML element.
-	 * @throws Exception
-	 */
-	public Element writeModel() throws Exception {
-		Element root = new Element("memm");
-		for(String prev : gmByPrev.keySet()) {
-			Element maxent = new Element("maxent");
-			maxent.addAttribute(new Attribute("prev", prev));
-			StringGISModelWriter sgmw = new StringGISModelWriter(gmByPrev.get(prev));
-			sgmw.persist();
-			maxent.appendChild(sgmw.toString());
-			root.appendChild(maxent);
-		}
-		if(rescorer != null) {
-			root.appendChild(rescorer.writeElement());
-		}
-		return root;
-	}
-
+	
 	/**Uses this MEMM's rescorer to rescore a list of named entities. This
 	 * updates the confidence values held within the NEs.
 	 * 

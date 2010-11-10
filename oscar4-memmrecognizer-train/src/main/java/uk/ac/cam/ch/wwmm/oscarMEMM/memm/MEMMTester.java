@@ -28,6 +28,7 @@ import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
 import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -106,7 +107,7 @@ public final class MEMMTester {
 	public static void main(String[] args) throws Exception {
 		TermMaps.init();
 		OBOOntology.getInstance();
-		ExtractTrainingData.clear();
+		ExtractedTrainingData.clear();
 		NGram.getInstance();
 
 		List<File> sbFiles = new ArrayList<File>();
@@ -164,7 +165,7 @@ public final class MEMMTester {
 			}
 
 			List<File> trainFilesList = new ArrayList<File>(trainFiles);
-			MEMM memm = new MEMM();
+			MEMMTrainer memm = new MEMMTrainer();
 			if(true) {
 				//System.out.println("Reducing " + trainFilesList.size() + " training files to " + 10);
 				//trainFilesList = trainFilesList.subList(0,10);
@@ -177,9 +178,8 @@ public final class MEMMTester {
 				
 				//if(true) return;				
 			} else{
-				ExtractTrainingData.clear();
 				HyphenTokeniser.reinitialise();
-				ExtractTrainingData.reinitialise(trainFilesList);
+				new ExtractTrainingData(trainFilesList);
 				HyphenTokeniser.reinitialise();				
 
 				memm.readModel(new Builder().build("modeltest.xml"));

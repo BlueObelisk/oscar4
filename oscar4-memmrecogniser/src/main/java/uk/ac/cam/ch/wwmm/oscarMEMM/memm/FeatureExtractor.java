@@ -12,7 +12,7 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.TokenTypes;
@@ -167,7 +167,7 @@ final class FeatureExtractor {
 			contextable.add(makeWordFeature(normWord));
 		}
 
-		ExtractTrainingData etd = ExtractTrainingData.getInstance();
+		ExtractedTrainingData etd = ExtractedTrainingData.getInstance();
 		makeWordFeatures(word, normWord, bigramable, etd);
 		makeReactionFeatures(word, bigramable, contextable, etd);
 
@@ -212,17 +212,17 @@ final class FeatureExtractor {
 		if (TermSets.getClosedClass().contains(normWord)) {
 			local.add(STOPWORD_CLOSED_CLASS_FEATURE);
 		}
-		if (ExtractTrainingData.getInstance().nonChemicalWords
+		if (ExtractedTrainingData.getInstance().nonChemicalWords
 				.contains(normWord)) {
 			local.add(STOPWORD_NON_CHEMICAL_WORD_FEATURE);
 		}
-		if (ExtractTrainingData.getInstance().nonChemicalNonWords
+		if (ExtractedTrainingData.getInstance().nonChemicalNonWords
 				.contains(normWord)
 				&& !TermSets.getElements().contains(normWord)) {
 			local.add(STOPWORD_NONCHEMICALNONWORD_FEATURE);
 		}
 		if (TermSets.getUsrDictWords().contains(normWord)
-				&& !(ChemNameDictSingleton.hasName(normWord) || ExtractTrainingData
+				&& !(ChemNameDictSingleton.hasName(normWord) || ExtractedTrainingData
 						.getInstance().chemicalWords.contains(normWord))) {
 			local.add(STOPWORD_USER_DEFINED_FEATURE);
 		}
@@ -247,7 +247,7 @@ final class FeatureExtractor {
 				|| TermSets.getUsrDictWords().contains(word)) {
 			ngscore = SUFFIX_LO_SCORE;
 		}
-		if (ExtractTrainingData.getInstance().chemicalWords.contains(normWord)) {
+		if (ExtractedTrainingData.getInstance().chemicalWords.contains(normWord)) {
 			ngscore = 100;
 		}
 		if (ChemNameDictSingleton.hasName(word)) {
@@ -279,7 +279,7 @@ final class FeatureExtractor {
 				|| TermSets.getUsrDictWords().contains(word)) {
 			suffixScore = SUFFIX_LO_SCORE;
 		}
-		if (ExtractTrainingData.getInstance().chemicalWords.contains(normWord)) {
+		if (ExtractedTrainingData.getInstance().chemicalWords.contains(normWord)) {
 			suffixScore = SUFFIX_HI_SCORE;
 		}
 		if (ChemNameDictSingleton.hasName(word)) {
@@ -333,7 +333,7 @@ final class FeatureExtractor {
 	}
 
 	private void makeReactionFeatures(String word,
-			List<String> bigramable, List<String> contextable, ExtractTrainingData etd) {
+			List<String> bigramable, List<String> contextable, ExtractedTrainingData etd) {
 		if (etd.rnEnd.contains(word)) {
 			bigramable.add(RNEND_FEATURE);
 			contextable.add(RNEND_FEATURE);
@@ -345,7 +345,7 @@ final class FeatureExtractor {
 	}
 
 	private void makeWordFeatures(String word, String normWord,
-			List<String> bigramable, ExtractTrainingData etd) {
+			List<String> bigramable, ExtractedTrainingData etd) {
 		if (word.length() < 4 || etd.polysemous.contains(word)
 				|| etd.rnEnd.contains(word) || etd.rnMid.contains(word)) {
 			bigramable.add(makeWordFeature(word));
@@ -416,7 +416,7 @@ final class FeatureExtractor {
 					&& !TermSets.getUsrDictWords().contains(word))
 				suspect = true;
 			if (!noPC
-					&& ExtractTrainingData.getInstance().pnStops.contains(word))
+					&& ExtractedTrainingData.getInstance().pnStops.contains(word))
 				suspect = true;
 			int patternPosition = position + 1;
 			while (patternPosition < (tokSeq.size() - 2)

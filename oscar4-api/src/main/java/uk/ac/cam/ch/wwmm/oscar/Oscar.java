@@ -44,6 +44,8 @@ public class Oscar {
         // TODO - look at dictionary initialisation... don't like throws Exception here
         dictionaryRegistry.register(new DefaultDictionary());
         dictionaryRegistry.register(new ChEBIDictionary());
+        tokenizer = newDefaultTokeniser();
+        recogniser = newDefaultRecogniser();
     }
 
 

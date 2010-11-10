@@ -1,8 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -29,11 +27,10 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 /** Extracts and holds useful data from hand-annotated text.
  * 
  * @author ptc24
- *
+ * @author egonw
  */
 public final class ExtractTrainingData {
-	
-	private static ExtractTrainingData myInstance;
+
 	/**Words only found in chemical named entities.*/
 	public Collection<String> chemicalWords;
 	/**Words never found in chemical named entities.*/
@@ -60,69 +57,7 @@ public final class ExtractTrainingData {
 	public Set<String> rnMid;
 	
 	private static Pattern notForPrefixPattern = Pattern.compile("[0-9]+-([a-z]+)");
-		
-	/**Get the current singleton. If this does not exist, initialise it using
-	 * the current model file.
-	 * 
-	 * @return The singleton.
-	 */
-	public static ExtractTrainingData getInstance() {
-		if(myInstance == null) {
-			Model.loadModel();
-		}
-		return myInstance;
-	}
-	
-	/**Re-initialise the current singleton, using the current model file.
-	 * 
-	 */
-	public static void reinitialise() {
-		myInstance = null;
-		getInstance();
-	}
-	
-	/**Re-initialise the current singleton, given a collection of scrapbook
-	 * files.
-	 * 
-	 * @param files The ScrapBook files
-	 */
-	public static void reinitialise(Collection<File> files) {
-		myInstance = new ExtractTrainingData(files);
-	}
 
-	/**Re-initialise the current singleton, given an XML serialization
-	 * produced by toXML.
-	 * 
-	 * @param elem The XML serialized data.
-	 */
-	public static void reinitialise(Element elem) {
-		myInstance = new ExtractTrainingData();
-		myInstance.readXML(elem);
-	}
-
-	/**Destroy the current singleton.
-	 * 
-	 */
-	public static void clear() {
-		myInstance = new ExtractTrainingData();		
-	}
-	
-	/**Looks in the workspace for scrapbook files, extracts the data therein,
-	 * and initialises the singleton from it.
-	 * 
-	 * @return If the procedure succeeded.
-	 * Commented out on 27th Jan
-	 */
-//	public static boolean trainFromScrapbook() {
-//	OscarPropertiesoperties.getInstance().workspace.equals("none")) return false;
-//		File scrapbookdir = nOscarPropertiesarProperties.getInstance().workspace, "scrapbook");
-//		if(!scrapbookdir.exists() || !scrapbookdir.isDirectory()) return false;
-//		List<File> sbFiles = FileTools.getFilesFromDirectoryByName(scrapbookdir, "scrapbook.xml");
-//		ExtractTrainingData etd = new ExtractTrainingData(sbFiles);
-//		myInstance = etd;
-//		return true;
-//	}
-		
 	private Element stringsToElement(Collection<String> strings, String elemName) {
 		Element elem = new Element(elemName);
 		StringBuffer sb = new StringBuffer();
@@ -153,34 +88,6 @@ public final class ExtractTrainingData {
 		return etdElem;
 	}
 
-	private void readXML(Element xml) {
-		chemicalWords = readStringsFromElement(xml.getFirstChildElement("chemicalWords"));
-		nonChemicalWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalWords"));
-		chemicalNonWords = readStringsFromElement(xml.getFirstChildElement("chemicalNonWords"));
-		nonChemicalNonWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalNonWords"));
-		afterHyphen = readStringsFromElement(xml.getFirstChildElement("afterHyphen"));
-		notForPrefix = readStringsFromElement(xml.getFirstChildElement("notForPrefix"));
-		pnStops = readStringsFromElement(xml.getFirstChildElement("pnStops"));
-		polysemous = readStringsFromElement(xml.getFirstChildElement("polysemous"));
-		rnEnd = readStringsFromElement(xml.getFirstChildElement("rnEnd"));
-		rnMid = readStringsFromElement(xml.getFirstChildElement("rnMid"));
-	}
-	
-	private Set<String> readStringsFromElement(Element elem) {
-		try {
-			Set<String> strings = new HashSet<String>();
-			BufferedReader br = new BufferedReader(new StringReader(elem.getValue()));
-			String line = br.readLine();
-			while(line != null) {
-				strings.add(line.trim());
-				line = br.readLine();
-			} 
-			return strings;
-		} catch (Exception e) {
-			throw new Error(e);
-		}
-	}
-	
 	/**Produce a hash code for the current ExtractTrainingData.
 	 * 
 	 * @return The hash code.
@@ -189,10 +96,6 @@ public final class ExtractTrainingData {
 		return toXML().toXML().hashCode();
 	}
 
-	private ExtractTrainingData() {
-		initSets();
-	}
-	
 	/**Makes a new ExtractTrainingData from a collection of (ScrapBook) files.
 	 * 
 	 * @param files The files.
@@ -219,7 +122,6 @@ public final class ExtractTrainingData {
 		goodPn = new HashSet<String>();
 
 		initSets();
-		clear();
 		try {
 			HyphenTokeniser.reinitialise();
 		} catch (Exception e) {

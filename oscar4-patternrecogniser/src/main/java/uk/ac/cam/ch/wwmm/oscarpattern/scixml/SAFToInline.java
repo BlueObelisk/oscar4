@@ -5,10 +5,10 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Nodes;
+import uk.ac.cam.ch.wwmm.oscar.document.SafTools;
 import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 import uk.ac.cam.ch.wwmm.oscar.tools.XMLSpanTagger;
 import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
-import uk.ac.cam.ch.wwmm.oscarpattern.saf.SafTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.xmltools.XMLInserter;
 /** Converts standoff annotation to inline annotation.
  * 

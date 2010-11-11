@@ -20,12 +20,12 @@ import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.SafTools;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
-import uk.ac.cam.ch.wwmm.oscarMEMM.saf.SafTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.TokenTypes;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 

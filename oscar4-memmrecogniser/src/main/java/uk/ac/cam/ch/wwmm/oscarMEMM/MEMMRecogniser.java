@@ -13,10 +13,10 @@ import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.finder.DFAONTCPRFinder;
 import uk.ac.cam.ch.wwmm.oscarMEMM.saf.StandoffResolver;
-import uk.ac.cam.ch.wwmm.oscarMEMM.types.NETypes;
 
 /**
  * Name recognition using the Maximum Entropy Markov Model
@@ -115,11 +115,11 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 		for (NamedEntity ne : neList) {
 			double pseudoConf = Double.NaN;
 			String type = ne.getType();
-			if (type.equals(NETypes.ONTOLOGY))
+			if (type.equals(NamedEntityTypes.ONTOLOGY))
 				pseudoConf = OscarProperties.getData().ontProb;
-			if (type.equals(NETypes.LOCANTPREFIX))
+			if (type.equals(NamedEntityTypes.LOCANTPREFIX))
 				pseudoConf = OscarProperties.getData().cprProb;
-			if (type.equals(NETypes.CUSTOM))
+			if (type.equals(NamedEntityTypes.CUSTOM))
 				pseudoConf = OscarProperties.getData().custProb;
 			ne.setPseudoConfidence(pseudoConf);
 			ne.setDeprioritiseOnt(OscarProperties.getData().deprioritiseONT);

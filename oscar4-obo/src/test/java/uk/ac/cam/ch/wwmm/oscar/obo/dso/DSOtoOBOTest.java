@@ -2,12 +2,15 @@ package uk.ac.cam.ch.wwmm.oscar.obo.dso;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import ch.unibe.jexample.Given;
+import ch.unibe.jexample.JExample;
 
 import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
+@RunWith(JExample.class)
 public class DSOtoOBOTest {
 
 	@Test

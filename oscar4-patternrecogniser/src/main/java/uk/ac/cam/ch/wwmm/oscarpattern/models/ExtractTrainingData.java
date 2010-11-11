@@ -24,12 +24,12 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.document.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscarpattern.ptcDataStruct.Bag;
 import uk.ac.cam.ch.wwmm.oscarpattern.scixml.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscarpattern.tools.FileTools;
-import uk.ac.cam.ch.wwmm.oscarpattern.types.NETypes;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /** Extracts and holds useful data from hand-annotated text.
@@ -261,10 +261,10 @@ public final class ExtractTrainingData {
 					afterHyphen.addAll(tokSeq.getAfterHyphens());
 					Map<String, List<List<String>>> neMap = tokSeq.getNes();
 					List<List<String>> neList = new ArrayList<List<String>>();
-					if(neMap.containsKey(NETypes.COMPOUND)) neList.addAll(neMap.get(NETypes.COMPOUND));
-					if(neMap.containsKey(NETypes.ADJECTIVE)) neList.addAll(neMap.get(NETypes.ADJECTIVE));
-					if(neMap.containsKey(NETypes.REACTION)) neList.addAll(neMap.get(NETypes.REACTION));
-					if(neMap.containsKey(NETypes.ASE)) neList.addAll(neMap.get(NETypes.ASE));
+					if(neMap.containsKey(NamedEntityTypes.COMPOUND)) neList.addAll(neMap.get(NamedEntityTypes.COMPOUND));
+					if(neMap.containsKey(NamedEntityTypes.ADJECTIVE)) neList.addAll(neMap.get(NamedEntityTypes.ADJECTIVE));
+					if(neMap.containsKey(NamedEntityTypes.REACTION)) neList.addAll(neMap.get(NamedEntityTypes.REACTION));
+					if(neMap.containsKey(NamedEntityTypes.ASE)) neList.addAll(neMap.get(NamedEntityTypes.ASE));
 
 					// Stuff for alternate annotation scheme
 					if(neMap.containsKey("CHEMICAL")) neList.addAll(neMap.get("CHEMICAL"));
@@ -294,8 +294,8 @@ public final class ExtractTrainingData {
 							}
 						}
 					}
-					if(neMap.containsKey(NETypes.REACTION)) {
-						for(List<String> ne : neMap.get(NETypes.REACTION)) {
+					if(neMap.containsKey(NamedEntityTypes.REACTION)) {
+						for(List<String> ne : neMap.get(NamedEntityTypes.REACTION)) {
 							if(ne.size() > 1) {
 								rnEnd.add(ne.get(ne.size() - 1));
 								for(int j=1;j<ne.size()-1;j++) {

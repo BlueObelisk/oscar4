@@ -25,7 +25,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
-import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
+import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;

@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
+import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 
 /** A regex-based parser, finds chemical formulae etcetera.
  *

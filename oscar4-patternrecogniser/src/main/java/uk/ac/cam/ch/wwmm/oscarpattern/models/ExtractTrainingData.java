@@ -24,7 +24,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
+import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.document.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscarpattern.ptcDataStruct.Bag;
 import uk.ac.cam.ch.wwmm.oscarpattern.scixml.InlineToSAF;

@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.tools;
+package uk.ac.cam.ch.wwmm.oscar.xmltools;
 
 import java.io.ByteArrayOutputStream;
 

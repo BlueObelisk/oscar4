@@ -15,9 +15,9 @@ import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarpattern.finder.DFANEFinder;
 import uk.ac.cam.ch.wwmm.oscarpattern.saf.StandoffResolver;
-import uk.ac.cam.ch.wwmm.oscarpattern.types.NETypes;
 
 /**
  * Name recognition using patterns
@@ -72,7 +72,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 		List<NamedEntity> preserveNes = new ArrayList<NamedEntity>();
 
 		for(NamedEntity ne : neList) {
-			if(NETypes.ONTOLOGY.equals(ne.getType()) || NETypes.LOCANTPREFIX.equals(ne.getType()) || NETypes.CUSTOM.equals(ne.getType())) {
+			if(NamedEntityTypes.ONTOLOGY.equals(ne.getType()) || NamedEntityTypes.LOCANTPREFIX.equals(ne.getType()) || NamedEntityTypes.CUSTOM.equals(ne.getType())) {
 				preserveNes.add(ne);
 			}
 			String posStr = ne.getStart() + ":" + ne.getEnd();
@@ -119,7 +119,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 
 		// Potential acronyms
 		for(NamedEntity ne : neList) {
-			if(ne.getType().equals(NETypes.POTENTIALACRONYM)) {
+			if(ne.getType().equals(NamedEntityTypes.POTENTIALACRONYM)) {
 				int start = ne.getStart();
 				//int end = ne.getEnd();
 				
@@ -135,15 +135,15 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 							NamedEntity acronymOf = endToNe.get(prevPrev.getEnd());
 							if(StringTools.testForAcronym(ne.getSurface(), acronymOf.getSurface())) {
 								//System.out.println(ne.getSurface() + " is " + acronymOf.getSurface());
-								if(acronymOf.getType().equals(NETypes.ASE) || acronymOf.getType().equals(NETypes.ASES)) {
+								if(acronymOf.getType().equals(NamedEntityTypes.ASE) || acronymOf.getType().equals(NamedEntityTypes.ASES)) {
 									//System.out.println("Skip ASE acronym");
 								} else {
 									//matched = true;
 									if (acroMap.containsKey(ne.getSurface())) {
 										String newValue = ne.getType();
 										String oldValue = acroMap.get(ne.getSurface());
-										if (newValue == NETypes.POLYMER) acroMap.put(ne.getSurface(), acronymOf.getType());
-										else if (newValue == NETypes.COMPOUND && !oldValue.equals(NETypes.POLYMER)) acroMap.put(ne.getSurface(), acronymOf.getType());
+										if (newValue == NamedEntityTypes.POLYMER) acroMap.put(ne.getSurface(), acronymOf.getType());
+										else if (newValue == NamedEntityTypes.COMPOUND && !oldValue.equals(NamedEntityTypes.POLYMER)) acroMap.put(ne.getSurface(), acronymOf.getType());
 									}
 									else {
 										acroMap.put(ne.getSurface(), acronymOf.getType());
@@ -184,14 +184,14 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 		int i = 0;
 		while(i < neList.size()) {
 			NamedEntity ne = neList.get(i);
-			if(ne.getType().equals(NETypes.POTENTIALACRONYM)) {
+			if(ne.getType().equals(NamedEntityTypes.POTENTIALACRONYM)) {
 				if(acroMap.containsKey(ne.getSurface())) {
 					ne.setType(acroMap.get(ne.getSurface()));
 					i++;
 				} else {
 					neList.remove(i);
 				}
-			} else if(ne.getType().equals(NETypes.STOP)) {
+			} else if(ne.getType().equals(NamedEntityTypes.STOP)) {
 				//System.out.println("STOP: " + neList.get(i).getSurface());
 				neList.remove(i);
 				stopNeList.add(ne);
@@ -219,9 +219,9 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 		for(NamedEntity ne : neList) {
 			double pseudoConf = Double.NaN;
 			String type = ne.getType();
-			if(type.equals(NETypes.ONTOLOGY)) pseudoConf = OscarProperties.getData().ontProb;
-			if(type.equals(NETypes.LOCANTPREFIX)) pseudoConf = OscarProperties.getData().cprProb;
-			if(type.equals(NETypes.CUSTOM)) pseudoConf = OscarProperties.getData().custProb;
+			if(type.equals(NamedEntityTypes.ONTOLOGY)) pseudoConf = OscarProperties.getData().ontProb;
+			if(type.equals(NamedEntityTypes.LOCANTPREFIX)) pseudoConf = OscarProperties.getData().cprProb;
+			if(type.equals(NamedEntityTypes.CUSTOM)) pseudoConf = OscarProperties.getData().custProb;
 			ne.setPseudoConfidence(pseudoConf);
 			ne.setDeprioritiseOnt(OscarProperties.getData().deprioritiseONT);
 		}

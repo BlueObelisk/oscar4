@@ -1,10 +1,12 @@
-package uk.ac.cam.ch.wwmm.oscar.tools;
+package uk.ac.cam.ch.wwmm.oscar.xmltools;
 
 import nu.xom.Element;
 import nu.xom.Text;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 
 public class XOMToolsTest {
 

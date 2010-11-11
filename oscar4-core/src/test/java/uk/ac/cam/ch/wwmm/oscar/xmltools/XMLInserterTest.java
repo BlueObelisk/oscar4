@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscartokeniser.xml;
+package uk.ac.cam.ch.wwmm.oscar.xmltools;
 
 import static junit.framework.Assert.assertEquals;
 import nu.xom.Builder;
@@ -6,7 +6,7 @@ import nu.xom.Element;
 
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.tools.XMLSpanTagger;
+import uk.ac.cam.ch.wwmm.oscar.xmltools.XMLSpanTagger;
 
 /**
  * @author Peter Corbett

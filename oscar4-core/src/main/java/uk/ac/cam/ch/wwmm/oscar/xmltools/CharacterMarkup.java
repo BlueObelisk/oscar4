@@ -1,8 +1,9 @@
-package uk.ac.cam.ch.wwmm.oscarpattern.xmltools;
+package uk.ac.cam.ch.wwmm.oscar.xmltools;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Nodes;
+
 
 /** Places each character in XML in an element of its own, with ID.
  * 

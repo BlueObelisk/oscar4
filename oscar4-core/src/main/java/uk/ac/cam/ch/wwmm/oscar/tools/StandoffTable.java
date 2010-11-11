@@ -3,6 +3,8 @@ package uk.ac.cam.ch.wwmm.oscar.tools;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
+
 import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Text;

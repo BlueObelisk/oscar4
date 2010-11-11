@@ -20,6 +20,12 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  * @author ptc24
  *
  */
+/*
+ * @dmj30
+ * There is another class called FeatureExtractor in the
+ * oscarMEMM.memm package with apparently different functionality
+ */
+//TODO deal with name duplication
 final class FeatureExtractor {
 
 	List<NamedEntity> entities;

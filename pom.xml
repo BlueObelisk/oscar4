@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>wwmm</groupId>
+        <artifactId>wwmm-parent</artifactId>
+        <version>1</version>
+    </parent>
+
+    <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
+    <artifactId>oscar4</artifactId>
+    <version>4.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>oscar4-parent</name>
+
+    <properties>
+        <oscar.groupId>${project.groupId}</oscar.groupId>
+        <oscar.version>${project.version}</oscar.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>ucc-repo</id>
+            <name>UCC Repository</name>
+            <url>https://maven.ch.cam.ac.uk/m2repo</url>
+        </repository>
+    </repositories>
+
+    <modules>
+        <module>oscar4-core</module>
+        <module>oscar4-tokeniser</module>
+        <module>oscar4-memmrecogniser</module>
+        <module>oscar4-memmrecogniser-train</module>
+        <module>oscar4-patternrecogniser</module>
+        <module>oscar4-patternrecogniser-train</module>
+        <module>oscar4-chemnamedict</module>
+        <module>oscar4-obo</module>
+        <module>oscar4-opsin</module>
+        <module>oscar4-api</module>
+        <module>oscar4-preprocessor</module>
+        <module>oscar4-formatter</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${oscar.groupId}</groupId>
+                <artifactId>oscar4-core</artifactId>
+                <version>${oscar.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${oscar.groupId}</groupId>
+                <artifactId>oscar4-tokenizer</artifactId>
+                <version>${oscar.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${oscar.groupId}</groupId>
+                <artifactId>oscar4-memmrecogniser</artifactId>
+                <version>${oscar.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${oscar.groupId}</groupId>
+                <artifactId>oscar4-patternrecogniser</artifactId>
+                <version>${oscar.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${oscar.groupId}</groupId>
+                <artifactId>oscar4-chemnamedict</artifactId>
+                <version>${oscar.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${oscar.groupId}</groupId>
+                <artifactId>oscar4-obo</artifactId>
+                <version>${oscar.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${oscar.groupId}</groupId>
+                <artifactId>oscar4-opsin</artifactId>
+                <version>${oscar.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${oscar.groupId}</groupId>
+                <artifactId>oscar4-api</artifactId>
+                <version>${oscar.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>opsin</groupId>
+                <artifactId>inchi</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>xom</groupId>
+                <artifactId>xom</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.13</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>apache-log4j-extras</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>openNLP</groupId>
+                <artifactId>openNLP</artifactId>
+                <version>1.4.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>3.2-FINAL</version>
+            </dependency>
+            <dependency>
+                <groupId>wwmm-expediency</groupId>
+                <artifactId>maxent</artifactId>
+                <version>2.4.0</version>
+            </dependency>
+            <dependency>
+                <groupId>dk.brics</groupId>
+                <artifactId>automaton</artifactId>
+                <version>1.11-3</version>
+                <!-- from local repository -->
+            </dependency>
+            <dependency>
+                <groupId>commons-math</groupId>
+                <artifactId>commons-math</artifactId>
+                <version>20040218.045431</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>1.4</version>
+            </dependency>
+            <dependency>
+                <groupId>trove</groupId>
+                <artifactId>trove</artifactId>
+                <version>1.1-beta-5</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-discovery</groupId>
+                <artifactId>commons-discovery</artifactId>
+                <version>20040218.194635</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mod4j.org.apache.commons</groupId>
+                <artifactId>lang</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.8.2</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>-Xms512m -Xmx1024m -verbose:gc</argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>summary</report>
+                            <report>dependencies</report>
+                            <report>project-team</report>
+                            <report>license</report>
+                            <report>scm</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <configuration>
+                    <targetJdk>1.5</targetJdk>
+                    <linkXref>true</linkXref>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>apt-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
+
+</project>

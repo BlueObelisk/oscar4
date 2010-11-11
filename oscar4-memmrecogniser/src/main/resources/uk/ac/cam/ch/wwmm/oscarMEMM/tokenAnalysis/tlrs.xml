@@ -1,0 +1,408 @@
+
+<!-- <?xml version='1.0' encoding='UTF-8'?> -->
+
+<!-- DOCTYPE regexps SYSTEM "src/main/resources/uk/ac/cam/ch/wwmm/oscarMEMM/tokenAnalysis/tlrs.dtd" -->
+
+<!--
+  - XML structure 
+  - <insert idref=Xxx> within <regexp>
+  -     replaced with contents of <def id=Xxx>
+  -->
+
+
+<regexps>
+
+<!-- "Token-Level Regexps -->
+<tlrs>
+	<tlr idref="BOND" type="BOND" name="bondRegex"/>
+	<tlr idref="FORMULA_NOENGLISH" type="FORM" name="formulaRegex"/>
+	<tlr idref="GROUP_FORMULA" type="FORM" name="groupFormulaRegex"/>
+	<tlr idref="NUMBERED_ATOM" type="ATOM" name="numberedAtomRegex"/>
+	<tlr idref="GEMINAL_ATOMS" type="NOT" name="geminalAtomsRegex"/>
+	<tlr idref="ISOTOPE" type="EM" name="isotopeRegex"/>
+	<tlr idref="PROPER_NOUN" type="PN" name="properNounRegex"/>
+</tlrs>
+                                                                                <!-- definitions -->
+
+<def id="HYPHEN" type="const" desc="Matches a hyphen">(?:-|&#x2010;|&#x2011;|&#x2012;|&#x2013;|&#x2014;|&#x2015;)</def>
+
+<def id="ELEMENTS" type="list">
+        <item>Zr</item>
+        <item>Zn</item>
+        <item>Yb</item>
+        <item>Y</item>
+        <item>Xe</item>
+        <item>W</item>
+        <item>V</item>
+        <item>Uuu</item>
+        <item>Uut</item>
+        <item>Uus</item>
+        <item>Uuq</item>
+        <item>Uup</item>
+        <item>Uuo</item>
+        <item>Uuh</item>
+        <item>Uub</item>
+        <item>U</item>
+        <item>Tm</item>
+        <item>Tl</item>
+        <item>Ti</item>
+        <item>Th</item>
+        <item>Te</item>
+        <item>Tc</item>
+        <item>Tb</item>
+        <item>Ta</item>
+        <item>Sr</item>
+        <item>Sn</item>
+        <item>Sm</item>
+        <item>Si</item>
+        <item>Sg</item>
+        <item>Se</item>
+        <item>Sc</item>
+        <item>Sb</item>
+        <item>S</item>
+        <item>Ru</item>
+        <item>Rn</item>
+        <item>Rh</item>
+        <item>Rf</item>
+        <item>Re</item>
+        <item>Rb</item>
+        <item>Ra</item>
+        <item>Pu</item>
+        <item>Pt</item>
+        <item>Pr</item>
+        <item>Po</item>
+        <item>Pm</item>
+        <item>Pd</item>
+        <item>Pb</item>
+        <item>Pa</item>
+        <item>P</item>
+        <item>Os</item>
+        <item>O</item>
+        <item>Np</item>
+        <item>No</item>
+        <item>Ni</item>
+        <item>Ne</item>
+        <item>Nd</item>
+        <item>Nb</item>
+        <item>Na</item>
+        <item>N</item>
+        <item>Mt</item>
+        <item>Mo</item>
+        <item>Mn</item>
+        <item>Mg</item>
+        <item>Md</item>
+        <item>Lu</item>
+        <item>Lr</item>
+        <item>Li</item>
+        <item>La</item>
+        <item>Kr</item>
+        <item>K</item>
+        <item>Ir</item>
+        <item>In</item>
+        <item>I</item>
+        <item>Hs</item>
+        <item>Ho</item>
+        <item>Hg</item>
+        <item>Hf</item>
+        <item>He</item>
+        <item>H</item>
+        <item>Ge</item>
+        <item>Gd</item>
+        <item>Ga</item>
+        <item>Fr</item>
+        <item>Fm</item>
+        <item>Fe</item>
+        <item>F</item>
+        <item>Eu</item>
+        <item>Es</item>
+        <item>Er</item>
+        <item>Dy</item>
+        <item>Ds</item>
+        <item>Db</item>
+        <item>Cu</item>
+        <item>Cs</item>
+        <item>Cr</item>
+        <item>Co</item>
+        <item>Cm</item>
+        <item>Cl</item>
+        <item>Cf</item>
+        <item>Ce</item>
+        <item>Cd</item>
+        <item>Ca</item>
+        <item>C</item>
+        <item>Br</item>
+        <item>Bk</item>
+        <item>Bi</item>
+        <item>Bh</item>
+        <item>Be</item>
+        <item>Ba</item>
+        <item>B</item>
+        <item>Au</item>
+        <item>At</item>
+        <item>As</item>
+        <item>Ar</item>
+        <item>Am</item>
+        <item>Al</item>
+        <item>Ag</item>
+        <item>Ac</item>
+        <item>Me</item>
+        <item>Et</item>
+        <item>Pr</item>
+        <item>Ph</item>
+        <item>Bn</item>
+        <item>Bz</item>
+        <item>Bu</item>
+        <item>t-?Bu</item>
+        <item>s-?Bu</item>
+        <item>n-?Bu</item>
+        <item>i-?Pr</item>
+        <item>Boc</item>
+        <item>(N-)?Cbz</item>
+        <item>Ts</item>
+        <item>Ms</item>
+        <item>Tr</item>
+        <item>D</item>
+        <item>dba</item>
+        <item>TMS</item>
+        <item>TDBMS</item>
+        <item>R</item>
+        <item>X</item>
+        <item>L</item>
+</def>
+
+<def id="ELEMENTS_STRICT" type="list">
+        <item>Zr</item>
+        <item>Zn</item>
+        <item>Yb</item>
+        <item>Y</item>
+        <item>Xe</item>
+        <item>W</item>
+        <item>V</item>
+        <item>Uuu</item>
+        <item>Uut</item>
+        <item>Uus</item>
+        <item>Uuq</item>
+        <item>Uup</item>
+        <item>Uuo</item>
+        <item>Uuh</item>
+        <item>Uub</item>
+        <item>U</item>
+        <item>Tm</item>
+        <item>Tl</item>
+        <item>Ti</item>
+        <item>Th</item>
+        <item>Te</item>
+        <item>Tc</item>
+        <item>Tb</item>
+        <item>Ta</item>
+        <item>Sr</item>
+        <item>Sn</item>
+        <item>Sm</item>
+        <item>Si</item>
+        <item>Sg</item>
+        <item>Se</item>
+        <item>Sc</item>
+        <item>Sb</item>
+        <item>S</item>
+        <item>Ru</item>
+        <item>Rn</item>
+        <item>Rh</item>
+        <item>Rf</item>
+        <item>Re</item>
+        <item>Rb</item>
+        <item>Ra</item>
+        <item>Pu</item>
+        <item>Pt</item>
+        <item>Pr</item>
+        <item>Po</item>
+        <item>Pm</item>
+        <item>Pd</item>
+        <item>Pb</item>
+        <item>Pa</item>
+        <item>P</item>
+        <item>Os</item>
+        <item>O</item>
+        <item>Np</item>
+        <item>No</item>
+        <item>Ni</item>
+        <item>Ne</item>
+        <item>Nd</item>
+        <item>Nb</item>
+        <item>Na</item>
+        <item>N</item>
+        <item>Mt</item>
+        <item>Mo</item>
+        <item>Mn</item>
+        <item>Mg</item>
+        <item>Md</item>
+        <item>Lu</item>
+        <item>Lr</item>
+        <item>Li</item>
+        <item>La</item>
+        <item>Kr</item>
+        <item>K</item>
+        <item>Ir</item>
+        <item>In</item>
+        <item>I</item>
+        <item>Hs</item>
+        <item>Ho</item>
+        <item>Hg</item>
+        <item>Hf</item>
+        <item>He</item>
+        <item>H</item>
+        <item>Ge</item>
+        <item>Gd</item>
+        <item>Ga</item>
+        <item>Fr</item>
+        <item>Fm</item>
+        <item>Fe</item>
+        <item>F</item>
+        <item>Eu</item>
+        <item>Es</item>
+        <item>Er</item>
+        <item>Dy</item>
+        <item>Ds</item>
+        <item>Db</item>
+        <item>Cu</item>
+        <item>Cs</item>
+        <item>Cr</item>
+        <item>Co</item>
+        <item>Cm</item>
+        <item>Cl</item>
+        <item>Cf</item>
+        <item>Ce</item>
+        <item>Cd</item>
+        <item>Ca</item>
+        <item>C</item>
+        <item>Br</item>
+        <item>Bk</item>
+        <item>Bi</item>
+        <item>Bh</item>
+        <item>Be</item>
+        <item>Ba</item>
+        <item>B</item>
+        <item>Au</item>
+        <item>At</item>
+        <item>As</item>
+        <item>Ar</item>
+        <item>Am</item>
+        <item>Al</item>
+        <item>Ag</item>
+        <item>Ac</item>
+</def>
+
+<def id="FORMULA_NOENGLISH" type="const">
+	\d*
+	(<insert idref="FORMULA_PART"/>)*
+	<insert idref="ELEMENTS_STRICT"/> <insert idref="FORMULA_NUMBER"/>?
+	(<insert idref="FORMULA_PART"/>)*
+	(
+		\d* (<insert idref="HYPHEN"/>|\+) 
+		| 
+		\( \d* (<insert idref="HYPHEN"/>|\+) \) 
+		|
+		\( [012][012][012][012]? \)	
+	)?
+</def>
+
+<def id="FORMULA_PART" type="const">
+	(
+		<insert idref="ELEMENTS"/> <insert idref="FORMULA_NUMBER"/>?
+	|
+		\([a-z][a-z]+\) <insert idref="FORMULA_NUMBER"/>?
+	|
+		\) <insert idref="FORMULA_NUMBER"/>?
+	|
+		\] <insert idref="FORMULA_NUMBER"/>?
+	|
+		\} <insert idref="FORMULA_NUMBER"/>?
+	|
+		\( | \[ | \{
+	|
+		[&#x03bc;&#x03b7;&#x00b5;] \d* -
+	|
+		(&#x00b7;|\.) \d*
+	)
+</def>
+
+<def id="FORMULA_NUMBER" type="const">
+	(
+		[2-9]?
+		|
+		[1-9]\d+
+		|
+		x
+		|
+		\d \. \d+
+		|
+		i{1,4}
+		|
+		iv
+		|
+		vi{0,4}
+	)
+</def>
+
+<def id="FORMULA" type="const">	
+        \b
+        (?x-i: <insert idref="ELEMENTS"/> \d* [–\-\=]? )+
+
+        (?: \s* [·.] \s*
+                (?: \d+ (?: \/ \d+)? \s* )?
+                (?x-i: [A-Z][a-z]?\d* )+
+        )?
+        \b
+</def>
+
+<!-- some of my patterns here -->
+
+<def id="ISOTOPE" type="const">
+	(\(\d+\)|\d+)<insert idref="ELEMENTS_STRICT"/>
+</def>
+
+<def id="NUMBERED_ATOM" type="const">
+	(?x-i: <insert idref="ELEMENTS_STRICT"/> \( \d+ <insert idref="PRIME"/>* \)
+	|
+	\d+<insert idref="PRIME"/>* <insert idref="HYPHEN"/> <insert idref="ELEMENTS_STRICT"/>
+	|
+	<insert idref="ELEMENTS_STRICT"/> <insert idref="HYPHEN"/> \d+<insert idref="PRIME"/>*
+	)
+</def>
+
+<def id="BOND_CHARACTER" type="const">
+	(?:<insert idref="HYPHEN"/>|[⋯\=])
+</def>
+
+<def id="PRIME" type="const">
+	(?:'|`|&#x2032;|&#x2033;|&#x2034;)
+</def>
+
+
+<def id="ATOM_FOR_BOND" type="const">
+	(?x-i: <insert idref="NUMBERED_ATOM"/>
+	|
+	<insert idref="ELEMENTS_STRICT"/> \d* <insert idref="PRIME"/>* 
+	)
+</def>
+
+<def id="BOND" type="const">
+	(?x-i: <insert idref="ATOM_FOR_BOND"/>
+		(?: <insert idref="BOND_CHARACTER"/> <insert idref="ATOM_FOR_BOND"/> )+
+	)
+</def>
+
+<def id="GEMINAL_ATOMS" type="const">
+	(?: \d+ <insert idref="HYPHEN"/> / )? \d+ <insert idref="HYPHEN"/> <insert idref="ELEMENTS_STRICT"/> \d*
+	(?: <insert idref="ELEMENTS_STRICT"/> \d*)?
+</def>
+
+<def id="GROUP_FORMULA" type="const">
+	<insert idref="BOND_CHARACTER" type="const"/><insert idref="FORMULA"/>
+</def>
+
+<!-- \p{Ll} = lowercase letter, in Unicode -->
+<def id="PROPER_NOUN" type="const">
+	(?!The|These)(hetero-|retro-|oxy-|aza-|bis-|tris-|\(?[RSEZDL+-]\)?-)*(Mc)?(\p{Lu}\p{Ll}{2,}<insert idref="HYPHEN"/>)*\p{Lu}\p{Ll}{2,}('s?)?
+</def>
+                                                                   
+</regexps>

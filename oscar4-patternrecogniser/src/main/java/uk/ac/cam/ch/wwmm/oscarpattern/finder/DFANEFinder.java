@@ -20,6 +20,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermSets;
@@ -28,7 +29,6 @@ import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.PrefixFinder;
 import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.TLRHolder;
 import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.TokenLevelRegex;
 import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.TokenTypes;
-import uk.ac.cam.ch.wwmm.oscarpattern.types.NETypes;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /** A subclass of DFAFinder, used to find named entities.
@@ -137,7 +137,7 @@ public class DFANEFinder extends DFAFinder {
 		try {
 			for(String s : ChemNameDictSingleton.getAllNames()) {
 				// System.out.println(s);
-				addNE(s, NETypes.COMPOUND, false);
+				addNE(s, NamedEntityTypes.COMPOUND, false);
 			}
 		} catch (Exception e) {
 			System.err.println("Couldn't add names from ChemNameDict!");
@@ -196,7 +196,7 @@ public class DFANEFinder extends DFAFinder {
 			}
 		}
 		for(TokenLevelRegex tlr : TLRHolder.getInstance().parseToken(t.getValue())) {
-			if(tlr.getType().equals(NETypes.PROPERNOUN)) {
+			if(tlr.getType().equals(NamedEntityTypes.PROPERNOUN)) {
 				if(t.getValue().matches("[A-Z][a-z]+") && TermSets.getUsrDictWords().contains(t.getValue().toLowerCase()) && !TermSets.getUsrDictWords().contains(t.getValue())) tlr = null;
 //				if(ExtractTrainingData.getInstance().pnStops.contains(t.getValue())) tlr = null;
 			} 
@@ -209,7 +209,7 @@ public class DFANEFinder extends DFAFinder {
 			String lastGroup = m.group(m.groupCount());
 			String lastGroupNorm = StringTools.normaliseName(lastGroup);
 			if(lastGroup == null || lastGroup.equals("")) {
-				tokenReps.add("$" + NETypes.LOCANTPREFIX.toUpperCase());				
+				tokenReps.add("$" + NamedEntityTypes.LOCANTPREFIX.toUpperCase());				
 			} else {
 				if(TLRHolder.getInstance().macthesTlr(lastGroup, "formulaRegex")) {
 					tokenReps.add("$CPR_FORMULA");

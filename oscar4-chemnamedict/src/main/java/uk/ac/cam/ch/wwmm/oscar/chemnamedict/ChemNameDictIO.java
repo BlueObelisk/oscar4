@@ -11,7 +11,7 @@ import nu.xom.Elements;
 import nu.xom.Serializer;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecordIO;
-import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
+import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 
 /**
  * Name to structure dictionary, holds active data in memory, a replacement

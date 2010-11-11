@@ -23,7 +23,7 @@ import nu.xom.Nodes;
 import nu.xom.Text;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
+import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarpattern.finder.DFAFinder;
 /** A regex-based parser, finds chemical formulae etcetera.
  *

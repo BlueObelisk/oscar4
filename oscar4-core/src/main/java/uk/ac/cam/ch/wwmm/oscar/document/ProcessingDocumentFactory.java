@@ -6,8 +6,8 @@ import java.util.List;
 
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
-import uk.ac.cam.ch.wwmm.oscar.tools.XMLSpanTagger;
-import uk.ac.cam.ch.wwmm.oscar.tools.XOMTools;
+import uk.ac.cam.ch.wwmm.oscar.xmltools.XMLSpanTagger;
+import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 
 import nu.xom.Document;
 import nu.xom.Element;

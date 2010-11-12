@@ -31,4 +31,18 @@ public class ResourceGetterTest {
         assertEquals(Arrays.asList("hello0", "hello1", "hello2"), ResourceGetter.removeComments(list));
     }
 
+    @Test
+    public void testRemoveEmptyLines() {
+        List<String> list = new ArrayList<String>();
+        list.add("hello0");
+        list.add("");
+        list.add("hello1#boo");
+        list.add("");
+
+        assertEquals(
+        	Arrays.asList("hello0", "hello1"),
+        	ResourceGetter.removeComments(list)
+        );
+    }
+
 }

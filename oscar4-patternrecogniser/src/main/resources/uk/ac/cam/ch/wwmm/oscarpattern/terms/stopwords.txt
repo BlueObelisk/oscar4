@@ -1,5 +1,0 @@
-# A list of words for Oscar3 not to recognise as chemical names.
-# Case normalisation will be applied to these.
-#
-# This is now blank, due to advances in training data, but is
-# kept for legacy reasons.

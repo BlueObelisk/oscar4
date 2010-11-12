@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;
-import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.TokenTypes;
 

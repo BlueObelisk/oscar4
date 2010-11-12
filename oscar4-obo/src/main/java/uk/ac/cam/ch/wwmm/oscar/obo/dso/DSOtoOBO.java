@@ -13,12 +13,16 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 public class DSOtoOBO {
 
 	public static OBOOntology readDSO() throws Exception {
-		ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/obo/terms/");
+		OBOOntology oo = new OBOOntology();
+
+		ResourceGetter rg = new ResourceGetter(
+			oo.getClass().getClassLoader(),
+			"uk/ac/cam/ch/wwmm/oscar/obo/terms/"
+		);
 		String parentID = null;
 		
 		//Map<String,OntologyTerm> termsByID = new HashMap<String,OntologyTerm>();
 		
-		OBOOntology oo = new OBOOntology();
 		
 		
 		int id = 0;

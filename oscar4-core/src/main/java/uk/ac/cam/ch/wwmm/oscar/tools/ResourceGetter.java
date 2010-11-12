@@ -198,6 +198,7 @@ public final class ResourceGetter {
     public static List<String> removeComments(List<String> lines) {
         List<String> results = new ArrayList<String>(lines.size());
         for (String line : lines) {
+        	if (line.length() == 0) continue; // skip empty lines
             int i = findComment(line);
             if (i == -1) {
                 results.add(line);

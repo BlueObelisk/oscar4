@@ -26,10 +26,10 @@ import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
-import uk.ac.cam.ch.wwmm.oscarpattern.document.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscarpattern.ptcDataStruct.Bag;
 import uk.ac.cam.ch.wwmm.oscarpattern.scixml.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscarpattern.tools.FileTools;
+import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /** Extracts and holds useful data from hand-annotated text.

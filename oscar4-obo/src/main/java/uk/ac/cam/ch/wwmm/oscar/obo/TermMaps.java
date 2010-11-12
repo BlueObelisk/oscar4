@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscarMEMM.terms;
+package uk.ac.cam.ch.wwmm.oscar.obo;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -31,7 +31,7 @@ public final class TermMaps {
 	private Map<String, String> structureTypes;
 	private Set<String> suffixes;
 
-	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscarMEMM/terms/");
+	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/obo/terms/");
 	private static Pattern definePattern = Pattern.compile("(.*?) = (.*)");
 
 	private static TermMaps myInstance;

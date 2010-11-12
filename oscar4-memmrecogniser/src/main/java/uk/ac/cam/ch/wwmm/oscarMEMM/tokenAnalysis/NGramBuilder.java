@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;
-import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermSets;
 
 /**
  * Encapsulates nGram parsing.

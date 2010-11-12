@@ -14,10 +14,10 @@ import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.terms.OntologyTerms;
-import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermMaps;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;

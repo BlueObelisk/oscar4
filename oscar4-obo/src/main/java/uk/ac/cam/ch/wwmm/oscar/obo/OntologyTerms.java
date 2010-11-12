@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscarpattern.terms;
+package uk.ac.cam.ch.wwmm.oscar.obo;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,9 +7,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
-import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
-import uk.ac.cam.ch.wwmm.oscar.obo.Synonym;
 import uk.ac.cam.ch.wwmm.oscar.obo.dso.DSOtoOBO;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 

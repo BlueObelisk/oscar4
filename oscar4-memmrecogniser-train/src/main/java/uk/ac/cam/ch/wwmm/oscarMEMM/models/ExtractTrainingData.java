@@ -20,8 +20,8 @@ import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.ptcDataStruct.Bag;
+import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /** Extracts and holds useful data from hand-annotated text.

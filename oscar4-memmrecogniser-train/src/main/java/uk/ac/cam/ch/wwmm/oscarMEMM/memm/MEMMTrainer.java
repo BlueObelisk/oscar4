@@ -31,12 +31,12 @@ import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.document.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.RescoreMEMMOut;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
+import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**The main class for generating and running MEMMs

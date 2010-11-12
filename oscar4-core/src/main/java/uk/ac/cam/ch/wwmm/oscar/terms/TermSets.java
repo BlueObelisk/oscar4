@@ -1,7 +1,8 @@
-package uk.ac.cam.ch.wwmm.oscarMEMM.terms;
+package uk.ac.cam.ch.wwmm.oscar.terms;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -28,14 +29,15 @@ public final class TermSets {
 	private Set<String> chemAses;
 	private Set<String> nonChemAses;
 	private Set<String> noSplitPrefixes;
+	private Set<String> splitSuffixes;
 	private Set<String> elements;
 	private Set<String> ligands;
 	private Set<String> reactWords;
 	private Pattern endingInElementPattern;
 
 	
-	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscarMEMM/terms/");
-	
+	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/terms/");
+
 	
 	/**Initialise the TermSets singleton, deleting the old one if one already
 	 * exists.
@@ -115,7 +117,11 @@ public final class TermSets {
 	 */
 	public static Set<String> getNoSplitPrefixes() {
 		return getInstance().noSplitPrefixes;
-	}	
+	}
+	
+	public static Set<String> getSplitSuffixes() {
+		return getInstance().splitSuffixes;
+	}
 
 	/**Gets the term set from chemAses.txt.
 	 * 
@@ -190,6 +196,7 @@ public final class TermSets {
 		stopWords = getTermSet("stopwords.txt");
 		usrDictWords = getTermSet("usrDictWords.txt", false);
 		noSplitPrefixes = getTermSet("noSplitPrefixes.txt");
+		splitSuffixes = getTermSet("splitSuffixes.txt");
 		closedClass = getTermSet("closedClass.txt");
 		chemAses = getTermSet("chemAses.txt");
 		nonChemAses = getTermSet("nonChemAses.txt");
@@ -214,5 +221,5 @@ public final class TermSets {
 	
 		logger.debug("term sets initialised");
 	}
-	
+
 }

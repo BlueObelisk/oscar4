@@ -14,9 +14,9 @@ import org.apache.log4j.Logger;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;
-import uk.ac.cam.ch.wwmm.oscarMEMM.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.TokenTypes;
 
 /**

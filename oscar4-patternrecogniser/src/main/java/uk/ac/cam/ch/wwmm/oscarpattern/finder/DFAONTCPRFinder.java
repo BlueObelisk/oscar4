@@ -20,9 +20,9 @@ import org.apache.log4j.Logger;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarpattern.terms.OntologyTerms;
-import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarpattern.tokenanalysis.PrefixFinder;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 

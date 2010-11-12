@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscarpattern.document;
+package uk.ac.cam.ch.wwmm.oscartokeniser;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,11 +7,10 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarpattern.models.ExtractTrainingData;
-import uk.ac.cam.ch.wwmm.oscarpattern.terms.OntologyTerms;
-import uk.ac.cam.ch.wwmm.oscarpattern.terms.TermSets;
 
 /** Looks for places where tokens can be split on hyphens. Needs to be a separate class
  * because it needs some word lists.
@@ -59,7 +58,7 @@ public final class HyphenTokeniser {
 		logger.debug("Initialising hyphen tokeniser... ");
 		//splitSuffixes = TermSets.getSplitSuffixes();
 		splitSuffixes = new HashSet<String>();
-		splitSuffixes.addAll(ExtractTrainingData.getInstance().afterHyphen);
+		splitSuffixes.addAll(TermSets.getSplitSuffixes());
 		
 		/*for(String s : TermSets.getUsrDictWords()) {
 			if(!ChemNameDictSingleton.hasName(s) && !ExtractTrainingData.getIntstance().chemicalWords.contains(s)) {

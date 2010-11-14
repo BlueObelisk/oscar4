@@ -17,7 +17,7 @@ public class NormalizingReader {
 			new InputStreamReader(stream)
 		);
 		currentReplacement = null;
-		normalizer = Normalizer.getInstance();
+		normalizer = Normalizer.getDefaultInstance();
 	}
 
 	public String readLine() throws IOException {

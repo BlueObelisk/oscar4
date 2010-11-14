@@ -39,6 +39,24 @@ public class NormalizerTest {
 		);
 	}
 
+	@Test
+	public void testGreek() throws IOException {
+		Normalizer normalizer = Normalizer.getInstance();
+		Assert.assertEquals(
+			"\u03b1-pinene",
+			normalizer.normalize("alpha-pinene")
+		);
+	}
+
+	@Test
+	public void testGreekHyphenCombo() throws IOException {
+		Normalizer normalizer = Normalizer.getInstance();
+		Assert.assertEquals(
+			"\u03b1-pinene",
+			normalizer.normalize("alpha\u2010pinene")
+		);
+	}
+
 	private String convertStreamToString(InputStream is)
 	throws IOException {
 		if (is != null) {

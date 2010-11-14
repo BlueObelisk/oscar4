@@ -3,15 +3,33 @@ package uk.ac.cam.ch.wwmm.oscar.normalize;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Normalizer class that normalizes text. It normalizes the text in two
+ * steps: the first step is to normalize characters (e.g. all hyphens into
+ * one specific hyphen); the second step is to replace strings by there
+ * prefered string (e.g. alpha into its greek character equivalent).
+ *
+ * @author egonw
+ */
 public class Normalizer implements ITextNormalizer {
 
-	private Map<Character,String> normals;
+	/**
+	 * Map that describes how certain characters (keys) are to be
+	 * normalized into {@link String}s (values).
+	 */
+	private Map<Character,String> normalizedCharacters;
+
+	/**
+	 * Map that contains {@link String} (keys) that are normalized into
+	 * other {@link String}s (values).
+	 */
+	private Map<String,String> normalizedStrings;
 
 	private static Normalizer myInstance = null;
 
 	@SuppressWarnings("serial")
 	private Normalizer() {
-		normals = new HashMap<Character, String>() {{
+		normalizedCharacters = new HashMap<Character, String>() {{
             put('\u00C6',"ae");//common ligatures
             put('\u00E6',"ae");
             put('\u0152',"oe");
@@ -31,32 +49,38 @@ public class Normalizer implements ITextNormalizer {
 			put('\u2013',"-");
 			put('\u2014',"-");
 			put('\u2015',"-");
-            put('\u03b1',"alpha");//greeks
-            put('\u03b2',"beta");
-            put('\u03b3',"gamma");
-            put('\u03b4',"delta");
-            put('\u03b5',"epsilon");
-            put('\u03b6',"zeta");
-            put('\u03b7',"eta");
-            put('\u03b8',"theta");
-            put('\u03b9',"iota");
-            put('\u03ba',"kappa");
-            put('\u03bb',"lambda");
-            put('\u03bc',"mu");
-            put('\u03bd',"nu");
-            put('\u03be',"xi");
-            put('\u03bf',"omicron");
-            put('\u03c0',"pi");
-            put('\u03c1',"rho");
-            put('\u03c2',"stigma");
-            put('\u03c3',"sigma");
-            put('\u03c4',"tau");
-            put('\u03c5',"upsilon");
-            put('\u03c6',"phi");
-            put('\u03c7',"chi");
-            put('\u03c8',"psi");
-            put('\u03c9',"omega");
 	        put('\uFEFF',"");//BOM-found at the start of some UTF files
+	        put('\uFEFF',"");//BOM-found at the start of some UTF files
+		}};
+		// FIXME: the below feels wrong... we dunno even if they are tokens!!!
+		// E.g. "pi-bonding", versus "pipe"
+		// So, appended a '-' behind them for now...
+		normalizedStrings = new HashMap<String, String>() {{
+            put("alpha-", "\u03b1-"); //greeks
+            put("beta-", "\u03b2-");
+            put("gamma-", "\u03b3-");
+            put("delta-", "\u03b4-");
+            put("epsilon-", "\u03b5-");
+            put("zeta-", "\u03b6-");
+            put("eta-", "\u03b7-");
+            put("theta-", "\u03b8-");
+            put("iota-", "\u03b9-");
+            put("kappa-", "\u03ba-");
+            put("lambda-", "\u03bb-");
+            put("mu-", "\u03bc-");
+            put("nu-", "\u03bd-");
+            put("xi-", "\u03be-");
+            put("omicron-", "\u03bf-");
+            put("pi-", "\u03c0-");
+            put("rho-", "\u03c1-");
+            put("stigma-", "\u03c2-");
+            put("sigma-", "\u03c3-");
+            put("tau-", "\u03c4-");
+            put("upsilon-", "\u03c5-");
+            put("phi-", "\u03c6-");
+            put("chi-", "\u03c7-");
+            put("psi-", "\u03c8-");
+            put("omega-", "\u03c9-");
 		}};
 	}
 
@@ -67,22 +91,47 @@ public class Normalizer implements ITextNormalizer {
 		return myInstance;
 	}
 
+	/** {@inheritDoc} */
 	public String normalize(String string) {
+		// step 1: normalize characters
 		StringBuilder builder = new StringBuilder();
 		for (int i=0; i<string.length(); i++) {
-			Character character = string.charAt(i);
-			if (normals.containsKey(character)) {
-				builder.append(normals.get(character));
+			String character = normalize(string.charAt(i));
+			if (character == null) {
+				builder.append(string.charAt(i));
 			} else {
 				builder.append(character);
 			}
 		}
-		return builder.toString();
+		string = builder.toString();
+
+		// step 2: normalize strings
+		for (String normalizableString : normalizedStrings.keySet()) {
+			while (string.contains(normalizableString)) {
+				System.out.println("Replacing normalizableString...");
+				string = string.replace(
+					normalizableString,
+					normalizedStrings.get(normalizableString)
+				);
+				System.out.println("New string: " + string);
+			}
+		}
+
+		return string;
 	}
 
+	/** {@inheritDoc} */
 	public String normalize(char character) {
-		if (normals.containsKey(character)) {
-			return normals.get(character);
+		if (normalizedCharacters.containsKey(character)) {
+			return normalizedCharacters.get(character);
+		}
+		return null;
+	}
+
+	/** {@inheritDoc} */
+	public String normalizable(String string) {
+		if (normalizedStrings.containsKey(string)) {
+			return normalizedCharacters.get(string);
 		}
 		return null;
 	}

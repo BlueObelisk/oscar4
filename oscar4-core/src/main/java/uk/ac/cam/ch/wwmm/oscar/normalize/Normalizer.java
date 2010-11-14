@@ -122,12 +122,10 @@ public class Normalizer implements ITextNormalizer {
 		// step 2: normalize strings
 		for (String normalizableString : normalizedStrings.keySet()) {
 			while (string.contains(normalizableString)) {
-				System.out.println("Replacing normalizableString...");
 				string = string.replace(
 					normalizableString,
 					normalizedStrings.get(normalizableString)
 				);
-				System.out.println("New string: " + string);
 			}
 		}
 

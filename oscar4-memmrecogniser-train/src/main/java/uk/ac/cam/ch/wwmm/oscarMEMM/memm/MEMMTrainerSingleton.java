@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import nu.xom.Element;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.ModelTrainer;
 
 /**A MEMM singleton, for access by other components.
  * 
@@ -62,7 +62,7 @@ public class MEMMTrainerSingleton {
 	 */
 	public static MEMMTrainer getInstance() {
 		if(memm == null) {
-			Model.loadModel();
+			ModelTrainer.loadModel();
 		}
 		return memm;
 	}

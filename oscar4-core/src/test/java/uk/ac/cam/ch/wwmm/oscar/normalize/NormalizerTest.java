@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.HashMap;
 
 import junit.framework.Assert;
 
@@ -23,7 +24,7 @@ public class NormalizerTest {
 		String string = convertStreamToString(stream);
 		string = string.replaceAll("\n", "");
 
-		Normalizer normalizer = Normalizer.getInstance();
+		Normalizer normalizer = Normalizer.getDefaultInstance();
 		Assert.assertEquals(
 			"ff wachten",
 			normalizer.normalize(string)
@@ -32,16 +33,33 @@ public class NormalizerTest {
 
 	@Test
 	public void testString() throws IOException {
-		Normalizer normalizer = Normalizer.getInstance();
+		Normalizer normalizer = Normalizer.getDefaultInstance();
 		Assert.assertEquals(
 			"ff wachten",
 			normalizer.normalize("ff wachten")
 		);
 	}
 
+	@SuppressWarnings("serial")
+	@Test
+	public void testCustomMaps() throws IOException {
+		Normalizer normalizer = new Normalizer(
+			new HashMap<Character, String>() {{
+				put('e', "ee");
+			}},
+			new HashMap<String, String>() {{
+				put("alpha", "foo"); //greeks
+			}}
+		);
+		Assert.assertEquals(
+			"foo-pineenee",
+			normalizer.normalize("alpha-pinene")
+		);
+	}
+
 	@Test
 	public void testGreek() throws IOException {
-		Normalizer normalizer = Normalizer.getInstance();
+		Normalizer normalizer = Normalizer.getDefaultInstance();
 		Assert.assertEquals(
 			"\u03b1-pinene",
 			normalizer.normalize("alpha-pinene")
@@ -50,7 +68,7 @@ public class NormalizerTest {
 
 	@Test
 	public void testGreekHyphenCombo() throws IOException {
-		Normalizer normalizer = Normalizer.getInstance();
+		Normalizer normalizer = Normalizer.getDefaultInstance();
 		Assert.assertEquals(
 			"\u03b1-pinene",
 			normalizer.normalize("alpha\u2010pinene")

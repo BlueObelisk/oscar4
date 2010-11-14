@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscar.normalize;
 
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class Normalizer implements ITextNormalizer {
 	 */
 	private Map<String,String> normalizedStrings;
 
-	private static Normalizer myInstance = null;
+	private static Normalizer defaultInstance = null;
 
 	@SuppressWarnings("serial")
 	private Normalizer() {
@@ -84,11 +85,24 @@ public class Normalizer implements ITextNormalizer {
 		}};
 	}
 
-	public static Normalizer getInstance() {
-		if (myInstance == null) {
-			myInstance = new Normalizer();
+	public Normalizer(
+		Map<Character,String> normalizedCharacters,
+		Map<String,String> normalizedStrings) {
+		if (normalizedCharacters == null ||
+			normalizedStrings == null)
+			throw new InvalidParameterException(
+				"The given normalization maps must not be null."
+			);
+
+		this.normalizedCharacters = normalizedCharacters;
+		this.normalizedStrings = normalizedStrings;
+	}
+
+	public static Normalizer getDefaultInstance() {
+		if (defaultInstance == null) {
+			defaultInstance = new Normalizer();
 		}
-		return myInstance;
+		return defaultInstance;
 	}
 
 	/** {@inheritDoc} */

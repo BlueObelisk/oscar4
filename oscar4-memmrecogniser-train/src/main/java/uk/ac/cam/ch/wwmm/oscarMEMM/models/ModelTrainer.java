@@ -54,9 +54,9 @@ public class ModelTrainer {
 		Element modelRoot = modelDoc.getRootElement();
 		Element memmElem = modelRoot.getFirstChildElement("memm");
 		if(memmElem != null) {
-			MEMMSingleton.load(memmElem);
+			MEMMTrainerSingleton.load(memmElem);
 		} else {
-			MEMMSingleton.clear();
+			MEMMTrainerSingleton.clear();
 		}
 		Element etdElem = modelRoot.getFirstChildElement("etd");
 		if(etdElem != null) {

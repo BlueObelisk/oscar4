@@ -16,8 +16,8 @@ import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
-import uk.ac.cam.ch.wwmm.oscarpattern.finder.DFANEFinder;
 import uk.ac.cam.ch.wwmm.oscarpattern.saf.StandoffResolver;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFANEFinder;
 
 /**
  * Name recognition using patterns

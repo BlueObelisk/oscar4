@@ -13,9 +13,9 @@ import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.NGram;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.TokenTypes;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenTypes;
 
 /**
  * Converts a list of tokens into features for the MEMM.

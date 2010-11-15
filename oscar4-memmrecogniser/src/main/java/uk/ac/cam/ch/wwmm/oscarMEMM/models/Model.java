@@ -1,13 +1,10 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.util.List;
 
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
-import nu.xom.Serializer;
 
 import org.apache.log4j.Logger;
 
@@ -16,6 +13,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
 import uk.ac.cam.ch.wwmm.oscarMEMM.subtypes.NESubtypes;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 
 /**Routines to co-ordinate the holding of experimental training data, and 
  * models from the MEMM, MEMM rescorer and other modules.
@@ -61,7 +59,7 @@ public class Model {
 		if(etdElem != null) {
 			ExtractedTrainingData.reinitialise(etdElem);
 		} else {
-			ExtractedTrainingData.clear();
+			ExtractedTrainingData.getInstance().clear();
 		}
 		Element subtypeElem = modelRoot.getFirstChildElement("subtypes");
 		if(subtypeElem != null) {

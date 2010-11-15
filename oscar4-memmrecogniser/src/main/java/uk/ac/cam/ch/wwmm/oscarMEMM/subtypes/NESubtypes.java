@@ -26,7 +26,7 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
-import uk.ac.cam.ch.wwmm.oscarMEMM.tokenAnalysis.TokenTypes;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenTypes;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /** An experimental class to subclassify named entities.

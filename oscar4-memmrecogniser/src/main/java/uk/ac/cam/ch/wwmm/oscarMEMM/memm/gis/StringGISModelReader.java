@@ -13,7 +13,7 @@ import opennlp.maxent.io.GISModelReader;
  */
 public final class StringGISModelReader extends GISModelReader {
 
-	BufferedReader br;
+	private BufferedReader br;
 	
 	public StringGISModelReader(String s) {
 		 br = new BufferedReader(new StringReader(s));

@@ -370,7 +370,7 @@ public final class MEMM {
      *
      * @param entities The entities to rescore.
      */
-    private void rescore(List<NamedEntity> entities) {
+    public void rescore(List<NamedEntity> entities) {
         rescorer.rescore(entities);
     }
 

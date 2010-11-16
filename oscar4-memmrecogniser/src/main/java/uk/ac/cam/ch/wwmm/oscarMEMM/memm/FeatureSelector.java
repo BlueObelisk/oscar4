@@ -22,14 +22,14 @@ final class FeatureSelector {
 
 	private final Logger logger = Logger.getLogger(FeatureSelector.class);
 
-	Bag<String> featureCounts;
-	Bag<String> outcomeCounts;
-	Bag<String> outcomeCountsByFeature;
-	Map<String,Bag<String>> featureToOutcomes;
-	Set<String> bannedClones;
-	int totalEvents;
-	int totalFeatures;
-	double defaultThreshold = 0.25;
+	private Bag<String> featureCounts;
+	private Bag<String> outcomeCounts;
+	private Bag<String> outcomeCountsByFeature;
+	private Map<String,Bag<String>> featureToOutcomes;
+	private Set<String> bannedClones;
+	private int totalEvents;
+	private int totalFeatures;
+	private double defaultThreshold = 0.25;
 	
 	public FeatureSelector() {
 		

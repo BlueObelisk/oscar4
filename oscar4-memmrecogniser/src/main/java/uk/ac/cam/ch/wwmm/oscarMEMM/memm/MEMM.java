@@ -48,8 +48,8 @@ public final class MEMM {
 	private int trainingCycles;
 	private int featureCutOff;
 	
-	Set<String> tagSet;
-	Set<String> entityTypes;
+	private Set<String> tagSet;
+	private Set<String> entityTypes;
 
 	private boolean useUber = false;
 	private boolean removeBlocked = false;
@@ -159,13 +159,6 @@ public final class MEMM {
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getInstance(), doc, true, false, false);
 		
-	//NameRecogniser nr = new NameRecogniser();
-		//nr.halfProcess(doc);
-		//if(patternFeatures) {
-		//	nr.findForReps(true);
-		//} else {
-			//nr.makeTokenisers(true);
-		//}
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			trainOnSentence(ts, domain);
 		}
@@ -205,11 +198,10 @@ public final class MEMM {
 		} else {
 			String [] featArray = features.toArray(new String[0]);
 			for(String tag : tagSet) {
-				if(false /* && tampering*/) {
+				if(false) {
 					List<String> newFeatures = new ArrayList<String>(features.size());
 					for(String feature : features) {
 						if(perniciousFeatures != null && perniciousFeatures.containsKey(tag) && perniciousFeatures.get(tag).contains(feature)) {
-							//System.out.println("Dropping: " + feature);
 						} else {
 							if(!feature.startsWith("anchor")) newFeatures.add(feature);							
 						}
@@ -239,8 +231,7 @@ public final class MEMM {
 
 		List<Map<String,Map<String,Double>>> classifierResults = new ArrayList<Map<String,Map<String,Double>>>();	
 		for(int i=0;i<tokens.size();i++) {
-//			System.out.println(tokens.get(i) + " -> " + extractor.getFeatures(i));
-			classifierResults.add(calcResults(extractor.getFeatures(i))); 
+			classifierResults.add(calcResults(extractor.getFeatures(i)));
 		}
 		
 		EntityTokeniser lattice = new EntityTokeniser(this, tokSeq, classifierResults);
@@ -266,13 +257,7 @@ public final class MEMM {
 		
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getInstance(), doc, true, false, false);
-		//NameRecogniser nr = new NameRecogniser();
-		//nr.halfProcess(doc);
-		//if(patternFeatures) {
-		//	nr.findForReps(true);
-		//} else {
-			//nr.makeTokenisers(true);
-		//}
+
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			cvFeatures(ts, domain);
 		}

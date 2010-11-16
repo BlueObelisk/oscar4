@@ -12,8 +12,8 @@ import opennlp.maxent.EventStream;
  */
 public final class SimpleEventStream implements EventStream {
 
-	int pointer;
-	List<Event> events;
+	private int pointer;
+	private List<Event> events;
 	
 	public SimpleEventStream(List<Event> events) {
 		this.events = events;

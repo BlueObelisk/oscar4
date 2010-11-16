@@ -27,11 +27,13 @@ import java.util.Set;
 public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
     private MEMM memm;
-    private double threshold;
+    private double memmThreshold;
+    private DFAONTCPRFinder ontologyTermFinder;
 
     public MEMMRecogniser() {
-        memm = MEMMSingleton.getInstance();
-        threshold = OscarProperties.getData().neThreshold;
+        this.memm = MEMMSingleton.getInstance();
+        this.memmThreshold = OscarProperties.getData().neThreshold;
+        this.ontologyTermFinder = DFAONTCPRFinder.getInstance();
     }
 
     public List<NamedEntity> findNamedEntities(ProcessingDocument procDoc) throws Exception {
@@ -119,7 +121,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
         for (TokenSequence tokseq : toxicList) {
             for (NamedEntity ne : memm.findNEs(tokseq, null).keySet()) {
-                if (ne.getConfidence() > threshold) {
+                if (ne.getConfidence() > memmThreshold) {
                     neList.add(ne);
                 }
             }
@@ -137,7 +139,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     private List<NamedEntity> generateOntologyTerms(List<TokenSequence> toxicList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
         for (TokenSequence t : toxicList) {
-            neList.addAll(DFAONTCPRFinder.getInstance().getNEs(t));
+            neList.addAll(ontologyTermFinder.getNEs(t));
         }
         return neList;
     }

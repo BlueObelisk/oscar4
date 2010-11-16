@@ -36,12 +36,12 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  */
 public final class NESubtypes {
 
-	Map<String, Map<String, List<List<String>>>> trainingData;
-	Map<String, GISModel> classifiers;
+	private Map<String, Map<String, List<List<String>>>> trainingData;
+	private Map<String, GISModel> classifiers;
 	
-	boolean useTagger = false;
-	boolean bestOnly = false;
-	public boolean OK = false;
+	private boolean useTagger = false;
+	private boolean bestOnly = false;
+	private boolean OK = false;
 		
 	class State {
 		Document sourceDoc;

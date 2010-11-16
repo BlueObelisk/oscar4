@@ -13,7 +13,7 @@ import opennlp.maxent.io.GISModelWriter;
  */
 public final class StringGISModelWriter extends GISModelWriter {
 
-	StringWriter stringWriter;
+	private StringWriter stringWriter;
 	
 	public StringGISModelWriter(GISModel model) throws Exception {
 		super(model);

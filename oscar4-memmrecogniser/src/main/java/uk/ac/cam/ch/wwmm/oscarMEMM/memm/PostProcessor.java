@@ -27,9 +27,9 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenTypes;
  */
 final class PostProcessor {
 
-	Map<NamedEntity, Double> entities;
-	Set<NamedEntity> blocked;
-	TokenSequence tokSeq;
+	private Map<NamedEntity, Double> entities;
+	private Set<NamedEntity> blocked;
+	private TokenSequence tokSeq;
 
 	private static Pattern cjPattern = Pattern.compile("\\S+(ic|al|ous)");
 	private static Pattern asePattern = Pattern.compile("\\S+[Aa]ses?");

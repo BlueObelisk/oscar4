@@ -11,7 +11,7 @@ import opennlp.maxent.EventCollector;
  *
  */
 public final class SimpleEventCollector implements EventCollector {
-	public Event [] events;
+	private Event [] events;
 	
 	public SimpleEventCollector(List<Event> ev) {
 		events = (Event [])ev.toArray(new Event[0]);

@@ -15,11 +15,11 @@ import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
  */
 final class EntityTokeniser {
 
-	List<Map<String,Map<String,Double>>> classifierResults;
-	List<Map<String,Double>> alphas;
-	int length;
-	MEMM memm;
-	TokenSequence tokSeq;
+	private List<Map<String,Map<String,Double>>> classifierResults;
+	private List<Map<String,Double>> alphas;
+	private int length;
+	private MEMM memm;
+	private TokenSequence tokSeq;
 	
 	public EntityTokeniser(MEMM memm, TokenSequence tokSeq, List<Map<String,Map<String,Double>>> classifierResults) {
 		this.tokSeq = tokSeq;

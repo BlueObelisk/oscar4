@@ -20,7 +20,10 @@ public class MEMMTrainerTest {
 			"uk/ac/cam/ch/wwmm/oscarMEMM/memm/paper.xml"
 		);
 		Assert.assertNotNull(stream);
+		String xml = trainer.writeModel().toXML();
 		trainer.trainOnStream(stream, "what to enter here??");
-		// FIXME: how to test that it learned something??
+		trainer.finishTraining();
+		Assert.assertNotSame(xml, trainer.writeModel().toXML());
+		// it must have learned something
 	}
 }

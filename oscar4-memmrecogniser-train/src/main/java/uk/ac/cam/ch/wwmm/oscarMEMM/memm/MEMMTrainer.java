@@ -118,12 +118,12 @@ public final class MEMMTrainer {
 	}
 	
 	private void trainOnSentence(TokenSequence tokSeq, String domain) {
-		FeatureExtractor extractor = new FeatureExtractor(tokSeq, domain);
+        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq, domain);
 		//extractor.printFeatures();
 		List<Token> tokens = tokSeq.getTokens();
 		String prevTag = "O";
 		for(int i=0;i<tokens.size();i++) {
-			train(extractor.getFeatures(i), tokens.get(i).getBioTag(), prevTag);
+			train(featureLists.get(i), tokens.get(i).getBioTag(), prevTag);
 			prevTag = tokens.get(i).getBioTag();
 		}
 	}
@@ -424,14 +424,14 @@ public final class MEMMTrainer {
 	 * @return Named entities, with confidences.
 	 */
 	public Map<NamedEntity,Double> findNEs(TokenSequence tokSeq, String domain) {
-		FeatureExtractor extractor = new FeatureExtractor(tokSeq, domain);
+		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq, domain);
 		List<Token> tokens = tokSeq.getTokens();
 		if(tokens.size() == 0) return new HashMap<NamedEntity,Double>();
 
 		List<Map<String,Map<String,Double>>> classifierResults = new ArrayList<Map<String,Map<String,Double>>>();	
 		for(int i=0;i<tokens.size();i++) {
 //			System.out.println(tokens.get(i) + " -> " + extractor.getFeatures(i));
-			classifierResults.add(calcResults(extractor.getFeatures(i))); 
+			classifierResults.add(calcResults(featureLists.get(i)));
 		}
 		
 		EntityTokeniser lattice = new EntityTokeniser(
@@ -481,7 +481,7 @@ public final class MEMMTrainer {
 		if(featureCVScores == null) {
 			featureCVScores = new HashMap<String,Map<String,Double>>();
 		}
-		FeatureExtractor extractor = new FeatureExtractor(tokSeq, domain);
+		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq, domain);
 		List<Token> tokens = tokSeq.getTokens();
 		String prevTag = "O";
 		for(int i=0;i<tokens.size();i++) {
@@ -497,7 +497,7 @@ public final class MEMMTrainer {
 			prevTag = tag;
 			int outcomeIndex = gm.getIndex(tag);
 			if(outcomeIndex == -1) continue;
-			List<String> features = extractor.getFeatures(i);
+			List<String> features = featureLists.get(i);
 			if(features.size() == 0) continue;
 			String [] featuresArray = features.toArray(new String[0]);
 			String [] newFeaturesArray = features.toArray(new String[0]);

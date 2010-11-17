@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 
 import java.io.File;
@@ -30,10 +29,10 @@ public class Model {
     public Model(Document modelDoc) {
         Element modelRoot = modelDoc.getRootElement();
 		Element memmElem = modelRoot.getFirstChildElement("memm");
-		if(memmElem != null) {
-			MEMMSingleton.load(memmElem);
+		if (memmElem != null) {
+            memm = new MEMM(memmElem);
 		} else {
-			MEMMSingleton.clear();
+			memm = null;
 		}
 		Element etdElem = modelRoot.getFirstChildElement("etd");
 		if (etdElem != null) {
@@ -62,7 +61,7 @@ public class Model {
 	public static Document makeModel() throws Exception {
 		Element modelRoot = new Element("model");
 		modelRoot.appendChild(ExtractedTrainingData.getInstance().toXML());
-		MEMM memm = MEMMSingleton.getInstance();
+		MEMM memm = MEMM.getInstance();
 		if(memm != null) modelRoot.appendChild(memm.writeModel());
 //		NESubtypes subtypes = NESubtypes.getInstance();
 //		if(subtypes.OK) modelRoot.appendChild(subtypes.toXML());

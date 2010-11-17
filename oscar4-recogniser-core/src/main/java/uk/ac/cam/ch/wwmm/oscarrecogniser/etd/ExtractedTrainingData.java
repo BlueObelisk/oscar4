@@ -70,9 +70,7 @@ public final class ExtractedTrainingData {
 	 */
 	public static ExtractedTrainingData getInstance() {
 		if(myInstance == null) {
-//			Model.loadModel();
-			myInstance = new ExtractedTrainingData();
-			myInstance.loadModelFile(OscarProperties.getData().model);
+            myInstance = getDefaultInstance();
 		}
 		return myInstance;
 	}
@@ -92,18 +90,6 @@ public final class ExtractedTrainingData {
     }
 
 
-    /**
-	 * Reads the extracted training data from the specified model and
-	 * adds it to the current collections.
-	 *
-	 * @param modelName
-	 */
-	public void loadModelFile(String modelName) {
-		Element etdElement = loadEtdElement(modelName);
-		readStringsFromElement(etdElement);
-		this.modelName = modelName;
-	}
-
 	static Element loadEtdElement(String modelName) {
 		ResourceGetter rg = new ResourceGetter("/uk/ac/cam/ch/wwmm/oscarrecogniser/models/");
 		Document modelDoc = rg.getXMLDocument(modelName + ".xml");
@@ -117,7 +103,7 @@ public final class ExtractedTrainingData {
 	 *
 	 */
 	public static void reinitialise() {
-		myInstance = null;
+		myInstance = getDefaultInstance();
 		getInstance();
 	}
 

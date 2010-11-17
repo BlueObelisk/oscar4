@@ -20,8 +20,6 @@ public final class NamedEntity extends ResolvableStandoff {
 
 	private int startOffset;
 	private int endOffset;
-	private String startXPoint;
-	private String endXPoint;
 	private String surface;
 	private String type;
 	private Token endToken;
@@ -35,10 +33,6 @@ public final class NamedEntity extends ResolvableStandoff {
 	private double pseudoConfidence;
 	private boolean deprioritiseOnt;
 	private boolean blocked;
-	
-	//public NamedEntity(List<Token> tokens, String surface) {
-	//	this(tokens, surface, null);
-	//}
 	
 	/**Creates a new NamedEntity.
 	 * 
@@ -55,8 +49,6 @@ public final class NamedEntity extends ResolvableStandoff {
 		endToken = tokens.get(tokens.size()-1);
 		startOffset = tokens.get(0).start;
 		endOffset = endToken.end;
-		//startXPoint = tokens.get(0).getStartXPoint();
-		//endXPoint = endToken.getEndXPoint();
 		this.surface = surface;
 		this.type = type;
 		ontIds = null;
@@ -78,8 +70,6 @@ public final class NamedEntity extends ResolvableStandoff {
 		ne.endToken = t;
 		ne.startOffset = t.start;
 		ne.endOffset = ne.startOffset + prefix.length();
-//		ne.startXPoint = t.getStartXPoint();
-//		ne.endXPoint = t.getEndXPoint(prefix.length());
 		ne.surface = prefix;
 		ne.type = NamedEntityTypes.LOCANTPREFIX;
 		ne.ontIds = null;
@@ -94,41 +84,7 @@ public final class NamedEntity extends ResolvableStandoff {
 		deprioritiseOnt = false;
 		blocked = false;
 	}
-	
-	/**Converts the named entity to an annot element in SAF.
-	 * 
-	 * @return The SAF element for the named entity.
-	 */
-	public Element toSAF() {
-		Element safElem = SafTools.makeAnnot(startXPoint, endXPoint, "oscar", type, surface);
 
-		if(ontIds != null) {
-			SafTools.setSlot(safElem, "ontIDs", StringTools.arrayToString(ontIds.toArray(new String[0]), " "));
-		}
-
-		if(custTypes != null) {
-			SafTools.setSlot(safElem, "custTypes", StringTools.arrayToString(custTypes.toArray(new String[0]), " "));
-		}
-		
-		if(blocked) {
-			SafTools.setSlot(safElem, "blocked", "true");
-		}
-
-		if(!Double.isNaN(confidence)) {
-			SafTools.setSlot(safElem, "confidence", Double.toString(confidence));
-		}
-		
-		if(leftPunct != null && leftPunct.length() > 0) {
-			SafTools.setSlot(safElem, "leftPunct", leftPunct);
-		}
-
-		if(rightPunct != null && rightPunct.length() > 0) {
-			SafTools.setSlot(safElem, "rightPunct", rightPunct);
-		}
-		
-		return safElem;
-	}
-	
 	/**Gets the type of the named entity.
 	 * 
 	 * @return The type of the named entity.
@@ -227,20 +183,7 @@ public final class NamedEntity extends ResolvableStandoff {
 		this.custTypes = custTypes;
 	}
 	
-	/**Is the named entity empty - or back-to-front?
-	 * 
-	 * @return true if empty (or back-to-front)
-	 */
-	public boolean isEmpty() {
-		if(surface.length() == 0) return true;
-		// Belt-and-braces programming. This should also catch back-to-front
-		// entities. This line should never return true but if the conditions
-		// happened and weren't caught then major problems might happen later on. 
-		if(endOffset - startOffset < 1) return true;
-		// OK
-		return false;
-	}
-	
+
 	/**Analyses the context of the named entity, recording the presence of
 	 * nearby punctuation to be included as attributes of the named entity.
 	 * 
@@ -489,14 +432,13 @@ public final class NamedEntity extends ResolvableStandoff {
 	
 	/**
 	 * If deprioritiseOnt is true will sort such that a non ontological term is prioritised
-	 * @param otherNe
+	 * @param other
 	 * @return int indicating sort order
 	 */
 	public int comparePropertiesSpecifiedPrioritisation(ResolvableStandoff other) {
 		if(other instanceof NamedEntity) {
 			NamedEntity otherNe = (NamedEntity)other;
-			if (deprioritiseOnt){
-				if(type.equals(NamedEntityTypes.ONTOLOGY) && !otherNe.type.equals(NamedEntityTypes.ONTOLOGY)) {
+			if (deprioritiseOnt){				if(type.equals(NamedEntityTypes.ONTOLOGY) && !otherNe.type.equals(NamedEntityTypes.ONTOLOGY)) {
 					return -1;
 				} else if(!type.equals(NamedEntityTypes.ONTOLOGY) && otherNe.type.equals(NamedEntityTypes.ONTOLOGY)) {
 					return 1;

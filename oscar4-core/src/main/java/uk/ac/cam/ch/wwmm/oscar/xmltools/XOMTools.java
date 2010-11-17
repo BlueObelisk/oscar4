@@ -136,33 +136,7 @@ public final class XOMTools {
 		return newElem;
 	}
  
-	/**Sets the namespace URI of an Element, and all child elements,
-	 * recursively.
-	 *
-	 *@param elem The element to move into the namespace.
-	 *@param nameSpace The namespace URI.
-	 */
-	public static void setNamespaceURIRecursively(Element elem, String nameSpace) {
-		elem.setNamespaceURI(nameSpace);
-		Elements children =elem.getChildElements();
-		for(int i=0, n=children.size();i<n;i++)
-			setNamespaceURIRecursively(children.get(i), nameSpace);
-	}
-	
-	/**Removes the namespace URI of an element, and all child elements,
-	 * recursively.
-	 * 
-	 * @param elem The element to remove the namespaces from.
-	 */
-	public static void clearNamespaces(Element elem) {
-		if(elem.getNamespacePrefix() == null || elem.getNamespacePrefix().length() == 0) {
-			elem.setNamespaceURI(null);
-			Elements children =elem.getChildElements();
-			for(int i=0, n=children.size();i<n;i++)
-				clearNamespaces(children.get(i));			
-		}
-	}
-	
+
 	/**Removes an Element from a document, putting its child nodes into the gap
 	 * left behind. Text nodes are sewn together so as to ensure that no new
 	 * instances of a Text node next to another Text node are created.
@@ -256,47 +230,6 @@ public final class XOMTools {
 		}
 	}
 	
-	/**Gets the XPoint of a given node, given a root node.
-	 * 
-	 * @param n The node to make the XPoint for.
-	 * @param root The root node.
-	 * @return The XPoint
-	 */
-	public static String getXPointToNode(Node n, Node root) {
-		if(n == root) return "/1";
-		return getXPointToNode(n.getParent(), root) + "/" + Integer.toString(n.getParent().indexOf(n)+1);		
-	}
-
-	/**Finds the node at a given XPoint.
-	 * 
-	 * @param n The root node that the XPoint is relative to.
-	 * @param xPoint The XPoint.
-	 * @return The Node.
-	 */
-	public static Node getNodeAtXPoint(Node n, String xPoint) {
-		try {
-			if(xPoint.equals("/1")) return n;
-			xPoint = xPoint.substring(1);
-			xPoint = xPoint.substring(xPoint.indexOf('/'));
-			return getNodeAtXPointInternal(n, xPoint);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-	
-	private static Node getNodeAtXPointInternal(Node n, String xPoint) {
-		try {
-			xPoint = xPoint.substring(1);
-			if(xPoint.indexOf('/') == -1) {
-				return n.getChild(Integer.parseInt(xPoint)-1);
-			}
-			String nextXPoint = xPoint.substring(xPoint.indexOf('/'));		
-			return getNodeAtXPointInternal(n.getChild(Integer.parseInt(xPoint.substring(0, xPoint.indexOf('/')))-1), nextXPoint);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
 	/**Produces a hash value for an XML document.
 	 * 
 	 * @param doc The document to get a hash value for.

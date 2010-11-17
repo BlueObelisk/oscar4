@@ -55,43 +55,4 @@ public final class TextToSciXML {
 		return doc;
 	}
 	
-	/**Builds a new SciXML document from the given text string, using special
-	 * rules to interpret the format of abstracts in the BioIE corpus.
-	 * 
-	 * @param s The string.
-	 * @return The resulting SciXML document.
-	 */
-	public static Document bioIEAbstractToXMLDoc(String s) {
-		Element paper = new Element(XMLStrings.getInstance().PAPER);
-		Document doc = new Document(paper);
-		
-		Pattern p = Pattern.compile("\\W\n\\W\n\\W*");
-		Matcher m = p.matcher(s);
-		int pos = 0;
-		int num = 0;
-		while(m.find()) {
-			if(pos < m.start()) {
-				num++;
-				if(num == 2) {
-					Element title = new Element(XMLStrings.getInstance().TITLE);
-					title.appendChild(s.substring(pos, m.start()));
-					paper.appendChild(title);
-				} else if((num == 4 || num == 5) && m.start() - pos > 200) {
-					Element abstrct = new Element(XMLStrings.getInstance().ABSTRACT);
-					abstrct.appendChild(s.substring(pos, m.start()));
-					paper.appendChild(abstrct);
-				} else {
-					paper.appendChild(s.substring(pos, m.start()));
-				}
-			}
-			paper.appendChild(m.group());
-			pos = m.end();			
-		}
-		if(pos < s.length()) {
-			paper.appendChild(s.substring(pos));
-		}
-
-		return doc;
-	}
-	
 }

@@ -172,25 +172,7 @@ public final class TermSets {
 		return getInstance().endingInElementPattern;
 	}
 	
-	/**Makes some hashes of the Oscar3 term set resources, for traceability
-	 * purposes.
-	 * 
-	 * @return A string detailing the various hashes.
-	 */
-	public static String makeHashes() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("stopWords: " + StringTools.collectionToStableString(getStopWords()).hashCode() + "\n");
-		sb.append("usrDictWords: " + StringTools.collectionToStableString(getUsrDictWords()).hashCode() + "\n");
-		sb.append("noSplitPrefixes: " + StringTools.collectionToStableString(getNoSplitPrefixes()).hashCode() + "\n");
-		sb.append("closedClass: " + StringTools.collectionToStableString(getClosedClass()).hashCode() + "\n");
-		sb.append("chemAses: " + StringTools.collectionToStableString(getChemAses()).hashCode() + "\n");
-		sb.append("nonChemAses: " + StringTools.collectionToStableString(getNonChemAses()).hashCode() + "\n");
-		sb.append("elements: " + StringTools.collectionToStableString(getElements()).hashCode() + "\n");
-		sb.append("ligands: " + StringTools.collectionToStableString(getLigands()).hashCode() + "\n");
-		sb.append("reactWords: " + StringTools.collectionToStableString(getReactWords()).hashCode() + "\n");
-		return sb.toString();
-	}
-	
+		
 	private TermSets() throws Exception {
 		logger.debug("Initialising term sets... ");
 		stopWords = getTermSet("stopwords.txt");

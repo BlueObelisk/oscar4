@@ -16,8 +16,8 @@ import nu.xom.Text;
  */
 public final class XMLInserter extends XMLSpanTagger {
 
-	String extraTagPrefix;
-	int extraTagNo;
+	private String extraTagPrefix;
+	private int extraTagNo;
 	
 	/**Generates an XMLInserter for an XML document.
 	 * 

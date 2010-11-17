@@ -46,22 +46,7 @@ public final class StandoffTable {
 		return (Element)textTable.get(offset).getParent();
 	}
 	
-	/**Gets the innermost Element with a given name at a particular character
-	 * offset. 
-	 * 
-	 * @param offset The character offset.
-	 * @param localName The element name.
-	 * @return The element, or null.
-	 */
-	public Element findElementUnderOffset(int offset, String localName) {
-		Element e = getElemAtOffset(offset);
-		while(!e.getLocalName().equals(localName)) {
-			if(!(e.getParent() instanceof Element)) return null;
-			e = (Element) e.getParent();
-		}
-		return e;
-	}
-	
+
 	/**Converts an offset into an XPoint suitable for the left (start) of an
 	 * annotation.
 	 * 
@@ -111,15 +96,7 @@ public final class StandoffTable {
 		}
 	}
 		
-	/**Gets the size of the offset table
-	 * 
-	 * @return The size of the offset table;
-	 */
-	public int getSize() {
-		return offsetTable.size();
-	}
-	
-	private void populateTable(Element elem) {
+    private void populateTable(Element elem) {
 		for(int i=0;i<elem.getChildCount();i++) {
 			Node n = elem.getChild(i);
 			if(n instanceof Text) {

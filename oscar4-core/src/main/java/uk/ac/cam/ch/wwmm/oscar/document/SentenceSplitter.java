@@ -48,22 +48,7 @@ public final class SentenceSplitter {
 		impossibleAfter.add("Sir");	
 	}
 	
-	/**Gets the string corresponding to the sentence. This works by looking
-	 * at the underlying text, and getting the part of it that corresponds to
-	 * the span between the start of the first token and the end of the last
-	 * token. An empty sentence gives an empty string.
-	 * 
-	 * @param sentence The list of tokens comprising the sentence.
-	 * @return The string corresponding to the sentence.
-	 */
-	public static String sentenceString(List<Token> sentence) {
-		if(sentence.size() == 0) return "";
-		Token startTok = sentence.get(0);
-		Token endTok = sentence.get(sentence.size()-1);
-		TokenSequence sentenceTokSeq = startTok.tokenSequence;
-		int offset = sentenceTokSeq.getOffset();
-		return sentenceTokSeq.getSourceString().substring(startTok.start - offset, endTok.end - offset);
-	}
+
 	
 	/**Splits a list of tokens into a list of sentences.
 	 * 
@@ -112,9 +97,6 @@ public final class SentenceSplitter {
 					} else if(t.end == next.start && XMLStrings.getInstance().isCitationReferenceUnderStyle(next.doc.standoffTable.getElemAtOffset(next.start))) {
 						if(verbose) System.out.println("E!");
 						split = false;
-					//} else if(prevStr.matches("[A-Z]")) {
-					//	if(verbose) System.out.println("A!");
-					//	split = false;
 					} else if(nextStr.matches("[a-z]+")) {
 						if(verbose) System.out.println("F!");
 						split = false;

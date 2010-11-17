@@ -56,6 +56,64 @@ public final class TokeniserTest {
 		checkTokens(tokseq.getTokens(), "methanol / water");
 	}
 
+	@Test
+	public void test1Butanol() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "1-butanol";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
+
+	@Test
+	public void testTransButene() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "trans-but-2-ene";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
+
+	@Test
+	public void testIronIII() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "Fe(III)";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(2, tokseq.getTokens().size());
+		checkTokens(tokseq.getTokens(), "Fe (III)");
+	}
+
+	@Test
+	public void testSAlanine() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "(S)-alanine";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
+
+	@Test
+	public void testDGlucose() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "D-glucose";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
+
+	@Test
+	public void testBetaDGlucose() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "\u03b2-D-Glucose";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
+
+	@Test
+	public void testTrademake() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "CML(TM)";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(4, tokseq.getTokens().size());
+		checkTokens(tokseq.getTokens(), "CML ( TM )");
+	}
+
 	private void checkTokens(List<Token> tokens, String expectedTokens) {
 		List<String> expectedList = new ArrayList<String>();
 		for (String item : expectedTokens.split(" ")) {

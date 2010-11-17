@@ -399,7 +399,7 @@ public final class FeatureExtractor {
 		List<String> mergedFeatures = tokenFeatureSets.get(position).getFeatures();
 
 		int backwards = Math.min(1, position);
-		int forwards = forwards = Math.min(1, tokSeq.size() - position - 1);
+		int forwards = Math.min(1, tokSeq.size() - position - 1);
 
 		if (!noC) {
 			for (int i = -backwards; i <= forwards; i++) {

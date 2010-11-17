@@ -30,10 +30,42 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     private DFAONTCPRFinder ontologyTermFinder;
 
     public MEMMRecogniser() {
-        this.memm = MEMM.getInstance();
         this.memmThreshold = OscarProperties.getData().neThreshold;
-        this.ontologyTermFinder = DFAONTCPRFinder.getInstance();
     }
+
+
+    public MEMM getMemm() {
+        if (memm == null) {
+            memm = MEMM.getDefaultInstance();
+        }
+        return memm;
+    }
+
+    public void setMemm(MEMM memm) {
+        this.memm = memm;
+    }
+
+
+    public double getMemmThreshold() {
+        return memmThreshold;
+    }
+
+    public void setMemmThreshold(double memmThreshold) {
+        this.memmThreshold = memmThreshold;
+    }
+
+
+    public DFAONTCPRFinder getOntologyTermFinder() {
+        if (ontologyTermFinder == null) {
+            ontologyTermFinder = DFAONTCPRFinder.getInstance();
+        }
+        return ontologyTermFinder;
+    }
+
+    public void setOntologyTermFinder(DFAONTCPRFinder ontologyTermFinder) {
+        this.ontologyTermFinder = ontologyTermFinder;
+    }
+    
 
     public List<NamedEntity> findNamedEntities(ProcessingDocument procDoc) throws Exception {
         return findNamedEntities(procDoc.getTokenSequences());
@@ -118,9 +150,10 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      */
     private List<NamedEntity> generateNamedEntities(List<TokenSequence> toxicList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
+        MEMM memm = getMemm();
         for (TokenSequence tokseq : toxicList) {
             for (NamedEntity ne : memm.findNEs(tokseq, null).keySet()) {
-                if (ne.getConfidence() > memmThreshold) {
+                if (ne.getConfidence() > getMemmThreshold()) {
                     neList.add(ne);
                 }
             }
@@ -137,6 +170,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      */
     private List<NamedEntity> generateOntologyTerms(List<TokenSequence> toxicList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
+        DFAONTCPRFinder ontologyTermFinder = getOntologyTermFinder();
         for (TokenSequence t : toxicList) {
             neList.addAll(ontologyTermFinder.getNEs(t));
         }

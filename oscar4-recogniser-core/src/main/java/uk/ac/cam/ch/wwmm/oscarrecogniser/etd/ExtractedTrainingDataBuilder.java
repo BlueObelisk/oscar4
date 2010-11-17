@@ -82,57 +82,59 @@ public class ExtractedTrainingDataBuilder {
     }
 
     private void init(Collection<File> files) {
-        Set<String> goodPn;
-        goodPn = new HashSet<String>();
+        Set<String> goodPn = new HashSet<String>();
 
         try {
             HyphenTokeniser.reinitialise();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        Bag<String> cwBag = new Bag<String>();
-        Bag<String> cnwBag = new Bag<String>();
-        Bag<String> ncwBag = new Bag<String>();
-        Bag<String> ncnwBag = new Bag<String>();
+        Bag<String> chemicalWordBag = new Bag<String>();
+        Bag<String> chemicalNonWordBag = new Bag<String>();
+        Bag<String> nonChemicalWordBag = new Bag<String>();
+        Bag<String> nonChemicalNonWordBag = new Bag<String>();
 
         int paperCount = 0;
-        for(File f : files) {
-            //System.out.println(f);
+        for (File f : files) {
             try {
                 Document doc = new Builder().build(f);
 
                 Nodes n = doc.query("//cmlPile");
-                for(int i=0;i<n.size();i++) n.get(i).detach();
+                for (int i = 0; i < n.size(); i++) {
+                    n.get(i).detach();
+                }
 
                 Document copy = new Document((Element)XOMTools.safeCopy(doc.getRootElement()));
                 n = copy.query("//ne");
-                for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));
+                for (int i = 0; i < n.size(); i++) {
+                    XOMTools.removeElementPreservingText((Element)n.get(i));
+                }
                 Document safDoc = InlineToSAF.extractSAFs(doc, copy, "foo");
                 doc = copy;
 
                 ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(Tokeniser.getInstance(), doc, true, false, false, safDoc);
-                for(TokenSequence tokSeq : procDoc.getTokenSequences()) {
+                for (TokenSequence tokSeq : procDoc.getTokenSequences()) {
                     afterHyphen.addAll(tokSeq.getAfterHyphens());
-                    Map<String, List<List<String>>> neMap = tokSeq.getNes();
-                    List<List<String>> neList = new ArrayList<List<String>>();
-                    if(neMap.containsKey(NamedEntityTypes.COMPOUND)) neList.addAll(neMap.get(NamedEntityTypes.COMPOUND));
-                    if(neMap.containsKey(NamedEntityTypes.ADJECTIVE)) neList.addAll(neMap.get(NamedEntityTypes.ADJECTIVE));
-                    if(neMap.containsKey(NamedEntityTypes.REACTION)) neList.addAll(neMap.get(NamedEntityTypes.REACTION));
-                    if(neMap.containsKey(NamedEntityTypes.ASE)) neList.addAll(neMap.get(NamedEntityTypes.ASE));
+                    Map<String, List<List<String>>> namedEntityMap = tokSeq.getNes();
+                    List<List<String>> namedEntityList = new ArrayList<List<String>>();
+                    if(namedEntityMap.containsKey(NamedEntityTypes.COMPOUND)) namedEntityList.addAll(namedEntityMap.get(NamedEntityTypes.COMPOUND));
+                    if(namedEntityMap.containsKey(NamedEntityTypes.ADJECTIVE)) namedEntityList.addAll(namedEntityMap.get(NamedEntityTypes.ADJECTIVE));
+                    if(namedEntityMap.containsKey(NamedEntityTypes.REACTION)) namedEntityList.addAll(namedEntityMap.get(NamedEntityTypes.REACTION));
+                    if(namedEntityMap.containsKey(NamedEntityTypes.ASE)) namedEntityList.addAll(namedEntityMap.get(NamedEntityTypes.ASE));
 
                     // Stuff for alternate annotation scheme
-                    if(neMap.containsKey("CHEMICAL")) neList.addAll(neMap.get("CHEMICAL"));
-                    if(neMap.containsKey("LIGAND")) neList.addAll(neMap.get("LIGAND"));
-                    if(neMap.containsKey("FORMULA")) neList.addAll(neMap.get("FORMULA"));
+                    if(namedEntityMap.containsKey("CHEMICAL")) namedEntityList.addAll(namedEntityMap.get("CHEMICAL"));
+                    if(namedEntityMap.containsKey("LIGAND")) namedEntityList.addAll(namedEntityMap.get("LIGAND"));
+                    if(namedEntityMap.containsKey("FORMULA")) namedEntityList.addAll(namedEntityMap.get("FORMULA"));
                     //if(neMap.containsKey("CLASS")) neList.addAll(neMap.get("CLASS"));
 
                     // Don't include CPR here
-                    for(List<String> ne : neList) {
+                    for(List<String> ne : namedEntityList) {
                         if(ne.size() == 1) {
                             if(ne.get(0).matches(".*[a-z][a-z].*")) {
-                                cwBag.add(ne.get(0));
+                                chemicalWordBag.add(ne.get(0));
                             } else if(ne.get(0).matches(".*[A-Z].*")) {
-                                cnwBag.add(ne.get(0));
+                                chemicalNonWordBag.add(ne.get(0));
                             }
                         } else {
                             if(ne.get(0).matches("[A-Z][a-z][a-z]+")) {
@@ -143,13 +145,13 @@ public class ExtractedTrainingDataBuilder {
                                 }
                             } else {
                                 for(String neStr : ne) {
-                                    if(neStr.matches(".*[a-z][a-z].*")) cwBag.add(neStr);
+                                    if(neStr.matches(".*[a-z][a-z].*")) chemicalWordBag.add(neStr);
                                 }
                             }
                         }
                     }
-                    if(neMap.containsKey(NamedEntityTypes.REACTION)) {
-                        for(List<String> ne : neMap.get(NamedEntityTypes.REACTION)) {
+                    if(namedEntityMap.containsKey(NamedEntityTypes.REACTION)) {
+                        for(List<String> ne : namedEntityMap.get(NamedEntityTypes.REACTION)) {
                             if(ne.size() > 1) {
                                 rnEnd.add(ne.get(ne.size() - 1));
                                 for(int j=1;j<ne.size()-1;j++) {
@@ -162,7 +164,7 @@ public class ExtractedTrainingDataBuilder {
 
                     for(String nonNe : tokSeq.getNonNes()) {
                         if(nonNe.matches(".*[a-z][a-z].*")) {
-                            ncwBag.add(nonNe.toLowerCase());
+                            nonChemicalWordBag.add(nonNe.toLowerCase());
                         }
                         if(nonNe.matches("[A-Z][a-z][a-z]+")) {
                             pnStops.add(nonNe);
@@ -172,7 +174,7 @@ public class ExtractedTrainingDataBuilder {
                             notForPrefix.add(m.group(1));
                         }
                         if(nonNe.matches(".*[A-Z].*") && !nonNe.matches("[A-Z][a-z][a-z]+")) {// && !neStrs.contains(token)) {
-                            ncnwBag.add(nonNe);
+                            nonChemicalNonWordBag.add(nonNe);
                         }
                     }
                 }
@@ -182,24 +184,24 @@ public class ExtractedTrainingDataBuilder {
             paperCount++;
         }
 
-        for(String s : cwBag.getSet()) {
-            if(cwBag.getCount(s) > 0 && ncwBag.getCount(s) == 0) chemicalWords.add(s);
+        for(String s : chemicalWordBag.getSet()) {
+            if(chemicalWordBag.getCount(s) > 0 && nonChemicalWordBag.getCount(s) == 0) chemicalWords.add(s);
         }
-        for(String s : ncwBag.getSet()) {
-            if(ncwBag.getCount(s) > 0 && cwBag.getCount(s) == 0) nonChemicalWords.add(s);
+        for(String s : nonChemicalWordBag.getSet()) {
+            if(nonChemicalWordBag.getCount(s) > 0 && chemicalWordBag.getCount(s) == 0) nonChemicalWords.add(s);
         }
-        for(String s : cnwBag.getSet()) {
-            if(cnwBag.getCount(s) > 0 && ncnwBag.getCount(s) == 0) chemicalNonWords.add(s);
+        for(String s : chemicalNonWordBag.getSet()) {
+            if(chemicalNonWordBag.getCount(s) > 0 && nonChemicalNonWordBag.getCount(s) == 0) chemicalNonWords.add(s);
         }
-        for(String s : ncnwBag.getSet()) {
-            if(ncnwBag.getCount(s) > 0 && cnwBag.getCount(s) == 0) nonChemicalNonWords.add(s);
+        for(String s : nonChemicalNonWordBag.getSet()) {
+            if(nonChemicalNonWordBag.getCount(s) > 0 && chemicalNonWordBag.getCount(s) == 0) nonChemicalNonWords.add(s);
         }
         Set<String> allChem = new HashSet<String>();
-        allChem.addAll(cwBag.getSet());
-        allChem.addAll(cnwBag.getSet());
+        allChem.addAll(chemicalWordBag.getSet());
+        allChem.addAll(chemicalNonWordBag.getSet());
         Set<String> allNonChem = new HashSet<String>();
-        allNonChem.addAll(ncwBag.getSet());
-        allNonChem.addAll(ncnwBag.getSet());
+        allNonChem.addAll(nonChemicalWordBag.getSet());
+        allNonChem.addAll(nonChemicalNonWordBag.getSet());
 
         for(String s : allChem) {
             if(allNonChem.contains(s)) {

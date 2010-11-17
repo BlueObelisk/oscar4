@@ -1,5 +1,14 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import nu.xom.Attribute;
 import nu.xom.Builder;
 import nu.xom.Document;
@@ -8,7 +17,9 @@ import nu.xom.Elements;
 import nu.xom.Nodes;
 import opennlp.maxent.Event;
 import opennlp.maxent.GISModel;
+
 import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
@@ -21,15 +32,6 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.RescoreMEMMOut;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**The main class for generating and running MEMMs
  *
@@ -121,7 +123,7 @@ public final class MEMM {
     }
 
     private void trainOnSentence(TokenSequence tokSeq, String domain) {
-        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq, domain);
+        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
         List<Token> tokens = tokSeq.getTokens();
         String prevTag = "O";
         for (int i = 0; i < tokens.size(); i++) {
@@ -196,7 +198,7 @@ public final class MEMM {
      * @return Named entities, with confidences.
      */
     public Map<NamedEntity,Double> findNEs(TokenSequence tokSeq, String domain) {
-        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq, domain);
+        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
         List<Token> tokens = tokSeq.getTokens();
         if (tokens.isEmpty()) {
             return Collections.emptyMap();
@@ -275,7 +277,7 @@ public final class MEMM {
         if(featureCVScores == null) {
             featureCVScores = new HashMap<String,Map<String,Double>>();
         }
-        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq, domain);
+        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
         List<Token> tokens = tokSeq.getTokens();
         String prevTag = "O";
         for(int i=0;i<tokens.size();i++) {

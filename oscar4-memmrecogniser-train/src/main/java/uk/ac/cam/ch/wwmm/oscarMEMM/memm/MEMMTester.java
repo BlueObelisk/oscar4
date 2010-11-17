@@ -169,7 +169,7 @@ public final class MEMMTester {
 			if(true) {
 				//System.out.println("Reducing " + trainFilesList.size() + " training files to " + 10);
 				//trainFilesList = trainFilesList.subList(0,10);
-				memm.trainOnSbFiles(trainFilesList, null);
+				memm.trainOnSbFiles(trainFilesList);
 				//memm.trainOnSbFilesWithCVFS(trainFilesList);
 				//memm.trainOnSbFilesWithRescore(trainFilesList);
 				
@@ -238,7 +238,7 @@ public final class MEMMTester {
 						String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
 						testNEs.add(neStr);
 					}
-					confidences.putAll(memm.findNEs(tokSeq, null));
+					confidences.putAll(memm.findNEs(tokSeq));
 				}
 
 				paperTestNEs += testNEs.size();

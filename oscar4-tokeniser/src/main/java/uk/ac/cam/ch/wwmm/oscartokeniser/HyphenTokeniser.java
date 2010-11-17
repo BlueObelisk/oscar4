@@ -33,7 +33,7 @@ public final class HyphenTokeniser {
 	private int maxPrefixLength;
 	private boolean splitOnEnDash;
 	private static Pattern suffixPrefixPattern = Pattern.compile("mono|di|tri|tetra|penta|hexa|hepta|un|de|re|pre");
-	private static Pattern pnHyphPattern = Pattern.compile("((Mc|Mac)?[A-Z]\\p{Ll}\\p{Ll}\\p{Ll}+(s'|'s)?" + StringTools.hyphensRe + ")+(Mc|Mac)?[A-Z]\\p{Ll}\\p{Ll}\\p{Ll}+(s'|'s)?");
+	private static Pattern propernounHyphenPattern = Pattern.compile("((Mc|Mac)?[A-Z]\\p{Ll}\\p{Ll}\\p{Ll}+(s'|'s)?" + StringTools.hyphensRegex + ")+(Mc|Mac)?[A-Z]\\p{Ll}\\p{Ll}\\p{Ll}+(s'|'s)?");
 	
 	/**Re-initialises the Hyphen tokeniser.
 	 * 
@@ -99,74 +99,74 @@ public final class HyphenTokeniser {
 		}
 	}
 	
-	private int indexOfSplittableHyphenInternal(String s) {
-		boolean balancedBrackets = StringTools.bracketsAreBalanced(s);
-		for(int i=s.length()-3;i>0;i--) {
+	private int indexOfSplittableHyphenInternal(String tokenValue) {
+		//TODO break each tokenisation case into a separate method and unit test
+		boolean balancedBrackets = StringTools.bracketsAreBalanced(tokenValue);
+		for(int currentIndex=tokenValue.length()-3;currentIndex>0;currentIndex--) {
 			/* Are we looking at a hyphen? */
-			if(StringTools.hyphens.indexOf(s.codePointAt(i)) != -1) {
-				//boolean wouldTok = scoreTok(s, i);
+			if(StringTools.hyphens.indexOf(tokenValue.codePointAt(currentIndex)) != -1) {
 				
 				//Don't split on tokens contained within brackets
-				if(balancedBrackets && !StringTools.bracketsAreBalanced(s.substring(i+1))) continue;
+				if(balancedBrackets && !StringTools.bracketsAreBalanced(tokenValue.substring(currentIndex+1))) continue;
 				
 				// Split on en-dashes?
-				if(splitOnEnDash && s.substring(i, i+1).equals(StringTools.enDash)) return i;
+				if(splitOnEnDash && tokenValue.substring(currentIndex, currentIndex+1).equals(StringTools.enDash)) return currentIndex;
 				
 				// Always split on em-dashes
-				if(s.substring(i, i+1).equals(StringTools.emDash)) return i;				
+				if(tokenValue.substring(currentIndex, currentIndex+1).equals(StringTools.emDash)) return currentIndex;				
 				
-				if(OntologyTerms.getHyphTokable().contains(StringTools.normaliseName(s.substring(0,i)) + " " + 
-						StringTools.normaliseName(s.substring(i+1)))) {
-					return i;
+				if(OntologyTerms.getHyphTokable().contains(StringTools.normaliseName(tokenValue.substring(0,currentIndex)) + " " + 
+						StringTools.normaliseName(tokenValue.substring(currentIndex+1)))) {
+					return currentIndex;
 				}
 				// Suffixes?
-				String suffix = s.substring(i+1).toLowerCase();
+				String suffix = tokenValue.substring(currentIndex+1).toLowerCase();
 				if(splitSuffixes.contains(suffix)) {
-					//if(!wouldTok) System.out.printf("%s %d\n", s, i);
-					return i;
+					return currentIndex;
 				}
 				
-				Matcher m = pnHyphPattern.matcher(s);
+				Matcher m = propernounHyphenPattern.matcher(tokenValue);
 				if(m.matches()) {
-					return i;
+					return currentIndex;
 				}
 				
 				m = suffixPrefixPattern.matcher(suffix); 
 				if(m.lookingAt()) {
+					//the suffix string is what remains of the string when certain
+					//prefixes (defined in suffixPrefixPattern) are removed
 					suffix = suffix.substring(m.end());
 				}
 				while(suffix.length() >= 3) {
+					//we check to see if any of the splitSuffixes follow an
+					//identified prefix
 					if(splitSuffixes.contains(suffix)) {
-						//if(!wouldTok) System.out.printf("%s %d\n", s, i);
-						return i;
+						return currentIndex;
 					}
 					suffix = suffix.substring(0, suffix.length()-1);
 				}
 				
 				// No suffix? Then don't examine hyphens in position 1
-				if(i == 1) continue;
+				if(currentIndex == 1) continue;
 				
 				// Prefixes
+				// check to see if the word contains one of the noSplitPrefixes. If
+				// it does, don't tokenise.
 				boolean noSplit = false;
-				for(int j=minPrefixLength;j<=maxPrefixLength && j<=i;j++) {
-					String prefix = s.substring(i-j, i).toLowerCase();
+				for(int j=minPrefixLength;j<=maxPrefixLength && j<=currentIndex;j++) {
+					String prefix = tokenValue.substring(currentIndex-j, currentIndex).toLowerCase();
 					if(noSplitPrefixes.contains(prefix)) {
 						noSplit = true;
-						//if(wouldTok) System.out.printf("* %s %d\n", s, i);
 						break;
 					}
 				}
 				if(noSplit) {
-					//if(wouldTok) System.out.printf("* %s %d\n", s, i);
 					continue;
 				}
 				
 				/* Check for lowercase either side of the token */
-				if(s.substring(i-2).matches("[a-z][a-z]["+StringTools.hyphens+"][a-z]+")) {
-					//if(!wouldTok) System.out.printf("%s %d\n", s, i);
-					return i;
+				if(tokenValue.substring(currentIndex-2).matches("[a-z][a-z]["+StringTools.hyphens+"][a-z]+")) {
+					return currentIndex;
 				}
-				//if(wouldTok) System.out.printf("* %s %d\n", s, i);
 			}
 		}
 		return -1;

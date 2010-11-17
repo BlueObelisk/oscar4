@@ -38,7 +38,7 @@ public final class Tokeniser implements ITokeniser {
 			+ primesRe
 			+ "[RSEZDLH]?|"
 			+ "\\(([RSEZDLH\u00b1]|\\+|"
-			+ StringTools.hyphensRe
+			+ StringTools.hyphensRegex
 			+ "[DLRSEZ]|"
 			+ ")\\)|"
 			+ "([CNOS]|Se)\\d*|"
@@ -259,6 +259,8 @@ public final class Tokeniser implements ITokeniser {
 		 *  @dmj30: Using String.split for every token in the document, are we?
 		 */
 		//TODO optimise this operation if it gets left in
+		//TODO unit tests to check the extent of the tokenising on
+		//     abbreviations problem.
 		String abbreviations = "et. al. etc. e.g. i.e. vol. ca. wt. aq. ea-";
 		List<String> abvList = new ArrayList<String>();
 		for (String item : abbreviations.split(" ")) {
@@ -339,6 +341,7 @@ public final class Tokeniser implements ITokeniser {
 			return null;
 		}
 		/* Split unmatched brackets off the front */
+		//TODO unit tests for the various StringTools methods
 		if ("([{".indexOf(token.value.codePointAt(0)) != -1
 				&& (StringTools.isBracketed(token.value) || StringTools
 						.isLackingCloseBracket(token.value))) {
@@ -360,6 +363,8 @@ public final class Tokeniser implements ITokeniser {
 			return splitAt(token, token.start + 1);
 		}
 		/* Split some characters off the back of tokens */
+		
+		//This is probably the source of the abbreviation problem.
 		if ((".,;:!?\u2122\u00ae-" + StringTools.quoteMarks)
 				.indexOf(token.value.codePointAt(token.value.length() - 1)) != -1) {
 			// Careful with Jones' reagent
@@ -485,15 +490,14 @@ public final class Tokeniser implements ITokeniser {
 		int internalOffset1 = splitOffset1 - token.start;
 		List<Token> tokens = new LinkedList<Token>();
 		tokens.add(new Token(token.value.substring(0, internalOffset0),
-				token.start, splitOffset0, token.doc, token.bioTag,
-				token.neElem));
+					token.start, splitOffset0, token.doc, token.bioTag,
+					token.neElem));
 		tokens.add(new Token(token.value.substring(internalOffset0,
-				internalOffset1), splitOffset0, splitOffset1, token.doc,
-				token.bioTag, token.neElem));
-		tokens
-				.add(new Token(token.value.substring(internalOffset1),
-						splitOffset1, token.end, token.doc, token.bioTag,
-						token.neElem));
+					internalOffset1), splitOffset0, splitOffset1, token.doc,
+					token.bioTag, token.neElem));
+		tokens.add(new Token(token.value.substring(internalOffset1),
+					splitOffset1, token.end, token.doc, token.bioTag,
+					token.neElem));
 
 		return tokens;
 	}

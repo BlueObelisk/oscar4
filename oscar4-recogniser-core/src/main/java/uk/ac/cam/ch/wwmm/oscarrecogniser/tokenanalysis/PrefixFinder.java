@@ -8,7 +8,7 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 public class PrefixFinder {
 	private static String primesRe = "[" + StringTools.primes + "]*";
 	private static String locantRe = "(\\d+" + primesRe + "[RSEZDLH]?|" +
-	"\\(([RSEZDLH\u00b1]|\\+|" + StringTools.hyphensRe + ")\\)|" +
+	"\\(([RSEZDLH\u00b1]|\\+|" + StringTools.hyphensRegex + ")\\)|" +
 		"[DLRSEZ]|" +
 			"([CNOS]|Se)\\d*|" +
 			"\\d*[" + StringTools.lowerGreek + "]|" +

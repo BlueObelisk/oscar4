@@ -35,7 +35,7 @@ public final class StringTools {
 	/** Hyphens, dashes and the like */
 	public static final String hyphens = "-\u2010\u2011\u2012\u2013\u2014\u2015";
 	/** A regex fragment for any hyphen or other dash */
-	public static final String hyphensRe = "(?:-|\u2010|\u2011|\u2012|\u2013|\u2014|\u2015)";
+	public static final String hyphensRegex = "(?:-|\u2010|\u2011|\u2012|\u2013|\u2014|\u2015)";
 	/** Apostrophes, backticks, primess etc */
 	public static final String primes = "'`\u2032\u2033\u2034";
 	/** The en dash */

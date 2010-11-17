@@ -114,7 +114,7 @@ public class ProcessingDocumentFactory {
 		Nodes placesForChemicals = XMLStrings.getInstance().getChemicalPlaces(procDoc.doc);
 
 		/***************************
-		 * @lh350: Iterates through 
+		 * @lh359: Iterates through 
 		 * the chemical sections
 		 */
 		for(int i=0;i<placesForChemicals.size();i++) {

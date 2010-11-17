@@ -1,6 +1,8 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -128,10 +130,15 @@ public final class MEMMTrainer {
 		}
 	}
 	
-	private void trainOnFile(File file, String domain) throws Exception {
+	public void trainOnFile(File file, String domain) throws Exception {
 		long time = System.currentTimeMillis();
 		logger.debug("Train on: " + file + "... ");
-		Document doc = new Builder().build(file);
+		trainOnStream(new FileInputStream(file), domain);
+	}
+	
+	public void trainOnStream(InputStream stream, String domain) throws Exception {
+		long time = System.currentTimeMillis();
+		Document doc = new Builder().build(stream);
 		Nodes n = doc.query("//cmlPile");
 		for(int i=0;i<n.size();i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");
@@ -165,20 +172,13 @@ public final class MEMMTrainer {
 		
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getInstance(), doc, true, false, false);
-		
-	//NameRecogniser nr = new NameRecogniser();
-		//nr.halfProcess(doc);
-		//if(patternFeatures) {
-		//	nr.findForReps(true);
-		//} else {
-			//nr.makeTokenisers(true);
-		//}
+
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			trainOnSentence(ts, domain);
 		}
 		logger.debug(System.currentTimeMillis() - time);
 	}
-	
+
 	void trainOnSbFilesNosplit(List<File> files, Map<File,String> domains) throws Exception {
 		if(retrain) {
 			HyphenTokeniser.reinitialise();

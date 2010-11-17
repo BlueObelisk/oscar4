@@ -19,6 +19,7 @@ import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.RescoreMEMMOut;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 import java.io.File;
@@ -36,6 +37,9 @@ import java.util.Set;
  *
  */
 public final class MEMM {
+
+    private static MEMM currentInstance;
+    private static MEMM defaultInstance;
 
     private final Logger logger = Logger.getLogger(MEMM.class);
 
@@ -68,7 +72,7 @@ public final class MEMM {
 
     private RescoreMEMMOut rescorer;
 
-    MEMM() throws Exception {
+    public MEMM(Element elem) {
         evsByPrev = new HashMap<String, List<Event>>();
         zeroProbs = new HashMap<String, Double>();
         gmByPrev = new HashMap<String, GISModel>();
@@ -79,6 +83,12 @@ public final class MEMM {
         featureCutOff = 1;
         confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;
         rescorer = null;
+
+        try {
+            readModel(elem);
+        } catch (Exception e) {
+			throw new Error(e);
+		}
     }
 
     Set<String> getTagSet() {
@@ -372,6 +382,26 @@ public final class MEMM {
      */
     public void rescore(List<NamedEntity> entities) {
         rescorer.rescore(entities);
+    }
+
+
+
+    public static MEMM getDefaultInstance() {
+        if (defaultInstance == null) {
+            defaultInstance = Model.getDefaultInstance().getMemm();
+        }
+        return defaultInstance;
+    }
+
+    public static MEMM getInstance() {
+        if (currentInstance == null) {
+            currentInstance = getDefaultInstance();
+        }
+        return currentInstance;
+    }
+
+    public static void load(Element elem) {
+        currentInstance = new MEMM(elem);
     }
 
 }

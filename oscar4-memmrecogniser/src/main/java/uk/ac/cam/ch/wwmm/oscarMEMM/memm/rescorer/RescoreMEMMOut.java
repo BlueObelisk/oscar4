@@ -32,7 +32,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
@@ -108,7 +107,7 @@ public final class RescoreMEMMOut {
 	 * @throws Exception
 	 */
 	public void trainOnFile(File f, String domain) throws Exception {
-		trainOnFile(f, domain, MEMMSingleton.getInstance());
+		trainOnFile(f, domain, MEMM.getInstance());
 	}
 	
 	/**Take a file of training data, and analyse it. The data produced in this
@@ -239,7 +238,7 @@ public final class RescoreMEMMOut {
 				String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
 				testNEs.add(neStr);
 			}
-			entities.addAll(MEMMSingleton.getInstance().findNEs(tokSeq, null).keySet());
+			entities.addAll(MEMM.getInstance().findNEs(tokSeq, null).keySet());
 		}
 		totalRecall += testNEs.size();
 

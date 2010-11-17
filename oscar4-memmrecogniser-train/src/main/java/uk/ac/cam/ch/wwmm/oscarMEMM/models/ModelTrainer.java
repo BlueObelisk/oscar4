@@ -37,8 +37,6 @@ public class ModelTrainer {
 		modelRoot.appendChild(ExtractedTrainingData.getInstance().toXML());
 		MEMMTrainer memm = MEMMTrainerSingleton.getInstance();
 		if(memm != null) modelRoot.appendChild(memm.writeModel());
-//		NESubtypes subtypes = NESubtypes.getInstance();
-//		if(subtypes.OK) modelRoot.appendChild(subtypes.toXML());
 		return new Document(modelRoot);
 	}
 	

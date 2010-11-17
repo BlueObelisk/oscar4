@@ -29,31 +29,31 @@ public final class StringTools {
 	private static final String SPACE = " ";
 	//public static String base62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	/** Lowercase Greek Unicode characters */
-	public static String lowerGreek = "\u03b1\u03b2\u03b3\u03b4\u03b5\u03b6\u03b7\u03b8\u03b9\u03ba\u03bb\u03bc\u03bd\u03be\u03bf\u03c0\u03c1\u03c2\u03c3\u03c4\u03c5\u03c6\u03c7\u03c8\u03c9";
+	public static final String lowerGreek = "\u03b1\u03b2\u03b3\u03b4\u03b5\u03b6\u03b7\u03b8\u03b9\u03ba\u03bb\u03bc\u03bd\u03be\u03bf\u03c0\u03c1\u03c2\u03c3\u03c4\u03c5\u03c6\u03c7\u03c8\u03c9";
 	/** Quotation marks of various Unicode forms */
-	public static String quoteMarks = "\"'\u2018\u2019\u201A\u201B\u201C\u201D\u201E\u201F";
+	public static final String quoteMarks = "\"'\u2018\u2019\u201A\u201B\u201C\u201D\u201E\u201F";
 	/** Hyphens, dashes and the like */
-	public static String hyphens = "-\u2010\u2011\u2012\u2013\u2014\u2015";
+	public static final String hyphens = "-\u2010\u2011\u2012\u2013\u2014\u2015";
 	/** A regex fragment for any hyphen or other dash */
-	public static String hyphensRe = "(?:-|\u2010|\u2011|\u2012|\u2013|\u2014|\u2015)";
+	public static final String hyphensRe = "(?:-|\u2010|\u2011|\u2012|\u2013|\u2014|\u2015)";
 	/** Apostrophes, backticks, primess etc */
-	public static String primes = "'`\u2032\u2033\u2034";
+	public static final String primes = "'`\u2032\u2033\u2034";
 	/** The en dash */
-	public static String enDash = "\u2013";
+	public static final String enDash = "\u2013";
 	/** The em dash */
-	public static String emDash = "\u2014";
+	public static final String emDash = "\u2014";
 	/** Three dots at mid level. Commmonly used for hydrogen bonds. */
-	public static String midElipsis = "\u22ef";
+	public static final String midElipsis = "\u22ef";
 	/** Less than, greater than, equals, and other related characters. */
-	public static String relations = "=<>\u2260\u2261\u2262\u2263\u2264\u2265\u2266\u2267\u2268" +
+	public static final String relations = "=<>\u2260\u2261\u2262\u2263\u2264\u2265\u2266\u2267\u2268" +
 			"\u2269\u226a\u226b";
 	/** Tests for the presence of two adjacent lowercase letters. */
-	public static Pattern twoLowerPattern = Pattern.compile("[a-z][a-z]");
+	public static final Pattern twoLowerPattern = Pattern.compile("[a-z][a-z]");
 	/** Whitespace characters. */
-	public static String whiteSpace = "\u0020\u0085\u00a0\u1680\u180e\u2000\u2001\u2002\u2003" +
+	public static final String whiteSpace = "\u0020\u0085\u00a0\u1680\u180e\u2000\u2001\u2002\u2003" +
 			"\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000";
 		
-	private static Pattern optionalPattern = Pattern.compile("\\(([0-9 ]+)\\)\\?");
+	private static final Pattern optionalPattern = Pattern.compile("\\(([0-9 ]+)\\)\\?");
 	
 	/**Finds the first uppercase letter in a name that might sensibly be 
 	 * converted to lowercase.

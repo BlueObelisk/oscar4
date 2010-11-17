@@ -2,7 +2,6 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -13,6 +12,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscarMEMM.FeatureSet;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenTypes;
@@ -37,8 +37,7 @@ public final class FeatureExtractor {
 	private static final Pattern SINGLE_LETTER = Pattern.compile("[a-z]");
 	private static final Pattern CAPS = Pattern.compile("[A-Z][A-Z]+");
 	private static final Pattern SINGLE_CAP = Pattern.compile("[A-Z]");
-	private static final Pattern GREEKS = Pattern.compile("["
-			+ StringTools.lowerGreek + "]+");
+	private static final Pattern GREEKS = Pattern.compile("["+ StringTools.lowerGreek + "]+");
 
 	private static final String ZERO = "0";
 	private static final String ONE = "1";
@@ -87,9 +86,7 @@ public final class FeatureExtractor {
 	private static final int WORD_FEATURE_LENGTH = WORD_FEATURE.length();
 
 	private TokenSequence tokSeq;
-	private List<List<String>> features;
-	private List<List<String>> contextableFeatures;
-	private List<List<String>> bigramableFeatures;
+	private List<FeatureSet> tokenFeatureSets;
 
 	private Set<String> stretchable;
 
@@ -108,33 +105,31 @@ public final class FeatureExtractor {
 
 	private boolean newSuffixes = false;
 
-	public FeatureExtractor(TokenSequence tokSeq, String domain) {
+    public static List<List<String>> extractFeatures(TokenSequence tokSeq, String domain) {
+        FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq, domain);
+        return featureExtractor.getFeatureLists();
+    }
+
+    private List<List<String>> getFeatureLists() {
+        List<List<String>> features = new ArrayList<List<String>>(tokenFeatureSets.size());
+        for (FeatureSet fs : tokenFeatureSets) {
+            features.add(fs.getFeatures());
+        }
+        return features;
+    }
+
+    private FeatureExtractor(TokenSequence tokSeq, String domain) {
 		stretchable = new HashSet<String>();
 		stretchable.add("and");
-		for (int i = 0; i < StringTools.hyphens.length(); i++)
+		for (int i = 0; i < StringTools.hyphens.length(); i++) {
 			stretchable.add(StringTools.hyphens.substring(i, i + 1));
+        }
 		this.tokSeq = tokSeq;
 		makeFeatures(domain);
 	}
 
-	public List<String> getFeatures(int pos) {
-		return features.get(pos);
-	}
-
-	public void printFeatures() {
-		for (List<String> f : features)
-			System.out.println(f);
-	}
-
 	private void makeFeatures(String domain) {
-		contextableFeatures = new ArrayList<List<String>>(tokSeq.size());
-		bigramableFeatures = new ArrayList<List<String>>(tokSeq.size());
-		features = new ArrayList<List<String>>(tokSeq.size());
-		for (int i = 0; i < tokSeq.size(); i++) {
-			contextableFeatures.add(new LinkedList<String>());
-			bigramableFeatures.add(new LinkedList<String>());
-			features.add(new LinkedList<String>());
-		}
+        initFeatureSets();
 		for (int i = 0; i < tokSeq.size(); i++) {
 			makeFeatures(i);
 		}
@@ -143,16 +138,23 @@ public final class FeatureExtractor {
 		}
 		if (domain != null) {
 			for (int i = 0; i < tokSeq.size(); i++) {
-				List<String> ff = new ArrayList<String>(features.get(i));
+				List<String> ff = new ArrayList<String>(tokenFeatureSets.get(i).getFeatures());
 				// features.get(i).clear();
 				for (String f : ff) {
-					features.get(i).add("D{" + domain + "}::" + f);
+					tokenFeatureSets.get(i).getFeatures().add("D{" + domain + "}::" + f);
 				}
 			}
 		}
 	}
 
-	private String makeWordFeature(String word) {
+    private void initFeatureSets() {
+        tokenFeatureSets = new ArrayList<FeatureSet>(tokSeq.size());
+        for (int i = 0; i < tokSeq.size(); i++) {
+            tokenFeatureSets.add(new FeatureSet());
+        }
+    }
+
+    private String makeWordFeature(String word) {
 		return new StringBuilder(word.length() + WORD_FEATURE_LENGTH).append(
 				WORD_FEATURE).append(
 				word).toString();
@@ -166,9 +168,9 @@ public final class FeatureExtractor {
 	 * TODO check whether this is ever called redundantly
 	 */
 	private void makeFeatures(int position) {
-		List<String> local = features.get(position);
-		List<String> contextable = contextableFeatures.get(position);
-		List<String> bigramable = bigramableFeatures.get(position);
+		List<String> local = tokenFeatureSets.get(position).getFeatures();
+		List<String> contextable = tokenFeatureSets.get(position).getContextableFeatures();
+		List<String> bigramable = tokenFeatureSets.get(position).getBigramableFeatures();
 
 		Token token = tokSeq.getToken(position);
 		String word = token.getValue();
@@ -391,28 +393,14 @@ public final class FeatureExtractor {
 	}
 
 	private void mergeFeatures(int position) {
-		List<String> mergedFeatures = features.get(position);
+		List<String> mergedFeatures = tokenFeatureSets.get(position).getFeatures();
 
 		int backwards = Math.min(1, position);
-		int forwards = 1;
-		/*
-		 * while((position + forwards) < tokSeq.size()) { String fv =
-		 * tokSeq.getToken(position + forwards).getValue(); if(fv == null)
-		 * break; if(stretchable.contains(fv)) { forwards++; } else { break; } }
-		 */
-		forwards = Math.min(forwards, tokSeq.size() - position - 1);
-		// boolean expanded = false;
-		/*
-		 * String word = tokSeq.getToken(position).getValue();
-		 * if(word.equals("lead") || (word.length() < 3 &&
-		 * TermSets.getElements().contains(word))) { backwards = Math.min(2,
-		 * position); forwards = Math.min(2, tokSeq.size() - position - 1);
-		 * expanded = true; }
-		 */
+		int forwards = forwards = Math.min(1, tokSeq.size() - position - 1);
 
 		if (!noC) {
 			for (int i = -backwards; i <= forwards; i++) {
-				for (String cf : contextableFeatures.get(position + i)) {
+				for (String cf : tokenFeatureSets.get(position + i).getContextableFeatures()) {
 					mergedFeatures.add(("c" + i + ":" + cf).intern());
 				}
 			}
@@ -423,9 +411,9 @@ public final class FeatureExtractor {
 			for (int j = i + 1; j <= forwards; j++) {
 				if (j - i == 1 || j == i) {
 					String prefix = "bg:" + i + ":" + j + ":";
-					for (String feature1 : bigramableFeatures.get(position + i)) {
-						for (String feature2 : bigramableFeatures.get(position
-								+ j)) {
+					for (String feature1 : tokenFeatureSets.get(position + i).getBigramableFeatures()) {
+						for (String feature2 : tokenFeatureSets.get(position
+								+ j).getBigramableFeatures()) {
 							// feature1 != feature2 is not a bug, if j == i
 							if (j != i || feature1 != feature2)
 								mergedFeatures
@@ -434,12 +422,6 @@ public final class FeatureExtractor {
 						}
 					}
 				}
-				// String prefix = "bg:" + i + ":" + j + ":";
-				// for(String bg :
-				// StringTools.makeNGrams(bigramableFeatures.subList(i +
-				// position, j+1 + position))) {
-				// mergedFeatures.add((prefix + bg).intern());
-				// }
 			}
 		}
 
@@ -465,42 +447,27 @@ public final class FeatureExtractor {
 				suspect = false;
 			}
 			if (patternPosition < tokSeq.size()) {
-				for (String feature : bigramableFeatures.get(patternPosition)) {
+				for (String feature : tokenFeatureSets.get(patternPosition).getBigramableFeatures()) {
 					if (suspect) {
-						mergedFeatures.add(("suspectpn->bg:" + feature)
-								.intern());
+						mergedFeatures.add(("suspectpn->bg:" + feature).intern());
 					} else {
 						mergedFeatures.add(("pn->bg:" + feature).intern());
 					}
 				}
 				if (!suspect) {
-					for (String feature : contextableFeatures
-							.get(patternPosition)) {
+					for (String feature : tokenFeatureSets.get(patternPosition).getContextableFeatures()) {
 						mergedFeatures.add(("pn->c:" + feature).intern());
 					}
 				}
 				for (int i = position + 1; i <= patternPosition; i++) {
 					if (suspect) {
-						features.get(i).add("inSuspectPN");
+						tokenFeatureSets.get(i).getFeatures().add("inSuspectPN");
 					} else {
-						features.get(i).add("inPN");
+						tokenFeatureSets.get(i).getFeatures().add("inPN");
 					}
 				}
 			}
-			/*
-			 * if(suspect) { System.out.println("Suspect DGC: " +
-			 * tokSeq.getSubstring(position, patternPosition)); } else {
-			 * System.out.println("Non-Suspect DGC: " +
-			 * tokSeq.getSubstring(position, patternPosition)); }
-			 */
 		}
-
-		// for(int i=Math.max(0,
-		// position-5);i<Math.min(position+5+1,tokSeq.size());i++) {
-		// if(i == position) continue;
-		// mergedFeatures.add(("ww=" + tokSeq.getToken(i).getValue()).intern());
-		// }
-
 	}
 
 	private String getSuffix(String word) {

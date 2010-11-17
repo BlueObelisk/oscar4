@@ -137,23 +137,7 @@ public final class XMLStrings {
 		while(styleMarkup.contains(elem.getLocalName())) elem = (Element)elem.getParent();
 		return elem;
 	}
-	
-	/**Is this element or an ancestor of this element a spectrum or property
-	 * element?
-	 * 
-	 * @param e The element to query.
-	 * @return The result.
-	 */
-	public boolean isInSpectrumOrProperty(Element e) {
-		String name = e.getLocalName();
-		if(specPropMarkup.contains(name)) {
-			return true;
-		} else if (blockMarkup.contains(name)) {
-			return false;
-		} else {
-		 return isInSpectrumOrProperty((Element)e.getParent());	
-		}
-	}
+
 	
 	/**Checks to see if the given element is a citation reference element.
 	 * 
@@ -182,16 +166,6 @@ public final class XMLStrings {
 	 */
 	public Boolean isEquation(Element e) {
 		return e.getLocalName().equals(EQN);
-	}
-	
-	/**Checks to see if the given element, or the first non-style ancestor of
-	 * the element, is an equation element.
-	 * 
-	 * @param e The element to query.
-	 * @return The result
-	 */
-	public Boolean isEquationUnderStyle(Element e) {
-		return isEquation(getElemBelowStyleMarkup(e));
 	}
 
 	/**Checks to see if the given element is a compound reference element.
@@ -227,10 +201,6 @@ public final class XMLStrings {
 		} else {
 			return positiveNodes;
 		}
-	}
-	
-	public XPathContext getXpc() {
-		return xpc;
 	}
 	
 }

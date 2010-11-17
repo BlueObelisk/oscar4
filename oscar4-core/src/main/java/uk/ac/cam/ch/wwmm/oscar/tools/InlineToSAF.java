@@ -46,28 +46,16 @@ public final class InlineToSAF {
 			String xps = st.getLeftPointAtOffset(Integer.parseInt(e.getAttributeValue("xtspanstart")));
 			String xpe = st.getRightPointAtOffset(Integer.parseInt(e.getAttributeValue("xtspanend")));
 
-			//Element safElem = new Element("annot");
 			Element safElem = SafTools.makeAnnot(xps, xpe, "oscar");
 			saf.appendChild(safElem);
-			//safElem.addAttribute(new Attribute("from", xps));
-			//safElem.addAttribute(new Attribute("to", xpe));
-			//safElem.addAttribute(new Attribute("type", "oscar"));
 			for(int j=0;j<e.getAttributeCount();j++) {
 				Attribute a = e.getAttribute(j);
 				// Eliminate XMLSpanTagger markup
 				if(a.getLocalName().startsWith("xt")) continue;
 				SafTools.setSlot(safElem, a.getLocalName(), a.getValue());
-				//Element slot = new Element("slot");
-				//slot.addAttribute(new Attribute("name", a.getLocalName()));
-				//slot.appendChild(a.getValue());
-				//safElem.appendChild(slot);
 			}
 			SafTools.setSlot(safElem, "surface", e.getValue());
-			/*Element slot = new Element("slot");
-			slot.appendChild(e.getValue());
-			slot.addAttribute(new Attribute("name", "surface"));
-			safElem.appendChild(slot);*/
-
+			
 			safElem.addAttribute(new Attribute("id", "o" + Integer.toString(i+1)));
 		}
 	}

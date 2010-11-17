@@ -1,15 +1,15 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
-import org.junit.Test;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
-import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
+import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
  * @author sea36
@@ -25,7 +25,7 @@ public class FeatureExtractorTest {
         Tokeniser tokeniser = Tokeniser.getInstance();
         TokenSequence tokSeq = tokeniser.tokenise(s);
         
-        List<List<String>> features = FeatureExtractor.extractFeatures(tokSeq, null);
+        List<List<String>> features = FeatureExtractor.extractFeatures(tokSeq);
 
         /*
         assertArrayMatch(Arrays.asList("4G=^We$", "c0:w=We", "c0:wts=We", "c0:ws=42", "c0:s=", "c1:w=have", "c1:wts=have", "c1:ws=1", "c1:s=", "bg:0:1:w=We__ws=1", "bg:0:1:ws=42__ws=1"), features.get(0));

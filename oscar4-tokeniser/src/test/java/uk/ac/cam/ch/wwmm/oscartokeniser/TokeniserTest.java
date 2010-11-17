@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
@@ -93,6 +94,14 @@ public final class TokeniserTest {
 	public void testDGlucose() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "D-glucose";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
+
+	@Ignore
+	public void testRingThingy() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "2,2':6',2\"-Terphenyl-1,1',1\"-triol";
 		TokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(1, tokseq.getTokens().size());
 	}

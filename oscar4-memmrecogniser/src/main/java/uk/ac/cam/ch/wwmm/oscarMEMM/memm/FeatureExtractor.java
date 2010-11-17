@@ -88,8 +88,6 @@ public final class FeatureExtractor {
 	private TokenSequence tokSeq;
 	private List<FeatureSet> tokenFeatureSets;
 
-	private Set<String> stretchable;
-
 	private static final Pattern suffixPattern = Pattern
 			.compile(".*?((yl|ide|ite|ate|ium|ane|yne|ene|ol|"
 					+ "ase|ic|oxy|ino|at(ed|ion|ing)|lys(is|es|ed|ing|tic)|i[sz](ed|ations|ing)|)s?)");
@@ -119,11 +117,6 @@ public final class FeatureExtractor {
     }
 
     private FeatureExtractor(TokenSequence tokSeq, String domain) {
-		stretchable = new HashSet<String>();
-		stretchable.add("and");
-		for (int i = 0; i < StringTools.hyphens.length(); i++) {
-			stretchable.add(StringTools.hyphens.substring(i, i + 1));
-        }
 		this.tokSeq = tokSeq;
 		makeFeatures(domain);
 	}
@@ -139,7 +132,6 @@ public final class FeatureExtractor {
 		if (domain != null) {
 			for (int i = 0; i < tokSeq.size(); i++) {
 				List<String> ff = new ArrayList<String>(tokenFeatureSets.get(i).getFeatures());
-				// features.get(i).clear();
 				for (String f : ff) {
 					tokenFeatureSets.get(i).getFeatures().add("D{" + domain + "}::" + f);
 				}
@@ -316,13 +308,12 @@ public final class FeatureExtractor {
 	}
 
 	private void makeNGramFeatures(String word, List<String> local) {
-		StringBuilder decWord = new StringBuilder(RE_LINE_START).append(word)
-				.append(
-				RE_LINE_END);
+		StringBuilder decWord = new StringBuilder(RE_LINE_START).append(word).append(RE_LINE_END);
 		for (int j = 0; j < decWord.length() - 3; j++) {
 			for (int k = 1; k <= 4; k++) {
-				if (j < 4 - k)
+				if (j < 4 - k) {
 					continue;
+                }
 				local.add(makeNGramFeature(decWord, j, k));
 			}
 		}
@@ -337,12 +328,22 @@ public final class FeatureExtractor {
 	static String makeNGramFeature(StringBuilder decWord, int offset, int length) {
 		StringBuilder builder = new StringBuilder();
 		//using a switch here doesn't actually make the code faster
-		if (length == 1) builder.append(C_ONE);
-		else if (length == 2) builder.append(C_TWO);
-		else if (length == 3) builder.append(C_THREE);
-		else if (length == 4) builder.append(C_FOUR);
+		if (length == 1) {
+            builder.append(C_ONE);
+        }
+		else if (length == 2) {
+            builder.append(C_TWO);
+        }
+		else if (length == 3) {
+            builder.append(C_THREE);
+        }
+		else if (length == 4) {
+            builder.append(C_FOUR);
+        }
 		//not expected that k > 4
-		else builder.append(length);
+		else {
+            builder.append(length);
+        }
 		builder.append(NGRAM_FEATURE);
 		int y = offset+length;
 		for (int x = offset; x < y; x++) {
@@ -361,8 +362,9 @@ public final class FeatureExtractor {
 	private void makeShapeFeatures(String word, List<String> bigramable,
 			List<String> contextable) {
 		String wordShape = wordShape(word);
-		if (wordShape.length() > 3)
+		if (wordShape.length() > 3) {
 			wordShape = SHAPE_COMPLEX_FEATURE;
+        }
 		if (!wordShape.equals(word)) {
 			String wordShapeFeature = SHAPE_FEATURE + wordShape;
 			bigramable.add(wordShapeFeature);
@@ -387,8 +389,9 @@ public final class FeatureExtractor {
 		if (word.length() < 4 || etd.polysemous.contains(word)
 				|| etd.rnEnd.contains(word) || etd.rnMid.contains(word)) {
 			bigramable.add(makeWordFeature(word));
-			if (!word.equals(normWord))
+			if (!word.equals(normWord)) {
 				bigramable.add(makeWordFeature(normWord));
+            }
 		}
 	}
 

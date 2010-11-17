@@ -41,7 +41,15 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
-/**The main class for generating and running MEMMs
+/**
+ * The main class for generating and running MEMMs.
+ * 
+ * The flow of methods calls is something like:
+ * <pre>
+ *   MEMMTrainer trainer = new MEMMTrainer();
+ *   trainer.trainOnFile(new File("someFile.xml"), someDomain);
+ *   trainer.finishTraining();
+ * </pre>
  * 
  * @author ptc24
  *
@@ -342,8 +350,9 @@ public final class MEMMTrainer {
 			zeroProbs.put(tag, 0.0);
 		}			
 	}
+
 	
-	private void finishTraining() throws Exception {
+	public void finishTraining() throws Exception {
 		makeEntityTypesAndZeroProbs();
 		
 		if(useUber) {

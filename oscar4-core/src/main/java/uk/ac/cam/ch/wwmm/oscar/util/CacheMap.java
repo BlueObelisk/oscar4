@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.util;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /** A HashMap from which the least-recently accessed members are removed
@@ -26,8 +27,8 @@ public final class CacheMap<K, V> extends LinkedHashMap<K, V> {
 	}
 	
 	@Override
-	protected boolean removeEldestEntry(Entry<K, V> eldest) {
+	protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
 		return size() > capacity;
 	}
-	
+
 }

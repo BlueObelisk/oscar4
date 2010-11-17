@@ -38,43 +38,7 @@ public class SciXMLDocument extends Document {
 		super(arg0);
 	}
 
-	/**Creates an empty new SciXMLDocument.
-	 * 
-	 */
-	public SciXMLDocument() {
-		super(new Element("PAPER"));
-	}
-	
-	/**Removes all processing instructions from the SciXML document.
-	 * 
-	 */
-	public void removeProcessingInstructions() {
-		Nodes n = query("processing-instruction()");
-		for(int i=0;i<n.size();i++) {
-			n.get(i).detach();
-		}
-	}
-	
-	/**Removes processing instructions from the document that specify a molecule
-	 * viewer.
-	 * 
-	 */
-	public void removeViewerProcessingInstruction() {
-		Nodes n = query("processing-instruction('viewer')");
-		for(int i=0;i<n.size();i++) {
-			n.get(i).detach();
-		}		
-	}
-	
-	/**Sets the title of the document, creating a new TITLE element, or 
-	 * replacing the contents of an existing element, as appropriate. 
-	 * 
-	 * @param s The title.
-	 * @return The title element.
-	 */
-	public Element setTitle(String s) {
-		return setTitle(new Text(s));
-	}
+
 
 	/**Sets the title of the document, creating a new TITLE element, or 
 	 * replacing the contents of an existing element, as appropriate. 
@@ -97,23 +61,7 @@ public class SciXMLDocument extends Document {
 		}
 	}
 
-	/*public Element setAbstract(String s) {
-		return setAbstract(new Text(s));
-	}
 
-	public Element setAbstract(Node n) {
-		if(query("/ABSTRACT").size() == 0) {
-			Element title = new Element("ABSTRACT");
-			title.appendChild(n);
-			getRootElement().appendChild(title);
-		return title;
-		} else {
-			Element title = (Element)query("/ABSTRACT").get(0);
-			title.removeChildren();
-			title.appendChild(n);			
-			return title;
-		}
-	}*/
 		
 	/**Gets the body element of the document, creating one if it doesn't
 	 * already exist.
@@ -147,29 +95,7 @@ public class SciXMLDocument extends Document {
 		}
 	}
 
-	/** Creates and gets a DIV.
-	 * 
-	 * @return The DIV Element.
-	 */
-	public Element getNewDiv(String headStr) {
-		Element div = new Element("DIV");
-		getBody().appendChild(div);
-		Element header = new Element("HEADER");
-		div.appendChild(header);
-		header.appendChild(headStr);
-		return div;
-	}
-	
-	/** Adds a list to the last DIV, creating
-	 * backwards if necessary.
-	 * @return A new LIST@TYPE=bullet element
-	 */
-	public Element addList() {
-		Element list = makeList();
-		getDiv().appendChild(list);
-		return list;
-	}
-	
+
 	/**Creates a new empty LIST element, configured for bullet points.
 	 * 
 	 * @return The new LIST element.
@@ -213,18 +139,7 @@ public class SciXMLDocument extends Document {
 		li.appendChild(s);
 		return li;
 	}
-	
-	/** Make a new list item, containing a Node.
-	 * 
-	 * @param n The contents of the list item
-	 * @return The list item
-	 */
-	public Element makeListItem(Node n) {
-		Element li = makeListItem();
-		li.appendChild(n);
-		return li;		
-	}
-	
+		
 	/**Make a new, empty, link element.
 	 * 
 	 * @param href The HREF to link to.
@@ -234,28 +149,6 @@ public class SciXMLDocument extends Document {
 		Element a = new Element("a");
 		a.addAttribute(new Attribute("href", href));
 		return a;
-	}
-	
-	/**Make a new link element, with the specified contents.
-	 * 
-	 * @param href The HREF to link to.
-	 * @param contents The link text.
-	 * @return The new link.
-	 */
-	public Element makeLink(String href, String contents) {
-		Element a = makeLink(href);
-		a.appendChild(contents);
-		return a;
-	}
-	
-	/**Make a new paragraph element, and add it to the document.
-	 * 
-	 * @return The new paragraph element.
-	 */
-	public Element addPara() {
-		Element p = new Element("P");
-		getDiv().appendChild(p);
-		return p;
 	}
 	
 }

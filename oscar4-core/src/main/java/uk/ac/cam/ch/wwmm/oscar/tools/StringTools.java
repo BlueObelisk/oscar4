@@ -62,25 +62,7 @@ public final class StringTools {
 
     public static final Pattern PSCRUB = Pattern.compile("^[\\(\\[]*(.*?)[\\.,;:!\\?\\)\\]]*$");
 
-	/**Removes junk from a string. <br>
-	 * Where junk = initial openbracket, opensquarebracket, <br>
-	 * terminal perion, comma, semicolon, colon, pling, query, 
-	 * closebracket, closesquarebracket
-	 * 
-	 * @param s The string to dejunk.
-	 * @return The dejunked string.
-	 */
-	public static String scrubWord(String s) {
-		Matcher m = PSCRUB.matcher(s);
-		if(m.find()) {
-			String txt = m.group(1);
-			txt =  txt.replace("\u00AD", "");
-			return txt;
-		} else {
-			return s;
-		}
-	}
-	
+
 	/**Removes the letter "s" from the end of a string, if present.
 	 * 
 	 * @param s The string.
@@ -89,45 +71,6 @@ public final class StringTools {
 	public static String removeTerminalS(String s) {
 		if(s.endsWith("s")) return s.substring(0, s.length()-1);
 		else return s;
-	}
-
-	/**Counts the number of open brackets in a string.
-	 * 
-	 * @param s The string.
-	 * @return The number of open brackets.
-	 */
-	public static int countOpenBrackets(String s) {
-		int c = 0;
-		for(int i=0;i<s.length();i++) {
-			if(s.charAt(i) == '(') c++;
-		}
-		return c;
-	}
-	
-	/**Converts a list of characters into a string.
-	 * 
-	 * @param l A list of characters.
-	 * @return The corresponding string.
-	 */
-	public static String charListToString(List<Character> l) {
-		StringBuffer sb = new StringBuffer();
-		for(char c : l) {
-			sb.append(c);
-		}
-		return sb.toString();
-	}
-
-	/**Converts a list of strings into a string.
-	 * 
-	 * @param l A list of characters.
-	 * @return The corresponding string.
-	 */
-	public static String stringListToString(List<String> l) {
-		StringBuffer sb = new StringBuffer();
-		for(String s : l) {
-			sb.append(s);
-		}
-		return sb.toString();
 	}
 
 	/**Converts a list of objects into a string.
@@ -144,19 +87,7 @@ public final class StringTools {
 		return sb.toString();
 	}
 	
-	/**Converts a string to a list of characters.
-	 * 
-	 * @param s A string.
-	 * @return The corresponding list of characters.
-	 */
-	public static List<Character> stringToList(String s) {
-		List<Character> cl = new ArrayList<Character>();
-		for(int i=0;i<s.length();i++) {
-			cl.add(s.charAt(i));
-		}
-		return cl;
-	}
-	
+
 	/**Produce repetitions of a string. Eg. HelloWorld * 2 = HelloWorldHelloWorld.
 	 * 
 	 * @param s The string to multiply.
@@ -270,19 +201,7 @@ public final class StringTools {
 		return sb.toString();
 	}
 	
-	/**Finds the position of the last hyphen in the string.
-	 * 
-	 * @param s The string to test.
-	 * @return The position of the last hyphen, or -1 if there isn't one.
-	 */
-	public static int lastIndexOfHyphen(String s) {
-		int idx = -1;
-		for(int i=0;i<hyphens.length();i++) {
-			idx = Math.max(idx, s.lastIndexOf(hyphens.codePointAt(i)));
-		}
-		return idx;
-	}
-	
+
 	/**URLEncodes a long string, adding newlines if necessary.
 	 * 
 	 * @param s The string to URLEncode.
@@ -313,22 +232,7 @@ public final class StringTools {
 		}		
 	}
 	
-	/*public static String intToBase62(int i) {
-		String s = "";
-		String start = "";
-		if(i<0) {
-			start = "-";
-			i = -i;
-		}
-		do {
-			int j = i % 62;
-			s = base62.substring(j, j+1) + s;
-			i = i / 62;
-		} while (i > 0);
-		return start+s;
-	}*/
-
-	/**
+    /**
 	 * Replace whitespace with a single space, remove soft hyphens, and convert
 	 * (whitespace-delimited) tokens to lowercase if two adjacent lowercase
 	 * characters are detected.
@@ -496,51 +400,6 @@ public final class StringTools {
 		return list;
 	}
 	
-	/**Merges two space-separated lists, removing duplicate items.
-	 * 
-	 * @param ssSet1 The first list.
-	 * @param ssSet2 The second list.
-	 * @return The combined list.
-	 */
-	public static String mergeSpaceSeparatedSets(String ssSet1, String ssSet2) {
-		String [] array1 = RegExUtils.P_WHITESPACE.split(ssSet1);
-		String [] array2 = RegExUtils.P_WHITESPACE.split(ssSet1);
-		Set<String> outSet = new LinkedHashSet<String>();
-		for(int i=0;i<array1.length;i++) {
-			outSet.add(array1[i]);
-		}
-		for(int i=0;i<array2.length;i++) {
-			outSet.add(array2[i]);
-		}
-		return collectionToString(outSet, SPACE);
-	}
-	
-	/**Ensures that a string is no longer than the given length, if necessary
-	 * by discarding the end.
-	 * 
-	 * @param s The string to shorten.
-	 * @param maxlen The desired maximum length.
-	 * @return The resulting string.
-	 */
-	public static String shorten(String s, int maxlen) {
-		if(s.length() <= maxlen) return s;
-		return s.substring(0, maxlen);
-	}
-	
-	/**Turns a collection of strings into a single string, by sorting it
-	 * and concatenating. Useful for hashing.
-	 * 
-	 * @param coll The collection of strings.
-	 * @return The resulting concatenated string.
-	 */
-	public static String collectionToStableString(Collection<String> coll) {
-		List<String> list = new ArrayList<String>(coll);
-		Collections.sort(list);
-		StringBuffer sb = new StringBuffer();
-		for(String s : list) sb.append(s);
-		return sb.toString();
-	}
-
 	/**Converts a string-to-string mapping into a string that is useful for
 	 * hashing.
 	 * 
@@ -577,27 +436,6 @@ public final class StringTools {
 		}
 		return possibilities;
 	}
-	
-	/*public static List<String> makeNGrams(List<List<String>> nGramParts) {
-		List<String> nGrams = new ArrayList<String>();
-		nGrams.add("");
-		boolean addUnderscore = false;
-		for(List<String> ngpl : nGramParts) {
-			List<String> newNGrams = new ArrayList<String>();
-			for(String nGram : nGrams) {
-				if(addUnderscore) nGram = nGram+"_";
-				for(String ngp : ngpl) {
-					newNGrams.add(nGram + ngp);
-				}
-			}
-			nGrams = newNGrams;
-			addUnderscore = true;
-		}
-		//System.out.println(nGramParts);
-		//System.out.println(nGrams);
-		return nGrams;
-	}*/
-	
 	
 	/** Expands a string consiting of digits, whitespace and regex characters
 	 * into a finite set of digits/whitespace only strings if possible.

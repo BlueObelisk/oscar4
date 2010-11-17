@@ -14,6 +14,13 @@ public class MEMMTrainerTest {
 	}
 
 	@Test
+	public void testUntrainedStatus() throws Exception {
+		MEMMTrainer trainer = new MEMMTrainer();
+		String xml = trainer.writeModel().toXML();
+		Assert.assertEquals("<memm />", xml);
+	}
+
+	@Test
 	public void testLearning() throws Exception {
 		MEMMTrainer trainer = new MEMMTrainer();
 		InputStream stream = this.getClass().getClassLoader().getResourceAsStream(

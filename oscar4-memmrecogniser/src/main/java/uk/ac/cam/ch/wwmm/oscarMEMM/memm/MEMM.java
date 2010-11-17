@@ -111,11 +111,11 @@ public final class MEMM {
     }
 
     private void trainOnSentence(TokenSequence tokSeq, String domain) {
-        FeatureExtractor extractor = new FeatureExtractor(tokSeq, domain);
+        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq, domain);
         List<Token> tokens = tokSeq.getTokens();
         String prevTag = "O";
         for (int i = 0; i < tokens.size(); i++) {
-            train(extractor.getFeatures(i), tokens.get(i).getBioTag(), prevTag);
+            train(featureLists.get(i), tokens.get(i).getBioTag(), prevTag);
             prevTag = tokens.get(i).getBioTag();
         }
     }
@@ -186,7 +186,7 @@ public final class MEMM {
      * @return Named entities, with confidences.
      */
     public Map<NamedEntity,Double> findNEs(TokenSequence tokSeq, String domain) {
-        FeatureExtractor extractor = new FeatureExtractor(tokSeq, domain);
+        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq, domain);
         List<Token> tokens = tokSeq.getTokens();
         if (tokens.isEmpty()) {
             return Collections.emptyMap();
@@ -194,7 +194,7 @@ public final class MEMM {
 
         List<Map<String,Map<String,Double>>> classifierResults = new ArrayList<Map<String,Map<String,Double>>>();
         for (int i = 0; i < tokens.size(); i++) {
-            List<String> featuresForToken = extractor.getFeatures(i);
+            List<String> featuresForToken = featureLists.get(i);
             classifierResults.add(calcResults(featuresForToken));
         }
 
@@ -265,7 +265,7 @@ public final class MEMM {
         if(featureCVScores == null) {
             featureCVScores = new HashMap<String,Map<String,Double>>();
         }
-        FeatureExtractor extractor = new FeatureExtractor(tokSeq, domain);
+        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq, domain);
         List<Token> tokens = tokSeq.getTokens();
         String prevTag = "O";
         for(int i=0;i<tokens.size();i++) {
@@ -281,7 +281,7 @@ public final class MEMM {
             prevTag = tag;
             int outcomeIndex = gm.getIndex(tag);
             if(outcomeIndex == -1) continue;
-            List<String> features = extractor.getFeatures(i);
+            List<String> features = featureLists.get(i);
             if(features.size() == 0) continue;
             String [] featuresArray = features.toArray(new String[0]);
             String [] newFeaturesArray = features.toArray(new String[0]);

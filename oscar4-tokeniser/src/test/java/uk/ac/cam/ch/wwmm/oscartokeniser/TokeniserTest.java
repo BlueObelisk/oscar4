@@ -115,7 +115,7 @@ public final class TokeniserTest {
 	}
 
 	@Test
-	public void testTrademake() {
+	public void testTrademark() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "CML(TM)";
 		TokenSequence  tokseq = tokeniser.tokenise(s);

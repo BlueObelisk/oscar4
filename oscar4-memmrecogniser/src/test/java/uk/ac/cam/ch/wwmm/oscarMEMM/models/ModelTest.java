@@ -16,15 +16,15 @@ public class ModelTest {
 	
 	@Test
 	public void testLoadModel() {
-		Model.loadModel("chempapers");
-		assertTrue(ExtractedTrainingData.getInstance().nonChemicalWords.contains("elongate"));
-		assertFalse(ExtractedTrainingData.getInstance().nonChemicalWords.contains("leukaemic"));
+		Model model = Model.loadModel("chempapers");
+		assertTrue(model.getExtractedTrainingData().nonChemicalWords.contains("elongate"));
+		assertFalse(model.getExtractedTrainingData().nonChemicalWords.contains("leukaemic"));
 		
-		Model.loadModel("pubmed");
-		assertFalse(ExtractedTrainingData.getInstance().nonChemicalWords.contains("elongate"));
-		assertTrue(ExtractedTrainingData.getInstance().nonChemicalWords.contains("leukaemic"));
-		
-		Model.loadModel("model");
-		assertEquals(0, ExtractedTrainingData.getInstance().nonChemicalWords.size());
+		model = Model.loadModel("pubmed");
+		assertFalse(model.getExtractedTrainingData().nonChemicalWords.contains("elongate"));
+		assertTrue(model.getExtractedTrainingData().nonChemicalWords.contains("leukaemic"));
+
+		model = Model.loadModel("model");
+		assertEquals(0, model.getExtractedTrainingData().nonChemicalWords.size());
 	}
 }

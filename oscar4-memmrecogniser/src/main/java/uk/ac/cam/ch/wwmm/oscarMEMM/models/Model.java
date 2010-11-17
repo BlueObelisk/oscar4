@@ -1,18 +1,16 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 
-import java.io.File;
-
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
-
 import org.apache.log4j.Logger;
-
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
+
+import java.io.File;
 
 /**Routines to co-ordinate the holding of experimental training data, and 
  * models from the MEMM, MEMM rescorer and other modules.
@@ -24,7 +22,38 @@ public class Model {
 	
 	private final static Logger logger = Logger.getLogger(Model.class);
 
-	/**Examines the current MEMM, NESubtypes and ExtractTrainingData singletons,
+    private ExtractedTrainingData extractedTrainingData;
+    private MEMM memm;
+
+    private static Model defaultInstance;
+
+    public Model(Document modelDoc) {
+        Element modelRoot = modelDoc.getRootElement();
+		Element memmElem = modelRoot.getFirstChildElement("memm");
+		if(memmElem != null) {
+			MEMMSingleton.load(memmElem);
+		} else {
+			MEMMSingleton.clear();
+		}
+		Element etdElem = modelRoot.getFirstChildElement("etd");
+		if (etdElem != null) {
+			this.extractedTrainingData = ExtractedTrainingData.reinitialise(etdElem);
+		} else {
+            this.extractedTrainingData = new ExtractedTrainingData();
+		}
+    }
+
+
+    public ExtractedTrainingData getExtractedTrainingData() {
+        return extractedTrainingData;
+    }
+
+    public MEMM getMemm() {
+        return memm;
+    }
+
+    
+    /**Examines the current MEMM, NESubtypes and ExtractTrainingData singletons,
 	 * and produces an XML document from their contents.
 	 * 
 	 * @return The XML document.
@@ -46,20 +75,8 @@ public class Model {
 	 * @param modelDoc The XML document.
 	 * @throws Exception
 	 */
-	public static void restoreModel(Document modelDoc) throws Exception {
-		Element modelRoot = modelDoc.getRootElement();
-		Element memmElem = modelRoot.getFirstChildElement("memm");
-		if(memmElem != null) {
-			MEMMSingleton.load(memmElem);
-		} else {
-			MEMMSingleton.clear();
-		}
-		Element etdElem = modelRoot.getFirstChildElement("etd");
-		if(etdElem != null) {
-			ExtractedTrainingData.reinitialise(etdElem);
-		} else {
-			ExtractedTrainingData.getInstance().clear();
-		}
+	public static Model restoreModel(Document modelDoc) throws Exception {
+        return new Model(modelDoc);
 	}
 	
 	/**Loads a model file, with the given name (a .xml suffix will be added)
@@ -67,13 +84,13 @@ public class Model {
 	 * 
 	 * @param modelName The model to load.
 	 */
-	public static void loadModelFromResources(String modelName) {
+	public static Model loadModelFromResources(String modelName) {
 		try {
 			Document modelDoc = new ResourceGetter(
 					Model.class.getClassLoader(),
 					"uk/ac/cam/ch/wwmm/oscarMEMM/models/"
 				).getXMLDocument(modelName + ".xml");
-			restoreModel(modelDoc);
+			return restoreModel(modelDoc);
 		} catch (Exception e) {
 			throw new Error("Could not find model: " + modelName, e);
 		}		
@@ -85,19 +102,17 @@ public class Model {
 	 * 
 	 * @param modelName The model to load.
 	 */
-	public static void loadModel(String modelName) {
+	public static Model loadModel(String modelName) {
 		try {			
 			if(OscarProperties.getData().workspace.equals("none")) {
-				loadModelFromResources(modelName);
-				return;
+				return loadModelFromResources(modelName);
 			}
 			File trainDir = new File(OscarProperties.getData().workspace, "models");
 			if(!trainDir.exists() || !trainDir.isDirectory() || !new File(trainDir,modelName+".xml").exists()) {
-				loadModelFromResources(modelName);
-				return;
+				return loadModelFromResources(modelName);
 			}
 			Document modelDoc = new Builder().build(new File(trainDir, modelName + ".xml"));
-			restoreModel(modelDoc);
+			return restoreModel(modelDoc);
 		} catch (Exception e) {
 			throw new Error(e);
 		}
@@ -111,24 +126,18 @@ public class Model {
 		loadModel(OscarProperties.getData().model);
 		logger.debug("...model loaded OK!");
 	}
-	
-	/**Compiles a model, based on the ScrapBook files in the workspace, and
-	 * saves it in the models directory.
-	 * 
-	 * @param modelName The name of the model file (".xml" will be appended to
-	 * this)
-	 */
-	public static void makeModel(String modelName) {
-		System.err.println("Model.java line 123 : Need to load model but commented out coe");
-		//makeModel(modelName, FileTools.getFilesFromDirectoryByName(new File(Oscar3Props.getInstance().workspace, "scrapbook"), "scrapbook.xml"));
-	}
 
-	/**Produces a hash value for the current model.
-	 * 
-	 * @return The hash value.
-	 * @throws Exception
-	 */
-	public static int makeHash() throws Exception {
-		return makeModel().toXML().hashCode();
-	}	
+
+    public static Model getDefaultInstance() {
+        if (defaultInstance == null) {
+            defaultInstance = loadDefaultInstance();
+        }
+        return defaultInstance;
+    }
+
+    private static Model loadDefaultInstance() {
+        String modelName = OscarProperties.getData().model;
+        return loadModel(modelName);
+    }
+
 }

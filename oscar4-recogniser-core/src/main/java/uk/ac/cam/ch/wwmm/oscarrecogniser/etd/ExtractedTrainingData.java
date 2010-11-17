@@ -1,54 +1,71 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.etd;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import nu.xom.Document;
 import nu.xom.Element;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /** Extracts and holds useful data from hand-annotated text.
- * 
+ *
  * @author ptc24
  * @author dmj30
  */
 public final class ExtractedTrainingData {
-	
+
 	private static ExtractedTrainingData myInstance;
-	/**Words only found in chemical named entities.*/
-	public Collection<String> chemicalWords;
+
+    /**Words only found in chemical named entities.*/
+	public final Collection<String> chemicalWords;
 	/**Words never found in chemical named entities.*/
-	public Collection<String> nonChemicalWords;
+	public final Collection<String> nonChemicalWords;
 	/**Nonwords only found in chemical named entities.*/
-	public Set<String> chemicalNonWords;
+	public final Set<String> chemicalNonWords;
 	/**Nonwords never found in chemical named entities.*/
-	public Set<String> nonChemicalNonWords;
+	public final Set<String> nonChemicalNonWords;
 	/**Words that occur after a hyphen, with a chemical named entity before
 	 * the hyphen. E.g. "based" from "acetone-based".
 	 */
-	public Set<String> afterHyphen;
+	public final Set<String> afterHyphen;
 	/**Words where a prefix like 3- should not be interpreted as a CPR*/
-	public Set<String> notForPrefix;
-	/**Words with initial capitalisation that are not likely to be 
+	public final Set<String> notForPrefix;
+	/**Words with initial capitalisation that are not likely to be
 	 * proper nouns.
 	 */
-	public Set<String> pnStops;
+	public final Set<String> pnStops;
 	/**Strings seen both in and not in chemical named entities.*/
-	public Set<String> polysemous;
+	public final Set<String> polysemous;
 	/**Words found at the end of multi-word reaction names.*/
-	public Set<String> rnEnd;
+	public final Set<String> rnEnd;
 	/**Words found in the middle of multi-word reaction names.*/
-	public Set<String> rnMid;
-	
+	public final Set<String> rnMid;
+
 	private String modelName;
 
-	/**Get the current singleton. If this does not exist, initialise it using
+    private static ExtractedTrainingData defaultInstance;
+
+    public ExtractedTrainingData(Element xml) {
+        chemicalWords = readStringsFromElement(xml.getFirstChildElement("chemicalWords"));
+		nonChemicalWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalWords"));
+		chemicalNonWords = readStringsFromElement(xml.getFirstChildElement("chemicalNonWords"));
+		nonChemicalNonWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalNonWords"));
+		afterHyphen = readStringsFromElement(xml.getFirstChildElement("afterHyphen"));
+		notForPrefix = readStringsFromElement(xml.getFirstChildElement("notForPrefix"));
+		pnStops = readStringsFromElement(xml.getFirstChildElement("pnStops"));
+		polysemous = readStringsFromElement(xml.getFirstChildElement("polysemous"));
+		rnEnd = readStringsFromElement(xml.getFirstChildElement("rnEnd"));
+		rnMid = readStringsFromElement(xml.getFirstChildElement("rnMid"));
+    }
+
+    /**Get the current singleton. If this does not exist, initialise it using
 	 * the current model file.
-	 * 
+	 *
 	 * @return The singleton.
 	 */
 	public static ExtractedTrainingData getInstance() {
@@ -59,11 +76,26 @@ public final class ExtractedTrainingData {
 		}
 		return myInstance;
 	}
-	
-	/**
+
+
+    public static synchronized ExtractedTrainingData getDefaultInstance() {
+        if (defaultInstance == null) {
+            defaultInstance = loadDefaultInstance();
+        }
+        return defaultInstance;
+    }
+
+    private static ExtractedTrainingData loadDefaultInstance() {
+        String modelName = OscarProperties.getData().model;
+        Element etdElement = loadEtdElement(modelName);
+        return new ExtractedTrainingData(etdElement);
+    }
+
+
+    /**
 	 * Reads the extracted training data from the specified model and
 	 * adds it to the current collections.
-	 * 
+	 *
 	 * @param modelName
 	 */
 	public void loadModelFile(String modelName) {
@@ -82,7 +114,7 @@ public final class ExtractedTrainingData {
 	}
 
 	/**Re-initialise the current singleton, using the current model file.
-	 * 
+	 *
 	 */
 	public static void reinitialise() {
 		myInstance = null;
@@ -91,12 +123,12 @@ public final class ExtractedTrainingData {
 
 	/**Re-initialise the current singleton, given an XML serialization
 	 * produced by toXML.
-	 * 
+	 *
 	 * @param elem The XML serialized data.
 	 */
-	public static void reinitialise(Element elem) {
-		myInstance = new ExtractedTrainingData();
-		myInstance.readXML(elem);
+	public static ExtractedTrainingData reinitialise(Element elem) {
+		myInstance = new ExtractedTrainingData(elem);
+        return myInstance;
 	}
 
 	/**
@@ -114,10 +146,10 @@ public final class ExtractedTrainingData {
 		rnEnd.clear();
 		rnMid.clear();
 	}
-	
+
 	/**Looks in the workspace for scrapbook files, extracts the data therein,
 	 * and initialises the singleton from it.
-	 * 
+	 *
 	 * @return If the procedure succeeded.
 	 * Commented out on 27th Jan
 	 */
@@ -130,7 +162,7 @@ public final class ExtractedTrainingData {
 //		myInstance = etd;
 //		return true;
 //	}
-		
+
 	private Element stringsToElement(Collection<String> strings, String elemName) {
 		Element elem = new Element(elemName);
 		StringBuffer sb = new StringBuffer();
@@ -141,9 +173,9 @@ public final class ExtractedTrainingData {
 		elem.appendChild(sb.toString());
 		return elem;
 	}
-	
+
 	/**Produces an XML serialization of the data.
-	 * 
+	 *
 	 * @return The XML Element containing the serialization.
 	 */
 	public Element toXML() {
@@ -161,19 +193,7 @@ public final class ExtractedTrainingData {
 		return etdElem;
 	}
 
-	void readXML(Element xml) {
-		chemicalWords = readStringsFromElement(xml.getFirstChildElement("chemicalWords"));
-		nonChemicalWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalWords"));
-		chemicalNonWords = readStringsFromElement(xml.getFirstChildElement("chemicalNonWords"));
-		nonChemicalNonWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalNonWords"));
-		afterHyphen = readStringsFromElement(xml.getFirstChildElement("afterHyphen"));
-		notForPrefix = readStringsFromElement(xml.getFirstChildElement("notForPrefix"));
-		pnStops = readStringsFromElement(xml.getFirstChildElement("pnStops"));
-		polysemous = readStringsFromElement(xml.getFirstChildElement("polysemous"));
-		rnEnd = readStringsFromElement(xml.getFirstChildElement("rnEnd"));
-		rnMid = readStringsFromElement(xml.getFirstChildElement("rnMid"));
-	}
-	
+
 	private Set<String> readStringsFromElement(Element elem) {
 		try {
 			Set<String> strings = new HashSet<String>();
@@ -182,36 +202,32 @@ public final class ExtractedTrainingData {
 			while(line != null) {
 				strings.add(line.trim());
 				line = br.readLine();
-			} 
-			return strings;
+			}
+			return Collections.unmodifiableSet(strings);
 		} catch (Exception e) {
 			throw new Error(e);
 		}
 	}
-	
+
 	/**Produce a hash code for the current ExtractTrainingData.
-	 * 
+	 *
 	 * @return The hash code.
 	 */
 	public int makeHash() {
 		return toXML().toXML().hashCode();
 	}
 
-	private ExtractedTrainingData() {
-		initSets();
-	}
-
-	private void initSets() {
-		chemicalWords = new HashSet<String>();
-		nonChemicalWords = new HashSet<String>();
-		afterHyphen = new HashSet<String>();
-		chemicalNonWords = new HashSet<String>();
-		nonChemicalNonWords = new HashSet<String>();
-		pnStops = new HashSet<String>();
-		notForPrefix = new HashSet<String>();
-		polysemous = new HashSet<String>();
-		rnEnd = new HashSet<String>();
-		rnMid = new HashSet<String>();
+	public ExtractedTrainingData() {
+		chemicalWords = Collections.emptySet();
+		nonChemicalWords = Collections.emptySet();
+		afterHyphen = Collections.emptySet();
+		chemicalNonWords = Collections.emptySet();
+		nonChemicalNonWords = Collections.emptySet();
+		pnStops = Collections.emptySet();
+		notForPrefix = Collections.emptySet();
+		polysemous = Collections.emptySet();
+		rnEnd = Collections.emptySet();
+		rnMid = Collections.emptySet();
 	}
 
 	public String getModelName() {

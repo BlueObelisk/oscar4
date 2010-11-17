@@ -28,7 +28,7 @@ public class MEMMTrainerTest {
 		);
 		Assert.assertNotNull(stream);
 		String xml = trainer.writeModel().toXML();
-		trainer.trainOnStream(stream, "what to enter here??");
+		trainer.trainOnStream(stream);
 		trainer.finishTraining();
 		Assert.assertNotSame(xml, trainer.writeModel().toXML());
 		// it must have learned something

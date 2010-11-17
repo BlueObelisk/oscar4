@@ -1,9 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -103,8 +101,8 @@ public final class FeatureExtractor {
 
 	private boolean newSuffixes = false;
 
-    public static List<List<String>> extractFeatures(TokenSequence tokSeq, String domain) {
-        FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq, domain);
+    public static List<List<String>> extractFeatures(TokenSequence tokSeq) {
+        FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq);
         return featureExtractor.getFeatureLists();
     }
 
@@ -116,26 +114,18 @@ public final class FeatureExtractor {
         return features;
     }
 
-    private FeatureExtractor(TokenSequence tokSeq, String domain) {
+    private FeatureExtractor(TokenSequence tokSeq) {
 		this.tokSeq = tokSeq;
-		makeFeatures(domain);
+		makeFeatures();
 	}
 
-	private void makeFeatures(String domain) {
+	private void makeFeatures() {
         initFeatureSets();
 		for (int i = 0; i < tokSeq.size(); i++) {
 			makeFeatures(i);
 		}
 		for (int i = 0; i < tokSeq.size(); i++) {
 			mergeFeatures(i);
-		}
-		if (domain != null) {
-			for (int i = 0; i < tokSeq.size(); i++) {
-				List<String> ff = new ArrayList<String>(tokenFeatureSets.get(i).getFeatures());
-				for (String f : ff) {
-					tokenFeatureSets.get(i).getFeatures().add("D{" + domain + "}::" + f);
-				}
-			}
 		}
 	}
 

@@ -47,7 +47,7 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  * The flow of methods calls is something like:
  * <pre>
  *   MEMMTrainer trainer = new MEMMTrainer();
- *   trainer.trainOnFile(new File("someFile.xml"), someDomain);
+ *   trainer.trainOnFile(new File("someFile.xml"));
  *   trainer.finishTraining();
  * </pre>
  * 
@@ -127,8 +127,8 @@ public final class MEMMTrainer {
 		evs.add(ev);
 	}
 	
-	private void trainOnSentence(TokenSequence tokSeq, String domain) {
-        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq, domain);
+	private void trainOnSentence(TokenSequence tokSeq) {
+        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
 		//extractor.printFeatures();
 		List<Token> tokens = tokSeq.getTokens();
 		String prevTag = "O";
@@ -138,13 +138,13 @@ public final class MEMMTrainer {
 		}
 	}
 	
-	public void trainOnFile(File file, String domain) throws Exception {
+	public void trainOnFile(File file) throws Exception {
 		long time = System.currentTimeMillis();
 		logger.debug("Train on: " + file + "... ");
-		trainOnStream(new FileInputStream(file), domain);
+		trainOnStream(new FileInputStream(file));
 	}
 	
-	public void trainOnStream(InputStream stream, String domain) throws Exception {
+	public void trainOnStream(InputStream stream) throws Exception {
 		long time = System.currentTimeMillis();
 		Document doc = new Builder().build(stream);
 		Nodes n = doc.query("//cmlPile");
@@ -182,28 +182,26 @@ public final class MEMMTrainer {
 			Tokeniser.getInstance(), doc, true, false, false);
 
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
-			trainOnSentence(ts, domain);
+			trainOnSentence(ts);
 		}
 		logger.debug(System.currentTimeMillis() - time);
 	}
 
-	public void trainOnSbFilesNosplit(List<File> files, Map<File,String> domains) throws Exception {
+	public void trainOnSbFilesNosplit(List<File> files) throws Exception {
 		if(retrain) {
 			HyphenTokeniser.reinitialise();
 			new ExtractTrainingData(files);
 			HyphenTokeniser.reinitialise();					
 		}
 		for(File f : files) {
-			String domain = null;
-			if(domains != null && domains.containsKey(f)) domain = domains.get(f);
-			trainOnFile(f, domain);
+			trainOnFile(f);
 		}				
 		finishTraining();
 	}
 	
-	public void trainOnSbFiles(List<File> files, Map<File,String> domains) throws Exception {
+	public void trainOnSbFiles(List<File> files) throws Exception {
 		if(!splitTrain) {
-			trainOnSbFilesNosplit(files, domains);
+			trainOnSbFilesNosplit(files);
 			return;
 		}
 		List<Set<File>> splitTrainFiles = new ArrayList<Set<File>>();
@@ -234,10 +232,8 @@ public final class MEMMTrainer {
 			
 			int fileno = 0;
 			for(File f : splitTrainFiles.get(split)) {
-				fileno++;			
-				String domain = null;
-				if(domains != null && domains.containsKey(f)) domain = domains.get(f);
-				trainOnFile(f, domain);
+				fileno++;
+				trainOnFile(f);
 			}				
 		}
 
@@ -249,7 +245,7 @@ public final class MEMMTrainer {
 		}
 	}
 
-	public void trainOnSbFilesWithCVFS(List<File> files, Map<File,String> domains) throws Exception {
+	public void trainOnSbFilesWithCVFS(List<File> files) throws Exception {
 		List<List<File>> splitTrainFiles = new ArrayList<List<File>>();
 		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();
 		int splitNo = 3;
@@ -270,17 +266,15 @@ public final class MEMMTrainer {
 		}
 		
 		for(int split=0;split<splitNo;split++) {
-			trainOnSbFiles(splitTrainAntiFiles.get(split), domains);
+			trainOnSbFiles(splitTrainAntiFiles.get(split));
 			evsByPrev.clear();
 			for(File f : splitTrainFiles.get(split)) {
-				String domain = null;
-				if(domains != null && domains.containsKey(f)) domain = domains.get(f);
-				cvFeatures(f, domain);
+				cvFeatures(f);
 			}				
 		}
 		
 		findPerniciousFeatures();
-		trainOnSbFiles(files, domains);
+		trainOnSbFiles(files);
 		/*if(tampering) {
 			List<String> prefixesToRemove = new ArrayList<String>();
 			prefixesToRemove.add("anchor=");
@@ -290,7 +284,7 @@ public final class MEMMTrainer {
 		}*/
 	}
 
-	public void trainOnSbFilesWithRescore(List<File> files, Map<File,String> domains) throws Exception {
+	public void trainOnSbFilesWithRescore(List<File> files) throws Exception {
 		rescorer = new RescoreMEMMOut();
 		List<List<File>> splitTrainFiles = new ArrayList<List<File>>();
 		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();
@@ -313,13 +307,12 @@ public final class MEMMTrainer {
 		
 		for(int split=0;split<splitNo;split++) {
 			if(simpleRescore) {
-				trainOnSbFiles(splitTrainAntiFiles.get(split), domains);
+				trainOnSbFiles(splitTrainAntiFiles.get(split));
 			} else {
-				trainOnSbFilesWithCVFS(splitTrainAntiFiles.get(split), domains);
+				trainOnSbFilesWithCVFS(splitTrainAntiFiles.get(split));
 			}
 			for(File f : splitTrainFiles.get(split)) {
 				String domain = null;
-				if(domains != null && domains.containsKey(f)) domain = domains.get(f);
 				rescorer.trainOnFile(f, domain, MEMM.getInstance());
 			}				
 			evsByPrev.clear();
@@ -330,9 +323,9 @@ public final class MEMMTrainer {
 		}
 		rescorer.finishTraining();
 		if(simpleRescore) {
-			trainOnSbFiles(files, domains);
+			trainOnSbFiles(files);
 		} else {
-			trainOnSbFilesWithCVFS(files, domains);
+			trainOnSbFilesWithCVFS(files);
 		}
 	}
 
@@ -432,8 +425,8 @@ public final class MEMMTrainer {
 	 * usually be null).
 	 * @return Named entities, with confidences.
 	 */
-	public Map<NamedEntity,Double> findNEs(TokenSequence tokSeq, String domain) {
-		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq, domain);
+	public Map<NamedEntity,Double> findNEs(TokenSequence tokSeq) {
+		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
 		List<Token> tokens = tokSeq.getTokens();
 		if(tokens.size() == 0) return new HashMap<NamedEntity,Double>();
 
@@ -456,7 +449,7 @@ public final class MEMMTrainer {
 		return neConfidences;
 	}
 	
-	private void cvFeatures(File file, String domain) throws Exception {
+	private void cvFeatures(File file) throws Exception {
 		long time = System.currentTimeMillis();
 		logger.debug("Cross-Validate features on: " + file + "... ");
 		Document doc = new Builder().build(file);
@@ -476,7 +469,7 @@ public final class MEMMTrainer {
 			//nr.makeTokenisers(true);
 		//}
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
-			cvFeatures(ts, domain);
+			cvFeatures(ts);
 		}
 		logger.debug(System.currentTimeMillis() - time);
 	}
@@ -486,11 +479,11 @@ public final class MEMMTrainer {
 		return -Math.log(probs[index])/Math.log(2);
 	}
 	
-	private void cvFeatures(TokenSequence tokSeq, String domain) {
+	private void cvFeatures(TokenSequence tokSeq) {
 		if(featureCVScores == null) {
 			featureCVScores = new HashMap<String,Map<String,Double>>();
 		}
-		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq, domain);
+		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
 		List<Token> tokens = tokSeq.getTokens();
 		String prevTag = "O";
 		for(int i=0;i<tokens.size();i++) {

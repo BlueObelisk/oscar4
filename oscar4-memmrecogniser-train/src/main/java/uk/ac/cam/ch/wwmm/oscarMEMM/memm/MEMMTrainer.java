@@ -87,7 +87,7 @@ public final class MEMMTrainer {
 	
 	private RescoreMEMMOut rescorer;
 			
-	MEMMTrainer() throws Exception {
+	public MEMMTrainer() throws Exception {
 		evsByPrev = new HashMap<String, List<Event>>();
 		zeroProbs = new HashMap<String, Double>();
 		gmByPrev = new HashMap<String, GISModel>();
@@ -187,7 +187,7 @@ public final class MEMMTrainer {
 		logger.debug(System.currentTimeMillis() - time);
 	}
 
-	void trainOnSbFilesNosplit(List<File> files, Map<File,String> domains) throws Exception {
+	public void trainOnSbFilesNosplit(List<File> files, Map<File,String> domains) throws Exception {
 		if(retrain) {
 			HyphenTokeniser.reinitialise();
 			new ExtractTrainingData(files);
@@ -201,7 +201,7 @@ public final class MEMMTrainer {
 		finishTraining();
 	}
 	
-	void trainOnSbFiles(List<File> files, Map<File,String> domains) throws Exception {
+	public void trainOnSbFiles(List<File> files, Map<File,String> domains) throws Exception {
 		if(!splitTrain) {
 			trainOnSbFilesNosplit(files, domains);
 			return;
@@ -249,7 +249,7 @@ public final class MEMMTrainer {
 		}
 	}
 
-	void trainOnSbFilesWithCVFS(List<File> files, Map<File,String> domains) throws Exception {
+	public void trainOnSbFilesWithCVFS(List<File> files, Map<File,String> domains) throws Exception {
 		List<List<File>> splitTrainFiles = new ArrayList<List<File>>();
 		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();
 		int splitNo = 3;
@@ -290,7 +290,7 @@ public final class MEMMTrainer {
 		}*/
 	}
 
-	void trainOnSbFilesWithRescore(List<File> files, Map<File,String> domains) throws Exception {
+	public void trainOnSbFilesWithRescore(List<File> files, Map<File,String> domains) throws Exception {
 		rescorer = new RescoreMEMMOut();
 		List<List<File>> splitTrainFiles = new ArrayList<List<File>>();
 		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();

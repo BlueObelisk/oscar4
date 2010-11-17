@@ -121,19 +121,11 @@ public final class FeatureExtractor {
     private FeatureExtractor(TokenSequence tokSeq, String domain) {
 		stretchable = new HashSet<String>();
 		stretchable.add("and");
-		for (int i = 0; i < StringTools.hyphens.length(); i++)
+		for (int i = 0; i < StringTools.hyphens.length(); i++) {
 			stretchable.add(StringTools.hyphens.substring(i, i + 1));
+        }
 		this.tokSeq = tokSeq;
 		makeFeatures(domain);
-	}
-
-	public List<String> getFeatures(int pos) {
-		return tokenFeatureSets.get(pos).getFeatures();
-	}
-
-	public void printFeatures() {
-		for (FeatureSet f : tokenFeatureSets)
-			System.out.println(f.getFeatures());
 	}
 
 	private void makeFeatures(String domain) {
@@ -404,21 +396,7 @@ public final class FeatureExtractor {
 		List<String> mergedFeatures = tokenFeatureSets.get(position).getFeatures();
 
 		int backwards = Math.min(1, position);
-		int forwards = 1;
-		/*
-		 * while((position + forwards) < tokSeq.size()) { String fv =
-		 * tokSeq.getToken(position + forwards).getValue(); if(fv == null)
-		 * break; if(stretchable.contains(fv)) { forwards++; } else { break; } }
-		 */
-		forwards = Math.min(forwards, tokSeq.size() - position - 1);
-		// boolean expanded = false;
-		/*
-		 * String word = tokSeq.getToken(position).getValue();
-		 * if(word.equals("lead") || (word.length() < 3 &&
-		 * TermSets.getElements().contains(word))) { backwards = Math.min(2,
-		 * position); forwards = Math.min(2, tokSeq.size() - position - 1);
-		 * expanded = true; }
-		 */
+		int forwards = forwards = Math.min(1, tokSeq.size() - position - 1);
 
 		if (!noC) {
 			for (int i = -backwards; i <= forwards; i++) {
@@ -444,12 +422,6 @@ public final class FeatureExtractor {
 						}
 					}
 				}
-				// String prefix = "bg:" + i + ":" + j + ":";
-				// for(String bg :
-				// StringTools.makeNGrams(bigramableFeatures.subList(i +
-				// position, j+1 + position))) {
-				// mergedFeatures.add((prefix + bg).intern());
-				// }
 			}
 		}
 
@@ -495,20 +467,7 @@ public final class FeatureExtractor {
 					}
 				}
 			}
-			/*
-			 * if(suspect) { System.out.println("Suspect DGC: " +
-			 * tokSeq.getSubstring(position, patternPosition)); } else {
-			 * System.out.println("Non-Suspect DGC: " +
-			 * tokSeq.getSubstring(position, patternPosition)); }
-			 */
 		}
-
-		// for(int i=Math.max(0,
-		// position-5);i<Math.min(position+5+1,tokSeq.size());i++) {
-		// if(i == position) continue;
-		// mergedFeatures.add(("ww=" + tokSeq.getToken(i).getValue()).intern());
-		// }
-
 	}
 
 	private String getSuffix(String word) {

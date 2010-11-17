@@ -19,27 +19,28 @@ public class ExtractedTrainingDataTest {
 	
 	@Test
 	public void testReadXML() {
-		ExtractedTrainingData etd = ExtractedTrainingData.getInstance();
-		etd.chemicalWords.clear();
+		ExtractedTrainingData etd = new ExtractedTrainingData();
 		assertFalse(etd.chemicalWords.contains("ammonia"));
 		
 		ResourceGetter rg = new ResourceGetter("/uk/ac/cam/ch/wwmm/oscarrecogniser/models/");
 		Document modelDoc = rg.getXMLDocument("chempapers.xml");
 		Element etdElement = modelDoc.getRootElement().getFirstChildElement("etd");
-		etd.readXML(etdElement);
+
+        etd = new ExtractedTrainingData(etdElement);
 		assertTrue(etd.chemicalWords.contains("ammonia"));
 	}
-	
-	@Test
-	public void testClear() {
-		ExtractedTrainingData etd = ExtractedTrainingData.getInstance();
-		assertFalse(etd.chemicalWords.size() == 0);
-		
-		etd.clear();
-		ExtractedTrainingData etd2 = ExtractedTrainingData.getInstance();
-		assertTrue(etd == etd2);
-		assertTrue(etd.chemicalWords.size() == 0);
-	}
+
+//  XXX Becoming immutable
+//	@Test
+//	public void testClear() {
+//		ExtractedTrainingData etd = ExtractedTrainingData.getInstance();
+//		assertFalse(etd.chemicalWords.size() == 0);
+//
+//		etd.clear();
+//		ExtractedTrainingData etd2 = ExtractedTrainingData.getInstance();
+//		assertTrue(etd == etd2);
+//		assertTrue(etd.chemicalWords.size() == 0);
+//	}
 	
 	@Test
 	public void testReinitialise() {

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PAPER>
+	<METADATA>
+		<FILENO>17626205</FILENO>
+		<DOI>10.1523/JNEUROSCI.4266-06.2007</DOI>
+		<PAPERTYPE>Journal Article</PAPERTYPE>
+		<PAPERTYPE>Research Support, N.I.H., Extramural</PAPERTYPE>
+		<PAPERTYPE>Research Support, Non-U.S. Gov't</PAPERTYPE>
+		<JOURNAL>
+			<NAME>The Journal of neuroscience : the official journal of the
+				Society for Neuroscience</NAME>
+			<YEAR>2007</YEAR>
+			<VOLUME>27</VOLUME>
+			<ISSUE>28</ISSUE>
+			<PAGES>7447-58</PAGES>
+		</JOURNAL>
+		<CLASSIFICATION>
+			<KEYWORD>1-Phosphatidylinositol 3-Kinase</KEYWORD>
+			<KEYWORD>Animals</KEYWORD>
+			<KEYWORD>Axons</KEYWORD>
+			<KEYWORD>Calcium</KEYWORD>
+			<KEYWORD>Cell Membrane</KEYWORD>
+			<KEYWORD>Cells, Cultured</KEYWORD>
+			<KEYWORD>Cerebellum</KEYWORD>
+			<KEYWORD>Cholera Toxin</KEYWORD>
+			<KEYWORD>Cross-Linking Reagents</KEYWORD>
+			<KEYWORD>Enzyme Activation</KEYWORD>
+			<KEYWORD>Focal Adhesion Protein-Tyrosine Kinases</KEYWORD>
+			<KEYWORD>G(M1) Ganglioside</KEYWORD>
+			<KEYWORD>Integrin alpha5beta1</KEYWORD>
+			<KEYWORD>Integrins</KEYWORD>
+			<KEYWORD>Mice</KEYWORD>
+			<KEYWORD>Mice, Knockout</KEYWORD>
+			<KEYWORD>Neurites</KEYWORD>
+			<KEYWORD>Neurons</KEYWORD>
+			<KEYWORD>Phospholipase C gamma</KEYWORD>
+			<KEYWORD>Phosphorylation</KEYWORD>
+			<KEYWORD>Signal Transduction</KEYWORD>
+			<KEYWORD>TRPC Cation Channels</KEYWORD>
+			<KEYWORD>Tissue Distribution</KEYWORD>
+		</CLASSIFICATION>
+	</METADATA>
+	<CURRENT_AUTHORLIST>
+		<CURRENT_AUTHOR>
+			<NAME>
+				Gusheng
+				<SURNAME>Wu</SURNAME>
+			</NAME>
+		</CURRENT_AUTHOR>
+		<CURRENT_AUTHOR>
+			<NAME>
+				Zi-Hua
+				<SURNAME>Lu</SURNAME>
+			</NAME>
+		</CURRENT_AUTHOR>
+		<CURRENT_AUTHOR>
+			<NAME>
+				Alexander G
+				<SURNAME>Obukhov</SURNAME>
+			</NAME>
+		</CURRENT_AUTHOR>
+		<CURRENT_AUTHOR>
+			<NAME>
+				Martha C
+				<SURNAME>Nowycky</SURNAME>
+			</NAME>
+		</CURRENT_AUTHOR>
+		<CURRENT_AUTHOR>
+			<NAME>
+				Robert W
+				<SURNAME>Ledeen</SURNAME>
+			</NAME>
+		</CURRENT_AUTHOR>
+	</CURRENT_AUTHORLIST>
+	<CURRENT_TITLE>Induction of calcium influx through TRPC5 channels by
+		cross-linking of GM1 ganglioside associated with alpha5beta1 integrin
+		initiates neurite outgrowth.</CURRENT_TITLE>
+	<ABSTRACT>Previous studies demonstrated that cross-linking of GM1
+		ganglioside with multivalent ligands, such as B subunit of cholera
+		toxin (CtxB), induced Ca2+ influx through an unidentified,
+		voltage-independent channel in several cell types. Application of CtxB
+		to undifferentiated NG108-15 cells resulted in outgrowth of axon-like
+		neurites in a Ca2+ influx-dependent manner. In this study, we
+		demonstrate that CtxB-induced Ca2+ influx is mediated by TRPC5
+		channels, naturally expressed in these cells and primary neurons. Both
+		Ca2+ influx and neurite induction were blocked by TRPC5 small
+		interfering RNA (siRNA). Pretreatment of NG108-15 cells with
+		neuraminidase increased cell-surface GM1 and greatly enhanced the
+		signal. GM1 was not directly associated with TRPC5 but rather with
+		alpha5beta1 integrin, which opened the channel through a signaling
+		sequence after cross-linking of the GM1/integrin complex. This cascade
+		included autophosphorylation of focal adhesion kinase and subsequent
+		activation of phospholipase Cgamma (PLCgamma) and phosphoinositide-3
+		kinase [PI(3)K]. Pharmacological blockers that inhibited tyrosine
+		kinase, PLC, and PI(3)K suppressed both CtxB-induced Ca2+ influx and
+		neurite outgrowth. These were also suppressed by SK&amp;F96365, a
+		nonspecific transient receptor potential channel blocker. Confocal
+		immunocytochemistry revealed that GM1 cross-linking induced
+		colocalization of GM1 with these signaling elements in sprouting
+		regions of plasma membrane. In primary cerebellar granular neurons
+		(CGNs), TRPC5 was detected at 2 d in vitro (2 DIV), a stage
+		corresponding to CtxB-stimulated Ca2+ influx. Neurite outgrowth in
+		CGNs, determined at 3 DIV, was accelerated by CtxB and suppressed by
+		TRPC5 siRNA and the above blockers. The crucial role of GM1 was
+		indicated with CGNs from ganglio-series null mice, in which growth of
+		axons was significantly retarded.</ABSTRACT>
+</PAPER>

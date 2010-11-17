@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <name>OscarTokeniserTypeSystemDescriptor</name>
+  <description>This type system implements the data structure required for the list of token from an xml file which will be subsequently used by the recognisers for chemical entity detection :)</description>
+  <version>1.0</version>
+  <vendor/>
+  <imports>
+    <import name="org.u_compare.U_compareTypeSystem"/>
+  </imports>
+</typeSystemDescription>

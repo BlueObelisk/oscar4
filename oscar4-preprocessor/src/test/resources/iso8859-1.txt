@@ -1,0 +1,1 @@
+This is a ISO 8859-1 file with Swedish words (/names): Ångstrom och öl.

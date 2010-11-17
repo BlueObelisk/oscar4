@@ -13,10 +13,8 @@ import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMTrainer;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMTrainerSingleton;
-import uk.ac.cam.ch.wwmm.oscarMEMM.subtypes.NESubtypes;
 
 /**Routines to co-ordinate the holding of experimental training data, and 
  * models from the MEMM, MEMM rescorer and other modules.
@@ -64,13 +62,6 @@ public class ModelTrainer {
 		} else {
 			ExtractedTrainingData.clear();
 		}
-		Element subtypeElem = modelRoot.getFirstChildElement("subtypes");
-		if(subtypeElem != null) {
-			NESubtypes.reinitialise(subtypeElem);
-		} else {
-			NESubtypes.clear();
-		}
-
 	}
 	
 	/**Loads a model file, with the given name (a .xml suffix will be added)

@@ -12,7 +12,6 @@ import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
-import uk.ac.cam.ch.wwmm.oscarMEMM.subtypes.NESubtypes;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 
 /**Routines to co-ordinate the holding of experimental training data, and 
@@ -61,13 +60,6 @@ public class Model {
 		} else {
 			ExtractedTrainingData.getInstance().clear();
 		}
-		Element subtypeElem = modelRoot.getFirstChildElement("subtypes");
-		if(subtypeElem != null) {
-			NESubtypes.reinitialise(subtypeElem);
-		} else {
-			NESubtypes.clear();
-		}
-
 	}
 	
 	/**Loads a model file, with the given name (a .xml suffix will be added)

@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PAPER> 
+<P>Aromatic and heterocyclic <ne type="CM">perfluoroalkyl sulfides</ne>. Methods of preparation</P>
+<P>Vladimir N. BoikoEmail of corresponding author</P>
+<P>Institute of Organic Chemistry, National Academy of Sciences of Ukraine, Murmanskaya St. 5, 02094 Kiev, Ukraine</P>
+<P>Email of corresponding author Corresponding author email</P>
+<P>Guest Editor: D. O’Hagan</P>
+<P>Beilstein J. Org. Chem. 2010, 6, 880–921. doi:10.3762/bjoc.6.88</P>
+<P>This review covers all of the common methods for the syntheses of aromatic and heterocyclic <ne type="CM">perfluoroalkyl sulfides</ne>, a class of compounds which is finding increasing application as starting materials for the preparation of agrochemicals, pharmaceutical products and, more generally, fine chemicals. A systematic approach is taken depending on the mode of incorporation of the SRF groups and also on the type of reagents used.</P>
+<P>1. Introduction</P>
+<P><ne type="CM">Perfluoroalkyl sulfides</ne> of aromatic and heterocyclic compounds have been an important aspect in the general development of <ne type="CM">organofluorine</ne> chemistry over the last twenty years.</P>
+<P><ne type="CM">Alkyl aryl sulfides</ne> containing partly fluorinated aliphatic moieties have been widely used for a number of years. Their methods of preparation, for example, by the reaction of <ne type="CM">thiols</ne> with <ne type="CM">fluoro-olefins</ne> or with <ne type="CM">chloropolyfluoroalkanes</ne> are well known and have been widely used. In contrast, <ne type="CM">sulfides</ne> with fully <ne type="CM">fluorinated</ne> aliphatic chains have been limited to <ne type="CM">trifluoromethylated</ne> compounds. This was due to the unique preparation (at that time) of such compounds by means of two consecutive reaction steps: the chlorination of the side chain followed by replacement of the <ne type="CM">chlorine</ne> atoms by <ne type="CM">fluorine</ne>. This procedure enabled only the preparation of <ne type="CM">CF3S</ne>-derivatives because it is not possible to synthesize <ne type="CM">perchloroalkylated aromatic sulfides</ne> larger than <ne type="CM">CCl3S</ne>. This is currently still the case. <ne type="CM">Iodoperfluoroalkanes</ne> as perfluoroalkylating agents have only emerged rather recently.</P>
+<P>New synthetic procedures to access this class of compounds have appeared which make use of novel intermediates. Thus, single-electron oxidation or reduction enables the generation of <ne type="CM">perfluoroalkyl</ne> radicals. Two-electron reduction of <ne type="CM">perfluoroalkyl iodides</ne> generates <ne type="CM">perfluoroalkyl carbanions</ne>, which may be stabilized by <ne type="CM">organophosphorus</ne> and <ne type="CM">organosilicon</ne> ligands and even by <ne type="CM">dimethylformamide</ne>.</P>
+<P>One of the driving forces for the synthesis of <ne type="CM">perfluoroalkyl sulphides</ne> is the high lipophilic properties of <ne type="CM">perfluoroalkylthio</ne> groups (the greatest Hansch constant π = 1.44, belongs to <ne type="CM">SCF3</ne> group [1]), which increases the ability of such molecules to cross lipid membranes and creates opportunities for the modification of known and new drugs. Thus this group is a useful substituent in agrochemicals and pharmaceuticals [2-4]. Examples of bioactive compounds containing <ne type="CM">SCF3</ne>, <ne type="CM">SOCF3</ne> and <ne type="CM">SO2CF3</ne> groups are shown in Figure 1 and Figure 2.</P>
+<P>[1860-5397-6-88-1]</P>
+<P>Figure 1: Examples of industrial <ne type="CM">fluorine</ne>-containing bio-active molecules.</P>
+<P>[1860-5397-6-88-2]</P>
+<P>Figure 2: <ne type="CM">CF3(S)-</ne> and <ne type="CM">CF3(O)-</ne>containing pharmacologically active compounds.</P>
+<P>The synthesis of a large number of potential hypotensive agents containing <ne type="CM">SRF</ne> and <ne type="CM">SO2RF</ne> groups of the 1,<ne type="CM">4-dihydropyridine</ne> class and also of <ne type="CM">Losartan</ne> (Dup 753) analogues which are used clinically for the treatment of cardiovascular diseases have also been developed [5,6] (Figure 3).</P>
+<P>[1860-5397-6-88-3]</P>
+<P>Figure 3: Hypotensive candidates with <ne type="CM">SRF</ne> and <ne type="CM">SO2RF</ne> groups – analogues of <ne type="CM">Losartan</ne> and <ne type="CM">Nifedipin</ne>.</P>
+<P>Other patented compounds containing <ne type="CM">perfluoroalkyl thio</ne> substituents are illustrated in Figure 4 and Figure 5 along with their pharmacological functions [7-11].</P>
+<P>[1860-5397-6-88-4]</P>
+<P>Figure 4: The variety of the pharmacological activity of <ne type="CM">RFS</ne>-substituted compounds.</P>
+<P>[1860-5397-6-88-5]</P>
+<P>Figure 5: Recent examples of compounds containing <ne type="CM">RFS(O)n</ne>-groups [12-18].</P>
+<P>These examples represent only a small number of the vast array of organic compounds with <ne type="CM">SRF</ne>, <ne type="CM">SORF</ne> or <ne type="CM">SO2RF</ne> groups which display pharmacological activity and interest in such analogues continues to grow.</P>
+<P>Previous reviews in this area are either dated [19] or focus on specialist aspects such as <ne type="CM">perfluoroalkyl</ne> radicals [20-22], <ne type="CM">fluorinated carbanions</ne> [23], organometallic compounds [24,25], <ne type="CM">perfluoroalkyl sulfenyl halides</ne> [26], <ne type="CM">perfluoroalkyl silicon</ne> reagents [27-32], the <ne type="CM">trifluoromethylthio anion</ne> [29] or electrophilic <ne type="CM">perfluoroalkylating</ne> agents [33]. Others are devoted to particular methods such as trifluoromethylation initiated by <ne type="CM">sodium dithionite</ne> [34] or the electrochemical introduction of <ne type="CM">fluoroalkyl</ne> groups in organic molecules [35]. Moreover, many of the reviews on the subject are very general [28,30,32,36].</P>
+<P>The present work reviews synthetic methods employed to prepare aromatic and heterocyclic <ne type="CM">perfluoroalkyl sulfides</ne> and is systematized depending on the mode of constructing the <ne type="CM">SRF</ne> groups and also on the nature of the starting materials.</P>
+<P>   1. The halogenation of <ne type="CM">SAlk</ne>-derivatives with subsequent replacement of the halogen atoms by <ne type="CM">fluorine</ne>.</P>
+<P>   2. The introduction of <ne type="CM">SRF</ne>-moieties into aromatic compounds by both electrophilic and nucleophilic reagents.</P>
+<P>   3. Various modes of perfluoroalkylation of organosulfur compounds including cationic, anionic, radical and ion-radical variants.</P>
+<P>2. Substitution of halogen atoms by <ne type="CM">fluorine</ne> in <ne type="CM">aryl-α-polyhalogenoalkyl sulfides</ne></P>
+<P>Substitution of the halogen atoms in <ne type="CM">SAlkHlg</ne> groups (mainly <ne type="CM">chlorine</ne>) using <ne type="CM">antimony trifluoride</ne> [37], is the oldest method of <ne type="CM">perfluoroalkylsulfide</ne> preparation and is still commercially significant.</P>
+<P>The reaction is carried out by heating a mixture of aryl <ne type="CM">trichloromethyl sulfide</ne> with an excess of <ne type="CM">SbF3</ne> in the absence of a solvent. For industrial processes, dry <ne type="CM">hydrogen fluoride</ne> is used as the fluorinating agent (Scheme 1).</P>
+<P>[1860-5397-6-88-i1]</P>
+<P>Scheme 1: Fluorination of <ne type="CM">ArSCCl3</ne> to corresponding <ne type="CM">ArSCF3</ne> derivatives. For references see: a[38-43]; b[41,42]; c[43]; d[44]; e[38-43,45-47]; f[38-43,48,49]; g[49,50]; h[51]; i[52]; j[53]; k[54].</P>
+<P>The presence of halogen atoms and electron-withdrawing groups such as <ne type="CM">NO2</ne>, <ne type="CM">CF3</ne> or <ne type="CM">COCl</ne> in the aromatic ring of <ne type="CM">trichlorothioanisole</ne> does not influence the fluorination and the reaction is not hindered by bulky ortho-substituents e.g., <ne type="CM">phthalic acid imide</ne> [53] or N-substituted <ne type="CM">anilines</ne> [54]. Other reactive substituents, for example <ne type="CM">3-SCCl3</ne> or <ne type="CM">4-COCl</ne> are also fluorinated and form 1,<ne type="CM">3-bis(SCF3) benzene</ne> [38-40] and <ne type="CM">4-SCF3-benzoic acid fluoride</ne>, respectively [55].</P>
+<P>The use of <ne type="CM">hydrogen fluoride</ne> has some advantages. Due to its low boiling point (+19.4 °C) and good solubility in <ne type="CM">water</ne>, excess <ne type="CM">HF</ne> is easily removed from the reaction mixture. Unlike <ne type="CM">HF</ne>, reactions with <ne type="CM">SbF3</ne> can be carried out in glass. The <ne type="CM">SbF3</ne> must be freshly sublimed and used in a corrosion-proof vessel. Attempts to use less aggressive <ne type="CM">fluoride</ne> ion sources, e.g., <ne type="CM">KF/18-Crown-6</ne> in <ne type="CM">CH3CN</ne> or <ne type="CM">KF</ne>/<ne type="CM">Bu4N+ Cl−</ne> under phase-transfer conditions, have been unsuccessful [56].</P>
+<P>The method does not give access to longer <ne type="CM">perfluoroalkyl sulfides</ne> because the required aryl <ne type="CM">perchloroalkyl sulfide</ne> precursors are not easily accessible [57,58]. However, <ne type="CM">pentafluoroethyl ethers</ne> of various <ne type="CM">thiophenols</ne> (or <ne type="CM">phenols</ne>) can be obtained by the more sequential process as shown in Scheme 2 [59].</P>
+<P>[1860-5397-6-88-i2]</P>
+<P>Scheme 2: Preparation of aryl pentafluoroethyl sulfides.</P>
+<P>Use of mixed (<ne type="CM">Cl</ne>/<ne type="CM">F</ne>) <ne type="CM">polyhalogenofluoro alkanes</ne> as partial fluorinated alkylating agents generates the corresponding <ne type="CM">sulfides</ne> which are appropriate precursors for subsequent conversion to <ne type="CM">perfluoroalkyl thioethers</ne>. For example, <ne type="CM">α,α-difluoro polyhalogenoalkyl sulfides</ne> and <ne type="CM">α,α-dichlorotrifluoroethyl sulfide</ne> can be obtained by reaction of <ne type="CM">thiophenols</ne> with <ne type="CM">dihalogenodifluoro methanes</ne> [60-62], <ne type="CM">per(halogenofluoro) ethanes</ne> [60,63,64] and <ne type="CM">2,2,2-trifluorotrichloroethane</ne>.</P>
+<P>The <ne type="CM">Cl</ne>- and <ne type="CM">Br</ne>-substituents can then be replaced by <ne type="CM">fluorine</ne> without use of <ne type="CM">HF</ne> or <ne type="CM">SbF3</ne> [61]. As shown in Scheme 3 [65], <ne type="CM">bromine</ne> to <ne type="CM">fluorine</ne> exchange is possible by the use of other <ne type="CM">heavy metal fluorides</ne>, and even by <ne type="CM">silver tetrafluoroborate</ne> under mild conditions.</P>
+<P>[1860-5397-6-88-i3]</P>
+<P>Scheme 3: Mild fluorination of the aryl <ne type="CM">SCF2Br</ne> derivatives.</P>
+<P>The halex-method allows the selective preparation of <ne type="CM">α,α-difluoroalkyl aryl sulfides</ne> (and also <ne type="CM">ethers</ne>, <ne type="CM">sulfoxides</ne> and <ne type="CM">sulfones</ne>) as intermediate products in the synthesis of herbicides [66,67]. Interestingly, the reaction of anhydrous <ne type="CM">hydrogen fluoride</ne> with aryl <ne type="CM">α,α,β-trichloroisobutyl sulfide</ne> at 20 °C leads only to substitution of the α-<ne type="CM">chlorine</ne> atoms, whilst at a higher temperature and pressure a more complete fluorination with rearrangement is observed [67] (Scheme 4).</P>
+<P>[1860-5397-6-88-i4]</P>
+<P>Scheme 4: <ne type="CM">HF</ne> fluorinations of aryl <ne type="CM">α,α,β-trichloroisobutyl sulfide</ne> at various conditions.</P>
+<P><ne type="CM">Hydrogen fluoride</ne>/<ne type="CM">fluoride</ne> complexes such as <ne type="CM">H2F3</ne> stabilized on a polymer [68] show even greater selectivity. For example, only one <ne type="CM">chlorine</ne> atom of the <ne type="CM">α,α-dichloromethylene</ne> group of <ne type="CM">benzyl alkyl sulfide</ne> is substituted by the reagent (Scheme 5).</P>
+<P>[1860-5397-6-88-i5]</P>
+<P>Scheme 5: Monofluorination of <ne type="CM">α,α-dichloromethylene</ne> group.</P>
+<P>Thus, halogen atoms replacement by <ne type="CM">fluorine</ne> is an effective and cheap method for preparing aromatic and heterocyclic <ne type="CM">perfluoroalkyl sulfides</ne>. Application of the appropriate conditions allows control and a degree of selectivity thus making this method an important industrial process.</P>
+<P>3. Introduction of the aryl <ne type="CM">SRF</ne> moiety</P>
+<P>3.1. Electrophilic introduction of <ne type="CM">SRF</ne> groups</P>
+<P><ne type="CM">Perfluoroalkyl sulfenyl chlorides</ne> react with electron rich aromatic and heterocyclic compounds, to give <ne type="CM">SRF</ne> derivatives. Thus, <ne type="CM">phenol</ne>, <ne type="CM">o-hydroquinone</ne> and their derivatives react with <ne type="CM">CF3SCl</ne> to yield <ne type="CM">p-hydroxyaryl trifluoromethyl sulfides</ne> (Scheme 6).</P>
+<P>[1860-5397-6-88-i6]</P>
+<P>Scheme 6: Electrophilic substitution of <ne type="CM">phenols</ne> with <ne type="CM">CF3SCl</ne> [69].</P>
+<P>The best yields are achieved when electron-donating substituents are present on the ring. In the case of <ne type="CM">m-cresol</ne> and <ne type="CM">m-chlorophenol</ne> a small degree of o-substitution was observed. <ne type="CM">Phenol</ne> is a poor substrate in the reaction (Scheme 6) however, when <ne type="CM">FeCl3</ne> was used as a catalyst the yield of <ne type="CM">p-HOC6H4SCF3</ne> was increased, albeit only slightly (30%). A significant improvement in yield occurs (72%) when the reaction is conducted with <ne type="CM">pyridine</ne> in <ne type="CM">chloroform</ne> and at ambient temperatures (0–20 °C) [70,71]. Under these conditions and with electron-donating substituents in the <ne type="CM">phenol</ne>, two and even three <ne type="CM">perfluoroalkylthio</ne> groups can be introduced (Scheme 7).</P>
+<P>[1860-5397-6-88-i7]</P>
+<P>Scheme 7: Introduction of <ne type="CM">SCF3</ne> groups into activated <ne type="CM">phenols</ne> [71-74].</P>
+<P>Forcing conditions are required for the introduction of three <ne type="CM">CF3S</ne>-groups. This can be achieved either by activation with <ne type="CM">iron</ne> powder under pressure (or by conduction the reaction in a <ne type="CM">steel</ne> autoclave) or by the presence of two donor groups in meta-positions [71].</P>
+<P>For <ne type="CM">p-hydroquinone</ne>, reaction with <ne type="CM">CF3SCl</ne> in the presence of <ne type="CM">pyridine</ne> results only in the formation of a <ne type="CM">chlorohydroquinone pyridinium</ne> species [72], and neutral conditions are required in this case [69]. For the synthesis of <ne type="CM">poly(SCF3)</ne> substituted <ne type="CM">p-hydroquinones</ne>, Scribner oxidized <ne type="CM">2,6-bis(SCF3)-4-methoxyphenol</ne> to generate <ne type="CM">2,6-bis(SCF3)-1,4-benzoquinone</ne>. The addition of <ne type="CM">CF3SH</ne> in the presence of <ne type="CM">pyridine</ne> to the bis-compound gave <ne type="CM">2,3,5-tris(SCF3)hydroquinone</ne> [72] which could be subsequently converted into <ne type="CM">tetrakis(SCF3)-1,4-hydroquinone</ne> (Scheme 8).</P>
+<P>[1860-5397-6-88-i8]</P>
+<P>Scheme 8: Preparation of <ne type="CM">tetrakis(SCF3)-4-methoxyphenol</ne> [72].</P>
+<P>Unlike <ne type="CM">p-hydroquinone</ne>, <ne type="CM">resorcinols</ne> and <ne type="CM">phloroglucinols</ne> perhaps surprisingly react with <ne type="CM">RFSCl</ne> [75] to generate <ne type="CM">monoperfluoroalkyl thio</ne> derivatives. With <ne type="CM">iron</ne> powder as a catalyst <ne type="CM">bis(SRF)</ne>-derivatives can be obtained (Scheme 9).</P>
+<P>[1860-5397-6-88-i9]</P>
+<P>Scheme 9: The interactions of <ne type="CM">resorcinol</ne> and <ne type="CM">phloroglucinol</ne> derivatives with <ne type="CM">RFSCl</ne>.</P>
+<P>Similarly, <ne type="CM">methyl benzoates</ne> and <ne type="CM">benzaldehydes</ne> with two and especially three <ne type="CM">hydroxyl</ne> groups form <ne type="CM">bis(CF3S)</ne>-substituted derivatives without of catalyst.</P>
+<P>Analogous reactions are observed with <ne type="CM">aniline</ne>. However, since reaction takes place in the first instance on the <ne type="CM">amino</ne> group [74,76], for the introduction of <ne type="CM">SCF3</ne> group into the aromatic ring the <ne type="CM">amino</ne> function must be protected. Mono-N-substitution is insufficient: <ne type="CM">N-methyl aniline</ne>, <ne type="CM">N-(SCF3)aniline</ne> and <ne type="CM">N(Ac)-m-toluidine</ne> all yield mainly <ne type="CM">N-(SCF3)</ne>-derivatives, and only a small amount of aromatic <ne type="CM">CF3S</ne>-substitution is observed [74]. The best results are achieved [70,74] with <ne type="CM">N,N-bis-substituted aniline</ne> (Scheme 10).</P>
+<P>[1860-5397-6-88-i10]</P>
+<P>Scheme 10: Reactions of <ne type="CM">anilines</ne> with <ne type="CM">CF3SCl</ne>.</P>
+<P>The introduction of strong electron-donating meta groups significantly activates the aromatic nuclei not only for <ne type="CM">N,N-bis-substituted anilines</ne> but also for N-monosubstituted substrates and even those with a free <ne type="CM">NH2</ne> group (Scheme 11).</P>
+<P>[1860-5397-6-88-i11]</P>
+<P>Scheme 11: Trifluoromethylsulfanylation of <ne type="CM">anilines</ne> with electron-donating groups in the meta position [74].</P>
+<P>In <ne type="CM">naphthalene</ne> and <ne type="CM">benzophenone</ne> derivatives only those rings containing <ne type="CM">hydroxy</ne> or <ne type="CM">amino</ne> groups undergo perfluoroalkylsulfanylation [74,75]. Other electron-donating substituents on the aromatic ring are not so activating for reaction with <ne type="CM">CF3SCl</ne>. For example, <ne type="CM">thiophenol</ne> [76] forms only <ne type="CM">phenyltrifluoromethyl disulfide</ne> [70]. The presence of a <ne type="CM">methyl</ne> group and halogens requires high temperatures (100–200 °C) and the presence of catalysts (<ne type="CM">HF</ne> or <ne type="CM">BF3</ne>) for reaction and yields of the corresponding <ne type="CM">aryltrifluoromethyl sulfides</ne> are only 25–60%. Both <ne type="CM">toluene</ne> and <ne type="CM">halobenzenes</ne> lead to mixtures of isomers [70].</P>
+<P><ne type="CM">Benzene</ne> undergoes trifluoromethylsulfanylation with <ne type="CM">trifluoromethanesulfonic acid</ne> as a catalyst even at 20 °C. However, further reaction of the resultant <ne type="CM">phenyltrifluoromethyl sulfide</ne> leads mainly to chlorination with only minor amounts of <ne type="CM">bis-(CF3S)</ne> products (Scheme 12).</P>
+<P>[1860-5397-6-88-i12]</P>
+<P>Scheme 12: Reaction of <ne type="CM">benzene</ne> with <ne type="CM">CF3SCl</ne>/<ne type="CM">CF3SO3H</ne> [77].</P>
+<P>Aryl <ne type="CM">magnesium</ne> [78] and <ne type="CM">-mercury</ne> [79] compounds have been employed for the introduction of <ne type="CM">CF3S</ne> groups. Such reactions proceed in <ne type="CM">ether</ne> or <ne type="CM">THF</ne> at low temperatures; however, the yields of <ne type="CM">aryltrifluoromethyl sulfides</ne> do not exceed 50–60% and are accompanied with halogenated side-products (Scheme 13).</P>
+<P>[1860-5397-6-88-i13]</P>
+<P>Scheme 13: Reactions of <ne type="CM">trifluoromethyl sulfenyl chloride</ne> with aryl <ne type="CM">magnesium</ne> and <ne type="CM">-mercury</ne> substrates.</P>
+<P>Among heterocyclic systems, <ne type="CM">pyrroles</ne> are the best substrates for reaction with <ne type="CM">trifluoromethyl-</ne>, <ne type="CM">difluorochloro-</ne> and <ne type="CM">dichlorofluoromethyl sulfenyl chlorides</ne>. Their reactivity exceeds that of <ne type="CM">benzene</ne> and its organometallic derivatives [80]. An excess of reagent gives <ne type="CM">bis-(SCF3) pyrrole</ne> derivatives as shown in Scheme 14.</P>
+<P>[1860-5397-6-88-i14]</P>
+<P>Scheme 14: Reactions of <ne type="CM">pyrroles</ne> with <ne type="CM">CF3SCl</ne>.</P>
+<P>Condensed <ne type="CM">pyrroles</ne> also react readily with <ne type="CM">CF3SCl</ne>. <ne type="CM">Indole</ne> undergoes substitution, as expected, at the 3-position [80], while <ne type="CM">indolizine</ne> and some of its derivatives give <ne type="CM">1,3-bis (SCF3)-</ne>substituted products, in some cases, in quantitative yield [81]. It is interesting to note that not only <ne type="CM">hydrogen</ne>, but also an <ne type="CM">acetyl</ne> group in the 1-position is substituted (Scheme 15).</P>
+<P>[1860-5397-6-88-i15]</P>
+<P>Scheme 15: Trifluoromethylsulfanylation of <ne type="CM">indole</ne> and <ne type="CM">indolizines</ne>.</P>
+<P>However, no reaction occurs when there are two electron-withdrawing groups in the five-membered <ne type="CM">indolizine</ne> ring (e.g. R = <ne type="CM">Ph</ne>, and X = <ne type="CM">COPh</ne> or <ne type="CM">NO2</ne>). By contrast, in the case of <ne type="CM">1-benzyl-2-methyl indolizine</ne> [81] both the <ne type="CM">pyrrole</ne> and the aromatic ring of the <ne type="CM">benzyl</ne> group undergo trifluoromethylsulfanylation. Only N-substitution occurs in the case of <ne type="CM">carbazole</ne> [80].</P>
+<P><ne type="CM">N-Methylpyrrole</ne> can be variously substituted depending on the conditions as illustrated in Scheme 16.</P>
+<P>[1860-5397-6-88-i16]</P>
+<P>Scheme 16: Reactions of <ne type="CM">N-methylpyrrole</ne> with <ne type="CM">CF3SCl</ne> [80,82].</P>
+<P>Heating <ne type="CM">N-methylpyrrole</ne> in <ne type="CM">CHCl3</ne>/<ne type="CM">Py</ne> affords the <ne type="CM">2-SCF3</ne> derivative along with a small amount of <ne type="CM">3-SCF3-N-methylpyrrole</ne> [83]. Attempted selective introduction of the second <ne type="CM">SCF3</ne> group at −30 °C with <ne type="CM">C4F9SO3H</ne> to <ne type="CM">2-trifluoromethylsulfanylpyrrole</ne> was unsuccessful and gave a mixture of 2,4- and 2,5-isomers [87].</P>
+<P>Unlike <ne type="CM">pyrroles</ne>, <ne type="CM">furan</ne>, <ne type="CM">thiophene</ne> and <ne type="CM">selenophene</ne> react with <ne type="CM">CF3SCl</ne> only in the presence of catalysts. For <ne type="CM">selenophene</ne> [84] and <ne type="CM">thiophenes</ne> [85] <ne type="CM">SnCl4</ne> is sufficient, whilst furans require more forcing conditions usually involving prolonged heating (20 h at 60 °C) and in <ne type="CM">pyridine</ne> for activation [83,84] (Scheme 17).</P>
+<P>[1860-5397-6-88-i17]</P>
+<P>Scheme 17: Reactions of <ne type="CM">furan</ne>, <ne type="CM">thiophene</ne> and <ne type="CM">selenophene</ne> with <ne type="CM">CF3SCl</ne>.</P>
+<P>Similarly, some five membered heterocycles with two heteroatoms [<ne type="CM">N-Ac-</ne> and <ne type="CM">N-(SO2Alk)-thiazoles</ne>, <ne type="CM">1-Me-2-SCH2CF3-</ne> and <ne type="CM">1,2-Me2-imidazoles</ne>] undergo single trifluoromethylsulfanylation on heating (60 °C) with <ne type="CM">CF3SCl</ne> in a <ne type="CM">pyridine</ne>-<ne type="CM">chloroform</ne> mixture [83]. Interestingly, unlike <ne type="CM">1,2-dimethylimidazole</ne>, the sulfanylation of <ne type="CM">2,4-dimethylthiazole</ne> under the same conditions occurs twice on the same <ne type="CM">2-methyl</ne> group (Scheme 18).</P>
+<P>[1860-5397-6-88-i18]</P>
+<P>Scheme 18: Trifluoromethylsulfanylation of <ne type="CM">imidazole</ne> and <ne type="CM">thiazole</ne> derivatives [83].</P>
+<P><ne type="CM">Pyridine</ne> is too deactivated for trifluoromethylsulfanylation under classical conditions and to achieve substitution it is first of all necessary to convert <ne type="CM">pyridine</ne> to an anionic <ne type="CM">hydride</ne> σ-complex by reduction with <ne type="CM">LiAlH4</ne> [86]. The reaction with <ne type="CM">CF3SCl</ne> then proceeds with difficulty [84] and mono-substituted <ne type="CM">3-trifluoromethylsulfanyl pyridine</ne> is formed in low yield along with small amounts of the <ne type="CM">3,5-bis(SCF3)</ne> derivative (~1%) (Scheme 19).</P>
+<P>[1860-5397-6-88-i19]</P>
+<P>Scheme 19: Trifluoromethylsulfanylation of <ne type="CM">pyridine</ne> requires initial <ne type="CM">hydride</ne> reduction.</P>
+<P>Introduction of additional <ne type="CM">RFS</ne>-groups into heterocyclic compounds (except for <ne type="CM">pyrrole</ne> and its derivatives) occurs in the presence of <ne type="CM">perfluoroalkanesulfonic acids</ne> (Scheme 20). Incorporation of the second <ne type="CM">fluoroalkylsulfanyl</ne> group into <ne type="CM">thiophenes</ne> [85] and <ne type="CM">selenophene</ne> [84] is possible in the presence of <ne type="CM">CF3SO3H</ne>. However, reaction of <ne type="CM">CF3SCl</ne> with <ne type="CM">2,5-bis(SCF3) thiophene</ne> in presence of <ne type="CM">CF3SO3H</ne> gives the <ne type="CM">3-chloro</ne>-derivative as the major product. <ne type="CM">2,3,5-Tris(SCF3) thiophene</ne> is accessible if <ne type="CM">CF3SO3H</ne> is added as its <ne type="CM">Ag</ne>-salt [77]. Such reactions can also be successfully carried out on <ne type="CM">pyrroles</ne> (Scheme 21).</P>
+<P>[1860-5397-6-88-i20]</P>
+<P>Scheme 20: Introduction of additional <ne type="CM">RFS</ne>-groups into heterocyclic compounds in the presence of <ne type="CM">CF3SO3H</ne>.</P>
+<P>[1860-5397-6-88-i21]</P>
+<P>Scheme 21: Introduction of additional <ne type="CM">RFS</ne>-groups into <ne type="CM">pyrroles</ne> [82,87].</P>
+<P>Prolonged reaction times lead to chlorinated products as well as products that arise from migration of the <ne type="CM">CF3S</ne>-groups (Scheme 22).</P>
+<P>[1860-5397-6-88-i22]</P>
+<P>Scheme 22: By-products in reactions of <ne type="CM">pyrroles</ne> with <ne type="CM">CF3SCl</ne> [82].</P>
+<P>Thus, the reaction of <ne type="CM">perfluoroalkanesulfenyl chlorides</ne> with electron-rich aromatic and heterocyclic compounds offers an effective and comparatively straightforward method for the introduction of one or more <ne type="CM">SRF</ne> groups. The reactions are more problematic however, for electron deficient substrates where competing halogenation, reduction and isomerization products often result from perfluoroalkylthiolation reactions.</P>
+<P>3.2. Nucleophilic introduction of <ne type="CM">SRF</ne> groups</P>
+<P>Anionic salts of type <ne type="CM">RFS</ne>− M+ and their heavy metal complexes have been known for many years [88], however their application to the synthesis of aromatic <ne type="CM">perfluoroalkyl sulfides</ne> is comparatively recent. For example, <ne type="CM">trifluoromethylthiomercury</ne> and <ne type="CM">trifluoromethylthiosilver</ne> react with aliphatic halogenides to generate aliphatic and <ne type="CM">benzylic trifluoromethyl sulfides</ne> [89-92].</P>
+<P>It is well known that the reaction of non-activated aryl halides with <ne type="CM">phenols</ne>, <ne type="CM">thiophenols</ne> and <ne type="CM">amines</ne> are catalyzed effectively by <ne type="CM">copper</ne> (Ullmann reaction). L. M. Yagupol’skii [93-97] developed a related protocol for trifluoromethylsulfanylation of aromatic and heterocyclic compounds using <ne type="CM">trifluoromethylthiocopper</ne> (Scheme 23).</P>
+<P>[1860-5397-6-88-i23]</P>
+<P>Scheme 23: Reaction of aromatic <ne type="CM">iodides</ne> with <ne type="CM">CuSCF3</ne> [93,95].</P>
+<P>The reaction is carried out by heating in a polar solvent (e.g. <ne type="CM">DMF</ne>, <ne type="CM">quinoline</ne> or <ne type="CM">N-methyl pyrrolidone</ne>) and the substrate can contain electron-donating or electron-withdrawing groups. Electron-withdrawing groups activate the <ne type="CM">iodo</ne> atom and consequently, give better yields (70–75%). <ne type="CM">2-Trifluoromethylsulfanylpyridine</ne>, <ne type="CM">6-trifluoromethylsulfanylquinoline</ne> [93] and <ne type="CM">1-trifluoromethylsulfanylnaphthalene</ne> [97] are obtained in good yields (60–70%) by this method. Multiple aromatic <ne type="CM">iodine</ne> substituents result in multiple substitution by <ne type="CM">SCF3</ne> (Scheme 24).</P>
+<P>[1860-5397-6-88-i24]</P>
+<P>Scheme 24: Reaction of aromatic <ne type="CM">iodides</ne> with <ne type="CM">RFZCu</ne> (Z = <ne type="CM">S</ne>, <ne type="CM">Se</ne>), RF = <ne type="CM">CF3</ne>, <ne type="CM">C6F5</ne> [93,95,96].</P>
+<P>In the cases of <ne type="CM">triiodo</ne> derivatives, the yields generally do not exceed 30%. Thus, the synthesis of <ne type="CM">1,3,5-tris(SCF3)benzene</ne> is more efficient via <ne type="CM">3,5-bis(SCF3)-iodobenzene</ne> [93]. <ne type="CM">Hexaiodobenzene</ne> reacts with <ne type="CM">CuSCF3</ne> to form <ne type="CM">hexakis(trifluoromethylsulfanyl)benzene</ne> in modest yield (41%). However, with <ne type="CM">CuSC6F5</ne> and <ne type="CM">CuSeCF3</ne> the corresponding hexa-substituted <ne type="CM">thio</ne>- and <ne type="CM">seleno</ne>-derivatives are obtained in yields of 70–90% [96].</P>
+<P>It should be noted that the interaction of <ne type="CM">CuSCF3</ne> with aromatic <ne type="CM">iodides</ne> is sometimes accompanied by side-reactions. For example, the introduction of <ne type="CM">CF3S</ne> groups into <ne type="CM">2,6-diiodo-4-nitrochlorobenzene</ne> and <ne type="CM">2,6-diiodo-4-nitroanisole</ne> involve simultaneous reduction and substitution (Scheme 25).</P>
+<P>[1860-5397-6-88-i25]</P>
+<P>Scheme 25: Side reactions during trifluoromethylsulfanylation of aromatic <ne type="CM">iodides</ne> with <ne type="CM">CF3SCu</ne> [98].</P>
+<P><ne type="CM">Trifluoromethylthiocopper</ne> is obtained by reaction of <ne type="CM">CuBr</ne> with <ne type="CM">AgSCF3</ne> [93,99], the latter is generated from <ne type="CM">silver fluoride</ne> and <ne type="CM">carbon disulfide</ne> [90,100].</P>
+<P>To simplify the process, Remy [101,102] suggested carrying out the synthesis of <ne type="CM">aryltrifluoromethyl sulfides</ne> by generation <ne type="CM">CuSCF3</ne> (from <ne type="CM">trifluoromethylthio mercury</ne> and -<ne type="CM">copper</ne>) in situ with the aryl halides. This not only reduces the number of steps but also increases the overall efficiency (Scheme 26).</P>
+<P>[1860-5397-6-88-i26]</P>
+<P>Scheme 26: Reactions with in situ generated <ne type="CM">CuSCF3</ne>.</P>
+<P>Aryl <ne type="CM">bromides</ne> can also be used but require higher temperatures (150–190 °C) and more polar solvents. Under such forcing conditions compounds containing both electron-withdrawing and electron-donating groups can now be used effectively. In the case of <ne type="CM">p-bromo-N,N–dimethylaniline</ne> an excess (3 equiv) of the reagent was used. Aromatic <ne type="CM">chlorides</ne> do not react under these conditions. Thus, this method allows the selective substitution of different halogens by varying the temperature.</P>
+<P>Since the original work on <ne type="CM">trifluoromethylthiocopper</ne> and <ne type="CM">trifluoromethylthiomercury</ne> [93,95,96,101,102], other nucleophilic reagents and new methods have been developed. For example, Clark et al. have used <ne type="CM">CuSCF3</ne> adsorbed onto <ne type="CM">Al2O3</ne> [100], whilst Munavalli et al. have employed the <ne type="CM">acetonitrile</ne> adduct <ne type="CM">CF3SCu</ne>·<ne type="CM">CH3CN</ne> [103] for the reaction with <ne type="CM">m-iodobenzoic acid</ne> and its <ne type="CM">methyl ester</ne> [104].</P>
+<P>Bulky <ne type="CM">perfluoroalkylthiocopper</ne> reagents, derived from <ne type="CM">2,2,4,4-tetrakis(CF3)-1,3-dithietane</ne>, <ne type="CM">hexafluoropropene</ne> and <ne type="CM">alcohols</ne> in the presence of <ne type="CM">KF</ne> or <ne type="CM">CuBr</ne>, have been also used for reaction with substituted <ne type="CM">iodobenzenes</ne> (Scheme 27).</P>
+<P>[1860-5397-6-88-i27]</P>
+<P>Scheme 27: Perfluoroalkylthiolation of aryl <ne type="CM">iodides</ne> with bulky <ne type="CM">RFSCu</ne> [105].</P>
+<P>A variety of <ne type="CM">perfluoroalkyl-</ne> and <ne type="CM">perfluoroarylcopper mercaptides</ne> and <ne type="CM">selenides</ne> have become more accessible, prepared by cleavage of the corresponding <ne type="CM">disulfides</ne> and <ne type="CM">diselenides</ne> with <ne type="CM">copper</ne> powder [94]. The resultant <ne type="CM">RFZCu</ne> reagents complexed with <ne type="CM">DMF</ne> or <ne type="CM">N-methylpyrrolidone</ne>, are quite stable and can be stored without decomposition, can be used for the production of <ne type="CM">aryltrifluoromethyl-</ne>, <ne type="CM">arylpentafluorophenyl sulfides</ne> and <ne type="CM">-selenides</ne> from the corresponding <ne type="CM">iodobenzenes</ne> (Scheme 28) [94].</P>
+<P>[1860-5397-6-88-i28]</P>
+<P>Scheme 28: In situ formation and reaction of <ne type="CM">RFZCu</ne> with aryl <ne type="CM">iodides</ne>.</P>
+<P>The compounds shown in Figure 6 have been synthesized by this method.</P>
+<P>[1860-5397-6-88-6]</P>
+<P>Figure 6: Examples of compounds obtained using in situ generated <ne type="CM">RFZCu</ne> methodology [94].</P>
+<P>An alternative approach for the generation of <ne type="CM">CF3SCu</ne> involves heating of <ne type="CM">methyl fluorosulfonyl difluoroacetate</ne> in polar aprotic solvents to generate <ne type="CM">difluorocarbene</ne>, which in the presence of <ne type="CM">CuI</ne> and <ne type="CM">sulfur</ne>, forms <ne type="CM">trifluoromethylthiocopper</ne> [106]. Subsequent reaction with aryl halides results in the corresponding <ne type="CM">trifluoromethylsulfanyl</ne> derivatives (Scheme 29).</P>
+<P>[1860-5397-6-88-i29]</P>
+<P>Scheme 29: Introduction of <ne type="CM">SCF3</ne> group into aromatics via <ne type="CM">difluorocarbene</ne>.</P>
+<P>Reduction of <ne type="CM">bis(perfluoroalkyl)disulfides</ne> with <ne type="CM">tetrakis(dimethylamino)ethylene</ne> produces <ne type="CM">tetrakis(dimethylamino)ethylene</ne> dication stabilized <ne type="CM">perfluoroalkyl thiolates</ne>. In contrast to the corresponding <ne type="CM">potassium</ne> and <ne type="CM">tetramethylammonium</ne> salts [29], this compound is stable and can be isolated in a pure state [107], and reacts with activated aryl halides to form the corresponding <ne type="CM">trifluoromethyl sulfides</ne> often in quantitative yields (Scheme 30).</P>
+<P>[1860-5397-6-88-i30]</P>
+<P>Scheme 30: <ne type="CM">Tetrakis(dimethylamino)ethylene dication trifluoromethyl thiolate</ne> as a stable reagent for substitution of aromatic halides.</P>
+<P>Dmowski and Haas used the reaction of <ne type="CM">thiocarbonyl difluoride</ne> with metal <ne type="CM">fluorides</ne>, to generate the <ne type="CM">trifluoromethylthiolate</ne> anion [108] for introduction into activated <ne type="CM">perfluoroheterocyclic</ne> compounds. Thus, reaction of <ne type="CM">CF2S</ne>/<ne type="CM">CsF</ne> with <ne type="CM">pentafluoropyridine</ne> under mild conditions gave the 4-substituted product [109]. However, for the subsequent introduction of additional <ne type="CM">SCF3</ne> groups this system is not suitable due to effective self-condensation of <ne type="CM">thiocarbonyl difluoride</ne> (<ne type="CM">CF2=S</ne>) at higher concentrations. For this purpose the trimer of <ne type="CM">thiocarbonyl difluoride</ne>, <ne type="CM">bis(trifluoromethyl)trithiocarbonate</ne> <ne type="CM">(CF3S)2C=S</ne>, is more stable and reacts with <ne type="CM">CsF</ne> in <ne type="CM">sulfolane</ne> to generate <ne type="CM">CF3S</ne>− anions [110]. However, the use of this reagent leads to mixtures of products (Scheme 31).</P>
+<P>[1860-5397-6-88-i31]</P>
+<P>Scheme 31: The use of <ne type="CM">CF2=S/CsF</ne> or <ne type="CM">(CF3S)2C=S/CsF</ne> for the introduction of <ne type="CM">CF3S</ne> groups into fluorinated heterocycles.</P>
+<P>Whilst reaction of <ne type="CM">CF2=S/CsF</ne> (or its trimer) with <ne type="CM">tetrafluoropyridazine</ne> allows for the selective formation of mono-, di- and <ne type="CM">tri-(SCF3)</ne> substituted products, the analogous reaction with <ne type="CM">tetrafluoropyrimidine</ne> results in a mixture of <ne type="CM">polyfluoropyrimidine</ne> derivatives [111] (Scheme 31). Interestingly, the reaction of <ne type="CM">(CF3S)2C=S/CsF</ne> with <ne type="CM">C,N-bis(pentafluorophenyl) imidoyl chloride</ne> leads to introduction of the <ne type="CM">SCF3</ne> group into the <ne type="CM">pentafluorophenyl</ne> ring along with substitution of the <ne type="CM">imidoylic chlorine</ne> atom [112].</P>
+<P>A considerable improvement of this method was developed by Clark et al. [113]: No preliminary preparation of <ne type="CM">difluorothiophosgene</ne> or its trimer is necessary, the required reagents being generated in situ (from <ne type="CM">thiophosgene</ne> and <ne type="CM">KF</ne>). The reaction with activated aromatic compounds is shown in Scheme 32.</P>
+<P>[1860-5397-6-88-i32]</P>
+<P>Scheme 32: One-pot synthesis of <ne type="CM">ArSCF3</ne> from <ne type="CM">ArX</ne>, <ne type="CM">CCl2=S</ne> and <ne type="CM">KF</ne>.</P>
+<P>The less reactive <ne type="CM">2-Cl-5-NO2 benzonitrile</ne> forms the <ne type="CM">CF3S</ne>-derivative in only 49% yield after many hours reflux and <ne type="CM">2-F-5-NO2 benzonitrile</ne> is a by-product despite the use of a 100% excess of <ne type="CM">thiophosgene</ne>.</P>
+<P>The use of <ne type="CM">Me4NF</ne> in place of <ne type="CM">KF</ne> for the generation of the <ne type="CM">CF3S</ne>− anion in reactions with <ne type="CM">2,4-dinitrofluorobenzene</ne> and <ne type="CM">pentafluoropyridine</ne> increases the yields of the corresponding <ne type="CM">trifluoromethyl sulfides</ne> to 90–96% [29,114]. However, with other substrates this method can be problematic due to competing side reactions.</P>
+<P>A new method for the preparation of <ne type="CM">trifluoromethylthiolate</ne> anion involves the reaction of <ne type="CM">Me3SiCF3</ne> with <ne type="CM">sulfur</ne> in the presence of a <ne type="CM">fluoride</ne> ion source [115]. The salts obtained by this method are considerably more thermally stable than those previously reported [29,110,114]. They can be treated with boiling <ne type="CM">ether</ne> or <ne type="CM">CS2</ne> to remove excess <ne type="CM">sulfur</ne> and readily react at room temperature with inorganic, aliphatic and activated aromatic halides with the formation of <ne type="CM">trifluoromethyl sulfides</ne> (Scheme 33).</P>
+<P>[1860-5397-6-88-i33]</P>
+<P>Scheme 33: Reaction of aromatics with <ne type="CM">CF3S</ne>− <ne type="CM">Kat</ne>+ [115].</P>
+<P>It has already been noted that <ne type="CM">trifluoromethylthiomercury</ne> and <ne type="CM">trifluoromethylthiosilver</ne> cannot be used for the preparation of <ne type="CM">aryltrifluoromethyl sulfides</ne>, as they react only with aliphatic halides [89-92]. However, it is known [116,117], that <ne type="CM">Hg(SCF3)2</ne> forms a complex with <ne type="CM">KI</ne> which decomposes with the formation of an unstable anion “−<ne type="CM">SCF3</ne>”. Based on this observation, Adams and Clark used a mixture of <ne type="CM">trifluoromethylthiosilver</ne> and <ne type="CM">KI</ne> (or <ne type="CM">Bu4NI</ne>) as a source of <ne type="CM">trifluoromethylthiolate</ne> anion for nucleophilic introduction of the <ne type="CM">trifluoromethylsulfanyl</ne> moiety into aromatic molecules [118]. Of the metal halides investigated for this reaction, the best results were obtained with <ne type="CM">KI</ne> and <ne type="CM">Bu4NI</ne>, whilst <ne type="CM">NaI</ne>, <ne type="CM">NaBr</ne>, and <ne type="CM">KF</ne> were ineffective. Some of these reactions are illustrated in Scheme 34.</P>
+<P>[1860-5397-6-88-i34]</P>
+<P>Scheme 34: Reactions of activated aromatic <ne type="CM">chlorides</ne> with <ne type="CM">AgSCF3</ne>/<ne type="CM">KI</ne>.</P>
+<P>This reagent can displace a range of activated halides, particularly <ne type="CM">bromides</ne> and <ne type="CM">iodides</ne>. For the reaction of <ne type="CM">2,4-(NO2)2C6H3X</ne> with <ne type="CM">AgSCF3</ne>/<ne type="CM">KI</ne>, the reactivity of the halogens occurs in the reverse sequence: <ne type="CM">F</ne> (26%) &lt; <ne type="CM">Cl</ne> (52%) &lt; <ne type="CM">Br</ne> (85%) &lt; <ne type="CM">I</ne> (97%) [118]. Presumably, coordination of the complex anionic nucleophile <ne type="CM">K+[Ag(SCF3)I]−</ne> with aryl halide accelerates the reaction.</P>
+<P><ne type="CM">Trifluoromethylthiocopper</ne> and <ne type="CM">trifluoromethylthiomercury</ne> also participate in analogous reactions, <ne type="CM">CuSCF3</ne> is less active than <ne type="CM">AgSCF3</ne> whilst <ne type="CM">Hg(SCF3)2</ne> displays increased reactivity as indicated in Scheme 35 [118].</P>
+<P>[1860-5397-6-88-i35]</P>
+<P>Scheme 35: Comparative <ne type="CM">CuSCF3</ne>/<ne type="CM">KI</ne> and <ne type="CM">Hg(SCF3)2</ne>/<ne type="CM">KI</ne> reactions.</P>
+<P>It should be noted that the <ne type="CM">tellurium</ne> reagent, <ne type="CM">Me3SnTeCF3</ne>, is capable of introducing the <ne type="CM">TeCF3</ne> group into activated heteroaromatics [119]. In the reaction shown (Scheme 36) the use of three equivalents resulted in the introduction of only two <ne type="CM">TeCF3</ne> groups.</P>
+<P>[1860-5397-6-88-i36]</P>
+<P>Scheme 36: <ne type="CM">Me3SnTeCF3</ne> – a reagent for the introduction of the <ne type="CM">TeCF3</ne> group.</P>
+<P>The Sandmeyer reaction is used widely to introduce functionality into aromatic compounds. However, early attempts using <ne type="CM">trifluoromethylthiosilver</ne> as the nucleophile were not encouraging [120] with yields below 30% accompanied with deaminated side products (up to 38%). The use of <ne type="CM">trifluoromethylthiocopper</ne> was rather unsuccessful. However, with <ne type="CM">diazonium</ne> salts generated with <ne type="CM">tert-butyl nitrite</ne> in <ne type="CM">acetonitrile</ne> in the presence of <ne type="CM">CuSCF3</ne> and <ne type="CM">BF3</ne> better results were obtained [121]. Yields of the resulting <ne type="CM">aryltrifluoromethyl sulfides</ne> improved (~40–70%). The best results were observed with isolated <ne type="CM">tetrafluoroborate diazonium</ne> salts (Scheme 37), although the presence of electron-donating and bulky ortho-substituents in the aromatic ring led to reduced yields.</P>
+<P>[1860-5397-6-88-i37]</P>
+<P>Scheme 37: Sandmeyer reactions with <ne type="CM">CuSCF3</ne>.</P>
+<P>4. Perfluoroalkylation of aromatic <ne type="CM">sulfur</ne> compounds</P>
+<P><ne type="CM">Perfluoroalkyl iodides</ne> have not generally been considered as alkylating agents. Unlike <ne type="CM">R-X</ne> they show anomalous behavior in their reactions with nucleophiles. For example, the reaction of <ne type="CM">CF3I</ne> with alkali gives <ne type="CM">fluoroform</ne> (<ne type="CM">CHF3</ne>) and <ne type="CM">potassium hypoiodide</ne> (<ne type="CM">KIO</ne>) [122]. The interaction of organolithium compounds with <ne type="CM">perfluoroalkyl iodides</ne> [123-126] does not result in combination of the two alkyl species (RF and R), but in trans-metallation (Scheme 38).</P>
+<P>[1860-5397-6-88-i38]</P>
+<P>Scheme 38: Reactions of <ne type="CM">perfluoroalkyl iodides</ne> with alkali and organolithium reagents.</P>
+<P>Such reactivity has been explained by the reverse polarization of the C–I bond in the fluorinated substrates. Because of the greater electronegativity of <ne type="CM">CF3</ne> over <ne type="CM">iodine</ne> (3.3 for <ne type="CM">CF3</ne> and 2.5 for the atom of <ne type="CM">iodine</ne> [127,128]), the <ne type="CM">iodine</ne> acquires a partial positive charge:</P>
+<P>[Graphic 1]</P>
+<P>Nevertheless, Haszeldine et al., were able to carry out the perfluoroalkylations of <ne type="CM">alkylthiols</ne>. Prolonged heating of <ne type="CM">polyfluoroalkyl iodides</ne> with the <ne type="CM">sodium methylthiolate</ne> at 100–110 °C in <ne type="CM">DMSO</ne> lead to the formation of <ne type="CM">methyl polyfluoroalkyl sulfides</ne> [129]. The halophilic generated carbanion (RF−) in turn reacted with the <ne type="CM">sulfenyl iodide</ne> to generate a <ne type="CM">thioether</ne>. However, <ne type="CM">RFCH3</ne> and <ne type="CM">RFH</ne>, are also obtained as by-products, which may be a result of homolytic decomposition of the <ne type="CM">perfluoroalkyl iodides</ne> at high temperature [130,131]. Similarly, reactions of <ne type="CM">RFI</ne> with <ne type="CM">sodium thiophenoxide</ne> (like other aromatics such as halogenated benzenes [132] or aromatic heterocycles [133]) resulted in the introduction of the perfluoroalkyl radical into aromatic rings with the formation of a mixture of isomeric RF-compounds.</P>
+<P>4.1. Ion-radical perfluoroalkylation</P>
+<P>4.1.1. Interaction of S-, Se- and <ne type="CM">Te-phenols</ne>, and <ne type="CM">diaryl disulfides</ne> with <ne type="CM">perfluoroalkyl iodides</ne> in liquid <ne type="CM">ammonia</ne> under UV irradiation</P>
+<P>Kornblum’s work on nucleophilic substitution in alkyl halides [134-137] and Bunnett’s reactions with non-activated aromatic substrates [138-142] (under UV irradiation) introduced the concept of the nucleophilic radical substitution mechanism (SRN1). The essence of this approach consists of the generation of the anionic radical <ne type="CM">RHlg</ne>−•, its decomposition to a radical R• (Alk• or Ar•) followed by reaction with a nucleophile.</P>
+<P>Although <ne type="CM">perfluoroalkyl iodides</ne> have a reversed polarity, and in spite of their tendency to undergo homolytic decomposition under UV irradiation, it is probable that they are also able to react with <ne type="CM">thiolate</ne> anions by a similar mechanism. Indeed, they react readily with aliphatic, aromatic and heterocyclic <ne type="CM">thiols</ne> [143-146], and with <ne type="CM">seleno-</ne> [147] and <ne type="CM">tellurophenols</ne> [148] under UV irradiation with formation of corresponding <ne type="CM">perfluoroalkyl sulfides</ne>, <ne type="CM">-selenides</ne> and <ne type="CM">-tellurides</ne>. The original method required liquid <ne type="CM">ammonia</ne> as the solvent and Pyrex glassware. <ne type="CM">Thiophenol</ne> and its derivatives containing both, electron-donating and electron-withdrawing substituents are easily transformed to the corresponding <ne type="CM">arylperfluoroalkyl sulfides</ne> in high yields (Table 1).</P>
+<P>Table 1: Interaction of <ne type="CM">thiophenols</ne> with <ne type="CM">perfluoroalkyl iodides</ne> in liquid <ne type="CM">ammonia</ne> under UV irradiation. [Graphic 2]</P>
+<P>R	RF	Yields of <ne type="CM">ArSRF</ne>, %	Ref.</P>
+<P>H	<ne type="CM">CF3	76</ne>	[143]</P>
+<P> 	<ne type="CM">C2F5</ne>, <ne type="CM">n-C3F7</ne>, <ne type="CM">iso-C3F7</ne>	84, 81, 76	[144]</P>
+<P><ne type="CM">4-NH2	CF3</ne>	87	[146]</P>
+<P><ne type="CM">2-NH2	CF3</ne>	71	[143]</P>
+<P><ne type="CM">4-OH	CF3</ne>	69.5	[143]</P>
+<P><ne type="CM">2-OCH3	CF3</ne>	86	[98]</P>
+<P><ne type="CM">4-Cl	CF3</ne>	72	[146]</P>
+<P> 	<ne type="CM">C2F5</ne>, <ne type="CM">n-C3F7</ne>, <ne type="CM">iso-C3F7</ne>	84, 83, 65	[144]</P>
+<P><ne type="CM">2-SO2CHF2	CF3</ne>	69	[143,146]</P>
+<P><ne type="CM">4-SO2CF3	CF3</ne>	78	[143,146]</P>
+<P><ne type="CM">4-NO2	CF3</ne>	2.7a	[143,146]</P>
+<P> 	 	63b	[143,146]</P>
+<P><ne type="CM">2,4-Cl2	CF3</ne>	87	[149]</P>
+<P> 	<ne type="CM">C3F7	89</ne>	[149]</P>
+<P><ne type="CM">2-COOH	CF3</ne>	90	[150]</P>
+<P>3- and <ne type="CM">4-COOCH3	CF3</ne>, <ne type="CM">n-C3F7</ne>, <ne type="CM">iso-C3F7</ne>	70–80	[151]</P>
+<P>3- and <ne type="CM">4-F	CF3</ne>, <ne type="CM">n-C3F7</ne>	80–90	[152]</P>
+<P> 	<ne type="CM">iso-C3F7</ne>	72–75	[152]</P>
+<P><ne type="CM">4-NHCOCH3	CF3</ne>	96	[153]</P>
+<P><ne type="CM">4-NHCOOCH3	CF3</ne>, <ne type="CM">n-C3F7</ne>	88 (92c), 82 (93c)	[9]</P>
+<P> 	<ne type="CM">C2F5</ne>, <ne type="CM">C4F9	62</ne>, 55	[154]</P>
+<P>aIn a <ne type="CM">quartz</ne> flask.</P>
+<P>bIn a <ne type="CM">quartz</ne> ampoule at 30–45 °C.</P>
+<P>cWith preliminary reduction of <ne type="CM">4,4′-bis(MeOCONH)diaryl disulfide</ne> and without the isolation of corresponding <ne type="CM">thiophenol</ne>.</P>
+<P><ne type="CM">α,ω-Diiodoperfluoroalkanes</ne> react at both reaction centers with the formation of bis(SAr)–derivatives containing <ne type="CM">perfluoroalkylene</ne> bridges [144,146] in yields of 80–96%.</P>
+<P>With the exception of <ne type="CM">4-nitrothiophenol</ne>, the reactions are independent of the type of substituents. Unlike many <ne type="CM">thiophenoxides</ne> which bear electron-withdrawing substituents (<ne type="CM">p-Cl</ne>, <ne type="CM">2,4-Cl2</ne>, <ne type="CM">o-SO2CHF2</ne> and even <ne type="CM">p-SO2CF3</ne>), <ne type="CM">sodium 4-nitrothiophenoxide</ne> affords <ne type="CM">4,4′-dinitrodiphenyl disulfide</ne> under these conditions. Conversion to <ne type="CM">4-nitrophenyl trifluoromethyl sulfide</ne> (60% yield) requires prolonged irradiation in a <ne type="CM">quartz</ne> ampoule at 30–45 °C [143]. The length of the <ne type="CM">perfluoroalkyl iodide</ne> chain has no influence, although lower yields were observed using <ne type="CM">CF3I</ne> in comparison with other <ne type="CM">iodoperfluoroalkanes</ne>. A branching <ne type="CM">RFI</ne> chain results in lower yields of the corresponding <ne type="CM">sulfides</ne> (10–15%). In the case of tertiary <ne type="CM">perfluorobutyl iodide</ne>, <ne type="CM">thiophenols</ne> are quantitatively transformed into <ne type="CM">diaryl disulfides</ne>. Such behavior of branched <ne type="CM">perfluoroalkyl iodides</ne> can be explained by the facile generation of the <ne type="CM">I</ne>• radical both as a consequence of their homolytic decomposition [155] and the decomposition of in situ generated radical anions [156]: <ne type="CM">i-RFI</ne>−• → <ne type="CM">i-RF</ne>− + <ne type="CM">I</ne>•. The radical <ne type="CM">I</ne>• (or <ne type="CM">I2</ne>) oxidizes the <ne type="CM">ArS</ne>− anion to <ne type="CM">disulfide</ne>.</P>
+<P><ne type="CM">Diaryl disulfides</ne> may also be used as substrates. Although they can be trifluoromethylated directly [157], unlike <ne type="CM">dialkyl disulfides</ne> [130,131] the yields generally do not exceed 40% (except for nitro derivatives <ne type="CM">4-NO2</ne> – 58%, <ne type="CM">2-NO2</ne> – 72%). The preliminary breaking of the <ne type="CM">S</ne>–<ne type="CM">S</ne> bond can be carried out very mildly and selectively [9], without affecting other functional groups (Scheme 39).</P>
+<P>[1860-5397-6-88-i39]</P>
+<P>Scheme 39: Perfluoroalkylation with preliminary breaking of the <ne type="CM">disulfide</ne> bond.</P>
+<P><ne type="CM">Perfluoroalkylthioanilines</ne> are accessible in a one-pot perfluoroalkylation reaction of <ne type="CM">dinitrodiphenyl disulfides</ne> [158,159] (Scheme 40). This method gives good yields of the desired products, higher than those from the perfluoroalkylation of <ne type="CM">amino thiophenols</ne>.</P>
+<P>[1860-5397-6-88-i40]</P>
+<P>Scheme 40: Preparation of <ne type="CM">RFS</ne>-substituted <ne type="CM">anilines</ne> from <ne type="CM">dinitrodiphenyl disulfides</ne>.</P>
+<P><ne type="CM">Seleno-</ne> [147] and <ne type="CM">telluro phenols</ne> [148] also react with <ne type="CM">perfluoroalkyl</ne> iodides under UV irradiation. Subsequently, it was shown that <ne type="CM">ArSeNa</ne> and <ne type="CM">ArTeNa</ne> react with <ne type="CM">perfluoroalkyl</ne> halides without irradiation to generate <ne type="CM">RF</ne>• radicals which react with <ne type="CM">olefins</ne> [160,161]. Irradiation of <ne type="CM">polymercapto</ne> derivatives of <ne type="CM">benzene</ne> and <ne type="CM">CF3I</ne> in liquid <ne type="CM">ammonia</ne> gives <ne type="CM">poly(trifluoromethylsulfanyl)</ne> compounds in high yields (Table 2).</P>
+<P>Table 2: UV irradiation of <ne type="CM">polymercapto benzenes</ne> with <ne type="CM">CF3I</ne> in liquid <ne type="CM">NH3</ne>. [Graphic 3]</P>
+<P>R	Position of <ne type="CM">(SH)n</ne> and <ne type="CM">(SCF3)n</ne>	Yield	Ref.</P>
+<P>Cl	2,4-	64%	[143]</P>
+<P>COOH	3,5-	89%	[162]</P>
+<P>CH3	2,4,6-	90%	[163]</P>
+<P>NH2	2,4,6-	88%	[163]</P>
+<P>OH	2,4,6-	69%	[163]</P>
+<P>However, the reaction of <ne type="CM">2,4,6-trimercaptochlorobenzene</ne> with <ne type="CM">CF3I</ne> generates a mixture of compounds A, B, C and D as illustrated in Scheme 41. Reducing the irradiation time from 30 to 5 min does not change the product composition.</P>
+<P>Control experiments indicate that <ne type="CM">aniline</ne> (B) is not derived from either <ne type="CM">chloro-</ne> (A) and <ne type="CM">iodo-</ne> (C)<ne type="CM">-sulfides</ne>, and <ne type="CM">iodo-</ne>product (C) is not formed from <ne type="CM">chlorosulfide</ne> (A). It is known [164] that photochemical nucleophilic aromatic substitution is promoted by electron-donating groups. Therefore, it appears most likely that the <ne type="CM">sulfides</ne> (B), (C) and (D) are produced as a consequence of loss of <ne type="CM">chloride</ne> from the intermediate radical anion as shown in Scheme 42.</P>
+<P>[1860-5397-6-88-i41]</P>
+<P>Scheme 41: Photochemical trifluoromethylation of <ne type="CM">2,4,6-trimercaptochlorobenzene</ne> [163].</P>
+<P>[1860-5397-6-88-i42]</P>
+<P>Scheme 42: Putative process for the formation of B, C and D.</P>
+<P>Such side reactions explain the decrease of trifluoromethylation efficiency with the number of <ne type="CM">thiol</ne> groups present in a series of <ne type="CM">thiolated chlorobenzenes</ne>. The yields are 72% for <ne type="CM">4-SH-</ne> [146], 64% for <ne type="CM">2,4-(SH)2-</ne> [143] and 37% for <ne type="CM">2,4,6-(SH)3-</ne> [163].</P>
+<P>4.1.2. Perfluoroalkylation of heterocyclic <ne type="CM">thiols</ne></P>
+<P>Heterocyclic <ne type="CM">thiol</ne> form <ne type="CM">S-perfluoroalkyl</ne> derivatives when irradiated in liquid ammonia in the presence of <ne type="CM">iodoperfluoroalkanes</ne>. The type of heterocyclic ring and the position of the <ne type="CM">thiol</ne> group influences the reaction. More electron-deficient heterocycles require longer irradiation times (Table 3).</P>
+<P>Table 3: S-Perfluoroalkylation of heterocyclic compounds under UV irradiation of heterocycles <ne type="CM">thiols</ne> <ne type="CM">R-Het-SH</ne> in liquid <ne type="CM">ammonia</ne>. R	RF	Reaction conditions	Yield of products, %	Ref.</P>
+<P><ne type="CM">2-(SCF3)-Benzothiazole</ne></P>
+<P>H	CF3	−60 to −33 °C, 90 min	87.5	[143]</P>
+<P><ne type="CM">2-(SRF)-Benzimidazoles</ne></P>
+<P>H	CF3	−50 to −33 °C, 4 h	51	[165]</P>
+<P> 	C1–C4	<ne type="CM">Pyrex</ne> ampoule, 30 °C, 5 h	63–80	[154]</P>
+<P>5-Cl	C2F5	liquid <ne type="CM">NH3</ne>, <ne type="CM">THF</ne>, 10 h	56	[166]</P>
+<P><ne type="CM">5-(SRF)-Benzimidazolesa</ne></P>
+<P><ne type="CM">2-Bu	CF3</ne>	liquid <ne type="CM">NH3</ne>, ampoule, 25–40 °C, 10 h	20–39	[154]</P>
+<P> 	<ne type="CM">C3F7</ne></P>
+<P><ne type="CM">5-(SRF)-6-Azauracil</ne></P>
+<P>H	CF3	−33 °C, 45 min	77	[10]</P>
+<P> 	<ne type="CM">C3F7</ne>	 	76</P>
+<P><ne type="CM">2-(SCF3)-Pyrimidines</ne></P>
+<P><ne type="CM">4,6-(CH3)2	CF3</ne>	−33 °C, 60 min	82	[154]</P>
+<P><ne type="CM">4-SH	CF3</ne>	 	61b	[154]</P>
+<P><ne type="CM">4-SH-6-CH3	CF3</ne>	 	58b	[154]</P>
+<P><ne type="CM">4-OH-6-CF3	CF3</ne>	<ne type="CM">Pyrex</ne> ampoule, 30–45 °C, 5 h	59	[154]</P>
+<P><ne type="CM">4,6-Me2-5-OH	CF3</ne>	−30 °C, 4 h,	89	[154]</P>
+<P>aReceived from <ne type="CM">5-SZn</ne> salts, poorly soluble in liquid <ne type="CM">ammonia</ne>.</P>
+<P>bThe <ne type="CM">2,4-bis(SCF3)</ne>-derivatives.</P>
+<P>It appears that <ne type="CM">4-hydroxypyrimidine-2-thiol</ne> does not react with <ne type="CM">CF3I</ne> under standard conditions. Similar to the reaction of <ne type="CM">4-nitrothiophenol</ne> noted above [143,146], this reaction requires more forcing conditions. Other <ne type="CM">4-hydroxypyrimidine-2-thiols</ne> behave similarly. The irradiation of an <ne type="CM">ammoniacal</ne> solution of <ne type="CM">2-mercapto-4-oxy-6-trifluoromethylyrimidine</ne> with <ne type="CM">CF3I</ne> must be conducted in a <ne type="CM">Pyrex</ne> ampoule at 30–45 °C to produce the <ne type="CM">S-trifluoromethyl</ne> derivative (Scheme 43).</P>
+<P>[1860-5397-6-88-i43]</P>
+<P>Scheme 43: Trifluoromethylation of <ne type="CM">2-mercapto-4-hydroxy-6-trifluoromethylyrimidine</ne> [145].</P>
+<P>Apparently, the reaction of these <ne type="CM">hydroxymercapto</ne> heterocyclic derivatives is complicated by stabilization of <ne type="CM">sulfur</ne> centred radicals as illustrated in Scheme 44.</P>
+<P>[1860-5397-6-88-i44]</P>
+<P>Scheme 44: Deactivation of <ne type="CM">2-mercapto-4-hydroxypyrimidines</ne> S-centered radicals.</P>
+<P>In the case of <ne type="CM">2-mercapto-5-hydroxypyrimidines</ne>, no tautomeric keto form such as that shown in Scheme 44 is possible and consequently, are perfluoroalkylated without any problems, e.g., <ne type="CM">2-mercapto-5-hydroxy-4,6-dimethyl pyrimidine</ne> [145].</P>
+<P>In summary, heterocyclic <ne type="CM">thiols</ne> react with <ne type="CM">perfluoroalkyl iodides</ne> with considerably more difficultly than aromatic <ne type="CM">thiols</ne>.</P>
+<P>4.1.3. Photochemical perfluoroalkylation in organic solvents under phase transfer conditions</P>
+<P>Liquid <ne type="CM">NH3</ne> is a key reaction medium for the reaction of organic <ne type="CM">thiols</ne> with <ne type="CM">perfluoroalkyl iodides</ne> under UV irradiation. However, other solvents have been investigated including <ne type="CM">alcohols</ne>, <ne type="CM">acetone</ne>, <ne type="CM">acetonitrile</ne>, <ne type="CM">dioxane</ne>, <ne type="CM">THF</ne>, <ne type="CM">DMF</ne>, <ne type="CM">DMSO</ne>, <ne type="CM">HMPA</ne> and so on. Polar aprotic solvents emerge as the best. Biphasic reactions with <ne type="CM">water</ne> work well, particularly with <ne type="CM">diethyl ether</ne> and <ne type="CM">benzene</ne> (Table 4).</P>
+<P>Table 4: Reaction of <ne type="CM">thiophenols</ne> <ne type="CM">RC6H4SH</ne> and <ne type="CM">mercapto</ne> heterocycles with <ne type="CM">RFI</ne> under UV irradiation in organic solvents and biphasic conditions. R	RF	Base	Solvent	Conditions	Yields of ArSRF, %	Ref.</P>
+<P><ne type="CM">Thiophenols</ne></P>
+<P><ne type="CM">H	<ne type="CM"></ne>CF3</ne>	<ne type="CM">PhSNa</ne>	<ne type="CM">CH3OH</ne> or <ne type="CM">acetone</ne>	0–5 °C, 30 min	57.5 or 79	[143]</P>
+<P> 	 	 	<ne type="CM">CH3CN	 	89</ne>	[143]</P>
+<P> 	 	<ne type="CM">NaOH	<ne type="CM"></ne>CH3OH</ne> or <ne type="CM">acetone	0</ne>–5 °C, 30 min	43 or 49	[143]</P>
+<P> 	 	 	<ne type="CM">CH3CN</ne>	 	72	[143]</P>
+<P> 	<ne type="CM">CF(CF3)2</ne>	<ne type="CM">Et3N</ne>	<ne type="CM">CH3CN</ne>	0 °C, 30 min	88	[104]</P>
+<P> 	<ne type="CM">CF3</ne>	<ne type="CM">NaOH</ne>	<ne type="CM">Et2O</ne>/<ne type="CM">H2O</ne>	<ne type="CM">(Et)3BzN+Cl−</ne>, 20–25 °C, 30 min	54	[167]</P>
+<P> 	<ne type="CM">C3F7</ne>	 	 	 	78	[167]</P>
+<P><ne type="CM">4-Cl</ne>	<ne type="CM">C3F7</ne>	<ne type="CM">ArSNaa</ne>	<ne type="CM">CH3OH</ne> or <ne type="CM">CH3CN</ne>	20 °C, 30 min	61 or 81	[144]</P>
+<P> 	<ne type="CM">CF3</ne>	<ne type="CM">NaOH</ne>	<ne type="CM">Et2O</ne>/<ne type="CM">H2O</ne>	<ne type="CM">(Et)3BzN+Cl−</ne>, 20–25 °C, 30 min	61	[167]</P>
+<P> 	<ne type="CM">C3F7</ne>	 	 	 	85</P>
+<P> 	<ne type="CM">i-C3F7</ne>	 	 	 	60</P>
+<P> 	<ne type="CM">C6F13</ne>	 	 	 	71</P>
+<P> 	<ne type="CM">C3F7</ne>	 	<ne type="CM">C6H6</ne>/<ne type="CM">H2O</ne>	 	68	[167]</P>
+<P><ne type="CM">4-CH3</ne>	<ne type="CM">CF3</ne>, <ne type="CM">C3F7</ne>	<ne type="CM">NaOH</ne>	<ne type="CM">Et2O</ne>/<ne type="CM">H2O</ne>	<ne type="CM">(Et)3BzN+Cl−</ne>, 20–25 °C, 30 min	58, 83	[167]</P>
+<P> 	<ne type="CM">C3F7</ne>	 	<ne type="CM">C6H6</ne>/<ne type="CM">H2O</ne>b	 	67	[167]</P>
+<P><ne type="CM">4-OCH3	<ne type="CM"></ne>CF3	<ne type="CM"></ne>NaOH	<ne type="CM"></ne>Et2O</ne>/<ne type="CM">H2O</ne>	 	52	[167]</P>
+<P><ne type="CM">4-CO2CH3</ne>	<ne type="CM">C3F7</ne>	<ne type="CM">NaOH</ne>	<ne type="CM">Et2O</ne>/<ne type="CM">H2O</ne>	 	71	[167]</P>
+<P><ne type="CM">4-NH2</ne>	<ne type="CM">CF3	<ne type="CM"></ne>NH4OH</ne>	<ne type="CM">NH4OH</ne>	−60 to 25 °C	95	[168]</P>
+<P><ne type="CM">2-Mercapto</ne> heterocyclesc</P>
+<P>Heterocycle	RF	Base	Solvent	Conditions	Yield	Ref.</P>
+<P><ne type="CM">Benzothiazole</ne>	Cl(CF2)4	<ne type="CM">NaH</ne>	<ne type="CM">DMF</ne>	70 °C, 10 h	41.2	[169]</P>
+<P> 	<ne type="CM">Cl(CF2)6</ne>	<ne type="CM">NaH	<ne type="CM"></ne>DMF</ne>	70 °C, 10 h	61.6d	[169]</P>
+<P> 	<ne type="CM">C6F13	<ne type="CM"></ne>NaH	<ne type="CM"></ne>DMF	70</ne> °C, 10 h	53.6	[169]</P>
+<P> 	<ne type="CM">C8F17	 	 	 	71</ne>.6</P>
+<P><ne type="CM">Benzimidazole</ne>	<ne type="CM">Cl(CF2)4</ne>	<ne type="CM">NaH</ne>	<ne type="CM">DMF</ne>	70 °C, 10 h	40.6e	[169]</P>
+<P> 	<ne type="CM">Cl(CF2)6</ne>	<ne type="CM">NaH</ne>	<ne type="CM">DMF</ne>	70 °C, 10 h	38.2	[169]</P>
+<P> 	<ne type="CM">C6F13</ne>, <ne type="CM">C8F17</ne>	<ne type="CM">NaH</ne>	<ne type="CM">DMF</ne>	70 °C, 10 h	77.6, 78.2	[169]</P>
+<P><ne type="CM">Benzoxazole</ne>	<ne type="CM">Cl(CF2)6</ne>	<ne type="CM">NaH</ne>	<ne type="CM">DMF</ne>	70 °C, 10 h	15.0	[169]</P>
+<P>aAt <ne type="CM">ArSH +</ne> <ne type="CM">Et2NH</ne> or <ne type="CM">Et3N</ne> for 3 h, the yields are 37% and 28%, respectively.</P>
+<P>bIn <ne type="CM">CH2Cl2</ne>/<ne type="CM">H2O</ne> or <ne type="CM">CHCl3</ne>/<ne type="CM">H2O</ne> the yields are 50% and 55%, respectively.</P>
+<P>cYields of products are resulted taking into account a conversion of <ne type="CM">RFI</ne>.</P>
+<P>dIn presence of <ne type="CM">(t-Bu)2N-O</ne>• the yield is 18.6%.</P>
+<P>eIn presence of <ne type="CM">(t-Bu)2N-O</ne>• the yield is 8.6%.</P>
+<P>Heterocyclic <ne type="CM">thiolates</ne> react more slowly with <ne type="CM">perfluoroalkyl iodides</ne> than <ne type="CM">thiophenoxides</ne> both in liquid <ne type="CM">ammonia</ne> and in organic solvents. Besides, in reactions with heterocyclic <ne type="CM">thiolates</ne>, as well as with <ne type="CM">thiophenoxides</ne>, <ne type="CM">CF3I</ne> is a poorer electrophile than <ne type="CM">C3F7I</ne> - even under biphasic conditions.</P>
+<P>4.1.4. Interaction of <ne type="CM">thiols</ne> with <ne type="CM">perfluoroalkyl bromides</ne></P>
+<P>Although <ne type="CM">brominated perfluoroalkanes</ne> are cheaper and more readily available than the corresponding <ne type="CM">iodides</ne>, they react more slowly in <ne type="CM">thioether</ne> forming reactions. In general, <ne type="CM">monobrominated perfluoroalkanes</ne> do not react. However, <ne type="CM">dibromodifluoromethane</ne>, <ne type="CM">bromochlorodifluoromethane</ne> as well as <ne type="CM">1,2-dibromotetrafluoroethane</ne> [170,171] do react with metal <ne type="CM">phenoxides</ne> and <ne type="CM">thiophenoxides</ne> via halophilic mechanisms [64], and almost always lead to mixtures of <ne type="CM">bromo</ne> and <ne type="CM">chloro</ne> containing products of mono- and di-substitution.</P>
+<P>Their lower reactivity [88] is largely due to the greater dissociation energy of the <ne type="CM">C</ne>–<ne type="CM">Br</ne> bond (55 kcal/mol for <ne type="CM">CF3Br</ne>) compared to <ne type="CM">C</ne>–<ne type="CM">I</ne> (28 kcal/mol for <ne type="CM">CF3I</ne>) [172]. In addition, <ne type="CM">CF3Br</ne> has a higher reduction potential than <ne type="CM">CF3I</ne> and prefers to receive two rather than one electron on reduction [173].</P>
+<P>Nevertheless, it was found [174] that UV irradiation of <ne type="CM">thiolates</ne> in liquid <ne type="CM">ammonia</ne> or <ne type="CM">dimethylformamide</ne> with <ne type="CM">perfluoroalkyl bromides</ne> does result in the formation of the corresponding <ne type="CM">perfluoroalkyl sulfides</ne> as shown in Scheme 45.</P>
+<P>[1860-5397-6-88-i45]</P>
+<P>Scheme 45: Perfluoroalkylation of <ne type="CM">thiolates</ne> with <ne type="CM">CF3Br</ne> under UV irradiation.</P>
+<P>Thiols with electron-donating substituents give reasonable yields, whilst <ne type="CM">p-chlorothiophenol</ne> produces the corresponding <ne type="CM">trifluoromethyl sulfide</ne> in low yield (~3–5%), although better yields are obtained when <ne type="CM">iodide</ne> salts are used as catalysts [175].</P>
+<P>Wakselman et al., have shown [176] that liquid <ne type="CM">C6F13Br</ne> reacts with <ne type="CM">thiolates</ne> without any irradiation, whereas bubbling gaseous <ne type="CM">CF3Br</ne> through a <ne type="CM">DMF</ne> solutions of <ne type="CM">thiolates</ne> at 20 °C or heating such mixtures in an autoclave (80 °C) does not produce <ne type="CM">trifluoromethyl sulfides</ne>. Reactions between <ne type="CM">thiophenoxides</ne> and <ne type="CM">CF3Br</ne> are successful if carried out under pressure (<ne type="CM">CF3Br</ne> 2–3 atm) in <ne type="CM">DMF</ne> at 20 °C [176-178]. However, even under these conditions only <ne type="CM">thiols</ne> containing electron-donating groups in the para-position give high yields. All <ne type="CM">ethers</ne> (Table 5), even those with electron-donating groups in the ortho- and meta-positions show very poor reactivity.</P>
+<P>Table 5: Yields of <ne type="CM">CF3Br</ne> reaction with <ne type="CM">thiophenoxides</ne> in <ne type="CM">DMF</ne> at 20 °C under pressure (2–3 atm) [178]. Substituents in <ne type="CM">thiophenols</ne>	<ne type="CM">H</ne>	<ne type="CM">4-CH3</ne>	<ne type="CM">4-OCH3</ne>	<ne type="CM">3-OCH3</ne>	<ne type="CM">2-OCH3</ne>	<ne type="CM">3-NH2</ne>	<ne type="CM">4-Cl</ne>	<ne type="CM">3-CF3</ne>	<ne type="CM">4-NHAc</ne></P>
+<P>Yields of <ne type="CM">ArSCF3</ne>, %	62	75	83	40	7	23	34	13	9</P>
+<P>The best results arise from a combination of two factors – a pressure of <ne type="CM">CF3Br</ne> and UV irradiation [158,179]. Results are given in Tables 6–8. In these cases the influence of the solvent is obvious. For example, <ne type="CM">p-chlorothiophenol</ne> reacts poorly with <ne type="CM">CF3Br</ne> and <ne type="CM">4-chloro-4′-trifluoromethylsulfanyldiphenyl sulfide</ne> is obtained as a byproduct presumably as the result of photo-substitution of <ne type="CM">chlorine</ne> in <ne type="CM">4-trifluoromethylsulfanylchorobenzene</ne> by an SRN1 mechanism. <ne type="CM">HMPA</ne> suppressed this side-reaction (similar to <ne type="CM">iodobenzene</ne> with <ne type="CM">potassium diethyl phosphite</ne> [180]) and promoted <ne type="CM">trifluoromethylation</ne> (Table 6).</P>
+<P>Table 6: Reactions of <ne type="CM">thiophenoxides</ne> with <ne type="CM">CF3Br</ne> under UV irradiation and pressure of reaction gas [179]. [Graphic 4]</P>
+<P>R	Solvent	Base	p (atm)	T (°C)	Irradiation time, (h)	Conversion of <ne type="CM">ArSH</ne>, (%)	Isolated yields of <ne type="CM">ArSCF3</ne> (%)</P>
+<P><ne type="CM">4-CH3</ne>	<ne type="CM">DMF</ne>	<ne type="CM">Et3N	4</ne>–5	10–13	1.5	 	82</P>
+<P><ne type="CM">4-NH2</ne>	<ne type="CM">DMF</ne>	<ne type="CM">Et3N</ne>	4.5–6	10–20	2	 	76.4</P>
+<P><ne type="CM">3-NH2</ne>	<ne type="CM">HMPA</ne>	<ne type="CM">morpholine</ne>	3–4	17–19	3.25	 	63.5a</P>
+<P><ne type="CM">4-NHCOMe</ne>	<ne type="CM">DMF</ne>	<ne type="CM">Et3N</ne>	3.5	19	2.7	 	69</P>
+<P><ne type="CM">4-NHCO2Me</ne>	<ne type="CM">DMF</ne>	<ne type="CM">Et3N</ne>	4.5–5	15–25	1.2	63	55.5</P>
+<P> 	<ne type="CM">HMPA</ne>	<ne type="CM">morpholine</ne>	2–5	8–10	2.5	73	83.6</P>
+<P><ne type="CM">4-Cl</ne>	<ne type="CM">CH3CN</ne>	<ne type="CM">Et3N</ne>	3–3.5	15–18	2.8	53	43a</P>
+<P> 	<ne type="CM">DMF</ne>	<ne type="CM">Et3N	3</ne>–3.5	14	1.2	100	48a</P>
+<P> 	<ne type="CM">HMPA</ne>	<ne type="CM">Et3N	4</ne>	8–10	1	100	69</P>
+<P> 	<ne type="CM">HMPA</ne>	<ne type="CM">morpholine</ne>	3–4	14–16	3.5	97	62.5</P>
+<P> 	<ne type="CM">HMPA</ne>	<ne type="CM">morpholine</ne>	3–4.5	29–30	3	36	46</P>
+<P> 	<ne type="CM">Sulfolane</ne>	<ne type="CM">morpholine</ne>	3.5	23	2	19.5	5.4</P>
+<P> 	<ne type="CM">N-Methyl pyrrolidone</ne>	<ne type="CM">morpholine</ne>	3.5	17	2.2	35.5	14.3</P>
+<P>aDetermined by GLC.</P>
+<P>The reaction solvent is important and the yield of the trifluoromethylated product decreases in the following sequence: <ne type="CM">HMPA</ne> &gt; <ne type="CM">DMF</ne> &gt; <ne type="CM">CH3CN</ne> &gt; <ne type="CM">N-methyl pyrrolidone</ne> &gt; <ne type="CM">sulfolane</ne> [179] (Table 6). The efficiency of the combined influence of irradiation and pressure of <ne type="CM">CF3Br</ne> is presented in Table 7.</P>
+<P>Table 7: Comparison of <ne type="CM">RC6H4SCF3</ne> yields, obtained under a pressure of <ne type="CM">CF3Br</ne> with and without UV irradiation (<ne type="CM">DMF</ne>, p = 3–5 atm, T = 10–20 °C). R	Irradiation time, h	Yields of <ne type="CM">RC6H4SCF3</ne>, %</P>
+<P> 	Irradiation	Without irradiationa</P>
+<P><ne type="CM">4-CH3</ne>	1.5	82	75</P>
+<P><ne type="CM">3-NH2</ne>	2.2	56	23</P>
+<P> 	4	72.5</P>
+<P><ne type="CM">4-NHCOCH3</ne>	2.7	69	9</P>
+<P><ne type="CM">4-Cl</ne>	1.2	48	34</P>
+<P>aAccording to [178] (<ne type="CM">DMF</ne>, p = 2–3 atm, 3 h, 20 °C)</P>
+<P>As can be seen from the data in (Table 6 and Table 7), in spite of increased product yields in general, the selectivity remains about the same. The best results are found with <ne type="CM">thiophenols</ne>, containing electron-donating substituents in the para-position. It is possible to increase the effectiveness of the <ne type="CM">p-chlorothiophenol</ne> reaction to ~70% by suppression of by-product formation (<ne type="CM">4-Cl-C6H4SC6H4SCF3-4</ne>) and by using <ne type="CM">HMPA</ne> as solvent.</P>
+<P><ne type="CM">Trifluoromethylation</ne> of easily oxidizable <ne type="CM">aminothiophenols</ne> can be conducted by a modified procedure. The required <ne type="CM">thiophenoxides</ne> are prepared directly prior to irradiation by reduction of the corresponding <ne type="CM">dinitrophenyl disulfides</ne> with <ne type="CM">Li</ne>/liquid <ne type="CM">NH3</ne> (Table 8), in much the same way as the described above for <ne type="CM">RFI</ne> [158,159].</P>
+<P>Table 8: Preparation of <ne type="CM">aminophenyl trifluoromethyl sulfides</ne> with CF3Br (3–7 atm) and UV irradiation with preliminary reduction of <ne type="CM">dinitrodiphenyl disulfides</ne> [179]. [Graphic 5]</P>
+<P>Location of <ne type="CM">NO2</ne> (<ne type="CM">NH2</ne>)	Solvents	p (atm)	T (°C)	Irradiation time, h	Yields of products, %</P>
+<P>o-	<ne type="CM">DMF</ne>	4.6–6	10–13	7.75	40.9</P>
+<P>m-	<ne type="CM">DMF</ne>	3–3.5	8–10	2.2	56a</P>
+<P> 	<ne type="CM">DMF</ne>	3–6	10–14	4	72.5a</P>
+<P> 	<ne type="CM">DMF</ne>	4–6	12–19	6.8	80.8</P>
+<P> 	<ne type="CM">HMPA</ne>	3–5	8–10	3	71.8a</P>
+<P>p-	<ne type="CM">DMF</ne>	5–6	15–20	5	80.3</P>
+<P>aIsolated as the <ne type="CM">acetyl</ne> derivative.</P>
+<P>Due to greater UV stability of <ne type="CM">CF3Br</ne> compared to <ne type="CM">CF3I</ne>, it is possible to increase the irradiation time, with a beneficial effect on the product yield.</P>
+<P>4.1.5. Other methods of initiating</P>
+<P>From the knowledge that the reaction mechanism is a single-electron transfer process involving <ne type="CM">RF</ne>• radicals, alternative methods to photochemical initiation have been developed (see sections 4.1.1.–4.1.4.), e.g., the electrochemical reduction of <ne type="CM">perfluoroalkyl halogenides</ne> [173,181]. In the presence of <ne type="CM">thiolate</ne> anions the resulting electrophilic radicals react [182,183] to give aryl <ne type="CM">perfluoroalkyl sulfides</ne> (Table 9).</P>
+<P>Table 9: Formation of aryl <ne type="CM">perfluoroalkyl sulfides</ne> by electrochemical initiated reactions of <ne type="CM">ArS</ne>− with <ne type="CM">RFHlg</ne>. [Graphic 6]</P>
+<P>Reagents	Yield of <ne type="CM">ArSRF</ne>, %	Ref.</P>
+<P><ne type="CM">ArS</ne>−	<ne type="CM">RFHlg</ne>	On substrate	On current</P>
+<P><ne type="CM">p-CH3C6H4S</ne>−	<ne type="CM">CF3I</ne>	55	300	[182]</P>
+<P><ne type="CM">p-CH3C6H4S</ne>−	<ne type="CM">C3F7I</ne>	77	270	[182]</P>
+<P><ne type="CM">p-CH3C6H4S</ne>−	<ne type="CM">CF3Br</ne>	40a	200	[182]</P>
+<P><ne type="CM">p-CH3C6H4S</ne>−	<ne type="CM">C8F17Br</ne>	63	360	[182]</P>
+<P><ne type="CM">p-ClC6H4S</ne>−	<ne type="CM">CF3I</ne>	75	250	[182]</P>
+<P><ne type="CM">p-ClC6H4S</ne>−	<ne type="CM">CF3Br</ne>	61b	98	[182]</P>
+<P><ne type="CM">p-ClC6H4S</ne>−	<ne type="CM">C3F7I</ne>	82	450	[182]</P>
+<P><ne type="CM">p-ClC6H4S</ne>−	<ne type="CM">CF3I</ne>	60	300	[181]</P>
+<P><ne type="CM">p-CH3OCONHC6H4S</ne>−	<ne type="CM">CF3I</ne>	33	160	[181]</P>
+<P><ne type="CM">Thiazole-2-S</ne>−	<ne type="CM">C6F13I</ne>	64c	 	[184]</P>
+<P>aWith a <ne type="CM">carbon</ne>-glass electrode a yield is 77%.</P>
+<P>bWith a <ne type="CM">carbon</ne>-glass electrode.</P>
+<P>cIn the presence of <ne type="CM">p-O2NC6H4CN</ne>.</P>
+<P>The good yields for electrochemical perfluoroalkylation (especially &gt; 100% electrochemical yield) are consistent with a radical-chain process.</P>
+<P><ne type="CM">Perfluoroalkyl iodides</ne> are better substrates than the <ne type="CM">bromides</ne> which give lower yields in these electrochemical reactions (Table 9). Such electrochemically initiated reactions are described in detail in a review [35].</P>
+<P>Another method of catalytic generation of RF• radicals involves electron-transfer from a nucleophile to a <ne type="CM">perfluoroalkyl halide</ne>, in this case using the <ne type="CM">dimethyl dipyridinium</ne> salt (<ne type="CM">methylviologen</ne>, <ne type="CM">MV2+</ne>) as a catalyst. This dication is initially reduced to a radical cation, which then transfers an electron to a <ne type="CM">perfluoroalkyl iodide</ne> [185] to generate <ne type="CM">RF</ne>• (Scheme 46). A small amount of <ne type="CM">MV2+</ne> (7% relative to <ne type="CM">ArSH</ne>) is sufficient for quantitative transformation of <ne type="CM">thiols</ne> into aryl <ne type="CM">perfluoroalkyl sulfides</ne> (Table 10).</P>
+<P>[1860-5397-6-88-i46]</P>
+<P>Scheme 46: Catalytic effect of <ne type="CM">methylviologen</ne> for <ne type="CM">RF</ne>• generation.</P>
+<P>Table 10: Catalysis of trifluoromethylation by <ne type="CM">methylviologen</ne> [186]. [Graphic 7]</P>
+<P>R	MV2+, %	Yields of <ne type="CM">ArSCF3</ne>,%</P>
+<P> 	With <ne type="CM">MV2+</ne>	Without <ne type="CM">MV2+</ne></P>
+<P><ne type="CM">H</ne>	6.5	91.2	3</P>
+<P><ne type="CM">Cl</ne>	7.0	100.0	5</P>
+<P><ne type="CM">NO2</ne>	7.9	9.2	–</P>
+<P><ne type="CM">NHCOOMe</ne>	6.9	88.5	11</P>
+<P>It should be noted that over-reduction of such halides will generate <ne type="CM">RF</ne>− anions rather than the desired <ne type="CM">RF</ne>• radicals. For example, <ne type="CM">tetrakis(dimethylamino)ethylene</ne> reacts with RFI to form the perfluoroalkyl anion which acts as a nucleophilic <ne type="CM">RF</ne>-alkylation agent for organic and inorganic substrates [187].</P>
+<P>The use of any catalyst in the case of <ne type="CM">perfluoroalkyl iodides</ne> is of more theoretical interest, although the method can be applied in the case of poorly reactive <ne type="CM">thiophenols</ne>. In general these reactions work well (see section 4.1.6.) in common organic solvents or under biphasic conditions [188,189]. Reactions with <ne type="CM">perfluoroalkyl bromides</ne> are more sluggish. Only compounds with long perfluoroalkyl chains such as <ne type="CM">C6F13Br</ne> [178] react readily with <ne type="CM">thiolates</ne>. In the reaction of gaseous <ne type="CM">CF3Br</ne> with <ne type="CM">thiophenols</ne> special procedures are required (see section 4.1.4.): UV irradiation [174], pressure [178] and electrochemical stimulation [182]. Moreover, <ne type="CM">thiophenols</ne> with electron-donating substituents in the para-position give the best results. Combined pressure and irradiation [158,179] improved yields only slightly and requires special equipment. A detailed study of catalytic stimulation in reactions of <ne type="CM">bromo</ne>- and <ne type="CM">chloro</ne>-containing freons <ne type="CM">RFX</ne> with <ne type="CM">thiols</ne> is necessary.</P>
+<P>The decreased reactivity of <ne type="CM">CF3Br</ne> as compared to <ne type="CM">CF3I</ne> can be explained, first of all, by the higher reduction potential (−2.07 V against −1.52 V for <ne type="CM">CF3I</ne> on a glass-<ne type="CM">carbon</ne> cathode), and secondly, by the fact that the <ne type="CM">CF3</ne>• radical has a reduction potential (−1.80 V) close to that of <ne type="CM">CF3Br</ne> [173]. Thus <ne type="CM">trifluoromethyl bromide</ne> in reactions with nucleophiles or on a cathode surface accepts two electrons and is transformed to <ne type="CM">CF3</ne>− and therefore does not react with <ne type="CM">thiolates</ne>. The <ne type="CM">SO2</ne>−• radical anion can act as an electron mediator in such reactions. This radical anion, generated by chemical [190-193] or electrochemical [194,195] methods, causes a single-electron reduction of <ne type="CM">CF3Br</ne> with the formation of the necessary <ne type="CM">trifluoromethyl</ne> radical. Thus, the influence of <ne type="CM">SO2</ne>−• sources (<ne type="CM">Na2S2O4</ne>, <ne type="CM">HOCH2SO2Na</ne> or <ne type="CM">SO2</ne> in presence <ne type="CM">Zn</ne> and <ne type="CM">Na2HPO4</ne> or <ne type="CM">HCOONa</ne>) on <ne type="CM">trifluoromethyl bromide</ne> in <ne type="CM">DMF</ne> in the presence of <ne type="CM">diaryl disulfides</ne> [193,196] leads to the formation of the corresponding <ne type="CM">trifluoromethyl sulfides</ne>, often in high yields (Scheme 47).</P>
+<P>[1860-5397-6-88-i47]</P>
+<P>Scheme 47: <ne type="CM">SO2</ne>−• catalyzed trifluoromethylation.</P>
+<P>Related transformations with various <ne type="CM">SO2</ne>−• sources involving <ne type="CM">RFI</ne> and <ne type="CM">CF2ClBr</ne>, <ne type="CM">CFCl2-CF2Cl</ne> in the reactions with <ne type="CM">diaryl disulfides</ne> [197] and <ne type="CM">diselenides</ne> have been reported [198]. Electrochemical studies involving the <ne type="CM">SO2</ne>−• radical anion prove that the electron transfer to <ne type="CM">CF3Br</ne> takes place at a reduction potential of the mediator between −0.9 and −1.0 V which prevents the transfer of a second electron to <ne type="CM">CF3</ne>• and the generation of <ne type="CM">CF3</ne>− [199]. Therefore electrochemical reduction in the presence of <ne type="CM">sulfur dioxide</ne> allows the trifluoromethylation of <ne type="CM">thiophenols</ne> with the less reactive, but more readily available <ne type="CM">trifluoromethyl bromide</ne> (Scheme 48).</P>
+<P>[1860-5397-6-88-i48]</P>
+<P>Scheme 48: Electrochemical reduction of <ne type="CM">CF3Br</ne> in the presence of <ne type="CM">SO2</ne> [199,200].</P>
+<P>Although <ne type="CM">4-nitrothiophenol</ne> is a very poor substrate (see section 4.1.1. and Table 11), it reacts with <ne type="CM">perfluoroalkyl iodides</ne> to afford <ne type="CM">4-perfluoroalkylsulfanylnitrobenzenes</ne> in presence of <ne type="CM">NaH</ne> in <ne type="CM">DMF</ne> in almost quantitative yields [201], presumably via “<ne type="CM">hydride</ne>” catalysis.</P>
+<P>The catalytic influence of <ne type="CM">SO2</ne> on the reaction of <ne type="CM">ArS</ne>− with <ne type="CM">CF3Br</ne> is not limited to the activation of the initial <ne type="CM">bromide</ne>. <ne type="CM">Sulfur dioxide</ne> can oxidize the radical anion <ne type="CM">ArSCF3</ne>−•, i.e., it can affect the rate determining step of the process [189] (Scheme 49).</P>
+<P>[1860-5397-6-88-i49]</P>
+<P>Scheme 49: Participation of <ne type="CM">SO2</ne> in the oxidation of <ne type="CM">ArSCF3</ne>−•.</P>
+<P>This dual influence of <ne type="CM">sulfur dioxide</ne> contributes to the overall efficiency of these reactions.</P>
+<P>By comparing the possibility of two mediators (<ne type="CM">SO2</ne> and <ne type="CM">MV</ne>), Koshechko et al., [202] have shown that the radical cation <ne type="CM">MV</ne>+• (Ep = −0.4 V) easily reduces <ne type="CM">SO2</ne> (Ep= −0.9 V) to its radical anion which in turn activates <ne type="CM">CF3Br</ne>. Thus, a combination of both mediators generates an electron transfer cascade (Scheme 50).</P>
+<P>[1860-5397-6-88-i50]</P>
+<P>Scheme 50: Electron transfer cascade involving <ne type="CM">SO2</ne> and <ne type="CM">MV</ne>.</P>
+<P>Thus, bubbling <ne type="CM">CF3Br</ne> into a solution of <ne type="CM">thiophenol</ne> or <ne type="CM">thiocresol</ne> in <ne type="CM">DMF</ne> containing <ne type="CM">pyridine</ne>, <ne type="CM">SO2</ne> and a catalytic amount of <ne type="CM">MV2</ne>+ 2 <ne type="CM">I</ne>−, results in the formation of the corresponding aryl <ne type="CM">trifluoromethyl sulfides</ne> in moderate to good yields (40–70%) [202].</P>
+<P>Similar reactions with <ne type="CM">SO2</ne>, where <ne type="CM">KI</ne> or <ne type="CM">I2</ne> were used instead of <ne type="CM">MV2</ne>+ have been carried out [202], however, the yields of <ne type="CM">PhSCF3</ne> were reduced. The catalytic effect of <ne type="CM">iodide</ne> ion was discovered from UV irradiation of a reaction mixture of <ne type="CM">p-chlorothiophenol</ne> with <ne type="CM">CF3Br</ne> in different solvents [175].</P>
+<P>The <ne type="CM">MV2</ne>+/<ne type="CM">SO2</ne> system is effective for reactions with <ne type="CM">Freons</ne>, particularly those with <ne type="CM">C</ne>–<ne type="CM">Cl</ne> bonds such as <ne type="CM">Freon-113</ne> (<ne type="CM">CF2Cl-CFCl2</ne>) [202].</P>
+<P>A good example of the catalytic properties of <ne type="CM">SO2</ne> has recently been shown in the reaction of 1,<ne type="CM">2-dibromotetrafluoroethane</ne> with <ne type="CM">thiophenoxides</ne> [203]. It is known that these reactions <ne type="CM">ArSCF2CF2Br</ne> and a significant amount of <ne type="CM">ArSCF2CF2H</ne> are produced. The presence of <ne type="CM">SO2</ne> in the reaction promotes a SRN1 process which results in quantitative yields of <ne type="CM">ArSCF2CF2Br</ne> without the byproduct <ne type="CM">ArSCF2CF2H</ne>.</P>
+<P>4.1.6. Spontaneous perfluoroalkylation of <ne type="CM">thiols</ne> without initiators</P>
+<P>Since Feiring reported in 1984 that reactions of <ne type="CM">thiolate</ne> anions and <ne type="CM">perfluoroalkyl iodides</ne> can occur spontaneously without any initiator [188], the method has been extensively investigated and the reaction conditions optimized (Table 11 and Table 12). Reactions times, for example, are shortened with heating (60–70 °C) [204].</P>
+<P>Table 11: Reactions of <ne type="CM">thiols</ne> <ne type="CM">RC6H4SH</ne> and <ne type="CM">HetArSH</ne> with <ne type="CM">RFI</ne> in organic solvents and in biphasic conditions without initiators. <ne type="CM">R</ne>	<ne type="CM">SH</ne>, (<ne type="CM">SCat</ne>+)	<ne type="CM">RF</ne>	Base	Reaction conditions	Yields of <ne type="CM">ArSRF</ne>, %	Ref.</P>
+<P><ne type="CM">Thiophenols</ne></P>
+<P><ne type="CM">H</ne>	<ne type="CM">SNa</ne>	<ne type="CM">C8F17</ne>	—	<ne type="CM">DMF</ne>, 25 °C, 17 h	90	[188]</P>
+<P><ne type="CM">H</ne>	<ne type="CM">SNa</ne>	<ne type="CM">C8F17	</ne>—	<ne type="CM">DMF</ne>, 25 °C, 17 h + <ne type="CM">norbornene</ne>	77	[188]</P>
+<P><ne type="CM">H</ne>	<ne type="CM">SNa</ne>	<ne type="CM">C8F17</ne>	—	<ne type="CM">DMF</ne>, 25 °C, 17 h + <ne type="CM">styrene</ne>	0	[188]</P>
+<P><ne type="CM">H</ne>	<ne type="CM">SNa</ne>	<ne type="CM">CF(CF3)2</ne>	—	<ne type="CM">DMF</ne>, 25 °C, 17 h	76	[188]</P>
+<P><ne type="CM">H</ne>	<ne type="CM">SNBu4</ne>	<ne type="CM">C6F13</ne>	—	<ne type="CM">CH2Cl2</ne>/<ne type="CM">H2O</ne>, 40 °C, 4 h	48	[188]</P>
+<P><ne type="CM">H</ne>	<ne type="CM">SNBu4</ne>	<ne type="CM">C6F13	</ne>—	<ne type="CM">C6H6</ne>/<ne type="CM">H2O</ne>, 25 °C, 2.5 h	76a	[188]</P>
+<P><ne type="CM">H</ne>	 	<ne type="CM">R(CF2)n</ne>	 	<ne type="CM">DMF</ne>, conditions are not presented	56–87	[205]</P>
+<P><ne type="CM">4-NH2</ne>	<ne type="CM">SH</ne>	<ne type="CM">C2F5</ne>	<ne type="CM">K2CO3</ne>	<ne type="CM">DMF</ne>, 10 °C	84	[206]</P>
+<P><ne type="CM">4-F</ne>	<ne type="CM">SNa</ne>	<ne type="CM">C10F21	</ne>—	<ne type="CM">DMF</ne>, 70 °C, 1 h	97	[204]</P>
+<P>4-F	<ne type="CM">SNa</ne>	CF2)4I	—	<ne type="CM">DMF</ne>, 25 °C,12 h, 60 °C, 1 h	86b</P>
+<P>4-Cl	<ne type="CM">SNa	</ne>(CF2)8I	—	<ne type="CM">DMF</ne>, 50 °C, 6 h</P>
+<P>H	<ne type="CM">SH</ne>	<ne type="CM">C4F9</ne>	<ne type="CM">NaH</ne>	<ne type="CM">DMF</ne>, 20–25 °C, 17–18 h	66	[201]</P>
+<P><ne type="CM">4-CH3</ne>	<ne type="CM">SH</ne>	<ne type="CM">C4F9	<ne type="CM"></ne>NaH</ne>	<ne type="CM">DMF</ne>, 20–25 °C, 17–18 h	77	[201]</P>
+<P><ne type="CM">4-OH</ne>	<ne type="CM">SH</ne>	<ne type="CM">C4F9</ne>	<ne type="CM">NaH	<ne type="CM"></ne>DMF</ne>, 20–25 °C, 17–18 h	30	[201]</P>
+<P><ne type="CM">4-Cl</ne>	<ne type="CM">SH	<ne type="CM"></ne>C4F9</ne>	<ne type="CM">NaH</ne>	<ne type="CM">DMF</ne>, 20–25 °C, 17–18 h	83	[201]</P>
+<P><ne type="CM">4-NO2</ne>	<ne type="CM">SH</ne>	C4–C8	<ne type="CM">NaH</ne>	<ne type="CM">DMF</ne>, 20–25 °C, 17–18 h	93–99	[201]</P>
+<P>F5	<ne type="CM">SCu	<ne type="CM"></ne>CF2=CF</ne>	—	<ne type="CM">DMAC</ne>, 70 °C, 20 h	65	[207]</P>
+<P>F5	<ne type="CM">SCu</ne>	<ne type="CM">C8F17</ne>	 	<ne type="CM">DMAC</ne>, 70 °C, 20 h	0	[207]</P>
+<P>H	<ne type="CM">SeNa</ne>	<ne type="CM">CF3Br</ne>	 	<ne type="CM">EtOH</ne>, 20 °C, 2 h, <ne type="CM">olefins</ne>	2–60	[160]</P>
+<P>H	<ne type="CM">SeNa</ne>	<ne type="CM">C4F9I</ne>–<ne type="CM">C8F17I</ne>	 	<ne type="CM">EtOH</ne>, 20 °C, 2 h, <ne type="CM">olefins</ne>	 	[160]</P>
+<P>Heterocyclic <ne type="CM">thiols</ne></P>
+<P>Heterocycle	<ne type="CM">RF</ne>	Base	Reaction conditions	Yields	Ref.</P>
+<P><ne type="CM">2-SH-benzothiazole</ne>	<ne type="CM">C3F7</ne>	<ne type="CM">NEt3</ne>	<ne type="CM">DMF</ne>, 55–60 °C, 3–48 h	Traces	[189]</P>
+<P> 	 	<ne type="CM">C3F7	<ne type="CM"></ne>NEt3	<ne type="CM"></ne>DMF</ne>, 20–22 °C, 120 h	59	[189]</P>
+<P> 	 	<ne type="CM">Cl(CF2)4</ne>–6	<ne type="CM">NaH</ne>	<ne type="CM">DMF</ne>, 70 °C, 10 h	0–4.5c	[169]</P>
+<P><ne type="CM">2-SH-benzimidazole</ne>	Cl(CF2)4–6	<ne type="CM">NaH</ne>	<ne type="CM">DMF</ne>, 70 °C, 10 h	0–3d	[169]</P>
+<P><ne type="CM">8-SNa-quinoline</ne>	<ne type="CM">C3F7</ne>	<ne type="CM">NEt3</ne>	<ne type="CM">DMF</ne>, 20–22 °C, 24 h	72	[189]</P>
+<P>aIn the presence of <ne type="CM">norbornene</ne> and <ne type="CM">styrene</ne> the yields are 30% and 0%, respectively.</P>
+<P>bα, <ne type="CM">ω-Bis(SAr)perfluoroalkanes</ne>.</P>
+<P>c8.5% conver. <ne type="CM">RFI</ne>.</P>
+<P>d~3% conver. <ne type="CM">RFI</ne>.</P>
+<P>Later it was found that these types of reaction can be made to proceed considerably easier and quicker (Table 12). In <ne type="CM">acetonitrile</ne> or <ne type="CM">DMF</ne> the majority of <ne type="CM">thiophenolates</ne> react rapidly with <ne type="CM">C3F7I</ne> at room temperature (from 10–15 min to 2–3 h). However, for spontaneous reaction many factors are involved such as carrying out the reaction in the dark, temperature, solvent etc. This is discussed in more detail in section 4.1.7.</P>
+<P>Table 12: Reaction conditions of thiophenoxides <ne type="CM">RC6H4S</ne>− <ne type="CM">Et3NH</ne>+ with <ne type="CM">RFI</ne> without irradiation [189]. [Graphic 8]</P>
+<P>Entry	R	RF	Solvent	T (°C)	t (h)	Yields (%)</P>
+<P> 	ArSRF	ArS-SAr	ArSH</P>
+<P>1	H	C3F7	DMF	19–20	2	83	3	—</P>
+<P>2	<ne type="CM">4-NHCO2CH3</ne>	<ne type="CM">C3F7</ne>	<ne type="CM">DMF</ne>	21–22	20 min	89	3	—</P>
+<P>3a	<ne type="CM">4-NHCO2CH3</ne>	<ne type="CM">C3F7</ne>	<ne type="CM">DMF</ne>	21–22	1	60	4	12</P>
+<P>4	<ne type="CM">4-NHCO2CH3</ne>	<ne type="CM">CF3</ne>	<ne type="CM">DMF</ne>	21–22	1	70	9	—</P>
+<P>5	<ne type="CM">4-NHCO2CH3</ne>	<ne type="CM">C3F7</ne>	<ne type="CM">DMF</ne>	0–5	3	17	12	30</P>
+<P>6	<ne type="CM">4-NHCO2CH3</ne>	<ne type="CM">CF3</ne>	<ne type="CM">DMF</ne>	0–22	5	30	7	54</P>
+<P>7	<ne type="CM">4-NHCO2CH3</ne>	<ne type="CM">C3F7</ne>	<ne type="CM">HMPA</ne>	0–5	3	0	12	50</P>
+<P>8	<ne type="CM">4-NHCO2CH3</ne>	<ne type="CM">C3F7</ne>	<ne type="CM">HMPA</ne>	21–22	2	75	3	—</P>
+<P>9	<ne type="CM">4-NHCO2CH3</ne>	<ne type="CM">C3F7</ne>	<ne type="CM">CH3CN</ne>	21–22	0.5	98	Traces	—</P>
+<P>10	<ne type="CM">4-NHCO2CH3</ne>	<ne type="CM">C3F7</ne>	<ne type="CM">dioxane</ne>	21–22	2	82	2	—</P>
+<P>11	<ne type="CM">4-NHCO2CH3</ne>	<ne type="CM">C3F7</ne>	<ne type="CM">THF</ne>	21–22	1.5	64	10	—</P>
+<P>12	2-NH2	<ne type="CM">C3F7</ne>	<ne type="CM">CH3CN</ne>	21–30b	10 min	84	-	—</P>
+<P>13	2-NH2	CF3	<ne type="CM">DMF</ne>	23–24	1	66	7	—</P>
+<P>14	<ne type="CM">4-OCH3</ne>	C3F7	<ne type="CM">CH3CN</ne>	22–40b	10 min	88	6	—</P>
+<P>15	4-Cl	C3F7	<ne type="CM">DMF</ne>	22	2	72	3	—</P>
+<P>16	4-Cl	C3F7	<ne type="CM">CH3CN</ne>	21–22	3	40	12	9</P>
+<P>17	4-COOH	C3F7	<ne type="CM">DMF</ne>	22–30b	10 min	72	Traces	Traces</P>
+<P>18	4-COOCH3	C3F7	DMF	20	3	39	13	Traces</P>
+<P>19	4-NO2c	C3F7	DMF	50–55	5	Traces	6	80</P>
+<P>aIn the dark.</P>
+<P>bSpontaneous warming.</P>
+<P>c<ne type="CM">Sodium thiophenoxide</ne>.</P>
+<P>4.1.7. Reaction mechanism</P>
+<P>The stages of S-perfluoroakylation [22,35,143,188,208] can be represented as follows (Scheme 51):</P>
+<P>[1860-5397-6-88-i51]</P>
+<P>Scheme 51: Four stages of the SRN1 mechanism for <ne type="CM">thiol</ne> perfluoroalkylation.</P>
+<P>The peculiar behavior of <ne type="CM">4-nitrothiophenol</ne> [143,146] and <ne type="CM">4-hydroxypyrimidine-2-thiol</ne> [145] unlike the more electronegative <ne type="CM">p-SO2CF3-</ne> and <ne type="CM">o-SO2CHF2-thiophenols</ne> [143] is presumably related to the ability of the <ne type="CM">nitro-</ne> and <ne type="CM">carbonyl</ne> groups to stabilize the <ne type="CM">mercapto</ne>-radicals in the radical ion pairs [•O2NArS + RF−] and [•O=CArS + RF−]. As a result, these radicals are less reactive, although at higher temperatures an increase in their activity is observed.</P>
+<P>The participation of radicals is supported by the fact that the addition of <ne type="CM">nitrobenzene</ne> [178] or <ne type="CM">di-tert-butylnitroxide</ne> [169] inhibits the reaction. The addition of <ne type="CM">olefins</ne> such as <ne type="CM">norbornene</ne> or <ne type="CM">styrene</ne> [188] has a similar effect and <ne type="CM">perfluoroalkyl</ne> derivatives of these <ne type="CM">olefins</ne> have been identified in the reaction products. The formation of radicals in the reaction of <ne type="CM">PhSeNa</ne> with <ne type="CM">perfluoroalkyl halides</ne> (PhSe• and RF•) has been firmly established from their interception by unsaturated compounds [160].</P>
+<P>Further confirmation of a radical mechanism was obtained by studying the reaction without an initiator (Table 12 and Table 13). The decrease of reaction temperature, carrying out the reaction in the absence of light, the presence of electron-withdrawing substituents in the thiol ring and use of low-polar solvents all led to lower ArSRF yields. Also replacement of C3F7I for CF3I leads to a slower reaction and reduced yields of aryl <ne type="CM">perfluoroalkyl sulfides</ne>. In spite of <ne type="CM">heptafluoropropyl iodide</ne> being a stronger oxidant than CF3I [182,209], greater amounts of diaryl <ne type="CM">disulfides</ne> are obtained only with <ne type="CM">CF3I</ne>. The factors listed above influence the yields of diaryl <ne type="CM">disulfides</ne> in a different way. They either do not change (in darkness), or they even slightly increase (from 3–4 to 12–13%).</P>
+<P>These observations point towards the rate determining step of the reaction [189]. Two steps (Scheme 51), i.e., the rapid fragmentation of the radical anion RFX−• (Equation 2) [173] and recombination of the electrophilic radical RF• with the ArS− anion (Equation 3) are fast and cannot therefore be rate limiting.</P>
+<P>Since all experimental factors (light, temperature, solvent etc.) have an inverted influence on the yields of <ne type="CM">disulfides</ne>, it can be assumed that Equation 1, the generation of ArS• is also not limiting. Therefore electron transfer from the radical anion [ArSRF]−•, Equation 4, seems to be the most likely.</P>
+<P>Homogeneous catalysis by the <ne type="CM">methyl viologen</ne> (MV) [186] supports this. This catalyst can oxidize the radical anion [ArSRF]−• via its <ne type="CM">dication</ne> (MV2+) [200,202], accelerating the last step (Scheme 52).</P>
+<P>[1860-5397-6-88-i52]</P>
+<P>Scheme 52: A double role of MV in the catalysis of RFI reactions with aryl <ne type="CM">thiols</ne>.</P>
+<P>4.2. Radical <ne type="CM">perfluoroalkylation</ne></P>
+<P>Synthetic methods for aryl <ne type="CM">perfluoroalkyl sulfides</ne> via RF• radicals are now described. Prolonged UV irradiation of CF3I solutions with diaryl <ne type="CM">disulfides</ne> in liquid <ne type="CM">ammonia</ne> results in the formation of the corresponding aryl <ne type="CM">trifluoromethyl sulfides</ne> (Table 13).</P>
+<P>Table 13: UV irradiation of CF3I with diaryl <ne type="CM">disulfides</ne> in a sealed <ne type="CM">quartz</ne> tube [157]. [Graphic 9]</P>
+<P>R	t (h)	Yield of ArSCF3 (%)</P>
+<P>H	 	12a</P>
+<P>4-Cl	5	36.5a</P>
+<P>4-NO2	25	58</P>
+<P>2-NO2	12	72</P>
+<P>aExtracted from mixtures.</P>
+<P>For diaryl <ne type="CM">disulfides</ne> the CF3• radical can attack either the <ne type="CM">sulfur</ne> atom or the aromatic ring, [132,210] and thus give rise to undesired side products. <ne type="CM">Arylperfluoroalkyl sulfides</ne> are formed also in a reverse strategy from aliphatic <ne type="CM">disulfides</ne> and aryl radicals. For example, during irradiation of <ne type="CM">bis(trifluoromethyl) disulfide</ne> and <ne type="CM">pentafluoroiodobenzene</ne> [211] the product mixture contains <ne type="CM">C6F5SCF3</ne>, <ne type="CM">C6F5SSCF3</ne>, <ne type="CM">CF3I</ne> as well as (CF3S)2 with (CF3)2S suggesting the following reaction mechanism (Scheme 53).</P>
+<P>[1860-5397-6-88-i53]</P>
+<P>Scheme 53: Photochemical reaction of <ne type="CM">pentafluoroiodobenzene</ne> with <ne type="CM">trifluoromethyl disulfide</ne>.</P>
+<P><ne type="CM">N-Trifluoromethyl-N-nitrosobenzene sulfonamide</ne> has been used as a source of CF3• radicals. This reagent (obtained by reaction of CF3NO, NH2OH and <ne type="CM">benzenesulfonic acid chloride</ne>) reacts with organic disulfides under irradiation or on mild heating to give the corresponding <ne type="CM">trifluoromethyl sulfides</ne> (Scheme 54).</P>
+<P>[1860-5397-6-88-i54]</P>
+<P>Scheme 54: N- <ne type="CM">Trifluoromethyl-N-nitrosobenzene sulfonamide</ne> – a source of CF3• radicals [212,213].</P>
+<P>The <ne type="CM">N- trifluoromethylnitrososulfonamide</ne> of <ne type="CM">trifluoromethane sulfonic acid</ne> reacts similarly with aliphatic <ne type="CM">disulfides</ne> [214]. Interaction of CF3NO with aryl <ne type="CM">sulfonamides</ne> generates relatively stable <ne type="CM">trifluoromethyl azosulfonyl arenes</ne> ArSO2N=NCF3, which decomposed on heating to CF3• radicals which react with organic <ne type="CM">disulfides</ne> to form <ne type="CM">trifluoromethyl sulfides</ne> [215] (Scheme 55).</P>
+<P>[1860-5397-6-88-i55]</P>
+<P>Scheme 55: Radical <ne type="CM">trifluoromethylation</ne> of organic disulfides with ArSO2N=NCF3.</P>
+<P>Barton has shown [216] that the irradiation of <ne type="CM">thiohydroxamic esters</ne> of <ne type="CM">perfluorocarboxylic acids</ne> generates RF• radicals which in the presence of <ne type="CM">olefins</ne> give addition products. However, in the absence of radical traps they attack the <ne type="CM">sulfur</ne> to yield, for example, <ne type="CM">S-perfluoroalkyl</ne> derivatives of <ne type="CM">pyridine</ne> (Scheme 56).</P>
+<P>[1860-5397-6-88-i56]</P>
+<P>Scheme 56: Barton’s S-perfluoroalkylation reactions [216].</P>
+<P>Decarboxylation of non-fluorinated <ne type="CM">carboxylic acid</ne> esters proceeds in a similar manner to afford <ne type="CM">2-pyridyl sulfides</ne>. However, in the presence of C6F13I the reaction follows a different course where the perfluorinated radical attacks <ne type="CM">sulfur</ne> with the formation of the fluorinated <ne type="CM">sulfide</ne> [217] (Scheme 57).</P>
+<P>[1860-5397-6-88-i57]</P>
+<P>Scheme 57: Decarboxylation of <ne type="CM">thiohydroxamic esters</ne> in the presence of C6F13I.</P>
+<P>The irradiation of <ne type="CM">thioesters</ne> of <ne type="CM">trifluoroacetic</ne> and <ne type="CM">trifluoromethanesulfonic acids</ne> in refluxing <ne type="CM">methylene chloride</ne> results in their decarbonylation (or desulfonation in the case of CF3SO2SR) with the production of CF3• radicals, which then react with diaryl- or dialkyl <ne type="CM">disulfides</ne> (Scheme 58).</P>
+<P>[1860-5397-6-88-i58]</P>
+<P>Scheme 58: Reactions of <ne type="CM">thioesters</ne> of <ne type="CM">trifluoroacetic</ne> and <ne type="CM">trifluoromethanesulfonic acids</ne> in the presence of aromatic <ne type="CM">disulfides</ne> [218].</P>
+<P>The formation of aryl <ne type="CM">trifluoromethyl sulfides</ne> from <ne type="CM">thioesters</ne> of <ne type="CM">trifluoroacetic acid</ne> occurs in rather better yields (30–40%) than from the corresponding <ne type="CM">esters</ne> of <ne type="CM">trifluoromethanesulfonic acid</ne> (20–30%). Alkyl <ne type="CM">thioesters</ne> of <ne type="CM">trifluoroacetic</ne> and <ne type="CM">trifluoromethanesulfonic acids</ne> form AlkSCF3 in higher yields (up to 80%). As shown in Scheme 58, the CF3• radical can attack at several sites. <ne type="CM">Phenyl selenide esters</ne> of <ne type="CM">trifluoromethanesulfonic acid</ne> react analogously [218].</P>
+<P>The photochemical decomposition of <ne type="CM">trifluoromethanesulfonic</ne> and <ne type="CM">carboxylic thioesters</ne> affords CF3• radicals which can be used to prepare <ne type="CM">trifluoromethyl sulfides</ne> [219].</P>
+<P><ne type="CM">Xenon difluoride</ne> has been used to initiate oxidative decarboxylation of <ne type="CM">perfluorocarboxylic acids</ne> for RF• generation and with aromatic and heterocyclic compounds the <ne type="CM">perfluoroalkyl</ne> groups can also become incorporated into the aromatic ring [220]. Nevertheless, Sipyagin et al., have employed this method for the perfluoroalkylation of <ne type="CM">thiols</ne> such as <ne type="CM">polychloropyridine thiols</ne> [221]. Two different methods were used: the action of preformed <ne type="CM">xenon carboxylates</ne> (method A) or treatment of a <ne type="CM">pyridinethiol</ne> solution in RFCOOH directly with <ne type="CM">xenon difluoride</ne> (method B). A range of isomeric <ne type="CM">perfluoroalkyl sulfides</ne> was obtained (Scheme 59).</P>
+<P>[1860-5397-6-88-i59]</P>
+<P>Scheme 59: Perfluoroalkylation of <ne type="CM">polychloropyridine thiols</ne> with <ne type="CM">xenon perfluorocarboxylates</ne> or XeF2 [222,223].</P>
+<P>Similar reactions have been carried out with <ne type="CM">tetrafluoropyridine 4-thiol</ne> [224] and its corresponding <ne type="CM">disulfide</ne> [225,226] (40–50% yield). The formation of <ne type="CM">S-perfluoroalkyl</ne> derivatives with performed <ne type="CM">xenon carboxylates</ne> from <ne type="CM">nitro</ne> aromatic <ne type="CM">disulfides</ne> was also successful (Scheme 60).</P>
+<P>[1860-5397-6-88-i60]</P>
+<P>Scheme 60: Interaction of Xe(OCORF)2 with <ne type="CM">nitroaryl disulfide</ne> [227].</P>
+<P><ne type="CM">Perfluoroalkylsulfinic acids</ne> can also be used for oxidative decomposition. For example, careful treatment of <ne type="CM">sodium trifluoromethylsulfinate</ne> with <ne type="CM">tert-butyl hydroperoxide</ne> in the presence of an organic <ne type="CM">disulfide</ne> gives the corresponding <ne type="CM">trifluoromethyl sulfide</ne> [228,229]. Aliphatic <ne type="CM">disulfides</ne> react well to give AlkSCF3 but problems arise with aromatic <ne type="CM">disulfides</ne> due to attack of the CF3• radical on the aromatic rings. For example, <ne type="CM">diphenyl disulfide</ne> is converted only in 13% yield. The S/C ratio reflecting the amount of trifluoromethylation on <ne type="CM">sulfur</ne> and on the aryl ring depends on the solvent. In CH3CN it is 36:64, while in aqueous CH3CN it is 60:40. <ne type="CM">Dichlorodiphenyl disulfide</ne> gives the best ratio in favor of the <ne type="CM">sulfide</ne> in aqueous <ne type="CM">acetonitrile</ne> [228].</P>
+<P>One final method of CF3• radical generation involves the interaction of Bi(CF3)3/Cu(OCOCH3)2 with <ne type="CM">thiophenolate</ne> (Scheme 61).</P>
+<P>[1860-5397-6-88-i61]</P>
+<P>Scheme 61: Bi(CF3)3/Cu(OCOCH3)2 trifluoromethylation of <ne type="CM">thiophenolate</ne> [230].</P>
+<P>The above methods for the synthesis of aryl <ne type="CM">perfluoroalkyl sulfides</ne> all generate electrophilic RF• radicals which prefers to react at nucleophilic reaction centers such as S−, C=S or S•. In the case of diaryl <ne type="CM">disulfides</ne> [228] the regioselectivity of attack is less controlled due to ring delocalization.</P>
+<P>4.3. Anionic perfluoroalkylation</P>
+<P>This method of perfluoroalkylation involves the reaction of aromatic or heterocyclic <ne type="CM">sulfur</ne> compounds with <ne type="CM">perfluoroalkyl</ne> anions, stabilized by suitable ligands, or with a reagent that generates such an anion.</P>
+<P><ne type="CM">Perfluoroalkyl</ne> anions are extremely unstable. For example, the CF3 anion decomposes at −100 °C with the elimination of F− and formation of <ne type="CM">difluorocarbene</ne>, which reacts further or dimerizes [123]. Nevertheless, in the last two decades nucleophilic perfluoroalkylation of organic compounds has expanded. The problem of <ne type="CM">RF-lithium</ne> anion stability in synthesis has been reviewed [24]. <ne type="CM">Trifluoromethylated</ne> reagents of heavy metals and their application in organic synthesis were considered by Barton [25], whilst <ne type="CM">perfluoroalkylated</ne> [31,32] and <ne type="CM">trifluoromethylated</ne> [27,28,30] <ne type="CM">organosilicon</ne> compounds have attracted considerable interest. However, despite the large body of literature involving the use of such reagents, the synthesis of aryl <ne type="CM">perfluoroalkyl sulfides</ne> is restricted to anionic attack on <ne type="CM">sulfenyl chlorides</ne> and <ne type="CM">thiocyanates</ne>.</P>
+<P>Various methods for the synthesis of aryl <ne type="CM">perfluoroalkyl sulfides</ne>, depending on the mode of generation of the <ne type="CM">perfluoroalkyl</ne> anion, are described below.</P>
+<P>4.3.1. “RF−” from a perfluorinated <ne type="CM">olefins</ne></P>
+<P>Relatively stable tertiary <ne type="CM">perfluoroalkyl carbanions</ne> can be prepared by addition of <ne type="CM">fluoride</ne> ion to <ne type="CM">fluoroolefins</ne> [151,231-234] or by the deprotonation of <ne type="CM">monohydroperfluoroalkanes</ne> or their derivatives [235,236] as shown in Scheme 62. Most processes involve generating the <ne type="CM">hexafluoroisopropyl carbanions</ne> with a third stabilizing group such as CF3 [151,231,232,236], C3F7 [233,234], as well as CN, COC2F5, COOMe [232,236]. Reactions of the resulting salts with aryl <ne type="CM">sulfenyl</ne> (or aryl <ne type="CM">selenyl</ne>) <ne type="CM">chlorides</ne> yield <ne type="CM">perfluoro-</ne> or <ne type="CM">polyfluoroalkyl sulfides</ne> (<ne type="CM">selenides</ne>).</P>
+<P>[1860-5397-6-88-i62]</P>
+<P>Scheme 62: Reaction of fluorinated carbanions with aryl <ne type="CM">sulfenyl chlorides</ne>.</P>
+<P>The [C3F7(CF3)2C]− anion, obtained from isomeric dimers of <ne type="CM">perfluoropropylene</ne> in the presence of KF or CsF, reacts with <ne type="CM">sulfenyl chlorides</ne> and <ne type="CM">selenyl chlorides</ne> to afford the corresponding <ne type="CM">sulfides</ne> and <ne type="CM">selenides</ne> bearing a tertiary <ne type="CM">perfluorohexyl</ne> group [233].</P>
+<P>In the reaction of RF− carbanions with <ne type="CM">sulfenyl chlorides</ne> high yields of <ne type="CM">sulfides</ne> are obtained when either electron-withdrawing or electron-donating substituents are present on the aryl ring. The yields of isomeric <ne type="CM">nitrophenyl perfluoro-tert-butyl sulfides</ne> decrease, the closer the <ne type="CM">nitro</ne> group is to the <ne type="CM">sulfur</ne> atom: p-NO2 – 86%, m-NO2 – 78% [231] and o-NO2 – 68% [232]. Both secondary and tertiary anions react [236] but nature of the counter ion is important. Thus, <ne type="CM">cesium</ne> or <ne type="CM">potassium perfluoro tert-butyl alkyls</ne> obtained by the addition of CsF or KF to <ne type="CM">perfluoroisobutene</ne>, give high yields of ArSC(CF3)3 [151,231,232], while the same anion, generated by deprotonation of <ne type="CM">nonafluoroisobutane</ne> (CF3)3CH with NEt3 gives PhSC(CF3)3 in low yield ~20% [236].</P>
+<P>In the reaction of <ne type="CM">methyl perfluoromethacrylate</ne> with <ne type="CM">PhSCl</ne> in the presence of <ne type="CM">fluoride</ne> ion, prolonged stirring gave two sulfides as shown in Scheme 63, illustrating the competition between halides (F− and Cl−) for <ne type="CM">fluoroolefin</ne> addition [232].</P>
+<P>[1860-5397-6-88-i63]</P>
+<P>Scheme 63: Reaction of <ne type="CM">methyl perfluoromethacrylate</ne> with <ne type="CM">PhSCl</ne> in the presence of <ne type="CM">fluoride</ne>.</P>
+<P>4.3.2. “RF−” from perfluoroalkyl halogenides</P>
+<P>In a similar manner to <ne type="CM">alkylhalides</ne>, <ne type="CM">perfluorinated alkylhalides</ne> also form organometallic derivatives which can be used for the synthesis of <ne type="CM">perfluoroalkyl sulfides</ne>. The effectiveness of such reagents depends largely on the counterion which is illustrated below for reactions with organic <ne type="CM">thiocyanates</ne> (Scheme 64). <ne type="CM">Potassium perfluoroisopropyl</ne> (generated from CF2=CFCF3 and KF) reacts with <ne type="CM">phenyl-</ne> and <ne type="CM">p-nitrophenyl</ne> thiocyanates in sulfolane at 100 °C, whilst the Grignard reagent (n-C4F9MgI) reacts at subzero temperatures.</P>
+<P>[1860-5397-6-88-i64]</P>
+<P>Scheme 64: Reactions of ArSCN with <ne type="CM">potassium</ne> and <ne type="CM">magnesium perfluorocarbanions</ne> [237].</P>
+<P>Cuprates react with <ne type="CM">benzyl thiocyanate</ne> but require more forcing conditions, i.e., 100 °C [237], whereas in situ generated <ne type="CM">zinc</ne> reagents RFZnX react with <ne type="CM">thiocyanates</ne> at 20 °C in <ne type="CM">pyridine</ne> [238].</P>
+<P>Recently, it has been shown that <ne type="CM">tetrakis(dimethylamino)ethylene</ne> (<ne type="CM">TDAE</ne>) can undergo a two-electron transfer to <ne type="CM">perfluoroalkyliodides</ne> to generate RF− anions [187] which react with organic <ne type="CM">disulfides</ne> to afford <ne type="CM">perfluoroalkyl sulfides</ne> in high yields [239,240]. The economy of this method, as distinct from previous methods [196,241-248], lies in the fact that the <ne type="CM">thiolate</ne> released by the first nucleophilic attack on the <ne type="CM">disulfide</ne> reacts directly with a second equivalent of <ne type="CM">perfluoroalkyliodide</ne>, to form a second equivalent of the desired <ne type="CM">perfluoroalkyl sulfide</ne> (Scheme 65). This approach thus combines two principles of <ne type="CM">trifluoromethylation</ne>, i.e., nucleophilic attack of the RF-anion on the <ne type="CM">disulfide</ne> and reaction of a radical anion with a <ne type="CM">thiol</ne> as noted in section 4.1.</P>
+<P>[1860-5397-6-88-i65]</P>
+<P>Scheme 65: Reactions of <ne type="CM">RFI</ne> with <ne type="CM">TDAE</ne> and organic <ne type="CM">disulfides</ne> [239,240].</P>
+<P>4.3.3. “RF−” from <ne type="CM">perfluorocarboxylic acids</ne></P>
+<P>A simple method for the generation of metal derivatives of <ne type="CM">perfluoroalkyl carbanions</ne> by the decarboxylation of alkali salts of <ne type="CM">perfluorocarboxylic acids</ne>, has also been used. For example, heating <ne type="CM">potassium perfluoroalkyl carboxylates</ne> in the presence of diaryl <ne type="CM">disulfides</ne> in <ne type="CM">DMF</ne> or <ne type="CM">sulfolane</ne> leads to the formation of the corresponding aryl <ne type="CM">perfluoroalkyl sulfides</ne> as summarized in Table 14.</P>
+<P>Table 14: Perfluoroalkylation of aryl <ne type="CM">disulfides</ne> by decarboxylation of <ne type="CM">perfluorocarboxylates</ne>. [Graphic 10]</P>
+<P>R	RF	Solvent	T (°C)	Yield of ArSRF %	Ref.</P>
+<P>H	CF3	<ne type="CM">DMF</ne>	140	84	[245]</P>
+<P>H	CF3	<ne type="CM">sulfolane</ne>	180–230	56	[242]</P>
+<P>4-Me	CF3	<ne type="CM">sulfolane</ne>	180–230	51	[242]</P>
+<P>4-Cl	CF3	<ne type="CM">sulfolane</ne>	180–230	56	[242]</P>
+<P>4-F	CF3	<ne type="CM">sulfolane</ne>	180–230	82	[242]</P>
+<P>2-Br	CF3	<ne type="CM">sulfolane</ne>	180–230	48	[242]</P>
+<P>4-OMe	CF3	<ne type="CM">sulfolane	180</ne>–230	50	[242]</P>
+<P>H	C2F5	<ne type="CM">DMF</ne>	145	70	[245]</P>
+<P>4-Me	C2F5	<ne type="CM">DMF</ne>	145	50	[245]</P>
+<P>4-NO2	C2F5	<ne type="CM">DMF</ne>	145	42	[245]</P>
+<P><ne type="CM">Disulfides</ne> of <ne type="CM">pyridine</ne> [242], <ne type="CM">pyrimidine</ne> and <ne type="CM">naphthalene</ne> [249] have also been used in such reactions. The use of this method for longer <ne type="CM">perfluorocarboxylic acids</ne> leads to product mixtures that result from chain isomerism and cyclisation [250,251] (Scheme 66).</P>
+<P>[1860-5397-6-88-i66]</P>
+<P>Scheme 66: Decarboxylation of <ne type="CM">perfluorocarboxylates</ne> in the presence of <ne type="CM">disulfides</ne> [245].</P>
+<P>Polyhalogenated <ne type="CM">carboxylic acids</ne> containing <ne type="CM">fluorine</ne> together with other halogens can also alkylate <ne type="CM">disulfides</ne>. However, the results strongly depend on the structure of halogenated <ne type="CM">alkyl</ne> group. The method is successful for <ne type="CM">potassium trichloroacetate</ne> but not for <ne type="CM">difluorochloroacetate</ne>. In the latter case the corresponding sulfide <ne type="CM">PhSCF2Cl</ne> was found but only in trace amounts whilst <ne type="CM">PhSCCl3</ne> is obtained in 80% yield [245]. The mixed haloalkyl anions appear to be less stable.</P>
+<P>The stability and reactivity of <ne type="CM">perfluoroalkyl</ne> anions largely depend on the solvents used. For example, CF3MgI [252-254] and CF3Li [123,255-258] in <ne type="CM">diethyl ether</ne> are unstable even at low temperatures, but in coordinating solvents such as <ne type="CM">sulfolane</ne>, <ne type="CM">N-methylpyrrolidone</ne>, <ne type="CM">HMPA</ne> and especially, in <ne type="CM">DMF</ne>, the CF3− anion does not decompose so readily and can be used as a nucleophilic reagent [259].</P>
+<P>4.3.4. “CF3−” from <ne type="CM">trifluoromethane</ne> (<ne type="CM">fluoroform</ne>)</P>
+<P><ne type="CM">Trifluoromethane</ne> (<ne type="CM">fluoroform</ne>) has been used as a source of the <ne type="CM">trifluoromethyl</ne> anion. <ne type="CM">Trifluoromethane</ne> is a waste product of <ne type="CM">Teflon</ne> manufacture and it is of interest as a raw material for organofluorine chemistry [260]. However, its application has been restricted by the low stability of the CF3− anion [123,252-255].</P>
+<P>The CF3− anion has greater stability when the counter ion is a bulky <ne type="CM">ammonium</ne> ion, and in the presence of <ne type="CM">pyrrolidone</ne> it reacts with <ne type="CM">aldehydes</ne> and <ne type="CM">ketones</ne> [261]. This suggests that an intermediate <ne type="CM">gem-aminoalcoholate</ne> is involved. The method is improved with <ne type="CM">DMF</ne>, which is also thought to form a stable <ne type="CM">aminoalcoholate</ne> intermediate (Scheme 67) [243,262,263].</P>
+<P>[1860-5397-6-88-i67]</P>
+<P>Scheme 67: Organization of a stable form of “CF3−” anion in the <ne type="CM">DMF</ne>.</P>
+<P>This mechanism is supported by the observation that equivalent reactions do not occur in <ne type="CM">THF</ne> or <ne type="CM">DMSO</ne> [263]. Furthermore, the intermediate <ne type="CM">CF3 aminoalcoholate</ne> has been trapped in its protonated form and as hydrated <ne type="CM">trifluoroacetaldehyde</ne> by the action of acids, as well as trapped as a <ne type="CM">silyl ether</ne> [243]. The deprotonation of <ne type="CM">fluoroform</ne> has been applied successfully for the synthesis of aromatic <ne type="CM">trifluoromethyl sulfides</ne> and <ne type="CM">selenides</ne>, as summarized in Table 15.</P>
+<P>Table 15: Reaction of the CF3− anion derived from <ne type="CM">fluoroform</ne> with S-derivatives of <ne type="CM">thiophenols</ne>. [Graphic 11]</P>
+<P>B	R	X	Yield, %	Ref.</P>
+<P>t-BuOK	H	SPh	80	[243]</P>
+<P>t-BuOK	H	SO2Ph	90	[243]</P>
+<P>t-BuOK	4-NO2	Cl	60	[243]</P>
+<P>LiN(TMS)2/NH(TMS)2	H	SPh	4	[244]</P>
+<P>N(TMS)3/Me4NF	H	SPh	6	[244]</P>
+<P>t-BuOK	H	SPh	82	[244]</P>
+<P>N(TMS)3/Me4NF	H	SePh	61a	[244]</P>
+<P>t-BuOK	H	SePh	77a	[244]</P>
+<P>aPhSeCF3.</P>
+<P>Langlois et al. have used silylated <ne type="CM">amines</ne> in the presence of <ne type="CM">fluoride</ne> ion to promote fluoroform deprotonation [244]. For example, with (Me3Si)3N such reactions were possible in both <ne type="CM">DMF</ne> and <ne type="CM">THF</ne>. In the latter case stabilization of the CF3− anion and its reaction with disulfide probably involves a transition state complex such as that depicted in Scheme 68.</P>
+<P>[1860-5397-6-88-i68]</P>
+<P>Scheme 68: Silylated <ne type="CM">amines</ne> in the presence of fluoride can deprotonate <ne type="CM">fluoroform</ne> for reaction with <ne type="CM">disulfides</ne> [244].</P>
+<P>In the case of trifluoromethylation of aliphatic <ne type="CM">disulfides</ne>, <ne type="CM">silazanes</ne> are the preferred reagents. However, in the case of diaryl <ne type="CM">disulfides</ne>, e.g., <ne type="CM">diphenyl disulfide</ne>, the significant formation of byproducts occurs and, PhSN(TMS)2 (46%) and PhSCHF2 (23%) are main reaction products. Other CF3 <ne type="CM">aminomethanols</ne> have been synthesized by Langlois et al. [264] (Figure 7).</P>
+<P>[1860-5397-6-88-7]</P>
+<P>Figure 7: Other examples of aminomethanols [264].</P>
+<P>Trifluoromethylation of <ne type="CM">disulfides</ne> by the first of them was efficient, for example, 87% in the case of <ne type="CM">PhSCF3</ne> but less efficient for <ne type="CM">diselenides</ne> (<ne type="CM">PhSeCF3</ne> 45%) [246]. The reaction failed with <ne type="CM">bis(4-chlorophenyl) disulfide</ne> and <ne type="CM">dioctyl disulfide</ne> where only by-products were generated.</P>
+<P>Silylated <ne type="CM">hemiaminals</ne> are more suitable for <ne type="CM">CF3</ne>− transfer (Table 16), although high reaction temperatures (60–80 °C) are required.</P>
+<P>Table 16: Reactions of silylated <ne type="CM">hemiaminals</ne> with <ne type="CM">disulfides</ne> [246]. [Graphic 12]</P>
+<P>R	S (Se)	Z	“F−”	T, °C	Yield, %</P>
+<P>H	S	O	CsF	80	50</P>
+<P>H	S	O	<ne type="CM">TBATa</ne>	80	90</P>
+<P>H	S	<ne type="CM">NCH2Ph</ne>	<ne type="CM">TBAT</ne>	60	78</P>
+<P>H	S	<ne type="CM">NCH2Ph</ne>	<ne type="CM">TBAT</ne>	80	95</P>
+<P>4-Cl	S	<ne type="CM">NCH2Ph</ne>	<ne type="CM">TBAT</ne>	80	95</P>
+<P>H	Se	<ne type="CM">NCH2Ph</ne>	<ne type="CM">TBAT</ne>	80	92</P>
+<P>4-Cl	Se	<ne type="CM">NCH2Ph</ne>	<ne type="CM">TBAT</ne>	80	75</P>
+<P>aTBAT: <ne type="CM">Bu4N</ne>+ <ne type="CM">Ph3SiF2</ne>−.</P>
+<P>The use of <ne type="CM">F</ne>− anion as an alkaline agent (De-Shopge reagent, Bu4N+ Ph3SiF2−) in place of a strong base (<ne type="CM">t-BuOK</ne>) allows trifluoromethylation of aliphatic <ne type="CM">disulfides</ne>.</P>
+<P>4.3.5. “<ne type="CM">CF3</ne>−” anion from <ne type="CM">trifluoromethyl silanes</ne></P>
+<P><ne type="CM">Perfluoroalkyltrialkyl silanes</ne> in the presence of <ne type="CM">fluoride</ne> ion generate reactive RF carbanions which have been used widely in synthesis [27,28,30-32,265]. For example, Ruppert’s reagent, <ne type="CM">CF3SiMe3</ne> [266] and its tin analogue (<ne type="CM">CF3SnMe3</ne>) have been used for the nucleophilic introduction of a <ne type="CM">CF3</ne> group to electrophilic <ne type="CM">sulfur</ne> for the preparation of <ne type="CM">trifluoromethyl sulfoxides</ne> and <ne type="CM">sulfones</ne> [267-269]. <ne type="CM">Trifluoromethyl trimethylsilane</ne> has also been used for the synthesis of aromatic <ne type="CM">trifluoromethyl sulfides</ne> and <ne type="CM">selenides</ne> (Table 17).</P>
+<P>Table 17: Trifluoromethylation of <ne type="CM">sulfur</ne> and <ne type="CM">selenium</ne> compounds with Ruppert’s reagent. [Graphic 13]</P>
+<P>X	F−	R	Yield, %	Ref.</P>
+<P>Cl	TASFa	H	59	[270]</P>
+<P>Cl	TASF	4-Cl	72	[270]</P>
+<P>Cl	TASF	4-NO2	69	[270]</P>
+<P>Cl	Bu4NF	4-NO2	14	[241]</P>
+<P>SPh	Bu4NF	H	32 (43b)	[241]</P>
+<P>CN	Bu4NF	H	70 (58b)	[271]</P>
+<P>CN	Bu4NF	4-NO2	58	[271]</P>
+<P>CN	Bu4NF	2,4-(OMe)2	30	[271]</P>
+<P>aTASF = (Me2N)3S+ Me3SiF2−.</P>
+<P>bArSeCF3.</P>
+<P>Reactions proceed easily in <ne type="CM">THF</ne> or light hydrocarbon solvents and the reaction can also be extended to aliphatic and heterocyclic [271] <ne type="CM">sulfur</ne>-trifluoromethylations. The data (Table 17) indicate that the source of the <ne type="CM">F</ne>− anion exerts an important influence on the reaction of <ne type="CM">sulfenyl chlorides</ne> with <ne type="CM">CF3SiMe3</ne> [267]. For example, in the presence of <ne type="CM">TASF</ne> <ne type="CM">p-nitrophenyl trifluoromethyl sulfide</ne> is formed in almost 70% yield, while the use of <ne type="CM">Bu4N</ne>+ <ne type="CM">F</ne>− (even 2 equiv) under identical conditions gives only a 14% yield. In addition, in the reaction of <ne type="CM">diaryl disulfides</ne> with <ne type="CM">CF3SiMe3</ne> it has been shown [241] that the best results are obtained when the <ne type="CM">Bu4NF</ne> is added with a syringe-pump rather than by ordinary dropwise addition.</P>
+<P>Such trifluoromethylation reactions with <ne type="CM">CF3SiMe3</ne> can also be catalysed with <ne type="CM">cyanide</ne> ion. However, this also results in competing side reactions where the <ne type="CM">cyanide</ne> attacks the <ne type="CM">disulfide</ne> directly and is especially problematic in the case of aliphatic <ne type="CM">disulfides</ne> [271].</P>
+<P>4.3.6. “<ne type="CM">CF3</ne>-anion” from <ne type="CM">ArSOCF3</ne> and <ne type="CM">ArSO2CF3</ne></P>
+<P>Aryl <ne type="CM">trifluoromethyl sulfones</ne> react with <ne type="CM">CH3ONa</ne> to generate sodium <ne type="CM">arylsulfonates</ne> and <ne type="CM">fluoroform</ne> [272], and with Grignard reagents to generate aryl <ne type="CM">alkyl-</ne> or <ne type="CM">diaryl sulfones</ne> [273]. Also nucleophilic substitution of the <ne type="CM">pentafluoroethyl</ne> group can be induced in <ne type="CM">bis(pentafluoroethyl) sulfone</ne> by various nucleophiles [274]. Prakash et al. have adapted this chemistry for nucleophilic trifluoromethylation. Both <ne type="CM">phenyl trifluoromethyl sulfone</ne> or the corresponding <ne type="CM">sulfoxide</ne> on treatment with <ne type="CM">t-BuOK</ne> in <ne type="CM">DMF</ne> generate a <ne type="CM">CF3</ne>-adduct similar to that formed during <ne type="CM">fluoroform</ne> deprotonation [243,263], which is a useful trifluoromethylating agent for <ne type="CM">aldehydes</ne>, <ne type="CM">ketones</ne> and <ne type="CM">disulfides</ne> [248]. An example is shown in Scheme 69.</P>
+<P>[1860-5397-6-88-i69]</P>
+<P>Scheme 69: Trifluoromethylation of <ne type="CM">diphenyl disulfide</ne> with <ne type="CM">PhSO2CF3</ne>/<ne type="CM">t-BuOK</ne>.</P>
+<P>On the other hand, under the same reaction conditions <ne type="CM">methyl trifluoromethyl sulfone</ne> does not function as a trifluoromethylating agent, whilst <ne type="CM">esters</ne> and <ne type="CM">amides</ne> of <ne type="CM">trifluoromethane sulfinic acid</ne> are good <ne type="CM">trifluoromethyl</ne> transfer agents [247] (Scheme 70).</P>
+<P>[1860-5397-6-88-i70]</P>
+<P>Scheme 70: <ne type="CM">Amides</ne> of <ne type="CM">trifluoromethane sulfinic acid</ne> are sources of <ne type="CM">CF3</ne>− anion.</P>
+<P>However, trifluoromethylation strategies with aryl <ne type="CM">trifluoromethyl</ne> <ne type="CM">-sulfoxides</ne>, <ne type="CM">-sulfones</ne>, <ne type="CM">-sulfinates</ne>, and <ne type="CM">amides</ne> have to compete with cheaper reagents such as <ne type="CM">fluoroform</ne>, <ne type="CM">trifluoroacetic acid</ne> derivatives and <ne type="CM">trifluoromethyl halogenides</ne>. For the synthesis of aryl <ne type="CM">trifluoromethyl sulfides</ne>, it should be noted that these are prepared from <ne type="CM">sulfones</ne>, which are in turn synthesized from the same <ne type="CM">sulfides</ne>.</P>
+<P>4.4. Cationic perfluoroalkylation</P>
+<P>Aryl <ne type="CM">perfluoroalkyl iodonium</ne> reagents as perfluoroalkylating agents were first developed by Yagupolski et al. [275]. Unlike <ne type="CM">perfluoroalkyl iodides</ne>, tolyl <ne type="CM">perfluoroalkyl iodonium chlorides</ne> react easily with <ne type="CM">sodium thiophenolates</ne> and <ne type="CM">selenophenolates</ne> at low temperature to form the corresponding aryl <ne type="CM">perfluoroalkyl sulfides</ne> and <ne type="CM">selenides</ne> as summarized in Table 18.</P>
+<P>Table 18: Interaction of <ne type="CM">tolyl perfluoroalkyl iodonium chlorides</ne> with <ne type="CM">sodium thiophenolates</ne> and <ne type="CM">selenophenolate</ne> [275]. [Graphic 14]</P>
+<P>R	RF	Yields, % (GLC) of</P>
+<P> 	ArSRF	ArSeORFa</P>
+<P>H	C3F7	61 (81)	87</P>
+<P>CH3	C3F7	71 (96)	–</P>
+<P>NO2	C3F7	34 (56)	–</P>
+<P>H	C6F13	41	45</P>
+<P>aAfter chlorination and subsequent hydrolysis of corresponding <ne type="CM">selenides</ne>.</P>
+<P>These <ne type="CM">iodonium</ne> salts even react with <ne type="CM">sodium p-nitrothiophenolate</ne> and while <ne type="CM">C3F7I</ne> does not react without some initiation [189] the <ne type="CM">C3F7</ne> containing salts (Table 18) react readily. The yields of <ne type="CM">p-O2NC6H4SRF</ne> (RF = <ne type="CM">C3F7</ne> and <ne type="CM">C6F13</ne>) are increased to a quantitative level by the use of <ne type="CM">iodonium tetrafluoroborate</ne> salts [276] instead of <ne type="CM">chlorides</ne>.</P>
+<P>Similarly, <ne type="CM">perfluoroalkyl phenyl iodonium trifluoromethanesulfonates</ne> (<ne type="CM">FITS</ne> reagents) react with <ne type="CM">thiolates</ne> [277]: Perfluoroalkylation is selective for sulfur even in the presence of other functional groups (e.g. <ne type="CM">OH</ne>, <ne type="CM">NHMe</ne>, <ne type="CM">COOH</ne>, <ne type="CM">COOAlk</ne>). The preparation and application of <ne type="CM">RF</ne> <ne type="CM">iodonium</ne> salts has been reviewed [33]. However, <ne type="CM">CF3</ne> <ne type="CM">iodonium</ne> salts were not discussed, presumably due to their low stability.</P>
+<P>A “hyper-valent” <ne type="CM">iodine</ne> (III) compound containing a <ne type="CM">trifluoromethyl</ne> group, first synthesized in 2006 [278], appears to be quite stable. This moisture-sensitive reagent reacts with aromatic, heterocyclic and aliphatic <ne type="CM">thiols</ne> at low temperature (−78 °C) with the formation of the corresponding <ne type="CM">SCF3</ne> derivatives in high yields (Scheme 71).</P>
+<P>[1860-5397-6-88-i71]</P>
+<P>Scheme 71: Trifluoromethylation of various thiols using “hyper-valent” <ne type="CM">iodine</ne> (III) reagent [279].</P>
+<P>However, this attractive methodology has some drawbacks in that its synthesis involves four steps and trifluoromethylation products must be purified by chromatography to remove a side-product – <ne type="CM">2-iodophenyl dimethyl carbinol</ne>.</P>
+<P>Unlike <ne type="CM">iodonium</ne> salts, <ne type="CM">onium</ne> salts of the group VI elements appear to be more stable with <ne type="CM">CF3</ne> group. Diaryl <ne type="CM">RF-sulfonium</ne> salts, where RF = <ne type="CM">CF3</ne>, are readily synthesized from <ne type="CM">aryl trifluoromethyl sulfoxides</ne> [280]. Reaction of these reagents with <ne type="CM">sodium p-nitrothiophenolate</ne> affords the <ne type="CM">trifluoromethyl sulfide</ne> in good yield (Scheme 72).</P>
+<P>[1860-5397-6-88-i72]</P>
+<P>Scheme 72: Trifluoromethylation of <ne type="CM">p-nitrothiophenolate</ne> with <ne type="CM">diaryl</ne> <ne type="CM">CF3</ne> <ne type="CM">sulfonium</ne> salts [280].</P>
+<P>It should be noted that for perfluoroalkylation is it necessary to use the <ne type="CM">diaryl sulfonium</ne> salts and not aryl alkyl <ne type="CM">sulfonium</ne> salts, since reaction of <ne type="CM">PhS+(CH3)CF3 BF4−</ne>, with <ne type="CM">p-nitrothiophenolate</ne> yields the <ne type="CM">SCH3</ne> compound not the <ne type="CM">SCF3</ne> derivative [280]. Subsequently, <ne type="CM">diaryl thiophenium</ne>, <ne type="CM">-selenophenium</ne> and <ne type="CM">-tellurophenium</ne> reagents have been developed with <ne type="CM">perfluoroalkyl</ne> groups attached to <ne type="CM">S</ne>, <ne type="CM">Se</ne> and <ne type="CM">Te</ne> [33,281,282] which can transfer <ne type="CM">perfluoroalkyl</ne> fragments to nucleophilic centers. In particular, the <ne type="CM">dibenzo (CF3)S-</ne>, <ne type="CM">(CF3)Se-</ne> and <ne type="CM">(CF3)Te-phenium</ne> systems have been investigated. For example, <ne type="CM">S(CF3)dibenzothiophenium triflate</ne> (A = <ne type="CM">S</ne>) reacts with <ne type="CM">sodium thiolate</ne> in <ne type="CM">DMF</ne> to give the <ne type="CM">S-trifluoromethyl</ne> derivative in high yield. The related <ne type="CM">selenophenium</ne> salt (A = <ne type="CM">Se</ne>) appears to be more effective in <ne type="CM">trifluoromethyl</ne> transfer (Scheme 73).</P>
+<P>[1860-5397-6-88-i73]</P>
+<P>Scheme 73: <ne type="CM">Trifluoromethyl</ne> transfer from <ne type="CM">dibenzo (CF3)S-</ne>, <ne type="CM">(CF3)Se-</ne> and <ne type="CM">(CF3)Te-phenium</ne> salts to <ne type="CM">thiolates</ne> [283].</P>
+<P>The same general reactivity is also observed in reactions of these reagents with aliphatic <ne type="CM">thiols</ne>. <ne type="CM">Dibenzoselenophenium triflate</ne> (A = <ne type="CM">Se</ne>, R1 and R2 = <ne type="CM">H</ne>) reacts much better with <ne type="CM">sodium dodecyl thiolate</ne> (yield of <ne type="CM">C12H25SCF3</ne> is 87%) than the <ne type="CM">sulfur</ne> analogue (yield 47%) [283,284].</P>
+<P>On the whole RF onium compounds are powerful perfluoroalkylating agents [33,281], however they are rather exotic reagents which require to be synthesized by multi-stage methods as illustrated in Scheme 74.</P>
+<P>[1860-5397-6-88-i74]</P>
+<P>Scheme 74: Multi-stage paths for synthesis of <ne type="CM">dibenzo-CF3-thiophenium</ne> salts [61].</P>
+<P>Top</P>
+<P>Conclusion</P>
+<P>A summary of the known methods for the synthesis of aromatic and heterocyclic <ne type="CM">perfluoroalkyl sulfides</ne> are presented. These involve perfluoroalkylation of <ne type="CM">thiols</ne> by single electron transfer, nucleophilic and electrophilic methods. The variety of methods reflects the level of interest chemists have given to generating this class of <ne type="CM">fluorine</ne> containing organic compounds. As a class of compounds, <ne type="CM">perfluoroalkyl sulfides</ne> find increasing utility in agrochemical and pharmaceutical applications.</P>
+<P>A concise review concerning the preparation of selectively <ne type="CM">fluorinated ethers</ne>, <ne type="CM">thioethers</ne>, <ne type="CM">amines</ne> and <ne type="CM">phosphines</ne> was published [285] during preparation of this manuscript.</P>
+</PAPER>

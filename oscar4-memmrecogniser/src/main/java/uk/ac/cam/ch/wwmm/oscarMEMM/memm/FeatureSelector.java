@@ -11,7 +11,7 @@ import opennlp.maxent.Event;
 
 import org.apache.log4j.Logger;
 
-import uk.ac.cam.ch.wwmm.oscarMEMM.ptcDataStruct.Bag;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.ptcDataStruct.Bag;
 
 /**A simple feature selection for the MEMM.
  * 

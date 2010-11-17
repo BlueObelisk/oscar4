@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscarMEMM.ptcDataStruct;
+package uk.ac.cam.ch.wwmm.oscarrecogniser.ptcDataStruct;
 
 import java.util.ArrayList;
 import java.util.Collections;

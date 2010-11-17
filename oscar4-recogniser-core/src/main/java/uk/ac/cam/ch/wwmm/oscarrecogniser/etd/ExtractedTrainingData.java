@@ -127,22 +127,6 @@ public final class ExtractedTrainingData {
         return currentInstance;
     }
 
-    /**Looks in the workspace for scrapbook files, extracts the data therein,
-     * and initialises the singleton from it.
-     *
-     * @return If the procedure succeeded.
-     * Commented out on 27th Jan
-     */
-//	public static boolean trainFromScrapbook() {
-//	OscarPropertiesoperties.getInstance().workspace.equals("none")) return false;
-//		File scrapbookdir = nOscarPropertiesarProperties.getInstance().workspace, "scrapbook");
-//		if(!scrapbookdir.exists() || !scrapbookdir.isDirectory()) return false;
-//		List<File> sbFiles = FileTools.getFilesFromDirectoryByName(scrapbookdir, "scrapbook.xml");
-//		ExtractTrainingData etd = new ExtractTrainingData(sbFiles);
-//		myInstance = etd;
-//		return true;
-//	}
-
     private Element stringsToElement(Collection<String> strings, String elemName) {
         Element elem = new Element(elemName);
         StringBuffer sb = new StringBuffer();

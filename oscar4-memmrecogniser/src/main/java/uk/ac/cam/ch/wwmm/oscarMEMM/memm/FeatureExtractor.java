@@ -37,8 +37,7 @@ public final class FeatureExtractor {
 	private static final Pattern SINGLE_LETTER = Pattern.compile("[a-z]");
 	private static final Pattern CAPS = Pattern.compile("[A-Z][A-Z]+");
 	private static final Pattern SINGLE_CAP = Pattern.compile("[A-Z]");
-	private static final Pattern GREEKS = Pattern.compile("["
-			+ StringTools.lowerGreek + "]+");
+	private static final Pattern GREEKS = Pattern.compile("["+ StringTools.lowerGreek + "]+");
 
 	private static final String ZERO = "0";
 	private static final String ONE = "1";

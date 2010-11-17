@@ -320,7 +320,7 @@ public final class MEMMTrainer {
 			for(File f : splitTrainFiles.get(split)) {
 				String domain = null;
 				if(domains != null && domains.containsKey(f)) domain = domains.get(f);
-				rescorer.trainOnFile(f, domain, MEMMSingleton.getInstance());
+				rescorer.trainOnFile(f, domain, MEMM.getInstance());
 			}				
 			evsByPrev.clear();
 			if(!simpleRescore) {
@@ -444,7 +444,7 @@ public final class MEMMTrainer {
 		}
 		
 		EntityTokeniser lattice = new EntityTokeniser(
-			MEMMSingleton.getInstance(), tokSeq, classifierResults
+			MEMM.getInstance(), tokSeq, classifierResults
 		);
 		Map<NamedEntity,Double> neConfidences = lattice.getEntities(confidenceThreshold);
 		PostProcessor pp = new PostProcessor(tokSeq, neConfidences);

@@ -8,7 +8,6 @@ import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMSingleton;
 import uk.ac.cam.ch.wwmm.oscarMEMM.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFAONTCPRFinder;
 
@@ -31,7 +30,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     private DFAONTCPRFinder ontologyTermFinder;
 
     public MEMMRecogniser() {
-        this.memm = MEMMSingleton.getInstance();
+        this.memm = MEMM.getInstance();
         this.memmThreshold = OscarProperties.getData().neThreshold;
         this.ontologyTermFinder = DFAONTCPRFinder.getInstance();
     }

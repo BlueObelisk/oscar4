@@ -13,8 +13,7 @@ public class ExtractedTrainingDataTest {
 
 	@Test
 	public void testLoadDefaultModelData() {
-		ExtractedTrainingData etd = ExtractedTrainingData.getInstance();
-		assertEquals(OscarProperties.getData().model, etd.getModelName());
+		assertNotNull(ExtractedTrainingData.getDefaultInstance());
 	}
 	
 	@Test

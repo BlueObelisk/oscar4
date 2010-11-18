@@ -2,24 +2,199 @@ package uk.ac.cam.ch.wwmm.oscartokeniser;
 
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
+
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 public class HyphenTokeniserTest {
 
 	@Test
-	public void indexOfSplittableHyphenNoHyphen() {
+	public void testSuffixContainedInSplitSuffix() {
+		HyphenTokeniser tokeniser = HyphenTokeniser.getInstance();
+		assertFalse(tokeniser.suffixContainedInSplitSuffix("foo-bar", 3));
+		assertTrue(tokeniser.suffixContainedInSplitSuffix("foo-labelled", 3));
+	}
+	
+	@Test
+	public void testTermMatchesProperNounPattern() {
+		HyphenTokeniser tokeniser = HyphenTokeniser.getInstance();
+		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer–Villiger"));
+		assertTrue(tokeniser.termMatchesPropernounPattern("Tert-Villiger"));
+		assertFalse(tokeniser.termMatchesPropernounPattern("baeyer–villiger"));
+		assertFalse(tokeniser.termMatchesPropernounPattern("baeyer–Villiger"));
+		assertFalse(tokeniser.termMatchesPropernounPattern("Baeyer–villiger"));
+		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer–Baeyer–Villiger"));
+	}
+	
+	@Test
+	public void testSuffixStartsWithSplitSuffix() {
+		HyphenTokeniser tokeniser = HyphenTokeniser.getInstance();
+		assertFalse(tokeniser.suffixStartsWithSplitSuffix("foo-poisone", 3));
+		assertTrue(tokeniser.suffixStartsWithSplitSuffix("foo-poisoned", 3));
+		assertTrue(tokeniser.suffixStartsWithSplitSuffix("foo-poisoneds", 3));
+		
+		assertFalse(tokeniser.suffixStartsWithSplitSuffix("foo-monopoisone", 3));
+		assertTrue(tokeniser.suffixStartsWithSplitSuffix("foo-monopoisoned", 3));
+	}
+	
+	@Test
+	public void testLowercaseEitherSideOfHyphen() {
+		HyphenTokeniser tokeniser = HyphenTokeniser.getInstance();
+		assertTrue(tokeniser.lowercaseEitherSideOfHyphen("aa-aa", 2));
+		assertFalse(tokeniser.lowercaseEitherSideOfHyphen("Aa-aa", 2));
+		assertFalse(tokeniser.lowercaseEitherSideOfHyphen("aA-aa", 2));
+		assertFalse(tokeniser.lowercaseEitherSideOfHyphen("aa-Aa", 2));
+		assertFalse(tokeniser.lowercaseEitherSideOfHyphen("aa-aA", 2));
+		assertTrue(tokeniser.lowercaseEitherSideOfHyphen("Aaa-aa", 3));
+		assertFalse(tokeniser.lowercaseEitherSideOfHyphen("11-aa", 2));
+	}
+
+	
+	
+	@Test
+	public void testIndexOfSplittableHyphenNoHyphen() {
 		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("foo"));
 	}
 	
-	
 	@Test
-	public void indexOfSplittableHyphen() {
+	public void testIndexOfSplittableHyphen() {
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen("foo-bar"));
 		assertEquals(7, HyphenTokeniser.indexOfSplittableHyphen("alcohol-consuming"));
 	}
 	
+	@Test
+	public void testIndexOfNonsplittableHyphen() {
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("tert-butane"));
+	}
+	
+
+	@Test
+	public void testEnDash() {
+		String simple = "foo" + StringTools.enDash + "bar";
+		String noSplitPrefix = "tert" + StringTools.enDash + "foo";
+		String splitSuffix = "foo" + StringTools.enDash + "poisoned";
+		String noSplitPrefixSplitSuffix = "tert" + StringTools.enDash + "posioned";
+		String withCaps = "FOO" + StringTools.enDash + "bar";
+		
+		OscarProperties.setProperty("splitOnEnDash", "yes");
+		
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen(simple));
+		assertEquals(4, HyphenTokeniser.indexOfSplittableHyphen(noSplitPrefix));
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen(splitSuffix));
+		assertEquals(4, HyphenTokeniser.indexOfSplittableHyphen(noSplitPrefixSplitSuffix));
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen(withCaps));
+	}
 	
 	@Test
-	public void indexOfNonsplittableHyphen() {
-		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("n-butane"));
+	public void testEmDash() {
+		String simple = "foo" + StringTools.emDash + "bar";
+		String noSplitPrefix = "tert" + StringTools.emDash + "foo";
+		String splitSuffix = "foo" + StringTools.emDash + "poisoned";
+		String noSplitPrefixSplitSuffix = "tert" + StringTools.emDash + "posioned";
+		String withCaps = "FOO" + StringTools.emDash + "bar";
+		
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen(simple));
+		assertEquals(4, HyphenTokeniser.indexOfSplittableHyphen(noSplitPrefix));
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen(splitSuffix));
+		assertEquals(4, HyphenTokeniser.indexOfSplittableHyphen(noSplitPrefixSplitSuffix));
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen(withCaps));
 	}
+	
+	@Test
+	@Ignore
+	//there appears to be a problem with OntologyTerms.getHyphTokable()
+	public void testOntontologyTerm() {
+		String simple = "halide-ions";
+		String noSplitPrefix = "graft-copolymer";
+		
+		assertEquals(6, HyphenTokeniser.indexOfSplittableHyphen(simple));
+		assertEquals(5, HyphenTokeniser.indexOfSplittableHyphen(noSplitPrefix));
+	}
+	
+	@Test
+	public void testSplitSuffix() {
+		String splitSuffix = "foo-labelled";
+		String splitSuffixNoSplitPrefix = "tert-labelled";
+		String withCaps = "FOO-labelled";
+		
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen(splitSuffix));
+		assertEquals(4, HyphenTokeniser.indexOfSplittableHyphen(splitSuffixNoSplitPrefix));
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen(withCaps));
+	}
+	
+	@Test
+	public void testProperNouns() {
+		String simple = "Baeyer–Villiger";
+		String nosplitPrefix = "Tert-Villiger";
+		String tripleBarrelled = "Baeyer–Baeyer–Villiger";
+		
+		assertEquals(6, HyphenTokeniser.indexOfSplittableHyphen(simple));
+		assertEquals(4, HyphenTokeniser.indexOfSplittableHyphen(nosplitPrefix));
+		assertEquals(13, HyphenTokeniser.indexOfSplittableHyphen(tripleBarrelled));
+	}
+	
+	@Test
+	public void testSplitSuffixes() {
+		String simple = "foo-poisoned";
+		String suffixPrefix = "foo-monopoisoned";
+		String noSplitPrefix = "tert-poisoned";
+		String withCaps = "FOO-poisoned";
+		
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen(simple));
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen(suffixPrefix));
+		assertEquals(4, HyphenTokeniser.indexOfSplittableHyphen(noSplitPrefix));
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen(withCaps));
+	}
+	
+	@Test
+	public void testNoSplitPrefix() {
+		String noSplitPrefix = "tert-foo";
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen(noSplitPrefix));
+	}
+	
+	@Test
+	public void testLowercaseEitherSide() {
+		assertEquals(2, HyphenTokeniser.indexOfSplittableHyphen("aa-aa"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("Aa-aa"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("aA-aa"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("aa-Aa"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("aa-aA"));
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen("Aaa-aa"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("11-aa"));
+	}
+	
+	
+	@Test
+	public void testMinTwoCharactersAfterHyphen() {
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen("foo-foo"));
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen("foo-fo"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("foo-f"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("foo-"));
+	}
+	
+	@Test
+	public void minTwoCharactersBeforeHyphen() {
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen("foo-foo"));
+		assertEquals(2, HyphenTokeniser.indexOfSplittableHyphen("fo-foo"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("f-foo"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("-foo"));
+	}
+	
+	@Test
+	public void testNoTokenisationInsideBrackets() {
+		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen("foo-foo"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("(foo-foo)"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("[foo-foo]"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("{foo-foo}"));
+	}
+	
+	@Test
+	public void noTokenisationUnlessLowerCaseEitherSide() {
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("foo-Foo"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("FOO-foo"));
+	}
+	
+	
 }

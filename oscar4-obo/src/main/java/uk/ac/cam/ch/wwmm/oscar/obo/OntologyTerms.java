@@ -89,6 +89,10 @@ public final class OntologyTerms {
 	 * 
 	 * @return Some data for the HyphenTokeniser.
 	 */
+	/*
+	 * This method appears to be broken. getInstance().termsWithIDs.keySet()
+	 * returns 31616 items but nothing matches maybeHyphPattern
+	 */
 	public static Set<String> getHyphTokable() {
 		if(getInstance().hyphTokable == null) {
 			Set<String> ht = new HashSet<String>();

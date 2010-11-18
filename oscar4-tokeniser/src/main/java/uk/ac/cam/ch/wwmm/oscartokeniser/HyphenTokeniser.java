@@ -35,7 +35,7 @@ public final class HyphenTokeniser {
 	private boolean splitOnEnDash;
 	private static Pattern suffixPrefixPattern = Pattern.compile("mono|di|tri|tetra|penta|hexa|hepta|un|de|re|pre");
 //	private static Pattern propernounHyphenPattern = Pattern.compile("((Mc|Mac)?[A-Z]\\p{Ll}\\p{Ll}\\p{Ll}+(s'|'s)?" + StringTools.hyphensRegex + ")+(Mc|Mac)?[A-Z]\\p{Ll}\\p{Ll}\\p{Ll}+(s'|'s)?");
-	private static Pattern propernounHyphenPattern = Pattern.compile("((Mc|Mac)?[A-Z][a-z][a-z][a-z]+(s'|'s)?" + StringTools.hyphensRegex + ")+(Mc|Mac)?[A-Z][a-z][a-z][a-z]+(s'|'s)?");
+	private static Pattern propernounHyphenPattern = Pattern.compile("((Mc|Mac)?[A-Z][a-z][a-z][a-z]+(s\\'|\\'s)?" + StringTools.hyphensRegex + ")+(Mc|Mac)?[A-Z][a-z][a-z][a-z]+(s\\'|\\'s)?");
 	private static Pattern lowercaseEitherSidePattern = Pattern.compile("[a-z][a-z]["+StringTools.hyphens+"][a-z]+");
 	
 	/**Re-initialises the Hyphen tokeniser.

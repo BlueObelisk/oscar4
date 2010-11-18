@@ -8,6 +8,7 @@ import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
 import uk.ac.cam.ch.wwmm.oscarMEMM.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFAONTCPRFinder;
 
@@ -25,7 +26,8 @@ import java.util.Set;
  */
 public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
-    private MEMM memm;
+	private Model model;
+//    private MEMM memm;
     private double memmThreshold;
     private DFAONTCPRFinder ontologyTermFinder;
 
@@ -34,15 +36,15 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     }
 
 
-    public MEMM getMemm() {
-        if (memm == null) {
-            memm = MEMM.getDefaultInstance();
+    public Model getModel() {
+        if (model == null) {
+            model = Model.getDefaultInstance();
         }
-        return memm;
+        return model;
     }
 
-    public void setMemm(MEMM memm) {
-        this.memm = memm;
+    public void setModel(Model model) {
+        this.model = model;
     }
 
 
@@ -150,7 +152,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      */
     private List<NamedEntity> generateNamedEntities(List<TokenSequence> toxicList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
-        MEMM memm = getMemm();
+        MEMM memm = getModel().getMemm();
         for (TokenSequence tokseq : toxicList) {
             for (NamedEntity ne : memm.findNEs(tokseq, null).keySet()) {
                 if (ne.getConfidence() > getMemmThreshold()) {

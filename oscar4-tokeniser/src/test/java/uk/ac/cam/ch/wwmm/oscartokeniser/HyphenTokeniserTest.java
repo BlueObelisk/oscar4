@@ -26,6 +26,8 @@ public class HyphenTokeniserTest {
 		assertFalse(tokeniser.termMatchesPropernounPattern("baeyer–Villiger"));
 		assertFalse(tokeniser.termMatchesPropernounPattern("Baeyer–villiger"));
 		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer–Baeyer–Villiger"));
+		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer's–Villiger"));
+		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer–Villigers'"));
 	}
 	
 	@Test
@@ -129,10 +131,14 @@ public class HyphenTokeniserTest {
 		String simple = "Baeyer–Villiger";
 		String nosplitPrefix = "Tert-Villiger";
 		String tripleBarrelled = "Baeyer–Baeyer–Villiger";
+		String withApostrophe1 = "Baeyer's–Villiger";
+		String withApostrophe2 = "Baeyer–Villigers'";
 		
 		assertEquals(6, HyphenTokeniser.indexOfSplittableHyphen(simple));
 		assertEquals(4, HyphenTokeniser.indexOfSplittableHyphen(nosplitPrefix));
 		assertEquals(13, HyphenTokeniser.indexOfSplittableHyphen(tripleBarrelled));
+		assertEquals(8, HyphenTokeniser.indexOfSplittableHyphen(withApostrophe1));
+		assertEquals(6, HyphenTokeniser.indexOfSplittableHyphen(withApostrophe2));
 	}
 	
 	@Test

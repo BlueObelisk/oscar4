@@ -71,7 +71,7 @@ final class PostProcessor {
 				.equals("ASE"))
 				&& surf.matches(".+ .+")) {
 			return 6;
-		} else if (TermSets.getClosedClass().contains(surf)) {
+		} else if (TermSets.getDefaultInstance().getClosedClass().contains(surf)) {
 			return 7;
 		} else if (surf.endsWith(",") || surf.endsWith(".")) {
 			return 8;
@@ -94,7 +94,7 @@ final class PostProcessor {
 //						.contains(surf))) {
 			return 12;
 		} else if (ChemNameDictSingleton.hasStopWord(surf)
-				|| TermSets.getStopWords().contains(surf)) {
+				|| TermSets.getDefaultInstance().getStopWords().contains(surf)) {
 			return 13;
 		}
 		return 0;

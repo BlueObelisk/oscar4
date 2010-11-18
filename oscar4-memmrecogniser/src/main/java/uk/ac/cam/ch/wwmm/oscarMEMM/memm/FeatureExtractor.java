@@ -188,11 +188,11 @@ public final class FeatureExtractor {
 			local.add(IN_NAMEDICT_FEATURE);
 		}
 
-		if (TermSets.getElements().contains(normWord)) {
+		if (TermSets.getDefaultInstance().getElements().contains(normWord)) {
 			contextable.add(ELEMENT_FEATURE);
 			bigramable.add(ELEMENT_FEATURE);
 		}
-		if (TermSets.getEndingInElementPattern().matcher(word).matches()) {
+		if (TermSets.getDefaultInstance().getEndingInElementNamePattern().matcher(word).matches()) {
 			contextable.add(ENDS_IN_ELEMENT_FEATURE);
 			bigramable.add(ENDS_IN_ELEMENT_FEATURE);
 		}
@@ -201,11 +201,11 @@ public final class FeatureExtractor {
 			bigramable.add(OXIDATION_STATE_FEATURE);
 		}
 
-		if (TermSets.getStopWords().contains(normWord)
+		if (TermSets.getDefaultInstance().getStopWords().contains(normWord)
 				|| ChemNameDictSingleton.hasStopWord(normWord)) {
 			local.add(STOPWORD_FEATURE);
 		}
-		if (TermSets.getClosedClass().contains(normWord)) {
+		if (TermSets.getDefaultInstance().getClosedClass().contains(normWord)) {
 			local.add(STOPWORD_CLOSED_CLASS_FEATURE);
 		}
 		if (ExtractedTrainingData.getInstance().nonChemicalWords
@@ -214,10 +214,10 @@ public final class FeatureExtractor {
 		}
 		if (ExtractedTrainingData.getInstance().nonChemicalNonWords
 				.contains(normWord)
-				&& !TermSets.getElements().contains(normWord)) {
+				&& !TermSets.getDefaultInstance().getElements().contains(normWord)) {
 			local.add(STOPWORD_NONCHEMICALNONWORD_FEATURE);
 		}
-		if (TermSets.getUsrDictWords().contains(normWord)
+		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
 				&& !(ChemNameDictSingleton.hasName(normWord) || ExtractedTrainingData
 						.getInstance().chemicalWords.contains(normWord))) {
 			local.add(STOPWORD_USER_DEFINED_FEATURE);
@@ -239,8 +239,8 @@ public final class FeatureExtractor {
 			local.add((NGRAM_DEC_FEATURE + type).intern());
 		}
 
-		if (TermSets.getUsrDictWords().contains(normWord)
-				|| TermSets.getUsrDictWords().contains(word)) {
+		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
+				|| TermSets.getDefaultInstance().getUsrDictWords().contains(word)) {
 			ngscore = SUFFIX_LO_SCORE;
 		}
 		if (ExtractedTrainingData.getInstance().chemicalWords.contains(normWord)) {
@@ -271,8 +271,8 @@ public final class FeatureExtractor {
 			local.add((SUFFIX_SCORE_DEC_FEATURE + type).intern());
 		}
 
-		if (TermSets.getUsrDictWords().contains(normWord)
-				|| TermSets.getUsrDictWords().contains(word)) {
+		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
+				|| TermSets.getDefaultInstance().getUsrDictWords().contains(word)) {
 			suffixScore = SUFFIX_LO_SCORE;
 		}
 		if (ExtractedTrainingData.getInstance().chemicalWords.contains(normWord)) {
@@ -423,8 +423,8 @@ public final class FeatureExtractor {
 		if (pnPattern.matcher(word).matches()) {
 			boolean suspect = false;
 			if (word.matches("[A-Z][a-z]+")
-					&& TermSets.getUsrDictWords().contains(word.toLowerCase())
-					&& !TermSets.getUsrDictWords().contains(word))
+					&& TermSets.getDefaultInstance().getUsrDictWords().contains(word.toLowerCase())
+					&& !TermSets.getDefaultInstance().getUsrDictWords().contains(word))
 				suspect = true;
 			if (!noPC
 					&& ExtractedTrainingData.getInstance().pnStops.contains(word))

@@ -58,7 +58,7 @@ public final class HyphenTokeniser {
 		logger.debug("Initialising hyphen tokeniser... ");
 		//splitSuffixes = TermSets.getSplitSuffixes();
 		splitSuffixes = new HashSet<String>();
-		splitSuffixes.addAll(TermSets.getSplitSuffixes());
+		splitSuffixes.addAll(TermSets.getDefaultInstance().getSplitSuffixes());
 		
 		/*for(String s : TermSets.getUsrDictWords()) {
 			if(!ChemNameDictSingleton.hasName(s) && !ExtractTrainingData.getIntstance().chemicalWords.contains(s)) {
@@ -66,7 +66,7 @@ public final class HyphenTokeniser {
 			}
 		}*/
 		
-		noSplitPrefixes = TermSets.getNoSplitPrefixes();
+		noSplitPrefixes = TermSets.getDefaultInstance().getNoSplitPrefixes();
 		
 		minPrefixLength = 1000;
 		maxPrefixLength = 0;

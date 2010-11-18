@@ -192,7 +192,7 @@ public class NGramBuilder {
 	}
 		
 	private void readStopWordsTrainingData() {
-		readCollection(TermSets.getStopWords(), false);
+		readCollection(TermSets.getDefaultInstance().getStopWords(), false);
 		readCollection(ChemNameDictSingleton.getStopWords(), false);
 	}
 
@@ -205,12 +205,12 @@ public class NGramBuilder {
 	}	
 	
 	private void readElementsTrainingData() {
-			readCollection(TermSets.getElements(), true);
+			readCollection(TermSets.getDefaultInstance().getElements(), true);
 	}	
 	
 	private void readUdwTrainingData() {
 		Set<String> goodUDW = new HashSet<String>();
-		for(String word : TermSets.getUsrDictWords()) {
+		for(String word : TermSets.getDefaultInstance().getUsrDictWords()) {
 			if(!(ChemNameDictSingleton.hasName(word) || ExtractedTrainingData.getInstance().chemicalWords.contains(word))) {
 				goodUDW.add(word);
 			}
@@ -225,8 +225,8 @@ public class NGramBuilder {
 	}
 	
 	private void readAseTrainingData() {
-		readCollection(TermSets.getChemAses(), true);
-		readCollection(TermSets.getNonChemAses(), false);
+		readCollection(TermSets.getDefaultInstance().getChemAses(), true);
+		readCollection(TermSets.getDefaultInstance().getNonChemAses(), false);
 	}
 	
 	private void readExtraTrainingData(){

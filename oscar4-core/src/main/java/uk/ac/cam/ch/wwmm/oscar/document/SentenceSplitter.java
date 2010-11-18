@@ -66,22 +66,22 @@ public final class SentenceSplitter {
 		List<Token> prevSentence = null;
 		for(Token t : tokens) {
 			if(sentence.size() == 0 && 
-					XMLStrings.getInstance().isCitationReferenceUnderStyle(t.doc.standoffTable.getElemAtOffset(t.start))
+					XMLStrings.getInstance().isCitationReferenceUnderStyle(t.getDoc().standoffTable.getElemAtOffset(t.getStart()))
 					&& prevSentence != null) {
 				prevSentence.add(t);
 			} else {
 				sentence.add(t);				
 			}
 			boolean split = false;
-			String value = t.value;
+			String value = t.getValue();
 			if(verbose) System.out.println(value);
 			if(splitTokens.contains(value)) {
 				split = true;
 				Token next = t.getNAfter(1);
 				Token prev = t.getNAfter(-1);
 				if(next != null && prev != null) {
-					String nextStr = next.value;
-					String prevStr = prev.value;
+					String nextStr = next.getValue();
+					String prevStr = prev.getValue();
 					if("\"".equals(value) && !splitTokens.contains(prevStr)) {
 						if(verbose) System.out.println("A!");
 						split = false;
@@ -94,7 +94,7 @@ public final class SentenceSplitter {
 					} else if(splitTokens.contains(nextStr)) {
 						if(verbose) System.out.println("D!");
 						split = false;
-					} else if(t.end == next.start && XMLStrings.getInstance().isCitationReferenceUnderStyle(next.doc.standoffTable.getElemAtOffset(next.start))) {
+					} else if(t.getEnd() == next.getStart() && XMLStrings.getInstance().isCitationReferenceUnderStyle(next.getDoc().standoffTable.getElemAtOffset(next.getStart()))) {
 						if(verbose) System.out.println("E!");
 						split = false;
 					} else if(nextStr.matches("[a-z]+")) {

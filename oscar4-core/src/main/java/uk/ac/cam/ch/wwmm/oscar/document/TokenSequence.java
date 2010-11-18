@@ -116,7 +116,7 @@ public final class TokenSequence {
 	public List<String> getTokenStringList() {
 		List<String> tl = new ArrayList<String>();
 		for(Token t : tokens) {
-			tl.add(t.value);
+			tl.add(t.getValue());
 		}
 		return tl;
 	}
@@ -130,8 +130,8 @@ public final class TokenSequence {
 	 */
 	public String getSubstring(int startToken, int endToken) {
 		if(endToken >= size()) endToken = size()-1;
-		int startOffset = tokens.get(startToken).start;
-		int endOffset = tokens.get(endToken).end;
+		int startOffset = tokens.get(startToken).getStart();
+		int endOffset = tokens.get(endToken).getEnd();
 		return sourceString.substring(startOffset - offset, endOffset - offset);
 	}
 	
@@ -166,13 +166,13 @@ public final class TokenSequence {
 				&& "O".equals(tokens.get(i).getBioTag())
 				&& "O".equals(tokens.get(i+1).getBioTag())
 				&& !"O".equals(tokens.get(i-1).getBioTag())
-				&& tokens.get(i).start == tokens.get(i-1).end
-				&& tokens.get(i).end == tokens.get(i+1).start
+				&& tokens.get(i).getStart() == tokens.get(i-1).getEnd()
+				&& tokens.get(i).getEnd() == tokens.get(i+1).getStart()
 					) {
 				afterHyphens.add(tokens.get(i+1).getValue());
 			} else if("O".equals(tokens.get(i).getBioTag())
 				&& "B-CPR".equals(tokens.get(i-1).getBioTag())
-				&& tokens.get(i).start == tokens.get(i-1).end
+				&& tokens.get(i).getStart() == tokens.get(i-1).getEnd()
 			) {
 				afterHyphens.add(tokens.get(i).getValue());				
 			}

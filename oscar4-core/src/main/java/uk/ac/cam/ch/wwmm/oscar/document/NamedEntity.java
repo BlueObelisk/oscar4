@@ -47,8 +47,8 @@ public final class NamedEntity extends ResolvableStandoff {
 		blocked = false;
 		this.tokens = tokens;
 		endToken = tokens.get(tokens.size()-1);
-		startOffset = tokens.get(0).start;
-		endOffset = endToken.end;
+		startOffset = tokens.get(0).getStart();
+		endOffset = endToken.getEnd();
 		this.surface = surface;
 		this.type = type;
 		ontIds = null;
@@ -68,7 +68,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	    ne.tokens = new ArrayList<Token>();
 		ne.tokens.add(t);
 		ne.endToken = t;
-		ne.startOffset = t.start;
+		ne.startOffset = t.getStart();
 		ne.endOffset = ne.startOffset + prefix.length();
 		ne.surface = prefix;
 		ne.type = NamedEntityTypes.LOCANTPREFIX;
@@ -193,22 +193,22 @@ public final class NamedEntity extends ResolvableStandoff {
 		int tmpLeftOffset = startOffset;
 		Token prevToken = tokens.get(0).getNAfter(-1);
 		while(prevToken != null) {
-			if(prevToken.end != tmpLeftOffset) break;
-			if(prevToken.value.length() != 1) break;
-			if(!("()[]{}.,;:?!'\""+StringTools.quoteMarks).contains(prevToken.value)) break;
-			leftPunct = prevToken.value + leftPunct;
-			tmpLeftOffset = prevToken.start;
+			if(prevToken.getEnd() != tmpLeftOffset) break;
+			if(prevToken.getValue().length() != 1) break;
+			if(!("()[]{}.,;:?!'\""+StringTools.quoteMarks).contains(prevToken.getValue())) break;
+			leftPunct = prevToken.getValue() + leftPunct;
+			tmpLeftOffset = prevToken.getStart();
 			prevToken = prevToken.getNAfter(-1);
 		}
 		rightPunct = "";
 		int tmpRightOffset = endOffset;
 		Token nextToken = tokens.get(tokens.size()-1).getNAfter(1);
 		while(nextToken != null) {
-			if(nextToken.start != tmpRightOffset) break;
-			if(nextToken.value.length() != 1) break;
-			if(!("()[]{}.,;:?!'\""+StringTools.quoteMarks+StringTools.hyphens).contains(nextToken.value)) break;
-			rightPunct = rightPunct + nextToken.value;
-			tmpRightOffset = nextToken.end;
+			if(nextToken.getStart() != tmpRightOffset) break;
+			if(nextToken.getValue().length() != 1) break;
+			if(!("()[]{}.,;:?!'\""+StringTools.quoteMarks+StringTools.hyphens).contains(nextToken.getValue())) break;
+			rightPunct = rightPunct + nextToken.getValue();
+			tmpRightOffset = nextToken.getEnd();
 			nextToken = nextToken.getNAfter(1);
 		}
 		

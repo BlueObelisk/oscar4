@@ -167,7 +167,7 @@ public final class Tokeniser implements ITokeniser {
 		 */
 		List<Token> tmpTokens = new ArrayList<Token>();
 		for (Token t : tokens) {
-			if (t.value != null && !"".equals(t.value)) {
+			if (t.getValue() != null && !"".equals(t.getValue())) {
 				tmpTokens.add(t);
 			}
 		}
@@ -194,22 +194,22 @@ public final class Tokeniser implements ITokeniser {
 		/* Number tokens */
 		int id = 0;
 		for (Token t : tokens) {
-			t.id = id;
+			t.setId(id);
 			id++;
 		}
 		
 		/* Make an index of the tokens in the ProcessingDocument */
 		if (doc != null && doc.tokensByStart != null) {
 			for (Token t : tokens) {
-				doc.tokensByStart.put((Integer) t.start, t);
-				doc.tokensByEnd.put(t.end, t);
+				doc.tokensByStart.put((Integer) t.getStart(), t);
+				doc.tokensByEnd.put(t.getEnd(), t);
 			}
 		}
 		
 		/* Create a TokenSequence from the tokens */
 		TokenSequence tokenSequence = new TokenSequence(s, offset, doc, tokens);
 		for (Token t : tokens) {
-			t.tokenSequence = tokenSequence;
+			t.setTokenSequence(tokenSequence);
 		}
 		tokenSequence.setElem(elem);
 		
@@ -231,7 +231,7 @@ public final class Tokeniser implements ITokeniser {
 			return null;
 		int goodTokens = 0;
 		for (Token t : tokenList) {
-			if (t.end - t.start > 0)
+			if (t.getEnd() - t.getStart() > 0)
 				goodTokens++;
 		}
 		if (goodTokens > 1)
@@ -267,39 +267,39 @@ public final class Tokeniser implements ITokeniser {
 			abvList.add(item);
 		}
 		
-		if (abvList.contains(token.value.toLowerCase())) return null;
+		if (abvList.contains(token.getValue().toLowerCase())) return null;
 		
 		/*
 		* End of lh359 code
 		*****************************************/			
 		String middleValue = "";
-		if (token.value.length() > 2)
-			middleValue = token.value.substring(0, token.value.length() - 1);
+		if (token.getValue().length() > 2)
+			middleValue = token.getValue().substring(0, token.getValue().length() - 1);
 		/* Don't split special lexicon entries */
-		if (token.value.startsWith("$")) {
+		if (token.getValue().startsWith("$")) {
 			return null;
 		}
 		/* One-character tokens don't split! */
-		if (token.end - token.start < 2) {
+		if (token.getEnd() - token.getStart() < 2) {
 			return null;
 		}
-		if (token.value.equals("--")) {
+		if (token.getValue().equals("--")) {
 			return null;
 		}
 		// /* Pull citation references off the end */
 		// if(token.doc != null &&
-		// XMLStrings.getInstance().isCitationReferenceUnderStyle(token.doc.standoffTable.getElemAtOffset(token.end-1))
+		// XMLStrings.getInstance().isCitationReferenceUnderStyle(token.doc.standoffTable.getElemAtOffset(token.getEnd()-1))
 		// &&
 		// !(XMLStrings.getInstance().isCitationReferenceUnderStyle(token.doc.standoffTable.getElemAtOffset(token.start))))
 		// {
-		// int citrefOffset = token.end-1;
+		// int citrefOffset = token.getEnd()-1;
 		// while(XMLStrings.getInstance().isCitationReferenceUnderStyle(token.doc.standoffTable.getElemAtOffset(citrefOffset-1)))
 		// citrefOffset--;
 		// return splitAt(token, citrefOffset);
 		// }
 		// /* Pull citation references off the start */
 		// if(token.doc != null &&
-		// !XMLStrings.getInstance().isCitationReferenceUnderStyle(token.doc.standoffTable.getElemAtOffset(token.end-1))
+		// !XMLStrings.getInstance().isCitationReferenceUnderStyle(token.doc.standoffTable.getElemAtOffset(token.getEnd()-1))
 		// &&
 		// (XMLStrings.getInstance().isCitationReferenceUnderStyle(token.doc.standoffTable.getElemAtOffset(token.start))))
 		// {
@@ -310,12 +310,12 @@ public final class Tokeniser implements ITokeniser {
 		// }
 		// /* Split equations off ends */
 		// if(token.doc != null &&
-		// XMLStrings.getInstance().isEquationUnderStyle(token.doc.standoffTable.getElemAtOffset(token.end-1))
+		// XMLStrings.getInstance().isEquationUnderStyle(token.doc.standoffTable.getElemAtOffset(token.getEnd()-1))
 		// &&
 		// !(XMLStrings.getInstance().isEquationUnderStyle(token.doc.standoffTable.getElemAtOffset(token.start))))
 		// {
 		// //System.out.println("EQN! " + value);
-		// int eqnOffset = token.end-1;
+		// int eqnOffset = token.getEnd()-1;
 		// while(XMLStrings.getInstance().isEquationUnderStyle(token.doc.standoffTable.getElemAtOffset(eqnOffset-1)))
 		// eqnOffset--;
 		// //System.out.println(eqnOffset - start);
@@ -323,7 +323,7 @@ public final class Tokeniser implements ITokeniser {
 		// }
 		// /* Split equations off starts */
 		// if(token.doc != null &&
-		// !XMLStrings.getInstance().isEquationUnderStyle(token.doc.standoffTable.getElemAtOffset(token.end-1))
+		// !XMLStrings.getInstance().isEquationUnderStyle(token.doc.standoffTable.getElemAtOffset(token.getEnd()-1))
 		// &&
 		// (XMLStrings.getInstance().isEquationUnderStyle(token.doc.standoffTable.getElemAtOffset(token.start))))
 		// {
@@ -337,100 +337,100 @@ public final class Tokeniser implements ITokeniser {
 		// / COMMENTED ON 27/1
 
 		/* Preserve oxidation states whole - don't eat for brackets */
-		if (oxidationStatePattern.matcher(token.value).matches()) {
+		if (oxidationStatePattern.matcher(token.getValue()).matches()) {
 			return null;
 		}
 		/* Split unmatched brackets off the front */
 		//TODO unit tests for the various StringTools methods
-		if ("([{".indexOf(token.value.codePointAt(0)) != -1
-				&& (StringTools.isBracketed(token.value) || StringTools
-						.isLackingCloseBracket(token.value))) {
-			return splitAt(token, token.start + 1);
+		if ("([{".indexOf(token.getValue().codePointAt(0)) != -1
+				&& (StringTools.isBracketed(token.getValue()) || StringTools
+						.isLackingCloseBracket(token.getValue()))) {
+			return splitAt(token, token.getStart() + 1);
 		}
 		/* Split unmatched brackets off the end */
-		if (")]}".indexOf(token.value.codePointAt(token.value.length() - 1)) != -1
-				&& (StringTools.isBracketed(token.value) || StringTools
-						.isLackingOpenBracket(token.value))) {
-			return splitAt(token, token.end - 1);
+		if (")]}".indexOf(token.getValue().codePointAt(token.getValue().length() - 1)) != -1
+				&& (StringTools.isBracketed(token.getValue()) || StringTools
+						.isLackingOpenBracket(token.getValue()))) {
+			return splitAt(token, token.getEnd() - 1);
 		}
 		/* Split oxidation state off the end */
-		if (oxidationStateEndPattern.matcher(token.value).matches()) {
-			return splitAt(token, token.start + token.value.lastIndexOf('('));
+		if (oxidationStateEndPattern.matcher(token.getValue()).matches()) {
+			return splitAt(token, token.getStart() + token.getValue().lastIndexOf('('));
 		}
 		/* Split some characters off the front of tokens */
 		if ((StringTools.relations + StringTools.quoteMarks)
-				.indexOf(token.value.codePointAt(0)) != -1) {
-			return splitAt(token, token.start + 1);
+				.indexOf(token.getValue().codePointAt(0)) != -1) {
+			return splitAt(token, token.getStart() + 1);
 		}
 		/* Split some characters off the back of tokens */
 		
 		//This is probably the source of the abbreviation problem.
 		if ((".,;:!?\u2122\u00ae-" + StringTools.quoteMarks)
-				.indexOf(token.value.codePointAt(token.value.length() - 1)) != -1) {
+				.indexOf(token.getValue().codePointAt(token.getValue().length() - 1)) != -1) {
 			// Careful with Jones' reagent
-			if (!(token.value.substring(token.value.length() - 1).equals("'") && token.value
+			if (!(token.getValue().substring(token.getValue().length() - 1).equals("'") && token.getValue()
 					.matches("[A-Z][a-z]+s'"))) {
-				return splitAt(token, token.end - 1);
+				return splitAt(token, token.getEnd() - 1);
 			}
 		}
 		/* Split trademark symbols off the back of tokens */
-		Matcher m = trademarkPattern.matcher(token.value);
+		Matcher m = trademarkPattern.matcher(token.getValue());
 		if (m.matches() && m.start(1) > 0) {
-			return splitAt(token, token.start + m.start(1));
+			return splitAt(token, token.getStart() + m.start(1));
 		}
 		/* characters to split on */
 		if (middleValue.contains("<")) {
-			return splitAt(token, token.start + token.value.indexOf("<"),
-					token.start + token.value.indexOf("<") + 1);
+			return splitAt(token, token.getStart() + token.getValue().indexOf("<"),
+					token.getStart() + token.getValue().indexOf("<") + 1);
 		}
 		if (middleValue.contains(">")) {
-			return splitAt(token, token.start + token.value.indexOf(">"),
-					token.start + token.value.indexOf(">") + 1);
+			return splitAt(token, token.getStart() + token.getValue().indexOf(">"),
+					token.getStart() + token.getValue().indexOf(">") + 1);
 		}
 		if (middleValue.contains("/")) {
-			return splitAt(token, token.start + token.value.indexOf("/"),
-					token.start + token.value.indexOf("/") + 1);
+			return splitAt(token, token.getStart() + token.getValue().indexOf("/"),
+					token.getStart() + token.getValue().indexOf("/") + 1);
 		}
 		if (middleValue.contains(":")) {
 			// Check to see if : is nestled in brackets, such as in ring systems
-			if (StringTools.bracketsAreBalanced(token.value)
-					&& StringTools.bracketsAreBalanced(token.value
-							.substring(token.value.indexOf(":") + 1))) {
-				return splitAt(token, token.start + token.value.indexOf(":"),
-						token.start + token.value.indexOf(":") + 1);
+			if (StringTools.bracketsAreBalanced(token.getValue())
+					&& StringTools.bracketsAreBalanced(token.getValue()
+							.substring(token.getValue().indexOf(":") + 1))) {
+				return splitAt(token, token.getStart() + token.getValue().indexOf(":"),
+						token.getStart() + token.getValue().indexOf(":") + 1);
 			}
 		}
 		if (middleValue.contains("+")) {
-			int index = token.value.indexOf("+");
-			if (index < (token.value.length() - 2)
-					&& StringTools.hyphens.contains(token.value.substring(
+			int index = token.getValue().indexOf("+");
+			if (index < (token.getValue().length() - 2)
+					&& StringTools.hyphens.contains(token.getValue().substring(
 							index + 1, index + 2))) {
-				return splitAt(token, token.start + index + 1, token.start
+				return splitAt(token, token.getStart() + index + 1, token.getStart()
 						+ index + 2);
 			}
-			if (index > 0 && index < token.value.length() - 1) {
-				if (token.value.endsWith("-")) {
+			if (index > 0 && index < token.getValue().length() - 1) {
+				if (token.getValue().endsWith("-")) {
 
-				} else if (StringTools.bracketsAreBalanced(token.value)
-						&& StringTools.bracketsAreBalanced(token.value
+				} else if (StringTools.bracketsAreBalanced(token.getValue())
+						&& StringTools.bracketsAreBalanced(token.getValue()
 								.substring(index + 1))) {
-					return splitAt(token, token.start + index, token.start
+					return splitAt(token, token.getStart() + index, token.getStart()
 							+ index + 1);
 				}
 			} else {
-				return splitAt(token, token.start + index, token.start + index
+				return splitAt(token, token.getStart() + index, token.getStart() + index
 						+ 1);
 			}
 		}
 		if (middleValue.contains(StringTools.midElipsis)) {
-			return splitAt(token, token.start
-					+ token.value.indexOf(StringTools.midElipsis), token.start
-					+ token.value.indexOf(StringTools.midElipsis) + 1);
+			return splitAt(token, token.getStart()
+					+ token.getValue().indexOf(StringTools.midElipsis), token.getStart()
+					+ token.getValue().indexOf(StringTools.midElipsis) + 1);
 		}
 		/* Hyphens */
 		if (middleValue.contains("--")) {
-			return splitAt(token, token.start + token.value.indexOf("--"),
-					token.start + token.value.indexOf("--") + 2);
+			return splitAt(token, token.getStart() + token.getValue().indexOf("--"),
+					token.getStart() + token.getValue().indexOf("--") + 2);
 		}
 		
 		/*
@@ -444,28 +444,28 @@ public final class Tokeniser implements ITokeniser {
 		 * this prevents OSCAR from recognising the ne "alcohol".
 		 */
 		int splittableHyphenIndex = -1;
-		//int splittableHyphenIndex = HyphenTokeniser.indexOfSplittableHyphen(token.value);
+		//int splittableHyphenIndex = HyphenTokeniser.indexOfSplittableHyphen(token.getValue());
 		
 		
 		/* Split on appropriate hyphens */
 		if (splittableHyphenIndex != -1
-				&& !token.value.matches(".*[a-z][a-z].*")
-				&& token.value.matches(".*[A-Z].*")) {
-//			if (TLRHolder.getInstance().macthesTlr(token.value, "bondRegex")) {
+				&& !token.getValue().matches(".*[a-z][a-z].*")
+				&& token.getValue().matches(".*[A-Z].*")) {
+//			if (TLRHolder.getInstance().macthesTlr(token.getValue(), "bondRegex")) {
 //				splittableHyphenIndex = -1;
 //			}
 		}
 		if (splittableHyphenIndex != -1) {
-			if (token.value.endsWith("NMR")) {
-				return splitAt(token, token.start + splittableHyphenIndex,
-						token.start + splittableHyphenIndex + 1);
-			} else if (prefixPattern.matcher(token.value).matches()) {
-				return splitAt(token, token.start + splittableHyphenIndex + 1);
+			if (token.getValue().endsWith("NMR")) {
+				return splitAt(token, token.getStart() + splittableHyphenIndex,
+						token.getStart() + splittableHyphenIndex + 1);
+			} else if (prefixPattern.matcher(token.getValue()).matches()) {
+				return splitAt(token, token.getStart() + splittableHyphenIndex + 1);
 
 			} else {
 				///This is where tokenisation happens
-				return splitAt(token, token.start + splittableHyphenIndex,
-						token.start + splittableHyphenIndex + 1);
+				return splitAt(token, token.getStart() + splittableHyphenIndex,
+						token.getStart() + splittableHyphenIndex + 1);
 			}
 		} else {
 			return null;
@@ -473,31 +473,31 @@ public final class Tokeniser implements ITokeniser {
 	}
 
 	private List<Token> splitAt(Token token, int splitOffset) {
-		int internalOffset = splitOffset - token.start;
+		int internalOffset = splitOffset - token.getStart();
 		List<Token> tokens = new LinkedList<Token>();
 		tokens
-				.add(new Token(token.value.substring(0, internalOffset),
-						token.start, splitOffset, token.doc, token.bioTag,
-						token.neElem));
-		tokens.add(new Token(token.value.substring(internalOffset),
-				splitOffset, token.end, token.doc, token.bioTag, token.neElem));
+				.add(new Token(token.getValue().substring(0, internalOffset),
+						token.getStart(), splitOffset, token.getDoc(), token.getBioTag(),
+						token.getNeElem()));
+		tokens.add(new Token(token.getValue().substring(internalOffset),
+				splitOffset, token.getEnd(), token.getDoc(), token.getBioTag(), token.getNeElem()));
 		// System.out.printf("Split: %s %d", value, splitOffset);
 		return tokens;
 	}
 
 	private List<Token> splitAt(Token token, int splitOffset0, int splitOffset1) {
-		int internalOffset0 = splitOffset0 - token.start;
-		int internalOffset1 = splitOffset1 - token.start;
+		int internalOffset0 = splitOffset0 - token.getStart();
+		int internalOffset1 = splitOffset1 - token.getStart();
 		List<Token> tokens = new LinkedList<Token>();
-		tokens.add(new Token(token.value.substring(0, internalOffset0),
-					token.start, splitOffset0, token.doc, token.bioTag,
-					token.neElem));
-		tokens.add(new Token(token.value.substring(internalOffset0,
-					internalOffset1), splitOffset0, splitOffset1, token.doc,
-					token.bioTag, token.neElem));
-		tokens.add(new Token(token.value.substring(internalOffset1),
-					splitOffset1, token.end, token.doc, token.bioTag,
-					token.neElem));
+		tokens.add(new Token(token.getValue().substring(0, internalOffset0),
+					token.getStart(), splitOffset0, token.getDoc(), token.getBioTag(),
+					token.getNeElem()));
+		tokens.add(new Token(token.getValue().substring(internalOffset0,
+					internalOffset1), splitOffset0, splitOffset1, token.getDoc(),
+					token.getBioTag(), token.getNeElem()));
+		tokens.add(new Token(token.getValue().substring(internalOffset1),
+					splitOffset1, token.getEnd(), token.getDoc(), token.getBioTag(),
+					token.getNeElem()));
 
 		return tokens;
 	}
@@ -584,17 +584,17 @@ public final class Tokeniser implements ITokeniser {
 			// tokens.get(i).getStartOffset() + "\t" +
 			// tokens.get(i).getEndOffset());
 			if (!inElem) {
-				if (tokens.get(i).end <= elemStart) {
+				if (tokens.get(i).getEnd() <= elemStart) {
 					// System.out.println("Skip!");
 					i++;
-				} else if (tokens.get(i).start >= elemStart
-						&& tokens.get(i).end <= elemEnd) {
+				} else if (tokens.get(i).getStart() >= elemStart
+						&& tokens.get(i).getEnd() <= elemEnd) {
 					// System.out.println("Begin!");
-					//tokens.get(i).bioTag = "B-" + neType;
-					tokens.get(i).neElem = currentElem;
+					//tokens.get(i).getBioTag() = "B-" + neType;
+					tokens.get(i).setNeElem(currentElem);
 					inElem = true;
 					i++;
-				} else if (tokens.get(i).start < elemStart) {
+				} else if (tokens.get(i).getStart() < elemStart) {
 					// System.out.println("Split to begin!");
 					splits++;
 					// System.out.print(tokens.get(i).getValue() + " ->");
@@ -607,7 +607,7 @@ public final class Tokeniser implements ITokeniser {
 					tokens.addAll(i, splitResults);
 					// } else if(tokens.get(i).getStartOffset() > elemStart) {
 					//	
-				} else if (tokens.get(i).end > elemEnd) {
+				} else if (tokens.get(i).getEnd() > elemEnd) {
 					splits++;
 					// System.out.println("Split to end before beginning!");
 					// System.out.print(tokens.get(i).getValue() + " ->");
@@ -625,7 +625,7 @@ public final class Tokeniser implements ITokeniser {
 					i++;
 				}
 			} else {
-				if (tokens.get(i).start >= elemEnd) {
+				if (tokens.get(i).getStart() >= elemEnd) {
 					// System.out.println("End!");
 					inElem = false;
 					int oldElemEnd = elemEnd;
@@ -656,10 +656,10 @@ public final class Tokeniser implements ITokeniser {
 							// elemEnd + "\t" + neType);
 						}
 					}
-				} else if (tokens.get(i).end <= elemEnd) {
+				} else if (tokens.get(i).getEnd() <= elemEnd) {
 					// System.out.println("Continue!");
-					tokens.get(i).bioTag = "I-" + neType;
-					tokens.get(i).neElem = currentElem;
+					tokens.get(i).setBioTag("I-" + neType);
+					tokens.get(i).setNeElem(currentElem);
 					i++;
 				} else {
 					splits++;
@@ -683,16 +683,16 @@ public final class Tokeniser implements ITokeniser {
 		String prevTokType = "O";
 		while (i < tokens.size()) {
 			if (prevTokType.equals("O")
-					|| !tokens.get(i).bioTag.equals("O")
-					|| tokens.get(i).value.length() < 2
-					|| !StringTools.hyphens.contains(tokens.get(i).value
+					|| !tokens.get(i).getBioTag().equals("O")
+					|| tokens.get(i).getValue().length() < 2
+					|| !StringTools.hyphens.contains(tokens.get(i).getValue()
 							.substring(0, 1))
-					|| !(tokens.get(i).start == tokens.get(i - 1).end)) {
+					|| !(tokens.get(i).getStart() == tokens.get(i - 1).getEnd())) {
 				i++;
-				prevTokType = tokens.get(i - 1).bioTag;
+				prevTokType = tokens.get(i - 1).getBioTag();
 			} else {
 				List<Token> splitResults = splitAt(tokens.get(i),
-						tokens.get(i).start + 1);
+						tokens.get(i).getStart() + 1);
 				tokens.remove(i);
 				tokens.addAll(i, splitResults);
 				i += 2;
@@ -708,19 +708,19 @@ public final class Tokeniser implements ITokeniser {
 		String neClass = null;
 		for (Token t : tokens) {
 			if (currentToken == null || neClass == null
-					|| t.bioTag.startsWith("O") || t.bioTag.startsWith("B")) {
+					|| t.getBioTag().startsWith("O") || t.getBioTag().startsWith("B")) {
 				currentToken = t;
 				newTokens.add(t);
-				if (currentToken.bioTag.equals("O")) {
+				if (currentToken.getBioTag().equals("O")) {
 					neClass = null;
 				} else {
-					neClass = currentToken.bioTag.substring(2);
+					neClass = currentToken.getBioTag().substring(2);
 				}
 				// inside
 			} else {
-				currentToken.end = t.end;
-				currentToken.value = sourceString.substring(currentToken.start
-						- offset, currentToken.end - offset);
+				currentToken.setEnd(t.getEnd());
+				currentToken.setValue(sourceString.substring(currentToken.getStart()
+						- offset, currentToken.getEnd() - offset));
 			}
 
 		}

@@ -1,8 +1,8 @@
 package uk.ac.cam.ch.wwmm.oscar.document;
 
-import java.util.List;
-
 import nu.xom.Element;
+
+import java.util.List;
 
 /**A token - corresponding to a word, a number, a character of punctuation or
  * suchlike. Not whitespace.
@@ -11,27 +11,29 @@ import nu.xom.Element;
  *
  */
 public final class Token {	
-	
+
+    // TODO can we make this class immutable?
+
 	/* Many of these are package visibility so Tokeniser can work on them
 	 * easily.
 	 */
 	
-	public String value;
+	private String value;
 	/**The character offset at the start of the token */
-	public int start;
+	private int start;
 	/**The character offset (caret position) at the end of the token */
-	public int end;
-	public int id;
-	public ProcessingDocument doc;
-	public TokenSequence tokenSequence;
+	private int end;
+	private int id;
+	private ProcessingDocument doc;
+	private TokenSequence tokenSequence;
 	
-	public Element neElem;
+	private Element neElem;
 	private String [] geniaData = null;
 	private List<Token> chunk;
 	private String chunkType;
 	
 	/** The B/I/O tag, when inline annotation is digested */
-	public String bioTag;
+	private String bioTag;
 	
 
 	public Token(String value, int start, int end, ProcessingDocument doc, String bioTag, Element neElem) {
@@ -54,7 +56,7 @@ public final class Token {
 	public Token getNAfter(int n) {
 		int pos = n + id;
 		if (tokenSequence == null){
-			
+
 			System.out.println("I am NULL--- FEAR ME");
 			throw new RuntimeException();
 		}
@@ -69,8 +71,12 @@ public final class Token {
 	public String getValue() {
 		return value;
 	}
-	
-	/**Gets the index of the token in its TokenSequence.
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    /**Gets the index of the token in its TokenSequence.
 	 * 
 	 * @return The index of the token in its TokenSequence.
 	 */
@@ -78,6 +84,9 @@ public final class Token {
 		return id;
 	}
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
 	/**Gets this token's ProcessingDocument.
 	 * 
@@ -95,6 +104,7 @@ public final class Token {
 		return start;
 	}
 
+    
 	/**Gets the start offset of this token.
 	 * 
 	 * @return The end offset of this token.
@@ -102,7 +112,12 @@ public final class Token {
 	public int getEnd() {
 		return end;
 	}
-	
+
+    public void setEnd(int end) {
+        this.end = end;
+    }
+
+
 	/**Gets the BIO tag of this token.
 	 * 
 	 * @return The BIO tag of this token.
@@ -111,7 +126,7 @@ public final class Token {
 		return bioTag;
 	}
 	
-	void setBioTag(String bioTag) {
+	public void setBioTag(String bioTag) {
 		this.bioTag = bioTag;
 	}
 	
@@ -125,4 +140,16 @@ public final class Token {
 		return tokenSequence;
 	}
 
+    public void setTokenSequence(TokenSequence tokenSequence) {
+        this.tokenSequence = tokenSequence;
+    }
+
+
+    public Element getNeElem() {
+        return neElem;
+    }
+
+    public void setNeElem(Element neElem) {
+        this.neElem = neElem;
+    }
 }

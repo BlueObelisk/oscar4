@@ -19,6 +19,7 @@ import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.RegExUtils;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;
@@ -161,13 +162,13 @@ public abstract class DFAFinder implements Serializable {
 				} else {
 					simpleAuts.put(type, new SuffixTree(reStr));
 				}
-				if(type.startsWith("ONT") && OntologyTerms.hasTerm(ne)) {
+				if(type.startsWith(NamedEntityTypes.ONTOLOGY) && OntologyTerms.hasTerm(ne)) {
 					String ontIdsStr = OntologyTerms.idsForTerm(ne);
 					List<String> neOntIds = StringTools.arrayToList(RegExUtils.P_WHITESPACE.split(ontIdsStr));
 					for(String ontId : neOntIds) {
 						simpleAuts.get(type).addContents(reStr + "X" + getNumberForOntId(ontId));
 					}
-				} else if(type.startsWith("CUST") && TermMaps.getCustEnt().containsKey(ne)) {
+				} else if(type.startsWith(NamedEntityTypes.CUSTOM) && TermMaps.getCustEnt().containsKey(ne)) {
 					String custStr = TermMaps.getCustEnt().get(ne);
 					List<String> custTypes = StringTools.arrayToList(RegExUtils.P_WHITESPACE.split(custStr));
 					for(String custType : custTypes) {
@@ -176,7 +177,7 @@ public abstract class DFAFinder implements Serializable {
 				}
 			} else {
 				//System.out.println(reStr);
-				if(type.startsWith("ONT") && OntologyTerms.hasTerm(ne)) {
+				if(type.startsWith(NamedEntityTypes.ONTOLOGY) && OntologyTerms.hasTerm(ne)) {
 					String ontIdsStr = OntologyTerms.idsForTerm(ne);
 					List<String> neOntIds = StringTools.arrayToList(RegExUtils.P_WHITESPACE.split(ontIdsStr));
 					sb.append("(X(");
@@ -190,7 +191,7 @@ public abstract class DFAFinder implements Serializable {
 						sb.append(Integer.toString(getNumberForOntId(ontId)));
 					}
 					sb.append("))?");
-				} else if(type.startsWith("CUST") && TermMaps.getCustEnt().containsKey(ne)) {
+				} else if(type.startsWith(NamedEntityTypes.CUSTOM) && TermMaps.getCustEnt().containsKey(ne)) {
 					String custStr = TermMaps.getCustEnt().get(ne);
 					List<String> custTypes = StringTools.arrayToList(RegExUtils.P_WHITESPACE.split(custStr));
 					sb.append("(X(");
@@ -278,7 +279,7 @@ public abstract class DFAFinder implements Serializable {
 //		logger.debug("Analysing DFAs...");
 		runAutToStateToOntIds = new HashMap<String,Map<Integer,Set<String>>>();
 		for(String s : runAuts.keySet()) {
-			if(!(s.startsWith("ONT") || s.startsWith("CUST"))) continue;
+			if(!(s.startsWith(NamedEntityTypes.ONTOLOGY) || s.startsWith(NamedEntityTypes.CUSTOM))) continue;
 			runAutToStateToOntIds.put(s, analyseAutomaton(runAuts.get(s), 'X'));
 		}
 	}

@@ -35,7 +35,7 @@ public class Main {
 			
 			System.out.println("There are "+tokens.size()+" tokens in the string");
 			for (Token token : tokens) {
-				System.out.println("Token:: "+token.value);
+				System.out.println("Token:: "+token.getValue());
 			}
 			
 		}

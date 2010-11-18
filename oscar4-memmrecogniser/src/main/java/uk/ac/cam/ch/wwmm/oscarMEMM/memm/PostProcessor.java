@@ -16,6 +16,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenTypes;
 
@@ -54,21 +55,21 @@ final class PostProcessor {
 		//GetDataFromModels dataModel = new GetDataFromModels();
 
 		surf = surf.replaceAll("\\s+", " ");
-		if (!surf.matches(".*[a-zA-Z].*") && !type.equals("CPR")) {
+		if (!surf.matches(".*[a-zA-Z].*") && !type.equals(NamedEntityTypes.LOCANTPREFIX)) {
 			return 1;
-		} else if (type.equals("ASE") && !asePattern.matcher(surf).matches()) {
+		} else if (type.equals(NamedEntityTypes.ASE) && !asePattern.matcher(surf).matches()) {
 			return 2;
-		} else if (type.equals("CJ") && !cjPattern.matcher(surf).matches()) {
+		} else if (type.equals(NamedEntityTypes.ADJECTIVE) && !cjPattern.matcher(surf).matches()) {
 			return 3;
-		} else if (type.equals("RN")
+		} else if (type.equals(NamedEntityTypes.REACTION)
 				&& !(rnPattern.matcher(surf).matches() || !surf
 						.matches(".*[a-zA-Z].*"))) {
 			return 4;
-		} else if (type.equals("CPR")
+		} else if (type.equals(NamedEntityTypes.LOCANTPREFIX)
 				&& !surf.matches(".+[" + StringTools.hyphens + "]")) {
 			return 5;
-		} else if ((type.equals("CPR") || type.equals("CJ") || type
-				.equals("ASE"))
+		} else if ((type.equals(NamedEntityTypes.LOCANTPREFIX) || type.equals(NamedEntityTypes.ADJECTIVE) || type
+				.equals(NamedEntityTypes.ASE))
 				&& surf.matches(".+ .+")) {
 			return 6;
 		} else if (TermSets.getDefaultInstance().getClosedClass().contains(surf)) {

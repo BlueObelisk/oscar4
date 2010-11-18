@@ -26,6 +26,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;
@@ -267,7 +268,7 @@ public final class MEMMTester {
 					if(filterType != null && !ne.getType().equals(filterType)) continue;
 					if(antiFilterType != null && ne.getType().equals(antiFilterType)) continue;
 					if(testNEs.contains(neStr)) {
-						if(ne.getType().equals("CPR")) System.out.println("Yay:" + neStr + "\t" + confidences.get(ne));
+						if(ne.getType().equals(NamedEntityTypes.LOCANTPREFIX)) System.out.println("Yay:" + neStr + "\t" + confidences.get(ne));
 						//System.out.println("Good: " + ne + "\t" + confidences.get(ne));						
 						paperGoodProbs.add(ne.getConfidence());
 						remainNEs.remove(neStr);

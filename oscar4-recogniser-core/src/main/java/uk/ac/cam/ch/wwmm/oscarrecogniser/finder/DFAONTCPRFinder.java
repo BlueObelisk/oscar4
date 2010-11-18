@@ -23,6 +23,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
@@ -147,12 +148,12 @@ public class DFAONTCPRFinder extends DFAFinder {
 	protected void addTerms() {
 //		logger.debug("Adding ontology terms to DFA finder...");
 		for(String s : OntologyTerms.getAllTerms()){
-			addNE(s, "ONT", false);
+			addNE(s, NamedEntityTypes.ONTOLOGY, false);
 		}
 		for(String s : TermMaps.getCustEnt().keySet()){
-			addNE(s, "CUST", true);
+			addNE(s, NamedEntityTypes.CUSTOM, true);
 		}
-		addNE("$ONTWORD", "ONT", false);
+		addNE("$ONTWORD", NamedEntityTypes.ONTOLOGY, false);
 	}
 	
 	/**Finds the ONT/CPR/CUST NEs from a token sequence.
@@ -205,7 +206,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 		assert(collector instanceof NECollector);
 		((NECollector)collector).collect(ne);
 		//System.out.println(surface + ": " + a.reps);
-		if(a.getType().startsWith("ONT")) {
+		if(a.getType().startsWith(NamedEntityTypes.ONTOLOGY)) {
 			Set<String> ontIds = runAutToStateToOntIds.get(a.getType()).get(a.getState());
 			String s = OntologyTerms.idsForTerm(StringTools.normaliseName(surface));
 			if(s != null && s.length() > 0) {
@@ -215,7 +216,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 			ne.addOntIds(ontIds);
 			//System.out.println(surface + "\t" + ontIds);
 		}
-		if(a.getType().startsWith("CUST")) {
+		if(a.getType().startsWith(NamedEntityTypes.CUSTOM)) {
 			//System.out.println(runAutToStateToOntIds.get(a.type));
 			Set<String> custTypes = runAutToStateToOntIds.get(a.getType()).get(a.getState());
 			ne.addCustTypes(custTypes);

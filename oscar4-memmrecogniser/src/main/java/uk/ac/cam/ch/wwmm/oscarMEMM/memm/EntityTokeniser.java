@@ -7,6 +7,7 @@ import java.util.Map;
 
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 
 /**Holds a paragraph, and detects probable sequences of tags.
  * 
@@ -101,8 +102,8 @@ final class EntityTokeniser {
 							String entityStr = tokSeq.getStringAtOffsets(startOffset, endOffset);
     						//System.err.println("Entity str " +entityStr);
 							String finalEntityType = entityType;
-							if(finalEntityType.equals("NCM")) entityType = "CM";
-							if(finalEntityType.equals("NRN")) entityType = "RN";
+							if(finalEntityType.equals("NCM")) entityType = NamedEntityTypes.COMPOUND;
+							if(finalEntityType.equals("NRN")) entityType = NamedEntityTypes.REACTION;
 							NamedEntity ne = new NamedEntity(tokSeq.getTokens(i,i+j-1), entityStr, entityType);
 							ne.setConfidence(entityProb);
 							entities.put(ne, entityProb);

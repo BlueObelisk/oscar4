@@ -11,11 +11,12 @@ import dk.brics.automaton.RunAutomaton;
  *
  */
 public class AutomatonState implements Cloneable {
-	public int state;
-	public int startToken;
+
+    private int state;
+	private int startToken;
 	private RunAutomaton aut;
-	public String type;
-	public List<String> reps;
+	private String type;
+	private List<String> reps;
 	
 	AutomatonState(RunAutomaton a, String type, int st) {
 		aut = a;
@@ -32,8 +33,20 @@ public class AutomatonState implements Cloneable {
 		this.type = type;
 		this.reps = reps;
 	}
-	
-	boolean isAccept() {
+
+    public int getState() {
+        return state;
+    }
+
+    public int getStartToken() {
+        return startToken;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    boolean isAccept() {
 		return aut.isAccept(state);
 	}
 	

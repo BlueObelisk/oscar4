@@ -195,18 +195,18 @@ public class DFAONTCPRFinder extends DFAFinder {
 	
 	@Override
 	protected void handleNe(AutomatonState a, int endToken, TokenSequence t, ResultsCollector collector) {
-		String surface = t.getSubstring(a.startToken, endToken);
-		String type = a.type;
+		String surface = t.getSubstring(a.getStartToken(), endToken);
+		String type = a.getType();
 		//System.out.println(surface + " " + a.type);
 		if(type.contains("_")) {
 			type = type.split("_")[0];
 		}
-		NamedEntity ne = new NamedEntity(t.getTokens(a.startToken, endToken), surface, type);
+		NamedEntity ne = new NamedEntity(t.getTokens(a.getStartToken(), endToken), surface, type);
 		assert(collector instanceof NECollector);
 		((NECollector)collector).collect(ne);
 		//System.out.println(surface + ": " + a.reps);
-		if(a.type.startsWith("ONT")) {
-			Set<String> ontIds = runAutToStateToOntIds.get(a.type).get(a.state);
+		if(a.getType().startsWith("ONT")) {
+			Set<String> ontIds = runAutToStateToOntIds.get(a.getType()).get(a.getState());
 			String s = OntologyTerms.idsForTerm(StringTools.normaliseName(surface));
 			if(s != null && s.length() > 0) {
 				if(ontIds == null) ontIds = new HashSet<String>();
@@ -215,9 +215,9 @@ public class DFAONTCPRFinder extends DFAFinder {
 			ne.addOntIds(ontIds);
 			//System.out.println(surface + "\t" + ontIds);
 		}
-		if(a.type.startsWith("CUST")) {
+		if(a.getType().startsWith("CUST")) {
 			//System.out.println(runAutToStateToOntIds.get(a.type));
-			Set<String> custTypes = runAutToStateToOntIds.get(a.type).get(a.state);
+			Set<String> custTypes = runAutToStateToOntIds.get(a.getType()).get(a.getState());
 			ne.addCustTypes(custTypes);
 			//System.out.println(surface + "\t" + ontIds);
 		}

@@ -41,7 +41,6 @@
         <module>oscar4-memmrecogniser</module>
         <module>oscar4-memmrecogniser-train</module>
         <module>oscar4-patternrecogniser</module>
-        <module>oscar4-patternrecogniser-train</module>
         <module>oscar4-chemnamedict</module>
         <module>oscar4-obo</module>
         <module>oscar4-opsin</module>

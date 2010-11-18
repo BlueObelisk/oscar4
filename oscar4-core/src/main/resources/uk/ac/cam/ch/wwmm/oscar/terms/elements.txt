@@ -1,3 +1,9 @@
+#
+# File contains a list of element symbols and names
+# Symbols should have their standard capilalization,
+# and names must be all lowercase.
+#
+
 H
 He
 Li

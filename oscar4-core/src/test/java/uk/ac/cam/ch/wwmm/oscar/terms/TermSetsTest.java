@@ -8,7 +8,7 @@ public class TermSetsTest {
 
 	@Test
 	public void loadSplitSuffixes() {
-		assertTrue(TermSets.getSplitSuffixes().contains("biomonitor"));
-		assertFalse(TermSets.getSplitSuffixes().contains("foobar"));
+		assertTrue(TermSets.getDefaultInstance().getSplitSuffixes().contains("biomonitor"));
+		assertFalse(TermSets.getDefaultInstance().getSplitSuffixes().contains("foobar"));
 	}
 }

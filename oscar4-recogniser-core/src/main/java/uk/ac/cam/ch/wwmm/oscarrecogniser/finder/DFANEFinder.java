@@ -197,7 +197,7 @@ public class DFANEFinder extends DFAFinder {
 		}
 		for(TokenLevelRegex tlr : TLRHolder.getInstance().parseToken(t.getValue())) {
 			if(tlr.getType().equals(NamedEntityTypes.PROPERNOUN)) {
-				if(t.getValue().matches("[A-Z][a-z]+") && TermSets.getUsrDictWords().contains(t.getValue().toLowerCase()) && !TermSets.getUsrDictWords().contains(t.getValue())) tlr = null;
+				if(t.getValue().matches("[A-Z][a-z]+") && TermSets.getDefaultInstance().getUsrDictWords().contains(t.getValue().toLowerCase()) && !TermSets.getDefaultInstance().getUsrDictWords().contains(t.getValue())) tlr = null;
 //				if(ExtractTrainingData.getInstance().pnStops.contains(t.getValue())) tlr = null;
 			} 
 			if(tlr != null) tokenReps.add("$"+tlr.getType());
@@ -214,12 +214,12 @@ public class DFANEFinder extends DFAFinder {
 				if(TLRHolder.getInstance().macthesTlr(lastGroup, "formulaRegex")) {
 					tokenReps.add("$CPR_FORMULA");
 				}
-				if(TermSets.getStopWords().contains(lastGroupNorm) ||
-						TermSets.getClosedClass().contains(lastGroupNorm) ||
+				if(TermSets.getDefaultInstance().getStopWords().contains(lastGroupNorm) ||
+						TermSets.getDefaultInstance().getClosedClass().contains(lastGroupNorm) ||
 						ChemNameDictSingleton.hasStopWord(lastGroupNorm)) {//|| 
 //						ExtractTrainingData.getInstance().nonChemicalWords.contains(lastGroupNorm) ||
 //						ExtractTrainingData.getInstance().nonChemicalNonWords.contains(lastGroupNorm)) {
-					if(!TermSets.getElements().contains(lastGroupNorm)) scoreAsStop = true;
+					if(!TermSets.getDefaultInstance().getElements().contains(lastGroupNorm)) scoreAsStop = true;
 				}
 				boolean isModifiedCompRef = false;
 //				for(int i=m.start(m.groupCount())+t.getStart();i<t.getEnd();i++) {
@@ -236,8 +236,8 @@ public class DFANEFinder extends DFAFinder {
 		m = PrefixFinder.prefixBody.matcher(t.getValue());
 		if(m.matches()) tokenReps.add("$PREFIXBODY");
 		
-		if(TermSets.getElements().contains(normValue)) tokenReps.add("$EM");
-		if(TermSets.getEndingInElementPattern().matcher(t.getValue()).matches()) {
+		if(TermSets.getDefaultInstance().getElements().contains(normValue)) tokenReps.add("$EM");
+		if(TermSets.getDefaultInstance().getEndingInElementNamePattern().matcher(t.getValue()).matches()) {
 			tokenReps.add("$ENDSINEM");
 		}
 
@@ -245,8 +245,8 @@ public class DFANEFinder extends DFAFinder {
 //			if(t.getValue().matches(".*[a-z][a-z].*") && !scoreAsStop && !ExtractTrainingData.getInstance().nonChemicalWords.contains(normValue)) {
 			if(t.getValue().matches(".*[a-z][a-z].*") && !scoreAsStop ) {
     			double score = NGram.getInstance().testWord(t.getValue());
-				if(TermSets.getUsrDictWords().contains(normValue) ||
-						TermSets.getUsrDictWords().contains(t.getValue())) score = -100;
+				if(TermSets.getDefaultInstance().getUsrDictWords().contains(normValue) ||
+						TermSets.getDefaultInstance().getUsrDictWords().contains(t.getValue())) score = -100;
 //				if(ExtractTrainingData.getInstance().chemicalWords.contains(normValue)) score = 100;
 				if(ChemNameDictSingleton.hasName(t.getValue())) score = 100;
 				if(t.getValue().length() > 3 && score > OscarProperties.getData().ngramThreshold) {
@@ -297,12 +297,12 @@ public class DFANEFinder extends DFAFinder {
 				tokenReps.add("$MODIFIEDCOMPREF");
 			}			
 		}
-		if(TermSets.getStopWords().contains(normValue) ||
-				TermSets.getClosedClass().contains(normValue) ||
+		if(TermSets.getDefaultInstance().getStopWords().contains(normValue) ||
+				TermSets.getDefaultInstance().getClosedClass().contains(normValue) ||
 				ChemNameDictSingleton.hasStopWord(normValue)){// || 
 //				ExtractTrainingData.getInstance().nonChemicalWords.contains(normValue) ||
 //				ExtractTrainingData.getInstance().nonChemicalNonWords.contains(normValue)) {
-			if(!TermSets.getElements().contains(normValue)) tokenReps.add("$STOP");
+			if(!TermSets.getDefaultInstance().getElements().contains(normValue)) tokenReps.add("$STOP");
 		}
 
 		return tokenReps;

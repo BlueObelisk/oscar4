@@ -339,11 +339,11 @@ public abstract class DFAFinder implements Serializable {
 			for(int j=0;j<tokenRep.length();j++) {
 				char c = tokenRep.charAt(j);
 				a.step(c);
-				if(a.state == -1) {
+				if(a.getState() == -1) {
 					break;
 				}
 			}
-			if(a.state != -1) {
+			if(a.getState() != -1) {
 				a.addRep("$^");
 				autStates.add(a);					
 			}
@@ -369,9 +369,9 @@ public abstract class DFAFinder implements Serializable {
 					for(int j=0;j<tokenRepCode.length();j++) {
 						char c = tokenRepCode.charAt(j);
 						a.step(c);
-						if(a.state == -1) break;
+						if(a.getState() == -1) break;
 					}
-					if(a.state != -1) {
+					if(a.getState() != -1) {
 						a.addRep(tokenRep);
 						if(a.isAccept()) {
 							handleNe(a, i, t, collector);

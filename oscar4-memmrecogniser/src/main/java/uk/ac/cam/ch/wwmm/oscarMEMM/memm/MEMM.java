@@ -26,6 +26,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
@@ -149,10 +150,10 @@ public final class MEMM {
             n = doc.query("//ne");
             for (int i = 0; i < n.size(); i++) {
                 Element ne = (Element)n.get(i);
-                if (ne.getAttributeValue("type").equals("RN") && ne.getValue().matches("[A-Z]\\p{Ll}\\p{Ll}.*\\s.*")) {
+                if (ne.getAttributeValue("type").equals(NamedEntityTypes.REACTION) && ne.getValue().matches("[A-Z]\\p{Ll}\\p{Ll}.*\\s.*")) {
                     ne.addAttribute(new Attribute("type", "NRN"));
                     logger.debug("NRN: " + ne.getValue());
-                } else if (ne.getAttributeValue("type").equals("CM") && ne.getValue().matches("[A-Z]\\p{Ll}\\p{Ll}.*\\s.*")) {
+                } else if (ne.getAttributeValue("type").equals(NamedEntityTypes.COMPOUND) && ne.getValue().matches("[A-Z]\\p{Ll}\\p{Ll}.*\\s.*")) {
                     ne.addAttribute(new Attribute("type", "NCM"));
                     logger.debug("NCM: " + ne.getValue());
                 }

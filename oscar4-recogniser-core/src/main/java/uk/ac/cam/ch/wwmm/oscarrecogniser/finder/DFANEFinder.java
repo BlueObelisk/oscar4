@@ -127,11 +127,11 @@ public class DFANEFinder extends DFAFinder {
 		}
 		logger.debug("Adding ontology terms to DFA finder...");
 		for(String s : OntologyTerms.getAllTerms()){
-			addNE(s, "ONT", false);
+			addNE(s, NamedEntityTypes.ONTOLOGY, false);
 		}
 		logger.debug("Adding custom NEs ...");
 		for(String s : TermMaps.getCustEnt().keySet()){
-			addNE(s, "CUST", true);
+			addNE(s, NamedEntityTypes.CUSTOM, true);
 		}
 		logger.debug("Adding names from ChemNameDict to DFA finder...");
 		try {
@@ -320,7 +320,7 @@ public class DFANEFinder extends DFAFinder {
 		assert(collector instanceof NECollector);
 		((NECollector)collector).collect(ne);
 		//System.out.println(surface + ": " + a.reps);
-		if(a.getType().startsWith("ONT")) {
+		if(a.getType().startsWith(NamedEntityTypes.ONTOLOGY)) {
 			Set<String> ontIds = runAutToStateToOntIds.get(a.getType()).get(a.getState());
 			String s = OntologyTerms.idsForTerm(surface);
 			if(s != null && s.length() > 0) {
@@ -330,7 +330,7 @@ public class DFANEFinder extends DFAFinder {
 			ne.addOntIds(ontIds);
 			//System.out.println(surface + "\t" + ontIds);
 		}
-		if(a.getType().startsWith("CUST")) {
+		if(a.getType().startsWith(NamedEntityTypes.CUSTOM)) {
 			Set<String> custTypes = runAutToStateToOntIds.get(a.getType()).get(a.getState());
 			ne.addCustTypes(custTypes);
 			//System.out.println(surface + "\t" + ontIds);

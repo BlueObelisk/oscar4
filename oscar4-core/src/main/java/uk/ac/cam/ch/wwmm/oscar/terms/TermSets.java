@@ -22,7 +22,8 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  */
 public final class TermSets {
 
-    private static final Logger logger = Logger.getLogger(TermSets.class);
+    private static final Logger LOG = Logger.getLogger(TermSets.class);
+    private static final ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/terms/");
 
     private static TermSets defaultInstance;
 
@@ -37,9 +38,6 @@ public final class TermSets {
     private final Set<String> ligands;
     private final Set<String> reactWords;
     private final Pattern endingInElementNamePattern;
-
-    private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/terms/");
-
 
     public static TermSets getDefaultInstance() {
         if (defaultInstance == null) {
@@ -60,7 +58,8 @@ public final class TermSets {
     }
 
 
-    /**Gets the term set from stopwords.txt.
+    /**
+     * Gets the term set from stopwords.txt.
      *
      * @return The term set.
      */
@@ -68,7 +67,8 @@ public final class TermSets {
         return stopWords;
     }
 
-    /**Gets the term set from usrDictWords.txt.
+    /**
+     * Gets the term set from usrDictWords.txt.
      *
      * @return The term set.
      */
@@ -76,7 +76,8 @@ public final class TermSets {
         return usrDictWords;
     }
 
-    /**Gets the term set from closedClass.txt.
+    /**
+     * Gets the term set from closedClass.txt.
      *
      * @return The term set.
      */
@@ -84,7 +85,8 @@ public final class TermSets {
         return closedClass;
     }
 
-    /**Gets the term set from noSplitPrefixes.txt.
+    /**
+     * Gets the term set from noSplitPrefixes.txt.
      *
      * @return The term set.
      */
@@ -96,7 +98,8 @@ public final class TermSets {
         return splitSuffixes;
     }
 
-    /**Gets the term set from chemAses.txt.
+    /**
+     * Gets the term set from chemAses.txt.
      *
      * @return The term set.
      */
@@ -104,7 +107,8 @@ public final class TermSets {
         return chemAses;
     }
 
-    /**Gets the term set from nonChemAses.txt.
+    /**
+     * Gets the term set from nonChemAses.txt.
      *
      * @return The term set.
      */
@@ -112,7 +116,8 @@ public final class TermSets {
         return nonChemAses;
     }
 
-    /**Gets the term set from elements.txt.
+    /**
+     * Gets the term set from elements.txt.
      *
      * @return The term set.
      */
@@ -120,7 +125,8 @@ public final class TermSets {
         return elements;
     }
 
-    /**Gets the term set from ligands.txt.
+    /**
+     * Gets the term set from ligands.txt.
      *
      * @return The term set.
      */
@@ -128,7 +134,8 @@ public final class TermSets {
         return ligands;
     }
 
-    /**Gets the term set from reactWords.txt.
+    /**
+     * Gets the term set from reactWords.txt.
      *
      * @return The term set.
      */
@@ -148,7 +155,7 @@ public final class TermSets {
 
 
     private TermSets() throws Exception {
-        logger.debug("Initialising term sets... ");
+        LOG.debug("Initialising term sets... ");
 
         stopWords = loadTerms("stopwords.txt");
         usrDictWords = loadTerms("usrDictWords.txt", false);
@@ -163,7 +170,7 @@ public final class TermSets {
 
         endingInElementNamePattern = initEndingInElementNamePattern();
 
-        logger.debug("term sets initialised");
+        LOG.debug("term sets initialised");
     }
 
     private Pattern initEndingInElementNamePattern() {

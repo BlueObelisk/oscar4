@@ -20,6 +20,7 @@
     <properties>
         <oscar.groupId>${project.groupId}</oscar.groupId>
         <oscar.version>${project.version}</oscar.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>

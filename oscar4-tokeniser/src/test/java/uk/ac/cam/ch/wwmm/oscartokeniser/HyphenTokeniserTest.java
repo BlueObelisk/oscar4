@@ -20,14 +20,14 @@ public class HyphenTokeniserTest {
 	@Test
 	public void testTermMatchesProperNounPattern() {
 		HyphenTokeniser tokeniser = HyphenTokeniser.getInstance();
-		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer–Villiger"));
+		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer-Villiger"));
 		assertTrue(tokeniser.termMatchesPropernounPattern("Tert-Villiger"));
-		assertFalse(tokeniser.termMatchesPropernounPattern("baeyer–villiger"));
-		assertFalse(tokeniser.termMatchesPropernounPattern("baeyer–Villiger"));
-		assertFalse(tokeniser.termMatchesPropernounPattern("Baeyer–villiger"));
-		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer–Baeyer–Villiger"));
-		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer's–Villiger"));
-		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer–Villigers'"));
+		assertFalse(tokeniser.termMatchesPropernounPattern("baeyer-villiger"));
+		assertFalse(tokeniser.termMatchesPropernounPattern("baeyer-Villiger"));
+		assertFalse(tokeniser.termMatchesPropernounPattern("Baeyer-villiger"));
+		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer-Baeyer-Villiger"));
+		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer's-Villiger"));
+		assertTrue(tokeniser.termMatchesPropernounPattern("Baeyer-Villigers'"));
 	}
 	
 	@Test
@@ -128,11 +128,11 @@ public class HyphenTokeniserTest {
 	
 	@Test
 	public void testProperNouns() {
-		String simple = "Baeyer–Villiger";
+		String simple = "Baeyer-Villiger";
 		String nosplitPrefix = "Tert-Villiger";
-		String tripleBarrelled = "Baeyer–Baeyer–Villiger";
-		String withApostrophe1 = "Baeyer's–Villiger";
-		String withApostrophe2 = "Baeyer–Villigers'";
+		String tripleBarrelled = "Baeyer-Baeyer-Villiger";
+		String withApostrophe1 = "Baeyer's-Villiger";
+		String withApostrophe2 = "Baeyer-Villigers'";
 		
 		assertEquals(6, HyphenTokeniser.indexOfSplittableHyphen(simple));
 		assertEquals(4, HyphenTokeniser.indexOfSplittableHyphen(nosplitPrefix));

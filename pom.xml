@@ -49,6 +49,7 @@
         <module>oscar4-preprocessor</module>
         <module>oscar4-formatter</module>
         <module>oscar4-recogniser-core</module>
+        <module>oscar4-data</module>
     </modules>
 
     <dependencyManagement>

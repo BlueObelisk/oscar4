@@ -1,8 +1,11 @@
 package uk.ac.cam.ch.wwmm.oscar.tools;
 
+import nu.xom.Document;
+
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,10 +16,10 @@ public class ResourceGetterTest {
 
 	@Test
 	public void testLoadFromResourceGetterClasspath() throws Exception {
-		InputStream stream = new ResourceGetter(
+		URL url = new ResourceGetter(
 				"uk/ac/cam/ch/wwmm/oscar/tools/"
-			).getStream("DefaultProperties.dat");
-		assertNotNull(stream);
+			).getURL("DefaultProperties.dat");
+		assertNotNull(url);
 	}
 
 
@@ -45,4 +48,18 @@ public class ResourceGetterTest {
         );
     }
 
+    @Test
+    public void testGetXMLDocument() {
+    	ResourceGetter rg = new ResourceGetter("/tools/");
+    	Document doc = rg.getXMLDocument("simple.xml");
+    	assertEquals("<foo><bar /></foo>", doc.getRootElement().toXML());
+    }
+    
+    @Test
+    public void testGetXMLDocumentWithDtd() {
+    	System.out.println("--");
+    	ResourceGetter rg = new ResourceGetter("/tools/");
+    	Document doc = rg.getXMLDocument("docWithDtd.xml");
+    	assertEquals("<foo><bar /></foo>", doc.getRootElement().toXML());
+    }
 }

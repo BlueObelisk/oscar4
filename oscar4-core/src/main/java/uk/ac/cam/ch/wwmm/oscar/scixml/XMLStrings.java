@@ -203,4 +203,7 @@ public final class XMLStrings {
 		}
 	}
 	
+	public XPathContext getXpc() {
+		return xpc;
+	}
 }

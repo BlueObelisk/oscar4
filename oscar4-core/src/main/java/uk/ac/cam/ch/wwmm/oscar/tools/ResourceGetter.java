@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -85,16 +84,16 @@ public final class ResourceGetter {
 	 * @throws Exception If the document can't be found, or can't parse, or is malformed/invalid.
 	 */
 	public Document getXMLDocument(String resourceName) {
-		URL url = null;
+		InputStream inStream = null;
 		try {
-			url = getURL(resourceName);
+			inStream = getStream(resourceName);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		Document doc = null;
 		try {
-			doc = new Builder().build(url.toString());
+			doc = new Builder().build(inStream);
 		} catch (ValidityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -105,10 +104,6 @@ public final class ResourceGetter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-//		try {
-//			URL url = 
-//		}
 		
 		return doc;
 		
@@ -118,43 +113,29 @@ public final class ResourceGetter {
 	 * 
 	 * @param resourceName The name of the file to get an InputStream of.
 	 * @return An InputStream corresponding to the file.
+	 * @throws Exception If the resouce file couldn't be found.
 	 */
-	public InputStream getStream(String resourceName) {
-		try {
-			return getURL(resourceName).openStream();
-		}
-		catch (IOException e) {
-			//TODO - should we throw exception (e.g. FileNotFoundException) ?
-			return null;
-		}
-	}
-	
-	/**Fetches a data file from resourcePath as a URL.
-	 * 
-	 * @param resourceName The name of the file to get a URL of.
-	 * @return A URL corresponding to the file.
-	 */
-    public URL getURL(String resourceName) {
-		URL url = getUrl(resourceName, Thread.currentThread().getContextClassLoader());
-        if (url != null) {
-            return url;
+    public InputStream getStream(String resourceName) {
+		InputStream inStream = getStream(resourceName, Thread.currentThread().getContextClassLoader());
+        if (inStream != null) {
+            return inStream;
         }
-        url = getUrl(resourceName, classLoader);
-        if (url != null) {
-            return url;
+        inStream = getStream(resourceName, classLoader);
+        if (inStream != null) {
+            return inStream;
         }
-        url = getUrl(resourceName, ClassLoader.getSystemClassLoader());
-        if (url != null) {
-            return url;
+        inStream = getStream(resourceName, ClassLoader.getSystemClassLoader());
+        if (inStream != null) {
+            return inStream;
         }
         // TODO - should we throw exception (e.g. FileNotFoundException) ?
         return null;
 	}
 
-    private URL getUrl(String resourceName, ClassLoader classLoader) {
+    private InputStream getStream(String resourceName, ClassLoader classLoader) {
         if (classLoader != null) {
-            URL url = classLoader.getResource(resourcePath+resourceName);
-            return url;
+            InputStream inStream = classLoader.getResourceAsStream(resourcePath+resourceName);
+            return inStream;
         }
         return null;
     }
@@ -201,13 +182,13 @@ public final class ResourceGetter {
 	 * @throws Exception If the resouce file couldn't be found.
 	 */	
 	public List<String> getStrings(String name, boolean UTF8) throws Exception {
-		URL url = getURL(name);
-        if (url != null) {
+		InputStream is = getStream(name);
+        if (is != null) {
             List<String> lines;
             if (UTF8) {
-                lines = IOUtils.readLines(url.openStream(), "UTF-8");
+                lines = IOUtils.readLines(is, "UTF-8");
             } else {
-                lines = IOUtils.readLines(url.openStream());
+                lines = IOUtils.readLines(is);
             }
             return removeComments(lines);
         }
@@ -246,7 +227,7 @@ public final class ResourceGetter {
 	 */	
 	public Set<String> getStringSet(String name) throws Exception {
 		Set<String> results = new HashSet<String>();
-    	BufferedReader br = new BufferedReader(new InputStreamReader(getURL(name).openStream(), "UTF-8"));
+    	BufferedReader br = new BufferedReader(new InputStreamReader(getStream(name), "UTF-8"));
     	String line = br.readLine();
     	while (line != null) {
     		line = line.split("\\s*#")[0];
@@ -268,7 +249,7 @@ public final class ResourceGetter {
 	 * @throws Exception
 	 */
 	public String getString(String name) throws IOException {
-        InputStream is = getURL(name).openStream();
+        InputStream is = getStream(name);
         if (is != null) {
             return IOUtils.toString(is, "UTF-8");
         }

@@ -1,0 +1,2 @@
+Here, we describe the synthesis of 15 new dNTPs modified at α-, β- and γ-phosphates containing, in the case of dUTP, reporter and ligand groups at the C5 position of uracil. It was shown that γ-substituted dNTPs were substrates for AMV reverse transcriptase despite of the large size of substituent at the
+γ-phosphonate.

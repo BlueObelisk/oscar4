@@ -1,25 +1,25 @@
 package uk.ac.cam.ch.wwmm.oscar.tools;
 
-import nu.xom.Document;
-
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import nu.xom.Document;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class ResourceGetterTest {
 
 	@Test
 	public void testLoadFromResourceGetterClasspath() throws Exception {
-		URL url = new ResourceGetter(
+		InputStream stream = new ResourceGetter(
 				"uk/ac/cam/ch/wwmm/oscar/tools/"
-			).getURL("DefaultProperties.dat");
-		assertNotNull(url);
+			).getStream("DefaultProperties.dat");
+		assertNotNull(stream);
 	}
 
 
@@ -55,9 +55,10 @@ public class ResourceGetterTest {
     	assertEquals("<foo><bar /></foo>", doc.getRootElement().toXML());
     }
     
+    @Ignore
+    //NYI
     @Test
     public void testGetXMLDocumentWithDtd() {
-    	System.out.println("--");
     	ResourceGetter rg = new ResourceGetter("/tools/");
     	Document doc = rg.getXMLDocument("docWithDtd.xml");
     	assertEquals("<foo><bar /></foo>", doc.getRootElement().toXML());

@@ -46,27 +46,20 @@ final class RPNode {
     
     
     /** Creates a new instance of RPNode */
-    RPNode(String regex,
-                int parseGroup,
-                String type,
-                String ID,
-                String value,
-                boolean unique,
-                boolean saf,
-                RParser rParser
-                ) {
-        this.setRegex(regex);
-        this.parseGroup = parseGroup;
-        this.type = type;
-        this.id = ID;
-        this.value = value;
-        this.unique = unique;
-        this.saf = saf;
+    public RPNode(RParser rParser, Element elem) {
+    	setRegex(rParser.getNodeRegex(elem.getChildElements("regexp").get(0)));
+        parseGroup = Integer.parseInt(elem.getChildElements("regexp").get(0).getAttributeValue("parsegroup"));
+        type = elem.getAttributeValue("type");
+        id = elem.getAttributeValue("id");
+        value = elem.getAttributeValue("value");
+        unique = elem.getChildElements("unique").size() > 0;
+        saf = elem.getAttribute("saf") != null;
         children = new ArrayList<RPNode>();
         this.rParser = rParser;
-    }
-       
-    /**
+	}
+
+
+	/**
      * Getter for property pattern.
      * @return Value of property pattern.
      */
@@ -126,35 +119,17 @@ final class RPNode {
      * @param elem The XML element corresponding to the &lt;node&gt; to be added
      */
     void addChild(Element elem) {
-        // get type, id and value attributes
-        String type = elem.getAttributeValue("type");
-        String id = elem.getAttributeValue("id");
-        String value =  elem.getAttributeValue("value");
-        boolean safFlag = false;
-        if(elem.getAttribute("saf") != null) safFlag = true;
-
-        // examine node children for unique and regex
-        String regex = null;
-        boolean unique = false;
-        if(elem.getChildElements("unique").size() > 0) {
-        	unique = true;
-        }
-        regex = rParser.getNodeText(elem.getChildElements("regexp").get(0));
-        int pg = Integer.parseInt(elem.getChildElements("regexp").get(0).getAttributeValue("parsegroup"));
- 
-        RPNode RPchild = new RPNode(regex, pg, type, id, value, unique, safFlag, rParser);
+        RPNode RPchild = new RPNode(rParser, elem);
         Elements childElems = elem.getChildElements("child");
         for(int i=0;i<childElems.size();i++) {
         	Element child = childElems.get(i);
         	String childType = child.getAttributeValue("type");
         	String childId = child.getAttributeValue("id");
-        	// find the <node> the <child> refers to
-        	Element node2 = (Element)rParser.findNode(childType, childId);
-        	if(node2==null)
+        	Element referencedNode = rParser.findNode(childType, childId);
+        	if(referencedNode==null) {
         		continue;
-        	// node2 is the <node> referred to by <child>
-        	// get value attribute, if exists, else null
-        	RPchild.addChild(node2);
+        	}
+        	RPchild.addChild(referencedNode);
         }
 
         children.add(RPchild);
@@ -164,19 +139,27 @@ final class RPNode {
     	parseXOMText(textNode, new HashSet<RPNode>());
     }
     
+    /**
+     * Adds inline annotations to the element containing a nu.xom.Text node
+     * according to the OSCAR-data regular expressions
+     * 
+     * @param textNode the nu.xom.Text to process
+     * @param excludedChildren a set of RPNodes with the "unique" property that
+     * already been found  
+     */
     void parseXOMText(Text textNode, HashSet<RPNode> excludedChildren) {
     	boolean foundSomethingFlag = true;
     	while(foundSomethingFlag) {
     		foundSomethingFlag = false;
-        	String txt = textNode.getValue();
-            for(ListIterator i=children.listIterator();i.hasNext() && !foundSomethingFlag;) {
-                RPNode child = (RPNode)i.next();
+        	String nodeText = textNode.getValue();
+            for(ListIterator <RPNode> i=children.listIterator(); i.hasNext() && !foundSomethingFlag;) {
+                RPNode child = i.next();
                 if(excludedChildren.contains(child)) {
                 	continue;
                 }
                 	
                 Pattern pat = child.getPattern();
-                Matcher m = pat.matcher(txt);
+                Matcher m = pat.matcher(nodeText);
                 if(m.find()) {
                 	
                     String tokText;
@@ -188,11 +171,10 @@ final class RPNode {
                         tokText = m.group(0);
                     }
                     
-                    textNode.setValue(txt.substring(0, m.start()));
+                    textNode.setValue(nodeText.substring(0, m.start()));
                     Node currentNode = textNode;
                     if(m.start(pg) > m.start()) {
-                    	Text invincibleText = 
-                    		new Text(txt.substring(m.start(), m.start(pg)));
+                    	Text invincibleText = new Text(nodeText.substring(m.start(), m.start(pg)));
                     	XOMTools.insertAfter(currentNode, invincibleText);
                     	currentNode = invincibleText;                    		
                     }
@@ -208,15 +190,15 @@ final class RPNode {
                 	child.parseXOMText(childText);
                     if(m.end() > m.end(pg)) {
                     	Text invincibleText = 
-                    		new Text(txt.substring(m.end(pg), m.end()));
+                    		new Text(nodeText.substring(m.end(pg), m.end()));
                     	XOMTools.insertAfter(currentNode, invincibleText);
                     	currentNode = invincibleText;                    		
                     }
                 	if(child.isUnique()) {
                 		excludedChildren.add(child);
                 	}
-                    if(m.end() < txt.length()) {
-                    	Text endText = new Text(txt.substring(m.end()));
+                    if(m.end() < nodeText.length()) {
+                    	Text endText = new Text(nodeText.substring(m.end()));
                     	XOMTools.insertAfter(currentNode, endText);
                     	parseXOMText(endText, excludedChildren);
                     	// Do something about uniqueness here...

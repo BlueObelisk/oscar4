@@ -4,7 +4,7 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.InlineToSAF;
@@ -112,7 +112,7 @@ public class ExtractedTrainingDataBuilder {
                 Document safDoc = InlineToSAF.extractSAFs(doc, copy, "foo");
                 doc = copy;
 
-                ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(Tokeniser.getInstance(), doc, true, false, false, safDoc);
+                IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(Tokeniser.getInstance(), doc, true, false, false, safDoc);
                 for (TokenSequence tokSeq : procDoc.getTokenSequences()) {
                     afterHyphen.addAll(tokSeq.getAfterHyphens());
                     Map<String, List<List<String>>> namedEntityMap = tokSeq.getNes();

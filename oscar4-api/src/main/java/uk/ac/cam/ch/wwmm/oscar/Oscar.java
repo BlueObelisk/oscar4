@@ -6,9 +6,9 @@ import org.apache.log4j.Logger;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
@@ -155,7 +155,7 @@ public class Oscar {
 
     public List<TokenSequence> tokenize(String input) throws Exception {
         Document doc = createInputDocument(input);
-        ProcessingDocument procDoc = new ProcessingDocumentFactory()
+        IProcessingDocument procDoc = new ProcessingDocumentFactory()
                 .makeTokenisedDocument(tokenizer, doc, true, false, false);
         return procDoc.getTokenSequences();
     }

@@ -3,7 +3,7 @@ package uk.ac.cam.ch.wwmm.oscartokeniser;
 import java.util.List;
 
 import nu.xom.Document;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -13,7 +13,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 public class Main {
 	
 	public static void main(String args[]){
-		ProcessingDocument procDoc = null;
+		IProcessingDocument procDoc = null;
 		ResourceGetter rg = new ResourceGetter(
 				"uk/ac/cam/ch/wwmm/oscartokeniser/input/");
 		String resourceName = "source.xml";

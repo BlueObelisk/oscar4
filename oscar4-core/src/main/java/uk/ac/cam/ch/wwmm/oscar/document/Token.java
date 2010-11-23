@@ -24,7 +24,7 @@ public final class Token {
 	/**The character offset (caret position) at the end of the token */
 	private int end;
 	private int id;
-	private ProcessingDocument doc;
+	private IProcessingDocument doc;
 	private TokenSequence tokenSequence;
 	
 	private Element neElem;
@@ -36,7 +36,7 @@ public final class Token {
 	private String bioTag;
 	
 
-	public Token(String value, int start, int end, ProcessingDocument doc, String bioTag, Element neElem) {
+	public Token(String value, int start, int end, IProcessingDocument doc, String bioTag, Element neElem) {
 		this.start = start;
 		this.end = end;
 		this.value = value;
@@ -92,7 +92,7 @@ public final class Token {
 	 * 
 	 * @return This token's ProcessingDocument.
 	 */
-	public ProcessingDocument getDoc() {
+	public IProcessingDocument getDoc() {
 		return doc;
 	}
 	

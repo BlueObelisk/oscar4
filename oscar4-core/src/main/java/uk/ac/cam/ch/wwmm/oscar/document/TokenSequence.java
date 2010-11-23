@@ -21,12 +21,12 @@ public final class TokenSequence {
 
 	private String sourceString;
 	private int offset;
-	private ProcessingDocument doc;
+	private IProcessingDocument doc;
 	private List<Token> tokens;
 	private Element elem;
 	private int indes=0;
 	
-	public TokenSequence(String sourceString, int offset, ProcessingDocument doc, List<Token> tokens) 
+	public TokenSequence(String sourceString, int offset, IProcessingDocument doc, List<Token> tokens) 
 	{
 		this.sourceString = sourceString;
         this.offset = offset;
@@ -48,7 +48,7 @@ public final class TokenSequence {
 	 * @return The ProcessingDocument (or null) that this TokenSequence was made
 	 * from.
 	 */
-	public ProcessingDocument getDoc() {
+	public IProcessingDocument getDoc() {
 		return doc;
 	}
 	

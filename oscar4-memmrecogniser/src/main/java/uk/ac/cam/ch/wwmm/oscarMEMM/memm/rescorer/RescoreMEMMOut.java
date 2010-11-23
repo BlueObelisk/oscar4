@@ -26,8 +26,8 @@ import opennlp.maxent.TwoPassDataIndexer;
 
 import org.apache.log4j.Logger;
 
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
@@ -134,7 +134,7 @@ public final class RescoreMEMMOut {
 
 		nr.makeTokenisers(false);*/
 		
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getInstance(), doc, true, false, false);
 		
 		List<NamedEntity> entities = new ArrayList<NamedEntity>();
@@ -224,7 +224,7 @@ public final class RescoreMEMMOut {
 		nr.halfProcess(doc);
 
 		nr.makeTokenisers(false);*/
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getInstance(), doc, true, false, false);
 		
 		List<NamedEntity> entities = new ArrayList<NamedEntity>();

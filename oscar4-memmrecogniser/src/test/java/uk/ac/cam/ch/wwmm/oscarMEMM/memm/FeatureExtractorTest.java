@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
@@ -23,7 +23,7 @@ public class FeatureExtractorTest {
         // Regression test introduced pre-refactoring
         String s = "We have also described that benzoxasilepines can be condensed with benzaldehydes.";
         Tokeniser tokeniser = Tokeniser.getInstance();
-        TokenSequence tokSeq = tokeniser.tokenise(s);
+        ITokenSequence tokSeq = tokeniser.tokenise(s);
         
         List<List<String>> features = FeatureExtractor.extractFeatures(tokSeq);
 

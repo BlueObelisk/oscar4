@@ -26,10 +26,10 @@ import opennlp.maxent.TwoPassDataIndexer;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
@@ -128,7 +128,7 @@ public final class MEMMTrainer {
 		evs.add(ev);
 	}
 	
-	private void trainOnSentence(TokenSequence tokSeq) {
+	private void trainOnSentence(ITokenSequence tokSeq) {
         List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
 		//extractor.printFeatures();
 		List<Token> tokens = tokSeq.getTokens();
@@ -182,7 +182,7 @@ public final class MEMMTrainer {
 		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getInstance(), doc, true, false, false);
 
-		for(TokenSequence ts : procDoc.getTokenSequences()) {
+		for(ITokenSequence ts : procDoc.getTokenSequences()) {
 			trainOnSentence(ts);
 		}
 		logger.debug(System.currentTimeMillis() - time);
@@ -426,7 +426,7 @@ public final class MEMMTrainer {
 	 * usually be null).
 	 * @return Named entities, with confidences.
 	 */
-	public Map<NamedEntity,Double> findNEs(TokenSequence tokSeq) {
+	public Map<NamedEntity,Double> findNEs(ITokenSequence tokSeq) {
 		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
 		List<Token> tokens = tokSeq.getTokens();
 		if(tokens.size() == 0) return new HashMap<NamedEntity,Double>();
@@ -469,7 +469,7 @@ public final class MEMMTrainer {
 		//} else {
 			//nr.makeTokenisers(true);
 		//}
-		for(TokenSequence ts : procDoc.getTokenSequences()) {
+		for(ITokenSequence ts : procDoc.getTokenSequences()) {
 			cvFeatures(ts);
 		}
 		logger.debug(System.currentTimeMillis() - time);
@@ -480,7 +480,7 @@ public final class MEMMTrainer {
 		return -Math.log(probs[index])/Math.log(2);
 	}
 	
-	private void cvFeatures(TokenSequence tokSeq) {
+	private void cvFeatures(ITokenSequence tokSeq) {
 		if(featureCVScores == null) {
 			featureCVScores = new HashMap<String,Map<String,Double>>();
 		}

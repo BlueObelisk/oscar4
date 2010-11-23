@@ -21,10 +21,10 @@ import opennlp.maxent.GISModel;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
@@ -123,7 +123,7 @@ public final class MEMM {
         evs.add(ev);
     }
 
-    private void trainOnSentence(TokenSequence tokSeq, String domain) {
+    private void trainOnSentence(ITokenSequence tokSeq, String domain) {
         List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
         List<Token> tokens = tokSeq.getTokens();
         String prevTag = "O";
@@ -163,7 +163,7 @@ public final class MEMM {
         IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
                 Tokeniser.getInstance(), doc, true, false, false);
 
-        for(TokenSequence ts : procDoc.getTokenSequences()) {
+        for(ITokenSequence ts : procDoc.getTokenSequences()) {
             trainOnSentence(ts, domain);
         }
         logger.debug(System.currentTimeMillis() - time);
@@ -198,7 +198,7 @@ public final class MEMM {
      * usually be null).
      * @return Named entities, with confidences.
      */
-    public Map<NamedEntity,Double> findNEs(TokenSequence tokSeq, String domain) {
+    public Map<NamedEntity,Double> findNEs(ITokenSequence tokSeq, String domain) {
         List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
         List<Token> tokens = tokSeq.getTokens();
         if (tokens.isEmpty()) {
@@ -263,7 +263,7 @@ public final class MEMM {
         IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
                 Tokeniser.getInstance(), doc, true, false, false);
 
-        for(TokenSequence ts : procDoc.getTokenSequences()) {
+        for(ITokenSequence ts : procDoc.getTokenSequences()) {
             cvFeatures(ts, domain);
         }
         logger.debug(System.currentTimeMillis() - time);
@@ -274,7 +274,7 @@ public final class MEMM {
         return -Math.log(probs[index])/Math.log(2);
     }
 
-    private void cvFeatures(TokenSequence tokSeq, String domain) {
+    private void cvFeatures(ITokenSequence tokSeq, String domain) {
         if(featureCVScores == null) {
             featureCVScores = new HashMap<String,Map<String,Double>>();
         }

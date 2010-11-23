@@ -6,8 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.FeatureSet;
@@ -83,7 +83,7 @@ public final class FeatureExtractor {
 	private static final String WORD_FEATURE = "w=";
 	private static final int WORD_FEATURE_LENGTH = WORD_FEATURE.length();
 
-	private TokenSequence tokSeq;
+	private ITokenSequence tokSeq;
 	private List<FeatureSet> tokenFeatureSets;
 
 	private static final Pattern suffixPattern = Pattern
@@ -101,7 +101,7 @@ public final class FeatureExtractor {
 
 	private boolean newSuffixes = false;
 
-    public static List<List<String>> extractFeatures(TokenSequence tokSeq) {
+    public static List<List<String>> extractFeatures(ITokenSequence tokSeq) {
         FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq);
         return featureExtractor.getFeatureLists();
     }
@@ -114,7 +114,7 @@ public final class FeatureExtractor {
         return features;
     }
 
-    private FeatureExtractor(TokenSequence tokSeq) {
+    private FeatureExtractor(ITokenSequence tokSeq) {
 		this.tokSeq = tokSeq;
 		makeFeatures();
 	}

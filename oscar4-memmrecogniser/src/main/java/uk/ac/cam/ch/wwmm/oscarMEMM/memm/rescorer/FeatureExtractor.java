@@ -10,9 +10,9 @@ import org.apache.commons.math.stat.DescriptiveStatistics;
 import org.apache.commons.math.stat.DescriptiveStatisticsImpl;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /**Converts a set of named entities into a set of features for the rescorer.
@@ -107,7 +107,7 @@ final class FeatureExtractor {
 						}
 					} else {
 						int tokID = ne.getFirstToken().getId();
-						TokenSequence tokSeq = ne.getFirstToken().getTokenSequence();
+						ITokenSequence tokSeq = ne.getFirstToken().getTokenSequence();
 						int length = surf.length();
 						boolean isAcro = false;
 						if(allCaps.matcher(surf).matches()) {
@@ -136,7 +136,7 @@ final class FeatureExtractor {
 
 		List<String> features = new ArrayList<String>();
 		
-		TokenSequence t = ne.getTokens().get(0).getTokenSequence();
+		ITokenSequence t = ne.getTokens().get(0).getTokenSequence();
 		int entityLength = ne.getTokens().size();
 		int startID = ne.getTokens().get(0).getId();
 		int endID = startID + entityLength - 1;

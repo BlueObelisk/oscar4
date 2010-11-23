@@ -46,7 +46,7 @@ public interface ITokenSequence {
 	 * @param i The index of the token to get.
 	 * @return The token.
 	 */
-	public abstract Token getToken(int i);
+	public abstract IToken getToken(int i);
 
 	/**Gets the number of tokens in the TokenSequence.
 	 * 

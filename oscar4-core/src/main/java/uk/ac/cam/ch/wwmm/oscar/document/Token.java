@@ -10,7 +10,7 @@ import java.util.List;
  * @author ptc24
  *
  */
-public final class Token {	
+public final class Token implements IToken {	
 
     // TODO can we make this class immutable?
 
@@ -46,14 +46,10 @@ public final class Token {
 	}
 	
 
-	/**Gets the <i>n</i>th token after this one, or null. For example, 
-	 * getNAfter(1) would get the next token, and getNAfter(-1) would get the
-	 * previous one. 
-	 * 
-	 * @param n The offset (in tokens) from the current token.
-	 * @return The token.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getNAfter(int)
 	 */
-	public Token getNAfter(int n) {
+	public IToken getNAfter(int n) {
 		int pos = n + id;
 		if (tokenSequence == null){
 
@@ -64,75 +60,80 @@ public final class Token {
 		return tokenSequence.getTokens().get(pos);
 	}
 
-	/**Gets the string value of the token.
-	 * 
-	 * @return The string value of the token.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getValue()
 	 */
 	public String getValue() {
 		return value;
 	}
 
+    /* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#setValue(java.lang.String)
+	 */
     public void setValue(String value) {
         this.value = value;
     }
 
-    /**Gets the index of the token in its TokenSequence.
-	 * 
-	 * @return The index of the token in its TokenSequence.
+    /* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getId()
 	 */
 	public int getId() {
 		return id;
 	}
 
+    /* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#setId(int)
+	 */
     public void setId(int id) {
         this.id = id;
     }
 
-	/**Gets this token's ProcessingDocument.
-	 * 
-	 * @return This token's ProcessingDocument.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getDoc()
 	 */
 	public IProcessingDocument getDoc() {
 		return doc;
 	}
 	
-	/**Gets the start offset of this token.
-	 * 
-	 * @return The start offset of this token.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getStart()
 	 */
 	public int getStart() {
 		return start;
 	}
 
     
-	/**Gets the start offset of this token.
-	 * 
-	 * @return The end offset of this token.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getEnd()
 	 */
 	public int getEnd() {
 		return end;
 	}
 
+    /* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#setEnd(int)
+	 */
     public void setEnd(int end) {
         this.end = end;
     }
 
 
-	/**Gets the BIO tag of this token.
-	 * 
-	 * @return The BIO tag of this token.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getBioTag()
 	 */
 	public String getBioTag() {
 		return bioTag;
 	}
 	
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#setBioTag(java.lang.String)
+	 */
 	public void setBioTag(String bioTag) {
 		this.bioTag = bioTag;
 	}
 	
-	/**Gets the TokenSequence that contains this token.
-	 * 
-	 * @return The TokenSequence that contains this token.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getTokenSequence()
 	 */
 
 	
@@ -140,6 +141,9 @@ public final class Token {
 		return tokenSequence;
 	}
 
+    /* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#setTokenSequence(uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence)
+	 */
     public void setTokenSequence(ITokenSequence tokenSequence) {
         this.tokenSequence = tokenSequence;
     }

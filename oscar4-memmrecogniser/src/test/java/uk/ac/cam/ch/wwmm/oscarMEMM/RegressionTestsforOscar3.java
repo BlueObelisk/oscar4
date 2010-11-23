@@ -11,8 +11,8 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
@@ -169,7 +169,7 @@ public class RegressionTestsforOscar3 {
 				sentence != null && sentence.length() > 0);
 
 		Document doc = TextToSciXML.textToSciXML(sentence);
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance()
+		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance()
 				.makeTokenisedDocument(Tokeniser.getInstance(), doc, false,
 						false, false);
 		// Check that ProcDoc is not empty

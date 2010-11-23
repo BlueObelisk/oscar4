@@ -1,7 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM;
 
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
@@ -69,7 +69,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     }
     
 
-    public List<NamedEntity> findNamedEntities(ProcessingDocument procDoc) throws Exception {
+    public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) throws Exception {
         return findNamedEntities(procDoc.getTokenSequences());
     }
 

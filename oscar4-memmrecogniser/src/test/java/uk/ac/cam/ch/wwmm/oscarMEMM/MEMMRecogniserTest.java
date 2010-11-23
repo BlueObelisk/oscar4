@@ -7,8 +7,8 @@ import nu.xom.Document;
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
@@ -32,7 +32,7 @@ public class MEMMRecogniserTest {
 		Assert.assertTrue("Have testcard string", s != null && s.length() > 0);
 		Document doc = TextToSciXML.textToSciXML(s);
 		
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().
+		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().
 			makeTokenisedDocument(Tokeniser.getInstance(), doc, false, false, false);
 		Assert.assertTrue(procDoc != null);
 		List<NamedEntity> neList;

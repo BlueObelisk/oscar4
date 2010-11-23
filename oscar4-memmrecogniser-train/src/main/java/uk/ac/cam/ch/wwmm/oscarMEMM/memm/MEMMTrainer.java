@@ -25,8 +25,8 @@ import opennlp.maxent.TwoPassDataIndexer;
 
 import org.apache.log4j.Logger;
 
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -179,7 +179,7 @@ public final class MEMMTrainer {
 			}
 		}
 		
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getInstance(), doc, true, false, false);
 
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
@@ -460,7 +460,7 @@ public final class MEMMTrainer {
 		for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 		
 		
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getInstance(), doc, true, false, false);
 		//NameRecogniser nr = new NameRecogniser();
 		//nr.halfProcess(doc);

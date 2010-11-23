@@ -1,8 +1,8 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM;
 
 import nu.xom.Document;
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -16,7 +16,7 @@ public class Main {
 		ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscarMEMM/input/");
 		String resourceName = "source.xml";
 		Document sourceDoc = rg.getXMLDocument(resourceName);
-		ProcessingDocument procDoc = null;
+		IProcessingDocument procDoc = null;
 		
 		try 
 		{

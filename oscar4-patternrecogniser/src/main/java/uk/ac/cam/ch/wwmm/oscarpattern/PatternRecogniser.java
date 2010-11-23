@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -26,7 +26,7 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFANEFinder;
 public class PatternRecogniser implements ChemicalEntityRecogniser
 {
 
-	public List<NamedEntity> findNamedEntities(ProcessingDocument procDoc) throws Exception
+	public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) throws Exception
 	{
 		return findNamedEntities(procDoc.getTokenSequences());
 	}

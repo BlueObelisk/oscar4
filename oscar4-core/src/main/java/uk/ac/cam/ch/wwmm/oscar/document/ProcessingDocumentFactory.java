@@ -70,7 +70,7 @@ public class ProcessingDocumentFactory {
 	 * 
 	 * 
 	 */
-	public ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) throws Exception {
+	public IProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) throws Exception {
 		/****************************
 		 * @lh359 Tokenisation Walkthrough:
 		 * This is the function used to call the tokeniser and tokensequence
@@ -98,7 +98,7 @@ public class ProcessingDocumentFactory {
 	 * 
 	 * 
 	 */
-	public ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia, Document safDoc) throws Exception {
+	public IProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia, Document safDoc) throws Exception {
 		ProcessingDocument procDoc = makeDocument(sourceDoc);
 		procDoc.tokensByStart = new HashMap<Integer,Token>();
 		procDoc.tokensByEnd = new HashMap<Integer,Token>();

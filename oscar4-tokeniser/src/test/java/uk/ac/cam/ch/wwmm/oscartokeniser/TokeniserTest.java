@@ -64,6 +64,14 @@ public final class TokeniserTest {
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(1, tokseq.getTokens().size());
 	}
+	
+	@Test
+	public void testButan1ol() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "butan-1-ol";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
 
 	@Test
 	public void testTransButene() {
@@ -72,8 +80,19 @@ public final class TokeniserTest {
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(1, tokseq.getTokens().size());
 	}
+	
+	@Test
+	public void testPhosphinin2One() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "phosphinin-2(1H)-one";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
 
 	@Test
+	/**
+	 * TODO This appears to be incorrect behaviour according the annotation guidelines
+	 */
 	public void testIronIII() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "Fe(III)";
@@ -97,9 +116,32 @@ public final class TokeniserTest {
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(1, tokseq.getTokens().size());
 	}
+	
+	@Test
+	public void testSpiroSystem() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "spiro[4.5]decane";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
+	
+	@Test
+	public void testLambdaConvention1() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "lambda5-phosphane";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
+	@Test
+	public void testLambdaConvention2() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "\u03BB5-phosphane";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
 
 	@Ignore
-	public void testRingThingy() {
+	public void testRingAssembly() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "2,2':6',2\"-Terphenyl-1,1',1\"-triol";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
@@ -111,6 +153,38 @@ public final class TokeniserTest {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "\u03b2-D-Glucose";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
+	
+	@Test
+	public void testPeptide() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "L-alanyl-L-glutaminyl-L-arginyl-O-phosphono-L-seryl-L-alanyl-L-proline";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
+	
+	@Test
+	public void testChargedAluminium() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "aluminium(3+)";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
+	
+	@Test
+	public void testPolymer() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "poly(2,2'-diamino-5-hexadecylbiphenyl-3,3'-diyl)";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		Assert.assertEquals(1, tokseq.getTokens().size());
+	}
+	
+	@Test
+	public void testMethylideneCyclohexane() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "1-methyl-2-methylidene-cyclohexane";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(1, tokseq.getTokens().size());
 	}
 

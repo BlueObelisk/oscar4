@@ -144,7 +144,7 @@ public final class RParser {
 
 	
 	/**
-	 * Calculates the regex contained in the specified @lt;node> element
+	 * Calculates the regex contained in the specified &lt;node> element
 	 */
 	String getNodeRegex(Element node) {
 		StringBuffer txt = new StringBuffer();

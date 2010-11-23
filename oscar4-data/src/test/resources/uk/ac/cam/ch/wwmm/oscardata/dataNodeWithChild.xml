@@ -1,0 +1,8 @@
+<node saf="yes" type="testType" id="testId" value="testValue">
+	<regexp parsegroup="42">
+		foo
+		<insert idref="unitsMass"/>
+		bar
+	</regexp>
+	 <child type="units" id="mass"/>
+</node>

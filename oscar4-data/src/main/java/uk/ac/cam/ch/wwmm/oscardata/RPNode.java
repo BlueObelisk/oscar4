@@ -114,6 +114,20 @@ final class RPNode {
     }
     
     
+    List<RPNode> getChildren() {
+		return children;
+	}
+
+
+	boolean isSaf() {
+		return saf;
+	}
+
+
+	RParser getrParser() {
+		return rParser;
+	}
+    
     /**
      * Add a child element.
      * @param elem The XML element corresponding to the &lt;node&gt; to be added

@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
@@ -30,7 +30,7 @@ final class PostProcessor {
 
 	private Map<NamedEntity, Double> entities;
 	private Set<NamedEntity> blocked;
-	private TokenSequence tokSeq;
+	private ITokenSequence tokSeq;
 
 	private static Pattern cjPattern = Pattern.compile("\\S+(ic|al|ous)");
 	private static Pattern asePattern = Pattern.compile("\\S+[Aa]ses?");
@@ -40,7 +40,7 @@ final class PostProcessor {
 
 	private static boolean noPC = false;
 
-	public PostProcessor(TokenSequence tokSeq, Map<NamedEntity, Double> entities) {
+	public PostProcessor(ITokenSequence tokSeq, Map<NamedEntity, Double> entities) {
 		this.tokSeq = tokSeq;
 		this.entities = entities;
 	}

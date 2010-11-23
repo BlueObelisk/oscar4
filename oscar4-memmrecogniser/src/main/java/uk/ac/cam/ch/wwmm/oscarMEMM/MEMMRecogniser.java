@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -153,7 +154,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     private List<NamedEntity> generateNamedEntities(List<TokenSequence> toxicList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
         MEMM memm = getModel().getMemm();
-        for (TokenSequence tokseq : toxicList) {
+        for (ITokenSequence tokseq : toxicList) {
             for (NamedEntity ne : memm.findNEs(tokseq, null).keySet()) {
                 if (ne.getConfidence() > getMemmThreshold()) {
                     neList.add(ne);
@@ -173,7 +174,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     private List<NamedEntity> generateOntologyTerms(List<TokenSequence> toxicList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
         DFAONTCPRFinder ontologyTermFinder = getOntologyTermFinder();
-        for (TokenSequence t : toxicList) {
+        for (ITokenSequence t : toxicList) {
             neList.addAll(ontologyTermFinder.getNEs(t));
         }
         return neList;

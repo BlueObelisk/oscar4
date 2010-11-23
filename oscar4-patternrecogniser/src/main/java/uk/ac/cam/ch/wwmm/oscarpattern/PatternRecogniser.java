@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
@@ -42,7 +43,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 	 	Map<Integer,Token> tokensByStart = new HashMap<Integer,Token>();
 	 	Map<Integer,Token> tokensByEnd = new HashMap<Integer,Token>();
 
-	 	for(TokenSequence t : tokenSequences) {
+	 	for(ITokenSequence t : tokenSequences) {
 			neList.addAll(DFANEFinder.getInstance().getNEs(t));
 		}
 

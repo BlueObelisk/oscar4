@@ -25,7 +25,7 @@ public final class Token {
 	private int end;
 	private int id;
 	private IProcessingDocument doc;
-	private TokenSequence tokenSequence;
+	private ITokenSequence tokenSequence;
 	
 	private Element neElem;
 	private String [] geniaData = null;
@@ -136,11 +136,11 @@ public final class Token {
 	 */
 
 	
-	public TokenSequence getTokenSequence() {
+	public ITokenSequence getTokenSequence() {
 		return tokenSequence;
 	}
 
-    public void setTokenSequence(TokenSequence tokenSequence) {
+    public void setTokenSequence(ITokenSequence tokenSequence) {
         this.tokenSequence = tokenSequence;
     }
 

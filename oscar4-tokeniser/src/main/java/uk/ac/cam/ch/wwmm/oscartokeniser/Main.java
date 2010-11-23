@@ -4,6 +4,7 @@ import java.util.List;
 
 import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
@@ -35,7 +36,7 @@ public class Main {
 			List<Token> tokens = tokenSequence.getTokens();
 			
 			System.out.println("There are "+tokens.size()+" tokens in the string");
-			for (Token token : tokens) {
+			for (IToken token : tokens) {
 				System.out.println("Token:: "+token.getValue());
 			}
 			

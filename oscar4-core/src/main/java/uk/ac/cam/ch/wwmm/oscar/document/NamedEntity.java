@@ -22,7 +22,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	private int endOffset;
 	private String surface;
 	private String type;
-	private Token endToken;
+	private IToken endToken;
 	private List<Token> tokens;
 	private Set<String> ontIds;
 	private Set<String> custTypes;
@@ -191,7 +191,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	public void addPunctuation() {
 		leftPunct = "";
 		int tmpLeftOffset = startOffset;
-		Token prevToken = tokens.get(0).getNAfter(-1);
+		IToken prevToken = tokens.get(0).getNAfter(-1);
 		while(prevToken != null) {
 			if(prevToken.getEnd() != tmpLeftOffset) break;
 			if(prevToken.getValue().length() != 1) break;
@@ -202,7 +202,7 @@ public final class NamedEntity extends ResolvableStandoff {
 		}
 		rightPunct = "";
 		int tmpRightOffset = endOffset;
-		Token nextToken = tokens.get(tokens.size()-1).getNAfter(1);
+		IToken nextToken = tokens.get(tokens.size()-1).getNAfter(1);
 		while(nextToken != null) {
 			if(nextToken.getStart() != tmpRightOffset) break;
 			if(nextToken.getValue().length() != 1) break;
@@ -418,7 +418,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	 * 
 	 * @return The first token of the named entity.
 	 */
-	public Token getFirstToken() {
+	public IToken getFirstToken() {
 		return tokens.get(0);
 	}
 	

@@ -10,6 +10,7 @@ import org.apache.commons.math.stat.DescriptiveStatistics;
 import org.apache.commons.math.stat.DescriptiveStatisticsImpl;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
@@ -75,11 +76,11 @@ final class FeatureExtractor {
 
 		for(NamedEntity ne : entities) {
 
-			Token prev = ne.getFirstToken().getNAfter(-1);
-			Token next = ne.getLastToken().getNAfter(1);
+			IToken prev = ne.getFirstToken().getNAfter(-1);
+			IToken next = ne.getLastToken().getNAfter(1);
 
 			if(prev != null && next != null && prev.getValue().equals("(") && next.getValue().equals(")")) {
-				Token prev2 = ne.getFirstToken().getNAfter(-2);
+				IToken prev2 = ne.getFirstToken().getNAfter(-2);
 				if(prev2 != null) {
 					String surf = ne.getSurface();
 					if(surf.matches(".*[A-Z]s") || prev2.getValue().endsWith("s")) surf = surf.substring(0, surf.length()-1);

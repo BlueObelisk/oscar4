@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import nu.xom.Element;
 import nu.xom.Nodes;
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
@@ -193,7 +194,7 @@ public final class Tokeniser implements ITokeniser {
 		}
 		/* Number tokens */
 		int id = 0;
-		for (Token t : tokens) {
+		for (IToken t : tokens) {
 			t.setId(id);
 			id++;
 		}
@@ -208,7 +209,7 @@ public final class Tokeniser implements ITokeniser {
 		
 		/* Create a TokenSequence from the tokens */
 		TokenSequence tokenSequence = new TokenSequence(s, offset, doc, tokens);
-		for (Token t : tokens) {
+		for (IToken t : tokens) {
 			t.setTokenSequence(tokenSequence);
 		}
 		tokenSequence.setElem(elem);
@@ -230,7 +231,7 @@ public final class Tokeniser implements ITokeniser {
 		if (tokenList == null)
 			return null;
 		int goodTokens = 0;
-		for (Token t : tokenList) {
+		for (IToken t : tokenList) {
 			if (t.getEnd() - t.getStart() > 0)
 				goodTokens++;
 		}
@@ -704,7 +705,7 @@ public final class Tokeniser implements ITokeniser {
 	private List<Token> mergeNeTokens(List<Token> tokens, String sourceString,
 			int offset) {
 		List<Token> newTokens = new ArrayList<Token>();
-		Token currentToken = null;
+		IToken currentToken = null;
 		String neClass = null;
 		for (Token t : tokens) {
 			if (currentToken == null || neClass == null

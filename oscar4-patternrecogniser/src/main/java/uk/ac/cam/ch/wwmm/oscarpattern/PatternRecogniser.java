@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
@@ -124,12 +125,12 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 				int start = ne.getStart();
 				//int end = ne.getEnd();
 				
-				Token t = tokensByStart.get(start);
+				IToken t = tokensByStart.get(start);
 				if(t != null) System.out.println("NOT NULL AHA: " + t.getValue());
 				if(t != null && t.getNAfter(-2) != null && t.getNAfter(1) != null) {
-					Token prev = t.getNAfter(-1);
-					Token next = t.getNAfter(1);
-					Token prevPrev = t.getNAfter(-2);
+					IToken prev = t.getNAfter(-1);
+					IToken next = t.getNAfter(1);
+					IToken prevPrev = t.getNAfter(-2);
 					if(prev.getValue().equals("(") && next.getValue().endsWith(")")) {
 						//boolean matched = false;
 						if(endToNe.containsKey(prevPrev.getEnd())) {

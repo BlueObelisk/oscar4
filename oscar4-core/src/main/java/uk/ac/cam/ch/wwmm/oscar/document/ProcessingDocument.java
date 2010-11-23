@@ -54,7 +54,7 @@ public final class ProcessingDocument implements IProcessingDocument {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getTokenByStart(java.lang.String)
 	 */
-	public Token getTokenByStart(String leftXPoint) throws Exception {
+	public IToken getTokenByStart(String leftXPoint) throws Exception {
 		int offset = standoffTable.getOffsetAtXPoint(leftXPoint);
 		if (tokensByStart.containsKey(offset))
 			return tokensByStart.get(offset);
@@ -64,7 +64,7 @@ public final class ProcessingDocument implements IProcessingDocument {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getTokenByEnd(java.lang.String)
 	 */
-	public Token getTokenByEnd(String rightXPoint) throws Exception {
+	public IToken getTokenByEnd(String rightXPoint) throws Exception {
 		int offset = standoffTable.getOffsetAtXPoint(rightXPoint);
 		if (tokensByEnd.containsKey(offset))
 			return tokensByEnd.get(offset);

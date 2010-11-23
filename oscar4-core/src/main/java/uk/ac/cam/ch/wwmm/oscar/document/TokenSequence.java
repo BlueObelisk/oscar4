@@ -72,7 +72,7 @@ public final class TokenSequence implements ITokenSequence {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getToken(int)
 	 */
-	public Token getToken(int i) {
+	public IToken getToken(int i) {
 		return tokens.get(i);
 	}
 	
@@ -101,7 +101,7 @@ public final class TokenSequence implements ITokenSequence {
 	 */
 	public List<String> getTokenStringList() {
 		List<String> tl = new ArrayList<String>();
-		for(Token t : tokens) {
+		for(IToken t : tokens) {
 			tl.add(t.getValue());
 		}
 		return tl;
@@ -167,7 +167,7 @@ public final class TokenSequence implements ITokenSequence {
 		Map<String,List<List<String>>> neMap = new HashMap<String,List<List<String>>>();
 		String neType = null;
 		List<String> neTokens = null;
-		for(Token t : tokens) {
+		for(IToken t : tokens) {
 			if(neType == null) {
 				if(!"O".equals(t.getBioTag())) {
 					neTokens = new ArrayList<String>();
@@ -202,7 +202,7 @@ public final class TokenSequence implements ITokenSequence {
 	 */
 	public List<String> getNonNes() {
 		List<String> nonNes = new ArrayList<String>();
-		for(Token t : tokens) {
+		for(IToken t : tokens) {
 			if("O".equals(t.getBioTag())) nonNes.add(t.getValue());
 		}
 		return nonNes;

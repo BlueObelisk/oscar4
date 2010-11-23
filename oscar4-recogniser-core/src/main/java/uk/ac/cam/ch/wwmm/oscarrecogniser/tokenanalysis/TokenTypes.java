@@ -2,7 +2,7 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
 
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 
@@ -35,7 +35,7 @@ public class TokenTypes {
 	public static Pattern oxidationStatePattern = Pattern.compile("\\((o|i{1,4}|i{0,3}[xv]|[xv]i{0,4})\\)", Pattern.CASE_INSENSITIVE);
 	public static Pattern oxidationStateEndPattern = Pattern.compile(".*\\((o|i{1,4}|i{0,3}[xv]|[xv]i{0,4})\\)", Pattern.CASE_INSENSITIVE);
 
-	public static boolean isCompRef(Token token) {
+	public static boolean isCompRef(IToken token) {
 		boolean isCr = false;
 		if(token.getDoc() != null && XMLStrings.getInstance().isCompoundReferenceUnderStyle(token.getDoc().getStandoffTable().getElemAtOffset(token.getStart()))) {
 			isCr = true;
@@ -49,7 +49,7 @@ public class TokenTypes {
 		return isCr;
 	}
 	
-	public static boolean isRef(Token token) {
+	public static boolean isRef(IToken token) {
 		if(token.getDoc() == null) return false;
 		return XMLStrings.getInstance().isCitationReferenceUnderStyle(token.getDoc().getStandoffTable().getElemAtOffset(token.getStart()));
 	}

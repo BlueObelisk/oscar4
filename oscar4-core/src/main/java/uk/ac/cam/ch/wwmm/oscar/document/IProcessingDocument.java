@@ -39,7 +39,7 @@ public interface IProcessingDocument {
 	 * @return The token, or null.
 	 * @throws Exception
 	 */
-	public abstract Token getTokenByStart(String leftXPoint) throws Exception;
+	public abstract IToken getTokenByStart(String leftXPoint) throws Exception;
 
 	/**
 	 * Gets the token that ends at a given XPoint. Note that this should only be
@@ -50,7 +50,7 @@ public interface IProcessingDocument {
 	 * @return The token, or null.
 	 * @throws Exception
 	 */
-	public abstract Token getTokenByEnd(String rightXPoint) throws Exception;
+	public abstract IToken getTokenByEnd(String rightXPoint) throws Exception;
 
 	/**
 	 * Gets a list of list of tokens corresponding to the sentences in the

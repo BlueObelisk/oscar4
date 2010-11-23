@@ -17,6 +17,7 @@ import java.util.zip.GZIPOutputStream;
 
 import org.apache.log4j.Logger;
 
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
@@ -170,13 +171,13 @@ public class DFAONTCPRFinder extends DFAFinder {
 	
 	private List<List<String>> makeReps(ITokenSequence t) {
 		List<List<String>> repsList = new ArrayList<List<String>>();
-		for(Token token : t.getTokens()) {
+		for(IToken token : t.getTokens()) {
 			repsList.add(repsForToken(token));
 		}
 		return repsList;
 	}
 	
-	protected List<String> repsForToken(Token t) {
+	protected List<String> repsForToken(IToken t) {
 		List<String> reps = new ArrayList<String>();
 		String tokenValue = t.getValue();
 		reps.add(tokenValue);

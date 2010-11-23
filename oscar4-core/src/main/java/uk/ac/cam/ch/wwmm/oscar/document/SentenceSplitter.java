@@ -81,8 +81,8 @@ public final class SentenceSplitter {
 			if(verbose) System.out.println(value);
 			if(splitTokens.contains(value)) {
 				split = true;
-				Token next = t.getNAfter(1);
-				Token prev = t.getNAfter(-1);
+				IToken next = t.getNAfter(1);
+				IToken prev = t.getNAfter(-1);
 				if(next != null && prev != null) {
 					String nextStr = next.getValue();
 					String prevStr = prev.getValue();

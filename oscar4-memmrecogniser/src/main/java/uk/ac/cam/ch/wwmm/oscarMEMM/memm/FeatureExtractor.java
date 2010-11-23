@@ -6,8 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
-import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.FeatureSet;
@@ -154,7 +154,7 @@ public final class FeatureExtractor {
 		List<String> contextable = tokenFeatureSets.get(position).getContextableFeatures();
 		List<String> bigramable = tokenFeatureSets.get(position).getBigramableFeatures();
 
-		Token token = tokSeq.getToken(position);
+		IToken token = tokSeq.getToken(position);
 		String word = token.getValue();
 		contextable.add(makeWordFeature(word));
 
@@ -226,7 +226,7 @@ public final class FeatureExtractor {
 
 	private void handleNoNewSuffices(String word, String normWord,
 			List<String> bigramable, List<String> contextable,
-			List<String> local, Token token) {
+			List<String> local, IToken token) {
 		double ngscore = NGram.getInstance().testWord(word);
 		// Already seen
 		String type = TokenTypes.getTypeForSuffix(token.getValue());
@@ -258,7 +258,7 @@ public final class FeatureExtractor {
 
 	private void handleNewSuffices(String word, String normWord,
 			List<String> bigramable, List<String> contextable,
-			List<String> local, Token token) {
+			List<String> local, IToken token) {
 		double suffixScore = NGram.getInstance().testWordSuffix(word);
 		String type = TokenTypes.getTypeForSuffix(token.getValue());
 

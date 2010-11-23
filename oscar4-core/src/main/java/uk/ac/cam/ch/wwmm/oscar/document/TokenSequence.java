@@ -17,7 +17,7 @@ import nu.xom.Element;
  * @author ptc24
  *
  */
-public final class TokenSequence {
+public final class TokenSequence implements ITokenSequence {
 
 	private String sourceString;
 	private int offset;
@@ -34,55 +34,43 @@ public final class TokenSequence {
 		this.tokens = tokens;
 	}
 	
-	/**Gets the string that was tokenised to make this TokenSequence.
-	 * 
-	 * @return The string that was tokenised to make this TokenSequence.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getSourceString()
 	 */
 	public String getSourceString() {
 		return sourceString;
 	}
 	
-	/**Gets the ProcessingDocument (or null) that this TokenSequence was made
-	 * from.
-	 * 
-	 * @return The ProcessingDocument (or null) that this TokenSequence was made
-	 * from.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getDoc()
 	 */
 	public IProcessingDocument getDoc() {
 		return doc;
 	}
 	
-	/**Gets the start offset of this TokenSequence. If this information was
-	 * not supplied during tokenisation, this will be 0.
-	 * 
-	 * @return The start offset of this TokenSequence.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getOffset()
 	 */
 	public int getOffset() {
 		return offset;
 	}
 	
-	/**Gets the list of tokens that comprise this TokenSequence.
-	 * 
-	 * @return The list of tokens that comprise this TokenSequence.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getTokens()
 	 */
 	public List<Token> getTokens() {
 		return tokens;
 	}
 	
-	/**Gets a the sublist of tokens that occur between the given indices.
-	 * 
-	 * @param from The first token in the sublist (inclusive).
-	 * @param to The last token in the sublist (inclusive).
-	 * @return The sublist of tokens.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getTokens(int, int)
 	 */
 	public List<Token> getTokens(int from, int to) {
 		return tokens.subList(from, to+1);
 	}
 	
-	/**Gets a single token.
-	 * 
-	 * @param i The index of the token to get.
-	 * @return The token.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getToken(int)
 	 */
 	public Token getToken(int i) {
 		return tokens.get(i);
@@ -101,17 +89,15 @@ public final class TokenSequence {
 		return elem;
 	}
 
-	/**Gets the number of tokens in the TokenSequence.
-	 * 
-	 * @return the number of tokens in the TokenSequence.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#size()
 	 */
 	public int size() {
 		return tokens.size();
 	}
 
-	/**Gets a list of strings corresponding to the tokens.
-	 * 
-	 * @return The list of strings corresponding to the tokens.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getTokenStringList()
 	 */
 	public List<String> getTokenStringList() {
 		List<String> tl = new ArrayList<String>();
@@ -121,12 +107,8 @@ public final class TokenSequence {
 		return tl;
 	}
 	
-	/**Gets a substring of the source string that runs between two tokens 
-	 * (inclusive).
-	 * 
-	 * @param startToken The first token (inclusive).
-	 * @param endToken The last token (inclusive).
-	 * @return The substring.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getSubstring(int, int)
 	 */
 	public String getSubstring(int startToken, int endToken) {
 		if(endToken >= size()) endToken = size()-1;
@@ -135,11 +117,8 @@ public final class TokenSequence {
 		return sourceString.substring(startOffset - offset, endOffset - offset);
 	}
 	
-	/**Gets a substring of the source string that runs between two offsets.
-	 * 
-	 * @param start The start offset.
-	 * @param end The end offset.
-	 * @return The substring.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getStringAtOffsets2(int, int)
 	 */
 	public String getStringAtOffsets2(int start, int end) {
 		//System.err.println(" Source String text==="+sourceString);
@@ -148,14 +127,15 @@ public final class TokenSequence {
 		if(start < sourceString.length()) start = sourceString.length() -offset ;
 		return sourceString.substring(start - offset, end - offset);
 	}
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getStringAtOffsets(int, int)
+	 */
 	public String getStringAtOffsets(int start, int end) {
 		return sourceString.substring(start - offset, end - offset);
 	}
 
-	/**Gets all of the token values of tokens that are hyphenated with 
-	 * named entities. For example, this would get "based" in "acetone-based".
-	 * 
-	 * @return The token values.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getAfterHyphens()
 	 */
 	public Set<String> getAfterHyphens() {
 		Set<String> afterHyphens = new HashSet<String>();
@@ -180,12 +160,8 @@ public final class TokenSequence {
 		return afterHyphens;
 	}
 
-	/**Gets all of the named entities in the TokenSequence. This produces a
-	 * map, where the keys are the named entity types. The values are a list
-	 * of all NEs of the corresponding type, which are represented as lists
-	 * of strings.
-	 * 
-	 * @return The named entities.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getNes()
 	 */
 	public Map<String,List<List<String>>> getNes() {
 		Map<String,List<List<String>>> neMap = new HashMap<String,List<List<String>>>();
@@ -221,9 +197,8 @@ public final class TokenSequence {
 		return neMap;
 	}
 	
-	/**Gets the string values of all of the non-NE tokens.
-	 * 
-	 * @return The string values.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getNonNes()
 	 */
 	public List<String> getNonNes() {
 		List<String> nonNes = new ArrayList<String>();
@@ -233,9 +208,8 @@ public final class TokenSequence {
 		return nonNes;
 	}
 	
-	/**Converts the BIO-coding of the NE information to a BIOEW-coding.
-	 * This alters the Token objects that comprise the token sequence.
-	 * 
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#toBIOEW()
 	 */
 	public void toBIOEW() {
 		for(int i=0;i<tokens.size();i++) {
@@ -254,9 +228,8 @@ public final class TokenSequence {
 		}
 	}
 
-	/**Converts the BIO-coding of the NE information to a much richer tagset.
-	 * This alters the Token objects that comprise the token sequence.
-	 * 
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#toRichTags()
 	 */
 	public void toRichTags() {
 		for(int i=0;i<tokens.size();i++) {

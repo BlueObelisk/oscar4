@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 
 /**Holds a paragraph, and detects probable sequences of tags.
@@ -20,9 +20,9 @@ final class EntityTokeniser {
 	private List<Map<String,Double>> alphas;
 	private int length;
 	private MEMM memm;
-	private TokenSequence tokSeq;
+	private ITokenSequence tokSeq;
 	
-	public EntityTokeniser(MEMM memm, TokenSequence tokSeq, List<Map<String,Map<String,Double>>> classifierResults) {
+	public EntityTokeniser(MEMM memm, ITokenSequence tokSeq, List<Map<String,Map<String,Double>>> classifierResults) {
 		this.tokSeq = tokSeq;
 		this.classifierResults = classifierResults;
 		this.memm = memm;

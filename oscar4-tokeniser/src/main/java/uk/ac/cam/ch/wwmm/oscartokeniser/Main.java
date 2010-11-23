@@ -4,6 +4,7 @@ import java.util.List;
 
 import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -29,7 +30,7 @@ public class Main {
 		List<TokenSequence> tokenSequences = procDoc.getTokenSequences();
 		for (int j = 0; j < tokenSequences.size(); j++) 
 		{
-			TokenSequence tokenSequence = tokenSequences.get(j);
+			ITokenSequence tokenSequence = tokenSequences.get(j);
             				
 			List<Token> tokens = tokenSequence.getTokens();
 			

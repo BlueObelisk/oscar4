@@ -7,8 +7,8 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 
 /**
  * @author egonw
@@ -31,7 +31,7 @@ public final class TokeniserTest {
 	public void testAbbreviations() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "(ca. 30 mL)";
-		TokenSequence tokseq = tokeniser.tokenise(s);
+		ITokenSequence tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(tokseq.getTokens().size(), 5);
 		checkTokens(tokseq.getTokens(), "( ca. 30 mL )");
 	}
@@ -43,7 +43,7 @@ public final class TokeniserTest {
 	public void testHyphens() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "EA- or BA-modified HPEI";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(tokseq.getTokens().size(), 4);
 		checkTokens(tokseq.getTokens(), "EA- or BA-modified HPEI");
 	}
@@ -52,7 +52,7 @@ public final class TokeniserTest {
 	public void testSlashes() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "methanol/water";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(tokseq.getTokens().size(), 3);
 		checkTokens(tokseq.getTokens(), "methanol / water");
 	}
@@ -61,7 +61,7 @@ public final class TokeniserTest {
 	public void test1Butanol() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "1-butanol";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -69,7 +69,7 @@ public final class TokeniserTest {
 	public void testTransButene() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "trans-but-2-ene";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -77,7 +77,7 @@ public final class TokeniserTest {
 	public void testIronIII() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "Fe(III)";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(2, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "Fe (III)");
 	}
@@ -86,7 +86,7 @@ public final class TokeniserTest {
 	public void testSAlanine() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "(S)-alanine";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -94,7 +94,7 @@ public final class TokeniserTest {
 	public void testDGlucose() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "D-glucose";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -102,7 +102,7 @@ public final class TokeniserTest {
 	public void testRingThingy() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "2,2':6',2\"-Terphenyl-1,1',1\"-triol";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -110,7 +110,7 @@ public final class TokeniserTest {
 	public void testBetaDGlucose() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "\u03b2-D-Glucose";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -118,7 +118,7 @@ public final class TokeniserTest {
 	public void testTrademark() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "CML(TM)";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		Assert.assertEquals(4, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "CML ( TM )");
 	}

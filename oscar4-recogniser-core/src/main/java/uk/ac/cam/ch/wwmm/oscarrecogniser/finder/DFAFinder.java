@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
@@ -142,7 +142,7 @@ public abstract class DFAFinder implements Serializable {
 			type = type + "_" + ontDFANumber;*/
 		}
 
-		TokenSequence ts = Tokeniser.getInstance().tokenise(ne);
+		ITokenSequence ts = Tokeniser.getInstance().tokenise(ne);
 		List<String> tokens = ts.getTokenStringList();
 
 		if(!alwaysAdd && tokens.size() == 1 && !ne.contains("$")) return;
@@ -317,17 +317,17 @@ public abstract class DFAFinder implements Serializable {
 	
 	//protected abstract List<String> getTokenReps(Token t);
 	
-	protected abstract void handleNe(AutomatonState a, int endToken, TokenSequence t, ResultsCollector collector);
+	protected abstract void handleNe(AutomatonState a, int endToken, ITokenSequence t, ResultsCollector collector);
 	
 	protected void handleTokenForPrefix(Token t, ResultsCollector collector) {
 		
 	}
 	
-	protected void findItems(TokenSequence t, List<List<String>> repsList, ResultsCollector collector) {
+	protected void findItems(ITokenSequence t, List<List<String>> repsList, ResultsCollector collector) {
 		findItems(t, repsList, 0, t.getTokens().size()-1, collector);
 	}
 	
-	protected void findItems(TokenSequence t, List<List<String>> repsList, int startToken, int endToken, ResultsCollector collector) 
+	protected void findItems(ITokenSequence t, List<List<String>> repsList, int startToken, int endToken, ResultsCollector collector) 
 	{
 		
 		List<AutomatonState> autStates = new ArrayList<AutomatonState>();

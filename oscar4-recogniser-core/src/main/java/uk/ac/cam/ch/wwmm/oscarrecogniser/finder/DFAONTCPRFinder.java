@@ -17,9 +17,9 @@ import java.util.zip.GZIPOutputStream;
 
 import org.apache.log4j.Logger;
 
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -134,7 +134,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 */
 	public static void destroyInstanceIfWordTokenises(String word) {
 		if(myInstance == null) return;
-		TokenSequence ts = Tokeniser.getInstance().tokenise(word);
+		ITokenSequence ts = Tokeniser.getInstance().tokenise(word);
 		if(ts.getTokens().size() > 1) myInstance = null;
 	}
 	
@@ -161,14 +161,14 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 * @param t The token sequence
 	 * @return The NEs.
 	 */
-	public List<NamedEntity> getNEs(TokenSequence t) {
+	public List<NamedEntity> getNEs(ITokenSequence t) {
 		NECollector nec = new NECollector();
 		List<List<String>> repsList = makeReps(t);
 		findItems(t, repsList, nec);
 		return nec.getNes();
 	}
 	
-	private List<List<String>> makeReps(TokenSequence t) {
+	private List<List<String>> makeReps(ITokenSequence t) {
 		List<List<String>> repsList = new ArrayList<List<String>>();
 		for(Token token : t.getTokens()) {
 			repsList.add(repsForToken(token));
@@ -195,7 +195,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	}
 	
 	@Override
-	protected void handleNe(AutomatonState a, int endToken, TokenSequence t, ResultsCollector collector) {
+	protected void handleNe(AutomatonState a, int endToken, ITokenSequence t, ResultsCollector collector) {
 		String surface = t.getSubstring(a.getStartToken(), endToken);
 		String type = a.getType();
 		//System.out.println(surface + " " + a.type);

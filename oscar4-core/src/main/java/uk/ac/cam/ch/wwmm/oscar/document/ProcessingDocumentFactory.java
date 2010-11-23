@@ -157,7 +157,7 @@ public class ProcessingDocumentFactory {
 		 */
 		if(runGenia) {
 			procDoc.sentences = new ArrayList<List<Token>>();
-			for(TokenSequence ts : procDoc.tokenSequences) {
+			for(ITokenSequence ts : procDoc.tokenSequences) {
 				List<Token> tokens = ts.getTokens();
 				List<List<Token>> sentences = SentenceSplitter.makeSentences(tokens);
 				procDoc.sentences.addAll(sentences);

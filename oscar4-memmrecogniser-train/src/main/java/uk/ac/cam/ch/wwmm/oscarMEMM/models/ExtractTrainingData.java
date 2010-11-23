@@ -15,8 +15,8 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
@@ -154,7 +154,7 @@ public final class ExtractTrainingData {
 				//NameRecogniser nr = new NameRecogniser();
 				//nr.halfProcess(doc);
 				//n = doc.query(XMLStrings.CHEMICAL_PLACES_XPAOscarProperties(OscarProperties.getInstance().verbose) System.out.println(f);
-				for(TokenSequence tokSeq : procDoc.getTokenSequences()) {
+				for(ITokenSequence tokSeq : procDoc.getTokenSequences()) {
 					afterHyphen.addAll(tokSeq.getAfterHyphens());
 					Map<String, List<List<String>>> neMap = tokSeq.getNes();
 					List<List<String>> neList = new ArrayList<List<String>>();

@@ -66,7 +66,11 @@ public final class SentenceSplitter {
 		List<Token> prevSentence = null;
 		for(Token t : tokens) {
 			if(sentence.size() == 0 && 
-					XMLStrings.getInstance().isCitationReferenceUnderStyle(t.getDoc().standoffTable.getElemAtOffset(t.getStart()))
+					XMLStrings.getInstance().isCitationReferenceUnderStyle(
+						t.getDoc().getStandoffTable().getElemAtOffset(
+							t.getStart()
+						)
+					)
 					&& prevSentence != null) {
 				prevSentence.add(t);
 			} else {
@@ -94,7 +98,12 @@ public final class SentenceSplitter {
 					} else if(splitTokens.contains(nextStr)) {
 						if(verbose) System.out.println("D!");
 						split = false;
-					} else if(t.getEnd() == next.getStart() && XMLStrings.getInstance().isCitationReferenceUnderStyle(next.getDoc().standoffTable.getElemAtOffset(next.getStart()))) {
+					} else if(t.getEnd() == next.getStart() &&
+							XMLStrings.getInstance().isCitationReferenceUnderStyle(
+								next.getDoc().getStandoffTable().getElemAtOffset(
+									next.getStart()
+								)
+							)) {
 						if(verbose) System.out.println("E!");
 						split = false;
 					} else if(nextStr.matches("[a-z]+")) {

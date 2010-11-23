@@ -1,8 +1,8 @@
 package uk.ac.cam.ch.wwmm.oscarpattern;
 
 import nu.xom.Document;
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -17,7 +17,7 @@ public class Main {
 		Document sourceDoc = rg.getXMLDocument(resourceName);
 		
 		
-		ProcessingDocument procDoc = null;
+		IProcessingDocument procDoc = null;
 		try {
 			procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
 				Tokeniser.getInstance(),

@@ -20,8 +20,8 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
@@ -207,7 +207,7 @@ public final class MEMMTester {
 						//XOMTools.removeElementPreservingText((Element)n.get(i));
 					}					
 				}
-				ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 					Tokeniser.getInstance(), doc, true, false, false);
 
 				//NameRecogniser nr = new NameRecogniser();

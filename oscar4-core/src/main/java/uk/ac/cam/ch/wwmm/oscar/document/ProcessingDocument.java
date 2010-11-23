@@ -15,7 +15,7 @@ import nu.xom.Document;
  * @author ptc24
  * @author egonw
  */
-public final class ProcessingDocument {
+public final class ProcessingDocument implements IProcessingDocument {
 
 	public Document doc;
 	public StandoffTable standoffTable;
@@ -28,20 +28,15 @@ public final class ProcessingDocument {
 
 	}
 
-	/**
-	 * Gets the StandoffTable associated with the document.
-	 * 
-	 * @return The StandoffTable for the document.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getStandoffTable()
 	 */
 	public StandoffTable getStandoffTable() {
 		return standoffTable;
 	}
 
-	/**
-	 * Gets the list of TokenSequences for the document. Note that this should
-	 * only be called after the document has been tokenised.
-	 * 
-	 * @return The list of TokenSequences for the document.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getTokenSequences()
 	 */
 	public List<TokenSequence> getTokenSequences() {
 		return tokenSequences;
@@ -49,24 +44,15 @@ public final class ProcessingDocument {
 
 
 
-	/**
-	 * Gets the source SciXML document.
-	 * 
-	 * 
-	 * @return The source SciXML document.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getDoc()
 	 */
 	public Document getDoc() {
 		return doc;
 	}
 
-	/**
-	 * Gets the token that starts at a given XPoint. Note that this should only
-	 * be called after the document has been tokenised.
-	 * 
-	 * @param leftXPoint
-	 *            The XPoint of the start of the token.
-	 * @return The token, or null.
-	 * @throws Exception
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getTokenByStart(java.lang.String)
 	 */
 	public Token getTokenByStart(String leftXPoint) throws Exception {
 		int offset = standoffTable.getOffsetAtXPoint(leftXPoint);
@@ -75,14 +61,8 @@ public final class ProcessingDocument {
 		return null;
 	}
 
-	/**
-	 * Gets the token that ends at a given XPoint. Note that this should only be
-	 * called after the document has been tokenised.
-	 * 
-	 * @param rightXPoint
-	 *            The XPoint of the end of the token.
-	 * @return The token, or null.
-	 * @throws Exception
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getTokenByEnd(java.lang.String)
 	 */
 	public Token getTokenByEnd(String rightXPoint) throws Exception {
 		int offset = standoffTable.getOffsetAtXPoint(rightXPoint);
@@ -91,12 +71,8 @@ public final class ProcessingDocument {
 		return null;
 	}
 
-	/**
-	 * Gets a list of list of tokens corresponding to the sentences in the
-	 * document.
-	 * 
-	 * @return The list of list of tokens corresponding to the sentences in the
-	 *         document.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getSentences()
 	 */
 	public List<List<Token>> getSentences() {
 		return sentences;

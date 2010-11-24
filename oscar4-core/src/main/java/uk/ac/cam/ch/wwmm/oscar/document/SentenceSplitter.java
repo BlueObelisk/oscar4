@@ -16,7 +16,7 @@ public final class SentenceSplitter {
 
 	private Set<String> splitTokens;
 	private Set<String> impossibleBefore;
-	private Set<String> impossibleAfter;
+	private NonSentenceEndings impossibleAfter;
 	
 	private boolean verbose = false;
 	
@@ -35,17 +35,7 @@ public final class SentenceSplitter {
 		splitTokens.add("!");
 		splitTokens.add("\"");
 		impossibleBefore = new HashSet<String>();
-		impossibleAfter = new HashSet<String>();
-		impossibleAfter.add("Fig");
-		impossibleAfter.add("al"); // et al.
-		impossibleAfter.add("i.e");
-		impossibleAfter.add("ie");
-		impossibleAfter.add("eg");
-		impossibleAfter.add("e.g");
-		impossibleAfter.add("ref");
-		impossibleAfter.add("Dr");
-		impossibleAfter.add("Prof");
-		impossibleAfter.add("Sir");	
+		impossibleAfter = new NonSentenceEndings();
 	}
 	
 

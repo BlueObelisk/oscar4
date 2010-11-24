@@ -3,7 +3,7 @@ package uk.ac.cam.ch.wwmm.oscar.document;
 import java.util.List;
 import java.util.Map;
 
-import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
+import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 
 import nu.xom.Document;
 
@@ -18,7 +18,7 @@ import nu.xom.Document;
 public final class ProcessingDocument implements IProcessingDocument {
 
 	public Document doc;
-	public StandoffTable standoffTable;
+	public IStandoffTable standoffTable;
 	public List<TokenSequence> tokenSequences;
 	public Map<Integer, Token> tokensByStart;
 	public Map<Integer, Token> tokensByEnd;
@@ -31,7 +31,7 @@ public final class ProcessingDocument implements IProcessingDocument {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getStandoffTable()
 	 */
-	public StandoffTable getStandoffTable() {
+	public IStandoffTable getStandoffTable() {
 		return standoffTable;
 	}
 
@@ -76,5 +76,10 @@ public final class ProcessingDocument implements IProcessingDocument {
 	 */
 	public List<List<Token>> getSentences() {
 		return sentences;
+	}
+
+	/** {@inheritDoc} */
+	public void setStandoffTable(IStandoffTable sot) {
+		this.standoffTable = sot;
 	}
 }

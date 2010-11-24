@@ -496,4 +496,9 @@ public final class StringTools {
     public static boolean isMidElipsis(String s) {
         return midElipsis.contains(s);
     }
+
+    public static boolean isQuoteMark(String s) {
+        return quoteMarks.contains(s);
+    }
+    
 }

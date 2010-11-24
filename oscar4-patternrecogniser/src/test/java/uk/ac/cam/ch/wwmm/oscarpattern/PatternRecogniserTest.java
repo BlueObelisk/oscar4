@@ -1,6 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarpattern;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
@@ -42,5 +43,15 @@ public class PatternRecogniserTest {
 		neList = cei.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neList != null);
 		assertTrue(neList.size() > 0);
+	}
+	
+	@Test
+	public void testFindNamedEntitiesFromString() throws Exception {
+		String text = "Hello acetone world!";
+		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+				Tokeniser.getInstance(), text);
+		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
+		assertEquals(1, neList.size());
+		assertEquals("acetone", neList.get(0).getSurface());
 	}
 }

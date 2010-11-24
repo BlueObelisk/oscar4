@@ -7,7 +7,7 @@ import nu.xom.Element;
  */
 public interface ITokeniser {
 
-	public TokenSequence tokenise(String text, ProcessingDocument procDoc, 
+	public TokenSequence tokenise(String text, IProcessingDocument procDoc, 
 			int offset,
 			Element element, boolean tokeniseForNEs, boolean mergeNEs);
 

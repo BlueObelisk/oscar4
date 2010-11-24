@@ -194,9 +194,10 @@ public final class NamedEntity extends ResolvableStandoff {
 		IToken prevToken = tokens.get(0).getNAfter(-1);
 		while(prevToken != null) {
 			if(prevToken.getEnd() != tmpLeftOffset) break;
-			if(prevToken.getValue().length() != 1) break;
-			if(!("()[]{}.,;:?!'\""+StringTools.quoteMarks).contains(prevToken.getValue())) break;
-			leftPunct = prevToken.getValue() + leftPunct;
+            String v = prevToken.getValue();
+			if(v.length() != 1) break;
+			if(!("()[]{}.,;:?!'\"".contains(v) || StringTools.isQuoteMark(v))) break;
+			leftPunct = v + leftPunct;
 			tmpLeftOffset = prevToken.getStart();
 			prevToken = prevToken.getNAfter(-1);
 		}
@@ -205,9 +206,10 @@ public final class NamedEntity extends ResolvableStandoff {
 		IToken nextToken = tokens.get(tokens.size()-1).getNAfter(1);
 		while(nextToken != null) {
 			if(nextToken.getStart() != tmpRightOffset) break;
-			if(nextToken.getValue().length() != 1) break;
-			if(!("()[]{}.,;:?!'\""+StringTools.quoteMarks+StringTools.hyphens).contains(nextToken.getValue())) break;
-			rightPunct = rightPunct + nextToken.getValue();
+            String v = nextToken.getValue();
+            if(v.length() != 1) break;
+			if(!("()[]{}.,;:?!'\"".contains(v) || StringTools.isQuoteMark(v) || StringTools.isHyphen(v))) break;
+			rightPunct = rightPunct + v;
 			tmpRightOffset = nextToken.getEnd();
 			nextToken = nextToken.getNAfter(1);
 		}

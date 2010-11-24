@@ -16,7 +16,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
-import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -156,7 +155,7 @@ public class DFANEFinder extends DFAFinder {
 		if(t.getValue().length() == 1) {
 			if(StringTools.isHyphen(t.getValue())) {
 				tokenReps.add("$HYPH");
-			} else if(StringTools.midElipsis.contains(t.getValue())) {
+			} else if(StringTools.isMidElipsis(t.getValue())) {
 				tokenReps.add("$DOTS");
 			}
 		}

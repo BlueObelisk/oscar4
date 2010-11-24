@@ -492,5 +492,8 @@ public final class StringTools {
     public static boolean isHyphen(String s) {
         return hyphens.contains(s);
     }
-    
+
+    public static boolean isMidElipsis(String s) {
+        return midElipsis.contains(s);
+    }
 }

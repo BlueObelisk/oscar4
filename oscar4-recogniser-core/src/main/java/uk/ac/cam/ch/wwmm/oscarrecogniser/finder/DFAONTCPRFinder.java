@@ -186,7 +186,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 		if(tokenValue.length() == 1) {
 			if(StringTools.isHyphen(tokenValue)) {
 				reps.add("$HYPH");
-			} else if(StringTools.midElipsis.contains(tokenValue)) {
+			} else if(StringTools.isMidElipsis(tokenValue)) {
 				reps.add("$DOTS");
 			}
 		}

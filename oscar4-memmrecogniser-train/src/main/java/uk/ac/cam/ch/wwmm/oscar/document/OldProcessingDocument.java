@@ -3,9 +3,8 @@ package uk.ac.cam.ch.wwmm.oscar.document;
 import java.util.List;
 import java.util.Map;
 
-import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
-
 import nu.xom.Document;
+import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 
 /**
  * A document, with data structures to store information such as tokens. This
@@ -15,7 +14,7 @@ import nu.xom.Document;
  * @author ptc24
  * @author egonw
  */
-public final class ProcessingDocument implements IProcessingDocument {
+public final class OldProcessingDocument implements IOldProcessingDocument {
 
 	public Document doc;
 	public StandoffTable standoffTable;
@@ -24,7 +23,7 @@ public final class ProcessingDocument implements IProcessingDocument {
 	public Map<Integer, Token> tokensByEnd;
 	List<List<Token>> sentences;
 
-	public ProcessingDocument() {
+	public OldProcessingDocument() {
 
 	}
 
@@ -76,5 +75,15 @@ public final class ProcessingDocument implements IProcessingDocument {
 	 */
 	public List<List<Token>> getSentences() {
 		return sentences;
+	}
+
+	public Map<Integer, Token> getTokensByStart() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Map<Integer, Token> getTokensByEnd() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

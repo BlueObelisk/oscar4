@@ -175,7 +175,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
         DFAONTCPRFinder ontologyTermFinder = getOntologyTermFinder();
         for (ITokenSequence t : toxicList) {
-            neList.addAll(ontologyTermFinder.getNEs(t));
+            neList.addAll(ontologyTermFinder.findNamedEntities(t));
         }
         return neList;
     }

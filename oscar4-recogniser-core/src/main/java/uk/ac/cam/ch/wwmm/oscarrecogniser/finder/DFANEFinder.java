@@ -120,20 +120,20 @@ public class DFANEFinder extends DFAFinder {
      */
     public List<NamedEntity> findNamedEntities(ITokenSequence t) {
         NECollector nec = new NECollector();
-        List<List<String>> repsList = makeReps(t);
+        List<List<String>> repsList = generateTokenRepresentations(t);
         findItems(t, repsList, nec);
         return nec.getNes();
     }
 
-    private List<List<String>> makeReps(ITokenSequence t) {
+    private List<List<String>> generateTokenRepresentations(ITokenSequence t) {
         List<List<String>> repsList = new ArrayList<List<String>>();
         for(IToken token : t.getTokens()) {
-            repsList.add(repsForToken(token));
+            repsList.add(generateTokenRepresentations(token));
         }
         return repsList;
     }
 
-    protected List<String> repsForToken(IToken token) {
+    protected List<String> generateTokenRepresentations(IToken token) {
         List<String> tokenRepresentations = new ArrayList<String>();
         // Avoid complications with compound refs
         //SciXML dependent - removed 24/11/10 by dmj30
@@ -144,10 +144,10 @@ public class DFANEFinder extends DFAFinder {
 //		if(TokenTypes.isRef(t)) tokenReps.add("$CITREF");
         String value = token.getValue();
         tokenRepresentations.add(value);
-        String normValue = StringTools.normaliseName(value);
+        String normalisedValue = StringTools.normaliseName(value);
 
-        if(!normValue.equals(value)) {
-            tokenRepresentations.add(normValue);
+        if(!normalisedValue.equals(value)) {
+            tokenRepresentations.add(normalisedValue);
         }
         tokenRepresentations.addAll(getSubReRepsForToken(value));
         if(value.length() == 1) {
@@ -158,7 +158,7 @@ public class DFANEFinder extends DFAFinder {
             }
         }
         for(TokenLevelRegex tokenLevelRegex : TLRHolder.getInstance().parseToken(value)) {
-            if(tokenLevelRegex.getType().equals(NamedEntityTypes.PROPERNOUN)) {
+            if (tokenLevelRegex.getType().equals(NamedEntityTypes.PROPERNOUN)) {
                 if(value.matches("[A-Z][a-z]+") && TermSets.getDefaultInstance().getUsrDictWords().contains(value.toLowerCase()) && !TermSets.getDefaultInstance().getUsrDictWords().contains(value)) tokenLevelRegex = null;
 //				if(ExtractTrainingData.getInstance().pnStops.contains(t.getValue())) tlr = null;
             }
@@ -171,18 +171,18 @@ public class DFANEFinder extends DFAFinder {
         if(value.length() >= 2 && m.matches()) {
             String lastGroup = m.group(m.groupCount());
             String lastGroupNorm = StringTools.normaliseName(lastGroup);
-            if(lastGroup == null || lastGroup.equals("")) {
+            if (lastGroup == null || lastGroup.equals("")) {
                 tokenRepresentations.add("$" + NamedEntityTypes.LOCANTPREFIX.toUpperCase());
             } else {
-                if(TLRHolder.getInstance().macthesTlr(lastGroup, "formulaRegex")) {
+                if (TLRHolder.getInstance().macthesTlr(lastGroup, "formulaRegex")) {
                     tokenRepresentations.add("$CPR_FORMULA");
                 }
-                if(TermSets.getDefaultInstance().getStopWords().contains(lastGroupNorm) ||
+                if (TermSets.getDefaultInstance().getStopWords().contains(lastGroupNorm) ||
                         TermSets.getDefaultInstance().getClosedClass().contains(lastGroupNorm) ||
                         ChemNameDictSingleton.hasStopWord(lastGroupNorm)) {//||
 //						ExtractTrainingData.getInstance().nonChemicalWords.contains(lastGroupNorm) ||
 //						ExtractTrainingData.getInstance().nonChemicalNonWords.contains(lastGroupNorm)) {
-                    if(!isElement(lastGroupNorm)) {
+                    if (!isElement(lastGroupNorm)) {
                         stopWord = true;
                     }
                 }
@@ -201,7 +201,7 @@ public class DFANEFinder extends DFAFinder {
         if (isPrefixBody(value)) {
             tokenRepresentations.add("$PREFIXBODY");
         }
-        if (isElement(normValue)) {
+        if (isElement(normalisedValue)) {
             tokenRepresentations.add("$EM");
         }
         if(isEndingWithElementName(value)) {
@@ -216,7 +216,7 @@ public class DFANEFinder extends DFAFinder {
                 if (ChemNameDictSingleton.hasName(value)) {
                     score = 100;
                 }
-                else if (TermSets.getDefaultInstance().getUsrDictWords().contains(normValue)
+                else if (TermSets.getDefaultInstance().getUsrDictWords().contains(normalisedValue)
                         || TermSets.getDefaultInstance().getUsrDictWords().contains(value)) {
                     score = -100;
                 }
@@ -261,7 +261,7 @@ public class DFANEFinder extends DFAFinder {
         if (ChemNameDictSingleton.hasName(value)) {
             tokenRepresentations.add("$INCND");
         }
-        if (OntologyTerms.hasTerm(normValue)) {
+        if (OntologyTerms.hasTerm(normalisedValue)) {
             tokenRepresentations.add("$ONTWORD");
         }
         if (OscarProperties.getData().useWordShapeHeuristic) {
@@ -282,12 +282,12 @@ public class DFANEFinder extends DFAFinder {
 //				tokenReps.add("$MODIFIEDCOMPREF");
 //			}			
 //		}
-        if(TermSets.getDefaultInstance().getStopWords().contains(normValue) ||
-                TermSets.getDefaultInstance().getClosedClass().contains(normValue) ||
-                ChemNameDictSingleton.hasStopWord(normValue)){// ||
+        if(TermSets.getDefaultInstance().getStopWords().contains(normalisedValue) ||
+                TermSets.getDefaultInstance().getClosedClass().contains(normalisedValue) ||
+                ChemNameDictSingleton.hasStopWord(normalisedValue)){// ||
 //				ExtractTrainingData.getInstance().nonChemicalWords.contains(normValue) ||
 //				ExtractTrainingData.getInstance().nonChemicalNonWords.contains(normValue)) {
-            if(!isElement(normValue)) {
+            if(!isElement(normalisedValue)) {
                 tokenRepresentations.add("$STOP");
             }
         }
@@ -309,7 +309,7 @@ public class DFANEFinder extends DFAFinder {
     }
 
     @Override
-    protected void handleNe(AutomatonState a, int endToken, ITokenSequence t, ResultsCollector collector) {
+    protected void handleNamedEntity(AutomatonState a, int endToken, ITokenSequence t, ResultsCollector collector) {
         String surface = t.getSubstring(a.getStartToken(), endToken);
         String type = a.getType();
         //System.out.println(surface + " " + a.type);

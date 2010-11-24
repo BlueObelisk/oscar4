@@ -2,15 +2,12 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
-
-import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
@@ -64,22 +61,26 @@ public abstract class DFAFinder implements Serializable {
 
 	protected DFAFinder() {}
 	
-	protected abstract void addTerms();
+	protected abstract void loadTerms();
 	
 	protected void init() {
-		literals.add("$(");
-		literals.add("$)");
-		literals.add("$+");
-		literals.add("$*");
-		literals.add("$|");
-		literals.add("$?");
-		literals.add("$^");
-		addTerms();
+        initLiterals();
+		loadTerms();
 		finishInit();
 //		logger.debug("Finished initialising DFA Finder");
 	}
-	
-	private String getRepForToken(String token) {
+
+    private void initLiterals() {
+        literals.add("$(");
+        literals.add("$)");
+        literals.add("$+");
+        literals.add("$*");
+        literals.add("$|");
+        literals.add("$?");
+        literals.add("$^");
+    }
+
+    private String getRepForToken(String token) {
 		//TODO canonicalise token
 		if(literals.contains(token)){
 			return token.substring(1);
@@ -117,68 +118,56 @@ public abstract class DFAFinder implements Serializable {
 		}
 	}
 	
-	protected void addNE(String ne, String type, boolean alwaysAdd) {
-		//System.out.println(type + "\t" + ne);
+	protected void addNamedEntity(String namedEntity, String namedEntityType, boolean alwaysAdd) {
 		if(OscarProperties.getData().dfaSize > 0) {
-			if(!dfaCount.containsKey(type)) {
-				dfaCount.put(type, 0);
-				dfaNumber.put(type, 1);
+			if(!dfaCount.containsKey(namedEntityType)) {
+				dfaCount.put(namedEntityType, 0);
+				dfaNumber.put(namedEntityType, 1);
 			}
-			int count = dfaCount.get(type) + 1;
+			int count = dfaCount.get(namedEntityType) + 1;
 			if(count > OscarProperties.getData().dfaSize) {
 				count = 0;
-				String tmpType = type + "_" + dfaNumber.get(type);
+				String tmpType = namedEntityType + "_" + dfaNumber.get(namedEntityType);
 				buildForType(tmpType);
-				dfaNumber.put(type, dfaNumber.get(type) + 1);
-//				logger.debug(type + "_" + dfaNumber.get(type) + " started collecting at " + new GregorianCalendar().getTime());
+				dfaNumber.put(namedEntityType, dfaNumber.get(namedEntityType) + 1);
 			}
-			dfaCount.put(type, count);
-			type = type + "_" + dfaNumber.get(type);
-			/*ontDFACount += 1;
-			if(ontDFACount > Oscar3Props.getInstance().dfaSize) {
-				ontDFACount = 0;
-				ontDFANumber++;
-			}
-			type = type + "_" + ontDFANumber;*/
+			dfaCount.put(namedEntityType, count);
+			namedEntityType = namedEntityType + "_" + dfaNumber.get(namedEntityType);
 		}
 
-		ITokenSequence ts = Tokeniser.getInstance().tokenise(ne);
+		ITokenSequence ts = Tokeniser.getInstance().tokenise(namedEntity);
 		List<String> tokens = ts.getTokenStringList();
 
-		if(!alwaysAdd && tokens.size() == 1 && !ne.contains("$")) return;
+		if(!alwaysAdd && tokens.size() == 1 && !namedEntity.contains("$")) return;
 		StringBuffer sb = new StringBuffer();
 		for(String token : tokens) {
 			sb.append(getRepForToken(token));
 		}
 		String preReStr = sb.toString();
-		//List<String> tl = new ArrayList<String>();
-		//tl.add(preReStr);
-		//for(String reStr : tl) {
 		for(String reStr : StringTools.expandRegex(preReStr)) {
-			//System.out.println(type + "\t" + reStr);
 			if(digitOrSpace.matcher(reStr).matches()) {
-				if(simpleAuts.containsKey(type)) {
-					simpleAuts.get(type).addContents(reStr);
+				if(simpleAuts.containsKey(namedEntityType)) {
+					simpleAuts.get(namedEntityType).addContents(reStr);
 				} else {
-					simpleAuts.put(type, new SuffixTree(reStr));
+					simpleAuts.put(namedEntityType, new SuffixTree(reStr));
 				}
-				if(type.startsWith(NamedEntityTypes.ONTOLOGY) && OntologyTerms.hasTerm(ne)) {
-					String ontIdsStr = OntologyTerms.idsForTerm(ne);
+				if(namedEntityType.startsWith(NamedEntityTypes.ONTOLOGY) && OntologyTerms.hasTerm(namedEntity)) {
+					String ontIdsStr = OntologyTerms.idsForTerm(namedEntity);
 					List<String> neOntIds = StringTools.arrayToList(RegExUtils.P_WHITESPACE.split(ontIdsStr));
 					for(String ontId : neOntIds) {
-						simpleAuts.get(type).addContents(reStr + "X" + getNumberForOntId(ontId));
+						simpleAuts.get(namedEntityType).addContents(reStr + "X" + getNumberForOntId(ontId));
 					}
-				} else if(type.startsWith(NamedEntityTypes.CUSTOM) && TermMaps.getCustEnt().containsKey(ne)) {
-					String custStr = TermMaps.getCustEnt().get(ne);
+				} else if(namedEntityType.startsWith(NamedEntityTypes.CUSTOM) && TermMaps.getCustEnt().containsKey(namedEntity)) {
+					String custStr = TermMaps.getCustEnt().get(namedEntity);
 					List<String> custTypes = StringTools.arrayToList(RegExUtils.P_WHITESPACE.split(custStr));
 					for(String custType : custTypes) {
-						simpleAuts.get(type).addContents(reStr + "X" + getNumberForOntId(custType));
+						simpleAuts.get(namedEntityType).addContents(reStr + "X" + getNumberForOntId(custType));
 					}
 				}
 			} else {
 				//System.out.println(reStr);
-				if(type.startsWith(NamedEntityTypes.ONTOLOGY) && OntologyTerms.hasTerm(ne)) {
-					String ontIdsStr = OntologyTerms.idsForTerm(ne);
+				if(namedEntityType.startsWith(NamedEntityTypes.ONTOLOGY) && OntologyTerms.hasTerm(namedEntity)) {
+					String ontIdsStr = OntologyTerms.idsForTerm(namedEntity);
 					List<String> neOntIds = StringTools.arrayToList(RegExUtils.P_WHITESPACE.split(ontIdsStr));
 					sb.append("(X(");
 					boolean first = true;
@@ -191,8 +180,8 @@ public abstract class DFAFinder implements Serializable {
 						sb.append(Integer.toString(getNumberForOntId(ontId)));
 					}
 					sb.append("))?");
-				} else if(type.startsWith(NamedEntityTypes.CUSTOM) && TermMaps.getCustEnt().containsKey(ne)) {
-					String custStr = TermMaps.getCustEnt().get(ne);
+				} else if(namedEntityType.startsWith(NamedEntityTypes.CUSTOM) && TermMaps.getCustEnt().containsKey(namedEntity)) {
+					String custStr = TermMaps.getCustEnt().get(namedEntity);
 					List<String> custTypes = StringTools.arrayToList(RegExUtils.P_WHITESPACE.split(custStr));
 					sb.append("(X(");
 					boolean first = true;
@@ -210,17 +199,20 @@ public abstract class DFAFinder implements Serializable {
 				Automaton subAut = new RegExp(sb.toString()).toAutomaton();
 				//System.out.println(subAut.isDeterministic());
 				//mainAut = mainAut.union(subAut);
-				List<Automaton> autList = autLists.get(type);
-				if(autList == null) {
-					autList = new ArrayList<Automaton>();
-					autLists.put(type, autList);
-				}
+                List<Automaton> autList = getAutomatonList(namedEntityType);
 				autList.add(subAut);
 			}
 		}
 	}
-	
-	private int getNumberForOntId(String ontId) {
+
+    private List<Automaton> getAutomatonList(String namedEntityType) {
+        if (!autLists.containsKey(namedEntityType)) {
+            autLists.put(namedEntityType, new ArrayList<Automaton>());
+        }
+        return autLists.get(namedEntityType);        
+    }
+
+    private int getNumberForOntId(String ontId) {
 		if(ontIdToIntId.containsKey(ontId)) {
 			return ontIdToIntId.get(ontId);
 		} else {
@@ -256,31 +248,21 @@ public abstract class DFAFinder implements Serializable {
 	
 	private void finishInit() {
 		for(String type : new HashSet<String>(autLists.keySet())) {
-//			logger.debug("Building DFA for: " + type + " at " + new GregorianCalendar().getTime() + "...");
-			Automaton mainAut;
-			//logger.debug("Building DFA from " + autLists.get(type).size() + " items.");
-			mainAut = Automaton.union(autLists.get(type));
-			System.gc();
-//			logger.debug("Memory: " + Runtime.getRuntime().freeMemory() + " " + Runtime.getRuntime().totalMemory() + " " + Runtime.getRuntime().maxMemory());
+			Automaton mainAut = Automaton.union(autLists.get(type));
 			mainAut.determinize();
-//			logger.debug("DFA initialised");
-//			logger.debug("Memory: " + Runtime.getRuntime().freeMemory() + " " + Runtime.getRuntime().totalMemory() + " " + Runtime.getRuntime().maxMemory());
 			runAuts.put(type, new RunAutomaton(mainAut, false));
 			autLists.remove(type);
 		}
 		for(String type : new HashSet<String>(simpleAuts.keySet())) {
-//			logger.debug("Building DFA for: " + type + "b at " + new GregorianCalendar().getTime() + "... ");
 			Automaton mainAut = simpleAuts.get(type).toAutomaton();
-//			logger.debug("DFA initialised");
-			runAuts.put(type + "b", new RunAutomaton(mainAut, false));			
+			runAuts.put(type + "b", new RunAutomaton(mainAut, false));
 			simpleAuts.remove(type);
 		}
-//		logger.debug("All DFAs built");
-//		logger.debug("Analysing DFAs...");
 		runAutToStateToOntIds = new HashMap<String,Map<Integer,Set<String>>>();
-		for(String s : runAuts.keySet()) {
-			if(!(s.startsWith(NamedEntityTypes.ONTOLOGY) || s.startsWith(NamedEntityTypes.CUSTOM))) continue;
-			runAutToStateToOntIds.put(s, analyseAutomaton(runAuts.get(s), 'X'));
+		for(String type : runAuts.keySet()) {
+			if (type.startsWith(NamedEntityTypes.ONTOLOGY) || type.startsWith(NamedEntityTypes.CUSTOM)) {
+			    runAutToStateToOntIds.put(type, analyseAutomaton(runAuts.get(type), 'X'));
+            }
 		}
 	}
 	
@@ -315,8 +297,6 @@ public abstract class DFAFinder implements Serializable {
 		return tagMap;
 	}
 	
-	//protected abstract List<String> getTokenReps(Token t);
-	
 	protected abstract void handleNe(AutomatonState a, int endToken, ITokenSequence t, ResultsCollector collector);
 	
 	protected void handleTokenForPrefix(Token t, ResultsCollector collector) {
@@ -327,12 +307,11 @@ public abstract class DFAFinder implements Serializable {
 		findItems(t, repsList, 0, t.getTokens().size()-1, collector);
 	}
 	
-	protected void findItems(ITokenSequence t, List<List<String>> repsList, int startToken, int endToken, ResultsCollector collector) 
-	{
+	protected void findItems(ITokenSequence t, List<List<String>> repsList, int startToken, int endToken, ResultsCollector collector) {
 		
 		List<AutomatonState> autStates = new ArrayList<AutomatonState>();
 		List<AutomatonState> newAutStates = new ArrayList<AutomatonState>();
-		List<String> tokenReps = new ArrayList<String>();
+		List<String> tokenReps;
 
 		for(String type : runAuts.keySet()) {
 			AutomatonState a = new AutomatonState(runAuts.get(type), type, 0);
@@ -387,6 +366,5 @@ public abstract class DFAFinder implements Serializable {
 			newAutStates = tmp;
 		}		
 	}
-	
-	
+		
 }

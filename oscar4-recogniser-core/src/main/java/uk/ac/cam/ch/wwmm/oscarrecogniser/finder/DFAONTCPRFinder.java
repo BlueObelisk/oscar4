@@ -158,44 +158,48 @@ public class DFAONTCPRFinder extends DFAFinder {
 	
 	/**Finds the ONT/CPR/CUST NEs from a token sequence.
 	 * 
-	 * @param t The token sequence
+	 * @param tokenSequence The token sequence
 	 * @return The NEs.
 	 */
-	public List<NamedEntity> getNEs(ITokenSequence t) {
+	public List<NamedEntity> findNamedEntities(ITokenSequence tokenSequence) {
 		NECollector nec = new NECollector();
-		List<List<String>> repsList = makeReps(t);
-		findItems(t, repsList, nec);
+		List<List<String>> repsList = generateTokenRepresentations(tokenSequence);
+		findItems(tokenSequence, repsList, nec);
 		return nec.getNes();
 	}
 	
-	private List<List<String>> makeReps(ITokenSequence t) {
+	private List<List<String>> generateTokenRepresentations(ITokenSequence tokenSequence) {
 		List<List<String>> repsList = new ArrayList<List<String>>();
-		for(IToken token : t.getTokens()) {
-			repsList.add(repsForToken(token));
+		for(IToken token : tokenSequence.getTokens()) {
+			repsList.add(generateTokenRepresentations(token));
 		}
 		return repsList;
 	}
 	
-	protected List<String> repsForToken(IToken t) {
-		List<String> reps = new ArrayList<String>();
-		String tokenValue = t.getValue();
-		reps.add(tokenValue);
-		String normValue = StringTools.normaliseName(tokenValue);
-		if(!normValue.equals(tokenValue)) reps.add(normValue);
-		if(OntologyTerms.hasTerm(normValue)) reps.add("$ONTWORD");
-		if(tokenValue.length() == 1) {
+	protected List<String> generateTokenRepresentations(IToken token) {
+		List<String> representations = new ArrayList<String>();
+		String tokenValue = token.getValue();
+		representations.add(tokenValue);
+		String normalisedValue = StringTools.normaliseName(tokenValue);
+		if (!normalisedValue.equals(tokenValue)) {
+            representations.add(normalisedValue);
+        }
+		if (OntologyTerms.hasTerm(normalisedValue)) {
+            representations.add("$ONTWORD");
+        }
+		if (tokenValue.length() == 1) {
 			if(StringTools.isHyphen(tokenValue)) {
-				reps.add("$HYPH");
+				representations.add("$HYPH");
 			} else if(StringTools.isMidElipsis(tokenValue)) {
-				reps.add("$DOTS");
+				representations.add("$DOTS");
 			}
 		}
-		reps.addAll(getSubReRepsForToken(tokenValue));
-		return reps;
+		representations.addAll(getSubReRepsForToken(tokenValue));
+		return representations;
 	}
 	
 	@Override
-	protected void handleNe(AutomatonState a, int endToken, ITokenSequence t, ResultsCollector collector) {
+	protected void handleNamedEntity(AutomatonState a, int endToken, ITokenSequence t, ResultsCollector collector) {
 		String surface = t.getSubstring(a.getStartToken(), endToken);
 		String type = a.getType();
 		//System.out.println(surface + " " + a.type);

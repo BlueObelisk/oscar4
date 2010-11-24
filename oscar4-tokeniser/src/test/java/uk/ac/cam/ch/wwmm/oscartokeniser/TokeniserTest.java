@@ -252,4 +252,11 @@ public final class TokeniserTest {
 		assertEquals(40, ts.getToken(8).getStart());
 		assertEquals(43, ts.getToken(8).getEnd());
 	}
+	
+	@Test
+	public void testTokenSequenceSurface() {
+		String source = "The quick brown fox jumps over the lazy dog";
+		TokenSequence ts = Tokeniser.getInstance().tokenise(source);
+		assertEquals(source, ts.getSurface());
+	}
 }

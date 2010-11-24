@@ -6,6 +6,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -153,7 +154,7 @@ public class StringToolsTest {
 		for(int i=1;i<=4;i++) integers.add(i);
 		assertEquals("1 2 3 4", StringTools.objectListToString(integers, " "));
 		assertEquals("1234", StringTools.objectListToString(integers, ""));
-		assertEquals("1 2 3 4", StringTools.objectListToString(StringTools.arrayToList("1 2 3 4".split(" ")), " "));
+		assertEquals("1 2 3 4", StringTools.objectListToString(Arrays.asList("1 2 3 4".split(" ")), " "));
 	}
 	
 	@Test

@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -290,7 +291,7 @@ public class DFANEFinder extends DFAFinder {
 			String s = OntologyTerms.idsForTerm(surface);
 			if(s != null && s.length() > 0) {
 				if(ontIds == null) ontIds = new HashSet<String>();
-				ontIds.addAll(StringTools.arrayToList(s.split("\\s+")));				
+				ontIds.addAll(Arrays.asList(s.split("\\s+")));
 			}
 			ne.addOntIds(ontIds);
 			//System.out.println(surface + "\t" + ontIds);

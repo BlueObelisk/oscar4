@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -153,13 +154,13 @@ public abstract class DFAFinder implements Serializable {
 				}
 				if(namedEntityType.startsWith(NamedEntityTypes.ONTOLOGY) && OntologyTerms.hasTerm(namedEntity)) {
 					String ontIdsStr = OntologyTerms.idsForTerm(namedEntity);
-					List<String> neOntIds = StringTools.arrayToList(RegExUtils.P_WHITESPACE.split(ontIdsStr));
+					List<String> neOntIds = Arrays.asList(RegExUtils.P_WHITESPACE.split(ontIdsStr));
 					for(String ontId : neOntIds) {
 						simpleAuts.get(namedEntityType).addContents(reStr + "X" + getNumberForOntId(ontId));
 					}
 				} else if(namedEntityType.startsWith(NamedEntityTypes.CUSTOM) && TermMaps.getCustEnt().containsKey(namedEntity)) {
 					String custStr = TermMaps.getCustEnt().get(namedEntity);
-					List<String> custTypes = StringTools.arrayToList(RegExUtils.P_WHITESPACE.split(custStr));
+					List<String> custTypes = Arrays.asList(RegExUtils.P_WHITESPACE.split(custStr));
 					for(String custType : custTypes) {
 						simpleAuts.get(namedEntityType).addContents(reStr + "X" + getNumberForOntId(custType));
 					}
@@ -168,7 +169,7 @@ public abstract class DFAFinder implements Serializable {
 				//System.out.println(reStr);
 				if(namedEntityType.startsWith(NamedEntityTypes.ONTOLOGY) && OntologyTerms.hasTerm(namedEntity)) {
 					String ontIdsStr = OntologyTerms.idsForTerm(namedEntity);
-					List<String> neOntIds = StringTools.arrayToList(RegExUtils.P_WHITESPACE.split(ontIdsStr));
+					List<String> neOntIds = Arrays.asList(RegExUtils.P_WHITESPACE.split(ontIdsStr));
 					sb.append("(X(");
 					boolean first = true;
 					for(String ontId : neOntIds) {
@@ -182,7 +183,7 @@ public abstract class DFAFinder implements Serializable {
 					sb.append("))?");
 				} else if(namedEntityType.startsWith(NamedEntityTypes.CUSTOM) && TermMaps.getCustEnt().containsKey(namedEntity)) {
 					String custStr = TermMaps.getCustEnt().get(namedEntity);
-					List<String> custTypes = StringTools.arrayToList(RegExUtils.P_WHITESPACE.split(custStr));
+					List<String> custTypes = Arrays.asList(RegExUtils.P_WHITESPACE.split(custStr));
 					sb.append("(X(");
 					boolean first = true;
 					for(String custType : custTypes) {

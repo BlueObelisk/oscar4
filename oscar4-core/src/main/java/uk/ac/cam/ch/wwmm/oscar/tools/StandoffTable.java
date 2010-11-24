@@ -14,7 +14,7 @@ import nu.xom.Text;
  * @author ptc24
  *
  */
-public final class StandoffTable {
+public final class StandoffTable implements IStandoffTable {
 
 	private List<Text> textTable;
 	private List<Integer> offsetTable;
@@ -47,21 +47,15 @@ public final class StandoffTable {
 	}
 	
 
-	/**Converts an offset into an XPoint suitable for the left (start) of an
-	 * annotation.
-	 * 
-	 * @param offset The offset.
-	 * @return The XPoint.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable#getLeftPointAtOffset(int)
 	 */
 	public String getLeftPointAtOffset(int offset) {
 		return getPathToNode(textTable.get(offset)) + "." + offsetTable.get(offset).toString();
 	}
 	
-	/**Converts an offset into an XPoint suitable for the right (end) of an
-	 * annotation.
-	 * 
-	 * @param offset The offset.
-	 * @return The XPoint.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable#getRightPointAtOffset(int)
 	 */
 	public String getRightPointAtOffset(int offset) {
 		return getPathToNode(textTable.get(offset-1)) + "." + Integer.toString(offsetTable.get(offset-1) + 1);
@@ -72,12 +66,8 @@ public final class StandoffTable {
 		return getPathToNode(n.getParent()) + "/" + Integer.toString(n.getParent().indexOf(n)+1);
 	}
 		
-	/**Converts an XPoint into a character offset. For this to work the
-	 * XMLSpanTagger must have been run on the XML.
-	 * 
-	 * @param xPoint The XPoint.
-	 * @return The offset.
-	 * @throws Exception If the XPoint is bad.
+	/* (non-Javadoc)
+	 * @see uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable#getOffsetAtXPoint(java.lang.String)
 	 */
 	public int getOffsetAtXPoint(String xPoint) throws Exception {
 		String [] sa = xPoint.split("\\.");

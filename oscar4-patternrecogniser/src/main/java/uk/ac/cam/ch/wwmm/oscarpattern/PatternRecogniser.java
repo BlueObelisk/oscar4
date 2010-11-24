@@ -45,7 +45,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 	 	Map<Integer,Token> tokensByEnd = new HashMap<Integer,Token>();
 
 	 	for(ITokenSequence t : tokenSequences) {
-			neList.addAll(DFANEFinder.getInstance().getNEs(t));
+			neList.addAll(DFANEFinder.getInstance().findNamedEntities(t));
 		}
 
 		// Make sure all NEs at a position share their ontIds

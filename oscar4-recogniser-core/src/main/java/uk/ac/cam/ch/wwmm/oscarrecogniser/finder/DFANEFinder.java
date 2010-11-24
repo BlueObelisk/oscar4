@@ -83,24 +83,24 @@ public class DFANEFinder extends DFAFinder {
 	}
 	
 	@Override
-	protected void addTerms() {
+	protected void loadTerms() {
 		logger.debug("Adding terms to DFA finder...");
 		for(String s : TermMaps.getNeTerms().keySet()){
-			addNE(s, TermMaps.getNeTerms().get(s), true);
+			addNamedEntity(s, TermMaps.getNeTerms().get(s), true);
 		}
 		logger.debug("Adding ontology terms to DFA finder...");
 		for(String s : OntologyTerms.getAllTerms()){
-			addNE(s, NamedEntityTypes.ONTOLOGY, false);
+			addNamedEntity(s, NamedEntityTypes.ONTOLOGY, false);
 		}
 		logger.debug("Adding custom NEs ...");
 		for(String s : TermMaps.getCustEnt().keySet()){
-			addNE(s, NamedEntityTypes.CUSTOM, true);
+			addNamedEntity(s, NamedEntityTypes.CUSTOM, true);
 		}
 		logger.debug("Adding names from ChemNameDict to DFA finder...");
 		try {
 			for(String s : ChemNameDictSingleton.getAllNames()) {
 				// System.out.println(s);
-				addNE(s, NamedEntityTypes.COMPOUND, false);
+				addNamedEntity(s, NamedEntityTypes.COMPOUND, false);
 			}
 		} catch (Exception e) {
 			System.err.println("Couldn't add names from ChemNameDict!");
@@ -118,7 +118,7 @@ public class DFANEFinder extends DFAFinder {
 	 * @param t The token sequence
 	 * @return The NEs.
 	 */
-	public List<NamedEntity> getNEs(ITokenSequence t) {
+	public List<NamedEntity> findNamedEntities(ITokenSequence t) {
 		NECollector nec = new NECollector();
 		List<List<String>> repsList = makeReps(t);
 		findItems(t, repsList, nec);

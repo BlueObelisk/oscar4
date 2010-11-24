@@ -63,7 +63,7 @@ public class StandoffTableTest {
 				"0</b>1234<c>5</c>6789" +
 				"<d>0<e>1</e>2</d>3<d><e>45</e>6</d>789" +
 				"01<f><g>23</g></f>456<i/>789</a>", "/localhost").getRootElement();
-		StandoffTable st = new StandoffTable(testXML);
+		IStandoffTable st = new StandoffTable(testXML);
 		assertTrue("No exception thown yet!", true);
 		assertEquals("At pos 0", "/1/1.0", st.getLeftPointAtOffset(0));
 		assertEquals("At pos 1", "/1/1.1", st.getLeftPointAtOffset(1));
@@ -88,7 +88,7 @@ public class StandoffTableTest {
 				"0</b>1234<c>5</c>6789" +
 				"<d>0<e>1</e>2</d>3<d><e>45</e>6</d>789" +
 				"01<f><g>23</g></f>456<i/>789</a>", "/localhost").getRootElement();
-		StandoffTable st = new StandoffTable(testXML);
+		IStandoffTable st = new StandoffTable(testXML);
 		assertTrue("No exception thown yet!", true);
 		try {
 			assertEquals("At pos 0", "/1.0", st.getRightPointAtOffset(0));
@@ -118,7 +118,7 @@ public class StandoffTableTest {
 				"<d>0<e>1</e>2</d>3<d><e>45</e>6</d>789" +
 				"01<f><g>23</g></f>456<i/>789</a>", "/localhost").getRootElement();
 //		XMLSpanTagger.tagUpDocument(testXML, "a");
-		StandoffTable st = new StandoffTable(testXML);
+		IStandoffTable st = new StandoffTable(testXML);
         assertEquals("At /1/1.1", 1, st.getOffsetAtXPoint("/1/1.1"));
         assertEquals("At /1/1.8", 8, st.getOffsetAtXPoint("/1/1.8"));
         assertEquals("At /1/1.9", 9, st.getOffsetAtXPoint("/1/1.9"));

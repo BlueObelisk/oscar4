@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
+import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
+import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 
 /**Finds sentences in lists of tokens.
  * 
@@ -55,13 +57,14 @@ public final class SentenceSplitter {
 		sentences.add(sentence);
 		List<Token> prevSentence = null;
 		for(Token t : tokens) {
-			if(sentence.size() == 0 && 
-					XMLStrings.getInstance().isCitationReferenceUnderStyle(
-						t.getDoc().getStandoffTable().getElemAtOffset(
-							t.getStart()
-						)
+			IStandoffTable sot = t.getDoc().getStandoffTable();
+			if (sentence.size() == 0 &&
+				sot instanceof StandoffTable &&
+				XMLStrings.getInstance().isCitationReferenceUnderStyle(
+					((StandoffTable)sot).getElemAtOffset(
+						t.getStart()
 					)
-					&& prevSentence != null) {
+				)) {
 				prevSentence.add(t);
 			} else {
 				sentence.add(t);				
@@ -89,8 +92,9 @@ public final class SentenceSplitter {
 						if(verbose) System.out.println("D!");
 						split = false;
 					} else if(t.getEnd() == next.getStart() &&
+							sot instanceof StandoffTable &&
 							XMLStrings.getInstance().isCitationReferenceUnderStyle(
-								next.getDoc().getStandoffTable().getElemAtOffset(
+								((StandoffTable)sot).getElemAtOffset(
 									next.getStart()
 								)
 							)) {

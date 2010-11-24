@@ -18,21 +18,21 @@ import nu.xom.Nodes;
  * 
  * @author ptc24
  */
-public class ProcessingDocumentFactory {
+public class OldProcessingDocumentFactory {
 
-	private static ProcessingDocumentFactory myInstance;
+	private static OldProcessingDocumentFactory myInstance;
 	
 
 	/**Gets the singleton instance of the ProcessingDocumentFactory.
 	 * 
 	 * @return The singleton instance of the ProcessingDocumentFactory.
 	 */
-	public static ProcessingDocumentFactory getInstance() {
-		if(myInstance == null) myInstance = new ProcessingDocumentFactory();
+	public static OldProcessingDocumentFactory getInstance() {
+		if(myInstance == null) myInstance = new OldProcessingDocumentFactory();
 		return myInstance;
 	}
 	
-	public ProcessingDocumentFactory() {
+	public OldProcessingDocumentFactory() {
 
 	}
 	
@@ -43,8 +43,8 @@ public class ProcessingDocumentFactory {
 	 * @return The processingDocument.
 	 * @throws Exception
 	 */
-	private ProcessingDocument makeDocument(Document sourceDoc) throws Exception {
-		ProcessingDocument procDoc = new ProcessingDocument();
+	private OldProcessingDocument makeDocument(Document sourceDoc) throws Exception {
+		OldProcessingDocument procDoc = new OldProcessingDocument();
 		
 		procDoc.doc = new Document((Element)XOMTools.safeCopy(sourceDoc.getRootElement()));
 		XMLSpanTagger.tagUpDocument(procDoc.doc.getRootElement(), "a");
@@ -70,7 +70,7 @@ public class ProcessingDocumentFactory {
 	 * 
 	 * 
 	 */
-	public IProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) throws Exception {
+	public IOldProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) throws Exception {
 		/****************************
 		 * @lh359 Tokenisation Walkthrough:
 		 * This is the function used to call the tokeniser and tokensequence
@@ -98,8 +98,8 @@ public class ProcessingDocumentFactory {
 	 * 
 	 * 
 	 */
-	public IProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia, Document safDoc) throws Exception {
-		ProcessingDocument procDoc = makeDocument(sourceDoc);
+	public IOldProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia, Document safDoc) throws Exception {
+		OldProcessingDocument procDoc = makeDocument(sourceDoc);
 		procDoc.tokensByStart = new HashMap<Integer,Token>();
 		procDoc.tokensByEnd = new HashMap<Integer,Token>();
 		

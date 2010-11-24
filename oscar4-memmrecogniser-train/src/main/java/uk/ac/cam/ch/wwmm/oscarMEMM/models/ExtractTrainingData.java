@@ -14,9 +14,9 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
-import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.IOldProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.OldProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.tools.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
@@ -149,7 +149,7 @@ public final class ExtractTrainingData {
 				doc = copy;
 				
 				
-				IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				IOldProcessingDocument procDoc = OldProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 						Tokeniser.getInstance(), doc, true, false, false, safDoc);
 				//NameRecogniser nr = new NameRecogniser();
 				//nr.halfProcess(doc);

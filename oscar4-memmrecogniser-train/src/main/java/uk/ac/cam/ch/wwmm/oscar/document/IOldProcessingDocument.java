@@ -5,7 +5,7 @@ import java.util.List;
 import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 
-public interface IProcessingDocument {
+public interface IOldProcessingDocument extends IProcessingDocument {
 
 	/**
 	 * Gets the StandoffTable associated with the document.

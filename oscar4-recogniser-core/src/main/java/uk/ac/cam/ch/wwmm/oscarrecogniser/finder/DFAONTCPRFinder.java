@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -210,7 +211,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 			String s = OntologyTerms.idsForTerm(StringTools.normaliseName(surface));
 			if(s != null && s.length() > 0) {
 				if(ontIds == null) ontIds = new HashSet<String>();
-				ontIds.addAll(StringTools.arrayToList(s.split("\\s+")));				
+				ontIds.addAll(Arrays.asList(s.split("\\s+")));				
 			}
 			ne.addOntIds(ontIds);
 			//System.out.println(surface + "\t" + ontIds);

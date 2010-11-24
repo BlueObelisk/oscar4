@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscarpattern.chemnamedict;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -93,7 +94,7 @@ public final class ChEBIImportFromOBO {
 					if(stops.contains(name)) {
 						continue;
 					}
-					List<String> tokens = StringTools.arrayToList(name.split("\\s+"));
+					List<String> tokens = Arrays.asList(name.split("\\s+"));
 					boolean containsBadToken = false;
 					for(String token : tokens) {
 						if(stops.contains(token)) {

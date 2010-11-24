@@ -6,6 +6,7 @@ package uk.ac.cam.ch.wwmm.oscar.document;
  * @author ptc24
  *
  */
+//TODO investigate whether ResolvableStandoff class is needed or can be removed
 public abstract class ResolvableStandoff implements Comparable {
 
 	protected String type;

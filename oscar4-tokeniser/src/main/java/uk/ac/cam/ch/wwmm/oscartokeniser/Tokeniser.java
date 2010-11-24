@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import nu.xom.Element;
 import nu.xom.Nodes;
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
@@ -102,7 +103,7 @@ public final class Tokeniser implements ITokeniser {
 	 *            become single-token NEs.
 	 * @return The TokenSequence for the string.
 	 */
-	public TokenSequence tokenise(String s, ProcessingDocument doc, int offset,
+	public TokenSequence tokenise(String s, IProcessingDocument doc, int offset,
 			Element elem, boolean tokeniseForNEs, boolean mergeNEs) {
 		/*
 		 * @dmj30: The arguments tokeniseForNEs and mergeNEs confuse me.
@@ -200,10 +201,10 @@ public final class Tokeniser implements ITokeniser {
 		}
 		
 		/* Make an index of the tokens in the ProcessingDocument */
-		if (doc != null && doc.tokensByStart != null) {
+		if (doc != null && doc.getTokensByStart() != null) {
 			for (Token t : tokens) {
-				doc.tokensByStart.put((Integer) t.getStart(), t);
-				doc.tokensByEnd.put(t.getEnd(), t);
+				doc.getTokensByStart().put((Integer) t.getStart(), t);
+				doc.getTokensByEnd().put(t.getEnd(), t);
 			}
 		}
 		
@@ -503,7 +504,7 @@ public final class Tokeniser implements ITokeniser {
 		return tokens;
 	}
 
-	private void handleNEs(String sourceString, ProcessingDocument doc,
+	private void handleNEs(String sourceString, IProcessingDocument doc,
 			int offset, Element e, List<Token> tokens) throws Exception {
 		Nodes n;
 		int currentNodeId = 0;
@@ -523,11 +524,11 @@ public final class Tokeniser implements ITokeniser {
 			for (int i = 0; i < nn.size(); i++) {
 				Element annot = (Element) nn.get(i);
 				String startX = annot.getAttributeValue("from");
-				int start = doc.standoffTable.getOffsetAtXPoint(startX);
+				int start = doc.getStandoffTable().getOffsetAtXPoint(startX);
 				if (start < offset)
 					continue;
 				String endX = annot.getAttributeValue("to");
-				int end = doc.standoffTable.getOffsetAtXPoint(endX);
+				int end = doc.getStandoffTable().getOffsetAtXPoint(endX);
 				if (end > endOffset)
 					continue;
 				n.append(annot);
@@ -535,9 +536,9 @@ public final class Tokeniser implements ITokeniser {
 			if (n.size() == 0)
 				return;
 			currentElem = (Element) n.get(currentNodeId);
-			elemStart = doc.standoffTable.getOffsetAtXPoint(currentElem
+			elemStart = doc.getStandoffTable().getOffsetAtXPoint(currentElem
 					.getAttributeValue("from"));
-			elemEnd = doc.standoffTable.getOffsetAtXPoint(currentElem
+			elemEnd = doc.getStandoffTable().getOffsetAtXPoint(currentElem
 					.getAttributeValue("to"));
 			//neType = SafTools.getSlotValue(currentElem, "type");
 		} else {
@@ -567,9 +568,9 @@ public final class Tokeniser implements ITokeniser {
 							.getAttributeValue("xtspanend"));
 					neType = currentElem.getAttributeValue("type");
 				} else {
-					elemStart = doc.standoffTable.getOffsetAtXPoint(currentElem
+					elemStart = doc.getStandoffTable().getOffsetAtXPoint(currentElem
 							.getAttributeValue("from"));
-					elemEnd = doc.standoffTable.getOffsetAtXPoint(currentElem
+					elemEnd = doc.getStandoffTable().getOffsetAtXPoint(currentElem
 							.getAttributeValue("to"));
 					//neType = SafTools.getSlotValue(currentElem, "type");
 				}
@@ -644,10 +645,10 @@ public final class Tokeniser implements ITokeniser {
 										.getAttributeValue("xtspanend"));
 								neType = currentElem.getAttributeValue("type");
 							} else {
-								elemStart = doc.standoffTable
+								elemStart = doc.getStandoffTable()
 										.getOffsetAtXPoint(currentElem
 												.getAttributeValue("from"));
-								elemEnd = doc.standoffTable
+								elemEnd = doc.getStandoffTable()
 										.getOffsetAtXPoint(currentElem
 												.getAttributeValue("to"));
 //								neType = SafTools.getSlotValue(currentElem,

@@ -94,7 +94,6 @@ public class OscarProperties {
 		props.setProperty("serverType", oscarProperties.serverType);
 		props.setProperty("hostname", oscarProperties.hostname);
 		props.setProperty("oscarFlow", oscarProperties.oscarFlow);
-		props.setProperty("workspace", oscarProperties.workspace);
 		props.setProperty("geniaPath", oscarProperties.geniaPath);
 		props.setProperty("pcdir", oscarProperties.pcdir);
 		props.setProperty("InChI", oscarProperties.InChI);
@@ -159,7 +158,6 @@ public class OscarProperties {
 		oscarProperties.serverType = getPropertyOrNone(myProperties, "serverType");
 		oscarProperties.hostname = getPropertyOrNone(myProperties, "hostname");
 		oscarProperties.oscarFlow = getPropertyOrNone(myProperties, "oscarFlow");
-		oscarProperties.workspace = getPropertyOrNone(myProperties, "workspace");
 		oscarProperties.geniaPath = getPropertyOrNone(myProperties, "geniaPath");
 		oscarProperties.pcdir = getPropertyOrNone(myProperties, "pcdir");
 		oscarProperties.InChI = getPropertyOrNone(myProperties, "InChI");

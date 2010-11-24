@@ -1,12 +1,10 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
-import java.io.File;
 import java.net.URI;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -49,32 +47,10 @@ public final class ChemNameDictSingleton {
 			logger.debug("Initialising ChemNameDict... ");
 			myChemNameDict = new ChemNameDict(new URI("http://wwmm.ch.cam.ac.uk/dictionary/old/"));
 			try {
-				if("none".equals(OscarProperties.getData().workspace) || forceFromScratch) {
-					ChemNameDictIO.readXML(
-						rg.getXMLDocument(OscarProperties.getData().chemNameDict),
-						myChemNameDict
-					);
-				} else {
-					File f = new File(new File(OscarProperties.getData().workspace, "chemnamedict"), OscarProperties.getData().chemNameDict);
-					if(f.exists()) {
-						ChemNameDictIO.readFromFile(
-							f, myChemNameDict
-						);				
-					} else {
-						ChemNameDictIO.readXML(
-							new ResourceGetter("uk/ac/cam/ch/wwmm/oscar3/chemnamedict/resources/")
-								.getXMLDocument("defaultCompounds.xml"),
-							myChemNameDict
-						);
-						if(!("none".equals(OscarProperties.getData().workspace))) {
-							File ff = new File(new File(OscarProperties.getData().workspace, "chemnamedict"), OscarProperties.getData().chemNameDict);
-							ChemNameDictIO.writeToFile(
-								ff, myChemNameDict
-							);
-						}
-					}
-				}
-				logger.debug("ChemNameDict initialised");
+				ChemNameDictIO.readXML(
+					rg.getXMLDocument(OscarProperties.getData().chemNameDict),
+					myChemNameDict
+				);
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new Exception("Could not initialise ChemNameDict!");
@@ -89,24 +65,6 @@ public final class ChemNameDictSingleton {
 	private ChemNameDictSingleton() {
 		
 	}
-	
-	/**Saves the ChemNameDict singleton to the workspace.
-	 * 
-	 * @throws Exception
-	 */
-	public static void save() throws Exception {
-		if("none".equals(OscarProperties.getData().workspace)) {
-			throw new Exception("Cannot save ChemNameDict when there is no workspace");
-		} else {
-			File f = new File(new File(OscarProperties.getData().workspace, "chemnamedict"), OscarProperties.getData().chemNameDict);
-			ChemNameDict cnd = getChemNameDictInstance();
-			ChemNameDictIO.writeToFile(f, cnd);			
-		}
-	}
-	
-	//public static void dumpToStdout() throws Exception {
-	//	getChemNameDictInstance().writeToFile(System.out);
-	//}
 
 	/**Adds a mapping from an InChI to an Ontology ID.
 	 * 

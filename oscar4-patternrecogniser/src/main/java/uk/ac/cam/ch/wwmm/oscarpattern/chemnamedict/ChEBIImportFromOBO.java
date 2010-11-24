@@ -150,7 +150,7 @@ public final class ChEBIImportFromOBO {
 		//}
 		System.out.println(ChemNameDictSingleton.getAllNames().size());
 		//ChemNameDictSingleton.dumpToStdout();
-		ChemNameDictSingleton.save();		
+//		ChemNameDictSingleton.save();		
 	}
 	
 }

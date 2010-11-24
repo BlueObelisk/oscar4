@@ -102,7 +102,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 * @return The DFAONTCPRFinder singleton.
 	 */
 	public static DFAONTCPRFinder getInstance() {
-		if(myInstance == null) {
+		if (myInstance == null) {
             try {
     			myInstance = readFromWorkspace();
             } catch (IOException e) {
@@ -133,9 +133,9 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 * @param word The string to test.
 	 */
 	public static void destroyInstanceIfWordTokenises(String word) {
-		if(myInstance == null) return;
+		if (myInstance == null) return;
 		ITokenSequence ts = Tokeniser.getInstance().tokenise(word);
-		if(ts.getTokens().size() > 1) myInstance = null;
+		if (ts.getTokens().size() > 1) myInstance = null;
 	}
 	
 	private DFAONTCPRFinder() {
@@ -188,55 +188,14 @@ public class DFAONTCPRFinder extends DFAFinder {
             representations.add("$ONTWORD");
         }
 		if (tokenValue.length() == 1) {
-			if(StringTools.isHyphen(tokenValue)) {
+			if (StringTools.isHyphen(tokenValue)) {
 				representations.add("$HYPH");
-			} else if(StringTools.isMidElipsis(tokenValue)) {
+			} else if (StringTools.isMidElipsis(tokenValue)) {
 				representations.add("$DOTS");
 			}
 		}
 		representations.addAll(getSubReRepsForToken(tokenValue));
 		return representations;
-	}
-	
-	@Override
-	protected void handleNamedEntity(AutomatonState a, int endToken, ITokenSequence t, ResultsCollector collector) {
-		String surface = t.getSubstring(a.getStartToken(), endToken);
-		String type = a.getType();
-		//System.out.println(surface + " " + a.type);
-		if(type.contains("_")) {
-			type = type.split("_")[0];
-		}
-		NamedEntity ne = new NamedEntity(t.getTokens(a.getStartToken(), endToken), surface, type);
-		assert(collector instanceof NECollector);
-		((NECollector)collector).collect(ne);
-		//System.out.println(surface + ": " + a.reps);
-		if(a.getType().startsWith(NamedEntityTypes.ONTOLOGY)) {
-			Set<String> ontIds = runAutToStateToOntIds.get(a.getType()).get(a.getState());
-			String s = OntologyTerms.idsForTerm(StringTools.normaliseName(surface));
-			if(s != null && s.length() > 0) {
-				if(ontIds == null) ontIds = new HashSet<String>();
-				ontIds.addAll(Arrays.asList(s.split("\\s+")));				
-			}
-			ne.addOntIds(ontIds);
-			//System.out.println(surface + "\t" + ontIds);
-		}
-		if(a.getType().startsWith(NamedEntityTypes.CUSTOM)) {
-			//System.out.println(runAutToStateToOntIds.get(a.type));
-			Set<String> custTypes = runAutToStateToOntIds.get(a.getType()).get(a.getState());
-			ne.addCustTypes(custTypes);
-			//System.out.println(surface + "\t" + ontIds);
-		}
-
-		//ne.setPattern(StringTools.collectionToString(a.getReps(), "_"));
-	}
-	
-	@Override
-	protected void handleTokenForPrefix(Token t, ResultsCollector collector) {
-		String prefix = PrefixFinder.getPrefix(t.getValue());
-		if(prefix != null) {
-			assert(collector instanceof NECollector);
-			((NECollector)collector).collect(NamedEntity.forPrefix(t, prefix));
-		}
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException {

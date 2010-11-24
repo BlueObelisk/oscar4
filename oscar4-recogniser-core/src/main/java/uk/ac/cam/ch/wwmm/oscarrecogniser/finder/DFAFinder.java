@@ -296,27 +296,26 @@ public abstract class DFAFinder implements Serializable {
 		return tagMap;
 	}
 	
-	protected abstract void handleNe(AutomatonState a, int endToken, ITokenSequence t, ResultsCollector collector);
+	protected abstract void handleNamedEntity(AutomatonState a, int endToken, ITokenSequence t, ResultsCollector collector);
 	
 	protected void handleTokenForPrefix(Token t, ResultsCollector collector) {
 		
 	}
 	
-	protected void findItems(ITokenSequence t, List<List<String>> repsList, ResultsCollector collector) {
-		findItems(t, repsList, 0, t.getTokens().size()-1, collector);
+	protected void findItems(ITokenSequence tokenSequence, List<List<String>> repsList, ResultsCollector collector) {
+		findItems(tokenSequence, repsList, 0, tokenSequence.getTokens().size()-1, collector);
 	}
 	
-	protected void findItems(ITokenSequence t, List<List<String>> repsList, int startToken, int endToken, ResultsCollector collector) {
+	protected void findItems(ITokenSequence tokenSequence, List<List<String>> repsList, int startToken, int endToken, ResultsCollector collector) {
 		
 		List<AutomatonState> autStates = new ArrayList<AutomatonState>();
 		List<AutomatonState> newAutStates = new ArrayList<AutomatonState>();
-		List<String> tokenReps;
 
 		for(String type : runAuts.keySet()) {
 			AutomatonState a = new AutomatonState(runAuts.get(type), type, 0);
-			String tokenRep = generateTokenRepresentation("$^");
-			for(int j = 0; j < tokenRep.length(); j++) {
-				char c = tokenRep.charAt(j);
+			String tokenRepresentation = generateTokenRepresentation("$^");
+			for (int j = 0; j < tokenRepresentation.length(); j++) {
+				char c = tokenRepresentation.charAt(j);
 				a.step(c);
 				if (a.getState() == -1) {
 					break;
@@ -328,23 +327,25 @@ public abstract class DFAFinder implements Serializable {
 			}
 		}
 		int i = -1;
-		for(Token token : t.getTokens()) {
+		for(Token token : tokenSequence.getTokens()) {
 			i++;
 			if (i < startToken || i > endToken) {
                 continue;
             }
 			handleTokenForPrefix(token, collector);
-			tokenReps = repsList.get(token.getId());
-			if (tokenReps.size() == 0) {
+			List<String> tokenRepresentations = repsList.get(token.getId());
+			if (tokenRepresentations.isEmpty()) {
 				autStates.clear();
 				continue;
 			}
 			for (String type : runAuts.keySet()) {
 				autStates.add(new AutomatonState(runAuts.get(type), type, i));				
 			}
-			for (String tokenRep : tokenReps) {
-				String tokenRepCode = getCachedTokenRepresentation(tokenRep);
-				if (tokenRepCode == null) continue;
+			for (String tokenRep : tokenRepresentations) {
+                String tokenRepCode = getCachedTokenRepresentation(tokenRep);
+                if (tokenRepCode == null) {
+                    continue;
+                }
 				for (int k = 0; k < autStates.size(); k++) {
 					AutomatonState a = autStates.get(k).clone();
 					for(int j = 0; j < tokenRepCode.length(); j++) {
@@ -357,7 +358,7 @@ public abstract class DFAFinder implements Serializable {
 					if (a.getState() != -1) {
 						a.addRep(tokenRep);
 						if (a.isAccept()) {
-							handleNe(a, i, t, collector);
+							handleNamedEntity(a, i, tokenSequence, collector);
 						}
 						newAutStates.add(a);
 					}

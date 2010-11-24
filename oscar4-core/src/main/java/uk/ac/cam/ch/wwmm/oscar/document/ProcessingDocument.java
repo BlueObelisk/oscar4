@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
+import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 
 
 public class ProcessingDocument implements IProcessingDocument {
@@ -22,7 +22,7 @@ public class ProcessingDocument implements IProcessingDocument {
 	}
 
 	@Deprecated
-	public StandoffTable getStandoffTable() {
+	public IStandoffTable getStandoffTable() {
 		// TODO Auto-generated method stub
 		return null;
 	}

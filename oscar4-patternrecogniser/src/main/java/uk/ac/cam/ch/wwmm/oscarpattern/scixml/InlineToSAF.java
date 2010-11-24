@@ -5,6 +5,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 import uk.ac.cam.ch.wwmm.oscar.document.SafTools;
+import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XMLSpanTagger;
 
@@ -35,7 +36,7 @@ public final class InlineToSAF {
 	}
 	
 	private InlineToSAF(Document neDoc, Document refDoc, String name) throws Exception {		
-		StandoffTable st = new StandoffTable(refDoc.getRootElement());
+		IStandoffTable st = new StandoffTable(refDoc.getRootElement());
 		new XMLSpanTagger(neDoc.getRootElement(), "n");
 
 		Element saf = new Element("saf");

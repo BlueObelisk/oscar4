@@ -3,14 +3,14 @@ package uk.ac.cam.ch.wwmm.oscar.document;
 import java.util.List;
 import java.util.Map;
 
-import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
+import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 
 public interface IProcessingDocument {
 
 
 	List <TokenSequence> getTokenSequences();
 
-	StandoffTable getStandoffTable();
+	IStandoffTable getStandoffTable();
 
 	Map<Integer, Token> getTokensByStart();
 

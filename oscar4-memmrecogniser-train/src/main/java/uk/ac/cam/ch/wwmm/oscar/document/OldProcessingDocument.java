@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import nu.xom.Document;
+import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 
 /**
@@ -17,7 +18,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 public final class OldProcessingDocument implements IOldProcessingDocument {
 
 	public Document doc;
-	public StandoffTable standoffTable;
+	public IStandoffTable standoffTable;
 	public List<TokenSequence> tokenSequences;
 	public Map<Integer, Token> tokensByStart;
 	public Map<Integer, Token> tokensByEnd;
@@ -30,7 +31,7 @@ public final class OldProcessingDocument implements IOldProcessingDocument {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getStandoffTable()
 	 */
-	public StandoffTable getStandoffTable() {
+	public IStandoffTable getStandoffTable() {
 		return standoffTable;
 	}
 
@@ -78,12 +79,15 @@ public final class OldProcessingDocument implements IOldProcessingDocument {
 	}
 
 	public Map<Integer, Token> getTokensByStart() {
-		// TODO Auto-generated method stub
-		return null;
+		return tokensByStart;
 	}
 
 	public Map<Integer, Token> getTokensByEnd() {
-		// TODO Auto-generated method stub
-		return null;
+		return tokensByEnd;
+	}
+
+	public void setStandoffTable(IStandoffTable sot) {
+		standoffTable = sot;
+		
 	}
 }

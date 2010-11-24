@@ -488,4 +488,9 @@ public final class StringTools {
 		}
 		return builder.toString();
 	}
+
+    public static boolean isHyphen(String s) {
+        return hyphens.contains(s);
+    }
+    
 }

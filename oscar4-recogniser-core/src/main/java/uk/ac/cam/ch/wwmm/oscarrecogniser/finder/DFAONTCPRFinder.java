@@ -184,7 +184,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 		if(!normValue.equals(tokenValue)) reps.add(normValue);
 		if(OntologyTerms.hasTerm(normValue)) reps.add("$ONTWORD");
 		if(tokenValue.length() == 1) {
-			if(StringTools.hyphens.contains(tokenValue)) {
+			if(StringTools.isHyphen(tokenValue)) {
 				reps.add("$HYPH");
 			} else if(StringTools.midElipsis.contains(tokenValue)) {
 				reps.add("$DOTS");

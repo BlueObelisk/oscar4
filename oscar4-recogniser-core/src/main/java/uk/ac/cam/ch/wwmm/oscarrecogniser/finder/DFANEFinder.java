@@ -154,7 +154,7 @@ public class DFANEFinder extends DFAFinder {
 		}
 		tokenReps.addAll(getSubReRepsForToken(t.getValue()));
 		if(t.getValue().length() == 1) {
-			if(StringTools.hyphens.contains(t.getValue())) {
+			if(StringTools.isHyphen(t.getValue())) {
 				tokenReps.add("$HYPH");
 			} else if(StringTools.midElipsis.contains(t.getValue())) {
 				tokenReps.add("$DOTS");

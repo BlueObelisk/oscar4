@@ -431,7 +431,7 @@ public final class FeatureExtractor {
 				suspect = true;
 			int patternPosition = position + 1;
 			while (patternPosition < (tokSeq.size() - 2)
-					&& StringTools.hyphens.contains(tokSeq.getToken(
+					&& StringTools.isHyphen(tokSeq.getToken(
 							patternPosition).getValue())
 					&& pnPattern.matcher(
 							tokSeq.getToken(patternPosition + 1).getValue())

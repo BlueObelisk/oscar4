@@ -20,6 +20,7 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
  * @author egonw
+ * @author dmj30
  */
 public class PatternRecogniserTest {
 
@@ -53,5 +54,35 @@ public class PatternRecogniserTest {
 		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
 		assertEquals("acetone", neList.get(0).getSurface());
+	}
+	
+	@Test
+	public void testFindMultipleTokenEntity() throws Exception {
+		String text = "Hello ethyl acetate world!";
+		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+				Tokeniser.getInstance(), text);
+		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
+		assertEquals(1, neList.size());
+		assertEquals("ethyl acetate", neList.get(0).getSurface());
+	}
+	
+	@Test
+	public void testFindNonDictionaryEntity() throws Exception {
+		String text = "Hello 1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene world!";
+		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+				Tokeniser.getInstance(), text);
+		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
+		assertEquals(1, neList.size());
+		assertEquals("1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene", neList.get(0).getSurface());
+	}
+	
+	@Test
+	public void testFindNonDictionaryMultipleTokenEntity() throws Exception {
+		String text = "Hello 1,2-difluoro-1-chloro-2-methyl-ethyl acetate world!";
+		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+				Tokeniser.getInstance(), text);
+		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
+		assertEquals(1, neList.size());
+		assertEquals("1,2-difluoro-1-chloro-2-methyl-ethyl acetate", neList.get(0).getSurface());
 	}
 }

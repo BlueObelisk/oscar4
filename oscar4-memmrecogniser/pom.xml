@@ -54,9 +54,8 @@
 			<artifactId>maxent</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>dk.brics</groupId>
-			<artifactId>automaton</artifactId>
-			<!-- from local repository -->
+            <groupId>dk.brics.automaton</groupId>
+            <artifactId>automaton</artifactId>
 		</dependency>
 
 		<dependency>

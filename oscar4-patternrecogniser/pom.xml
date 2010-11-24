@@ -52,9 +52,8 @@
             <artifactId>maxent</artifactId>
         </dependency>
         <dependency>
-            <groupId>dk.brics</groupId>
+            <groupId>dk.brics.automaton</groupId>
             <artifactId>automaton</artifactId>
-            <!-- from local repository -->
         </dependency>
         <dependency>
             <groupId>commons-math</groupId>

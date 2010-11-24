@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 
-import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Serializer;
@@ -86,18 +85,9 @@ public class ModelTrainer {
 	 * @param modelName The model to load.
 	 */
 	public static void loadModel(String modelName) {
-		try {			
-			if(OscarProperties.getData().workspace.equals("none")) {
-				loadModelFromResources(modelName);
-				return;
-			}
-			File trainDir = new File(OscarProperties.getData().workspace, "models");
-			if(!trainDir.exists() || !trainDir.isDirectory() || !new File(trainDir,modelName+".xml").exists()) {
-				loadModelFromResources(modelName);
-				return;
-			}
-			Document modelDoc = new Builder().build(new File(trainDir, modelName + ".xml"));
-			restoreModel(modelDoc);
+		try {
+			loadModelFromResources(modelName);
+			return;
 		} catch (Exception e) {
 			throw new Error(e);
 		}
@@ -134,7 +124,7 @@ public class ModelTrainer {
 	}
 	
 	/**Compiles a model, based on the given set of ScrapBook files, and
-	 * saves it in the models directory.
+	 * saves it into a temporary file.
 	 * 
 	 * @param modelName The name of the model file (".xml" will be appended to
 	 * this)
@@ -144,15 +134,9 @@ public class ModelTrainer {
 			MEMMTrainerSingleton.train(files, rescore); // This also trains the ETD
 			//NESubtypes.trainOnFiles(files); commented it out on 19 jan 2010
 			Document modelDoc = makeModel();
-			if(OscarProperties.getData().workspace.equals("none")) {
-				throw new Error("You can't train a model unless you have a workspace");
-			}
-			File trainDir = new File(OscarProperties.getData().workspace, "models");
-			if(trainDir.exists() && !trainDir.isDirectory()) {
-				throw new Error("You have a file called models in your workspace - it should be a directory!");
-			}
-			if(!trainDir.exists()) trainDir.mkdir();
-			new Serializer(new FileOutputStream(new File(trainDir, modelName + ".xml"))).write(modelDoc);
+			new Serializer(
+				new FileOutputStream(File.createTempFile(modelName, ".xml"))
+			).write(modelDoc);
 		} catch (Exception e) {
 			throw new Error(e);
 		}

@@ -1,10 +1,5 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -43,39 +38,6 @@ public class DFANEFinder extends DFAFinder {
 
 	private static final long serialVersionUID = -3307600610608772402L;
 	private static DFANEFinder myInstance;
-	
-	/**Reads the current state of the DFANEFinder singleton from the workspace.
-	 * 
-	 */
-	public static void readFromWorkspace() {
-		try {
-			//long time = System.currentTimeMillis();
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(OscarProperties.getData().workspace, "dfas.dat")));
-			myInstance = (DFANEFinder)ois.readObject();
-			ois.close();
-			//System.out.println("DFAs loaded in " + (System.currentTimeMillis() - time) + " milliseconds");
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Error(e);
-		}	
-	}
-	
-	/**Writes the current state of the DFANEFinder singleton to the workspace.
-	 * 
-	 */
-	public static void writeToWorkspace() {
-		try {
-			//long time = System.currentTimeMillis();
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(OscarProperties.getData().workspace, "dfas.dat")));
-			oos.writeObject(getInstance());
-			oos.close();
-			//System.out.println("DFAs loaded in " + (System.currentTimeMillis() - time) + " milliseconds");
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Error(e);
-		}	
-		
-	}
 	
 	/**Get the DFANEFinder singleton, initialising if necessary.
 	 * 

@@ -15,8 +15,6 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import org.apache.log4j.Logger;
-
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -146,15 +144,15 @@ public class DFAONTCPRFinder extends DFAFinder {
 	}
 	
 	@Override
-	protected void addTerms() {
+	protected void loadTerms() {
 //		logger.debug("Adding ontology terms to DFA finder...");
 		for(String s : OntologyTerms.getAllTerms()){
-			addNE(s, NamedEntityTypes.ONTOLOGY, false);
+			addNamedEntity(s, NamedEntityTypes.ONTOLOGY, false);
 		}
 		for(String s : TermMaps.getCustEnt().keySet()){
-			addNE(s, NamedEntityTypes.CUSTOM, true);
+			addNamedEntity(s, NamedEntityTypes.CUSTOM, true);
 		}
-		addNE("$ONTWORD", NamedEntityTypes.ONTOLOGY, false);
+		addNamedEntity("$ONTWORD", NamedEntityTypes.ONTOLOGY, false);
 	}
 	
 	/**Finds the ONT/CPR/CUST NEs from a token sequence.

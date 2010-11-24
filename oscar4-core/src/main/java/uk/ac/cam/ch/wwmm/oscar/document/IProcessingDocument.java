@@ -2,8 +2,7 @@ package uk.ac.cam.ch.wwmm.oscar.document;
 
 import java.util.List;
 
-import nu.xom.Document;
-import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
+import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 
 public interface IProcessingDocument {
 
@@ -12,7 +11,14 @@ public interface IProcessingDocument {
 	 * 
 	 * @return The StandoffTable for the document.
 	 */
-	public abstract StandoffTable getStandoffTable();
+	public abstract IStandoffTable getStandoffTable();
+
+	/**
+	 * Sets the StandoffTable associated with the document.
+	 * 
+	 * @param sot The StandoffTable for the document.
+	 */
+	public abstract void setStandoffTable(IStandoffTable sot);
 
 	/**
 	 * Gets the list of TokenSequences for the document. Note that this should
@@ -21,14 +27,6 @@ public interface IProcessingDocument {
 	 * @return The list of TokenSequences for the document.
 	 */
 	public abstract List<TokenSequence> getTokenSequences();
-
-	/**
-	 * Gets the source SciXML document.
-	 * 
-	 * 
-	 * @return The source SciXML document.
-	 */
-	public abstract Document getDoc();
 
 	/**
 	 * Gets the token that starts at a given XPoint. Note that this should only

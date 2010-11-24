@@ -6,7 +6,6 @@ import java.util.List;
 
 import nu.xom.Document;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
@@ -21,6 +20,7 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 /**
  * @author egonw
  * @author j_robinson
+ * @author dmj30
  */
 public class MEMMRecogniserTest {
 
@@ -53,5 +53,52 @@ public class MEMMRecogniserTest {
 		List <NamedEntity> neList = new MEMMRecogniser().findNamedEntities(procDoc);
 		assertEquals(1, neList.size());
 		assertEquals("acetone", neList.get(0).getSurface());
+	}
+	
+	@Test
+	public void testFindMultipleTokenEntity() throws Exception {
+		String text = "Hello ethyl acetate world!";
+		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+				Tokeniser.getInstance(), text);
+		List<NamedEntity> neList = new MEMMRecogniser().findNamedEntities(procDoc.getTokenSequences());
+		
+		//the memmRecogniser finds blocked named entities as well as the one we're expecting, so...
+		boolean foundCorrectNE = false;
+		for (NamedEntity namedEntity : neList) {
+			if ("ethyl acetate".equals(namedEntity.getSurface())) {
+				foundCorrectNE = true;
+			}
+		}
+		assertTrue(foundCorrectNE);
+	}
+	
+	@Test
+	public void testFindNonDictionaryEntity() throws Exception {
+		String text = "Hello 1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene world!";
+		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+				Tokeniser.getInstance(), text);
+		List<NamedEntity> neList = new MEMMRecogniser().findNamedEntities(procDoc.getTokenSequences());
+		boolean foundCorrectNE = false;
+		for (NamedEntity namedEntity : neList) {
+			if ("1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene".equals(namedEntity.getSurface())) {
+				foundCorrectNE = true;
+			}
+		}
+		assertTrue(foundCorrectNE);
+	}
+	
+	@Test
+	public void testFindNonDictionaryMultipleTokenEntity() throws Exception {
+		String text = "Hello 1,2-difluoro-1-chloro-2-methyl-ethyl acetate world!";
+		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+				Tokeniser.getInstance(), text);
+		List<NamedEntity> neList = new MEMMRecogniser().findNamedEntities(procDoc.getTokenSequences());
+		boolean foundCorrectNE = false;
+		for (NamedEntity namedEntity : neList) {
+			if ("1,2-difluoro-1-chloro-2-methyl-ethyl acetate".equals(namedEntity.getSurface())) {
+				foundCorrectNE = true;
+			}
+		}
+		assertTrue(foundCorrectNE);
 	}
 }

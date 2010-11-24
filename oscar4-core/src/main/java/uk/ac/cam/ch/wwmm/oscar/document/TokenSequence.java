@@ -19,16 +19,15 @@ import nu.xom.Element;
  */
 public final class TokenSequence implements ITokenSequence {
 
-	private String sourceString;
+	private String surface;
 	private int offset;
 	private IProcessingDocument doc;
 	private List<Token> tokens;
 	private Element elem;
-	private int indes=0;
 	
 	public TokenSequence(String sourceString, int offset, IProcessingDocument doc, List<Token> tokens) 
 	{
-		this.sourceString = sourceString;
+		this.surface = sourceString;
         this.offset = offset;
 		this.doc = doc;
 		this.tokens = tokens;
@@ -37,8 +36,8 @@ public final class TokenSequence implements ITokenSequence {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getSourceString()
 	 */
-	public String getSourceString() {
-		return sourceString;
+	public String getSurface() {
+		return surface;
 	}
 	
 	/* (non-Javadoc)
@@ -114,7 +113,7 @@ public final class TokenSequence implements ITokenSequence {
 		if(endToken >= size()) endToken = size()-1;
 		int startOffset = tokens.get(startToken).getStart();
 		int endOffset = tokens.get(endToken).getEnd();
-		return sourceString.substring(startOffset - offset, endOffset - offset);
+		return surface.substring(startOffset - offset, endOffset - offset);
 	}
 	
 	/* (non-Javadoc)
@@ -122,16 +121,16 @@ public final class TokenSequence implements ITokenSequence {
 	 */
 	public String getStringAtOffsets2(int start, int end) {
 		//System.err.println(" Source String text==="+sourceString);
-		System.err.println(" Source string length == "+sourceString.length()+" with a start of "+start+ " and offset="+offset+" end =="+end);
-		if(end > sourceString.length() + offset) end= sourceString.length();
-		if(start < sourceString.length()) start = sourceString.length() -offset ;
-		return sourceString.substring(start - offset, end - offset);
+		System.err.println(" Source string length == "+surface.length()+" with a start of "+start+ " and offset="+offset+" end =="+end);
+		if(end > surface.length() + offset) end= surface.length();
+		if(start < surface.length()) start = surface.length() -offset ;
+		return surface.substring(start - offset, end - offset);
 	}
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getStringAtOffsets(int, int)
 	 */
 	public String getStringAtOffsets(int start, int end) {
-		return sourceString.substring(start - offset, end - offset);
+		return surface.substring(start - offset, end - offset);
 	}
 
 	/* (non-Javadoc)

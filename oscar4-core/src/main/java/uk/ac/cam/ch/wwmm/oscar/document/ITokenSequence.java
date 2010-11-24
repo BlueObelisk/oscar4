@@ -10,7 +10,7 @@ public interface ITokenSequence {
 	 * 
 	 * @return The string that was tokenised to make this TokenSequence.
 	 */
-	public abstract String getSourceString();
+	public abstract String getSurface();
 
 	/**Gets the ProcessingDocument (or null) that this TokenSequence was made
 	 * from.

@@ -133,10 +133,9 @@
                 <version>2.4.0</version>
             </dependency>
             <dependency>
-                <groupId>dk.brics</groupId>
+                <groupId>dk.brics.automaton</groupId>
                 <artifactId>automaton</artifactId>
-                <version>1.11-3</version>
-                <!-- from local repository -->
+                <version>1.11-4</version>
             </dependency>
             <dependency>
                 <groupId>commons-math</groupId>

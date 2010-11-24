@@ -139,7 +139,7 @@ public class ExtractedTrainingDataBuilder {
                         } else {
                             if(ne.get(0).matches("[A-Z][a-z][a-z]+")) {
                                 goodPn.add(ne.get(0));
-                                while(ne.size() > 3 && StringTools.hyphens.contains(ne.get(2)) && ne.get(2).matches("[A-Z][a-z][a-z]+")) {
+                                while(ne.size() > 3 && StringTools.isHyphen(ne.get(2)) && ne.get(2).matches("[A-Z][a-z][a-z]+")) {
                                     ne = ne.subList(2, ne.size());
                                     goodPn.add(ne.get(0));
                                 }

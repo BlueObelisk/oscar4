@@ -405,7 +405,7 @@ public final class Tokeniser implements ITokeniser {
 		if (middleValue.contains("+")) {
 			int index = token.getValue().indexOf("+");
 			if (index < (token.getValue().length() - 2)
-					&& StringTools.hyphens.contains(token.getValue().substring(
+					&& StringTools.isHyphen(token.getValue().substring(
 							index + 1, index + 2))) {
 				return splitAt(token, token.getStart() + index + 1, token.getStart()
 						+ index + 2);
@@ -687,7 +687,7 @@ public final class Tokeniser implements ITokeniser {
 			if (prevTokType.equals("O")
 					|| !tokens.get(i).getBioTag().equals("O")
 					|| tokens.get(i).getValue().length() < 2
-					|| !StringTools.hyphens.contains(tokens.get(i).getValue()
+					|| !StringTools.isHyphen(tokens.get(i).getValue()
 							.substring(0, 1))
 					|| !(tokens.get(i).getStart() == tokens.get(i - 1).getEnd())) {
 				i++;

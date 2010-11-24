@@ -141,7 +141,7 @@ public final class TokenSequence implements ITokenSequence {
 		for(int i=1;i<tokens.size();i++) {
 			if(i < tokens.size()-1
 				&& tokens.get(i).getValue().length() == 1
-				&& StringTools.hyphens.contains(tokens.get(i).getValue())
+				&& StringTools.isHyphen(tokens.get(i).getValue())
 				&& "O".equals(tokens.get(i).getBioTag())
 				&& "O".equals(tokens.get(i+1).getBioTag())
 				&& !"O".equals(tokens.get(i-1).getBioTag())

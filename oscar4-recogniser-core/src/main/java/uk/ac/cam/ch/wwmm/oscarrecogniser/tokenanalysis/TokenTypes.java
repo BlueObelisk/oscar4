@@ -35,6 +35,11 @@ public class TokenTypes {
 	public static Pattern oxidationStatePattern = Pattern.compile("\\((o|i{1,4}|i{0,3}[xv]|[xv]i{0,4})\\)", Pattern.CASE_INSENSITIVE);
 	public static Pattern oxidationStateEndPattern = Pattern.compile(".*\\((o|i{1,4}|i{0,3}[xv]|[xv]i{0,4})\\)", Pattern.CASE_INSENSITIVE);
 
+	
+	/*
+	 * SciXML dependent
+	 */
+	@Deprecated
 	public static boolean isCompRef(IToken token) {
 		boolean isCr = false;
 		if(token.getDoc() != null && XMLStrings.getInstance().isCompoundReferenceUnderStyle(token.getDoc().getStandoffTable().getElemAtOffset(token.getStart()))) {
@@ -49,6 +54,10 @@ public class TokenTypes {
 		return isCr;
 	}
 	
+	/*
+	 * SciXML dependent
+	 */
+	@Deprecated
 	public static boolean isRef(IToken token) {
 		if(token.getDoc() == null) return false;
 		return XMLStrings.getInstance().isCitationReferenceUnderStyle(token.getDoc().getStandoffTable().getElemAtOffset(token.getStart()));

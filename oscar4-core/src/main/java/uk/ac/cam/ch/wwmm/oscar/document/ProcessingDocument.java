@@ -1,85 +1,42 @@
 package uk.ac.cam.ch.wwmm.oscar.document;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 
-import nu.xom.Document;
 
-/**
- * A document, with data structures to store information such as tokens. This
- * extra information is essential for many document processing tasks. These
- * should be created using the ProcessingDocumentFactory class.
- * 
- * @author ptc24
- * @author egonw
- */
-public final class ProcessingDocument implements IProcessingDocument {
+public class ProcessingDocument implements IProcessingDocument {
 
-	public Document doc;
-	public IStandoffTable standoffTable;
-	public List<TokenSequence> tokenSequences;
-	public Map<Integer, Token> tokensByStart;
-	public Map<Integer, Token> tokensByEnd;
-	List<List<Token>> sentences;
+	private List<TokenSequence> tokenSequences = new ArrayList<TokenSequence>();
 
-	public ProcessingDocument() {
-
-	}
-
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getStandoffTable()
-	 */
-	public IStandoffTable getStandoffTable() {
-		return standoffTable;
-	}
-
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getTokenSequences()
-	 */
+	
 	public List<TokenSequence> getTokenSequences() {
-		return tokenSequences;
+		return Collections.unmodifiableList(tokenSequences);
 	}
 
-
-
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getDoc()
-	 */
-	public Document getDoc() {
-		return doc;
+	public void addTokenSequence(TokenSequence ts) {
+		tokenSequences.add(ts);
 	}
 
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getTokenByStart(java.lang.String)
-	 */
-	public IToken getTokenByStart(String leftXPoint) throws Exception {
-		int offset = standoffTable.getOffsetAtXPoint(leftXPoint);
-		if (tokensByStart.containsKey(offset))
-			return tokensByStart.get(offset);
+	@Deprecated
+	public IStandoffTable getStandoffTable() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getTokenByEnd(java.lang.String)
-	 */
-	public IToken getTokenByEnd(String rightXPoint) throws Exception {
-		int offset = standoffTable.getOffsetAtXPoint(rightXPoint);
-		if (tokensByEnd.containsKey(offset))
-			return tokensByEnd.get(offset);
+	@Deprecated
+	public Map<Integer, Token> getTokensByStart() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getSentences()
-	 */
-	public List<List<Token>> getSentences() {
-		return sentences;
+	@Deprecated
+	public Map<Integer, Token> getTokensByEnd() {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
-	/** {@inheritDoc} */
-	public void setStandoffTable(IStandoffTable sot) {
-		this.standoffTable = sot;
-	}
+	
 }

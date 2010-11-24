@@ -136,11 +136,12 @@ public class DFANEFinder extends DFAFinder {
 	protected List<String> repsForToken(IToken t) {
 		List<String> tokenReps = new ArrayList<String>();
 		// Avoid complications with compound refs
-		if(TokenTypes.isCompRef(t)) {
-			tokenReps.add("$COMPREF");
-			return tokenReps;
-		}
-		if(TokenTypes.isRef(t)) tokenReps.add("$CITREF");
+		//SciXML dependent - removed 24/11/10 by dmj30
+//		if(TokenTypes.isCompRef(t)) {
+//			tokenReps.add("$COMPREF");
+//			return tokenReps;
+//		}
+//		if(TokenTypes.isRef(t)) tokenReps.add("$CITREF");
 		tokenReps.add(t.getValue());
 		String normValue = StringTools.normaliseName(t.getValue());
 		String withoutLastBracket = t.getValue();
@@ -250,16 +251,17 @@ public class DFANEFinder extends DFAFinder {
 			if(OscarProperties.getData().useWordShapeHeuristic) tokenReps.add("$CMNONWORD");
 //			if(ExtractTrainingData.getInstance().chemicalNonWords.contains(t.getValue())) tokenReps.add("$CMNONWORD");
 		}
-		if(t.getDoc() != null) {
-			if(XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getEnd()-1)) 
-				&& !(XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getStart())))) {
-				tokenReps.add("$MODIFIEDCOMPREF");
-			}
-			if(!XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getEnd()-1)) 
-				&& (XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getStart())))) {
-				tokenReps.add("$MODIFIEDCOMPREF");
-			}			
-		}
+		//SciXML dependent - removed 24/11/10 by dmj30
+//		if(t.getDoc() != null) {
+//			if(XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getEnd()-1)) 
+//				&& !(XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getStart())))) {
+//				tokenReps.add("$MODIFIEDCOMPREF");
+//			}
+//			if(!XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getEnd()-1)) 
+//				&& (XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getStart())))) {
+//				tokenReps.add("$MODIFIEDCOMPREF");
+//			}			
+//		}
 		if(TermSets.getDefaultInstance().getStopWords().contains(normValue) ||
 				TermSets.getDefaultInstance().getClosedClass().contains(normValue) ||
 				ChemNameDictSingleton.hasStopWord(normValue)){// || 

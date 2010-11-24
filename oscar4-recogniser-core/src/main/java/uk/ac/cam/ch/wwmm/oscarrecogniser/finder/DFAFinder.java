@@ -12,13 +12,14 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.RegExUtils;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;
@@ -49,11 +50,11 @@ public abstract class DFAFinder implements Serializable {
 	protected Set<String> literals = new HashSet<String>();
 	protected int tokenId = 0;
 	
-	protected Map<String,Integer> dfaNumber = new HashMap<String,Integer>();//keeps track of the number of automata that have been generated for a certain token
-	protected Map<String,Integer> dfaCount = new HashMap<String,Integer>();//keeps track of the number of tokens of a certain token type encountered
+//	protected Map<String,Integer> dfaNumber = new HashMap<String,Integer>();//keeps track of the number of automata that have been generated for a certain token
+//	protected Map<String,Integer> dfaCount = new HashMap<String,Integer>();//keeps track of the number of tokens of a certain token type encountered
 	
 	protected Map<String,Integer> ontIdToIntId = new HashMap<String,Integer>();
-	protected List<String> ontIds = new ArrayList<String>();;
+	protected List<String> ontIds = new ArrayList<String>();
 	protected Map<String,Map<Integer,Set<String>>> runAutToStateToOntIds;
 	
 	protected Map<String,Pattern> subRes = new HashMap<String,Pattern>();
@@ -126,21 +127,21 @@ public abstract class DFAFinder implements Serializable {
 	}
 	
 	protected void addNamedEntity(String namedEntity, String namedEntityType, boolean alwaysAdd) {
-		if (OscarProperties.getData().dfaSize > 0) {
-			if (!dfaCount.containsKey(namedEntityType)) {
-				dfaCount.put(namedEntityType, 0);
-				dfaNumber.put(namedEntityType, 1);
-			}
-			int count = dfaCount.get(namedEntityType) + 1;
-			if (count > OscarProperties.getData().dfaSize) {
-				count = 0;
-				String tmpType = namedEntityType + "_" + dfaNumber.get(namedEntityType);
-				buildForType(tmpType);
-				dfaNumber.put(namedEntityType, dfaNumber.get(namedEntityType) + 1);
-			}
-			dfaCount.put(namedEntityType, count);
-			namedEntityType = namedEntityType + "_" + dfaNumber.get(namedEntityType);
-		}
+//		if (OscarProperties.getData().dfaSize > 0) {
+//			if (!dfaCount.containsKey(namedEntityType)) {
+//				dfaCount.put(namedEntityType, 0);
+//				dfaNumber.put(namedEntityType, 1);
+//			}
+//			int count = dfaCount.get(namedEntityType) + 1;
+//			if (count > OscarProperties.getData().dfaSize) {
+//				count = 0;
+//				String tmpType = namedEntityType + "_" + dfaNumber.get(namedEntityType);
+//				buildForType(tmpType);
+//				dfaNumber.put(namedEntityType, dfaNumber.get(namedEntityType) + 1);
+//			}
+//			dfaCount.put(namedEntityType, count);
+//			namedEntityType = namedEntityType + "_" + dfaNumber.get(namedEntityType);
+//		}
 
 		ITokenSequence tokenSequence = Tokeniser.getInstance().tokenise(namedEntity);
 		List<String> tokens = tokenSequence.getTokenStringList();
@@ -231,19 +232,19 @@ public abstract class DFAFinder implements Serializable {
 		}
 	}
 	
-	private void buildForType(String type) {
-		if (autLists.containsKey(type)) {
-			Automaton mainAut = Automaton.union(autLists.get(type));
-			mainAut.determinize();
-			runAuts.put(type, new RunAutomaton(mainAut, false));
-			autLists.remove(type);			
-		}
-		if (simpleAuts.containsKey(type)) {
-			Automaton mainAut = simpleAuts.get(type).toAutomaton();
-			runAuts.put(type + "b", new RunAutomaton(mainAut, false));			
-			simpleAuts.remove(type);
-		}
-	}
+//	private void buildForType(String type) {
+//		if (autLists.containsKey(type)) {
+//			Automaton mainAut = Automaton.union(autLists.get(type));
+//			mainAut.determinize();
+//			runAuts.put(type, new RunAutomaton(mainAut, false));
+//			autLists.remove(type);
+//		}
+//		if (simpleAuts.containsKey(type)) {
+//			Automaton mainAut = simpleAuts.get(type).toAutomaton();
+//			runAuts.put(type + "b", new RunAutomaton(mainAut, false));
+//			simpleAuts.remove(type);
+//		}
+//	}
 	
 	private void finishInit() {
 		for(String type : new HashSet<String>(autLists.keySet())) {
@@ -296,17 +297,40 @@ public abstract class DFAFinder implements Serializable {
 		return tagMap;
 	}
 	
-	protected abstract void handleNamedEntity(AutomatonState a, int endToken, ITokenSequence t, ResultsCollector collector);
-	
-	protected void handleTokenForPrefix(Token t, ResultsCollector collector) {
-		
+	protected void handleNamedEntity(AutomatonState a, int endToken, ITokenSequence t, NECollector collector) {
+		String surface = t.getSubstring(a.getStartToken(), endToken);
+		String type = a.getType();
+		NamedEntity namedEntity = new NamedEntity(t.getTokens(a.getStartToken(), endToken), surface, type);
+        collector.collect(namedEntity);
+        if (a.getType().startsWith(NamedEntityTypes.ONTOLOGY)) {
+			Set<String> ontologyIds = runAutToStateToOntIds.get(a.getType()).get(a.getState());
+			String s = OntologyTerms.idsForTerm(StringTools.normaliseName(surface));
+			if (s != null && s.length() > 0) {
+				if (ontologyIds == null) {
+                    ontologyIds = new HashSet<String>();
+                }
+				ontologyIds.addAll(Arrays.asList(s.split("\\s+")));
+			}
+			namedEntity.addOntIds(ontologyIds);
+		}
+		if (a.getType().startsWith(NamedEntityTypes.CUSTOM)) {
+			Set<String> customTypes = runAutToStateToOntIds.get(a.getType()).get(a.getState());
+			namedEntity.addCustTypes(customTypes);
+		}
 	}
 	
-	protected void findItems(ITokenSequence tokenSequence, List<List<String>> repsList, ResultsCollector collector) {
+	protected void handleTokenForPrefix(Token t, NECollector collector) {
+		String prefix = PrefixFinder.getPrefix(t.getValue());
+        if (prefix != null) {
+            collector.collect(NamedEntity.forPrefix(t, prefix));
+        }
+	}
+	
+	protected void findItems(ITokenSequence tokenSequence, List<List<String>> repsList, NECollector collector) {
 		findItems(tokenSequence, repsList, 0, tokenSequence.getTokens().size()-1, collector);
 	}
 	
-	protected void findItems(ITokenSequence tokenSequence, List<List<String>> repsList, int startToken, int endToken, ResultsCollector collector) {
+	protected void findItems(ITokenSequence tokenSequence, List<List<String>> repsList, int startToken, int endToken, NECollector collector) {
 		
 		List<AutomatonState> autStates = new ArrayList<AutomatonState>();
 		List<AutomatonState> newAutStates = new ArrayList<AutomatonState>();

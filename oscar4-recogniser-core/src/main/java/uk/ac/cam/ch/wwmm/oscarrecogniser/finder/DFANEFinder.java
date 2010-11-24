@@ -44,7 +44,7 @@ public class DFANEFinder extends DFAFinder {
      * @return The DFANEFinder singleton.
      */
     public static DFANEFinder getInstance() {
-        if(myInstance == null) {
+        if (myInstance == null) {
             myInstance = new DFANEFinder();
         }
         return myInstance;
@@ -71,9 +71,9 @@ public class DFANEFinder extends DFAFinder {
      * @param word The string to test.
      */
     public static void destroyInstanceIfWordTokenises(String word) {
-        if(myInstance == null) return;
+        if (myInstance == null) return;
         ITokenSequence ts = Tokeniser.getInstance().tokenise(word);
-        if(ts.getTokens().size() > 1) myInstance = null;
+        if (ts.getTokens().size() > 1) myInstance = null;
     }
 
     private DFANEFinder() {
@@ -137,38 +137,38 @@ public class DFANEFinder extends DFAFinder {
         List<String> tokenRepresentations = new ArrayList<String>();
         // Avoid complications with compound refs
         //SciXML dependent - removed 24/11/10 by dmj30
-//		if(TokenTypes.isCompRef(t)) {
+//		if (TokenTypes.isCompRef(t)) {
 //			tokenReps.add("$COMPREF");
 //			return tokenReps;
 //		}
-//		if(TokenTypes.isRef(t)) tokenReps.add("$CITREF");
+//		if (TokenTypes.isRef(t)) tokenReps.add("$CITREF");
         String value = token.getValue();
         tokenRepresentations.add(value);
         String normalisedValue = StringTools.normaliseName(value);
 
-        if(!normalisedValue.equals(value)) {
+        if (!normalisedValue.equals(value)) {
             tokenRepresentations.add(normalisedValue);
         }
         tokenRepresentations.addAll(getSubReRepsForToken(value));
-        if(value.length() == 1) {
-            if(StringTools.isHyphen(value)) {
+        if (value.length() == 1) {
+            if (StringTools.isHyphen(value)) {
                 tokenRepresentations.add("$HYPH");
-            } else if(StringTools.isMidElipsis(value)) {
+            } else if (StringTools.isMidElipsis(value)) {
                 tokenRepresentations.add("$DOTS");
             }
         }
-        for(TokenLevelRegex tokenLevelRegex : TLRHolder.getInstance().parseToken(value)) {
+        for (TokenLevelRegex tokenLevelRegex : TLRHolder.getInstance().parseToken(value)) {
             if (tokenLevelRegex.getType().equals(NamedEntityTypes.PROPERNOUN)) {
-                if(value.matches("[A-Z][a-z]+") && TermSets.getDefaultInstance().getUsrDictWords().contains(value.toLowerCase()) && !TermSets.getDefaultInstance().getUsrDictWords().contains(value)) tokenLevelRegex = null;
-//				if(ExtractTrainingData.getInstance().pnStops.contains(t.getValue())) tlr = null;
+                if (value.matches("[A-Z][a-z]+") && TermSets.getDefaultInstance().getUsrDictWords().contains(value.toLowerCase()) && !TermSets.getDefaultInstance().getUsrDictWords().contains(value)) tokenLevelRegex = null;
+//				if (ExtractTrainingData.getInstance().pnStops.contains(t.getValue())) tlr = null;
             }
-            if(tokenLevelRegex != null) {
+            if (tokenLevelRegex != null) {
                 tokenRepresentations.add("$"+ tokenLevelRegex.getType());
             }
         }
         boolean stopWord = false;
         Matcher m = PrefixFinder.prefixPattern.matcher(value);
-        if(value.length() >= 2 && m.matches()) {
+        if (value.length() >= 2 && m.matches()) {
             String lastGroup = m.group(m.groupCount());
             String lastGroupNorm = StringTools.normaliseName(lastGroup);
             if (lastGroup == null || lastGroup.equals("")) {
@@ -188,12 +188,12 @@ public class DFANEFinder extends DFAFinder {
                 }
 //				boolean isModifiedCompRef = false;
 //				for(int i=m.start(m.groupCount())+t.getStart();i<t.getEnd();i++) {
-//					if(!XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(i))) {
+//					if (!XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(i))) {
 //						isModifiedCompRef = false;
 //						break;
 //					}
 //				}
-//				if(isModifiedCompRef) tokenReps.add("$CPR_COMPREF");
+//				if (isModifiedCompRef) tokenReps.add("$CPR_COMPREF");
             }
         }
 
@@ -204,15 +204,15 @@ public class DFANEFinder extends DFAFinder {
         if (isElement(normalisedValue)) {
             tokenRepresentations.add("$EM");
         }
-        if(isEndingWithElementName(value)) {
+        if (isEndingWithElementName(value)) {
             tokenRepresentations.add("$ENDSINEM");
         }
 
         try {
-//			if(t.getValue().matches(".*[a-z][a-z].*") && !scoreAsStop && !ExtractTrainingData.getInstance().nonChemicalWords.contains(normValue)) {
+//			if (t.getValue().matches(".*[a-z][a-z].*") && !scoreAsStop && !ExtractTrainingData.getInstance().nonChemicalWords.contains(normValue)) {
             if (!stopWord && value.length() > 3 && value.matches(".*[a-z][a-z].*") ) {
                 double score;
-//				if(ExtractTrainingData.getInstance().chemicalWords.contains(normValue)) score = 100;
+//				if (ExtractTrainingData.getInstance().chemicalWords.contains(normValue)) score = 100;
                 if (ChemNameDictSingleton.hasName(value)) {
                     score = 100;
                 }
@@ -226,10 +226,10 @@ public class DFANEFinder extends DFAFinder {
 
                 if (score > OscarProperties.getData().ngramThreshold) {
                     tokenRepresentations.add("$" + TokenTypes.getTypeForSuffix(value).toUpperCase());
-                    if(value.startsWith("-")) {
+                    if (value.startsWith("-")) {
                         tokenRepresentations.add("$-" + TokenTypes.getTypeForSuffix(value).toUpperCase());
                     }
-                    if(value.endsWith("-")) {
+                    if (value.endsWith("-")) {
                         tokenRepresentations.add("$" + TokenTypes.getTypeForSuffix(value).toUpperCase() + "-");
                     }
 
@@ -238,18 +238,18 @@ public class DFANEFinder extends DFAFinder {
                         withoutLastBracket = withoutLastBracket.substring(0, withoutLastBracket.length()-1);
                     }
                     for(int i=1;i<withoutLastBracket.length();i++) {
-                        if(TermMaps.getSuffixes().contains(withoutLastBracket.substring(i))) {
+                        if (TermMaps.getSuffixes().contains(withoutLastBracket.substring(i))) {
                             tokenRepresentations.add("$-" + withoutLastBracket.substring(i));
                         }
                     }
                     
-                    if(value.contains("(") && !value.contains(")")) {
+                    if (value.contains("(") && !value.contains(")")) {
                         tokenRepresentations.add("$-(-");
                     }
-                    if(value.matches("[Pp]oly.+")) {
+                    if (value.matches("[Pp]oly.+")) {
                         tokenRepresentations.add("$poly-");
                     }
-                    if(value.matches("[Pp]oly[\\(\\[\\{].+")) {
+                    if (value.matches("[Pp]oly[\\(\\[\\{].+")) {
                         tokenRepresentations.add("$polybracket-");
                     }
                 }
@@ -265,29 +265,29 @@ public class DFANEFinder extends DFAFinder {
             tokenRepresentations.add("$ONTWORD");
         }
         if (OscarProperties.getData().useWordShapeHeuristic) {
-//			if(ExtractTrainingData.getInstance().chemicalNonWords.contains(t.getValue())) tokenReps.add("$CMNONWORD");
+//			if (ExtractTrainingData.getInstance().chemicalNonWords.contains(t.getValue())) tokenReps.add("$CMNONWORD");
             if (!TokenTypes.twoLowerPattern.matcher(value).find()
                     && TokenTypes.oneCapitalPattern.matcher(value).find()) {
                  tokenRepresentations.add("$CMNONWORD");
             }
         }
         //SciXML dependent - removed 24/11/10 by dmj30
-//		if(t.getDoc() != null) {
-//			if(XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getEnd()-1)) 
+//		if (t.getDoc() != null) {
+//			if (XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getEnd()-1)) 
 //				&& !(XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getStart())))) {
 //				tokenReps.add("$MODIFIEDCOMPREF");
 //			}
-//			if(!XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getEnd()-1)) 
+//			if (!XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getEnd()-1)) 
 //				&& (XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getStart())))) {
 //				tokenReps.add("$MODIFIEDCOMPREF");
 //			}			
 //		}
-        if(TermSets.getDefaultInstance().getStopWords().contains(normalisedValue) ||
+        if (TermSets.getDefaultInstance().getStopWords().contains(normalisedValue) ||
                 TermSets.getDefaultInstance().getClosedClass().contains(normalisedValue) ||
                 ChemNameDictSingleton.hasStopWord(normalisedValue)){// ||
 //				ExtractTrainingData.getInstance().nonChemicalWords.contains(normValue) ||
 //				ExtractTrainingData.getInstance().nonChemicalNonWords.contains(normValue)) {
-            if(!isElement(normalisedValue)) {
+            if (!isElement(normalisedValue)) {
                 tokenRepresentations.add("$STOP");
             }
         }
@@ -306,45 +306,6 @@ public class DFANEFinder extends DFAFinder {
     private boolean isPrefixBody(String s) {
         Matcher m = PrefixFinder.prefixBody.matcher(s);
         return m.matches();
-    }
-
-    @Override
-    protected void handleNamedEntity(AutomatonState a, int endToken, ITokenSequence t, ResultsCollector collector) {
-        String surface = t.getSubstring(a.getStartToken(), endToken);
-        String type = a.getType();
-        //System.out.println(surface + " " + a.type);
-        if(type.contains("_")) {
-            type = type.split("_")[0];
-        }
-        NamedEntity ne = new NamedEntity(t.getTokens(a.getStartToken(), endToken), surface, type);
-        assert(collector instanceof NECollector);
-        ((NECollector)collector).collect(ne);
-        //System.out.println(surface + ": " + a.reps);
-        if(a.getType().startsWith(NamedEntityTypes.ONTOLOGY)) {
-            Set<String> ontIds = runAutToStateToOntIds.get(a.getType()).get(a.getState());
-            String s = OntologyTerms.idsForTerm(surface);
-            if(s != null && s.length() > 0) {
-                if(ontIds == null) ontIds = new HashSet<String>();
-                ontIds.addAll(Arrays.asList(s.split("\\s+")));
-            }
-            ne.addOntIds(ontIds);
-            //System.out.println(surface + "\t" + ontIds);
-        }
-        if(a.getType().startsWith(NamedEntityTypes.CUSTOM)) {
-            Set<String> custTypes = runAutToStateToOntIds.get(a.getType()).get(a.getState());
-            ne.addCustTypes(custTypes);
-            //System.out.println(surface + "\t" + ontIds);
-        }
-        //ne.setPattern(StringTools.collectionToString(a.getReps(), "_"));
-    }
-
-    @Override
-    protected void handleTokenForPrefix(Token t, ResultsCollector collector) {
-        String prefix = PrefixFinder.getPrefix(t.getValue());
-        if(prefix != null) {
-            assert(collector instanceof NECollector);
-            ((NECollector)collector).collect(NamedEntity.forPrefix(t, prefix));
-        }
     }
 
 }

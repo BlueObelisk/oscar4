@@ -57,7 +57,6 @@ public class OscarPropertiesData {
 	
 	public String oscarFlow;
 	
-	public String workspace;
 	public String geniaPath;
 	public String pcdir;
 	public String InChI;

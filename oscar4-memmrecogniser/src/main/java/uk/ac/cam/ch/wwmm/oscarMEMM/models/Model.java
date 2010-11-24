@@ -1,15 +1,14 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 
-import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
+
 import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
-
-import java.io.File;
 
 /**Routines to co-ordinate the holding of experimental training data, and 
  * models from the MEMM, MEMM rescorer and other modules.
@@ -102,16 +101,8 @@ public class Model {
 	 * @param modelName The model to load.
 	 */
 	public static Model loadModel(String modelName) {
-		try {			
-			if(OscarProperties.getData().workspace.equals("none")) {
-				return loadModelFromResources(modelName);
-			}
-			File trainDir = new File(OscarProperties.getData().workspace, "models");
-			if(!trainDir.exists() || !trainDir.isDirectory() || !new File(trainDir,modelName+".xml").exists()) {
-				return loadModelFromResources(modelName);
-			}
-			Document modelDoc = new Builder().build(new File(trainDir, modelName + ".xml"));
-			return restoreModel(modelDoc);
+		try {
+			return loadModelFromResources(modelName);
 		} catch (Exception e) {
 			throw new Error(e);
 		}

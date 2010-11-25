@@ -168,7 +168,7 @@ public final class FeatureExtractor {
 		makeWordFeatures(word, normWord, bigramable, etd);
 		makeReactionFeatures(word, bigramable, contextable, etd);
 
-		String wts = StringTools.removeTerminalS(normWord);
+		String wts = StringTools.withoutTerminalS(normWord);
 		contextable.add(WITHOUT_TERMINAL_S_FEATURE + wts);
 
 		makeShapeFeatures(word, bigramable, contextable);

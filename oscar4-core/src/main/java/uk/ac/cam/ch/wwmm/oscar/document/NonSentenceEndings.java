@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscar.document;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,18 +16,18 @@ public class NonSentenceEndings {
 	// Extracted from SentenceSplitter.
 
 	@SuppressWarnings("serial")
-	private Set<String> impossibleAfter = new HashSet<String>() {{
-		add("Fig");
-		add("al"); // et al.
-		add("i.e");
-		add("ie");
-		add("eg");
-		add("e.g");
-		add("ref");
-		add("Dr");
-		add("Prof");
-		add("Sir");
-	}};
+	private final Set<String> impossibleAfter = new HashSet<String>(Arrays.asList(
+		"Fig",
+		"al", // et al.
+		"i.e",
+		"ie",
+		"eg",
+		"e.g",
+		"ref",
+		"Dr",
+		"Prof",
+		"Sir"
+	));
 
 	/**
 	 * Returns true if the sentence is not ended by the period following the given phrase.

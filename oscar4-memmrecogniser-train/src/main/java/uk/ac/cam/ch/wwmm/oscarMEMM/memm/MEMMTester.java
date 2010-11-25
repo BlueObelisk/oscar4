@@ -21,6 +21,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 import uk.ac.cam.ch.wwmm.oscar.document.IOldProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.OldProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -230,8 +231,9 @@ public final class MEMMTester {
 				
 				Set<String> testNEs = new LinkedHashSet<String>();
 
-				for(TokenSequence tokSeq : procDoc.getTokenSequences()) {
-					Nodes neNodes = tokSeq.getElem().query(".//ne");
+				for(ITokenSequence tokSeq : procDoc.getTokenSequences()) {
+					TokenSequence seq = (TokenSequence)tokSeq;
+					Nodes neNodes = seq.getElem().query(".//ne");
 					for(int k=0;k<neNodes.size();k++) {
 						Element neElem = (Element)neNodes.get(k);
 						if(filterType != null && !neElem.getAttributeValue("type").equals(filterType)) continue;
@@ -239,7 +241,7 @@ public final class MEMMTester {
 						String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
 						testNEs.add(neStr);
 					}
-					confidences.putAll(memm.findNEs(tokSeq));
+					confidences.putAll(memm.findNEs(seq));
 				}
 
 				paperTestNEs += testNEs.size();

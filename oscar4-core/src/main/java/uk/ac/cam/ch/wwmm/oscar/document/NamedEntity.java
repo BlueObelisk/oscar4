@@ -8,8 +8,6 @@ import java.util.Set;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 
-import nu.xom.Element;
-
 /**A named entity, as found by one of the various routines in this package.
  * May be one token or multi-token.
  * 
@@ -23,7 +21,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	private String surface;
 	private String type;
 	private IToken endToken;
-	private List<Token> tokens;
+	private List<IToken> tokens;
 	private Set<String> ontIds;
 	private Set<String> custTypes;
 	private String leftPunct;
@@ -40,7 +38,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	 * @param surface The text string of the named entity.
 	 * @param type The type of the named entity.
 	 */
-	public NamedEntity(List<Token> tokens, String surface, String type) {
+	public NamedEntity(List<IToken> tokens, String surface, String type) {
 		confidence = Double.NaN;
 		pseudoConfidence = Double.NaN;
 		deprioritiseOnt = false;
@@ -63,9 +61,9 @@ public final class NamedEntity extends ResolvableStandoff {
 	 * @param prefix The string of the prefix.
 	 * @return The named entity corresponding to the prefix.
 	 */
-	public static NamedEntity forPrefix(Token t, String prefix) {
+	public static NamedEntity forPrefix(IToken t, String prefix) {
 		NamedEntity ne = new NamedEntity(); 
-	    ne.tokens = new ArrayList<Token>();
+	    ne.tokens = new ArrayList<IToken>();
 		ne.tokens.add(t);
 		ne.endToken = t;
 		ne.startOffset = t.getStart();
@@ -356,7 +354,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	 * 
 	 * @return The list of tokens that consititute the named entity.
 	 */
-	public List<Token> getTokens() {
+	public List<IToken> getTokens() {
 		return tokens;
 	}
 	
@@ -428,7 +426,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	 * 
 	 * @return The last token of the named entity.
 	 */
-	public Token getLastToken() {
+	public IToken getLastToken() {
 		return tokens.get(tokens.size() -1);
 	}
 	

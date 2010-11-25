@@ -1,24 +1,26 @@
 package uk.ac.cam.ch.wwmm.oscar;
 
-import nu.xom.Document;
-import nu.xom.Element;
-import org.apache.log4j.Logger;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
-import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
-import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
-import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
-import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
-import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import nu.xom.Document;
+import nu.xom.Element;
+
+import org.apache.log4j.Logger;
+
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
+import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
+import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
  * Helper class with a simple API to access Oscar functionality.
@@ -104,7 +106,7 @@ public class Oscar {
      */
     public List<NamedEntity> getNamedEntities(String input) throws Exception {
         input = normalize(input);
-        List<TokenSequence> tokens = tokenize(input);
+        List<ITokenSequence> tokens = tokenize(input);
         List<NamedEntity> entities = recognizeNamedEntities(tokens);
         return entities;
     }
@@ -153,7 +155,7 @@ public class Oscar {
     }
 
 
-    public List<TokenSequence> tokenize(String input) throws Exception {
+    public List<ITokenSequence> tokenize(String input) throws Exception {
         Document doc = createInputDocument(input);
         IProcessingDocument procDoc = new ProcessingDocumentFactory()
                 .makeTokenisedDocument(tokenizer, doc, true, false, false);
@@ -173,7 +175,7 @@ public class Oscar {
     }
 
 
-    public List<NamedEntity> recognizeNamedEntities(List<TokenSequence> tokens) throws Exception {
+    public List<NamedEntity> recognizeNamedEntities(List<ITokenSequence> tokens) throws Exception {
         return recogniser.findNamedEntities(tokens);
     }
 

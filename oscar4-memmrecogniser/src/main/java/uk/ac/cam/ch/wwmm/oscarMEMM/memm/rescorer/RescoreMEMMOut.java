@@ -27,6 +27,7 @@ import opennlp.maxent.TwoPassDataIndexer;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -141,8 +142,8 @@ public final class RescoreMEMMOut {
 
 		Set<String> testNEs = new HashSet<String>();
 		
-		for(TokenSequence tokSeq : procDoc.getTokenSequences()) {
-			Nodes neNodes = tokSeq.getElem().query(".//ne");
+		for(ITokenSequence tokSeq : procDoc.getTokenSequences()) {
+			Nodes neNodes = ((TokenSequence)tokSeq).getElem().query(".//ne");
 			for(int k=0;k<neNodes.size();k++) {
 				Element neElem = (Element)neNodes.get(k);
 				String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
@@ -231,8 +232,8 @@ public final class RescoreMEMMOut {
 
 		Set<String> testNEs = new HashSet<String>();
 		
-		for(TokenSequence tokSeq : procDoc.getTokenSequences()) {
-			Nodes neNodes = tokSeq.getElem().query(".//ne");
+		for(ITokenSequence tokSeq : procDoc.getTokenSequences()) {
+			Nodes neNodes = ((TokenSequence)tokSeq).getElem().query(".//ne");
 			for(int k=0;k<neNodes.size();k++) {
 				Element neElem = (Element)neNodes.get(k);
 				String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";

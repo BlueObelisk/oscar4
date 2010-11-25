@@ -1,5 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM;
 
+import java.util.List;
+
 import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -33,7 +35,7 @@ public class Main {
 		
 		try {
 			
-			java.util.List<NamedEntity> Entities = MER.findNamedEntities(procDoc.getTokenSequences());
+			List<NamedEntity> Entities = MER.findNamedEntities(procDoc.getTokenSequences());
 			for (NamedEntity namedEntity : Entities) {
 				System.out.println("********************");
 				System.out.println("NamedEntity= "+namedEntity.getSurface());

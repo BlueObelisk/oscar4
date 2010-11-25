@@ -19,10 +19,10 @@ public final class OldProcessingDocument implements IOldProcessingDocument {
 
 	public Document doc;
 	public IStandoffTable standoffTable;
-	public List<TokenSequence> tokenSequences;
-	public Map<Integer, Token> tokensByStart;
-	public Map<Integer, Token> tokensByEnd;
-	List<List<Token>> sentences;
+	public List<ITokenSequence> tokenSequences;
+	public Map<Integer,IToken> tokensByStart;
+	public Map<Integer,IToken> tokensByEnd;
+	List<List<IToken>> sentences;
 
 	public OldProcessingDocument() {
 
@@ -38,7 +38,7 @@ public final class OldProcessingDocument implements IOldProcessingDocument {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getTokenSequences()
 	 */
-	public List<TokenSequence> getTokenSequences() {
+	public List<ITokenSequence> getTokenSequences() {
 		return tokenSequences;
 	}
 
@@ -74,15 +74,15 @@ public final class OldProcessingDocument implements IOldProcessingDocument {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getSentences()
 	 */
-	public List<List<Token>> getSentences() {
+	public List<List<IToken>> getSentences() {
 		return sentences;
 	}
 
-	public Map<Integer, Token> getTokensByStart() {
+	public Map<Integer,IToken> getTokensByStart() {
 		return tokensByStart;
 	}
 
-	public Map<Integer, Token> getTokensByEnd() {
+	public Map<Integer,IToken> getTokensByEnd() {
 		return tokensByEnd;
 	}
 

@@ -12,8 +12,8 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 
 /**Takes a list of SciXML files, and provides an iterator over the 
@@ -22,12 +22,12 @@ import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
  * @author ptc24
  *
  */
-public final class TokenSequenceSource implements Iterable<TokenSequence>, Iterator<TokenSequence> {
+public final class TokenSequenceSource implements Iterable<ITokenSequence>, Iterator<ITokenSequence> {
 	
 	private List<File> files;
 	private int filePointer;
-	private LinkedList<TokenSequence> tokSeqs;
-	private TokenSequence nextTokeniser;
+	private LinkedList<ITokenSequence> tokSeqs;
+	private ITokenSequence nextTokeniser;
 	private boolean simple;
 	
 	/**Make a TokenSequenceSource from the list of files.
@@ -38,7 +38,7 @@ public final class TokenSequenceSource implements Iterable<TokenSequence>, Itera
 		this.simple = false;
 		this.files = new ArrayList<File>(files);
 		filePointer = 0;
-		tokSeqs = new LinkedList<TokenSequence>();
+		tokSeqs = new LinkedList<ITokenSequence>();
 		nextTokeniser = null;
 	}
 	
@@ -52,7 +52,7 @@ public final class TokenSequenceSource implements Iterable<TokenSequence>, Itera
 		this.simple = simple;
 		this.files = new ArrayList<File>(files);
 		filePointer = 0;
-		tokSeqs = new LinkedList<TokenSequence>();
+		tokSeqs = new LinkedList<ITokenSequence>();
 		nextTokeniser = null;
 	}
 	
@@ -62,7 +62,7 @@ public final class TokenSequenceSource implements Iterable<TokenSequence>, Itera
 	 */
 	public void reset() {
 		filePointer = 0;
-		tokSeqs = new LinkedList<TokenSequence>();
+		tokSeqs = new LinkedList<ITokenSequence>();
 		nextTokeniser = null;
 	}
 	
@@ -81,7 +81,7 @@ public final class TokenSequenceSource implements Iterable<TokenSequence>, Itera
 					for(int i=0;i<placesForChemicals.size();i++) {
 						Element e = (Element)placesForChemicals.get(i);
 						String text = e.getValue();
-						TokenSequence ts = tokeniser.tokenise(text);
+						ITokenSequence ts = tokeniser.tokenise(text);
 						tokSeqs.add(ts);
 					}
 				} else {
@@ -115,9 +115,9 @@ public final class TokenSequenceSource implements Iterable<TokenSequence>, Itera
 	/**Get the next string from this StringSource.
 	 * 
 	 */
-	public TokenSequence next() {
+	public ITokenSequence next() {
 		primeNextTokeniser();
-		TokenSequence t = nextTokeniser;
+		ITokenSequence t = nextTokeniser;
 		nextTokeniser = null;
 		return t;
 	}
@@ -132,7 +132,7 @@ public final class TokenSequenceSource implements Iterable<TokenSequence>, Itera
 	/**Returns the StringSource itself for use as an iterator, resetting itself
 	 * in the process.
 	 */
-	public Iterator<TokenSequence> iterator() {
+	public Iterator<ITokenSequence> iterator() {
 		reset();
 		return this;
 	}

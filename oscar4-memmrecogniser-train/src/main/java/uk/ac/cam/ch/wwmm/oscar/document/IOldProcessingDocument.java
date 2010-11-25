@@ -7,26 +7,11 @@ import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 public interface IOldProcessingDocument extends IProcessingDocument {
 
 	/**
-	 * Gets the StandoffTable associated with the document.
-	 * 
-	 * @return The StandoffTable for the document.
-	 */
-	public abstract IStandoffTable getStandoffTable();
-
-	/**
 	 * Sets the StandoffTable associated with the document.
 	 * 
 	 * @param sot The StandoffTable for the document.
 	 */
 	public abstract void setStandoffTable(IStandoffTable sot);
-
-	/**
-	 * Gets the list of TokenSequences for the document. Note that this should
-	 * only be called after the document has been tokenised.
-	 * 
-	 * @return The list of TokenSequences for the document.
-	 */
-	public abstract List<ITokenSequence> getTokenSequences();
 
 	/**
 	 * Gets the token that starts at a given XPoint. Note that this should only

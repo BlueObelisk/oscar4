@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscartokeniser;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,6 @@ import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
-import uk.ac.cam.ch.wwmm.oscar.document.Token;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 
 /**
  * @author egonw
@@ -36,7 +35,7 @@ public final class TokeniserTest {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "(ca. 30 mL)";
 		ITokenSequence tokseq = tokeniser.tokenise(s);
-		assertEquals(tokseq.getTokens().size(), 5);
+		assertEquals(5, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "( ca. 30 mL )");
 	}
 
@@ -48,7 +47,7 @@ public final class TokeniserTest {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "EA- or BA-modified HPEI";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
-		assertEquals(tokseq.getTokens().size(), 4);
+		assertEquals(4, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "EA- or BA-modified HPEI");
 	}
 	
@@ -57,7 +56,7 @@ public final class TokeniserTest {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "methanol/water";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
-		assertEquals(tokseq.getTokens().size(), 3);
+		assertEquals(3, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "methanol / water");
 	}
 

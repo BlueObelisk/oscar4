@@ -23,15 +23,15 @@ public abstract class ResolvableStandoff implements Comparable {
 	public int compareTo(Object o) {
 		if(o instanceof ResolvableStandoff) {
 			ResolvableStandoff other = (ResolvableStandoff)o;
-			int sc = compareStart(other);
-			int ec = compareEnd(other);
-			if(sc == -1) {
+			int startComparison = compareStart(other);
+			int endComparison = compareEnd(other);
+			if (startComparison < 0) {
 				return -1;
-			} else if(sc == 1) {
+			} else if (startComparison > 0) {
 				return 1;
-			} else if(ec == -1) {
+			} else if (endComparison < 0) {
 				return -1;
-			} else if(ec == 1) {
+			} else if (endComparison > 0) {
 				return 1;
 			} else {
 				return 0;
@@ -43,9 +43,13 @@ public abstract class ResolvableStandoff implements Comparable {
 	
 	public boolean conflictsWith(ResolvableStandoff other) {
 		// If this starts after (or at) the end of the other, no conflict
-		if(compareStartToEnd(other) != -1) return false;
+		if (compareStartToEnd(other) >= 0) {
+            return false;
+        }
 		// If this ends before (or at) the start of the other, no conflict
-		if(compareEndToStart(other) != 1) return false;
+		if (compareEndToStart(other) <= 0) {
+            return false;
+        }
 		// Therefore, there must be a conflict
 		return true;
 	}

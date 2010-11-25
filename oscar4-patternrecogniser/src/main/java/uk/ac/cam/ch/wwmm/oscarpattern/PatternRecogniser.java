@@ -16,6 +16,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarpattern.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFANEFinder;
@@ -108,7 +109,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 			}
 		}*/
 
-		Map<String,String> acroMap = new HashMap<String,String>();
+		Map<String,NamedEntityType> acroMap = new HashMap<String,NamedEntityType>();
 
 		Map<Integer,NamedEntity> endToNe = new HashMap<Integer,NamedEntity>();
 		Map<Integer,NamedEntity> startToNe = new HashMap<Integer,NamedEntity>();
@@ -141,10 +142,10 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 								} else {
 									//matched = true;
 									if (acroMap.containsKey(ne.getSurface())) {
-										String newValue = ne.getType();
-										String oldValue = acroMap.get(ne.getSurface());
-										if (newValue == NamedEntityTypes.POLYMER) acroMap.put(ne.getSurface(), acronymOf.getType());
-										else if (newValue == NamedEntityTypes.COMPOUND && !oldValue.equals(NamedEntityTypes.POLYMER)) acroMap.put(ne.getSurface(), acronymOf.getType());
+										NamedEntityType newValue = ne.getType();
+										NamedEntityType oldValue = acroMap.get(ne.getSurface());
+										if (NamedEntityType.POLYMER.equals(newValue)) acroMap.put(ne.getSurface(), acronymOf.getType());
+										else if (NamedEntityType.COMPOUND.equals(newValue) && !NamedEntityType.POLYMER.equals(oldValue)) acroMap.put(ne.getSurface(), acronymOf.getType());
 									}
 									else {
 										acroMap.put(ne.getSurface(), acronymOf.getType());
@@ -219,10 +220,10 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 	public void setPseudoConfidences(List<NamedEntity> neList) {
 		for(NamedEntity ne : neList) {
 			double pseudoConf = Double.NaN;
-			String type = ne.getType();
-			if(type.equals(NamedEntityTypes.ONTOLOGY)) pseudoConf = OscarProperties.getData().ontProb;
-			if(type.equals(NamedEntityTypes.LOCANTPREFIX)) pseudoConf = OscarProperties.getData().cprProb;
-			if(type.equals(NamedEntityTypes.CUSTOM)) pseudoConf = OscarProperties.getData().custProb;
+			NamedEntityType type = ne.getType();
+			if(type.equals(NamedEntityType.ONTOLOGY)) pseudoConf = OscarProperties.getData().ontProb;
+			if(type.equals(NamedEntityType.LOCANTPREFIX)) pseudoConf = OscarProperties.getData().cprProb;
+			if(type.equals(NamedEntityType.CUSTOM)) pseudoConf = OscarProperties.getData().custProb;
 			ne.setPseudoConfidence(pseudoConf);
 			ne.setDeprioritiseOnt(OscarProperties.getData().deprioritiseONT);
 		}

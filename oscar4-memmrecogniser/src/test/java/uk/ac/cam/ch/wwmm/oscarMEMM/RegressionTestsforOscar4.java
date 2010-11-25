@@ -16,6 +16,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
@@ -119,9 +120,14 @@ public class RegressionTestsforOscar4 {
 	 * Evaluates the NamedEntities produced by the MEMM recogniser against the
 	 * surface, probability and type values found by OSCAR3's MEMM Recogniser
 	 */
-	private void evaluateNamedEntities(String sentence,
-			List<String> expectedSurfaceList, List<String> expectedTypeList,
-			List<Double> expectedProbList) throws Exception {
+    private void evaluateNamedEntities(String sentence,
+			List<String> expectedSurfaceList, List<String> expectedTypeNames,
+ 			List<Double> expectedProbList) throws Exception {
+
+        List<NamedEntityType> expectedTypeList = new ArrayList<NamedEntityType>();
+        for (String name : expectedTypeNames) {
+            expectedTypeList.add(NamedEntityType.valueOf(name));
+        }
 
 		// Check that Sentence is not empty
 		Assert.assertTrue("Extracting String: ",
@@ -142,7 +148,7 @@ public class RegressionTestsforOscar4 {
 
 		List<String> actualSurfaceList = new ArrayList<String>();
 		List<Object> actualProbList = new ArrayList<Object>();
-		List<String> actualTypeList = new ArrayList<String>();
+		List<NamedEntityType> actualTypeList = new ArrayList<NamedEntityType>();
 		for (NamedEntity namedEntity : neList) {
 			// Using a count to differentiate between duplicates in a list
 			int count = 1;
@@ -164,7 +170,8 @@ public class RegressionTestsforOscar4 {
 				int index = expectedSurfaceList.indexOf(surface);
 				Assert.assertEquals("Type for " + namedEntity.getSurface(),
 						expectedTypeList.get(index), namedEntity.getType());
-				if (!namedEntity.getType().contains("ONT") && !namedEntity.getType().contains("CPR")) {
+				if (!NamedEntityType.ONTOLOGY.isInstance(namedEntity.getType())
+                        && !NamedEntityType.LOCANTPREFIX.isInstance(namedEntity.getType())) {
 					Assert.assertEquals(
 							"Probability for " + namedEntity.getSurface(),
 							expectedProbList.get(index),

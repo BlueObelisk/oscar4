@@ -13,6 +13,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
@@ -183,14 +184,14 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     private void setPseudoConfidences(List<NamedEntity> neList) {
         for (NamedEntity ne : neList) {
             double pseudoConf = Double.NaN;
-            String type = ne.getType();
-            if (NamedEntityTypes.ONTOLOGY.equals(type)) {
+            NamedEntityType type = ne.getType();
+            if (NamedEntityType.ONTOLOGY.isInstance(type)) {
                 pseudoConf = OscarProperties.getData().ontProb;
             }
-            else if (NamedEntityTypes.LOCANTPREFIX.equals(type)) {
+            else if (NamedEntityType.LOCANTPREFIX.isInstance(type)) {
                 pseudoConf = OscarProperties.getData().cprProb;
             }
-            else if (NamedEntityTypes.CUSTOM.equals(type)) {
+            else if (NamedEntityType.CUSTOM.isInstance(type)) {
                 pseudoConf = OscarProperties.getData().custProb;
             }
             ne.setPseudoConfidence(pseudoConf);

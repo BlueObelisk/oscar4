@@ -1,5 +1,11 @@
 package uk.ac.cam.ch.wwmm.oscar.obo;
 
+import org.apache.log4j.Logger;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -9,14 +15,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
-
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
-import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-
 /**A class to hold several mappings between terms and their identifiers.
- * 
+ *
  * @author ptc24
  *
  */
@@ -24,7 +24,7 @@ public final class TermMaps {
 
 	private final Logger logger = Logger.getLogger(TermMaps.class);
 
-	private Map<String, String> neTerms;
+	private Map<String, NamedEntityType> neTerms;
 	private Map<String, String> iePatterns;
 	private Map<String, String> ontology;
 	private Map<String, String> custEnt;
@@ -35,19 +35,19 @@ public final class TermMaps {
 	private static Pattern definePattern = Pattern.compile("(.*?) = (.*)");
 
 	private static TermMaps myInstance;
-	
+
 	/**Initialise the TermMaps singleton, deleting the old one if one already
 	 * exists.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public static void reinitialise() throws Exception {
 		myInstance = null;
 		getInstance();
 	}
-	
+
 	/**Initialise the TermMaps singleton, if this has not already been done.
-	 * 
+	 *
 	 */
 	public static void init() {
 		try {
@@ -56,9 +56,9 @@ public final class TermMaps {
 			}
 		} catch (Exception e) {
 			throw new Error(e);
-		}		
+		}
 	}
-	
+
 	private static TermMaps getInstance() {
 		try {
 		if(myInstance == null) {
@@ -69,10 +69,10 @@ public final class TermMaps {
 			throw new Error(e);
 		}
 	}
-	
+
 	private static HashMap<String, String> getTermMap(String filename, boolean concatenateTypes) throws Exception {
 		HashMap<String, String> defines = new HashMap<String, String>();
-		
+
 		HashMap<String, String> lexicons = new HashMap<String, String>();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(rg.getStream(filename), "UTF-8"));
 		String line = reader.readLine();
@@ -105,7 +105,7 @@ public final class TermMaps {
 					lexicons.put(StringTools.normaliseName(line), StringTools.normaliseName(lexname));
 				}
 				//if(line.matches(".*[a-z][a-z].*")) lexicons.put(line.toLowerCase(), lexname);
-			}			
+			}
 			line = reader.readLine();
 		}
 		return lexicons;
@@ -121,29 +121,24 @@ public final class TermMaps {
 				}
 			}
 		}
-	}
+    }
 
-	/**Makes some hashes of the Oscar3 term map resources, for traceability
-	 * purposes.
-	 * 
-	 * @return A string detailing the various hashes.
-	 */
-	public static String makeHashes() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("neTerms: " + StringTools.mapToStableString(getNeTerms()).hashCode() + "\n");
-		sb.append("iePatterns: " + StringTools.mapToStableString(getIePatterns()).hashCode() + "\n");
-		sb.append("custEnt: " + StringTools.mapToStableString(getCustEnt()).hashCode() + "\n");
-		sb.append("structureTypes: " + StringTools.mapToStableString(getStructureTypes()).hashCode() + "\n");
-		sb.append("ontology: " + StringTools.mapToStableString(getOntology()).hashCode() + "\n");
-		return sb.toString();
-	}
-	
+
+    private Map<String, NamedEntityType> getNeTermMap(String filename, boolean concatenateTypes) throws Exception {
+        Map<String,String> termMap = getTermMap(filename, concatenateTypes);
+        Map<String,NamedEntityType> neTermMap = new HashMap<String, NamedEntityType>();
+        for (Map.Entry<String,String> e : termMap.entrySet()) {
+            neTermMap.put(e.getKey(), NamedEntityType.valueOf(e.getValue()));
+        }
+        return neTermMap;
+    }
+
 	private TermMaps() throws Exception {
 		logger.debug("Initialising term maps... ");
-		neTerms = getTermMap("neTerms.txt", false);
-		//add additional neTerms for polymers if set to polymer mode 
+		neTerms = getNeTermMap("neTerms.txt", false);
+		//add additional neTerms for polymers if set to polymer mode
 		if (OscarProperties.getData().polymerMode) {
-			Map <String, String> polyNeTerms = getTermMap("polyNeTerms.txt", false);
+			Map <String, NamedEntityType> polyNeTerms = getNeTermMap("polyNeTerms.txt", false);
 			neTerms.putAll(polyNeTerms);
 		}
 		iePatterns = getTermMap("iePatterns.txt", false);
@@ -159,48 +154,50 @@ public final class TermMaps {
 		} else {
 			ontology = new HashMap<String,String>();
 		}
-		digestSuffixes();		
+		digestSuffixes();
 		logger.debug("term maps initialised");
 	}
-	
-	/**Gets the term map for neTerms.txt.
-	 * 
+
+
+
+    /**Gets the term map for neTerms.txt.
+	 *
 	 * @return The term map.
 	 */
-	public static Map<String, String> getNeTerms() {
+	public static Map<String, NamedEntityType> getNeTerms() {
 		return getInstance().neTerms;
 	}
-	
+
 	/**Gets the term map for iePatterns.txt.
-	 * 
+	 *
 	 * @return The term map.
 	 */
 	public static Map<String, String> getIePatterns() {
 		return getInstance().iePatterns;
 	}
-	
+
 	static Map<String, String> getOntology() {
 		return getInstance().ontology;
 	}
 
 	/**Gets the term map for custEnt.txt.
-	 * 
+	 *
 	 * @return The term map.
 	 */
 	public static Map<String, String> getCustEnt() {
 		return getInstance().custEnt;
 	}
-	
+
 	/**Gets the term map for structureTypes.txt.
-	 * 
+	 *
 	 * @return The term map.
 	 */
 	public static Map<String, String> getStructureTypes() {
 		return getInstance().structureTypes;
 	}
-	
+
 	/**Gets a collection of suffixes harvested from neTerms.txt.
-	 * 
+	 *
 	 * @return A collection of suffixes harvested from neTerms.txt
 	 */
 	public static Set<String> getSuffixes() {

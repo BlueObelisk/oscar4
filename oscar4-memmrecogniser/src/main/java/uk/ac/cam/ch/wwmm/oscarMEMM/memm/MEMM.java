@@ -25,8 +25,8 @@ import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
@@ -55,7 +55,7 @@ public final class MEMM {
     private int featureCutOff;
 
     private Set<String> tagSet;
-    private Set<String> entityTypes;
+    private Set<NamedEntityType> namedEntityTypes;
 
     private boolean useUber = false;
     private boolean removeBlocked = false;
@@ -99,8 +99,8 @@ public final class MEMM {
         return tagSet;
     }
 
-    Set<String> getEntityTypes() {
-        return entityTypes;
+    Set<NamedEntityType> getNamedEntityTypes() {
+        return namedEntityTypes;
     }
 
     private void train(List<String> features, String thisTag, String prevTag) {
@@ -171,9 +171,11 @@ public final class MEMM {
     }
 
     private void makeEntityTypesAndZeroProbs() {
-        entityTypes = new HashSet<String>();
-        for(String tagType : tagSet) {
-            if(tagType.startsWith("B-") || tagType.startsWith("W-")) entityTypes.add(tagType.substring(2));
+        namedEntityTypes = new HashSet<NamedEntityType>();
+        for (String tagType : tagSet) {
+            if (tagType.startsWith("B-") || tagType.startsWith("W-")) {
+                namedEntityTypes.add(NamedEntityType.valueOf(tagType.substring(2)));
+            }
         }
         for(String tag : tagSet) {
             zeroProbs.put(tag, 0.0);

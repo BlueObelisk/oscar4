@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 
 /**A named entity, as found by one of the various routines in this package.
@@ -19,7 +20,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	private int startOffset;
 	private int endOffset;
 	private String surface;
-	private String type;
+	private NamedEntityType type;
 	private IToken endToken;
 	private List<IToken> tokens;
 	private Set<String> ontIds;
@@ -38,7 +39,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	 * @param surface The text string of the named entity.
 	 * @param type The type of the named entity.
 	 */
-	public NamedEntity(List<IToken> tokens, String surface, String type) {
+	public NamedEntity(List<IToken> tokens, String surface, NamedEntityType type) {
 		confidence = Double.NaN;
 		pseudoConfidence = Double.NaN;
 		deprioritiseOnt = false;
@@ -69,7 +70,7 @@ public final class NamedEntity extends ResolvableStandoff {
 		ne.startOffset = t.getStart();
 		ne.endOffset = ne.startOffset + prefix.length();
 		ne.surface = prefix;
-		ne.type = NamedEntityTypes.LOCANTPREFIX;
+		ne.type = NamedEntityType.LOCANTPREFIX;
 		ne.ontIds = null;
 		ne.custTypes = null;
 		ne.addPunctuation();
@@ -87,7 +88,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	 * 
 	 * @return The type of the named entity.
 	 */
-	public String getType() {
+	public NamedEntityType getType() {
 		return type;
 	}
 		
@@ -95,7 +96,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	 * 
 	 * @param type The type of the named entity.
 	 */
-	public void setType(String type) {
+	public void setType(NamedEntityType type) {
 		this.type = type;
 	}
 	
@@ -277,7 +278,7 @@ public final class NamedEntity extends ResolvableStandoff {
 	public int compareTypeTo(ResolvableStandoff other) {
 		if(other instanceof NamedEntity) {
 			NamedEntity otherNe = (NamedEntity)other;
-			return NamedEntityTypes.getPriority(type).compareTo(NamedEntityTypes.getPriority(otherNe.type));
+			return Integer.valueOf(getType().getPriority()).compareTo(otherNe.getType().getPriority());
 		} else {
 			return 0;
 		}

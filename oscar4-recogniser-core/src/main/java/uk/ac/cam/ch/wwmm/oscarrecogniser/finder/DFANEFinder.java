@@ -1,24 +1,16 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-
 import org.apache.log4j.Logger;
-
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
@@ -26,6 +18,10 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TLRHolder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenLevelRegex;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenTypes;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
 
 /** A subclass of DFAFinder, used to find named entities.
  *
@@ -90,17 +86,17 @@ public class DFANEFinder extends DFAFinder {
         }
         logger.debug("Adding ontology terms to DFA finder...");
         for(String s : OntologyTerms.getAllTerms()){
-            addNamedEntity(s, NamedEntityTypes.ONTOLOGY, false);
+            addNamedEntity(s, NamedEntityType.ONTOLOGY, false);
         }
         logger.debug("Adding custom NEs ...");
         for(String s : TermMaps.getCustEnt().keySet()){
-            addNamedEntity(s, NamedEntityTypes.CUSTOM, true);
+            addNamedEntity(s, NamedEntityType.CUSTOM, true);
         }
         logger.debug("Adding names from ChemNameDict to DFA finder...");
         try {
             for(String s : ChemNameDictSingleton.getAllNames()) {
                 // System.out.println(s);
-                addNamedEntity(s, NamedEntityTypes.COMPOUND, false);
+                addNamedEntity(s, NamedEntityType.COMPOUND, false);
             }
         } catch (Exception e) {
             System.err.println("Couldn't add names from ChemNameDict!");

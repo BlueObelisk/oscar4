@@ -23,6 +23,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -103,11 +104,12 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 */
 	public static DFAONTCPRFinder getInstance() {
 		if (myInstance == null) {
-            try {
-    			myInstance = readFromWorkspace();
-            } catch (IOException e) {
-                throw new RuntimeException("Error loading DFAONTCPRFinder data", e);
-            }
+//            try {
+//    			myInstance = readFromWorkspace();
+//            } catch (IOException e) {
+//                throw new RuntimeException("Error loading DFAONTCPRFinder data", e);
+//            }
+            myInstance = new DFAONTCPRFinder();
 		}
 		return myInstance;
 	}
@@ -148,12 +150,12 @@ public class DFAONTCPRFinder extends DFAFinder {
 	protected void loadTerms() {
 //		logger.debug("Adding ontology terms to DFA finder...");
 		for(String s : OntologyTerms.getAllTerms()){
-			addNamedEntity(s, NamedEntityTypes.ONTOLOGY, false);
+			addNamedEntity(s, NamedEntityType.ONTOLOGY, false);
 		}
 		for(String s : TermMaps.getCustEnt().keySet()){
-			addNamedEntity(s, NamedEntityTypes.CUSTOM, true);
+			addNamedEntity(s, NamedEntityType.CUSTOM, true);
 		}
-		addNamedEntity("$ONTWORD", NamedEntityTypes.ONTOLOGY, false);
+		addNamedEntity("$ONTWORD", NamedEntityType.ONTOLOGY, false);
 	}
 	
 	/**Finds the ONT/CPR/CUST NEs from a token sequence.

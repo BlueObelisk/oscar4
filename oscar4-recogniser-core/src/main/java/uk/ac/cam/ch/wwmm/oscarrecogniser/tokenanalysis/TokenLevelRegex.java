@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import nu.xom.Element;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
 /** A regular expression used to classify individual Tokens.
  * 
@@ -15,12 +16,12 @@ import nu.xom.Element;
 public class TokenLevelRegex {
 	
 	private String regex;
-	private String type;
+	private NamedEntityType type;
 	private Pattern pattern;
 	private String name;
 	
 	public TokenLevelRegex(Element elem, TLRHolder tlrHolder) {
-		type = elem.getAttributeValue("type");
+		type = NamedEntityType.valueOf(elem.getAttributeValue("type"));
 		String idRef = elem.getAttributeValue("idref");
 		regex = tlrHolder.getDefText(idRef);
 		name = elem.getAttributeValue("name");
@@ -32,7 +33,7 @@ public class TokenLevelRegex {
 		return m.matches();
 	}
 	
-	public String getType() {
+	public NamedEntityType getType() {
 		return type;
 	}
 	

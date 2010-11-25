@@ -10,6 +10,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.FeatureSet;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
@@ -229,14 +230,14 @@ public final class FeatureExtractor {
 			List<String> local, IToken token) {
 		double ngscore = NGram.getInstance().testWord(word);
 		// Already seen
-		String type = TokenTypes.getTypeForSuffix(token.getValue());
+		NamedEntityType namedEntityType = TokenTypes.getTypeForSuffix(token.getValue());
 		ngscore = Math.max(ngscore, NGRAM_SCORE_LOWER_BOUND);
 		ngscore = Math.min(ngscore, NGRAM_SCORE_UPPER_BOUND);
 		for (int i = 0; i < ngscore; i++) {
-			local.add((NGRAM_INC_FEATURE + type).intern());
+			local.add((NGRAM_INC_FEATURE + namedEntityType.getName()).intern());
 		}
 		for (int i = 0; i > ngscore; i--) {
-			local.add((NGRAM_DEC_FEATURE + type).intern());
+			local.add((NGRAM_DEC_FEATURE + namedEntityType.getName()).intern());
 		}
 
 		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
@@ -251,8 +252,8 @@ public final class FeatureExtractor {
 		}
 
 		if (ngscore > 0) {
-			contextable.add(SUFFIX_CT_FEATURE + type);
-			bigramable.add(SUFFIX_CT_FEATURE + type);
+			contextable.add(SUFFIX_CT_FEATURE + namedEntityType.getName());
+			bigramable.add(SUFFIX_CT_FEATURE + namedEntityType.getName());
 		}
 	}
 
@@ -260,15 +261,15 @@ public final class FeatureExtractor {
 			List<String> bigramable, List<String> contextable,
 			List<String> local, IToken token) {
 		double suffixScore = NGram.getInstance().testWordSuffix(word);
-		String type = TokenTypes.getTypeForSuffix(token.getValue());
+		NamedEntityType namedEntityType = TokenTypes.getTypeForSuffix(token.getValue());
 
 		suffixScore = Math.max(suffixScore, SUFFIX_SCORE_LOWER_BOUND);
 		suffixScore = Math.min(suffixScore, SUFFIX_SCORE_UPPER_BOUND);
 		for (int i = 0; i < suffixScore; i++) {
-			local.add((SUFFIX_SCORE_INC_FEATURE + type).intern());
+			local.add((SUFFIX_SCORE_INC_FEATURE + namedEntityType.getName()).intern());
 		}
 		for (int i = 0; i > suffixScore; i--) {
-			local.add((SUFFIX_SCORE_DEC_FEATURE + type).intern());
+			local.add((SUFFIX_SCORE_DEC_FEATURE + namedEntityType.getName()).intern());
 		}
 
 		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
@@ -285,15 +286,15 @@ public final class FeatureExtractor {
 		ngscore = Math.max(ngscore, NGRAM_SCORE_LOWER_BOUND);
 		ngscore = Math.min(ngscore, NGRAM_SCORE_UPPER_BOUND);
 		for (int i = 0; i < ngscore; i++) {
-			local.add((NGRAMSCORE_INC_FEATURE + type).intern());
+			local.add((NGRAMSCORE_INC_FEATURE + namedEntityType.getName()).intern());
 		}
 		for (int i = 0; i > ngscore; i--) {
-			local.add((NGRAMSCORE_DEC_FEATURE + type).intern());
+			local.add((NGRAMSCORE_DEC_FEATURE + namedEntityType.getName()).intern());
 		}
 
 		if (suffixScore > 0) {
-			contextable.add(SUFFIX_CT_FEATURE + type);
-			bigramable.add(SUFFIX_CT_FEATURE + type);
+			contextable.add(SUFFIX_CT_FEATURE + namedEntityType.getName());
+			bigramable.add(SUFFIX_CT_FEATURE + namedEntityType.getName());
 		}
 	}
 

@@ -1,5 +1,14 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
@@ -9,24 +18,9 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
-import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.Token;
-import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
-import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
-import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
-import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /** A subclass of DFAFinder, used to find named entities that are not found 
  * by the MEMM. Currently handles CUST as well as ONT and CPR.

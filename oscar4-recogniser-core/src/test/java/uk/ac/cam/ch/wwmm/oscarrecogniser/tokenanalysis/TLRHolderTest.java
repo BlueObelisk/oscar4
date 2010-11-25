@@ -8,7 +8,7 @@ public class TLRHolderTest {
 
 	@Test
 	public void testConstructor() {
-		Assert.assertNotNull(TLRHolder.getInstance());
+		Assert.assertNotNull(TokenLevelRegexHolder.getInstance());
 	}
 
 }

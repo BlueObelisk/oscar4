@@ -32,15 +32,7 @@ final class FeatureExtractor {
 	Map<String,Double> averageScores;
 	Map<String,Double> maxScores;
 	Map<String,List<String>> abbrevFeatures;
-	
-	public static double probToLogit(double p) {
-		return Math.log(p) - Math.log(1-p);
-	}
-	
-	public static double logitToProb(double l) {
-		return Math.exp(l) / (Math.exp(l) + 1);
-	}
-	
+		
 	Pattern allCaps = Pattern.compile("[A-Z]+");
 	
 	public FeatureExtractor(List<NamedEntity> entities) {
@@ -98,7 +90,7 @@ final class FeatureExtractor {
 						}
 						if(surf.matches(".*\\s.*")) abbrMode += "wws:";
 						for(double lthresh = -5.0;lthresh < 5.05;lthresh += 0.5) {
-							double thresh = logitToProb(lthresh);
+							double thresh = ProbabilityConvertor.logitToProb(lthresh);
 							if(maybeAbbrev.getConfidence() > thresh) {
 								featuresForAbbrev.add(abbrMode + "abbr>" + thresh);
 							} else {

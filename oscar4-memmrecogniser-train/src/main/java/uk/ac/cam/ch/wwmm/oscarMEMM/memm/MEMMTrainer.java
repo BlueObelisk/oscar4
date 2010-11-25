@@ -25,11 +25,11 @@ import opennlp.maxent.TwoPassDataIndexer;
 
 import org.apache.log4j.Logger;
 
-import uk.ac.cam.ch.wwmm.oscar.document.IOldProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.OldProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
@@ -179,7 +179,7 @@ public final class MEMMTrainer {
 			}
 		}
 		
-		IOldProcessingDocument procDoc = OldProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+		IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getInstance(), doc, true, false, false);
 
 		for(ITokenSequence ts : procDoc.getTokenSequences()) {
@@ -460,7 +460,7 @@ public final class MEMMTrainer {
 		for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 		
 		
-		IOldProcessingDocument procDoc = OldProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+		IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getInstance(), doc, true, false, false);
 		//NameRecogniser nr = new NameRecogniser();
 		//nr.halfProcess(doc);

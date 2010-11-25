@@ -7,7 +7,7 @@ import java.util.Map;
 
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
 /**Holds a paragraph, and detects probable sequences of tags.
  * 
@@ -48,25 +48,25 @@ final class EntityTokeniser {
 
 	}
 	
-	public double probEntityStartsAt(String entityType, int position) {
-		return alphas.get(position).get("B-"+entityType);			
+	public double probEntityStartsAt(NamedEntityType namedEntityType, int position) {
+		return alphas.get(position).get("B-"+namedEntityType.getName());			
 	}
 
 	
-	public double probEntityAt(String entityType, int startPosition, int length) {
+	public double probEntityAt(NamedEntityType namedEntityType, int startPosition, int length) {
 		if(startPosition+length > this.length) return 0.0;
 		// First: everything up to the start tag(inclusive)
-		double score = alphas.get(startPosition).get("B-"+entityType);
+		double score = alphas.get(startPosition).get("B-"+ namedEntityType.getName());
 		// Second: the body of the entity - the second and subsequent tags
 		for(int i=startPosition+1;i<startPosition+length;i++) {
-			String prevTag = "I-" + entityType;
+			String prevTag = "I-" + namedEntityType.getName();
 			if(i == startPosition+1) {
-				prevTag = "B-" + entityType;
+				prevTag = "B-" + namedEntityType.getName();
 			}
-			if(!classifierResults.get(i).get(prevTag).containsKey("I-" + entityType)) {
+			if(!classifierResults.get(i).get(prevTag).containsKey("I-" + namedEntityType.getName())) {
 				return 0;
 			} else {
-				score *= classifierResults.get(i).get(prevTag).get("I-" + entityType);				
+				score *= classifierResults.get(i).get(prevTag).get("I-" + namedEntityType.getName());
 			}
 		}
 		// Third: leave the entity
@@ -74,8 +74,8 @@ final class EntityTokeniser {
 		if(afterPosition == this.length) {
 			return score;
 		} else {
-			String prevTag = "I-" + entityType;
-			if(length == 1) prevTag = "B-" + entityType;
+			String prevTag = "I-" + namedEntityType.getName();
+			if(length == 1) prevTag = "B-" + namedEntityType.getName();
 			double afterTotal = 0.0;
 			for(String tag : classifierResults.get(afterPosition).keySet()) {
 				if(tag.startsWith("I-")) continue;
@@ -89,11 +89,11 @@ final class EntityTokeniser {
 	public Map<NamedEntity,Double> getEntities(double threshold) {
 		Map<NamedEntity,Double> entities = new HashMap<NamedEntity,Double>();
 		for(int i=0;i<length;i++) {
-			for(String entityType : memm.getEntityTypes()) {
-				double entitiesProb = probEntityStartsAt(entityType, i);
+			for(NamedEntityType namedEntityType : memm.getNamedEntityTypes()) {
+				double entitiesProb = probEntityStartsAt(namedEntityType, i);
 				if(entitiesProb > threshold) {
 					for(int j=1;j<=length-i;j++) {
-						double entityProb = probEntityAt(entityType, i, j);
+						double entityProb = probEntityAt(namedEntityType, i, j);
 						if(entityProb > threshold) {
 							
 							int startOffset = tokSeq.getToken(i).getStart();
@@ -101,10 +101,10 @@ final class EntityTokeniser {
 							//System.out.println(tokSeq.getToken(i).getValue()+" with a start of"+tokSeq.getToken(i).getStart()+" with an end of "+tokSeq.getToken(i).getEnd());
 							String entityStr = tokSeq.getStringAtOffsets(startOffset, endOffset);
     						//System.err.println("Entity str " +entityStr);
-							String finalEntityType = entityType;
-							if(finalEntityType.equals("NCM")) entityType = NamedEntityTypes.COMPOUND;
-							if(finalEntityType.equals("NRN")) entityType = NamedEntityTypes.REACTION;
-							NamedEntity ne = new NamedEntity(tokSeq.getTokens(i,i+j-1), entityStr, entityType);
+							NamedEntityType finalEntityType = namedEntityType;
+							if(NamedEntityType.valueOf("NCM").equals(finalEntityType)) namedEntityType = NamedEntityType.COMPOUND;
+							if(NamedEntityType.valueOf("NRN").equals(finalEntityType)) namedEntityType = NamedEntityType.REACTION;
+							NamedEntity ne = new NamedEntity(tokSeq.getTokens(i,i+j-1), entityStr, namedEntityType);
 							ne.setConfidence(entityProb);
 							entities.put(ne, entityProb);
 						}

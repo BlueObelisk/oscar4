@@ -27,6 +27,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
@@ -287,7 +288,7 @@ public final class MEMMTester {
 					System.out.println(s);
 					Matcher m = nePattern.matcher(s);
 					if(m.matches()) {
-						System.out.println(PostProcessor.filterEntity(m.group(2), m.group(1)));
+						System.out.println(PostProcessor.filterEntity(m.group(2), NamedEntityType.valueOf(m.group(1))));
 					}
 				}
 				

@@ -31,6 +31,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
@@ -45,8 +46,8 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  */
 public final class RescoreMEMMOut {
 
-	Map<String,List<Event>> eventsByType;
-	Map<String,GISModel> modelsByType;
+	Map<NamedEntityType,List<Event>> eventsByNamedEntityType;
+	Map<NamedEntityType,GISModel> modelsByNamedEntityType;
 	List<Double> goodProbsBefore;
 	List<Double> goodProbsAfter;
 	List<Double> badProbsBefore;
@@ -87,7 +88,7 @@ public final class RescoreMEMMOut {
 	 * model for it to work.
 	 */
 	public RescoreMEMMOut() {
-		eventsByType = new HashMap<String,List<Event>>();
+		eventsByNamedEntityType = new HashMap<NamedEntityType,List<Event>>();
 		grandTotalGain = 0.0;
 		
 		goodProbsBefore = new ArrayList<Double>();
@@ -162,9 +163,9 @@ public final class RescoreMEMMOut {
 				isEntity = "F";
 			}
 			List<String> features = fe.getFeatures(entity);
-			String type = entity.getType();
-			if(!eventsByType.containsKey(type)) eventsByType.put(type, new ArrayList<Event>());
-			eventsByType.get(type).add(new Event(isEntity, features.toArray(new String[0])));
+			NamedEntityType namedEntityType = entity.getType();
+			if(!eventsByNamedEntityType.containsKey(namedEntityType)) eventsByNamedEntityType.put(namedEntityType, new ArrayList<Event>());
+			eventsByNamedEntityType.get(namedEntityType).add(new Event(isEntity, features.toArray(new String[0])));
 		}
 	}
 	
@@ -174,13 +175,13 @@ public final class RescoreMEMMOut {
 	 * @throws Exception
 	 */
 	public void finishTraining() throws Exception {
-		modelsByType = new HashMap<String,GISModel>();
-		for(String type : eventsByType.keySet()) {
+		modelsByNamedEntityType = new HashMap<NamedEntityType,GISModel>();
+		for(NamedEntityType type : eventsByNamedEntityType.keySet()) {
 			DataIndexer di = null;
-			List<Event> evs = eventsByType.get(type);
+			List<Event> evs = eventsByNamedEntityType.get(type);
 			if(evs.size() == 1) evs.add(evs.get(0));
 			di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), 1);
-			modelsByType.put(type, GIS.trainModel(trainingCycles, di));
+			modelsByNamedEntityType.put(type, GIS.trainModel(trainingCycles, di));
 		}
 	}
 	
@@ -194,9 +195,9 @@ public final class RescoreMEMMOut {
 
 		for(NamedEntity entity : entities) {
 			List<String> features = fe.getFeatures(entity);
-			String type = entity.getType();
-			if(modelsByType.containsKey(type)) {
-				GISModel model = modelsByType.get(type);
+			NamedEntityType namedEntityType = entity.getType();
+			if(modelsByNamedEntityType.containsKey(namedEntityType)) {
+				GISModel model = modelsByNamedEntityType.get(namedEntityType);
 				if(model.getNumOutcomes() == 2) {
 					double prob = model.eval(features.toArray(new String[0]))[model.getIndex("T")];
 					entity.setConfidence(prob);
@@ -255,9 +256,9 @@ public final class RescoreMEMMOut {
 				System.out.println("\tBAD");
 			}*/
 			List<String> features = fe.getFeatures(entity);
-			String type = entity.getType();
-			if(modelsByType.containsKey(type)) {
-				GISModel model = modelsByType.get(type);
+			NamedEntityType namedEntityType = entity.getType();
+			if(modelsByNamedEntityType.containsKey(namedEntityType)) {
+				GISModel model = modelsByNamedEntityType.get(namedEntityType);
 				if(model.getNumOutcomes() == 2) {
 					double prob = model.eval(features.toArray(new String[0]))[model.getIndex("T")];
 					//System.out.println(entity.getConfidence() + "\t->\t" + prob);
@@ -306,10 +307,10 @@ public final class RescoreMEMMOut {
 	 */
 	public Element writeElement() throws Exception {
 		Element root = new Element("rescorer");
-		for(String type : modelsByType.keySet()) {
+		for(NamedEntityType namedEntityType : modelsByNamedEntityType.keySet()) {
 			Element maxent = new Element("maxent");
-			maxent.addAttribute(new Attribute("type", type));
-			StringGISModelWriter sgmw = new StringGISModelWriter(modelsByType.get(type));
+			maxent.addAttribute(new Attribute("type", namedEntityType.getName()));
+			StringGISModelWriter sgmw = new StringGISModelWriter(modelsByNamedEntityType.get(namedEntityType));
 			sgmw.persist();
 			maxent.appendChild(sgmw.toString());
 			root.appendChild(maxent);
@@ -326,13 +327,13 @@ public final class RescoreMEMMOut {
 	 */
 	public void readElement(Element elem) throws Exception {
 		Elements maxents = elem.getChildElements("maxent");
-		modelsByType = new HashMap<String,GISModel>();
+		modelsByNamedEntityType = new HashMap<NamedEntityType,GISModel>();
 		for(int i=0;i<maxents.size();i++) {
 			Element maxent = maxents.get(i);
-			String type = maxent.getAttributeValue("type");
+			NamedEntityType namedEntityType = NamedEntityType.valueOf(maxent.getAttributeValue("type"));
 			StringGISModelReader sgmr = new StringGISModelReader(maxent.getValue());
 			GISModel gm = sgmr.getModel();
-			modelsByType.put(type, gm);
+			modelsByNamedEntityType.put(namedEntityType, gm);
 		}		
 	}
 	

@@ -1,9 +1,10 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
+import dk.brics.automaton.RunAutomaton;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import dk.brics.automaton.RunAutomaton;
 
 /** A class to hold DFA state, used by DFANEFinder.
  * 
@@ -15,10 +16,10 @@ public class AutomatonState implements Cloneable {
     private int state;
 	private int startToken;
 	private RunAutomaton aut;
-	private String type;
+	private NamedEntityType type;
 	private List<String> reps;
 	
-	AutomatonState(RunAutomaton a, String type, int st) {
+	AutomatonState(RunAutomaton a, NamedEntityType type, int st) {
 		aut = a;
 		startToken = st;
 		state = a.getInitialState();
@@ -26,7 +27,7 @@ public class AutomatonState implements Cloneable {
 		reps = new ArrayList<String>();
 	}
 
-	private AutomatonState(RunAutomaton a, String type, int state, int st, List<String> reps) {
+	private AutomatonState(RunAutomaton a, NamedEntityType type, int state, int st, List<String> reps) {
 		aut = a;
 		startToken = st;
 		this.state = state;
@@ -42,7 +43,7 @@ public class AutomatonState implements Cloneable {
         return startToken;
     }
 
-    public String getType() {
+    public NamedEntityType getType() {
         return type;
     }
 

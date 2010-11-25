@@ -13,8 +13,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenLevelRegexHolder;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenLevelRegex;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenClassifier;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenTypes;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
@@ -152,13 +151,10 @@ public class DFANEFinder extends DFAFinder {
                 tokenRepresentations.add("$DOTS");
             }
         }
-        for (TokenLevelRegex tokenLevelRegex : TokenLevelRegexHolder.getInstance().parseToken(value)) {
-            if (NamedEntityType.PROPERNOUN.equals(tokenLevelRegex.getType())) {
-                if (value.matches("[A-Z][a-z]+") && TermSets.getDefaultInstance().getUsrDictWords().contains(value.toLowerCase()) && !TermSets.getDefaultInstance().getUsrDictWords().contains(value)) tokenLevelRegex = null;
-//				if (ExtractTrainingData.getInstance().pnStops.contains(t.getValue())) tlr = null;
-            }
-            if (tokenLevelRegex != null) {
-                tokenRepresentations.add("$"+ tokenLevelRegex.getType());
+        for (NamedEntityType namedEntityType : TokenClassifier.getInstance().classifyToken(value)) {
+            if (!NamedEntityType.PROPERNOUN.equals(namedEntityType)
+                    || !(value.matches("[A-Z][a-z]+") && TermSets.getDefaultInstance().getUsrDictWords().contains(value.toLowerCase()) && !TermSets.getDefaultInstance().getUsrDictWords().contains(value))) {
+                tokenRepresentations.add("$"+ namedEntityType.getName());
             }
         }
         boolean stopWord = false;
@@ -169,7 +165,7 @@ public class DFANEFinder extends DFAFinder {
             if (lastGroup == null || lastGroup.equals("")) {
                 tokenRepresentations.add("$" + NamedEntityType.LOCANTPREFIX.getName());
             } else {
-                if (TokenLevelRegexHolder.getInstance().macthesTlr(lastGroup, "formulaRegex")) {
+                if (TokenClassifier.getInstance().macthesTlr(lastGroup, "formulaRegex")) {
                     tokenRepresentations.add("$CPR_FORMULA");
                 }
                 if (TermSets.getDefaultInstance().getStopWords().contains(lastGroupNorm) ||

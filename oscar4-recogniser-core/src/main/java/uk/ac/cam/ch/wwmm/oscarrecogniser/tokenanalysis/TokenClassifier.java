@@ -7,11 +7,14 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import nu.xom.Document;
 import nu.xom.Element;
@@ -24,22 +27,23 @@ import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 
 /** A regex-based parser, finds chemical formulae etcetera.
  *
  * @author  caw47, annexed by ptc24
  */
-public class TokenLevelRegexHolder {
+public class TokenClassifier {
 
-    private final Logger logger = Logger.getLogger(TokenLevelRegexHolder.class);
+    private final Logger logger = Logger.getLogger(TokenClassifier.class);
 
     private static ResourceGetter rg = new ResourceGetter("/uk/ac/cam/ch/wwmm/oscarrecogniser/tokenanalysis/");
 
     // Singleton instance
-    private static TokenLevelRegexHolder defaultInstance = null;
+    private static TokenClassifier defaultInstance = null;
 
-    private List<TokenLevelRegex> tokenLevelRegexs;
+    private List<TokenClass> tokenLevelRegexs;
 
     private Map<String,String> nodeDict;
 
@@ -48,7 +52,7 @@ public class TokenLevelRegexHolder {
     /**
      * Private constructor for singleton pattern
      */
-    private TokenLevelRegexHolder() { }
+    private TokenClassifier() { }
 
     public static void reinitialise() throws Exception {
         defaultInstance = null;
@@ -58,10 +62,10 @@ public class TokenLevelRegexHolder {
     /**
      * Get an instance of the singleton.
      */
-    public static TokenLevelRegexHolder getInstance()  {
+    public static TokenClassifier getInstance()  {
         try {
             if (defaultInstance == null) {
-                defaultInstance = new TokenLevelRegexHolder();
+                defaultInstance = new TokenClassifier();
                 defaultInstance.readXML(rg.getXMLDocument("tlrs.xml"));
             }
             return defaultInstance;
@@ -80,10 +84,10 @@ public class TokenLevelRegexHolder {
         doc = document;
         nodeDict = new HashMap<String,String>();
 
-        tokenLevelRegexs = new ArrayList<TokenLevelRegex>();
+        tokenLevelRegexs = new ArrayList<TokenClass>();
         Elements tlrElems = doc.getRootElement().getFirstChildElement("tlrs").getChildElements("tlr");
         for (int i = 0; i < tlrElems.size(); i++) {
-            TokenLevelRegex tlr = new TokenLevelRegex(tlrElems.get(i), this);
+            TokenClass tlr = new TokenClass(tlrElems.get(i), this);
             if(!OscarProperties.getData().useFormulaRegex &&
                     ("formulaRegex".equals(tlr.getName()) ||
                             "groupFormulaRegex".equals(tlr.getName()))) continue;
@@ -163,22 +167,28 @@ public class TokenLevelRegexHolder {
     /**Sees if the token matches one of the tlrs.
      *
      * @param token
-     * @return The named entity type found, or null.
+     * @return The named entity type found, or an empty set.
      */
-    public Set<TokenLevelRegex> parseToken(String token) {
-        //System.out.println("tlrs: " + token);
-        Set<TokenLevelRegex> tlrSet = new HashSet<TokenLevelRegex>();
-        for(TokenLevelRegex tlr : tokenLevelRegexs) {
-            //System.out.println(tlr.getName());
-            if(tlr.matches(token)) tlrSet.add(tlr);
+    public Set<NamedEntityType> classifyToken(String token) {
+        Set<NamedEntityType> results = Collections.emptySet();
+        for (TokenClass tokenLevelRegex : tokenLevelRegexs) {
+            if (tokenLevelRegex.matches(token)) {
+                if (results.isEmpty()) {
+                    results = Collections.singleton(tokenLevelRegex.getType());
+                } else {
+                    if (results.size() == 1) {
+                        results = new HashSet<NamedEntityType>(results);
+                    }
+                    results.add(tokenLevelRegex.getType());
+                }
+            }
         }
-        //System.out.println("done!");
-        return tlrSet;
+        return results;
     }
 
     // FIXME optimality
     public boolean macthesTlr(String token, String tlrName) {
-        for(TokenLevelRegex tlr : tokenLevelRegexs) {
+        for(TokenClass tlr : tokenLevelRegexs) {
             if(tlr.getName().equals(tlrName)) {
                 return tlr.matches(token);
             }
@@ -190,4 +200,39 @@ public class TokenLevelRegexHolder {
         return XOMTools.documentHash(doc);
     }
 
+    /** A regular expression used to classify individual Tokens.
+     *
+     * @author ptc24
+     *
+     */
+
+    static class TokenClass {
+
+        private String regex;
+        private NamedEntityType type;
+        private Pattern pattern;
+        private String name;
+
+        public TokenClass(Element elem, TokenClassifier tlrHolder) {
+            type = NamedEntityType.valueOf(elem.getAttributeValue("type"));
+            String idRef = elem.getAttributeValue("idref");
+            regex = tlrHolder.getDefText(idRef);
+            name = elem.getAttributeValue("name");
+            pattern = Pattern.compile(regex, Pattern.COMMENTS);
+        }
+
+        public boolean matches(String s) {
+            Matcher m = pattern.matcher(s);
+            return m.matches();
+        }
+
+        public NamedEntityType getType() {
+            return type;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+    }
 }

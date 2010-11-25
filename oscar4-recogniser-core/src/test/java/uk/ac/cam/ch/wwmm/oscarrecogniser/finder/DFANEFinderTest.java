@@ -3,6 +3,7 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 import org.junit.Test;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 import java.util.ArrayList;
@@ -33,9 +34,9 @@ public class DFANEFinderTest {
         List<String> found = new ArrayList<String>();
         for (NamedEntity ne : namedEntityList) {
             StringBuilder sb = new StringBuilder("[NE:");
-            String type = ne.getType();
-            if (type.endsWith("b")) {
-                type = type.substring(0, type.length()-1);
+            NamedEntityType type = ne.getType();
+            if (type.getParent() != null) {
+                type = type.getParent();
             }
             sb.append(type).append(':').append(ne.getStart()).append(':').append(ne.getEnd()).append(':').append(ne.getSurface()).append(']');
             found.add(sb.toString());

@@ -16,7 +16,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenTypes;
 
@@ -47,29 +47,30 @@ final class PostProcessor {
 
 	public static int filterEntity(NamedEntity ne) {
 		String surf = ne.getSurface();
-		String type = ne.getType();
-		return filterEntity(surf, type);
+		NamedEntityType namedEntityType = ne.getType();
+		return filterEntity(surf, namedEntityType);
 	}
 
-	public static int filterEntity(String surf, String type) {
+	public static int filterEntity(String surf, NamedEntityType namedEntityType) {
 		//GetDataFromModels dataModel = new GetDataFromModels();
 
 		surf = surf.replaceAll("\\s+", " ");
-		if (!surf.matches(".*[a-zA-Z].*") && !type.equals(NamedEntityTypes.LOCANTPREFIX)) {
+		if (!surf.matches(".*[a-zA-Z].*") && !NamedEntityType.LOCANTPREFIX.isInstance(namedEntityType)) {
 			return 1;
-		} else if (type.equals(NamedEntityTypes.ASE) && !asePattern.matcher(surf).matches()) {
+		} else if (NamedEntityType.ASE.isInstance(namedEntityType) && !asePattern.matcher(surf).matches()) {
 			return 2;
-		} else if (type.equals(NamedEntityTypes.ADJECTIVE) && !cjPattern.matcher(surf).matches()) {
+		} else if (NamedEntityType.ADJECTIVE.isInstance(namedEntityType) && !cjPattern.matcher(surf).matches()) {
 			return 3;
-		} else if (type.equals(NamedEntityTypes.REACTION)
+		} else if (NamedEntityType.REACTION.isInstance(namedEntityType)
 				&& !(rnPattern.matcher(surf).matches() || !surf
 						.matches(".*[a-zA-Z].*"))) {
 			return 4;
-		} else if (type.equals(NamedEntityTypes.LOCANTPREFIX)
+		} else if (NamedEntityType.LOCANTPREFIX.isInstance(namedEntityType)
 				&& !surf.matches(".+[" + StringTools.hyphens + "]")) {
 			return 5;
-		} else if ((type.equals(NamedEntityTypes.LOCANTPREFIX) || type.equals(NamedEntityTypes.ADJECTIVE) || type
-				.equals(NamedEntityTypes.ASE))
+		} else if ((NamedEntityType.LOCANTPREFIX.isInstance(namedEntityType)
+                || NamedEntityType.ADJECTIVE.isInstance(namedEntityType)
+                || NamedEntityType.ASE.isInstance(namedEntityType))
 				&& surf.matches(".+ .+")) {
 			return 6;
 		} else if (TermSets.getDefaultInstance().getClosedClass().contains(surf)) {
@@ -87,7 +88,7 @@ final class PostProcessor {
 				&& surf.matches(".*\\s.*")) {
 			return 11;
 			// Fix things for alternate annotation scheme
-		}  else if((type.length() < 4) && (!noPC &&
+		}  else if ((namedEntityType.getName().length() < 4) && (!noPC &&
 			 ExtractedTrainingData.getInstance().nonChemicalWords.contains(surf)))
 			 {
 //		else if ((type.length() < 4)

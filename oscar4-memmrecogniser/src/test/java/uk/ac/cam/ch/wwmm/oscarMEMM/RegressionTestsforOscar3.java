@@ -17,6 +17,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
@@ -183,7 +184,7 @@ public class RegressionTestsforOscar3 {
 
 		List<String> actualSurfaceList = new ArrayList<String>();
 		List<Object> actualProbList = new ArrayList<Object>();
-		List<String> actualTypeList = new ArrayList<String>();
+		List<NamedEntityType> actualTypeList = new ArrayList<NamedEntityType>();
 		for (NamedEntity namedEntity : neList) {
 			// Using a count to differentiate between duplicates in a list
 			int count = 1;
@@ -204,7 +205,7 @@ public class RegressionTestsforOscar3 {
 				int index = expectedSurfaceList.indexOf(surface);
 				Assert.assertEquals("Type for " + namedEntity.getSurface(),
 						expectedTypeList.get(index), namedEntity.getType());
-				if (!namedEntity.getType().contains("ONT")) {
+				if (!NamedEntityType.ONTOLOGY.isInstance(namedEntity.getType())) {
 					Assert.assertEquals(
 							"Probability for " + namedEntity.getSurface(),
 							expectedProbList.get(index),

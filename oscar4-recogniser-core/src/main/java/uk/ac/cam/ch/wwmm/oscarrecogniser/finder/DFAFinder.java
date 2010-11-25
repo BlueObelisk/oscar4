@@ -18,6 +18,7 @@ import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.tools.RegExUtils;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -43,9 +44,9 @@ public abstract class DFAFinder implements Serializable {
 //	private final Logger logger = Logger.getLogger(DFAFinder.class);
 
 	private static final long serialVersionUID = 6130629462990087075L;
-	protected Map<String, List<Automaton>> autLists = new HashMap<String, List<Automaton>>();//mapping between token type and automata. Possibly these automata are only used when performing Pattern based entity recognition
-	protected Map<String, SuffixTree> simpleAuts = new HashMap<String, SuffixTree>();
-	protected Map<String, RunAutomaton> runAuts = new HashMap<String, RunAutomaton>();
+	protected Map<NamedEntityType, List<Automaton>> autLists = new HashMap<NamedEntityType, List<Automaton>>();//mapping between token type and automata. Possibly these automata are only used when performing Pattern based entity recognition
+	protected Map<NamedEntityType, SuffixTree> simpleAuts = new HashMap<NamedEntityType, SuffixTree>();
+	protected Map<NamedEntityType, RunAutomaton> runAuts = new HashMap<NamedEntityType, RunAutomaton>();
 	protected final Map<String,String> tokenToRep = new HashMap<String,String>();//mapping between token strings and a unique representation code, usually an integer
 	protected Set<String> literals = new HashSet<String>();
 	protected int tokenId = 0;
@@ -55,7 +56,7 @@ public abstract class DFAFinder implements Serializable {
 	
 	protected Map<String,Integer> ontIdToIntId = new HashMap<String,Integer>();
 	protected List<String> ontIds = new ArrayList<String>();
-	protected Map<String,Map<Integer,Set<String>>> runAutToStateToOntIds;
+	protected Map<NamedEntityType,Map<Integer,Set<String>>> runAutToStateToOntIds;
 	
 	protected Map<String,Pattern> subRes = new HashMap<String,Pattern>();
 	
@@ -126,7 +127,7 @@ public abstract class DFAFinder implements Serializable {
 		}
 	}
 	
-	protected void addNamedEntity(String namedEntity, String namedEntityType, boolean alwaysAdd) {
+	protected void addNamedEntity(String namedEntity, NamedEntityType namedEntityType, boolean alwaysAdd) {
 //		if (OscarProperties.getData().dfaSize > 0) {
 //			if (!dfaCount.containsKey(namedEntityType)) {
 //				dfaCount.put(namedEntityType, 0);
@@ -206,15 +207,15 @@ public abstract class DFAFinder implements Serializable {
 		}
 	}
 
-    private boolean isCustomTerm(String namedEntity, String namedEntityType) {
-        return namedEntityType.startsWith(NamedEntityTypes.CUSTOM) && TermMaps.getCustEnt().containsKey(namedEntity);
+    private boolean isCustomTerm(String namedEntity, NamedEntityType namedEntityType) {
+        return NamedEntityType.CUSTOM.isInstance(namedEntityType) && TermMaps.getCustEnt().containsKey(namedEntity);
     }
 
-    private boolean isOntologyTerm(String namedEntity, String namedEntityType) {
-        return namedEntityType.startsWith(NamedEntityTypes.ONTOLOGY) && OntologyTerms.hasTerm(namedEntity);
+    private boolean isOntologyTerm(String namedEntity, NamedEntityType namedEntityType) {
+        return NamedEntityType.ONTOLOGY.isInstance(namedEntityType) && OntologyTerms.hasTerm(namedEntity);
     }
 
-    private List<Automaton> getAutomatonList(String namedEntityType) {
+    private List<Automaton> getAutomatonList(NamedEntityType namedEntityType) {
         if (!autLists.containsKey(namedEntityType)) {
             autLists.put(namedEntityType, new ArrayList<Automaton>());
         }
@@ -247,20 +248,20 @@ public abstract class DFAFinder implements Serializable {
 //	}
 	
 	private void finishInit() {
-		for(String type : new HashSet<String>(autLists.keySet())) {
+		for(NamedEntityType type : new HashSet<NamedEntityType>(autLists.keySet())) {
 			Automaton mainAut = Automaton.union(autLists.get(type));
 			mainAut.determinize();
 			runAuts.put(type, new RunAutomaton(mainAut, false));
 			autLists.remove(type);
 		}
-		for(String type : new HashSet<String>(simpleAuts.keySet())) {
+		for(NamedEntityType type : new HashSet<NamedEntityType>(simpleAuts.keySet())) {
 			Automaton mainAut = simpleAuts.get(type).toAutomaton();
-			runAuts.put(type + "b", new RunAutomaton(mainAut, false));
+			runAuts.put(NamedEntityType.valueOf(type.getName()+"-b"), new RunAutomaton(mainAut, false));
 			simpleAuts.remove(type);
 		}
-		runAutToStateToOntIds = new HashMap<String,Map<Integer,Set<String>>>();
-		for (String type : runAuts.keySet()) {
-			if (type.startsWith(NamedEntityTypes.ONTOLOGY) || type.startsWith(NamedEntityTypes.CUSTOM)) {
+		runAutToStateToOntIds = new HashMap<NamedEntityType,Map<Integer,Set<String>>>();
+		for (NamedEntityType type : runAuts.keySet()) {
+			if (NamedEntityType.ONTOLOGY.isInstance(type) || NamedEntityType.CUSTOM.isInstance(type)) {
 			    runAutToStateToOntIds.put(type, analyseAutomaton(runAuts.get(type), 'X'));
             }
 		}
@@ -299,10 +300,13 @@ public abstract class DFAFinder implements Serializable {
 	
 	protected void handleNamedEntity(AutomatonState a, int endToken, ITokenSequence t, NECollector collector) {
 		String surface = t.getSubstring(a.getStartToken(), endToken);
-		String type = a.getType();
+		NamedEntityType type = a.getType();
+        if (type.getParent() != null) {
+            type = type.getParent();
+        }
 		NamedEntity namedEntity = new NamedEntity(t.getTokens(a.getStartToken(), endToken), surface, type);
         collector.collect(namedEntity);
-        if (a.getType().startsWith(NamedEntityTypes.ONTOLOGY)) {
+        if (NamedEntityType.ONTOLOGY.isInstance(a.getType())) {
 			Set<String> ontologyIds = runAutToStateToOntIds.get(a.getType()).get(a.getState());
 			String s = OntologyTerms.idsForTerm(StringTools.normaliseName(surface));
 			if (s != null && s.length() > 0) {
@@ -313,7 +317,7 @@ public abstract class DFAFinder implements Serializable {
 			}
 			namedEntity.addOntIds(ontologyIds);
 		}
-		if (a.getType().startsWith(NamedEntityTypes.CUSTOM)) {
+		if (NamedEntityType.CUSTOM.isInstance(a.getType())) {
 			Set<String> customTypes = runAutToStateToOntIds.get(a.getType()).get(a.getState());
 			namedEntity.addCustTypes(customTypes);
 		}
@@ -335,7 +339,7 @@ public abstract class DFAFinder implements Serializable {
 		List<AutomatonState> autStates = new ArrayList<AutomatonState>();
 		List<AutomatonState> newAutStates = new ArrayList<AutomatonState>();
 
-		for(String type : runAuts.keySet()) {
+		for(NamedEntityType type : runAuts.keySet()) {
 			AutomatonState a = new AutomatonState(runAuts.get(type), type, 0);
 			String tokenRepresentation = generateTokenRepresentation("$^");
 			for (int j = 0; j < tokenRepresentation.length(); j++) {
@@ -362,7 +366,7 @@ public abstract class DFAFinder implements Serializable {
 				autStates.clear();
 				continue;
 			}
-			for (String type : runAuts.keySet()) {
+			for (NamedEntityType type : runAuts.keySet()) {
 				autStates.add(new AutomatonState(runAuts.get(type), type, i));				
 			}
 			for (String tokenRep : tokenRepresentations) {

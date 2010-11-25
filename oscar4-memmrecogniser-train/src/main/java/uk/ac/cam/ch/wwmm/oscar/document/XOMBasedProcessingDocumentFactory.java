@@ -117,7 +117,7 @@ public class XOMBasedProcessingDocumentFactory {
 		 * @lh359: Iterates through 
 		 * the chemical sections
 		 */
-		for(int i=0;i<placesForChemicals.size();i++) {
+		for (int i = 0; i < placesForChemicals.size(); i++) {
 			Element e = (Element)placesForChemicals.get(i);
 			/******************************************
 			 * @lh359: e.getValue() is sometimes faulty 

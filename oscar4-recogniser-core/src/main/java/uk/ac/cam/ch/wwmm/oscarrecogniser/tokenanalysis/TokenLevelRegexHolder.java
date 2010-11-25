@@ -115,7 +115,7 @@ public class TokenLevelRegexHolder {
 
     String getNodeText(Element node) {
         StringBuffer txt = new StringBuffer();
-        for(int i=0;i<node.getChildCount();i++) {
+        for (int i = 0; i < node.getChildCount(); i++) {
             Node child = node.getChild(i);
             if(child instanceof Text) {
                 txt.append(child.getValue());
@@ -147,7 +147,7 @@ public class TokenLevelRegexHolder {
             retval.append("(");
             int i = 0;
             Elements items = defElem.getChildElements("item");
-            for(int j=0;j<items.size();j++) {
+            for (int j = 0; j < items.size(); j++) {
                 if(i>0) {
                     retval.append("|");
                 }

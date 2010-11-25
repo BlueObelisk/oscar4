@@ -180,7 +180,7 @@ public class NGramBuilder {
 		if(coll == null) return;
 		for(String s : coll) {
   			String [] sa = matchWhiteSpace.split(s);
-			for(int i=0;i<sa.length;i++) {
+			for (int i = 0; i < sa.length; i++) {
 				if (!matchTwoOrMoreAdjacentLetters.matcher(sa[i]).matches()) continue;
 				if(isChemical) {
 					addChemical(sa[i]);
@@ -248,7 +248,7 @@ public class NGramBuilder {
 		int N = 0;
 		int T1 = 0;
 		int Z1 = 0;
-		for(int i=0;i<A;i++) {
+		for (int i = 0; i < A; i++) {
 			N += C1[i];
 			if(C1[i]>0) {
 				T1++;
@@ -257,7 +257,7 @@ public class NGramBuilder {
 			}
 		}
 		double[] P1 = new double[A];
-		for(int i=0;i<A;i++) {
+		for (int i = 0; i < A; i++) {
 			if(C1[i]>0) {
 				P1[i] = (1.0*C1[i])/(1.0*(N+T1));
 			} else {
@@ -277,11 +277,11 @@ public class NGramBuilder {
 		int[] N2 = new int[A];
 		int[] N3plus = new int[A];
 		
-		for(int i=0;i<A;i++) {
+		for (int i = 0; i < A; i++) {
 			N1[i] = 0;
 			N2[i] = 0;
 			N3plus[i] = 0;
-			for(int j=0;j<A;j++) {
+			for (int j = 0; j < A; j++) {
 				if(C2[i][j]==1) {
 					N1[i]++;
 					n1++;
@@ -306,24 +306,24 @@ public class NGramBuilder {
 		double D3plus = 1 - 2*Y*n4/(1.0*n3);
 		
 		double[] gamma = new double[A];
-		for(int i=0;i<A;i++) {
+		for (int i = 0; i < A; i++) {
 			double sum = 0;
-			for(int j=0;j<A;j++) {
+			for (int j = 0; j < A; j++) {
 				sum += C2[i][j];
 			}
 			gamma[i] = (D1*N1[i] + D2*N2[i] + D3plus*N3plus[i])/sum;
 		}
 		
 		double[][] P2 = new double[A][A];
-		for(int i=0;i<A;i++) {
+		for (int i = 0; i < A; i++) {
 			double sum = 0;
 			double Pcum = 0;
 			double D;
-			for(int j=0;j<A;j++) {
+			for (int j = 0; j < A; j++) {
 				sum += C2[i][j];
 			}
 			if(sum>0) {
-				for(int j=0;j<A;j++) {
+				for (int j = 0; j < A; j++) {
 					if(C2[i][j]==0) {
 						D = 0;
 					} else if(C2[i][j]==1) {
@@ -340,7 +340,7 @@ public class NGramBuilder {
 					}
 				}
 			} else {
-				for(int j=0;j<A;j++) {
+				for (int j = 0; j < A; j++) {
 					P2[i][j] = P1[j];
 					Pcum += P2[i][j];
 					if((P2[i][j]<=0)|(P2[i][j]>=1)) {
@@ -361,12 +361,12 @@ public class NGramBuilder {
 		int[][] TN2 = new int[A][A];
 		int[][] TN3plus = new int[A][A];
 		
-		for(int i=0;i<A;i++) {
-			for(int j=0;j<A;j++) {
+		for (int i = 0; i < A; i++) {
+			for (int j = 0; j < A; j++) {
 				TN1[i][j] = 0;
 				TN2[i][j] = 0;
 				TN3plus[i][j] = 0;
-				for(int k=0;k<A;k++) {
+				for (int k = 0; k < A; k++) {
 					if(C3[i][j][k]==1) {
 						TN1[i][j]++;
 						Tn1++;
@@ -392,10 +392,10 @@ public class NGramBuilder {
 		double TD3plus = 1 - 2*TY*Tn4/(1.0*Tn3);
 		
 		double[][] Tgamma = new double[A][A];
-		for(int i=0;i<A;i++) {
-			for(int j=0;j<A;j++) {
+		for (int i = 0; i < A; i++) {
+			for (int j = 0; j < A; j++) {
 				double sum = 0;
-				for(int k=0;k<A;k++) {
+				for (int k = 0; k < A; k++) {
 					sum += C3[i][j][k];
 				}
 				Tgamma[i][j] = (TD1*TN1[i][j] + TD2*TN2[i][j] + TD3plus*TN3plus[i][j])/sum;
@@ -403,16 +403,16 @@ public class NGramBuilder {
 		}
 		
 		double[][][] P3 = new double[A][A][A];
-		for(int i=0;i<A;i++) {
-			for(int j=0;j<A;j++) {
+		for (int i = 0; i < A; i++) {
+			for (int j = 0; j < A; j++) {
 				double sum = 0;
 				double Pcum = 0;
 				double D;
-				for(int k=0;k<A;k++) {
+				for (int k = 0; k < A; k++) {
 					sum += C3[i][j][k];
 				}
 				if(sum>0) {
-					for(int k=0;k<A;k++) {
+					for (int k = 0; k < A; k++) {
 						if(C3[i][j][k]==0) {
 							D = 0;
 						} else if(C3[i][j][k]==1) {
@@ -429,7 +429,7 @@ public class NGramBuilder {
 						}
 					}
 				} else {
-					for(int k=0;k<A;k++) {
+					for (int k = 0; k < A; k++) {
 						P3[i][j][k] = P2[j][k];
 						Pcum += P3[i][j][k];
 						if((P3[i][j][k]<=0)|(P3[i][j][k]>=1)) {
@@ -452,13 +452,13 @@ public class NGramBuilder {
 		int[][][] QN2 = new int[A][A][A];
 		int[][][] QN3plus = new int[A][A][A];
 		
-		for(int i=0;i<A;i++) {
-			for(int j=0;j<A;j++) {
-				for(int k=0;k<A;k++) {
+		for (int i = 0; i < A; i++) {
+			for (int j = 0; j < A; j++) {
+				for (int k = 0; k < A; k++) {
 					QN1[i][j][k] = 0;
 					QN2[i][j][k] = 0;
 					QN3plus[i][j][k] = 0;
-					for(int l=0;l<A;l++) {
+					for (int l = 0; l < A; l++) {
 						if(C4[i][j][k][l]==1) {
 							QN1[i][j][k]++;
 							Qn1++;
@@ -485,11 +485,11 @@ public class NGramBuilder {
 		double QD3plus = 1 - 2*QY*Qn4/(1.0*Qn3);
 		
 		double[][][] Qgamma = new double[A][A][A];
-		for(int i=0;i<A;i++) {
-			for(int j=0;j<A;j++) {
-				for(int k=0;k<A;k++) {
+		for (int i = 0; i < A; i++) {
+			for (int j = 0; j < A; j++) {
+				for (int k = 0; k < A; k++) {
 					double sum = 0;
-					for(int l=0;l<A;l++) {
+					for (int l = 0; l < A; l++) {
 						sum += C4[i][j][k][l];
 					}
 					Qgamma[i][j][k] = (QD1*QN1[i][j][k] + QD2*QN2[i][j][k] + QD3plus*QN3plus[i][j][k])/sum;
@@ -498,17 +498,17 @@ public class NGramBuilder {
 		}
 		
 		double[][][][] P4 = new double[A][A][A][A];
-		for(int i=0;i<A;i++) {
-			for(int j=0;j<A;j++) {
-				for(int k=0;k<A;k++) {
+		for (int i = 0; i < A; i++) {
+			for (int j = 0; j < A; j++) {
+				for (int k = 0; k < A; k++) {
 					double sum = 0;
 					double Pcum = 0;
 					double D;
-					for(int l=0;l<A;l++) {
+					for (int l = 0; l < A; l++) {
 						sum += C4[i][j][k][l];
 					}
 					if(sum>0) {
-						for(int l=0;l<A;l++) {
+						for (int l = 0; l < A; l++) {
 							if(C4[i][j][k][l]==0) {
 								D = 0;
 							} else if(C4[i][j][k][l]==1) {
@@ -525,7 +525,7 @@ public class NGramBuilder {
 							}
 						}
 					} else {
-						for(int l=0;l<A;l++) {
+						for (int l = 0; l < A; l++) {
 							P4[i][j][k][l] = P3[j][k][l];
 							Pcum += P4[i][j][k][l];
 							if((P4[i][j][k][l]<=0)|(P4[i][j][k][l]>=1)) {
@@ -537,10 +537,10 @@ public class NGramBuilder {
 			}
 		}
 		
-		for(int i=0;i<A;i++) {
-			for(int j=0;j<A;j++) {
-				for(int k=0;k<A;k++) {
-					for(int l=0;l<A;l++) {
+		for (int i = 0; i < A; i++) {
+			for (int j = 0; j < A; j++) {
+				for (int k = 0; k < A; k++) {
+					for (int l = 0; l < A; l++) {
 						P4[i][j][k][l] = Math.log(P4[i][j][k][l]);
 					}
 				}
@@ -579,7 +579,7 @@ public class NGramBuilder {
 		int s3 = alphabet.indexOf(w.charAt(2));
 		int s0 = 0;
 		double logP = 0;
-		for(int i=3;i<l;i++) {
+		for (int i = 3; i < l; i++) {
 			s0 = s1;
 			s1 = s2;
 			s2 = s3;
@@ -631,7 +631,7 @@ public class NGramBuilder {
 		int s1 = 0;
 		int s2 = 0;
 		int s3 = 0;
-		for(int i=0;i<l;i++) {
+		for (int i = 0; i < l; i++) {
 			if(i>2) {
 				s0 = s1;
 			}

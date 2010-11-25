@@ -38,7 +38,7 @@ public final class TextToSciXML {
 		div.appendChild(header);
 		
 		String[] paragraphs = s.split("\n\\s*");
-		for(int i=0;i<paragraphs.length;i++){
+		for (int i = 0; i < paragraphs.length; i++){
 			String para = paragraphs[i];
 			if(headerRe.matcher(para.toLowerCase()).matches()) {
 				div = new Element("DIV");

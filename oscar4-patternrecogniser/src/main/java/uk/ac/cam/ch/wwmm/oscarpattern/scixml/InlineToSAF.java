@@ -44,7 +44,7 @@ public final class InlineToSAF {
 		saf.addAttribute(new Attribute("document", name));
 		
 		Nodes nes = neDoc.query("//ne");
-		for(int i=0;i<nes.size();i++) {
+		for (int i = 0; i < nes.size(); i++) {
 			Element e = (Element)nes.get(i);
 			String xps = st.getLeftPointAtOffset(Integer.parseInt(e.getAttributeValue("xtspanstart")));
 			String xpe = st.getRightPointAtOffset(Integer.parseInt(e.getAttributeValue("xtspanend")));
@@ -55,7 +55,7 @@ public final class InlineToSAF {
 			//safElem.addAttribute(new Attribute("from", xps));
 			//safElem.addAttribute(new Attribute("to", xpe));
 			//safElem.addAttribute(new Attribute("type", "oscar"));
-			for(int j=0;j<e.getAttributeCount();j++) {
+			for (int j = 0; j < e.getAttributeCount(); j++) {
 				Attribute a = e.getAttribute(j);
 				// Eliminate XMLSpanTagger markup
 				if(a.getLocalName().startsWith("xt")) continue;

@@ -162,7 +162,7 @@ public class ExtractedTrainingDataBuilder {
                         for(List<String> ne : namedEntityMap.get(NamedEntityType.REACTION)) {
                             if(ne.size() > 1) {
                                 rnEnd.add(ne.get(ne.size() - 1));
-                                for(int j=1;j<ne.size()-1;j++) {
+                                for (int j = 1; j < ne.size()-1; j++) {
                                     String s = ne.get(j);
                                     if(s.matches("[a-z].+")) rnMid.add(s);
                                 }

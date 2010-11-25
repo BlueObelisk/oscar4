@@ -140,11 +140,11 @@ public final class ExtractTrainingData {
 				Document doc = new Builder().build(f);
 				
 				Nodes n = doc.query("//cmlPile");
-				for(int i=0;i<n.size();i++) n.get(i).detach();
+				for (int i = 0; i < n.size(); i++) n.get(i).detach();
 				
 				Document copy = new Document((Element)XOMTools.safeCopy(doc.getRootElement()));
 				n = copy.query("//ne");
-				for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));
+				for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 				Document safDoc = InlineToSAF.extractSAFs(doc, copy, "foo");
 				doc = copy;
 				
@@ -195,7 +195,7 @@ public final class ExtractTrainingData {
 						for(List<String> ne : neMap.get(NamedEntityType.REACTION)) {
 							if(ne.size() > 1) {
 								rnEnd.add(ne.get(ne.size() - 1));
-								for(int j=1;j<ne.size()-1;j++) {
+								for (int j = 1; j < ne.size()-1; j++) {
 									String s = ne.get(j);
 									if(s.matches("[a-z].+")) rnMid.add(s);
 								}

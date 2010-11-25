@@ -135,7 +135,7 @@ final class RPNode {
     void addChild(Element elem) {
         RPNode RPchild = new RPNode(rParser, elem);
         Elements childElems = elem.getChildElements("child");
-        for(int i=0;i<childElems.size();i++) {
+        for (int i = 0; i < childElems.size(); i++) {
         	Element child = childElems.get(i);
         	String childType = child.getAttributeValue("type");
         	String childId = child.getAttributeValue("id");

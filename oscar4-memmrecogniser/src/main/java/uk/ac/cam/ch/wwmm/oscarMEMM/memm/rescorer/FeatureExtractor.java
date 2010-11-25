@@ -105,7 +105,7 @@ final class FeatureExtractor {
 						if(allCaps.matcher(surf).matches()) {
 							if(length <= (tokID - 1)) {
 								isAcro = true;
-								for(int i=0;i<length;i++) {
+								for (int i = 0; i < length; i++) {
 									if(!tokSeq.getToken(tokID - length - 1 + i).getValue().toUpperCase().startsWith(surf.substring(i,i+1))) isAcro = false;
 								}
 								if(isAcro) {
@@ -173,10 +173,10 @@ final class FeatureExtractor {
 			}
 		}
 		
-		for(double i=0;i<Math.min(confLog,15.0);i+=0.05) {
+		for (double i = 0; i < Math.min(confLog,15.0); i+=0.05) {
 			features.add("conf+");
 		}
-		for(double i=0;i>Math.max(confLog,-15.0);i-=0.05) {
+		for (double i = 0; i > Math.max(confLog,-15.0); i-=0.05) {
 			features.add("conf-");
 		}
 		

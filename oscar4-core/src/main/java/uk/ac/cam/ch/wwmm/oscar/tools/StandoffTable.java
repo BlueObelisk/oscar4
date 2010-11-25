@@ -74,7 +74,7 @@ public final class StandoffTable implements IStandoffTable {
 		int textOffset = Integer.parseInt(sa[1]);
 		String [] nodeNumbers = sa[0].substring(1).split("/");
 		Node n = rootElem;
-		for(int i=1;i<nodeNumbers.length;i++) {
+		for (int i = 1; i < nodeNumbers.length; i++) {
 			n = n.getChild(Integer.parseInt(nodeNumbers[i]) - 1);
 		}
 		if(!(n instanceof Text)) throw new Exception("Bad xpoint: " + xPoint);
@@ -87,11 +87,11 @@ public final class StandoffTable implements IStandoffTable {
 	}
 		
     private void populateTable(Element elem) {
-		for(int i=0;i<elem.getChildCount();i++) {
+		for (int i = 0; i < elem.getChildCount(); i++) {
 			Node n = elem.getChild(i);
 			if(n instanceof Text) {
 				int l = n.getValue().length();
-				for(int j=0;j<l;j++) {
+				for (int j = 0; j < l; j++) {
 					textTable.add((Text) n);
 					offsetTable.add(j);
 				}

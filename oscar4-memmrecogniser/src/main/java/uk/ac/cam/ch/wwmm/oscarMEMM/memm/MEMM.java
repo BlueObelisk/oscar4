@@ -185,7 +185,7 @@ public final class MEMM {
         Map<String, Double> results = new HashMap<String, Double>();
         results.putAll(zeroProbs);
         double [] gisResults = gm.eval(context);
-        for(int i=0;i<gisResults.length;i++) {
+        for (int i = 0; i < gisResults.length; i++) {
             results.put(gm.getOutcome(i), gisResults[i]);
         }
         return results;
@@ -257,9 +257,9 @@ public final class MEMM {
         logger.debug("Cross-Validate features on: " + file + "... ");
         Document doc = new Builder().build(file);
         Nodes n = doc.query("//cmlPile");
-        for(int i=0;i<n.size();i++) n.get(i).detach();
+        for (int i = 0; i < n.size(); i++) n.get(i).detach();
         n = doc.query("//ne[@type='CPR']");
-        for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));
+        for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 
 
         IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
@@ -283,7 +283,7 @@ public final class MEMM {
         List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
         List<IToken> tokens = tokSeq.getTokens();
         String prevTag = "O";
-        for(int i=0;i<tokens.size();i++) {
+        for (int i = 0; i < tokens.size(); i++) {
             String tag = tokens.get(i).getBioTag();
             GISModel gm = gmByPrev.get(prevTag);
             if(gm == null) continue;
@@ -301,7 +301,7 @@ public final class MEMM {
             String [] featuresArray = features.toArray(new String[0]);
             String [] newFeaturesArray = features.toArray(new String[0]);
             double [] baseProbs = gm.eval(featuresArray);
-            for(int j=0;j<features.size();j++) {
+            for (int j = 0; j < features.size(); j++) {
                 newFeaturesArray[j] = "IGNORETHIS";
                 double [] newProbs = gm.eval(newFeaturesArray);
                 double gain = infoLoss(newProbs, outcomeIndex) - infoLoss(baseProbs, outcomeIndex);
@@ -335,14 +335,14 @@ public final class MEMM {
         Elements maxents = memmRoot.getChildElements("maxent");
         gmByPrev = new HashMap<String,GISModel>();
         tagSet = new HashSet<String>();
-        for(int i=0;i<maxents.size();i++) {
+        for (int i = 0; i < maxents.size(); i++) {
             Element maxent = maxents.get(i);
             String prev = maxent.getAttributeValue("prev");
             StringGISModelReader sgmr = new StringGISModelReader(maxent.getValue());
             GISModel gm = sgmr.getModel();
             gmByPrev.put(prev, gm);
             tagSet.add(prev);
-            for(int j=0;j<gm.getNumOutcomes();j++) {
+            for (int j = 0; j < gm.getNumOutcomes(); j++) {
                 tagSet.add(gm.getOutcome(j));
             }
         }

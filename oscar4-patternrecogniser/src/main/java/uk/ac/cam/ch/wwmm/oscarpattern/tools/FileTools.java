@@ -49,7 +49,7 @@ public final class FileTools {
 	public static List<File> getFilesFromDirectoryByName(File directory, String name) {
 		List<File> foundFiles = new ArrayList<File>();
 		File[] list = directory.listFiles();
-		for(int i=0;i<list.length;i++) {
+		for (int i = 0; i < list.length; i++) {
 //			System.out.println("*********fillles "+list[i].getName());
 			if(list[i].getName().equals(name)) {
 				
@@ -72,7 +72,7 @@ public final class FileTools {
 	public static List<File> getFilesFromDirectoryBySuffix(File directory, String suffix) {
 		List<File> foundFiles = new ArrayList<File>();
 		File[] list = directory.listFiles();
-		for(int i=0;i<list.length;i++) {
+		for (int i = 0; i < list.length; i++) {
 			if(list[i].getAbsolutePath().endsWith(suffix)) {
 				foundFiles.add(list[i]);
 			} else if(list[i].isDirectory()) {
@@ -93,7 +93,7 @@ public final class FileTools {
 		Pattern pattern = Pattern.compile(regex);
 		List<File> foundFiles = new ArrayList<File>();
 		File[] list = directory.listFiles();
-		for(int i=0;i<list.length;i++) {
+		for (int i = 0; i < list.length; i++) {
 			if(pattern.matcher(list[i].getName()).matches()) {
 				foundFiles.add(list[i]);
 			} else if(list[i].isDirectory()) {
@@ -134,7 +134,7 @@ public final class FileTools {
 	 * @throws IOException
 	 */
 	public static void pipeStreamToStream(InputStream is, OutputStream os) throws IOException {
-		for(int i=is.read();i!=-1;i=is.read()) {
+		for (int i = is.read(); i != -1; i = is.read()) {
 			os.write(i);
 		}
 	}
@@ -146,7 +146,7 @@ public final class FileTools {
 	public static void deleteDir(File dir) {
         if (dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i=0; i<children.length; i++) {
+            for (int i = 0; i < children.length; i++) {
                 deleteDir(new File(dir, children[i]));
             }
         }

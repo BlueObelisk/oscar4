@@ -49,7 +49,7 @@ public final class MEMMTester {
 		List<List<Integer>> foldList = new ArrayList<List<Integer>>();
 		List<Integer> fold = new ArrayList<Integer>();
 		foldList.add(fold);
-		for(int i=0;i<items;i++) {
+		for (int i = 0; i < items; i++) {
 			if(fold.size() == foldSize+1) {
 				remainder--;
 				fold = new ArrayList<Integer>();
@@ -195,14 +195,14 @@ public final class MEMMTester {
 				String name = f.getParentFile().getName();
 				System.out.println(name);
 				Nodes n = doc.query("//cmlPile");
-				for(int i=0;i<n.size();i++) n.get(i).detach();
+				for (int i = 0; i < n.size(); i++) n.get(i).detach();
 				n = doc.query("//ne[@type='CPR']");
-				for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));
+				for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 				//n = doc.query("//ne[@type='CLASS']");
-				//for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));
+				//for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 				if(false) {
 					n = doc.query("//ne");
-					for(int i=0;i<n.size();i++) {
+					for (int i = 0; i < n.size(); i++) {
 						Element e = (Element)n.get(i);
 						e.addAttribute(new Attribute("type", "CHEMICAL"));
 						//XOMTools.removeElementPreservingText((Element)n.get(i));
@@ -234,7 +234,7 @@ public final class MEMMTester {
 				for(ITokenSequence tokSeq : procDoc.getTokenSequences()) {
 					TokenSequence seq = (TokenSequence)tokSeq;
 					Nodes neNodes = seq.getElem().query(".//ne");
-					for(int k=0;k<neNodes.size();k++) {
+					for (int k = 0; k < neNodes.size(); k++) {
 						Element neElem = (Element)neNodes.get(k);
 						if(filterType != null && !neElem.getAttributeValue("type").equals(filterType)) continue;
 						if(antiFilterType != null && neElem.getAttributeValue("type").equals(antiFilterType)) continue;

@@ -41,7 +41,7 @@ public final class XMLInserter extends XMLSpanTagger {
 	 */
 	public void incorporateElementsFromRetaggedDocument(Element source, String sourceDocPrefix) {
 		Elements elems = source.getChildElements();
-		for(int i=0;i<elems.size();i++) {
+		for (int i = 0; i < elems.size(); i++) {
 			recursivelyIncorporateElements(elems.get(i), sourceDocPrefix);
 		}		
 	}
@@ -56,7 +56,7 @@ public final class XMLInserter extends XMLSpanTagger {
 			}
 		}
 		Elements elems = source.getChildElements();
-		for(int i=0;i<elems.size();i++) {
+		for (int i = 0; i < elems.size(); i++) {
 			recursivelyIncorporateElements(elems.get(i), sourceDocPrefix);
 		}
 	}
@@ -125,7 +125,7 @@ public final class XMLInserter extends XMLSpanTagger {
 		while(!inParent) {
 			currentParent = newParent;
 			Elements children = currentParent.getChildElements();
-			for(int i=0;i<children.size();i++) {
+			for (int i = 0; i < children.size(); i++) {
 				Element child = children.get(i);
 				int elemStart = Integer.parseInt(child.getAttributeValue("xtspanstart"));
 				int elemEnd = Integer.parseInt(child.getAttributeValue("xtspanend"));
@@ -179,7 +179,7 @@ public final class XMLInserter extends XMLSpanTagger {
 			/* Parent node contains other Elements */
 			int charPos = parentStart;
 			/* Look through the slots in front of the element */
-			for(int i=0;i<children.size();i++) {
+			for (int i = 0; i < children.size(); i++) {
 				Element child = children.get(i);
 				/* elemStart is also where the Text _ends_ */
 				int elemStart = Integer.parseInt(child.getAttributeValue("xtspanstart"));

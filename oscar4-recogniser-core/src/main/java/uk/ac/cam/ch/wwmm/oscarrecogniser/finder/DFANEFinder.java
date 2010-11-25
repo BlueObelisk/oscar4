@@ -5,7 +5,7 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTermIdIndex;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
@@ -83,7 +83,7 @@ public class DFANEFinder extends DFAFinder {
             addNamedEntity(s, TermMaps.getNeTerms().get(s), true);
         }
         logger.debug("Adding ontology terms to DFA finder...");
-        for(String s : OntologyTerms.getAllTerms()){
+        for(String s : OntologyTermIdIndex.getInstance().getAllTerms()){
             addNamedEntity(s, NamedEntityType.ONTOLOGY, false);
         }
         logger.debug("Adding custom NEs ...");
@@ -252,7 +252,7 @@ public class DFANEFinder extends DFAFinder {
         if (ChemNameDictSingleton.hasName(value)) {
             tokenRepresentations.add("$INCND");
         }
-        if (OntologyTerms.hasTerm(normalisedValue)) {
+        if (OntologyTermIdIndex.getInstance().containsTerm(normalisedValue)) {
             tokenRepresentations.add("$ONTWORD");
         }
         if (OscarProperties.getData().useWordShapeHeuristic) {

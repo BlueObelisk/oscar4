@@ -1,5 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.document;
 
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -93,7 +95,7 @@ public interface ITokenSequence {
 	 * 
 	 * @return The named entities.
 	 */
-	public abstract Map<String, List<List<String>>> getNes();
+	public abstract Map<NamedEntityType, List<List<String>>> getNes();
 
 	/**Gets the string values of all of the non-NE tokens.
 	 * 

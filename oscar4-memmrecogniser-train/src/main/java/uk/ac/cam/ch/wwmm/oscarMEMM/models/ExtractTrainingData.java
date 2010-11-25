@@ -19,7 +19,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.tools.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.ptcDataStruct.Bag;
 import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
@@ -156,18 +156,18 @@ public final class ExtractTrainingData {
 				//n = doc.query(XMLStrings.CHEMICAL_PLACES_XPAOscarProperties(OscarProperties.getInstance().verbose) System.out.println(f);
 				for(ITokenSequence tokSeq : procDoc.getTokenSequences()) {
 					afterHyphen.addAll(tokSeq.getAfterHyphens());
-					Map<String, List<List<String>>> neMap = tokSeq.getNes();
+					Map<NamedEntityType, List<List<String>>> neMap = tokSeq.getNes();
 					List<List<String>> neList = new ArrayList<List<String>>();
-					if(neMap.containsKey(NamedEntityTypes.COMPOUND)) neList.addAll(neMap.get(NamedEntityTypes.COMPOUND));
-					if(neMap.containsKey(NamedEntityTypes.ADJECTIVE)) neList.addAll(neMap.get(NamedEntityTypes.ADJECTIVE));
-					if(neMap.containsKey(NamedEntityTypes.REACTION)) neList.addAll(neMap.get(NamedEntityTypes.REACTION));
-					if(neMap.containsKey(NamedEntityTypes.ASE)) neList.addAll(neMap.get(NamedEntityTypes.ASE));
+					if(neMap.containsKey(NamedEntityType.COMPOUND)) neList.addAll(neMap.get(NamedEntityType.COMPOUND));
+					if(neMap.containsKey(NamedEntityType.ADJECTIVE)) neList.addAll(neMap.get(NamedEntityType.ADJECTIVE));
+					if(neMap.containsKey(NamedEntityType.REACTION)) neList.addAll(neMap.get(NamedEntityType.REACTION));
+					if(neMap.containsKey(NamedEntityType.ASE)) neList.addAll(neMap.get(NamedEntityType.ASE));
 
-					// Stuff for alternate annotation scheme
-					if(neMap.containsKey("CHEMICAL")) neList.addAll(neMap.get("CHEMICAL"));
-					if(neMap.containsKey("LIGAND")) neList.addAll(neMap.get("LIGAND"));
-					if(neMap.containsKey("FORMULA")) neList.addAll(neMap.get("FORMULA"));
-					//if(neMap.containsKey("CLASS")) neList.addAll(neMap.get("CLASS"));
+//					// Stuff for alternate annotation scheme
+//					if(neMap.containsKey("CHEMICAL")) neList.addAll(neMap.get("CHEMICAL"));
+//					if(neMap.containsKey("LIGAND")) neList.addAll(neMap.get("LIGAND"));
+//					if(neMap.containsKey("FORMULA")) neList.addAll(neMap.get("FORMULA"));
+//					//if(neMap.containsKey("CLASS")) neList.addAll(neMap.get("CLASS"));
 
 					// Don't include CPR here
 					for(List<String> ne : neList) {
@@ -191,8 +191,8 @@ public final class ExtractTrainingData {
 							}
 						}
 					}
-					if(neMap.containsKey(NamedEntityTypes.REACTION)) {
-						for(List<String> ne : neMap.get(NamedEntityTypes.REACTION)) {
+					if(neMap.containsKey(NamedEntityType.REACTION)) {
+						for(List<String> ne : neMap.get(NamedEntityType.REACTION)) {
 							if(ne.size() > 1) {
 								rnEnd.add(ne.get(ne.size() - 1));
 								for(int j=1;j<ne.size()-1;j++) {

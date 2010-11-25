@@ -10,6 +10,7 @@ import java.util.Set;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 import nu.xom.Element;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
 /**A tokenised representation of a piece of text, as made by the Tokeniser
  * class.
@@ -162,31 +163,31 @@ public final class TokenSequence implements ITokenSequence {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getNes()
 	 */
-	public Map<String,List<List<String>>> getNes() {
-		Map<String,List<List<String>>> neMap = new HashMap<String,List<List<String>>>();
-		String neType = null;
+	public Map<NamedEntityType,List<List<String>>> getNes() {
+		Map<NamedEntityType,List<List<String>>> neMap = new HashMap<NamedEntityType,List<List<String>>>();
+		NamedEntityType namedEntityType = null;
 		List<String> neTokens = null;
 		for(IToken t : tokens) {
-			if(neType == null) {
+			if(namedEntityType == null) {
 				if(!"O".equals(t.getBioTag())) {
 					neTokens = new ArrayList<String>();
 					// Trim of the B- in the BIO tag
-					neType = t.getBioTag().substring(2);
+					namedEntityType = NamedEntityType.valueOf(t.getBioTag().substring(2));
 					neTokens.add(t.getValue());
-					if(!neMap.containsKey(neType)) neMap.put(neType, new ArrayList<List<String>>());
-					neMap.get(neType).add(neTokens);
+					if(!neMap.containsKey(namedEntityType)) neMap.put(namedEntityType, new ArrayList<List<String>>());
+					neMap.get(namedEntityType).add(neTokens);
 				}
 			} else {
 				if("O".equals(t.getBioTag())) {
-					neType = null;
+					namedEntityType = null;
 					neTokens = null;
 				} else if(t.getBioTag().startsWith("B-")) {
 					neTokens = new ArrayList<String>();
 					// Trim of the B- in the BIO tag
-					neType = t.getBioTag().substring(2);
+					namedEntityType = NamedEntityType.valueOf(t.getBioTag().substring(2));
 					neTokens.add(t.getValue());
-					if(!neMap.containsKey(neType)) neMap.put(neType, new ArrayList<List<String>>());
-					neMap.get(neType).add(neTokens);					
+					if(!neMap.containsKey(namedEntityType)) neMap.put(namedEntityType, new ArrayList<List<String>>());
+					neMap.get(namedEntityType).add(neTokens);
 					// Must be I- something then
 				} else {
 					neTokens.add(t.getValue());

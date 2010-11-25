@@ -7,7 +7,6 @@ import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 
 /**A named entity, as found by one of the various routines in this package.
  * May be one token or multi-token.
@@ -437,11 +436,12 @@ public final class NamedEntity extends ResolvableStandoff {
 	 * @return int indicating sort order
 	 */
 	public int comparePropertiesSpecifiedPrioritisation(ResolvableStandoff other) {
-		if(other instanceof NamedEntity) {
+		if (other instanceof NamedEntity) {
 			NamedEntity otherNe = (NamedEntity)other;
-			if (deprioritiseOnt){				if(type.equals(NamedEntityTypes.ONTOLOGY) && !otherNe.type.equals(NamedEntityTypes.ONTOLOGY)) {
+			if (deprioritiseOnt) {
+                if (NamedEntityType.ONTOLOGY.equals(type) && !NamedEntityType.ONTOLOGY.equals(otherNe.type)) {
 					return -1;
-				} else if(!type.equals(NamedEntityTypes.ONTOLOGY) && otherNe.type.equals(NamedEntityTypes.ONTOLOGY)) {
+				} else if (!NamedEntityType.ONTOLOGY.equals(type) && NamedEntityType.ONTOLOGY.equals(otherNe.type)) {
 					return 1;
 				}
 			}

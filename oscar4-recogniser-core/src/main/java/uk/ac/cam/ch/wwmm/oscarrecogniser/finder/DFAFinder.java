@@ -19,7 +19,6 @@ import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.tools.RegExUtils;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 import dk.brics.automaton.Automaton;

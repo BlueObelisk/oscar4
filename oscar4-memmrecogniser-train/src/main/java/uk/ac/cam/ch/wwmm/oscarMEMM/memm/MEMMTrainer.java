@@ -525,7 +525,7 @@ public final class MEMMTrainer {
 			Set<String> pffp = new HashSet<String>();
 			perniciousFeatures.put(prev, pffp);
 			
-			List<String> features = StringTools.getSortedList(featureCVScores.get(prev));
+			List<String> features = StringTools.getSortedKeyList(featureCVScores.get(prev));
 			for(String feature : features) {
 				double score = featureCVScores.get(prev).get(feature);
 				if(score < 0.0) {

@@ -52,7 +52,7 @@ public final class SAFToInline {
 		new XMLSpanTagger(plainDoc.getRootElement(), "b");
 		
 		Nodes annots = safDoc.query("//annot");
-		for(int i=0;i<annots.size();i++) {
+		for (int i = 0; i < annots.size(); i++) {
 			//if(true) continue;
 			Element annot = (Element)annots.get(i);
 			
@@ -68,7 +68,7 @@ public final class SAFToInline {
 			if(annot.getAttribute("id") != null) ne.addAttribute(new Attribute("id", annot.getAttributeValue("id")));
 			
 			Elements slots = annot.getChildElements("slot");
-			for(int j=0;j<slots.size();j++) {
+			for (int j = 0; j < slots.size(); j++) {
 				String slotName = slots.get(j).getAttributeValue("name");
 				//if(slotName.equals("surface")) continue;
 				ne.addAttribute(new Attribute(slotName, slots.get(j).getValue()));

@@ -151,7 +151,7 @@ public class StringToolsTest {
 	@Test
 	public void testObjectListToString() {
 		List<Integer> integers = new ArrayList<Integer>();
-		for(int i=1;i<=4;i++) integers.add(i);
+		for (int i = 1; i <= 4; i++) integers.add(i);
 		assertEquals("1 2 3 4", StringTools.objectListToString(integers, " "));
 		assertEquals("1234", StringTools.objectListToString(integers, ""));
 		assertEquals("1 2 3 4", StringTools.objectListToString(Arrays.asList("1 2 3 4".split(" ")), " "));

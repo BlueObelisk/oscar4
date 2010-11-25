@@ -21,7 +21,7 @@ public final class SafTools {
 	 */
 	public static void setSlot(Element annot, String slotName, String slotVal) {
 		//        Nodes n = annot.query("slot[@name=\"" + slotName + "\"]");
-        //		for(int i=0;i<n.size();i++) n.get(i).detach();
+        //		for (int i = 0; i < n.size(); i++) n.get(i).detach();
         removeSlot(annot, slotName);
 
 		Element slot = new Element("slot");

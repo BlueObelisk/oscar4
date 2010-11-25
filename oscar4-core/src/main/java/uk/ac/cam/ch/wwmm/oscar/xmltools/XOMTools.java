@@ -130,7 +130,7 @@ public final class XOMTools {
 		newElem.setBaseURI(elem.getBaseURI());
 		newElem.setNamespaceURI(elem.getNamespaceURI());
 		newElem.setNamespacePrefix(elem.getNamespacePrefix());
-		for(int i=0;i<elem.getAttributeCount();i++) {
+		for (int i = 0; i < elem.getAttributeCount(); i++) {
 			newElem.addAttribute((Attribute)elem.getAttribute(i).copy());
 		}
 		return newElem;
@@ -218,10 +218,10 @@ public final class XOMTools {
 		if(n instanceof Element) {
 			Element e = (Element)n;
 			Element ee = shallowCopy(e);
-			for(int i=0;i<e.getAttributeCount();i++) {
+			for (int i = 0; i < e.getAttributeCount(); i++) {
 				ee.addAttribute((Attribute)e.getAttribute(i).copy());
 			}
-			for(int i=0;i<e.getChildCount();i++) {
+			for (int i = 0; i < e.getChildCount(); i++) {
 				ee.appendChild(safeCopy(e.getChild(i)));
 			}
 			return ee;

@@ -57,21 +57,21 @@ public final class ChemNameDictIO {
 	public static void readXML(Document doc, IMutableChemNameDict dictionary) throws Exception {
 		Element root = doc.getRootElement();
 		if(root.getLocalName().equals("newchemnamedict")) {
-			for(int i=0;i<root.getChildCount();i++) {
+			for (int i = 0; i < root.getChildCount(); i++) {
 				if(root.getChild(i) instanceof Element) {
 					Element elem = (Element)root.getChild(i);
 					if(elem.getLocalName().equals("stops")) {
-						for(int j=0;j<elem.getChildCount();j++) {
+						for (int j = 0; j < elem.getChildCount(); j++) {
 							if(elem.getChild(j) instanceof Element)
 								dictionary.addStopWord(elem.getChild(j).getValue());
 						}
 					} else if(elem.getLocalName().equals("orphanNames")) {
-						for(int j=0;j<elem.getChildCount();j++) {
+						for (int j = 0; j < elem.getChildCount(); j++) {
 							if(elem.getChild(j) instanceof Element)
 								dictionary.addName(elem.getChild(j).getValue());
 						}					
 					} else if(elem.getLocalName().equals("records")) {
-						for(int j=0;j<elem.getChildCount();j++) {
+						for (int j = 0; j < elem.getChildCount(); j++) {
 							if(elem.getChild(j) instanceof Element) {
 								dictionary.addChemRecord(
 									xmlToRecord((Element)elem.getChild(j))
@@ -99,11 +99,11 @@ public final class ChemNameDictIO {
 			record.smiles = smiless.get(0).getValue();
 		}
 		Elements names = elem.getChildElements("name");
-		for(int i=0;i<names.size();i++) {
+		for (int i = 0; i < names.size(); i++) {
 			record.names.add(names.get(i).getValue());
 		}
 		Elements ontIDs = elem.getChildElements("ontID");
-		for(int i=0;i<ontIDs.size();i++) {
+		for (int i = 0; i < ontIDs.size(); i++) {
 			record.ontIDs.add(ontIDs.get(i).getValue());
 		}		
 		return record;

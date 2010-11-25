@@ -60,9 +60,9 @@ public final class XMLStrings {
 		String [] styleMarkupArray = STYLE_MARKUP.split("\\s+");
 		String [] blockMarkupArray = BLOCK_MARKUP.split("\\s+");
 		String [] specPropMarkupArray = SPEC_PROP_MARKUP.split("\\s+");
-		for(int i=0;i<styleMarkupArray.length;i++) styleMarkup.add(styleMarkupArray[i]);
-		for(int i=0;i<blockMarkupArray.length;i++) blockMarkup.add(blockMarkupArray[i]);
-		for(int i=0;i<specPropMarkupArray.length;i++) specPropMarkup.add(specPropMarkupArray[i]);
+		for (int i = 0; i < styleMarkupArray.length; i++) styleMarkup.add(styleMarkupArray[i]);
+		for (int i = 0; i < blockMarkupArray.length; i++) blockMarkup.add(blockMarkupArray[i]);
+		for (int i = 0; i < specPropMarkupArray.length; i++) specPropMarkup.add(specPropMarkupArray[i]);
 	}
 	
 	private void loadStrings(String schemaName) {
@@ -71,7 +71,7 @@ public final class XMLStrings {
 			Document doc = rg.getXMLDocument(schemaName + ".xml");
 			Elements ee = doc.getRootElement().getChildElements();
 			Map<String,String> varMap = new HashMap<String,String>();
-			for(int i=0;i<ee.size();i++) {
+			for (int i = 0; i < ee.size(); i++) {
 				Element e = ee.get(i);
 				if(e.getLocalName().equals("xpc")) {
 					xpc.addNamespace(e.getAttributeValue("prefix"), e.getAttributeValue("uri"));
@@ -192,7 +192,7 @@ public final class XMLStrings {
 		if(CHEMICAL_EXCLUDE_XPATH != null) {
 			Nodes negativeNodes = doc.query(CHEMICAL_EXCLUDE_XPATH, xpc);
 			Nodes resultNodes = new Nodes();
-			for(int i=0;i<positiveNodes.size();i++) {
+			for (int i = 0; i < positiveNodes.size(); i++) {
 				if(!negativeNodes.contains(positiveNodes.get(i))) {
 					resultNodes.append(positiveNodes.get(i));
 				}

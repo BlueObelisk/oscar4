@@ -17,7 +17,6 @@ import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarpattern.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFANEFinder;
 
@@ -74,7 +73,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 		List<NamedEntity> preserveNes = new ArrayList<NamedEntity>();
 
 		for(NamedEntity ne : neList) {
-			if(NamedEntityTypes.ONTOLOGY.equals(ne.getType()) || NamedEntityTypes.LOCANTPREFIX.equals(ne.getType()) || NamedEntityTypes.CUSTOM.equals(ne.getType())) {
+			if(NamedEntityType.ONTOLOGY.equals(ne.getType()) || NamedEntityType.LOCANTPREFIX.equals(ne.getType()) || NamedEntityType.CUSTOM.equals(ne.getType())) {
 				preserveNes.add(ne);
 			}
 			String posStr = ne.getStart() + ":" + ne.getEnd();
@@ -121,7 +120,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 
 		// Potential acronyms
 		for(NamedEntity ne : neList) {
-			if(ne.getType().equals(NamedEntityTypes.POTENTIALACRONYM)) {
+			if(NamedEntityType.POTENTIALACRONYM.equals(ne.getType())) {
 				int start = ne.getStart();
 				//int end = ne.getEnd();
 				
@@ -137,7 +136,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 							NamedEntity acronymOf = endToNe.get(prevPrev.getEnd());
 							if(StringTools.testForAcronym(ne.getSurface(), acronymOf.getSurface())) {
 								//System.out.println(ne.getSurface() + " is " + acronymOf.getSurface());
-								if(acronymOf.getType().equals(NamedEntityTypes.ASE) || acronymOf.getType().equals(NamedEntityTypes.ASES)) {
+								if(NamedEntityType.ASE.equals(acronymOf.getType()) || NamedEntityType.ASES.equals(acronymOf.getType())) {
 									//System.out.println("Skip ASE acronym");
 								} else {
 									//matched = true;
@@ -186,14 +185,14 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 		int i = 0;
 		while(i < neList.size()) {
 			NamedEntity ne = neList.get(i);
-			if(ne.getType().equals(NamedEntityTypes.POTENTIALACRONYM)) {
+			if(NamedEntityType.POTENTIALACRONYM.equals(ne.getType())) {
 				if(acroMap.containsKey(ne.getSurface())) {
 					ne.setType(acroMap.get(ne.getSurface()));
 					i++;
 				} else {
 					neList.remove(i);
 				}
-			} else if(ne.getType().equals(NamedEntityTypes.STOP)) {
+			} else if(NamedEntityType.STOP.equals(ne.getType())) {
 				//System.out.println("STOP: " + neList.get(i).getSurface());
 				neList.remove(i);
 				stopNeList.add(ne);

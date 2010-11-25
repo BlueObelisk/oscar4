@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
 /**
  * @author Peter Corbett
@@ -64,44 +64,44 @@ public class TokenTypes {
 	}
 
 
-	public static String getTypeForSuffix(String s) {
+	public static NamedEntityType getTypeForSuffix(String s) {
 		if (s.endsWith(NUCLEOBASE)) {
-			return NamedEntityTypes.COMPOUND;
+			return NamedEntityType.COMPOUND;
 		}
 		if (s.endsWith(NUCLEOBASES)) {
-			return NamedEntityTypes.COMPOUNDS;
+			return NamedEntityType.COMPOUNDS;
 		}
 		if (ASES.matcher(s).matches()) {
-			return NamedEntityTypes.ASE;
+			return NamedEntityType.ASE;
 		}
 		if (s.endsWith(ARSENIC)) {
-			return NamedEntityTypes.COMPOUND;
+			return NamedEntityType.COMPOUND;
 		}
 		if (s.endsWith(ARSENICS)) {
-			return NamedEntityTypes.COMPOUNDS;
+			return NamedEntityType.COMPOUNDS;
 		}
 		if (s.endsWith(IC)) {
-			return NamedEntityTypes.ADJECTIVE;
+			return NamedEntityType.ADJECTIVE;
 		}
 		if (s.endsWith(BIPHENYL)) {
-			return NamedEntityTypes.COMPOUND;
+			return NamedEntityType.COMPOUND;
 		}
 		if (GROUPS.matcher(s).matches()) {
-			return NamedEntityTypes.GROUP;
+			return NamedEntityType.GROUP;
 		}
 		if (REACTION1.matcher(s).matches()) {
-			return NamedEntityTypes.REACTION;
+			return NamedEntityType.REACTION;
 		}
 		if (REACTION2.matcher(s).matches()) {
-			return NamedEntityTypes.REACTION;
+			return NamedEntityType.REACTION;
 		}
 		if (REACTION3.matcher(s).matches()) {
-			return NamedEntityTypes.REACTION;
+			return NamedEntityType.REACTION;
 		}
 		if (s.endsWith(ESS)) {
-			return NamedEntityTypes.COMPOUNDS;
+			return NamedEntityType.COMPOUNDS;
 		}
-		return NamedEntityTypes.COMPOUND;
+		return NamedEntityType.COMPOUND;
 	}
 
 }

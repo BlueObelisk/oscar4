@@ -11,7 +11,6 @@ import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TLRHolder;
@@ -154,7 +153,7 @@ public class DFANEFinder extends DFAFinder {
             }
         }
         for (TokenLevelRegex tokenLevelRegex : TLRHolder.getInstance().parseToken(value)) {
-            if (tokenLevelRegex.getType().equals(NamedEntityTypes.PROPERNOUN)) {
+            if (NamedEntityType.PROPERNOUN.equals(tokenLevelRegex.getType())) {
                 if (value.matches("[A-Z][a-z]+") && TermSets.getDefaultInstance().getUsrDictWords().contains(value.toLowerCase()) && !TermSets.getDefaultInstance().getUsrDictWords().contains(value)) tokenLevelRegex = null;
 //				if (ExtractTrainingData.getInstance().pnStops.contains(t.getValue())) tlr = null;
             }
@@ -168,7 +167,7 @@ public class DFANEFinder extends DFAFinder {
             String lastGroup = m.group(m.groupCount());
             String lastGroupNorm = StringTools.normaliseName(lastGroup);
             if (lastGroup == null || lastGroup.equals("")) {
-                tokenRepresentations.add("$" + NamedEntityTypes.LOCANTPREFIX.toUpperCase());
+                tokenRepresentations.add("$" + NamedEntityType.LOCANTPREFIX.getName());
             } else {
                 if (TLRHolder.getInstance().macthesTlr(lastGroup, "formulaRegex")) {
                     tokenRepresentations.add("$CPR_FORMULA");
@@ -221,12 +220,12 @@ public class DFANEFinder extends DFAFinder {
                 }
 
                 if (score > OscarProperties.getData().ngramThreshold) {
-                    tokenRepresentations.add("$" + TokenTypes.getTypeForSuffix(value).toUpperCase());
+                    tokenRepresentations.add("$" + TokenTypes.getTypeForSuffix(value).getName());
                     if (value.startsWith("-")) {
-                        tokenRepresentations.add("$-" + TokenTypes.getTypeForSuffix(value).toUpperCase());
+                        tokenRepresentations.add("$-" + TokenTypes.getTypeForSuffix(value).getName());
                     }
                     if (value.endsWith("-")) {
-                        tokenRepresentations.add("$" + TokenTypes.getTypeForSuffix(value).toUpperCase() + "-");
+                        tokenRepresentations.add("$" + TokenTypes.getTypeForSuffix(value).getName() + "-");
                     }
 
                     String withoutLastBracket = value;

@@ -9,7 +9,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.tools.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.ptcDataStruct.Bag;
 import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
@@ -115,18 +115,26 @@ public class ExtractedTrainingDataBuilder {
                 IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(Tokeniser.getInstance(), doc, true, false, false, safDoc);
                 for (ITokenSequence tokSeq : procDoc.getTokenSequences()) {
                     afterHyphen.addAll(tokSeq.getAfterHyphens());
-                    Map<String, List<List<String>>> namedEntityMap = tokSeq.getNes();
+                    Map<NamedEntityType, List<List<String>>> namedEntityMap = tokSeq.getNes();
                     List<List<String>> namedEntityList = new ArrayList<List<String>>();
-                    if(namedEntityMap.containsKey(NamedEntityTypes.COMPOUND)) namedEntityList.addAll(namedEntityMap.get(NamedEntityTypes.COMPOUND));
-                    if(namedEntityMap.containsKey(NamedEntityTypes.ADJECTIVE)) namedEntityList.addAll(namedEntityMap.get(NamedEntityTypes.ADJECTIVE));
-                    if(namedEntityMap.containsKey(NamedEntityTypes.REACTION)) namedEntityList.addAll(namedEntityMap.get(NamedEntityTypes.REACTION));
-                    if(namedEntityMap.containsKey(NamedEntityTypes.ASE)) namedEntityList.addAll(namedEntityMap.get(NamedEntityTypes.ASE));
+                    if (namedEntityMap.containsKey(NamedEntityType.COMPOUND)) {
+                        namedEntityList.addAll(namedEntityMap.get(NamedEntityType.COMPOUND));
+                    }
+                    if (namedEntityMap.containsKey(NamedEntityType.ADJECTIVE)) {
+                        namedEntityList.addAll(namedEntityMap.get(NamedEntityType.ADJECTIVE));
+                    }
+                    if (namedEntityMap.containsKey(NamedEntityType.REACTION)) {
+                        namedEntityList.addAll(namedEntityMap.get(NamedEntityType.REACTION));
+                    }
+                    if (namedEntityMap.containsKey(NamedEntityType.ASE)) {
+                        namedEntityList.addAll(namedEntityMap.get(NamedEntityType.ASE));
+                    }
 
-                    // Stuff for alternate annotation scheme
-                    if(namedEntityMap.containsKey("CHEMICAL")) namedEntityList.addAll(namedEntityMap.get("CHEMICAL"));
-                    if(namedEntityMap.containsKey("LIGAND")) namedEntityList.addAll(namedEntityMap.get("LIGAND"));
-                    if(namedEntityMap.containsKey("FORMULA")) namedEntityList.addAll(namedEntityMap.get("FORMULA"));
-                    //if(neMap.containsKey("CLASS")) neList.addAll(neMap.get("CLASS"));
+//                    // Stuff for alternate annotation scheme
+//                    if(namedEntityMap.containsKey("CHEMICAL")) namedEntityList.addAll(namedEntityMap.get("CHEMICAL"));
+//                    if(namedEntityMap.containsKey("LIGAND")) namedEntityList.addAll(namedEntityMap.get("LIGAND"));
+//                    if(namedEntityMap.containsKey("FORMULA")) namedEntityList.addAll(namedEntityMap.get("FORMULA"));
+//                    //if(neMap.containsKey("CLASS")) neList.addAll(neMap.get("CLASS"));
 
                     // Don't include CPR here
                     for(List<String> ne : namedEntityList) {
@@ -150,8 +158,8 @@ public class ExtractedTrainingDataBuilder {
                             }
                         }
                     }
-                    if(namedEntityMap.containsKey(NamedEntityTypes.REACTION)) {
-                        for(List<String> ne : namedEntityMap.get(NamedEntityTypes.REACTION)) {
+                    if(namedEntityMap.containsKey(NamedEntityType.REACTION)) {
+                        for(List<String> ne : namedEntityMap.get(NamedEntityType.REACTION)) {
                             if(ne.size() > 1) {
                                 rnEnd.add(ne.get(ne.size() - 1));
                                 for(int j=1;j<ne.size()-1;j++) {

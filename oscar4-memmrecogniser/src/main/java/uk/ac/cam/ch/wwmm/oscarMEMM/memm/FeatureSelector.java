@@ -55,7 +55,7 @@ final class FeatureSelector {
 			String outcome = event.getOutcome();
 			outcomeCounts.add(outcome);
 			String [] features = event.getContext();
-			for(int i=0;i<features.length;i++) {
+			for (int i = 0; i < features.length; i++) {
 				String feature = features[i];
 				featureCounts.add(feature);
 				if(!featureToOutcomes.containsKey(feature)) featureToOutcomes.put(feature, new Bag<String>());
@@ -73,7 +73,7 @@ final class FeatureSelector {
 		double [] expected = new double[possibleOutcomes.size()];
 		double [] expectedForOne = new double[possibleOutcomes.size()];
 		
-		for(int i=0;i<possibleOutcomes.size();i++) {
+		for (int i = 0; i < possibleOutcomes.size(); i++) {
 			expectedForOne[i] = outcomeCounts.getCount(possibleOutcomes.get(i)) * 1.0 / totalEvents;
 		}
 		
@@ -88,7 +88,7 @@ final class FeatureSelector {
 				continue;				
 			}
 			int totalObserved = featureCounts.getCount(feature);
-			for(int i=0;i<possibleOutcomes.size();i++) {
+			for (int i = 0; i < possibleOutcomes.size(); i++) {
 				expected[i] = expectedForOne[i] * totalObserved;
 				observed[i] = featureToOutcomes.get(feature).getCount(possibleOutcomes.get(i));
 			}
@@ -118,7 +118,7 @@ final class FeatureSelector {
 		List<Event> newEvents = new ArrayList<Event>();
 		for(Event event : events) {
 			List<String> features = new ArrayList<String>();
-			for(int i=0;i<event.getContext().length;i++) {
+			for (int i = 0; i < event.getContext().length; i++) {
 				String feature = event.getContext()[i];
 				if(allowableFeatures.contains(feature)) features.add(feature);
 			}

@@ -51,7 +51,7 @@ public class XMLSpanTagger {
 			e.addAttribute(new Attribute("xtspanstart", Integer.toString(charOffset)));
 			flag = true;
 		}
-		for(int i=0;i<e.getChildCount();i++) {
+		for (int i = 0; i < e.getChildCount(); i++) {
 			if(e.getChild(i) instanceof Element) {
 				tagUpElement((Element) e.getChild(i));
 			} else if(e.getChild(i) instanceof Text) {
@@ -83,7 +83,7 @@ public class XMLSpanTagger {
 		if(a != null) {e.removeAttribute(a); a.detach();}
 		a = e.getAttribute("xtspanend");
 		if(a != null) {e.removeAttribute(a); a.detach();}
-		for(int i=0;i<e.getChildElements().size();i++) {
+		for (int i = 0; i < e.getChildElements().size(); i++) {
 			deTagElement(e.getChildElements().get(i));
 		}
 	}

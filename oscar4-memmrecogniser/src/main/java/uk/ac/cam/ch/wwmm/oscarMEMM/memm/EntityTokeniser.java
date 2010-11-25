@@ -28,7 +28,7 @@ final class EntityTokeniser {
 		this.memm = memm;
 		length = classifierResults.size();
 		alphas = new ArrayList<Map<String, Double>>();
-		for(int i=0;i<length;i++) {
+		for (int i = 0; i < length; i++) {
 			Map<String,Double> alphasAtI = new HashMap<String,Double>();
 			if(i==0) {
 				for(String tag : memm.getTagSet()) {
@@ -58,7 +58,7 @@ final class EntityTokeniser {
 		// First: everything up to the start tag(inclusive)
 		double score = alphas.get(startPosition).get("B-"+ namedEntityType.getName());
 		// Second: the body of the entity - the second and subsequent tags
-		for(int i=startPosition+1;i<startPosition+length;i++) {
+		for (int i = startPosition+1; i < startPosition+length; i++) {
 			String prevTag = "I-" + namedEntityType.getName();
 			if(i == startPosition+1) {
 				prevTag = "B-" + namedEntityType.getName();
@@ -88,11 +88,11 @@ final class EntityTokeniser {
 	
 	public Map<NamedEntity,Double> getEntities(double threshold) {
 		Map<NamedEntity,Double> entities = new HashMap<NamedEntity,Double>();
-		for(int i=0;i<length;i++) {
+		for (int i = 0; i < length; i++) {
 			for(NamedEntityType namedEntityType : memm.getNamedEntityTypes()) {
 				double entitiesProb = probEntityStartsAt(namedEntityType, i);
 				if(entitiesProb > threshold) {
-					for(int j=1;j<=length-i;j++) {
+					for (int j = 1; j <= length-i; j++) {
 						double entityProb = probEntityAt(namedEntityType, i, j);
 						if(entityProb > threshold) {
 							

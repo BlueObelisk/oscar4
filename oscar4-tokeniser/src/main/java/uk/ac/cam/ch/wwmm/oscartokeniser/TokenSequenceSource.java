@@ -78,7 +78,7 @@ public final class TokenSequenceSource implements Iterable<ITokenSequence>, Iter
 				if(simple) {
 					Nodes placesForChemicals = XMLStrings.getInstance().getChemicalPlaces(doc);
 					Tokeniser tokeniser = Tokeniser.getInstance();
-					for(int i=0;i<placesForChemicals.size();i++) {
+					for (int i = 0; i < placesForChemicals.size(); i++) {
 						Element e = (Element)placesForChemicals.get(i);
 						String text = e.getValue();
 						ITokenSequence ts = tokeniser.tokenise(text);

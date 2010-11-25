@@ -115,7 +115,7 @@ public final class TermMaps {
 		suffixes = new HashSet<String>();
 		for(String s : neTerms.keySet()) {
 			String [] ss = s.split("\\s+");
-			for(int i=0;i<ss.length;i++) {
+			for (int i = 0; i < ss.length; i++) {
 				if(ss[i].startsWith("$-")) {
 					suffixes.add(ss[i].substring(2));
 				}

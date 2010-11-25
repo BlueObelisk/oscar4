@@ -44,7 +44,7 @@ public class TokenTypes {
 		boolean isCr = false;
 		if(token.getDoc() != null && XMLStrings.getInstance().isCompoundReferenceUnderStyle(token.getDoc().getStandoffTable().getElemAtOffset(token.getStart()))) {
 			isCr = true;
-			for(int i=0;i<token.getValue().length();i++) {
+			for (int i = 0; i < token.getValue().length(); i++) {
 				if(!XMLStrings.getInstance().isCompoundReferenceUnderStyle(token.getDoc().getStandoffTable().getElemAtOffset(token.getStart()))) {
 					isCr = false;
 					break;

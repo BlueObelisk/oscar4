@@ -84,7 +84,7 @@ public class BiooligomerScorer {
 		try {
 			double score = 0.0;
 			String [] ss = word.split("-");
-			for(int i=0;i<ss.length;i++) {
+			for (int i = 0; i < ss.length; i++) {
 				String v = ss[i];
 				if(v.endsWith("Ac")) v = v.substring(0, v.length()-2);
 				if(v.endsWith("diN")) v = v.substring(0, v.length()-3);

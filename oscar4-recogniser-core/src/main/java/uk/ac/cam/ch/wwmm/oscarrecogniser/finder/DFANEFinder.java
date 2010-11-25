@@ -182,7 +182,7 @@ public class DFANEFinder extends DFAFinder {
                     }
                 }
 //				boolean isModifiedCompRef = false;
-//				for(int i=m.start(m.groupCount())+t.getStart();i<t.getEnd();i++) {
+//				for (int i = m.start(m.groupCount())+t.getStart(); i < t.getEnd(); i++) {
 //					if (!XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(i))) {
 //						isModifiedCompRef = false;
 //						break;
@@ -232,7 +232,7 @@ public class DFANEFinder extends DFAFinder {
                     while(withoutLastBracket.endsWith(")") || withoutLastBracket.endsWith("]")) {
                         withoutLastBracket = withoutLastBracket.substring(0, withoutLastBracket.length()-1);
                     }
-                    for(int i=1;i<withoutLastBracket.length();i++) {
+                    for (int i = 1; i < withoutLastBracket.length(); i++) {
                         if (TermMaps.getSuffixes().contains(withoutLastBracket.substring(i))) {
                             tokenRepresentations.add("$-" + withoutLastBracket.substring(i));
                         }

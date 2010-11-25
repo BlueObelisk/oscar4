@@ -133,7 +133,7 @@ public final class MEMMTrainer {
 		//extractor.printFeatures();
 		List<IToken> tokens = tokSeq.getTokens();
 		String prevTag = "O";
-		for(int i=0;i<tokens.size();i++) {
+		for (int i = 0; i < tokens.size(); i++) {
 			train(featureLists.get(i), tokens.get(i).getBioTag(), prevTag);
 			prevTag = tokens.get(i).getBioTag();
 		}
@@ -149,16 +149,16 @@ public final class MEMMTrainer {
 		long time = System.currentTimeMillis();
 		Document doc = new Builder().build(stream);
 		Nodes n = doc.query("//cmlPile");
-		for(int i=0;i<n.size();i++) n.get(i).detach();
+		for (int i = 0; i < n.size(); i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");
-		for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));
+		for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 		if(false) {
 			n = doc.query("//ne[@type='CLASS']");
-			for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));			
+			for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 		}
 		if(false) {
 			n = doc.query("//ne");
-			for(int i=0;i<n.size();i++) {
+			for (int i = 0; i < n.size(); i++) {
 				Element e = (Element)n.get(i);
 				e.addAttribute(new Attribute("type", "CHEMICAL"));
 				//XOMTools.removeElementPreservingText((Element)n.get(i));
@@ -167,7 +167,7 @@ public final class MEMMTrainer {
 
 		if(nameTypes) {
 			n = doc.query("//ne");
-			for(int i=0;i<n.size();i++) {
+			for (int i = 0; i < n.size(); i++) {
 				Element ne = (Element)n.get(i);
 				if(ne.getAttributeValue("type").equals(NamedEntityType.REACTION.getName()) && ne.getValue().matches("[A-Z]\\p{Ll}\\p{Ll}.*\\s.*")) {
 					ne.addAttribute(new Attribute("type", "NRN"));
@@ -209,13 +209,13 @@ public final class MEMMTrainer {
 		List<Set<File>> splitTrainAntiFiles = new ArrayList<Set<File>>();
 		int splitNo = 2;
 		
-		for(int i=0;i<splitNo;i++) {
+		for (int i = 0; i < splitNo; i++) {
 			splitTrainFiles.add(new HashSet<File>());
 			splitTrainAntiFiles.add(new HashSet<File>());
 		}
 		
-		for(int i=0;i<files.size();i++) {
-			for(int j=0;j<splitNo;j++) {
+		for (int i = 0; i < files.size(); i++) {
+			for (int j = 0; j < splitNo; j++) {
 				if(j == i % splitNo) {
 					splitTrainFiles.get(j).add(files.get(i));
 				} else {
@@ -224,7 +224,7 @@ public final class MEMMTrainer {
 			}
 		}
 		
-		for(int split=0;split<splitNo;split++) {
+		for (int split = 0; split < splitNo; split++) {
 			if(retrain) {
 				HyphenTokeniser.reinitialise();
 				new ExtractTrainingData(splitTrainAntiFiles.get(split));
@@ -251,13 +251,13 @@ public final class MEMMTrainer {
 		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();
 		int splitNo = 3;
 		
-		for(int i=0;i<splitNo;i++) {
+		for (int i = 0; i < splitNo; i++) {
 			splitTrainFiles.add(new ArrayList<File>());
 			splitTrainAntiFiles.add(new ArrayList<File>());
 		}
 		
-		for(int i=0;i<files.size();i++) {
-			for(int j=0;j<splitNo;j++) {
+		for (int i = 0; i < files.size(); i++) {
+			for (int j = 0; j < splitNo; j++) {
 				if(j == i % splitNo) {
 					splitTrainFiles.get(j).add(files.get(i));
 				} else {
@@ -266,7 +266,7 @@ public final class MEMMTrainer {
 			}
 		}
 		
-		for(int split=0;split<splitNo;split++) {
+		for (int split = 0; split < splitNo; split++) {
 			trainOnSbFiles(splitTrainAntiFiles.get(split));
 			evsByPrev.clear();
 			for(File f : splitTrainFiles.get(split)) {
@@ -291,13 +291,13 @@ public final class MEMMTrainer {
 		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();
 		int splitNo = 3;
 		
-		for(int i=0;i<splitNo;i++) {
+		for (int i = 0; i < splitNo; i++) {
 			splitTrainFiles.add(new ArrayList<File>());
 			splitTrainAntiFiles.add(new ArrayList<File>());
 		}
 		
-		for(int i=0;i<files.size();i++) {
-			for(int j=0;j<splitNo;j++) {
+		for (int i = 0; i < files.size(); i++) {
+			for (int j = 0; j < splitNo; j++) {
 				if(j == i % splitNo) {
 					splitTrainFiles.get(j).add(files.get(i));
 				} else {
@@ -306,7 +306,7 @@ public final class MEMMTrainer {
 			}
 		}
 		
-		for(int split=0;split<splitNo;split++) {
+		for (int split = 0; split < splitNo; split++) {
 			if(simpleRescore) {
 				trainOnSbFiles(splitTrainAntiFiles.get(split));
 			} else {
@@ -382,7 +382,7 @@ public final class MEMMTrainer {
 		Map<String, Double> results = new HashMap<String, Double>();
 		results.putAll(zeroProbs);
 		double [] gisResults = gm.eval(context);
-		for(int i=0;i<gisResults.length;i++) {
+		for (int i = 0; i < gisResults.length; i++) {
 			results.put(gm.getOutcome(i), gisResults[i]);
 		}
 		return results;
@@ -432,7 +432,7 @@ public final class MEMMTrainer {
 		if(tokens.size() == 0) return new HashMap<NamedEntity,Double>();
 
 		List<Map<String,Map<String,Double>>> classifierResults = new ArrayList<Map<String,Map<String,Double>>>();	
-		for(int i=0;i<tokens.size();i++) {
+		for (int i = 0; i < tokens.size(); i++) {
 //			System.out.println(tokens.get(i) + " -> " + extractor.getFeatures(i));
 			classifierResults.add(calcResults(featureLists.get(i)));
 		}
@@ -455,9 +455,9 @@ public final class MEMMTrainer {
 		logger.debug("Cross-Validate features on: " + file + "... ");
 		Document doc = new Builder().build(file);
 		Nodes n = doc.query("//cmlPile");
-		for(int i=0;i<n.size();i++) n.get(i).detach();
+		for (int i = 0; i < n.size(); i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");
-		for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));
+		for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 		
 		
 		IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
@@ -487,7 +487,7 @@ public final class MEMMTrainer {
 		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
 		List<IToken> tokens = tokSeq.getTokens();
 		String prevTag = "O";
-		for(int i=0;i<tokens.size();i++) {
+		for (int i = 0; i < tokens.size(); i++) {
 			String tag = tokens.get(i).getBioTag();
 			GISModel gm = gmByPrev.get(prevTag);
 			if(gm == null) continue;
@@ -505,7 +505,7 @@ public final class MEMMTrainer {
 			String [] featuresArray = features.toArray(new String[0]);
 			String [] newFeaturesArray = features.toArray(new String[0]);
 			double [] baseProbs = gm.eval(featuresArray);
-			for(int j=0;j<features.size();j++) {
+			for (int j = 0; j < features.size(); j++) {
 				newFeaturesArray[j] = "IGNORETHIS";
 				double [] newProbs = gm.eval(newFeaturesArray);
 				double gain = infoLoss(newProbs, outcomeIndex) - infoLoss(baseProbs, outcomeIndex);
@@ -575,14 +575,14 @@ public final class MEMMTrainer {
 		Elements maxents = memmRoot.getChildElements("maxent");
 		gmByPrev = new HashMap<String,GISModel>();
 		tagSet = new HashSet<String>();
-		for(int i=0;i<maxents.size();i++) {
+		for (int i = 0; i < maxents.size(); i++) {
 			Element maxent = maxents.get(i);
 			String prev = maxent.getAttributeValue("prev");
 			StringGISModelReader sgmr = new StringGISModelReader(maxent.getValue());
 			GISModel gm = sgmr.getModel();
 			gmByPrev.put(prev, gm);
 			tagSet.add(prev);
-			for(int j=0;j<gm.getNumOutcomes();j++) {
+			for (int j = 0; j < gm.getNumOutcomes(); j++) {
 				tagSet.add(gm.getOutcome(j));
 			}
 		}

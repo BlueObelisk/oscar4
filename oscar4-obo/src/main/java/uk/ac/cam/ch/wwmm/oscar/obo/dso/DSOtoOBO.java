@@ -42,7 +42,7 @@ public class DSOtoOBO {
 				OntologyTerm term = new OntologyTerm(termID, mainTerm);
 				oo.addTerm(term);
 				//termsByID.put(termID, term);
-				for(int i=1;i<termNames.length;i++) {
+				for (int i = 1; i < termNames.length; i++) {
 					term.addSynonym(termNames[i].trim());
 				}
 				term.addIsA(parentID);

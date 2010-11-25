@@ -71,7 +71,7 @@ public final class StringSource implements Iterable<String>, Iterator<String> {
 				
 				if(bundleNEs) {
 					n = doc.query("//ne");
-					for(int i=0;i<n.size();i++) {
+					for (int i = 0; i < n.size(); i++) {
 						String s = n.get(i).getValue();
 						s = s.replaceAll("\\s+", "_");
 						Element e = (Element)n.get(i);
@@ -81,7 +81,7 @@ public final class StringSource implements Iterable<String>, Iterator<String> {
 				}
 				
 				n = XMLStrings.getInstance().getChemicalPlaces(doc);
-				for(int i=0;i<n.size();i++) {
+				for (int i = 0; i < n.size(); i++) {
 					String s = n.get(i).getValue();
 					if(s != null) strings.add(s);
 				}

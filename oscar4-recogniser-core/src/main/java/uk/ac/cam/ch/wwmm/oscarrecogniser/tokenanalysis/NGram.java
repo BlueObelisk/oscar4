@@ -158,7 +158,7 @@ public class NGram {
         int s3 = ALPHABET.indexOf(w.charAt(2));
         int s0 = 0;
         double logP = 0;
-        for(int i=3;i<l;i++) {
+        for (int i = 3; i < l; i++) {
             s0 = s1;
             s1 = s2;
             s2 = s3;

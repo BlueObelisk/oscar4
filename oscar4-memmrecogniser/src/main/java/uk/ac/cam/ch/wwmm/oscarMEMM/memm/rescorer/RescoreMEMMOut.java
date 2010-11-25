@@ -127,9 +127,9 @@ public final class RescoreMEMMOut {
 		String name = f.getParentFile().getName();
 		Logger.getLogger(RescoreMEMMOut.class).debug(name);
 		Nodes n = doc.query("//cmlPile");
-		for(int i=0;i<n.size();i++) n.get(i).detach();
+		for (int i = 0; i < n.size(); i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");
-		for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));
+		for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 		
 		/*NameRecogniser nr = new NameRecogniser();
 		nr.halfProcess(doc);
@@ -145,7 +145,7 @@ public final class RescoreMEMMOut {
 		
 		for(ITokenSequence tokSeq : procDoc.getTokenSequences()) {
 			Nodes neNodes = ((TokenSequence)tokSeq).getElem().query(".//ne");
-			for(int k=0;k<neNodes.size();k++) {
+			for (int k = 0; k < neNodes.size(); k++) {
 				Element neElem = (Element)neNodes.get(k);
 				String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
 				testNEs.add(neStr);
@@ -218,9 +218,9 @@ public final class RescoreMEMMOut {
 		String name = f.getParentFile().getName();
 		//System.out.println(name);
 		Nodes n = doc.query("//cmlPile");
-		for(int i=0;i<n.size();i++) n.get(i).detach();
+		for (int i = 0; i < n.size(); i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");
-		for(int i=0;i<n.size();i++) XOMTools.removeElementPreservingText((Element)n.get(i));
+		for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 		
 		/*NameRecogniser nr = new NameRecogniser();
 		nr.halfProcess(doc);
@@ -235,7 +235,7 @@ public final class RescoreMEMMOut {
 		
 		for(ITokenSequence tokSeq : procDoc.getTokenSequences()) {
 			Nodes neNodes = ((TokenSequence)tokSeq).getElem().query(".//ne");
-			for(int k=0;k<neNodes.size();k++) {
+			for (int k = 0; k < neNodes.size(); k++) {
 				Element neElem = (Element)neNodes.get(k);
 				String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
 				testNEs.add(neStr);
@@ -328,7 +328,7 @@ public final class RescoreMEMMOut {
 	public void readElement(Element elem) throws Exception {
 		Elements maxents = elem.getChildElements("maxent");
 		modelsByNamedEntityType = new HashMap<NamedEntityType,GISModel>();
-		for(int i=0;i<maxents.size();i++) {
+		for (int i = 0; i < maxents.size(); i++) {
 			Element maxent = maxents.get(i);
 			NamedEntityType namedEntityType = NamedEntityType.valueOf(maxent.getAttributeValue("type"));
 			StringGISModelReader sgmr = new StringGISModelReader(maxent.getValue());

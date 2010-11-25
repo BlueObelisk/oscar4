@@ -34,8 +34,8 @@ public final class DataParser {
 			paras = doc.query(XMLStrings.getInstance().ALL_PARAS_XPATH, XMLStrings.getInstance().getXpc());
 		}
 		
-		for(int i=0;i<paras.size();i++) {
-			for(int j=0;j<paras.get(i).getChildCount();j++) {
+		for (int i = 0; i < paras.size(); i++) {
+			for (int j = 0; j < paras.get(i).getChildCount(); j++) {
 				Node n = paras.get(i).getChild(j);
 				if(n instanceof Text)
 					RParser.getInstance().parse((Text) n);
@@ -49,7 +49,7 @@ public final class DataParser {
 	
 	private void scrubFormatting() throws Exception {
 		Nodes nodes = doc.query(XMLStrings.getInstance().FORMATTING_XPATH, XMLStrings.getInstance().getXpc());
-		for(int i=0;i<nodes.size();i++) {
+		for (int i = 0; i < nodes.size(); i++) {
 			XOMTools.removeElementPreservingText((Element)nodes.get(i));
 		}
 	}

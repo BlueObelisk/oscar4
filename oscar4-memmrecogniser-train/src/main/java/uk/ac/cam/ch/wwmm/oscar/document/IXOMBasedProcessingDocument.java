@@ -4,7 +4,7 @@ import java.util.List;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 
-public interface IOldProcessingDocument extends IProcessingDocument {
+public interface IXOMBasedProcessingDocument extends IProcessingDocument {
 
 	/**
 	 * Sets the StandoffTable associated with the document.

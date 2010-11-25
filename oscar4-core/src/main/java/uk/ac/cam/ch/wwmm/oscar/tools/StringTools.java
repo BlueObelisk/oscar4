@@ -62,8 +62,10 @@ public final class StringTools {
 
     public static final Pattern PSCRUB = Pattern.compile("^[\\(\\[]*(.*?)[\\.,;:!\\?\\)\\]]*$");
 
+    private static final Pattern P_WHITESPACE = Pattern.compile("\\s+");
 
-	/**Removes the letter "s" from the end of a string, if present.
+
+    /**Removes the letter "s" from the end of a string, if present.
 	 * 
 	 * @param s The string.
 	 * @return The potentially modified string.
@@ -245,7 +247,7 @@ public final class StringTools {
 	 *         precompiled.
 	 */
 	public static String normaliseName(String name) {
-		String [] subStrings = RegExUtils.P_WHITESPACE.split(name);
+		String [] subStrings = splitOnWhitespace(name);
 		for(int i=0;i<subStrings.length;i++) {
 			if (twoLowerPattern.matcher(subStrings[i]).find()) {
 				subStrings[i] = subStrings[i].toLowerCase();
@@ -264,7 +266,7 @@ public final class StringTools {
 	 * @return The normalised name.
 	 */
 	public static String normaliseName2(String name) {
-		String [] subStrings = RegExUtils.P_WHITESPACE.split(name);
+		String [] subStrings = splitOnWhitespace(name);
 		for(int i=0;i<subStrings.length;i++) {
 			subStrings[i] = subStrings[i].replace("\u00ad", "");
 			Matcher m = firstLowerCaseable.matcher(subStrings[i]);
@@ -424,7 +426,7 @@ public final class StringTools {
 	public static List<String> spaceSepListToSubLists(String ssList) {
 		List<String> possibilities = new ArrayList<String>();
 		possibilities.add("");
-		String [] subStrs = RegExUtils.P_WHITESPACE.split(ssList);
+		String [] subStrs = splitOnWhitespace(ssList);
 		for(int i=0;i<subStrs.length;i++) {
 			for(String s : new ArrayList<String>(possibilities)) {
 				if(s.length() == 0) {
@@ -500,5 +502,8 @@ public final class StringTools {
     public static boolean isQuoteMark(String s) {
         return quoteMarks.contains(s);
     }
-    
+
+    public static String[] splitOnWhitespace(String s) {
+        return P_WHITESPACE.split(s);
+    }
 }

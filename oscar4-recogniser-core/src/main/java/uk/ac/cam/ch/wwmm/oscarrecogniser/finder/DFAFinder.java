@@ -16,7 +16,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
-import uk.ac.cam.ch.wwmm.oscar.tools.RegExUtils;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
@@ -163,13 +162,13 @@ public abstract class DFAFinder implements Serializable {
 				}
 				if (isOntologyTerm(namedEntity, namedEntityType)) {
 					String ontologyIdString = OntologyTerms.idsForTerm(namedEntity);
-					List<String> ontologyIds = Arrays.asList(RegExUtils.P_WHITESPACE.split(ontologyIdString));
+					List<String> ontologyIds = Arrays.asList(StringTools.splitOnWhitespace(ontologyIdString));
 					for(String ontologyId : ontologyIds) {
 						simpleAuts.get(namedEntityType).addContents(reStr + "X" + getNumberForOntologyId(ontologyId));
 					}
 				} else if (isCustomTerm(namedEntity, namedEntityType)) {
 					String customTypeString = TermMaps.getCustEnt().get(namedEntity);
-					List<String> customTypes = Arrays.asList(RegExUtils.P_WHITESPACE.split(customTypeString));
+					List<String> customTypes = Arrays.asList(StringTools.splitOnWhitespace(customTypeString));
 					for(String customType : customTypes) {
 						simpleAuts.get(namedEntityType).addContents(reStr + "X" + getNumberForOntologyId(customType));
 					}
@@ -177,7 +176,7 @@ public abstract class DFAFinder implements Serializable {
 			} else {
 				if (isOntologyTerm(namedEntity, namedEntityType)) {
 					String ontologyIdString = OntologyTerms.idsForTerm(namedEntity);
-					List<String> ontologyIds = Arrays.asList(RegExUtils.P_WHITESPACE.split(ontologyIdString));
+					List<String> ontologyIds = Arrays.asList(StringTools.splitOnWhitespace(ontologyIdString));
 					sb.append("(X(");
 					for (Iterator<String> it = ontologyIds.iterator(); it.hasNext();) {
                         String ontologyId = it.next();
@@ -189,7 +188,7 @@ public abstract class DFAFinder implements Serializable {
 					sb.append("))?");
 				} else if (isCustomTerm(namedEntity, namedEntityType)) {
 					String customTypeString = TermMaps.getCustEnt().get(namedEntity);
-					List<String> customTypes = Arrays.asList(RegExUtils.P_WHITESPACE.split(customTypeString));
+					List<String> customTypes = Arrays.asList(StringTools.splitOnWhitespace(customTypeString));
 					sb.append("(X(");
 					for (Iterator<String> it = customTypes.iterator(); it.hasNext();) {
                         String customType = it.next();

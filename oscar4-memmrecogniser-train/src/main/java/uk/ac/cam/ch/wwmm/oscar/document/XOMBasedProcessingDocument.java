@@ -15,7 +15,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
  * @author ptc24
  * @author egonw
  */
-public final class OldProcessingDocument implements IOldProcessingDocument {
+public final class XOMBasedProcessingDocument implements IXOMBasedProcessingDocument {
 
 	public Document doc;
 	public IStandoffTable standoffTable;
@@ -24,7 +24,7 @@ public final class OldProcessingDocument implements IOldProcessingDocument {
 	public Map<Integer,IToken> tokensByEnd;
 	List<List<IToken>> sentences;
 
-	public OldProcessingDocument() {
+	public XOMBasedProcessingDocument() {
 
 	}
 

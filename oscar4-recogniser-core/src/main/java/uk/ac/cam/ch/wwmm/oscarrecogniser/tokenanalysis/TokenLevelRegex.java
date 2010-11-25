@@ -20,7 +20,7 @@ public class TokenLevelRegex {
 	private Pattern pattern;
 	private String name;
 	
-	public TokenLevelRegex(Element elem, TLRHolder tlrHolder) {
+	public TokenLevelRegex(Element elem, TokenLevelRegexHolder tlrHolder) {
 		type = NamedEntityType.valueOf(elem.getAttributeValue("type"));
 		String idRef = elem.getAttributeValue("idref");
 		regex = tlrHolder.getDefText(idRef);

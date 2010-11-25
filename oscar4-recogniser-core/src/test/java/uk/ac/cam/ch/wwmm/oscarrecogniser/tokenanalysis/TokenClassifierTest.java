@@ -4,11 +4,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 
-public class TLRHolderTest {
+public class TokenClassifierTest {
 
 	@Test
 	public void testConstructor() {
-		Assert.assertNotNull(TokenLevelRegexHolder.getInstance());
+		Assert.assertNotNull(TokenClassifier.getInstance());
 	}
 
 }

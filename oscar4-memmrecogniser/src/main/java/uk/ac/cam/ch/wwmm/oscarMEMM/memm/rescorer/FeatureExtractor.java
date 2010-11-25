@@ -13,7 +13,6 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /**Converts a set of named entities into a set of features for the rescorer.
@@ -67,7 +66,7 @@ final class FeatureExtractor {
 			averageScores.put(surf, descStats.getMean());
 		}
 		
-		Map<Token,NamedEntity> neByLastToken = new HashMap<Token,NamedEntity>();
+		Map<IToken,NamedEntity> neByLastToken = new HashMap<IToken,NamedEntity>();
 		for(NamedEntity ne : entities) {
 			if(!ne.isBlocked()) {
 				neByLastToken.put(ne.getLastToken(), ne);

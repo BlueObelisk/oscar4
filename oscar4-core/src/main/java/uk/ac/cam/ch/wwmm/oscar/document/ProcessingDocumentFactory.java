@@ -44,7 +44,7 @@ public class ProcessingDocumentFactory {
 		for (int i = 0; i < placesForChemicals.size(); i++) {
 			Element e = (Element) placesForChemicals.get(i);
 			String source = e.getValue();
-			TokenSequence ts = tokeniser.tokenise(source, procDoc, 0, null, false, false);
+			ITokenSequence ts = tokeniser.tokenise(source, procDoc, 0, null, false, false);
 			procDoc.addTokenSequence(ts);
 		}
 		
@@ -59,7 +59,7 @@ public class ProcessingDocumentFactory {
 			String source) {
 
 		ProcessingDocument procDoc = new ProcessingDocument();
-		TokenSequence ts = tokeniser.tokenise(source, procDoc, 0, null, false, false);
+		ITokenSequence ts = tokeniser.tokenise(source, procDoc, 0, null, false, false);
 		procDoc.addTokenSequence(ts);
 		return procDoc;
 	}

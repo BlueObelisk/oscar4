@@ -1,10 +1,16 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
@@ -12,13 +18,6 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
 import uk.ac.cam.ch.wwmm.oscarMEMM.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFAONTCPRFinder;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Name recognition using the Maximum Entropy Markov Model
@@ -74,7 +73,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         return findNamedEntities(procDoc.getTokenSequences());
     }
 
-    public List<NamedEntity> findNamedEntities(List<TokenSequence> tokSeqList) throws Exception {
+    public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList) throws Exception {
 
         // Generate named entity list
         List<NamedEntity> neList = generateNamedEntities(tokSeqList);
@@ -151,7 +150,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      * @param toxicList
      * @return
      */
-    private List<NamedEntity> generateNamedEntities(List<TokenSequence> toxicList) {
+    private List<NamedEntity> generateNamedEntities(List<ITokenSequence> toxicList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
         MEMM memm = getModel().getMemm();
         for (ITokenSequence tokseq : toxicList) {
@@ -171,7 +170,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      * @param toxicList
      * @return
      */
-    private List<NamedEntity> generateOntologyTerms(List<TokenSequence> toxicList) {
+    private List<NamedEntity> generateOntologyTerms(List<ITokenSequence> toxicList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
         DFAONTCPRFinder ontologyTermFinder = getOntologyTermFinder();
         for (ITokenSequence t : toxicList) {

@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.tools.RegExUtils;
@@ -319,7 +319,7 @@ public abstract class DFAFinder implements Serializable {
 		}
 	}
 	
-	protected void handleTokenForPrefix(Token t, NECollector collector) {
+	protected void handleTokenForPrefix(IToken t, NECollector collector) {
 		String prefix = PrefixFinder.getPrefix(t.getValue());
         if (prefix != null) {
             collector.collect(NamedEntity.forPrefix(t, prefix));
@@ -351,7 +351,7 @@ public abstract class DFAFinder implements Serializable {
 			}
 		}
 		int i = -1;
-		for(Token token : tokenSequence.getTokens()) {
+		for(IToken token : tokenSequence.getTokens()) {
 			i++;
 			if (i < startToken || i > endToken) {
                 continue;

@@ -26,10 +26,10 @@ import opennlp.maxent.TwoPassDataIndexer;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IOldProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.OldProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityTypes;
@@ -131,7 +131,7 @@ public final class MEMMTrainer {
 	private void trainOnSentence(ITokenSequence tokSeq) {
         List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
 		//extractor.printFeatures();
-		List<Token> tokens = tokSeq.getTokens();
+		List<IToken> tokens = tokSeq.getTokens();
 		String prevTag = "O";
 		for(int i=0;i<tokens.size();i++) {
 			train(featureLists.get(i), tokens.get(i).getBioTag(), prevTag);
@@ -428,7 +428,7 @@ public final class MEMMTrainer {
 	 */
 	public Map<NamedEntity,Double> findNEs(ITokenSequence tokSeq) {
 		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
-		List<Token> tokens = tokSeq.getTokens();
+		List<IToken> tokens = tokSeq.getTokens();
 		if(tokens.size() == 0) return new HashMap<NamedEntity,Double>();
 
 		List<Map<String,Map<String,Double>>> classifierResults = new ArrayList<Map<String,Map<String,Double>>>();	
@@ -485,7 +485,7 @@ public final class MEMMTrainer {
 			featureCVScores = new HashMap<String,Map<String,Double>>();
 		}
 		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
-		List<Token> tokens = tokSeq.getTokens();
+		List<IToken> tokens = tokSeq.getTokens();
 		String prevTag = "O";
 		for(int i=0;i<tokens.size();i++) {
 			String tag = tokens.get(i).getBioTag();

@@ -21,6 +21,7 @@ import opennlp.maxent.GISModel;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
@@ -125,7 +126,7 @@ public final class MEMM {
 
     private void trainOnSentence(ITokenSequence tokSeq, String domain) {
         List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
-        List<Token> tokens = tokSeq.getTokens();
+        List<IToken> tokens = tokSeq.getTokens();
         String prevTag = "O";
         for (int i = 0; i < tokens.size(); i++) {
             train(featureLists.get(i), tokens.get(i).getBioTag(), prevTag);
@@ -200,7 +201,7 @@ public final class MEMM {
      */
     public Map<NamedEntity,Double> findNEs(ITokenSequence tokSeq, String domain) {
         List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
-        List<Token> tokens = tokSeq.getTokens();
+        List<IToken> tokens = tokSeq.getTokens();
         if (tokens.isEmpty()) {
             return Collections.emptyMap();
         }
@@ -279,7 +280,7 @@ public final class MEMM {
             featureCVScores = new HashMap<String,Map<String,Double>>();
         }
         List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
-        List<Token> tokens = tokSeq.getTokens();
+        List<IToken> tokens = tokSeq.getTokens();
         String prevTag = "O";
         for(int i=0;i<tokens.size();i++) {
             String tag = tokens.get(i).getBioTag();

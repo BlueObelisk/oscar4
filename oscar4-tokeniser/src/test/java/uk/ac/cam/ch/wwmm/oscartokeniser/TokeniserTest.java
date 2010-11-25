@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -72,7 +73,7 @@ public final class TokeniserTest {
 	public void testButan1ol() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "butan-1-ol";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -88,7 +89,7 @@ public final class TokeniserTest {
 	public void testPhosphinin2One() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "phosphinin-2(1H)-one";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -124,7 +125,7 @@ public final class TokeniserTest {
 	public void testSpiroSystem() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "spiro[4.5]decane";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -132,14 +133,14 @@ public final class TokeniserTest {
 	public void testLambdaConvention1() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "lambda5-phosphane";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	@Test
 	public void testLambdaConvention2() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "\u03BB5-phosphane";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -163,7 +164,7 @@ public final class TokeniserTest {
 	public void testPeptide() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "L-alanyl-L-glutaminyl-L-arginyl-O-phosphono-L-seryl-L-alanyl-L-proline";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -171,7 +172,7 @@ public final class TokeniserTest {
 	public void testChargedAluminium() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "aluminium(3+)";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -179,7 +180,7 @@ public final class TokeniserTest {
 	public void testPolymer() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "poly(2,2'-diamino-5-hexadecylbiphenyl-3,3'-diyl)";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -187,7 +188,7 @@ public final class TokeniserTest {
 	public void testMethylideneCyclohexane() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "1-methyl-2-methylidene-cyclohexane";
-		TokenSequence  tokseq = tokeniser.tokenise(s);
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -200,7 +201,7 @@ public final class TokeniserTest {
 		checkTokens(tokseq.getTokens(), "CML ( TM )");
 	}
 
-	private void checkTokens(List<Token> tokens, String expectedTokens) {
+	private void checkTokens(List<IToken> tokens, String expectedTokens) {
 		List<String> expectedList = new ArrayList<String>();
 		for (String item : expectedTokens.split(" ")) {
 			expectedList.add(item);
@@ -213,7 +214,7 @@ public final class TokeniserTest {
 	@Test
 	public void testSimpleTokenSetup() {
 		String source = "The quick brown fox jumps over the lazy dog";
-		TokenSequence ts = Tokeniser.getInstance().tokenise(source);
+		ITokenSequence ts = Tokeniser.getInstance().tokenise(source);
 		assertEquals(9, ts.getTokens().size());
 		
 		assertEquals("The", ts.getToken(0).getValue());
@@ -256,7 +257,7 @@ public final class TokeniserTest {
 	@Test
 	public void testTokenSequenceSurface() {
 		String source = "The quick brown fox jumps over the lazy dog";
-		TokenSequence ts = Tokeniser.getInstance().tokenise(source);
+		ITokenSequence ts = Tokeniser.getInstance().tokenise(source);
 		assertEquals(source, ts.getSurface());
 	}
 }

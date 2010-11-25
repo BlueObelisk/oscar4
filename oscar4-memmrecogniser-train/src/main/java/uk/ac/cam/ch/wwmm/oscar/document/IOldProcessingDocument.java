@@ -26,7 +26,7 @@ public interface IOldProcessingDocument extends IProcessingDocument {
 	 * 
 	 * @return The list of TokenSequences for the document.
 	 */
-	public abstract List<TokenSequence> getTokenSequences();
+	public abstract List<ITokenSequence> getTokenSequences();
 
 	/**
 	 * Gets the token that starts at a given XPoint. Note that this should only
@@ -57,6 +57,6 @@ public interface IOldProcessingDocument extends IProcessingDocument {
 	 * @return The list of list of tokens corresponding to the sentences in the
 	 *         document.
 	 */
-	public abstract List<List<Token>> getSentences();
+	public abstract List<List<IToken>> getSentences();
 
 }

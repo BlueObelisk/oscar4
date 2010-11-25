@@ -100,10 +100,10 @@ public class OldProcessingDocumentFactory {
 	 */
 	public IOldProcessingDocument makeTokenisedDocument(ITokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia, Document safDoc) throws Exception {
 		OldProcessingDocument procDoc = makeDocument(sourceDoc);
-		procDoc.tokensByStart = new HashMap<Integer,Token>();
-		procDoc.tokensByEnd = new HashMap<Integer,Token>();
+		procDoc.tokensByStart = new HashMap<Integer,IToken>();
+		procDoc.tokensByEnd = new HashMap<Integer,IToken>();
 		
-		procDoc.tokenSequences = new ArrayList<TokenSequence>();
+		procDoc.tokenSequences = new ArrayList<ITokenSequence>();
 		/******************************************* 
 		 *  @lh359: This is the function that zones 
 		 *  in on the sections that contain 
@@ -135,7 +135,7 @@ public class OldProcessingDocumentFactory {
 			 * @lh359: This calls the tokeniser and
 			 * returns a TokenSequence
 			 */
-			TokenSequence ts = tokeniser.tokenise(text, procDoc, offset, safDoc != null ? safDoc.getRootElement() : e, tokeniseForNEs, mergeNEs);
+			ITokenSequence ts = tokeniser.tokenise(text, procDoc, offset, safDoc != null ? safDoc.getRootElement() : e, tokeniseForNEs, mergeNEs);
 			/********************************************
 			 * @lh359: Once it's done it adds the tokensequence
 			 * to the processingdocument
@@ -156,10 +156,10 @@ public class OldProcessingDocumentFactory {
 		 * 
 		 */
 		if(runGenia) {
-			procDoc.sentences = new ArrayList<List<Token>>();
+			procDoc.sentences = new ArrayList<List<IToken>>();
 			for(ITokenSequence ts : procDoc.tokenSequences) {
-				List<Token> tokens = ts.getTokens();
-				List<List<Token>> sentences = SentenceSplitter.makeSentences(tokens);
+				List<IToken> tokens = ts.getTokens();
+				List<List<IToken>> sentences = SentenceSplitter.makeSentences(tokens);
 				procDoc.sentences.addAll(sentences);
 //				for(List<Token> sentence : sentences) {
 //					NewGeniaRunner.runGenia(sentence);

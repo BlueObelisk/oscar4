@@ -31,7 +31,7 @@ public interface ITokenSequence {
 	 * 
 	 * @return The list of tokens that comprise this TokenSequence.
 	 */
-	public abstract List<Token> getTokens();
+	public abstract List<IToken> getTokens();
 
 	/**Gets a the sublist of tokens that occur between the given indices.
 	 * 
@@ -39,7 +39,7 @@ public interface ITokenSequence {
 	 * @param to The last token in the sublist (inclusive).
 	 * @return The sublist of tokens.
 	 */
-	public abstract List<Token> getTokens(int from, int to);
+	public abstract List<IToken> getTokens(int from, int to);
 
 	/**Gets a single token.
 	 * 

@@ -47,16 +47,16 @@ public final class SentenceSplitter {
 	 * @param tokens The list of tokens.
 	 * @return The list of list of tokens, corresponding to the sentences.
 	 */
-	public static List<List<Token>> makeSentences(List<Token> tokens) {
+	public static List<List<IToken>> makeSentences(List<IToken> tokens) {
 		return getInstance().makeSentencesInternal(tokens);
 	}
 	
-	private List<List<Token>> makeSentencesInternal(List<Token> tokens) {
-		List<List<Token>> sentences = new ArrayList<List<Token>>();
-		List<Token> sentence = new ArrayList<Token>();
+	private List<List<IToken>> makeSentencesInternal(List<IToken> tokens) {
+		List<List<IToken>> sentences = new ArrayList<List<IToken>>();
+		List<IToken> sentence = new ArrayList<IToken>();
 		sentences.add(sentence);
-		List<Token> prevSentence = null;
-		for(Token t : tokens) {
+		List<IToken> prevSentence = null;
+		for(IToken t : tokens) {
 			IStandoffTable sot = t.getDoc().getStandoffTable();
 			if (sentence.size() == 0 &&
 				sot instanceof StandoffTable &&
@@ -108,7 +108,7 @@ public final class SentenceSplitter {
 			}
 			if(split) {
 				prevSentence = sentence;
-				sentence = new ArrayList<Token>();
+				sentence = new ArrayList<IToken>();
 				sentences.add(sentence);
 			}
 		}

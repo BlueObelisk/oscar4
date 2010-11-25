@@ -5,15 +5,34 @@ import java.util.Map;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 
+/**
+ * A document, with data structures to store information such as tokens. This
+ * extra information is essential for many document processing tasks. These
+ * should be created using the {@link ProcessingDocumentFactory} class.
+ * 
+ * @author ptc24
+ * @author egonw
+ * @author dmj30
+ */
 public interface IProcessingDocument {
 
+	/**
+	 * Gets the list of ITokenSequences for the document. Note that this should
+	 * only be called after the document has been tokenised.
+	 * 
+	 * @return The list of TokenSequences for the document.
+	 */
+	List <ITokenSequence> getTokenSequences();
 
-	List <TokenSequence> getTokenSequences();
-
+	/**
+	 * Gets the {@link IStandoffTable} associated with the document.
+	 * 
+	 * @return The {@link IStandoffTable} for the document.
+	 */
 	IStandoffTable getStandoffTable();
 
-	Map<Integer, Token> getTokensByStart();
+	Map<Integer,IToken> getTokensByStart();
 
-	Map<Integer, Token> getTokensByEnd();
+	Map<Integer,IToken> getTokensByEnd();
 
 }

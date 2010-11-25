@@ -10,14 +10,14 @@ import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 
 public class ProcessingDocument implements IProcessingDocument {
 
-	private List<TokenSequence> tokenSequences = new ArrayList<TokenSequence>();
+	private List<ITokenSequence> tokenSequences = new ArrayList<ITokenSequence>();
 
 	
-	public List<TokenSequence> getTokenSequences() {
+	public List<ITokenSequence> getTokenSequences() {
 		return Collections.unmodifiableList(tokenSequences);
 	}
 
-	public void addTokenSequence(TokenSequence ts) {
+	public void addTokenSequence(ITokenSequence ts) {
 		tokenSequences.add(ts);
 	}
 
@@ -28,13 +28,13 @@ public class ProcessingDocument implements IProcessingDocument {
 	}
 
 	@Deprecated
-	public Map<Integer, Token> getTokensByStart() {
+	public Map<Integer,IToken> getTokensByStart() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Deprecated
-	public Map<Integer, Token> getTokensByEnd() {
+	public Map<Integer,IToken> getTokensByEnd() {
 		// TODO Auto-generated method stub
 		return null;
 	}

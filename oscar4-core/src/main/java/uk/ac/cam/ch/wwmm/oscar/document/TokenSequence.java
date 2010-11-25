@@ -22,10 +22,10 @@ public final class TokenSequence implements ITokenSequence {
 	private String surface;
 	private int offset;
 	private IProcessingDocument doc;
-	private List<Token> tokens;
+	private List<IToken> tokens;
 	private Element elem;
 	
-	public TokenSequence(String sourceString, int offset, IProcessingDocument doc, List<Token> tokens) 
+	public TokenSequence(String sourceString, int offset, IProcessingDocument doc, List<IToken> tokens) 
 	{
 		this.surface = sourceString;
         this.offset = offset;
@@ -57,14 +57,14 @@ public final class TokenSequence implements ITokenSequence {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getTokens()
 	 */
-	public List<Token> getTokens() {
+	public List<IToken> getTokens() {
 		return tokens;
 	}
 	
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getTokens(int, int)
 	 */
-	public List<Token> getTokens(int from, int to) {
+	public List<IToken> getTokens(int from, int to) {
 		return tokens.subList(from, to+1);
 	}
 	

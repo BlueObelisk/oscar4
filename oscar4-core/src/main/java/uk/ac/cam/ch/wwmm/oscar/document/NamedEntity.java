@@ -144,8 +144,9 @@ public final class NamedEntity extends ResolvableStandoff {
 	 * @param newOntIds The ontology identifiers to add.
 	 */
 	public void addOntIds(Set<String> newOntIds) {
-		if(newOntIds == null) return;
-		if(newOntIds.size() == 0) return;
+		if (newOntIds == null || newOntIds.isEmpty()) {
+            return;
+        }
 		if(ontIds == null) {
 			ontIds = new HashSet<String>();
 		}

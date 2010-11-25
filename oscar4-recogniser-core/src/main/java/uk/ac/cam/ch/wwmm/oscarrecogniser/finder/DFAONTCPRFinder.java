@@ -3,7 +3,7 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTermIdIndex;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -143,7 +143,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	@Override
 	protected void loadTerms() {
 //		logger.debug("Adding ontology terms to DFA finder...");
-		for(String s : OntologyTerms.getAllTerms()){
+		for(String s : OntologyTermIdIndex.getInstance().getAllTerms()){
 			addNamedEntity(s, NamedEntityType.ONTOLOGY, false);
 		}
 		for(String s : TermMaps.getCustEnt().keySet()){
@@ -180,7 +180,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 		if (!normalisedValue.equals(tokenValue)) {
             representations.add(normalisedValue);
         }
-		if (OntologyTerms.hasTerm(normalisedValue)) {
+		if (OntologyTermIdIndex.getInstance().containsTerm(normalisedValue)) {
             representations.add("$ONTWORD");
         }
 		if (tokenValue.length() == 1) {

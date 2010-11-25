@@ -1,12 +1,13 @@
 package uk.ac.cam.ch.wwmm.oscar.obo;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import uk.ac.cam.ch.wwmm.oscar.obo.dso.DSOtoOBO;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 
@@ -16,26 +17,35 @@ import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
  * @author ptc24
  *
  */
-public final class OntologyTerms {
+public final class OntologyTermIdIndex {
 
-	Map<String,String> termsWithIDs;
-	Set<String> hyphTokable;
+	private ListMultimap<String,String> termIdMap;
+	private Set<String> hyphTokable;
 	
-	static Pattern maybeHyphPattern = Pattern.compile("(\\S+)\\s+\\$\\(\\s+\\$HYPH\\s+\\$\\)\\s+\\$\\?\\s+(\\S+)");
+	private static Pattern maybeHyphPattern = Pattern.compile("(\\S+)\\s+\\$\\(\\s+\\$HYPH\\s+\\$\\)\\s+\\$\\?\\s+(\\S+)");
 	
-	private static OntologyTerms myInstance;
+	private static OntologyTermIdIndex defaultInstance;
 	
-	private static OntologyTerms getInstance() {
-		if(myInstance == null) myInstance = new OntologyTerms();
-		return myInstance;
+	public static OntologyTermIdIndex getInstance() {
+		if (defaultInstance == null) {
+            return createInstance();
+        }
+		return defaultInstance;
 	}
-	
-	private OntologyTerms() {
-		termsWithIDs = new HashMap<String,String>();
-		for(String term : TermMaps.getOntology().keySet()) {
+
+    private static synchronized OntologyTermIdIndex createInstance() {
+        if (defaultInstance == null) {
+            defaultInstance = new OntologyTermIdIndex();
+        }
+        return defaultInstance;    
+    }
+
+    private OntologyTermIdIndex() {
+		termIdMap = ArrayListMultimap.create();
+		for (String term : TermMaps.getOntology().keySet()) {
 			addTerm(term, TermMaps.getOntology().get(term));
 		}
-		if(OscarProperties.getData().useDSO) {
+		if (OscarProperties.getData().useDSO) {
 			try {
 				OBOOntology dso = DSOtoOBO.readDSO();
 				for(OntologyTerm term : dso.terms.values()) {
@@ -51,11 +61,7 @@ public final class OntologyTerms {
 	}
 	
 	private void addTerm(String term, String id) {
-		if(termsWithIDs.containsKey(term)) {
-			termsWithIDs.put(term, termsWithIDs.get(term) + " " + id);
-		} else {
-			termsWithIDs.put(term, id);
-		}
+        termIdMap.put(term, id);
 	}
 	
 	/**Whether the ontology set contains a given term name or synonym.
@@ -63,8 +69,8 @@ public final class OntologyTerms {
 	 * @param term The term name to query.
 	 * @return Whether the term exists.
 	 */
-	public static boolean hasTerm(String term) {
-		return getInstance().termsWithIDs.containsKey(term);
+	public boolean containsTerm(String term) {
+		return termIdMap.containsKey(term);
 	}
 	
 	/**Gets all IDs that apply to the term name or synonym , as a
@@ -73,16 +79,16 @@ public final class OntologyTerms {
 	 * @param term The term name or synonym to query.
 	 * @return The IDs, or null.
 	 */
-	public static String idsForTerm(String term) {
-		return getInstance().termsWithIDs.get(term);
+	public List<String> getIdsForTerm(String term) {
+		return termIdMap.get(term);
 	}
 	
 	/**Gets all of the term names and synonyms.
 	 * 
 	 * @return The term names an synonyms.
 	 */
-	public static Set<String> getAllTerms() {
-		return getInstance().termsWithIDs.keySet();
+	public Set<String> getAllTerms() {
+		return termIdMap.keySet();
 	}
 	
 	/**Produces some data for the HyphenTokeniser.
@@ -93,18 +99,18 @@ public final class OntologyTerms {
 	 * This method appears to be broken. getInstance().termsWithIDs.keySet()
 	 * returns 31616 items but nothing matches maybeHyphPattern
 	 */
-	public static Set<String> getHyphTokable() {
-		if(getInstance().hyphTokable == null) {
+	public Set<String> getHyphTokable() {
+		if (hyphTokable == null) {
 			Set<String> ht = new HashSet<String>();
-			getInstance().hyphTokable = ht;
-			for(String term : getInstance().termsWithIDs.keySet()) {
+			for (String term : termIdMap.keySet()) {
 				Matcher m = maybeHyphPattern.matcher(term);
 				while(m.find()) {
 					ht.add(m.group(1) + " " + m.group(2));
 				}
 			}
+            hyphTokable = ht;
 		}
-		return getInstance().hyphTokable;
+		return hyphTokable;
 	}
 	
 }

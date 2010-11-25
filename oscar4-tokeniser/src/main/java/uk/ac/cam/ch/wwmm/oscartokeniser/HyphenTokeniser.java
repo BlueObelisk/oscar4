@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
-import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTermIdIndex;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -227,7 +227,7 @@ public final class HyphenTokeniser {
 		builder.append(" ");
 		builder.append(StringTools.normaliseName(tokenValue.substring(currentIndex+1)));
 		
-		return OntologyTerms.getHyphTokable().contains(builder.toString());
+		return OntologyTermIdIndex.getInstance().getHyphTokable().contains(builder.toString());
 	}
 
 	/**

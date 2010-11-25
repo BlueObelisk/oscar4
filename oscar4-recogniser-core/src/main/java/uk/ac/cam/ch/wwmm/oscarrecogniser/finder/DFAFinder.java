@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTermIdIndex;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -161,8 +161,7 @@ public abstract class DFAFinder implements Serializable {
 					simpleAuts.put(namedEntityType, new SuffixTree(reStr));
 				}
 				if (isOntologyTerm(namedEntity, namedEntityType)) {
-					String ontologyIdString = OntologyTerms.idsForTerm(namedEntity);
-					List<String> ontologyIds = Arrays.asList(StringTools.splitOnWhitespace(ontologyIdString));
+					List<String> ontologyIds = OntologyTermIdIndex.getInstance().getIdsForTerm(namedEntity);
 					for(String ontologyId : ontologyIds) {
 						simpleAuts.get(namedEntityType).addContents(reStr + "X" + getNumberForOntologyId(ontologyId));
 					}
@@ -175,8 +174,7 @@ public abstract class DFAFinder implements Serializable {
 				}
 			} else {
 				if (isOntologyTerm(namedEntity, namedEntityType)) {
-					String ontologyIdString = OntologyTerms.idsForTerm(namedEntity);
-					List<String> ontologyIds = Arrays.asList(StringTools.splitOnWhitespace(ontologyIdString));
+					List<String> ontologyIds = OntologyTermIdIndex.getInstance().getIdsForTerm(namedEntity);
 					sb.append("(X(");
 					for (Iterator<String> it = ontologyIds.iterator(); it.hasNext();) {
                         String ontologyId = it.next();
@@ -210,7 +208,7 @@ public abstract class DFAFinder implements Serializable {
     }
 
     private boolean isOntologyTerm(String namedEntity, NamedEntityType namedEntityType) {
-        return NamedEntityType.ONTOLOGY.isInstance(namedEntityType) && OntologyTerms.hasTerm(namedEntity);
+        return NamedEntityType.ONTOLOGY.isInstance(namedEntityType) && OntologyTermIdIndex.getInstance().containsTerm(namedEntity);
     }
 
     private List<Automaton> getAutomatonList(NamedEntityType namedEntityType) {
@@ -306,14 +304,14 @@ public abstract class DFAFinder implements Serializable {
         collector.collect(namedEntity);
         if (NamedEntityType.ONTOLOGY.isInstance(a.getType())) {
 			Set<String> ontologyIds = runAutToStateToOntIds.get(a.getType()).get(a.getState());
-			String s = OntologyTerms.idsForTerm(StringTools.normaliseName(surface));
-			if (s != null && s.length() > 0) {
-				if (ontologyIds == null) {
+            List<String> ontologyIdList = OntologyTermIdIndex.getInstance().getIdsForTerm(StringTools.normaliseName(surface));
+			if (ontologyIdList != null) {
+                if (ontologyIds == null) {
                     ontologyIds = new HashSet<String>();
                 }
-				ontologyIds.addAll(Arrays.asList(s.split("\\s+")));
-			}
-			namedEntity.addOntIds(ontologyIds);
+                ontologyIds.addAll(ontologyIdList);
+            }
+            namedEntity.addOntIds(ontologyIds);
 		}
 		if (NamedEntityType.CUSTOM.isInstance(a.getType())) {
 			Set<String> customTypes = runAutToStateToOntIds.get(a.getType()).get(a.getState());

@@ -91,7 +91,7 @@ public final class Tokeniser implements ITokeniser {
 	 *            The ProcessingDocument for the string.
 	 * @param offset
 	 *            The start offset of the string.
-	 * @param elem
+	 * @param annotations
 	 *            An XML element, corresponding to either the inline-annotated
 	 *            SciXML for the string, or to the root element of a SAF
 	 *            document with the named entities.
@@ -104,7 +104,7 @@ public final class Tokeniser implements ITokeniser {
 	 * @return The TokenSequence for the string.
 	 */
 	public ITokenSequence tokenise(String s, IProcessingDocument doc, int offset,
-			Element elem, boolean tokeniseForNEs, boolean mergeNEs) {
+			Element annotations, boolean tokeniseForNEs, boolean mergeNEs) {
 		/*
 		 * @dmj30: The arguments tokeniseForNEs and mergeNEs confuse me.
 		 * Under what circumstances are we calling the tokeniser after we've
@@ -175,7 +175,7 @@ public final class Tokeniser implements ITokeniser {
 		}
 		tokens = tmpTokens;
 		
-		if (elem != null && tokeniseForNEs) {
+		if (annotations != null && tokeniseForNEs) {
 			try {
 				/*
 				 * @lh359: This function is called
@@ -184,7 +184,7 @@ public final class Tokeniser implements ITokeniser {
 				 * in oscarCRF
 				 * 
 				 ***************************/
-				handleNEs(s, doc, offset, elem, tokens);
+				handleNEs(s, doc, offset, annotations, tokens);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -213,7 +213,7 @@ public final class Tokeniser implements ITokeniser {
 		for (IToken t : tokens) {
 			t.setTokenSequence(tokenSequence);
 		}
-		tokenSequence.setElem(elem);
+		tokenSequence.setElem(annotations);
 		
 		
 		return tokenSequence;

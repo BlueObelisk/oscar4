@@ -14,7 +14,6 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.FeatureSet;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenTypes;
 
 /**
  * Converts a list of tokens into features for the MEMM.
@@ -230,7 +229,7 @@ public final class FeatureExtractor {
 			List<String> local, IToken token) {
 		double ngscore = NGram.getInstance().testWord(word);
 		// Already seen
-		NamedEntityType namedEntityType = TokenTypes.getTypeForSuffix(token.getValue());
+		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getValue());
 		ngscore = Math.max(ngscore, NGRAM_SCORE_LOWER_BOUND);
 		ngscore = Math.min(ngscore, NGRAM_SCORE_UPPER_BOUND);
 		for (int i = 0; i < ngscore; i++) {
@@ -261,7 +260,7 @@ public final class FeatureExtractor {
 			List<String> bigramable, List<String> contextable,
 			List<String> local, IToken token) {
 		double suffixScore = NGram.getInstance().testWordSuffix(word);
-		NamedEntityType namedEntityType = TokenTypes.getTypeForSuffix(token.getValue());
+		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getValue());
 
 		suffixScore = Math.max(suffixScore, SUFFIX_SCORE_LOWER_BOUND);
 		suffixScore = Math.min(suffixScore, SUFFIX_SCORE_UPPER_BOUND);

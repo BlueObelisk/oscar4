@@ -11,7 +11,7 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
  * @author ojd20 Tightened some of the performance.
  * 
  */
-public class TokenTypes {
+public class TokenSuffixClassifier {
 	
 	private static final String ESS = "s";
 	private static final String BIPHENYL = "biphenyl";
@@ -30,41 +30,10 @@ public class TokenTypes {
 	private static final Pattern REACTION3 = Pattern
 			.compile(".*(lys(is|es|ed?|ing|tic))");
 
-	public static Pattern twoLowerPattern = Pattern.compile("[a-z][a-z]");
-	public static Pattern oneCapitalPattern = Pattern.compile("[A-Z]");
-	public static Pattern oxidationStatePattern = Pattern.compile("\\((o|i{1,4}|i{0,3}[xv]|[xv]i{0,4})\\)", Pattern.CASE_INSENSITIVE);
-	public static Pattern oxidationStateEndPattern = Pattern.compile(".*\\((o|i{1,4}|i{0,3}[xv]|[xv]i{0,4})\\)", Pattern.CASE_INSENSITIVE);
+//	public static Pattern oxidationStateEndPattern = Pattern.compile(".*\\((o|i{1,4}|i{0,3}[xv]|[xv]i{0,4})\\)", Pattern.CASE_INSENSITIVE);
 
 	
-	/*
-	 * SciXML dependent
-	 */
-	@Deprecated
-	public static boolean isCompRef(IToken token) {
-		boolean isCr = false;
-		if(token.getDoc() != null && XMLStrings.getInstance().isCompoundReferenceUnderStyle(token.getDoc().getStandoffTable().getElemAtOffset(token.getStart()))) {
-			isCr = true;
-			for (int i = 0; i < token.getValue().length(); i++) {
-				if(!XMLStrings.getInstance().isCompoundReferenceUnderStyle(token.getDoc().getStandoffTable().getElemAtOffset(token.getStart()))) {
-					isCr = false;
-					break;
-				}
-			}
-		}
-		return isCr;
-	}
-	
-	/*
-	 * SciXML dependent
-	 */
-	@Deprecated
-	public static boolean isRef(IToken token) {
-		if(token.getDoc() == null) return false;
-		return XMLStrings.getInstance().isCitationReferenceUnderStyle(token.getDoc().getStandoffTable().getElemAtOffset(token.getStart()));
-	}
-
-
-	public static NamedEntityType getTypeForSuffix(String s) {
+	public static NamedEntityType classifyBySuffix(String s) {
 		if (s.endsWith(NUCLEOBASE)) {
 			return NamedEntityType.COMPOUND;
 		}

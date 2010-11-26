@@ -14,12 +14,12 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenClassifier;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenTypes;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** A subclass of DFAFinder, used to find named entities.
  *
@@ -32,6 +32,10 @@ public class DFANEFinder extends DFAFinder {
 
     private static final long serialVersionUID = -3307600610608772402L;
     private static DFANEFinder myInstance;
+
+    public static Pattern P_TWO_ADJACENT_LOWERCASE = Pattern.compile("[a-z][a-z]");
+    public static Pattern P_UPPERCASE_LETTER = Pattern.compile("[A-Z]");
+
 
     /**Get the DFANEFinder singleton, initialising if necessary.
      *
@@ -216,12 +220,12 @@ public class DFANEFinder extends DFAFinder {
                 }
 
                 if (score > OscarProperties.getData().ngramThreshold) {
-                    tokenRepresentations.add("$" + TokenTypes.getTypeForSuffix(value).getName());
+                    tokenRepresentations.add("$" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName());
                     if (value.startsWith("-")) {
-                        tokenRepresentations.add("$-" + TokenTypes.getTypeForSuffix(value).getName());
+                        tokenRepresentations.add("$-" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName());
                     }
                     if (value.endsWith("-")) {
-                        tokenRepresentations.add("$" + TokenTypes.getTypeForSuffix(value).getName() + "-");
+                        tokenRepresentations.add("$" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName() + "-");
                     }
 
                     String withoutLastBracket = value;
@@ -233,7 +237,7 @@ public class DFANEFinder extends DFAFinder {
                             tokenRepresentations.add("$-" + withoutLastBracket.substring(i));
                         }
                     }
-                    
+
                     if (value.contains("(") && !value.contains(")")) {
                         tokenRepresentations.add("$-(-");
                     }
@@ -255,11 +259,18 @@ public class DFANEFinder extends DFAFinder {
         if (OntologyTermIdIndex.getInstance().containsTerm(normalisedValue)) {
             tokenRepresentations.add("$ONTWORD");
         }
+//        if(!TokenTypes.twoLowerPattern.matcher(t.getValue()).find() && TokenTypes.oneCapitalPattern.matcher(t.getValue()).find()) {
+//			//System.out.println("Yay!");
+//			if(Oscar3Props.getInstance().useWordShapeHeuristic) tokenReps.add("$CMNONWORD");
+//			if(ExtractTrainingData.getInstance().chemicalNonWords.contains(t.getValue())) tokenReps.add("$CMNONWORD");
+//		}
+//      TODO why are these commented out?       
+//        if (ExtractedTrainingData.getInstance().chemicalNonWords.contains(value)) {
+//            tokenRepresentations.add("$CMNONWORD");
+//        } else
         if (OscarProperties.getData().useWordShapeHeuristic) {
-//			if (ExtractTrainingData.getInstance().chemicalNonWords.contains(t.getValue())) tokenReps.add("$CMNONWORD");
-            if (!TokenTypes.twoLowerPattern.matcher(value).find()
-                    && TokenTypes.oneCapitalPattern.matcher(value).find()) {
-                 tokenRepresentations.add("$CMNONWORD");
+            if (!hasTwoAdjacentLowerCaseLetters(value) && hasCapitalLetter(value)) {
+                tokenRepresentations.add("$CMNONWORD");
             }
         }
         //SciXML dependent - removed 24/11/10 by dmj30
@@ -276,6 +287,7 @@ public class DFANEFinder extends DFAFinder {
         if (TermSets.getDefaultInstance().getStopWords().contains(normalisedValue) ||
                 TermSets.getDefaultInstance().getClosedClass().contains(normalisedValue) ||
                 ChemNameDictSingleton.hasStopWord(normalisedValue)){// ||
+//      TODO why are these commented out?
 //				ExtractTrainingData.getInstance().nonChemicalWords.contains(normValue) ||
 //				ExtractTrainingData.getInstance().nonChemicalNonWords.contains(normValue)) {
             if (!isElement(normalisedValue)) {
@@ -284,6 +296,14 @@ public class DFANEFinder extends DFAFinder {
         }
 
         return tokenRepresentations;
+    }
+
+    private boolean hasCapitalLetter(String value) {
+        return P_UPPERCASE_LETTER.matcher(value).find();
+    }
+
+    private boolean hasTwoAdjacentLowerCaseLetters(String value) {
+        return P_TWO_ADJACENT_LOWERCASE.matcher(value).find();
     }
 
     private boolean isEndingWithElementName(String value) {

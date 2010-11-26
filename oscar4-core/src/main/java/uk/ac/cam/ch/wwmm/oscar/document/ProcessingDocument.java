@@ -21,22 +21,33 @@ public class ProcessingDocument implements IProcessingDocument {
 		tokenSequences.add(ts);
 	}
 
+	
+	/*
+	 *  getStandoffTable, getTokensByStart and getTokensByEnd shouldn't be necessary
+	 *  any more and shouldn't be called during processing.
+	*/
+	
+	
+	//getStandOffTable can be called by the tokeniser if Genia is running, but we're
+	//dumping that functionality.
 	@Deprecated
 	public IStandoffTable getStandoffTable() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("shouldn't have been called");
 	}
 
+	
+	/* 
+	 * ok, so getTokensByStart is called by the tokeniser, but the return value of null
+	 * means that the map doesn't get populated. This isn't ideal.
+	 */
 	@Deprecated
 	public Map<Integer,IToken> getTokensByStart() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Deprecated
 	public Map<Integer,IToken> getTokensByEnd() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("shouldn't have been called");
 	}
 	
 }

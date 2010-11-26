@@ -18,7 +18,6 @@ import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenTypes;
 
 /**
  * Handles postprocessing of MEMM results.
@@ -37,6 +36,8 @@ final class PostProcessor {
 	private static Pattern rnPattern = Pattern
 			.compile(".*(tions?|ing|ed|ates?|ativ(e|e?ly)|"
 					+ "ises?|izes?|ly[sz](is|e|ing|able)|lytic(a?ly)?|if(y|ies)|ments?|thes(is|es))");
+
+    private static Pattern oxidationStatePattern = Pattern.compile("\\((o|i{1,4}|i{0,3}[xv]|[xv]i{0,4})\\)", Pattern.CASE_INSENSITIVE);
 
 	private static boolean noPC = false;
 
@@ -82,7 +83,7 @@ final class PostProcessor {
 				|| surf
 						.matches(".*\\s+(\\.|\\,|:|=|at|is|has|with|are|on|of|and|or|were|in|as|was)")) {
 			return 9;
-		} else if (TokenTypes.oxidationStatePattern.matcher(surf).matches()) {
+		} else if (oxidationStatePattern.matcher(surf).matches()) {
 			return 10;
 		} else if (!StringTools.bracketsAreBalanced(surf)
 				&& surf.matches(".*\\s.*")) {

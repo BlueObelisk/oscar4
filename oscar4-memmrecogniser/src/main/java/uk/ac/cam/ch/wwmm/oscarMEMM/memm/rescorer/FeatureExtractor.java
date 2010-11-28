@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.math.stat.DescriptiveStatistics;
 import org.apache.commons.math.stat.DescriptiveStatisticsImpl;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -134,7 +134,7 @@ final class FeatureExtractor {
 		int endID = startID + entityLength - 1;
 		String surf = ne.getSurface();
 		
-		if(entityLength > 0 && ChemNameDictSingleton.hasName(surf)) features.add("LongInCND");
+		if(entityLength > 0 && ChemNameDictRegistry.getInstance().hasName(surf)) features.add("LongInCND");
 		
 		//int filterCode = PostProcessor.filterEntity(surf, ne.getType(null));
 		//features.add("filter=" + filterCode);

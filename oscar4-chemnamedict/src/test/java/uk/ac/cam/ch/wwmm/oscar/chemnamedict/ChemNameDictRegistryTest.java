@@ -6,6 +6,8 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
+
 public class ChemNameDictRegistryTest {
 
 	@Test
@@ -18,7 +20,7 @@ public class ChemNameDictRegistryTest {
 		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
 		registry.clear();
 		Assert.assertEquals(0, registry.listDictionaries().size());
-		ChemNameDict dict = new ChemNameDict(new URI("http://www.example.org/"));
+		IMutableChemNameDict dict = new MutableChemNameDict(new URI("http://www.example.org/"));
 		registry.register(dict);
 		Assert.assertEquals(1, registry.listDictionaries().size());
 	}
@@ -30,7 +32,7 @@ public class ChemNameDictRegistryTest {
 		Assert.assertEquals(0, registry.listDictionaries().size());
 		URI uri = new URI("http://www.example.org/");
 		Assert.assertFalse(registry.listDictionaries().contains(uri));
-		ChemNameDict dict = new ChemNameDict(uri);
+		IMutableChemNameDict dict = new MutableChemNameDict(uri);
 		registry.register(dict);
 		Assert.assertEquals(1, registry.listDictionaries().size());
 		Assert.assertTrue(registry.listDictionaries().contains(uri));
@@ -41,7 +43,7 @@ public class ChemNameDictRegistryTest {
 		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
 		registry.clear();
 		URI uri = new URI("http://www.example.org/");
-		ChemNameDict dict = new ChemNameDict(uri);
+		IMutableChemNameDict dict = new MutableChemNameDict(uri);
 		registry.register(dict);
 		Assert.assertEquals(dict, registry.getDictionary(uri));
 	}
@@ -51,7 +53,7 @@ public class ChemNameDictRegistryTest {
 		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
 		registry.clear();
 		Assert.assertFalse(registry.hasName("propanol"));
-		ChemNameDict dict = new ChemNameDict(new URI("http://www.example.org/"));
+		IMutableChemNameDict dict = new MutableChemNameDict(new URI("http://www.example.org/"));
 		registry.register(dict);
 		dict.addName("propanol");
 		Assert.assertTrue(registry.hasName("propanol"));
@@ -61,10 +63,10 @@ public class ChemNameDictRegistryTest {
 	public void testGetSMILES() throws Exception {
 		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
 		registry.clear();
-		ChemNameDict dict = new ChemNameDict(new URI("http://www.example.org/1/"));
+		IMutableChemNameDict dict = new MutableChemNameDict(new URI("http://www.example.org/1/"));
 		dict.addChemical("propanol", "CCO", "not relevant");
 		registry.register(dict);
-		dict = new ChemNameDict(new URI("http://www.example.org/2/"));
+	    dict = new MutableChemNameDict(new URI("http://www.example.org/2/"));
 		registry.register(dict);
 		dict.addChemical("propanol", "C1.C1O", "not relevant");
 
@@ -81,10 +83,10 @@ public class ChemNameDictRegistryTest {
 	public void testGetShortestSMILES() throws Exception {
 		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
 		registry.clear();
-		ChemNameDict dict = new ChemNameDict(new URI("http://www.example.org/1/"));
+		IMutableChemNameDict dict = new MutableChemNameDict(new URI("http://www.example.org/1/"));
 		dict.addChemical("propanol", "CCO", "not relevant");
 		registry.register(dict);
-		dict = new ChemNameDict(new URI("http://www.example.org/2/"));
+		dict = new MutableChemNameDict(new URI("http://www.example.org/2/"));
 		registry.register(dict);
 		dict.addChemical("propanol", "C1.C1O", "not relevant");
 
@@ -98,7 +100,7 @@ public class ChemNameDictRegistryTest {
 	public void testGetInChI() throws Exception {
 		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
 		registry.clear();
-		ChemNameDict dict = new ChemNameDict(new URI("http://www.example.org/1/"));
+		IMutableChemNameDict dict = new MutableChemNameDict(new URI("http://www.example.org/1/"));
 		dict.addChemical("methane", "C", "InChI=1/CH4/h1H4");
 		registry.register(dict);
 
@@ -114,7 +116,7 @@ public class ChemNameDictRegistryTest {
 	public void testGetNames_InChI() throws Exception {
 		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
 		registry.clear();
-		ChemNameDict dict = new ChemNameDict(new URI("http://www.example.org/1/"));
+		IMutableChemNameDict dict = new MutableChemNameDict(new URI("http://www.example.org/1/"));
 		dict.addChemical("methane", "C", "InChI=1/CH4/h1H4");
 		dict.addChemical("methaan", "C", "InChI=1/CH4/h1H4");
 		registry.register(dict);

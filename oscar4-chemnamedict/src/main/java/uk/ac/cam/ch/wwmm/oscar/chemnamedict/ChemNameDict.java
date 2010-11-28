@@ -428,7 +428,7 @@ public final class ChemNameDict implements ISingleChemNameDict,
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict#hasOntologyId(java.lang.String)
 	 */
-	public boolean hasOntologyId(String ontId) {
+	public boolean hasOntologyIdentifier(String ontId) {
 		try {
 			rwLock.readLock().lock();
 			return indexByOntID.containsKey(ontId);

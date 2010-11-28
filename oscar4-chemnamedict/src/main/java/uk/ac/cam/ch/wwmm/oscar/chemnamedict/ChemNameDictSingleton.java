@@ -140,7 +140,7 @@ public final class ChemNameDictSingleton {
 	 */
 	public static boolean hasOntId(String ontId) {
 		try {
-			return getChemNameDictInstance().hasOntologyId(ontId);
+			return getChemNameDictInstance().hasOntologyIdentifier(ontId);
 		} catch (Exception e) {
 			// TODO better exception handling here
 			throw new RuntimeException("ChemNameDict not initialised yet!");

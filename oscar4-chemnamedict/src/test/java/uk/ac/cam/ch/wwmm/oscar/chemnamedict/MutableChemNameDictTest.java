@@ -16,4 +16,23 @@ public class MutableChemNameDictTest {
 		);
 	}
 
+	@Test
+	public void testHasName() throws Exception {
+		IMutableChemNameDict dict = new MutableChemNameDict(
+			new URI("http://example.com/")
+		);
+		Assert.assertFalse(dict.hasName("acetic acid"));
+		dict.addName("acetic acid");
+		Assert.assertTrue(dict.hasName("acetic acid"));
+	}
+
+	@Test
+	public void testAddWithoutInChIOrSMILES() throws Exception {
+		IMutableChemNameDict dict = new MutableChemNameDict(
+			new URI("http://example.com/")
+		);
+		Assert.assertFalse(dict.hasName("acetic acid"));
+		dict.addChemical("acetic acid", null, null);
+		Assert.assertTrue(dict.hasName("acetic acid"));
+	}
 }

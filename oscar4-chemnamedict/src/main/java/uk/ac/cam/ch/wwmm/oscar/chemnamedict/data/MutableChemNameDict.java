@@ -19,11 +19,8 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 public class MutableChemNameDict extends ImmutableChemNameDict
 implements IMutableChemNameDict {
 
-	private Map<String,Set<ChemRecord>> indexByOntID;
-
 	public MutableChemNameDict(URI uri) {
 		super(uri);
-		indexByOntID = new HashMap<String,Set<ChemRecord>>();
 	}
 
 	public void addStopWord(String word) throws Exception {

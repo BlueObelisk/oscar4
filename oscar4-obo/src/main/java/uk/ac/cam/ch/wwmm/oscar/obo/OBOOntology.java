@@ -469,7 +469,7 @@ public class OBOOntology {
 			//System.out.println("No children");
 			return false;
 		}
-		if(ChemNameDictSingleton.getInchisByOntId(id).size() > 0) {
+		if(ChemNameDictSingleton.hasOntId(id)) {
 			//System.out.println("Has exact InChI");
 			return false;
 		}

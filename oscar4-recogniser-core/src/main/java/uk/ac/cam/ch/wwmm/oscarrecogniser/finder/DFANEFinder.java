@@ -1,7 +1,14 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -15,11 +22,6 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenClassifier;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /** A subclass of DFAFinder, used to find named entities.
  *
@@ -43,6 +45,16 @@ public class DFANEFinder extends DFAFinder {
      */
     public static DFANEFinder getInstance() {
         if (myInstance == null) {
+            try {
+    			ChemNameDictRegistry.getInstance().register(
+    				new DefaultDictionary()
+    			);
+    		} catch (Exception exception) {
+    			throw new Error(
+    				"Could not load default dictionary: " + exception,
+    				exception
+    			);
+    		}
             myInstance = new DFANEFinder();
         }
         return myInstance;
@@ -96,7 +108,7 @@ public class DFANEFinder extends DFAFinder {
         }
         logger.debug("Adding names from ChemNameDict to DFA finder...");
         try {
-            for(String s : ChemNameDictSingleton.getAllNames()) {
+            for(String s : ChemNameDictRegistry.getInstance().getAllNames()) {
                 // System.out.println(s);
                 addNamedEntity(s, NamedEntityType.COMPOUND, false);
             }
@@ -173,8 +185,7 @@ public class DFANEFinder extends DFAFinder {
                     tokenRepresentations.add("$CPR_FORMULA");
                 }
                 if (TermSets.getDefaultInstance().getStopWords().contains(lastGroupNorm) ||
-                        TermSets.getDefaultInstance().getClosedClass().contains(lastGroupNorm) ||
-                        ChemNameDictSingleton.hasStopWord(lastGroupNorm)) {//||
+                        TermSets.getDefaultInstance().getClosedClass().contains(lastGroupNorm)) {//||
 //						ExtractTrainingData.getInstance().nonChemicalWords.contains(lastGroupNorm) ||
 //						ExtractTrainingData.getInstance().nonChemicalNonWords.contains(lastGroupNorm)) {
                     if (!isElement(lastGroupNorm)) {
@@ -208,7 +219,7 @@ public class DFANEFinder extends DFAFinder {
             if (!stopWord && value.length() > 3 && value.matches(".*[a-z][a-z].*") ) {
                 double score;
 //				if (ExtractTrainingData.getInstance().chemicalWords.contains(normValue)) score = 100;
-                if (ChemNameDictSingleton.hasName(value)) {
+                if (ChemNameDictRegistry.getInstance().hasName(value)) {
                     score = 100;
                 }
                 else if (TermSets.getDefaultInstance().getUsrDictWords().contains(normalisedValue)
@@ -253,7 +264,7 @@ public class DFANEFinder extends DFAFinder {
             e.printStackTrace();
         }
 
-        if (ChemNameDictSingleton.hasName(value)) {
+        if (ChemNameDictRegistry.getInstance().hasName(value)) {
             tokenRepresentations.add("$INCND");
         }
         if (OntologyTermIdIndex.getInstance().containsTerm(normalisedValue)) {
@@ -285,8 +296,7 @@ public class DFANEFinder extends DFAFinder {
 //			}			
 //		}
         if (TermSets.getDefaultInstance().getStopWords().contains(normalisedValue) ||
-                TermSets.getDefaultInstance().getClosedClass().contains(normalisedValue) ||
-                ChemNameDictSingleton.hasStopWord(normalisedValue)){// ||
+                TermSets.getDefaultInstance().getClosedClass().contains(normalisedValue)){// ||
 //      TODO why are these commented out?
 //				ExtractTrainingData.getInstance().nonChemicalWords.contains(normValue) ||
 //				ExtractTrainingData.getInstance().nonChemicalNonWords.contains(normValue)) {

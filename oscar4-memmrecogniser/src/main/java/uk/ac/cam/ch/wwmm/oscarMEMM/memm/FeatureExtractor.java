@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
@@ -184,7 +184,7 @@ public final class FeatureExtractor {
 			}
 		}
 
-		if (ChemNameDictSingleton.hasName(word)) {
+		if (ChemNameDictRegistry.getInstance().hasName(word)) {
 			local.add(IN_NAMEDICT_FEATURE);
 		}
 
@@ -201,8 +201,7 @@ public final class FeatureExtractor {
 			bigramable.add(OXIDATION_STATE_FEATURE);
 		}
 
-		if (TermSets.getDefaultInstance().getStopWords().contains(normWord)
-				|| ChemNameDictSingleton.hasStopWord(normWord)) {
+		if (TermSets.getDefaultInstance().getStopWords().contains(normWord)) {
 			local.add(STOPWORD_FEATURE);
 		}
 		if (TermSets.getDefaultInstance().getClosedClass().contains(normWord)) {
@@ -218,7 +217,7 @@ public final class FeatureExtractor {
 			local.add(STOPWORD_NONCHEMICALNONWORD_FEATURE);
 		}
 		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
-				&& !(ChemNameDictSingleton.hasName(normWord) || ExtractedTrainingData
+				&& !(ChemNameDictRegistry.getInstance().hasName(normWord) || ExtractedTrainingData
 						.getInstance().chemicalWords.contains(normWord))) {
 			local.add(STOPWORD_USER_DEFINED_FEATURE);
 		}
@@ -246,7 +245,7 @@ public final class FeatureExtractor {
 		if (ExtractedTrainingData.getInstance().chemicalWords.contains(normWord)) {
 			ngscore = 100;
 		}
-		if (ChemNameDictSingleton.hasName(word)) {
+		if (ChemNameDictRegistry.getInstance().hasName(word)) {
 			ngscore = 100;
 		}
 
@@ -278,7 +277,7 @@ public final class FeatureExtractor {
 		if (ExtractedTrainingData.getInstance().chemicalWords.contains(normWord)) {
 			suffixScore = SUFFIX_HI_SCORE;
 		}
-		if (ChemNameDictSingleton.hasName(word)) {
+		if (ChemNameDictRegistry.getInstance().hasName(word)) {
 			suffixScore = SUFFIX_HI_SCORE;
 		}
 		double ngscore = NGram.getInstance().testWord(word);

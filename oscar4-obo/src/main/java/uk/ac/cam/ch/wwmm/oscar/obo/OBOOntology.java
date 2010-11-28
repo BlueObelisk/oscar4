@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.obo.dso.DSOtoOBO;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -176,7 +176,7 @@ public class OBOOntology {
 			}
 			boolean inCND = false;
 			for(String syn : synSet) {
-				if(ChemNameDictSingleton.hasName(syn)) {
+				if(ChemNameDictRegistry.getInstance().hasName(syn)) {
 					inCND = true;
 					break;
 				}
@@ -469,7 +469,7 @@ public class OBOOntology {
 			//System.out.println("No children");
 			return false;
 		}
-		if(ChemNameDictSingleton.hasOntId(id)) {
+		if(ChemNameDictRegistry.getInstance().hasOntologyIdentifier(id)) {
 			//System.out.println("Has exact InChI");
 			return false;
 		}

@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
@@ -96,8 +95,7 @@ final class PostProcessor {
 //				&& (!noPC && dataModel.nonChemicalWords
 //						.contains(surf))) {
 			return 12;
-		} else if (ChemNameDictSingleton.hasStopWord(surf)
-				|| TermSets.getDefaultInstance().getStopWords().contains(surf)) {
+		} else if (TermSets.getDefaultInstance().getStopWords().contains(surf)) {
 			return 13;
 		}
 		return 0;

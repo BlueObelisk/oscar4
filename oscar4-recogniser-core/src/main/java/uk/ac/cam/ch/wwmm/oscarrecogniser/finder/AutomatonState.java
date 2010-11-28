@@ -67,5 +67,16 @@ public class AutomatonState implements Cloneable {
 	
 	public AutomatonState clone() {
 		return new AutomatonState(aut, type, state, startToken, reps);
-	}	
+	}
+
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("AutomatonState:[");
+		buffer.append("type: ").append(type.getName()).append(", ");
+		buffer.append("state: ").append(state).append(", ");
+		buffer.append("reps: ").append(reps).append(", ");
+		buffer.append("start: ").append(startToken);
+		buffer.append(']');
+		return buffer.toString();
+	}
 }

@@ -9,7 +9,7 @@ public interface ISingleChemNameDict extends IMutableChemNameDict {
 
 	public Set<String> getOntologyIDsFromInChI(String queryInchi);
 
-	public boolean hasOntologyId(String ontId);
+	public boolean hasOntologyIdentifier(String ontId);
 
 	public Set<String> getInchisByOntologyId(String ontId);
 

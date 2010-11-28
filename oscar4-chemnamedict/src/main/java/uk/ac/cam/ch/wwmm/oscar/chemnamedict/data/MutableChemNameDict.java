@@ -1,9 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict.data;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
@@ -39,9 +37,8 @@ implements IMutableChemNameDict {
 	}
 
 	public void addChemRecord(ChemRecord record) throws Exception {
-		if(record.inchi != null) {
 			String inchi = record.inchi;
-			if(indexByInchi.containsKey(inchi)) {
+			if(inchi != null && indexByInchi.containsKey(inchi)) {
 				ChemRecord mergeRecord = indexByInchi.get(inchi);
 				for(String name : record.names) {
 					name = StringTools.normaliseName(name);
@@ -80,19 +77,16 @@ implements IMutableChemNameDict {
 					indexByOntID.get(ontID).add(record);
 				}
 			}
-		} else {
-			throw new Exception("Record must have an InChI to be added to ChemNameDict");
-		}
 	}
 
 	public void addName(String name) throws Exception {
 		if(name == null || name.trim().length() == 0) throw new Exception();
 		name = StringTools.normaliseName(name);
+		addChemical(name, null, null);
 	}
 
 	public void addChemical(String name, String smiles, String inchi)
 			throws Exception {
-		if(inchi == null) throw new Exception();
 		ChemRecord record = new ChemRecord();
 		record.inchi = inchi;
 		record.smiles = smiles;

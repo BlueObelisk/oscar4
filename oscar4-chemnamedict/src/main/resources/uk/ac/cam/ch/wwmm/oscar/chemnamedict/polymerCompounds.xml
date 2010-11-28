@@ -1,8 +1,8 @@
 <newchemnamedict>
   <orphanNames>
     <!-- hyperbranched PEIs: dendrimers from DOI 10.1016/j.jcis.2009.05.047 -->
-    <record><name>HPEI25k</name></record>
-    <record><name>HPEI10k</name></record>
+    <record><name>HPEI25K</name></record>
+    <record><name>HPEI10K</name></record>
     <record><name>HPEI</name></record>
   </orphanNames>
 </newchemnamedict>

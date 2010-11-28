@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictSingleton;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 
@@ -193,12 +193,11 @@ public class NGramBuilder {
 		
 	private void readStopWordsTrainingData() {
 		readCollection(TermSets.getDefaultInstance().getStopWords(), false);
-		readCollection(ChemNameDictSingleton.getStopWords(), false);
 	}
 
 	private void readChemNameDictTrainingData() {
 		try {
-			readCollection(ChemNameDictSingleton.getAllNames(), true);			
+			readCollection(ChemNameDictRegistry.getInstance().getAllNames(), true);			
 		} catch (Exception e) {
 			throw new Error();
 		}
@@ -211,7 +210,7 @@ public class NGramBuilder {
 	private void readUdwTrainingData() {
 		Set<String> goodUDW = new HashSet<String>();
 		for(String word : TermSets.getDefaultInstance().getUsrDictWords()) {
-			if(!(ChemNameDictSingleton.hasName(word) || ExtractedTrainingData.getInstance().chemicalWords.contains(word))) {
+			if(!(ChemNameDictRegistry.getInstance().hasName(word) || ExtractedTrainingData.getInstance().chemicalWords.contains(word))) {
 				goodUDW.add(word);
 			}
 		}

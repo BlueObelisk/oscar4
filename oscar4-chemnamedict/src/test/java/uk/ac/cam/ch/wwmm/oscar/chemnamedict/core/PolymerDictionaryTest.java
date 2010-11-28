@@ -12,7 +12,7 @@ public class PolymerDictionaryTest {
 	public void testACompound() throws Exception {
 		IChemNameDict dict = new PolymerDictionary();
 		Assert.assertNotNull(dict);
-		Assert.assertTrue(dict.hasName("HPEI25k"));
+		Assert.assertTrue(dict.hasName("HPEI25K"));
 	}
 	
 	@Test
@@ -21,7 +21,7 @@ public class PolymerDictionaryTest {
 		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
 		registry.register(dict);
 		Assert.assertNotNull(registry);
-		Assert.assertTrue(registry.hasName("HPEI25k"));
+		Assert.assertTrue(registry.hasName("HPEI25K"));
 	}
 	
 }

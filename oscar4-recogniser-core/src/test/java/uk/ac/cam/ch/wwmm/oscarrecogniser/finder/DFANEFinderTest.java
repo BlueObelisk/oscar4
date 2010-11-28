@@ -9,6 +9,8 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.PolymerDictionary;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -87,4 +89,18 @@ public class DFANEFinderTest {
         assertEquals(Arrays.asList(expected.split(", ")), found);
     }
 
+    @Test
+    public void testHPEI() throws Exception {
+        // derived from ChemicalTagger's ChemistryPOSTaggerTest.sentence1()
+    	String paragraph = 
+        	"The synthetic procedure for partially EA- or BA-modified HPEI is exemplified for HPEI25K.";
+    	ChemNameDictRegistry.getInstance().register(
+    		new PolymerDictionary()
+    	);
+        ITokenSequence ts = tokeniser.tokenise(paragraph);
+        List<NamedEntity> namedEntityList = finder.findNamedEntities(ts);
+        for (NamedEntity ne : namedEntityList) {
+        	System.out.println(ne.toString());
+        }
+    }
 }

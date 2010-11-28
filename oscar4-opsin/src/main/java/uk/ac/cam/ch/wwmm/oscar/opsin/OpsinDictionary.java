@@ -80,4 +80,8 @@ public class OpsinDictionary implements IChemNameDict,
 		return Collections.emptySet();
 	}
 
+	public boolean hasOntologyIdentifier(String identifier) {
+		// this ontology does not use ontology identifiers
+		return false;
+	}
 }

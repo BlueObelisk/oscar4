@@ -11,6 +11,8 @@ public interface IChemNameDict {
 
 	public boolean hasName(String queryName);
 
+	public boolean hasOntologyIdentifier(String identifier);
+
 	public Set<String> getNames(String inchi);
 
 	public Set<String> getNames();

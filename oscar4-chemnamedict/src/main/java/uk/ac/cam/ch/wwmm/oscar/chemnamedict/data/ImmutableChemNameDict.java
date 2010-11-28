@@ -34,6 +34,7 @@ public class ImmutableChemNameDict implements IChemNameDict {
 	protected Set<ChemRecord> chemRecords;
 	protected Map<String,ChemRecord> indexByInchi;
 	protected Map<String,Set<ChemRecord>> indexByName;
+	protected Map<String,Set<ChemRecord>> indexByOntID;
 	protected Set<String> orphanNames;
 	protected Set<String> stopWords;
 
@@ -44,6 +45,7 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		chemRecords = new HashSet<ChemRecord>();
 		indexByInchi = new HashMap<String,ChemRecord>();
 		indexByName = new HashMap<String,Set<ChemRecord>>();
+		indexByOntID = new HashMap<String,Set<ChemRecord>>();
 		orphanNames = new HashSet<String>();
 		stopWords = new HashSet<String>();
 	}
@@ -172,4 +174,7 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		return results;
 	}
 
+	public boolean hasOntologyIdentifier(String identifier) {
+		return indexByOntID.containsKey(identifier);
+	}
 }

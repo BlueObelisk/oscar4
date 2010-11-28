@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -16,7 +17,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  */
 public final class ChemNameDictSingleton {
 
-	private static ChemNameDict myChemNameDict = null;
+	private static MutableChemNameDict myChemNameDict = null;
 	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/chemnamedict/");
 	
 	/**Re-initialise the ChemNameDict singleton.
@@ -37,15 +38,15 @@ public final class ChemNameDictSingleton {
 		getChemNameDictInstance(true);		
 	}
 	
-	private static ChemNameDict getChemNameDictInstance() throws Exception {
+	private static MutableChemNameDict getChemNameDictInstance() throws Exception {
 		return getChemNameDictInstance(false);
 	}
 	
-	private static ChemNameDict getChemNameDictInstance(boolean forceFromScratch) throws Exception {
+	private static MutableChemNameDict getChemNameDictInstance(boolean forceFromScratch) throws Exception {
 		if(myChemNameDict == null) {
 			Logger logger = Logger.getLogger(ChemNameDictSingleton.class);
 			logger.debug("Initialising ChemNameDict... ");
-			myChemNameDict = new ChemNameDict(new URI("http://wwmm.ch.cam.ac.uk/dictionary/old/"));
+			myChemNameDict = new MutableChemNameDict(new URI("http://wwmm.ch.cam.ac.uk/dictionary/old/"));
 			try {
 				ChemNameDictIO.readXML(
 					rg.getXMLDocument(OscarProperties.getData().chemNameDict),
@@ -66,16 +67,6 @@ public final class ChemNameDictSingleton {
 		
 	}
 
-	/**Adds a mapping from an InChI to an Ontology ID.
-	 * 
-	 * @param ontId The Ontology ID.
-	 * @param inchi The InChI.
-	 * @throws Exception
-	 */
-	public static void addOntologyId(String ontId, String inchi) throws Exception {
-		getChemNameDictInstance().addOntologyId(ontId, inchi);
-	}
-	
 	/**Adds a chemical.
 	 * 
 	 * @param name The chemical name.
@@ -141,20 +132,6 @@ public final class ChemNameDictSingleton {
 	public static boolean hasOntId(String ontId) {
 		try {
 			return getChemNameDictInstance().hasOntologyIdentifier(ontId);
-		} catch (Exception e) {
-			// TODO better exception handling here
-			throw new RuntimeException("ChemNameDict not initialised yet!");
-		}
-	}
-
-	/**Retrieves all InChIs that directly match a given ontology ID.
-	 * 
-	 * @param ontId The ontology ID.
-	 * @return The InChIs.
-	 */
-	public static Set<String> getInchisByOntId(String ontId) {
-		try {
-			return getChemNameDictInstance().getInchisByOntologyId(ontId);
 		} catch (Exception e) {
 			// TODO better exception handling here
 			throw new RuntimeException("ChemNameDict not initialised yet!");
@@ -245,16 +222,6 @@ public final class ChemNameDictSingleton {
 		return getChemNameDictInstance().getNames(inchi);
 	}
 
-	/**Looks up an InChI, and returns all of the ontology IDs that match.
-	 * 
-	 * @param inchi The InChI to look up.
-	 * @return The ontology IDs.
-	 * @throws Exception
-	 */
-	public static Set<String> getOntologyIdsFromInChI(String inchi) throws Exception {
-		return getChemNameDictInstance().getOntologyIDsFromInChI(inchi);
-	}
-		
 	/**Returns all of the names in the ChemNameDict.
 	 * 
 	 * @return The names.
@@ -270,7 +237,7 @@ public final class ChemNameDictSingleton {
 	 * @throws Exception
 	 */
 	public static void purge() throws Exception {
-		myChemNameDict = new ChemNameDict(new URI("http://wwmm.ch.cam.ac.uk/dictionary/old/"));
+		myChemNameDict = new MutableChemNameDict(new URI("http://wwmm.ch.cam.ac.uk/dictionary/old/"));
 	}
 
 	/**Imports all of the entries in a ChemNameDict into the singleton.
@@ -278,7 +245,7 @@ public final class ChemNameDictSingleton {
 	 * @param dict The dictionary to import.
 	 * @throws Exception
 	 */
-	public static void importDict(ChemNameDict dict) throws Exception {
+	public static void importDict(IChemNameDict dict) throws Exception {
 		myChemNameDict.importChemNameDict(dict);
 	}
 	

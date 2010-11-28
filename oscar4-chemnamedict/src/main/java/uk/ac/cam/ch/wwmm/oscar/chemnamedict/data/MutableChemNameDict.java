@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IInChIProvider;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IMutableChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ISMILESProvider;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /**
@@ -15,7 +17,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  * @author ptc
  */
 public class MutableChemNameDict extends ImmutableChemNameDict
-implements IMutableChemNameDict {
+implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
 
 	public MutableChemNameDict(URI uri) {
 		super(uri);

@@ -129,4 +129,21 @@ public class ChemNameDictRegistry {
 		return allNames;
 	}
 
+	public boolean hasOntologyIdentifier(String identifier) {
+		for (IChemNameDict dict : dictionaries.values()) {
+			if (dict.hasOntologyIdentifier(identifier)) return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Returns a set of all names of all registered dictionaries. Don't do this too often.
+	 */
+	public Set<String> getAllNames() {
+		Set<String> allNames = new HashSet<String>();
+		for (IChemNameDict dict : dictionaries.values()) {
+			allNames.addAll(dict.getNames());
+		}
+		return allNames;
+	}
 }

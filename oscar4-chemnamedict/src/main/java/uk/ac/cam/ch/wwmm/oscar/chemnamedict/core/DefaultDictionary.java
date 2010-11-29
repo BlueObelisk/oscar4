@@ -19,11 +19,6 @@ implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
 				.getXMLDocument("defaultCompounds.xml"),
 			this
 		);
-		ChemNameDictIO.readXML(
-			new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/chemnamedict/")
-				.getXMLDocument("chemnamedict.xml"),
-			this
-		);
 	}
 
 }

@@ -25,9 +25,9 @@ import opennlp.maxent.TwoPassDataIndexer;
 
 import org.apache.log4j.Logger;
 
-import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
@@ -37,7 +37,8 @@ import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.RescoreMEMMOut;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorerTrainer;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
 import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -86,8 +87,9 @@ public final class MEMMTrainer {
 	
 	private static double confidenceThreshold;
 	
-	private RescoreMEMMOut rescorer;
-			
+//	private RescoreMEMMOutputTrainer rescorerTrainer;
+	private MEMMOutputRescorer rescorer;
+
 	public MEMMTrainer() throws Exception {
 		evsByPrev = new HashMap<String, List<Event>>();
 		zeroProbs = new HashMap<String, Double>();
@@ -286,7 +288,7 @@ public final class MEMMTrainer {
 	}
 
 	public void trainOnSbFilesWithRescore(List<File> files) throws Exception {
-		rescorer = new RescoreMEMMOut();
+		MEMMOutputRescorerTrainer rescorerTrainer = new MEMMOutputRescorerTrainer();
 		List<List<File>> splitTrainFiles = new ArrayList<List<File>>();
 		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();
 		int splitNo = 3;
@@ -314,7 +316,7 @@ public final class MEMMTrainer {
 			}
 			for(File f : splitTrainFiles.get(split)) {
 				String domain = null;
-				rescorer.trainOnFile(f, domain, MEMM.getInstance());
+				rescorerTrainer.trainOnFile(f, domain, MEMM.getInstance());
 			}				
 			evsByPrev.clear();
 			if(!simpleRescore) {
@@ -322,7 +324,10 @@ public final class MEMMTrainer {
 				perniciousFeatures.clear();
 			}
 		}
-		rescorer.finishTraining();
+		rescorerTrainer.finishTraining();
+		rescorer = new MEMMOutputRescorer();
+		rescorer.readElement(rescorerTrainer.writeElement());
+
 		if(simpleRescore) {
 			trainOnSbFiles(files);
 		} else {
@@ -588,7 +593,7 @@ public final class MEMMTrainer {
 		}
 		Element rescorerElem = memmRoot.getFirstChildElement("rescorer");
 		if(rescorerElem != null) {
-			rescorer = new RescoreMEMMOut();
+			rescorer = new MEMMOutputRescorer();
 			rescorer.readElement(rescorerElem);
 		} else {
 			rescorer = null;

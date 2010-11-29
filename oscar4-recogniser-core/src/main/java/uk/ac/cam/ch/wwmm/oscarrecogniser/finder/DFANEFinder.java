@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
@@ -49,6 +50,9 @@ public class DFANEFinder extends DFAFinder {
     			ChemNameDictRegistry.getInstance().register(
     				new DefaultDictionary()
     			);
+    			ChemNameDictRegistry.getInstance().register(
+        			new ChEBIDictionary()
+        		);
     		} catch (Exception exception) {
     			throw new Error(
     				"Could not load default dictionary: " + exception,

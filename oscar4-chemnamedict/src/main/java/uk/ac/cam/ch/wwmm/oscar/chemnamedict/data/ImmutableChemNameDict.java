@@ -73,7 +73,7 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		if(indexByName.containsKey(queryName)) {
 			Set<String> results = new HashSet<String>();
 			for(ChemRecord record : indexByName.get(queryName)) {
-				if(record.smiles != null) results.add(record.smiles);
+				if(record.getSMILES() != null) results.add(record.getSMILES());
 			}
 			if(results.size() > 0) return results;
 			return null;
@@ -97,8 +97,8 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		if(indexByName.containsKey(queryName)) {
 			Set<String> results = new HashSet<String>();
 			for(ChemRecord record : indexByName.get(queryName)) {
-				assert(record.inchi != null); 
-				results.add(record.inchi);
+				assert(record.getInChI() != null); 
+				results.add(record.getInChI());
 			}
 			if(results.size() > 0) return results;
 			return null;
@@ -113,33 +113,33 @@ public class ImmutableChemNameDict implements IChemNameDict {
 			String currentInchi = null;
 			String currentSmiles = null;
 			for(ChemRecord record : indexByName.get(queryName)) {
-				assert(record.inchi != null); 
+				assert(record.getInChI() != null); 
 				if(currentInchi == null) {
-					currentInchi = record.inchi;
-					currentSmiles = record.smiles;
-				} else if(record.smiles == null && currentSmiles == null) {
-					if(currentInchi.compareTo(record.inchi) > 0) {
-						currentInchi = record.inchi;
-						currentSmiles = record.smiles;															
+					currentInchi = record.getInChI();
+					currentSmiles = record.getSMILES();
+				} else if(record.getSMILES() == null && currentSmiles == null) {
+					if(currentInchi.compareTo(record.getInChI()) > 0) {
+						currentInchi = record.getInChI();
+						currentSmiles = record.getSMILES();															
 					}						
-				} else if(record.smiles == null) {
+				} else if(record.getSMILES() == null) {
 					// Do nothing, we prefer InChIs with associated smiles
 				} else if(currentSmiles == null) {
-					currentInchi = record.inchi;
-					currentSmiles = record.smiles;																					
-				} else if(currentSmiles.length() == record.smiles.length()) {
-					if(currentSmiles.equals(record.smiles)) {
-						if(currentInchi.compareTo(record.inchi) > 0) {
-							currentInchi = record.inchi;
-							currentSmiles = record.smiles;															
+					currentInchi = record.getInChI();
+					currentSmiles = record.getSMILES();																					
+				} else if(currentSmiles.length() == record.getSMILES().length()) {
+					if(currentSmiles.equals(record.getSMILES())) {
+						if(currentInchi.compareTo(record.getInChI()) > 0) {
+							currentInchi = record.getInChI();
+							currentSmiles = record.getSMILES();															
 						}
-					} else if(currentSmiles.compareTo(record.smiles) > 0) {
-						currentInchi = record.inchi;
-						currentSmiles = record.smiles;							
+					} else if(currentSmiles.compareTo(record.getSMILES()) > 0) {
+						currentInchi = record.getInChI();
+						currentSmiles = record.getSMILES();							
 					}
-				} else if(currentSmiles.length() > record.smiles.length()) {
-					currentInchi = record.inchi;
-					currentSmiles = record.smiles;
+				} else if(currentSmiles.length() > record.getSMILES().length()) {
+					currentInchi = record.getInChI();
+					currentSmiles = record.getSMILES();
 				} //Otherwise do nothing
 			}
 			return currentInchi;
@@ -150,7 +150,7 @@ public class ImmutableChemNameDict implements IChemNameDict {
 
 	public Set<String> getNames(String inchi) {
 		if(!indexByInchi.containsKey(inchi)) return null;
-		Set<String> names = new HashSet<String>(indexByInchi.get(inchi).names);
+		Set<String> names = new HashSet<String>(indexByInchi.get(inchi).getNames());
 		if(names.size() == 0) return null;
 		return names;
 	}

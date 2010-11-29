@@ -33,14 +33,14 @@ implements IChemNameDict {
 		if(name == null || name.trim().length() == 0) throw new Exception();
 		name = StringTools.normaliseName(name);
 		ChemRecord record = new ChemRecord();
-		record.names.add(name);
+		record.addName(name);
 		addChemRecord(record);
 	}
 
     public void addChemRecord(ChemRecord record) throws Exception {
 		// Record is new. Add and index
 		chemRecords.add(record);
-		for(String name : record.names) {
+		for(String name : record.getNames()) {
 			name = StringTools.normaliseName(name);
 			if(!indexByName.containsKey(name)) {
 				indexByName.put(name, new HashSet<ChemRecord>());

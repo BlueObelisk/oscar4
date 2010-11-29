@@ -91,20 +91,20 @@ public final class ChemNameDictIO {
 		ChemRecord record = new ChemRecord();
 		Elements inchis = elem.getChildElements("InChI");
 		if(inchis.size() != 1) throw new Exception();
-		record.inchi = inchis.get(0).getValue();
+		record.setInChI(inchis.get(0).getValue());
 		Elements smiless = elem.getChildElements("SMILES");
 		if(smiless.size() > 1) {
 			throw new Exception();
 		} else if(smiless.size() == 1) {
-			record.smiles = smiless.get(0).getValue();
+			record.setSMILES(smiless.get(0).getValue());
 		}
 		Elements names = elem.getChildElements("name");
 		for (int i = 0; i < names.size(); i++) {
-			record.names.add(names.get(i).getValue());
+			record.addName(names.get(i).getValue());
 		}
 		Elements ontIDs = elem.getChildElements("ontID");
 		for (int i = 0; i < ontIDs.size(); i++) {
-			record.ontIDs.add(ontIDs.get(i).getValue());
+			record.addOntologyIdentifier(ontIDs.get(i).getValue());
 		}		
 		return record;
 	}

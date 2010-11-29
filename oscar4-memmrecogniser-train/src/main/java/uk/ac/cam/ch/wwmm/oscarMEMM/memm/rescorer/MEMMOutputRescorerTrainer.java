@@ -15,7 +15,6 @@ import nu.xom.Attribute;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
-import nu.xom.Elements;
 import nu.xom.Nodes;
 import opennlp.maxent.DataIndexer;
 import opennlp.maxent.Event;
@@ -35,16 +34,16 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
-/**Handles rescoring of MEMM output.
+/**
+ * Trains the rescoring of MEMM output.
  * 
  * @author ptc24
- *
+ * @author egonw
  */
-public final class RescoreMEMMOut {
+public final class MEMMOutputRescorerTrainer {
 
 	Map<NamedEntityType,List<Event>> eventsByNamedEntityType;
 	Map<NamedEntityType,GISModel> modelsByNamedEntityType;
@@ -87,7 +86,7 @@ public final class RescoreMEMMOut {
 	/**Initialises an empty rescorer. This rescorer must be given data or a
 	 * model for it to work.
 	 */
-	public RescoreMEMMOut() {
+	public MEMMOutputRescorerTrainer() {
 		eventsByNamedEntityType = new HashMap<NamedEntityType,List<Event>>();
 		grandTotalGain = 0.0;
 		
@@ -125,7 +124,7 @@ public final class RescoreMEMMOut {
 	public void trainOnFile(File f, String domain, MEMM memm) throws Exception {
 		Document doc = new Builder().build(f);
 		String name = f.getParentFile().getName();
-		Logger.getLogger(RescoreMEMMOut.class).debug(name);
+		Logger.getLogger(MEMMOutputRescorer.class).debug(name);
 		Nodes n = doc.query("//cmlPile");
 		for (int i = 0; i < n.size(); i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");
@@ -182,28 +181,6 @@ public final class RescoreMEMMOut {
 			if(evs.size() == 1) evs.add(evs.get(0));
 			di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), 1);
 			modelsByNamedEntityType.put(type, GIS.trainModel(trainingCycles, di));
-		}
-	}
-	
-	/**Adjust the confidence scores of a list of named entities.
-	 * 
-	 * @param entities The named entities to rescore.
-	 */
-	public void rescore(List<NamedEntity> entities) {
-
-		FeatureExtractor fe = new FeatureExtractor(entities);
-
-		for(NamedEntity entity : entities) {
-			List<String> features = fe.getFeatures(entity);
-			NamedEntityType namedEntityType = entity.getType();
-			if(modelsByNamedEntityType.containsKey(namedEntityType)) {
-				GISModel model = modelsByNamedEntityType.get(namedEntityType);
-				if(model.getNumOutcomes() == 2) {
-					double prob = model.eval(features.toArray(new String[0]))[model.getIndex("T")];
-					entity.setConfidence(prob);
-
-				}
-			}
 		}
 	}
 	
@@ -318,55 +295,18 @@ public final class RescoreMEMMOut {
 		}
 		return root;
 	}
-	
-	/**Take an XML Element that contains a trained rescorer model, and prepare
-	 * to use it.
-	 * 
-	 * @param elem The XML Element that contains the trained rescorer model.
-	 * @throws Exception
-	 */
-	public void readElement(Element elem) throws Exception {
-		Elements maxents = elem.getChildElements("maxent");
-		modelsByNamedEntityType = new HashMap<NamedEntityType,GISModel>();
-		for (int i = 0; i < maxents.size(); i++) {
-			Element maxent = maxents.get(i);
-			NamedEntityType namedEntityType = NamedEntityType.valueOf(maxent.getAttributeValue("type"));
-			StringGISModelReader sgmr = new StringGISModelReader(maxent.getValue());
-			GISModel gm = sgmr.getModel();
-			modelsByNamedEntityType.put(namedEntityType, gm);
-		}		
+
+	public MEMMOutputRescorer getMEMMOutputRescorer() {
+		MEMMOutputRescorer rescorer = new MEMMOutputRescorer();
+		try {
+			rescorer.readElement(this.writeElement());
+		} catch (Exception exception) {
+			throw new Error(
+				"Error while creating MEMM output rescorer: " + exception.getMessage(),
+				exception
+			);
+		}
+		return rescorer;
 	}
 	
-	
-	/**
-	 * @param args
-	 */
-	/*public static void main(String[] args) throws Exception {
-		RescoreMEMMOut rmo = new RescoreMEMMOut();
-		
-		List<File> files = new ArrayList<File>();
-		files.addAll(FileTools.getFilesFromDirectoryByName(new File("/home/ptc24/newows/miscrsc/"), "scrapbook.xml"));
-		
-		Random r = new Random("foo".hashCode());
-		Collections.shuffle(files, r);
-		
-		List<File> trainFiles = files.subList(0, files.size() / 2);
-		System.out.print("Reduce " + trainFiles.size() + " train files to ");
-		trainFiles = trainFiles.subList(trainFiles.size() / 2, trainFiles.size());
-		System.out.println(trainFiles.size());
-		List<File> testFiles = files.subList(files.size() / 2, files.size());
-		
-		for(File f : trainFiles) rmo.trainOnFile(f, null);
-		//rmo.trainOnFile(new File("/home/ptc24/newows/miscrsc/b503019f/scrapbook.xml"));
-		rmo.finishTraining();
-		for(File f : testFiles) {
-			long time = System.currentTimeMillis();
-			rmo.runOnFile(f);
-			System.out.println(System.currentTimeMillis() - time);
-		}
-		System.out.println("Grand total gain: " + rmo.grandTotalGain);
-		recPrec(rmo.goodProbsBefore, rmo.badProbsBefore, rmo.totalRecall, "before");
-		recPrec(rmo.goodProbsAfter, rmo.badProbsAfter, rmo.totalRecall, "after");
-	}*/
-
 }

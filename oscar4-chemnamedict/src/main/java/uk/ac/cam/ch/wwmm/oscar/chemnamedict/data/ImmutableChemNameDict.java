@@ -72,7 +72,7 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		queryName = StringTools.normaliseName(queryName);
 		if(indexByName.containsKey(queryName)) {
 			Set<String> results = new HashSet<String>();
-			for(ChemRecord record : indexByName.get(queryName)) {
+			for(ISMILESChemRecord record : indexByName.get(queryName)) {
 				if(record.getSMILES() != null) results.add(record.getSMILES());
 			}
 			if(results.size() > 0) return results;
@@ -96,7 +96,7 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		queryName = StringTools.normaliseName(queryName);
 		if(indexByName.containsKey(queryName)) {
 			Set<String> results = new HashSet<String>();
-			for(ChemRecord record : indexByName.get(queryName)) {
+			for(IInChIChemRecord record : indexByName.get(queryName)) {
 				assert(record.getInChI() != null); 
 				results.add(record.getInChI());
 			}

@@ -30,7 +30,7 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.RescoreMEMMOut;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
@@ -73,7 +73,7 @@ public final class MEMM {
 
     private static double confidenceThreshold;
 
-    private RescoreMEMMOut rescorer;
+    private MEMMOutputRescorer rescorer;
 
     public MEMM(Element elem) {
         evsByPrev = new HashMap<String, List<Event>>();
@@ -348,7 +348,7 @@ public final class MEMM {
         }
         Element rescorerElem = memmRoot.getFirstChildElement("rescorer");
         if(rescorerElem != null) {
-            rescorer = new RescoreMEMMOut();
+            rescorer = new MEMMOutputRescorer();
             rescorer.readElement(rescorerElem);
         } else {
             rescorer = null;

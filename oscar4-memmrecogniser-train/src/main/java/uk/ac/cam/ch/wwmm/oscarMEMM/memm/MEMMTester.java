@@ -20,11 +20,11 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
-import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -250,7 +250,6 @@ public final class MEMMTester {
 				Set<String> remainNEs = new HashSet<String>(testNEs);				
 
 				List<NamedEntity> neList = new ArrayList<NamedEntity>(confidences.keySet());
-				
 				memm.rescore(neList);
 				/*if(memm.getRescorer() != null) {
 					System.out.println("Rescore!");

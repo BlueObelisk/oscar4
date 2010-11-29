@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -96,8 +97,16 @@ public class DFANEFinderTest {
     	);
         ITokenSequence ts = tokeniser.tokenise(paragraph);
         List<NamedEntity> namedEntityList = finder.findNamedEntities(ts);
+        boolean foundHEPEI25K = false;
         for (NamedEntity ne : namedEntityList) {
-        	System.out.println(ne.toString());
+        	String neStr = ne.toString();
+        	if (neStr.contains("HPEI25K")) {
+        		foundHEPEI25K = true;
+        		Assert.assertTrue(neStr.contains("NE:CM"));
+        	}
         }
+        Assert.assertTrue(
+        	"Oscar did not find HEPEI25K", foundHEPEI25K
+        );
     }
 }

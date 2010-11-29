@@ -31,40 +31,40 @@ implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
 	public void addChemRecord(String inchi, String smiles, Set<String> names,
 			Set<String> ontIDs) throws Exception {
 		ChemRecord record = new ChemRecord();
-		record.inchi = inchi;
-		record.smiles = smiles;
-		if(names != null) record.names.addAll(names);
-		if(ontIDs != null) record.ontIDs.addAll(ontIDs);
+		record.setInChI(inchi);
+		record.setSMILES(smiles);
+		if(names != null) record.addNames(names);
+		if(ontIDs != null) record.addOntologyIdentifiers(ontIDs);
 		addChemRecord(record);
 	}
 
 	public void addChemRecord(ChemRecord record) throws Exception {
-			String inchi = record.inchi;
+			String inchi = record.getInChI();
 			if(inchi != null && indexByInchi.containsKey(inchi)) {
 				ChemRecord mergeRecord = indexByInchi.get(inchi);
-				for(String name : record.names) {
+				for(String name : record.getNames()) {
 					name = StringTools.normaliseName(name);
-					mergeRecord.names.add(name);
+					mergeRecord.addName(name);
 					if(!indexByName.containsKey(name)) {
 						indexByName.put(name, new HashSet<ChemRecord>());
 					}
 					indexByName.get(name).add(mergeRecord);
 					orphanNames.remove(name);
 				}
-				for(String ontID : record.ontIDs) {
-					mergeRecord.ontIDs.add(ontID);
+				for(String ontID : record.getOntologyIdentifiers()) {
+					mergeRecord.addOntologyIdentifier(ontID);
 					if(!indexByOntID.containsKey(ontID)) {
 						indexByOntID.put(ontID, new HashSet<ChemRecord>());
 					}
 					indexByOntID.get(ontID).add(mergeRecord);
 				}
-				if(record.smiles != null && mergeRecord.smiles == null)
-					mergeRecord.smiles = record.smiles;
+				if(record.getSMILES() != null && mergeRecord.getSMILES() == null)
+					mergeRecord.setSMILES(record.getSMILES());
 			} else {
 				// Record is new. Add and index
 				chemRecords.add(record);
 				indexByInchi.put(inchi, record);
-				for(String name : record.names) {
+				for(String name : record.getNames()) {
 					name = StringTools.normaliseName(name);
 					if(!indexByName.containsKey(name)) {
 						indexByName.put(name, new HashSet<ChemRecord>());
@@ -72,7 +72,7 @@ implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
 					indexByName.get(name).add(record);
 					orphanNames.remove(name);
 				}
-				for(String ontID : record.ontIDs) {
+				for(String ontID : record.getOntologyIdentifiers()) {
 					if(!indexByOntID.containsKey(ontID)) {
 						indexByOntID.put(ontID, new HashSet<ChemRecord>());
 					}
@@ -90,9 +90,9 @@ implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
 	public void addChemical(String name, String smiles, String inchi)
 			throws Exception {
 		ChemRecord record = new ChemRecord();
-		record.inchi = inchi;
-		record.smiles = smiles;
-		record.names.add(name);
+		record.setInChI(inchi);
+		record.setSMILES(smiles);
+		record.addName(name);
 		addChemRecord(record);
 	}
 

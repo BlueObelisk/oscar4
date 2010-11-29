@@ -17,4 +17,15 @@ public class ChEBIDictionaryTest {
 		);
 	}
 	
+
+	@Test
+	public void testCompoundFromSecondFile() throws Exception {
+		// from chemnamedict.xml
+		IInChIProvider dict = new DefaultDictionary();
+		Assert.assertNotNull(dict);
+		Assert.assertEquals(
+			"InChI=1/H2O4S/c1-5(2,3)4/h(H2,1,2,3,4)/f/h1-2H",
+			dict.getInChI("sulfuric acid").iterator().next()
+		);
+	}
 }

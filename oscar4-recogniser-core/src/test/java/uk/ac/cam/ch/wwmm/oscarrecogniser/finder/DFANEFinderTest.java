@@ -28,10 +28,7 @@ public class DFANEFinderTest {
 	public static void setup() {
 		long ms = System.currentTimeMillis();
 		finder = DFANEFinder.getInstance();
-		System.out.println("Boot 1: " + (System.currentTimeMillis() - ms));
-		ms = System.currentTimeMillis();
 		tokeniser = Tokeniser.getInstance();
-		System.out.println("Boot 2: " + (System.currentTimeMillis() - ms));
 	}
 	
     @Test

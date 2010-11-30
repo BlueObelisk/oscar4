@@ -2,7 +2,7 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
 import java.util.Set;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IChemRecord;
 
 public interface IMutableChemNameDict extends IChemNameDict {
 
@@ -11,7 +11,7 @@ public interface IMutableChemNameDict extends IChemNameDict {
 	public void addChemRecord(String inchi, String smiles,
 			Set<String> names, Set<String> ontIDs) throws Exception;
 
-	public void addChemRecord(ChemRecord record) throws Exception;
+	public void addChemRecord(IChemRecord record) throws Exception;
 
 	public void addName(String name) throws Exception;
 

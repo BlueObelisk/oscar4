@@ -12,6 +12,4 @@ public interface IInChIProvider {
 
 	public Set<String> getInChI(String queryName);
 
-	public String getInChIforShortestSMILES(String queryName);
-
 }

@@ -506,7 +506,7 @@ public final class Tokeniser implements ITokeniser {
 	}
 
 	
-	private void tokeniseOnAnnotationBoundaries(String sourceString, IProcessingDocument doc,
+	public void tokeniseOnAnnotationBoundaries(String sourceString, IProcessingDocument doc,
 			int offset, Element safOrInlineAnnotations, List<IToken> tokens) throws Exception {
 		Nodes annotationNodes;
 		int currentNodeId = 0;
@@ -662,7 +662,7 @@ public final class Tokeniser implements ITokeniser {
 		}
 	}
 
-	private void tidyHyphensAfterNEs(List<IToken> tokens) {
+	public void tidyHyphensAfterNEs(List<IToken> tokens) {
 		int i = 0;
 		String prevTokType = "O";
 		while (i < tokens.size()) {
@@ -685,7 +685,7 @@ public final class Tokeniser implements ITokeniser {
 	}
 
 	
-	private List<IToken> mergeNeTokens(List<IToken> tokens, String sourceString,
+	public List<IToken> mergeNeTokens(List<IToken> tokens, String sourceString,
 			int offset) {
 		List<IToken> newTokens = new ArrayList<IToken>();
 		IToken currentToken = null;

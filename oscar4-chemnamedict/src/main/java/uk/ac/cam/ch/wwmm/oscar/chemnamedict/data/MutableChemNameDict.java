@@ -38,47 +38,82 @@ implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
 		addChemRecord(record);
 	}
 
-	public void addChemRecord(ChemRecord record) throws Exception {
-			String inchi = record.getInChI();
+	public void addChemRecord(IChemRecord record) throws Exception {
+		IChemRecord recordToAdd = null;
+		// check if we know this compound already (by InChI)
+		if (record instanceof IInChIChemRecord) {
+			IInChIChemRecord inchiRecord = (IInChIChemRecord)record;
+			String inchi = inchiRecord.getInChI();
 			if(inchi != null && indexByInchi.containsKey(inchi)) {
-				ChemRecord mergeRecord = indexByInchi.get(inchi);
-				for(String name : record.getNames()) {
-					name = StringTools.normaliseName(name);
-					mergeRecord.addName(name);
-					if(!indexByName.containsKey(name)) {
-						indexByName.put(name, new HashSet<ChemRecord>());
-					}
-					indexByName.get(name).add(mergeRecord);
-					orphanNames.remove(name);
-				}
-				for(String ontID : record.getOntologyIdentifiers()) {
-					mergeRecord.addOntologyIdentifier(ontID);
-					if(!indexByOntID.containsKey(ontID)) {
-						indexByOntID.put(ontID, new HashSet<ChemRecord>());
-					}
-					indexByOntID.get(ontID).add(mergeRecord);
-				}
-				if(record.getSMILES() != null && mergeRecord.getSMILES() == null)
-					mergeRecord.setSMILES(record.getSMILES());
-			} else {
-				// Record is new. Add and index
-				chemRecords.add(record);
-				indexByInchi.put(inchi, record);
-				for(String name : record.getNames()) {
-					name = StringTools.normaliseName(name);
-					if(!indexByName.containsKey(name)) {
-						indexByName.put(name, new HashSet<ChemRecord>());
-					}
-					indexByName.get(name).add(record);
-					orphanNames.remove(name);
-				}
-				for(String ontID : record.getOntologyIdentifiers()) {
-					if(!indexByOntID.containsKey(ontID)) {
-						indexByOntID.put(ontID, new HashSet<ChemRecord>());
-					}
-					indexByOntID.get(ontID).add(record);
-				}
+				recordToAdd = indexByInchi.get(inchi);
 			}
+		}
+		if (recordToAdd == null) { // we do not know it yet
+			recordToAdd = record;
+		} else {
+			mergeRecords(recordToAdd, record);
+		}
+		chemRecords.add(recordToAdd);
+		addToIndices(recordToAdd);
+	}
+
+	/**
+	 * Adds the record to the various indices.
+	 *
+	 * @param recordToAdd the {@link IChemRecord} to add to the indices.
+	 */
+	private void addToIndices(IChemRecord recordToAdd) {
+		// add the names to the index
+		for(String name : recordToAdd.getNames()) {
+			name = StringTools.normaliseName(name);
+			if(!indexByName.containsKey(name)) {
+				indexByName.put(name, new HashSet<IChemRecord>());
+			}
+			indexByName.get(name).add(recordToAdd);
+			orphanNames.remove(name);
+		}
+		if (recordToAdd instanceof IOntologyChemRecord) {
+			// add the ontology identifiers to the index
+			IOntologyChemRecord ontoRecord = (IOntologyChemRecord)recordToAdd;
+			for(String ontID : ontoRecord.getOntologyIdentifiers()) {
+				if(!indexByOntID.containsKey(ontID)) {
+					indexByOntID.put(ontID, new HashSet<IChemRecord>());
+				}
+				indexByOntID.get(ontID).add(recordToAdd);
+			}
+		}
+		if (recordToAdd instanceof IInChIChemRecord) {
+			indexByInchi.put(((IInChIChemRecord)recordToAdd).getInChI(), recordToAdd);
+		}
+	}
+
+	/**
+	 * Merges the information from the second record into the first.
+	 *
+	 * @param sourceRecord {@link IChemRecord} from which information is extracted
+	 * @param mergeRecord {@link IChemRecord} into which everything is merged
+	 */
+	private void mergeRecords(IChemRecord mergeRecord, IChemRecord sourceRecord) {
+		for(String name : sourceRecord.getNames()) {
+			name = StringTools.normaliseName(name);
+			mergeRecord.addName(name);
+		}
+		if (sourceRecord instanceof IOntologyChemRecord &&
+			mergeRecord instanceof IOntologyChemRecord) {
+			for(String ontID : ((IOntologyChemRecord)sourceRecord).getOntologyIdentifiers()) {
+				((IOntologyChemRecord)mergeRecord).addOntologyIdentifier(ontID);
+			}
+		}
+		if (sourceRecord instanceof ISMILESChemRecord &&
+			mergeRecord instanceof ISMILESChemRecord) {
+			if (((ISMILESChemRecord)mergeRecord).getSMILES() != null) {
+				// keep the original
+			} else {
+				((ISMILESChemRecord)mergeRecord).setSMILES(
+					((ISMILESChemRecord)sourceRecord).getSMILES()
+				);
+			}
+		}
 	}
 
 	public void addName(String name) throws Exception {
@@ -97,7 +132,7 @@ implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
 	}
 
 	public void importChemNameDict(IChemNameDict cnd) throws Exception {
-		for(ChemRecord record : cnd.getChemRecords()) {
+		for(IChemRecord record : cnd.getChemRecords()) {
 			addChemRecord(record);
 		}
 	}

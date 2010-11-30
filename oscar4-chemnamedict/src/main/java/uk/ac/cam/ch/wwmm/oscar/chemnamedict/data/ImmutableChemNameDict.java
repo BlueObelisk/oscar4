@@ -31,10 +31,10 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  */
 public class ImmutableChemNameDict implements IChemNameDict {
 
-	protected Set<ChemRecord> chemRecords;
-	protected Map<String,ChemRecord> indexByInchi;
-	protected Map<String,Set<ChemRecord>> indexByName;
-	protected Map<String,Set<ChemRecord>> indexByOntID;
+	protected Set<IChemRecord> chemRecords;
+	protected Map<String,IChemRecord> indexByInchi;
+	protected Map<String,Set<IChemRecord>> indexByName;
+	protected Map<String,Set<IChemRecord>> indexByOntID;
 	protected Set<String> orphanNames;
 	protected Set<String> stopWords;
 
@@ -42,10 +42,10 @@ public class ImmutableChemNameDict implements IChemNameDict {
 
 	public ImmutableChemNameDict(URI uri) {
 		this.uri = uri;
-		chemRecords = new HashSet<ChemRecord>();
-		indexByInchi = new HashMap<String,ChemRecord>();
-		indexByName = new HashMap<String,Set<ChemRecord>>();
-		indexByOntID = new HashMap<String,Set<ChemRecord>>();
+		chemRecords = new HashSet<IChemRecord>();
+		indexByInchi = new HashMap<String,IChemRecord>();
+		indexByName = new HashMap<String,Set<IChemRecord>>();
+		indexByOntID = new HashMap<String,Set<IChemRecord>>();
 		orphanNames = new HashSet<String>();
 		stopWords = new HashSet<String>();
 	}
@@ -72,8 +72,12 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		queryName = StringTools.normaliseName(queryName);
 		if(indexByName.containsKey(queryName)) {
 			Set<String> results = new HashSet<String>();
-			for(ISMILESChemRecord record : indexByName.get(queryName)) {
-				if(record.getSMILES() != null) results.add(record.getSMILES());
+			for(IChemRecord record : indexByName.get(queryName)) {
+				if (record instanceof ISMILESChemRecord) {
+					ISMILESChemRecord smilesRecord = (ISMILESChemRecord)record;
+					if (smilesRecord.getSMILES() != null) 
+						results.add(smilesRecord.getSMILES());
+				}
 			}
 			if(results.size() > 0) return results;
 			return null;
@@ -96,9 +100,12 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		queryName = StringTools.normaliseName(queryName);
 		if(indexByName.containsKey(queryName)) {
 			Set<String> results = new HashSet<String>();
-			for(IInChIChemRecord record : indexByName.get(queryName)) {
-				assert(record.getInChI() != null); 
-				results.add(record.getInChI());
+			for(IChemRecord record : indexByName.get(queryName)) {
+				if (record instanceof IInChIChemRecord) {
+					IInChIChemRecord inchiRecord = (IInChIChemRecord)record;
+					assert(inchiRecord.getInChI() != null); 
+					results.add(inchiRecord.getInChI());
+				}
 			}
 			if(results.size() > 0) return results;
 			return null;
@@ -107,46 +114,46 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		}
 	}
 
-	public String getInChIforShortestSMILES(String queryName) {
-		queryName = StringTools.normaliseName(queryName);
-		if(indexByName.containsKey(queryName)) {
-			String currentInchi = null;
-			String currentSmiles = null;
-			for(ChemRecord record : indexByName.get(queryName)) {
-				assert(record.getInChI() != null); 
-				if(currentInchi == null) {
-					currentInchi = record.getInChI();
-					currentSmiles = record.getSMILES();
-				} else if(record.getSMILES() == null && currentSmiles == null) {
-					if(currentInchi.compareTo(record.getInChI()) > 0) {
-						currentInchi = record.getInChI();
-						currentSmiles = record.getSMILES();															
-					}						
-				} else if(record.getSMILES() == null) {
-					// Do nothing, we prefer InChIs with associated smiles
-				} else if(currentSmiles == null) {
-					currentInchi = record.getInChI();
-					currentSmiles = record.getSMILES();																					
-				} else if(currentSmiles.length() == record.getSMILES().length()) {
-					if(currentSmiles.equals(record.getSMILES())) {
-						if(currentInchi.compareTo(record.getInChI()) > 0) {
-							currentInchi = record.getInChI();
-							currentSmiles = record.getSMILES();															
-						}
-					} else if(currentSmiles.compareTo(record.getSMILES()) > 0) {
-						currentInchi = record.getInChI();
-						currentSmiles = record.getSMILES();							
-					}
-				} else if(currentSmiles.length() > record.getSMILES().length()) {
-					currentInchi = record.getInChI();
-					currentSmiles = record.getSMILES();
-				} //Otherwise do nothing
-			}
-			return currentInchi;
-		} else {
-			return null;
-		}
-	}
+//	public String getInChIforShortestSMILES(String queryName) {
+//		queryName = StringTools.normaliseName(queryName);
+//		if(indexByName.containsKey(queryName)) {
+//			String currentInchi = null;
+//			String currentSmiles = null;
+//			for(IChemRecord record : indexByName.get(queryName)) {
+//				assert(record.getInChI() != null); 
+//				if(currentInchi == null) {
+//					currentInchi = record.getInChI();
+//					currentSmiles = record.getSMILES();
+//				} else if(record.getSMILES() == null && currentSmiles == null) {
+//					if(currentInchi.compareTo(record.getInChI()) > 0) {
+//						currentInchi = record.getInChI();
+//						currentSmiles = record.getSMILES();															
+//					}						
+//				} else if(record.getSMILES() == null) {
+//					// Do nothing, we prefer InChIs with associated smiles
+//				} else if(currentSmiles == null) {
+//					currentInchi = record.getInChI();
+//					currentSmiles = record.getSMILES();																					
+//				} else if(currentSmiles.length() == record.getSMILES().length()) {
+//					if(currentSmiles.equals(record.getSMILES())) {
+//						if(currentInchi.compareTo(record.getInChI()) > 0) {
+//							currentInchi = record.getInChI();
+//							currentSmiles = record.getSMILES();															
+//						}
+//					} else if(currentSmiles.compareTo(record.getSMILES()) > 0) {
+//						currentInchi = record.getInChI();
+//						currentSmiles = record.getSMILES();							
+//					}
+//				} else if(currentSmiles.length() > record.getSMILES().length()) {
+//					currentInchi = record.getInChI();
+//					currentSmiles = record.getSMILES();
+//				} //Otherwise do nothing
+//			}
+//			return currentInchi;
+//		} else {
+//			return null;
+//		}
+//	}
 
 	public Set<String> getNames(String inchi) {
 		if(!indexByInchi.containsKey(inchi)) return null;
@@ -168,8 +175,8 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		return results;
 	}
 
-	public Set<ChemRecord> getChemRecords() {
-		Set<ChemRecord> results = new HashSet<ChemRecord>();
+	public Set<IChemRecord> getChemRecords() {
+		Set<IChemRecord> results = new HashSet<IChemRecord>();
 		results.addAll(chemRecords);
 		return results;
 	}

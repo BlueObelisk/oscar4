@@ -11,6 +11,7 @@ import nu.xom.Elements;
 import nu.xom.Serializer;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecordIO;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 
 /**
@@ -46,7 +47,7 @@ public final class ChemNameDictIO {
 		Element cnde = new Element("newchemnamedict");
 
 		Element records = new Element("records");
-		for(ChemRecord record : dictionary.getChemRecords()) {
+		for(IChemRecord record : dictionary.getChemRecords()) {
 			records.appendChild(ChemRecordIO.toXML(record));
 		}
 		cnde.appendChild(records);

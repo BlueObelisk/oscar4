@@ -13,7 +13,7 @@ import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IInChIProvider;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IChemRecord;
 
 public class OpsinDictionary implements IChemNameDict,
     IInChIProvider {
@@ -76,7 +76,7 @@ public class OpsinDictionary implements IChemNameDict,
 		return Collections.emptySet();
 	}
 
-	public Set<ChemRecord> getChemRecords() {
+	public Set<IChemRecord> getChemRecords() {
 		return Collections.emptySet();
 	}
 

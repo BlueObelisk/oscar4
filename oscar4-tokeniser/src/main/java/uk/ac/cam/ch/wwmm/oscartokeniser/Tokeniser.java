@@ -506,24 +506,25 @@ public final class Tokeniser implements ITokeniser {
 	}
 
 	private void handleNEs(String sourceString, IProcessingDocument doc,
-			int offset, Element e, List<IToken> tokens) throws Exception {
-		Nodes n;
+			int offset, Element safOrInlineAnnotations, List<IToken> tokens) throws Exception {
+		Nodes annotationNodes;
 		int currentNodeId = 0;
 		Element currentElem = null;
 		int elemStart = -1;
 		int elemEnd = -1;
 		String neType = null;
-		boolean inline;
+		boolean sourceIsInline;
 
 		int splits = 0;
 
-		if (e.getLocalName().equals("saf")) {
-			inline = false;
-			Nodes nn = e.query("annot");
-			n = new Nodes();
+		//prime variables, depending on whether we are working from saf or inline
+		if (safOrInlineAnnotations.getLocalName().equals("saf")) {
+			sourceIsInline = false;
+			Nodes safAnnotationNodes = safOrInlineAnnotations.query("annot");
+			annotationNodes = new Nodes();
 			int endOffset = sourceString.length() + offset;
-			for (int i = 0; i < nn.size(); i++) {
-				Element annot = (Element) nn.get(i);
+			for (int i = 0; i < safAnnotationNodes.size(); i++) {
+				Element annot = (Element) safAnnotationNodes.get(i);
 				String startX = annot.getAttributeValue("from");
 				int start = doc.getStandoffTable().getOffsetAtXPoint(startX);
 				if (start < offset)
@@ -532,37 +533,39 @@ public final class Tokeniser implements ITokeniser {
 				int end = doc.getStandoffTable().getOffsetAtXPoint(endX);
 				if (end > endOffset)
 					continue;
-				n.append(annot);
+				annotationNodes.append(annot);
 			}
-			if (n.size() == 0)
+			if (annotationNodes.size() == 0)
 				return;
-			currentElem = (Element) n.get(currentNodeId);
+			currentElem = (Element) annotationNodes.get(currentNodeId);
 			elemStart = doc.getStandoffTable().getOffsetAtXPoint(currentElem
 					.getAttributeValue("from"));
 			elemEnd = doc.getStandoffTable().getOffsetAtXPoint(currentElem
 					.getAttributeValue("to"));
-			//neType = SafTools.getSlotValue(currentElem, "type");
-		} else {
-			inline = true;
-			n = e.query(".//ne");
-			if (n.size() == 0)
+		}
+		else {
+			sourceIsInline = true;
+			annotationNodes = safOrInlineAnnotations.query(".//ne");
+			if (annotationNodes.size() == 0)
 				return;
-			currentElem = (Element) n.get(currentNodeId);
+			currentElem = (Element) annotationNodes.get(currentNodeId);
 			elemStart = Integer.parseInt(currentElem
 					.getAttributeValue("xtspanstart"));
 			elemEnd = Integer.parseInt(currentElem
 					.getAttributeValue("xtspanend"));
 			neType = currentElem.getAttributeValue("type");
 		}
-		// System.out.println("> " + elemStart + "\t" + elemEnd + "\t" +
-		// neType);
+		
+		
+		//find start and end offsets the first annotation that fits the condition elemEnd > elemStart 
 		while (!(elemEnd > elemStart)) {
 			currentNodeId++;
-			if (currentNodeId >= n.size()) {
+			if (currentNodeId >= annotationNodes.size()) {
 				return;
-			} else {
-				currentElem = (Element) n.get(currentNodeId);
-				if (inline) {
+			}
+			else {
+				currentElem = (Element) annotationNodes.get(currentNodeId);
+				if (sourceIsInline) {
 					elemStart = Integer.parseInt(currentElem
 							.getAttributeValue("xtspanstart"));
 					elemEnd = Integer.parseInt(currentElem
@@ -573,13 +576,11 @@ public final class Tokeniser implements ITokeniser {
 							.getAttributeValue("from"));
 					elemEnd = doc.getStandoffTable().getOffsetAtXPoint(currentElem
 							.getAttributeValue("to"));
-					//neType = SafTools.getSlotValue(currentElem, "type");
 				}
-				// System.out.println("> " + elemStart + "\t" + elemEnd + "\t" +
-				// neType);
 			}
 		}
-		// System.out.println(n.size() + " entities");
+		
+		
 		int i = 0;
 		boolean inElem = false;
 		while (i < tokens.size()) {
@@ -634,12 +635,12 @@ public final class Tokeniser implements ITokeniser {
 					int oldElemEnd = elemEnd;
 					while (!(elemEnd > oldElemEnd && elemEnd > elemStart)) {
 						currentNodeId++;
-						if (currentNodeId >= n.size()) {
+						if (currentNodeId >= annotationNodes.size()) {
 							// System.out.println(splits + " splits");
 							return;
 						} else {
-							currentElem = (Element) n.get(currentNodeId);
-							if (inline) {
+							currentElem = (Element) annotationNodes.get(currentNodeId);
+							if (sourceIsInline) {
 								elemStart = Integer.parseInt(currentElem
 										.getAttributeValue("xtspanstart"));
 								elemEnd = Integer.parseInt(currentElem

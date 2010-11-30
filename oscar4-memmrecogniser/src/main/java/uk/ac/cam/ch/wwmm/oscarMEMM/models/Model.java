@@ -61,7 +61,9 @@ public class Model {
 		Element modelRoot = new Element("model");
 		modelRoot.appendChild(ExtractedTrainingData.getInstance().toXML());
 		MEMM memm = MEMM.getInstance();
-		if(memm != null) modelRoot.appendChild(memm.writeModel());
+		if(memm != null) modelRoot.appendChild(
+			memm.getModel().writeModel()
+		);
 //		NESubtypes subtypes = NESubtypes.getInstance();
 //		if(subtypes.OK) modelRoot.appendChild(subtypes.toXML());
 		return new Document(modelRoot);

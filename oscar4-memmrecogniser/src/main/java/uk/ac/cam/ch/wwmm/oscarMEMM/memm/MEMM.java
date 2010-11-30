@@ -3,24 +3,17 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import nu.xom.Attribute;
-import nu.xom.Document;
 import nu.xom.Element;
-import nu.xom.Elements;
 import opennlp.maxent.GISModel;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
 
 /**The main class for generating and running MEMMs
@@ -33,12 +26,7 @@ public final class MEMM {
     private static MEMM currentInstance;
     private static MEMM defaultInstance;
 
-    private Map<String, Double> zeroProbs;
-    private Map<String, GISModel> gmByPrev;
-    private GISModel ubermodel;
-
-    private Set<String> tagSet;
-    private Set<NamedEntityType> namedEntityTypes;
+    private MEMMModel model;
 
     private boolean useUber = false;
     private boolean removeBlocked = false;
@@ -46,46 +34,29 @@ public final class MEMM {
 
     private static double confidenceThreshold;
 
-    private MEMMOutputRescorer rescorer;
-
     public MEMM(Element elem) {
-        zeroProbs = new HashMap<String, Double>();
-        gmByPrev = new HashMap<String, GISModel>();
-        tagSet = new HashSet<String>();
+    	model = new MEMMModel();
 
         confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;
-        rescorer = null;
 
         try {
-            readModel(elem);
+            model.readModel(elem);
         } catch (Exception e) {
 			throw new Error(e);
 		}
     }
 
     Set<String> getTagSet() {
-        return tagSet;
+        return model.getTagSet();
     }
 
     Set<NamedEntityType> getNamedEntityTypes() {
-        return namedEntityTypes;
-    }
-
-    private void makeEntityTypesAndZeroProbs() {
-        namedEntityTypes = new HashSet<NamedEntityType>();
-        for (String tagType : tagSet) {
-            if (tagType.startsWith("B-") || tagType.startsWith("W-")) {
-                namedEntityTypes.add(NamedEntityType.valueOf(tagType.substring(2)));
-            }
-        }
-        for(String tag : tagSet) {
-            zeroProbs.put(tag, 0.0);
-        }
+        return model.getNamedEntityTypes();
     }
 
     private Map<String, Double> runGIS(GISModel gm, String [] context) {
         Map<String, Double> results = new HashMap<String, Double>();
-        results.putAll(zeroProbs);
+        results.putAll(model.getZeroProbs());
         double [] gisResults = gm.eval(context);
         for (int i = 0; i < gisResults.length; i++) {
             results.put(gm.getOutcome(i), gisResults[i]);
@@ -133,15 +104,18 @@ public final class MEMM {
     private Map<String,Map<String,Double>> calcResults(List<String> features) {
         Map<String,Map<String,Double>> results = new HashMap<String,Map<String,Double>>();
         if (useUber) {
-            for (String prevTag : tagSet) {
+            for (String prevTag : model.getTagSet()) {
                 List<String> newFeatures = new ArrayList<String>(features);
                 newFeatures.add("$$prevTag=" + prevTag);
-                results.put(prevTag, runGIS(ubermodel, newFeatures.toArray(new String[newFeatures.size()])));
+                results.put(prevTag, runGIS(
+                	model.getUberModel(),
+                	newFeatures.toArray(new String[newFeatures.size()])
+                ));
             }
         } else {
             String [] featArray = features.toArray(new String[features.size()]);
-            for (String tag : tagSet) {
-                GISModel gm = gmByPrev.get(tag);
+            for (String tag : model.getTagSet()) {
+                GISModel gm = model.getGISModelByPrev(tag);
                 if (gm != null) {
                     Map<String, Double> modelResults = runGIS(gm, featArray);
                     results.put(tag, modelResults);
@@ -152,80 +126,18 @@ public final class MEMM {
     }
 
     /**
-     * Reads in an XML document containing a MEMM model.
-     *
-     * @param doc The XML document.
-     * @throws Exception
-     */
-    public void readModel(Document doc) throws Exception {
-        readModel(doc.getRootElement());
-    }
-
-    /**
-     * Reads in a MEMM model from an XML element.
-     *
-     * @param memmRoot The XML element.
-     * @throws Exception
-     */
-    public void readModel(Element memmRoot) throws Exception {
-        Elements maxents = memmRoot.getChildElements("maxent");
-        gmByPrev = new HashMap<String,GISModel>();
-        tagSet = new HashSet<String>();
-        for (int i = 0; i < maxents.size(); i++) {
-            Element maxent = maxents.get(i);
-            String prev = maxent.getAttributeValue("prev");
-            StringGISModelReader sgmr = new StringGISModelReader(maxent.getValue());
-            GISModel gm = sgmr.getModel();
-            gmByPrev.put(prev, gm);
-            tagSet.add(prev);
-            for (int j = 0; j < gm.getNumOutcomes(); j++) {
-                tagSet.add(gm.getOutcome(j));
-            }
-        }
-        Element rescorerElem = memmRoot.getFirstChildElement("rescorer");
-        if(rescorerElem != null) {
-            rescorer = new MEMMOutputRescorer();
-            rescorer.readElement(rescorerElem);
-        } else {
-            rescorer = null;
-        }
-        makeEntityTypesAndZeroProbs();
-    }
-
-
-    /**
-     * Produces an XML element containing the current MEMM model.
-     *
-     * @return The XML element.
-     * @throws Exception
-     */
-    public Element writeModel() throws Exception {
-        Element root = new Element("memm");
-        for (String prev : gmByPrev.keySet()) {
-            Element maxent = new Element("maxent");
-            maxent.addAttribute(new Attribute("prev", prev));
-            StringGISModelWriter sgmw = new StringGISModelWriter(gmByPrev.get(prev));
-            sgmw.persist();
-            maxent.appendChild(sgmw.toString());
-            root.appendChild(maxent);
-        }
-        if(rescorer != null) {
-            root.appendChild(rescorer.writeElement());
-        }
-        return root;
-    }
-
-    /**
      * Uses this MEMM's rescorer to rescore a list of named entities. This
      * updates the confidence values held within the NEs.
      *
      * @param entities The entities to rescore.
      */
     public void rescore(List<NamedEntity> entities) {
-        rescorer.rescore(entities);
+        model.getRescorer().rescore(entities);
     }
 
-
+    public MEMMModel getModel() {
+    	return model;
+    }
 
     public static MEMM getDefaultInstance() {
         if (defaultInstance == null) {

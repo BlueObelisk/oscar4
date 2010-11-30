@@ -1,6 +1,5 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,29 +9,19 @@ import java.util.Map;
 import java.util.Set;
 
 import nu.xom.Attribute;
-import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
-import nu.xom.Nodes;
-import opennlp.maxent.Event;
 import opennlp.maxent.GISModel;
-
-import org.apache.log4j.Logger;
-
-import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
-import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**The main class for generating and running MEMMs
  *
@@ -44,46 +33,26 @@ public final class MEMM {
     private static MEMM currentInstance;
     private static MEMM defaultInstance;
 
-    private final Logger logger = Logger.getLogger(MEMM.class);
-
-    private Map<String, List<Event>> evsByPrev;
     private Map<String, Double> zeroProbs;
     private Map<String, GISModel> gmByPrev;
     private GISModel ubermodel;
-    private int trainingCycles;
-    private int featureCutOff;
 
     private Set<String> tagSet;
     private Set<NamedEntityType> namedEntityTypes;
 
     private boolean useUber = false;
     private boolean removeBlocked = false;
-    private boolean retrain=true;
-    private boolean splitTrain=true;
-    //public boolean patternFeatures=false;
-    private boolean featureSel=true;
-    //public boolean tampering=false;
-    private boolean simpleRescore=true;
     private boolean filtering=true;
-    private boolean nameTypes=false;
-
-    private Map<String,Map<String,Double>> featureCVScores;
-
-    private Map<String,Set<String>> perniciousFeatures;
 
     private static double confidenceThreshold;
 
     private MEMMOutputRescorer rescorer;
 
     public MEMM(Element elem) {
-        evsByPrev = new HashMap<String, List<Event>>();
         zeroProbs = new HashMap<String, Double>();
         gmByPrev = new HashMap<String, GISModel>();
         tagSet = new HashSet<String>();
-        perniciousFeatures = null;
 
-        trainingCycles = 100;
-        featureCutOff = 1;
         confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;
         rescorer = null;
 
@@ -100,73 +69,6 @@ public final class MEMM {
 
     Set<NamedEntityType> getNamedEntityTypes() {
         return namedEntityTypes;
-    }
-
-    private void train(List<String> features, String thisTag, String prevTag) {
-        if (perniciousFeatures != null && perniciousFeatures.containsKey(prevTag)) {
-            features.removeAll(perniciousFeatures.get(prevTag));
-        }
-        if (features.isEmpty()) {
-            features.add("EMPTY");
-        }
-        tagSet.add(thisTag);
-        if (useUber) {
-            features.add("$$prevTag=" + prevTag);
-        }
-        String [] c = features.toArray(new String[0]);
-        Event ev = new Event(thisTag, c);
-        List<Event> evs = evsByPrev.get(prevTag);
-        if(evs == null) {
-            evs = new ArrayList<Event>();
-            evsByPrev.put(prevTag, evs);
-        }
-        evs.add(ev);
-    }
-
-    private void trainOnSentence(ITokenSequence tokSeq, String domain) {
-        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
-        List<IToken> tokens = tokSeq.getTokens();
-        String prevTag = "O";
-        for (int i = 0; i < tokens.size(); i++) {
-            train(featureLists.get(i), tokens.get(i).getBioTag(), prevTag);
-            prevTag = tokens.get(i).getBioTag();
-        }
-    }
-
-    private void trainOnFile(File file, String domain) throws Exception {
-        long time = System.currentTimeMillis();
-        logger.debug("Train on: " + file + "... ");
-        Document doc = new Builder().build(file);
-        Nodes n = doc.query("//cmlPile");
-        for (int i = 0; i < n.size(); i++) {
-            n.get(i).detach();
-        }
-        n = doc.query("//ne[@type='CPR']");
-        for (int i = 0; i < n.size(); i++) {
-            XOMTools.removeElementPreservingText((Element)n.get(i));
-        }
-
-        if(nameTypes) {
-            n = doc.query("//ne");
-            for (int i = 0; i < n.size(); i++) {
-                Element ne = (Element)n.get(i);
-                if (ne.getAttributeValue("type").equals(NamedEntityType.REACTION.getName()) && ne.getValue().matches("[A-Z]\\p{Ll}\\p{Ll}.*\\s.*")) {
-                    ne.addAttribute(new Attribute("type", "NRN"));
-                    logger.debug("NRN: " + ne.getValue());
-                } else if (ne.getAttributeValue("type").equals(NamedEntityType.COMPOUND.getName()) && ne.getValue().matches("[A-Z]\\p{Ll}\\p{Ll}.*\\s.*")) {
-                    ne.addAttribute(new Attribute("type", "NCM"));
-                    logger.debug("NCM: " + ne.getValue());
-                }
-            }
-        }
-
-        IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-                Tokeniser.getInstance(), doc, true, false, false);
-
-        for(ITokenSequence ts : procDoc.getTokenSequences()) {
-            trainOnSentence(ts, domain);
-        }
-        logger.debug(System.currentTimeMillis() - time);
     }
 
     private void makeEntityTypesAndZeroProbs() {
@@ -247,72 +149,6 @@ public final class MEMM {
             }
         }
         return results;
-    }
-
-
-
-
-    private void cvFeatures(File file, String domain) throws Exception {
-        long time = System.currentTimeMillis();
-        logger.debug("Cross-Validate features on: " + file + "... ");
-        Document doc = new Builder().build(file);
-        Nodes n = doc.query("//cmlPile");
-        for (int i = 0; i < n.size(); i++) n.get(i).detach();
-        n = doc.query("//ne[@type='CPR']");
-        for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
-
-
-        IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-                Tokeniser.getInstance(), doc, true, false, false);
-
-        for(ITokenSequence ts : procDoc.getTokenSequences()) {
-            cvFeatures(ts, domain);
-        }
-        logger.debug(System.currentTimeMillis() - time);
-    }
-
-
-    private double infoLoss(double [] probs, int index) {
-        return -Math.log(probs[index])/Math.log(2);
-    }
-
-    private void cvFeatures(ITokenSequence tokSeq, String domain) {
-        if(featureCVScores == null) {
-            featureCVScores = new HashMap<String,Map<String,Double>>();
-        }
-        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
-        List<IToken> tokens = tokSeq.getTokens();
-        String prevTag = "O";
-        for (int i = 0; i < tokens.size(); i++) {
-            String tag = tokens.get(i).getBioTag();
-            GISModel gm = gmByPrev.get(prevTag);
-            if(gm == null) continue;
-            Map<String,Double> scoresForPrev = featureCVScores.get(prevTag);
-            if(scoresForPrev == null) {
-                scoresForPrev = new HashMap<String,Double>();
-                featureCVScores.put(prevTag, scoresForPrev);
-            }
-
-            prevTag = tag;
-            int outcomeIndex = gm.getIndex(tag);
-            if(outcomeIndex == -1) continue;
-            List<String> features = featureLists.get(i);
-            if(features.size() == 0) continue;
-            String [] featuresArray = features.toArray(new String[0]);
-            String [] newFeaturesArray = features.toArray(new String[0]);
-            double [] baseProbs = gm.eval(featuresArray);
-            for (int j = 0; j < features.size(); j++) {
-                newFeaturesArray[j] = "IGNORETHIS";
-                double [] newProbs = gm.eval(newFeaturesArray);
-                double gain = infoLoss(newProbs, outcomeIndex) - infoLoss(baseProbs, outcomeIndex);
-                if(Double.isNaN(gain)) gain = 0.0;
-                String feature = features.get(j);
-                double oldScore = 0.0;
-                if(scoresForPrev.containsKey(feature)) oldScore = scoresForPrev.get(feature);
-                scoresForPrev.put(feature, gain + oldScore);
-                newFeaturesArray[j] = featuresArray[j];
-            }
-        }
     }
 
     /**

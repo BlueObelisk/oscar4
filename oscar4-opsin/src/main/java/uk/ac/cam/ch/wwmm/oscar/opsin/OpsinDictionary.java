@@ -6,22 +6,24 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import nu.xom.Element;
+
 import uk.ac.cam.ch.wwmm.opsin.NameToInchi;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructureException;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ICMLProvider;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IInChIProvider;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IChemRecord;
 
-public class OpsinDictionary implements IChemNameDict,
-    IInChIProvider {
+public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvider {
 
 	private URI uri;
 	
 	public OpsinDictionary() throws URISyntaxException {
-		this.uri = new URI("http://wwmm.cam.ac.uk/oscar/dictionariy/opsin/");
+		this.uri = new URI("http://wwmm.cam.ac.uk/oscar/dictionary/opsin/");
 	}
 
 	public URI getURI() {
@@ -37,7 +39,7 @@ public class OpsinDictionary implements IChemNameDict,
 	}
 
 	public boolean hasName(String queryName) {
-		return getInChI(queryName).size() != 0;
+		return getCML(queryName).size() != 0;
 	}
 
 	public Set<String> getInChI(String queryName) {
@@ -56,12 +58,6 @@ public class OpsinDictionary implements IChemNameDict,
 			e.printStackTrace();			
 		}
 		return Collections.emptySet();
-	}
-
-	public String getInChIforShortestSMILES(String queryName) {
-		Set<String> inchis = getInChI(queryName);
-		if (inchis.size() == 0) return null;
-		return inchis.iterator().next();
 	}
 
 	public Set<String> getNames(String inchi) {
@@ -83,5 +79,23 @@ public class OpsinDictionary implements IChemNameDict,
 	public boolean hasOntologyIdentifier(String identifier) {
 		// this ontology does not use ontology identifiers
 		return false;
+	}
+
+	public Set<Element> getCML(String queryName) {
+		try {
+			NameToStructure nameToStructure = NameToStructure.getInstance();
+			OpsinResult result = nameToStructure.parseChemicalName(
+				queryName, false
+			);
+			if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
+				Set<Element> cmls = new HashSet<Element>();
+				Element cml = result.getCml();
+				cmls.add(cml);
+				return cmls;
+			}
+		} catch (NameToStructureException e) {
+			e.printStackTrace();			
+		}
+		return Collections.emptySet();
 	}
 }

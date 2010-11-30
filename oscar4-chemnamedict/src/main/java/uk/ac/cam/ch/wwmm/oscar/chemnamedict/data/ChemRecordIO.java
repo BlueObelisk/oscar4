@@ -4,17 +4,24 @@ import nu.xom.Element;
 
 public class ChemRecordIO {
 
-	public static Element toXML(ChemRecord record) {
+	public static Element toXML(IChemRecord record) {
 		Element elem = new Element("record");
 		
-		Element inchiElem = new Element("InChI");
-		inchiElem.appendChild(record.getInChI());
-		elem.appendChild(inchiElem);
+		if (record instanceof IInChIChemRecord) {
+			Element inchiElem = new Element("InChI");
+			inchiElem.appendChild(
+				((IInChIChemRecord)record).getInChI()
+			);
+			elem.appendChild(inchiElem);
+		}
 		
-		if(record.getSMILES() != null) {
-			Element smilesElem = new Element("SMILES");
-			smilesElem.appendChild(record.getSMILES());
-			elem.appendChild(smilesElem);				
+		if (record instanceof ISMILESChemRecord) {
+			ISMILESChemRecord smilesRecord = (ISMILESChemRecord)record;
+			if(smilesRecord.getSMILES() != null) {
+				Element smilesElem = new Element("SMILES");
+				smilesElem.appendChild(smilesRecord.getSMILES());
+				elem.appendChild(smilesElem);				
+			}
 		}
 		
 		for(String name : record.getNames()) {
@@ -23,10 +30,12 @@ public class ChemRecordIO {
 			elem.appendChild(nameElem);								
 		}
 
-		for(String ontID : record.getOntologyIdentifiers()) {
-			Element ontIDElem = new Element("ontID");
-			ontIDElem.appendChild(ontID);
-			elem.appendChild(ontIDElem);								
+		if (record instanceof IOntologyChemRecord) {
+			for(String ontID : ((IOntologyChemRecord)record).getOntologyIdentifiers()) {
+				Element ontIDElem = new Element("ontID");
+				ontIDElem.appendChild(ontID);
+				elem.appendChild(ontIDElem);								
+			}
 		}
 		return elem;
 	}

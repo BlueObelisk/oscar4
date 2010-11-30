@@ -184,7 +184,7 @@ public final class Tokeniser implements ITokeniser {
 				 * in oscarCRF
 				 * 
 				 ***************************/
-				handleNEs(s, doc, offset, annotations, tokens);
+				tokeniseOnAnnotationBoundaries(s, doc, offset, annotations, tokens);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -505,7 +505,8 @@ public final class Tokeniser implements ITokeniser {
 		return tokens;
 	}
 
-	private void handleNEs(String sourceString, IProcessingDocument doc,
+	
+	private void tokeniseOnAnnotationBoundaries(String sourceString, IProcessingDocument doc,
 			int offset, Element safOrInlineAnnotations, List<IToken> tokens) throws Exception {
 		Nodes annotationNodes;
 		int currentNodeId = 0;
@@ -514,8 +515,6 @@ public final class Tokeniser implements ITokeniser {
 		int elemEnd = -1;
 		String neType = null;
 		boolean sourceIsInline;
-
-		int splits = 0;
 
 		//prime variables, depending on whether we are working from saf or inline
 		if (safOrInlineAnnotations.getLocalName().equals("saf")) {
@@ -581,62 +580,52 @@ public final class Tokeniser implements ITokeniser {
 		}
 		
 		
+		//split tokens that span annotation boundaries on those annotation boundaries
+		int splits = 0;
 		int i = 0;
 		boolean inElem = false;
 		while (i < tokens.size()) {
-			// System.out.println(tokens.get(i).getValue() + "\t" +
-			// tokens.get(i).getStartOffset() + "\t" +
-			// tokens.get(i).getEndOffset());
+			//note that when we split tokens we don't increment i, so we're
+			//doing that recursive processing without recursion thing again
 			if (!inElem) {
 				if (tokens.get(i).getEnd() <= elemStart) {
-					// System.out.println("Skip!");
+					//token precedes annotation element - skip
 					i++;
-				} else if (tokens.get(i).getStart() >= elemStart
+				}
+				else if (tokens.get(i).getStart() >= elemStart
 						&& tokens.get(i).getEnd() <= elemEnd) {
-					// System.out.println("Begin!");
-					//tokens.get(i).getBioTag() = "B-" + neType;
+					//token is fully contained within annotation
 					((Token)tokens.get(i)).setNeElem(currentElem);
 					inElem = true;
 					i++;
-				} else if (tokens.get(i).getStart() < elemStart) {
-					// System.out.println("Split to begin!");
+				}
+				else if (tokens.get(i).getStart() < elemStart) {
+					//token straddles beginning of annotation
 					splits++;
-					// System.out.print(tokens.get(i).getValue() + " ->");
 					List<IToken> splitResults = splitAt(tokens.get(i), elemStart);
 					tokens.remove(i);
-					// for(Token t : splitResults) {
-					// System.out.print(" " + t.getValue());
-					// }
-					// System.out.println();
 					tokens.addAll(i, splitResults);
-					// } else if(tokens.get(i).getStartOffset() > elemStart) {
-					//	
-				} else if (tokens.get(i).getEnd() > elemEnd) {
+				}
+				else if (tokens.get(i).getEnd() > elemEnd) {
+					//token straddles end of annotation
 					splits++;
-					// System.out.println("Split to end before beginning!");
-					// System.out.print(tokens.get(i).getValue() + " ->");
 					List<IToken> splitResults = splitAt(tokens.get(i), elemEnd);
-					// for(Token t : splitResults) {
-					// System.out.print(" " + t.getValue());
-					// }
-					// System.out.println();
 					tokens.remove(i);
 					tokens.addAll(i, splitResults);
-				} else {
-					// System.out.println("> " + elemStart + "\t" + elemEnd +
-					// "\t" + neType);
-					// System.out.println("Argh!");
+				}
+				else {
+					//something has probably gone wrong
 					i++;
 				}
-			} else {
+			}
+			else {
 				if (tokens.get(i).getStart() >= elemEnd) {
-					// System.out.println("End!");
+					//token starts after the annotation - find next annotation
 					inElem = false;
 					int oldElemEnd = elemEnd;
 					while (!(elemEnd > oldElemEnd && elemEnd > elemStart)) {
 						currentNodeId++;
 						if (currentNodeId >= annotationNodes.size()) {
-							// System.out.println(splits + " splits");
 							return;
 						} else {
 							currentElem = (Element) annotationNodes.get(currentNodeId);
@@ -653,33 +642,24 @@ public final class Tokeniser implements ITokeniser {
 								elemEnd = doc.getStandoffTable()
 										.getOffsetAtXPoint(currentElem
 												.getAttributeValue("to"));
-//								neType = SafTools.getSlotValue(currentElem,
-//										"type");
 							}
-							// System.out.println("> " + elemStart + "\t" +
-							// elemEnd + "\t" + neType);
 						}
 					}
-				} else if (tokens.get(i).getEnd() <= elemEnd) {
-					// System.out.println("Continue!");
+				}
+				else if (tokens.get(i).getEnd() <= elemEnd) {
+					//token is contained in the annotation
 					tokens.get(i).setBioTag("I-" + neType);
 					((Token)tokens.get(i)).setNeElem(currentElem);
 					i++;
 				} else {
+					//token straddles the end of the annotation
 					splits++;
-					// System.out.print(tokens.get(i).getValue() + " ->");
-					// System.out.println("Split to end!");
 					List<IToken> splitResults = splitAt(tokens.get(i), elemEnd);
-					// for(Token t : splitResults) {
-					// System.out.print(" " + t.getValue());
-					// }
-					// System.out.println();
 					tokens.remove(i);
 					tokens.addAll(i, splitResults);
 				}
 			}
 		}
-		// System.out.println(splits + " splits");
 	}
 
 	private void tidyHyphensAfterNEs(List<IToken> tokens) {

@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 
 /**Routines to co-ordinate the holding of experimental training data, and 
@@ -29,7 +30,13 @@ public class Model {
         Element modelRoot = modelDoc.getRootElement();
 		Element memmElem = modelRoot.getFirstChildElement("memm");
 		if (memmElem != null) {
-            memm = new MEMM(memmElem);
+			MEMMModel model = new MEMMModel();
+			try {
+				model.readModel(modelDoc);
+			} catch (Exception e) {
+				throw new Error(e);
+			}
+            memm = new MEMM(model);
 		} else {
 			memm = null;
 		}
@@ -58,15 +65,8 @@ public class Model {
 	 * @throws Exception
 	 */
 	public static Document makeModel() throws Exception {
-		Element modelRoot = new Element("model");
-		modelRoot.appendChild(ExtractedTrainingData.getInstance().toXML());
 		MEMM memm = MEMM.getInstance();
-		if(memm != null) modelRoot.appendChild(
-			memm.getModel().writeModel()
-		);
-//		NESubtypes subtypes = NESubtypes.getInstance();
-//		if(subtypes.OK) modelRoot.appendChild(subtypes.toXML());
-		return new Document(modelRoot);
+		return new Document(memm.getModel().writeModel());
 	}
 	
 	/**Examines an XML document produced with MakeModel, and uses the data

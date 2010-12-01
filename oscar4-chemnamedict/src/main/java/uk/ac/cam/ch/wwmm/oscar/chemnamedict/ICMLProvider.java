@@ -14,6 +14,4 @@ public interface ICMLProvider {
 
 	public Set<Element> getCML(String queryName);
 
-	public Element getCMLforShortestSMILES(String queryName);
-
 }

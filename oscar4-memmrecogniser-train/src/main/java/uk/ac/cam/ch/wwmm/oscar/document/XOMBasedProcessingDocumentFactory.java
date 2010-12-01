@@ -43,7 +43,7 @@ public class XOMBasedProcessingDocumentFactory {
 	 * @return The processingDocument.
 	 * @throws Exception
 	 */
-	private XOMBasedProcessingDocument makeDocument(Document sourceDoc) throws Exception {
+	XOMBasedProcessingDocument makeDocument(Document sourceDoc) throws Exception {
 		XOMBasedProcessingDocument procDoc = new XOMBasedProcessingDocument();
 		
 		procDoc.doc = new Document((Element)XOMTools.safeCopy(sourceDoc.getRootElement()));
@@ -135,7 +135,8 @@ public class XOMBasedProcessingDocumentFactory {
 			 * @lh359: This calls the tokeniser and
 			 * returns a TokenSequence
 			 */
-			ITokenSequence ts = tokeniser.tokenise(text, procDoc, offset, safDoc != null ? safDoc.getRootElement() : e, tokeniseForNEs, mergeNEs);
+			ITokenSequence ts = makeTokenSequence(tokeniser, tokeniseForNEs,
+					mergeNEs, safDoc, procDoc, e, text, offset);
 			/********************************************
 			 * @lh359: Once it's done it adds the tokensequence
 			 * to the processingdocument
@@ -168,6 +169,14 @@ public class XOMBasedProcessingDocumentFactory {
 			}			
 		}
 		return procDoc;
+	}
+
+	ITokenSequence makeTokenSequence(ITokeniser tokeniser,
+			boolean tokeniseForNEs, boolean mergeNEs, Document safDoc,
+			XOMBasedProcessingDocument procDoc, Element e, String text,
+			int offset) {
+		ITokenSequence ts = tokeniser.tokenise(text, procDoc, offset, safDoc != null ? safDoc.getRootElement() : e, tokeniseForNEs, mergeNEs);
+		return ts;
 	}
 
 }

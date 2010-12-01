@@ -9,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
 import ch.unibe.jexample.Given;
 import ch.unibe.jexample.JExample;
 
@@ -25,8 +24,8 @@ public class MEMMTrainerTest {
 
 	@Given("testConstructor")
 	public String testUntrainedStatus(MEMMTrainer trainer) throws Exception {
-		String xml = trainer.writeModel().toXML();
-		Assert.assertEquals("<memm />", xml);
+		String xml = trainer.getModel().writeModel().toXML();
+		Assert.assertEquals("<model />", xml);
 		return xml;
 	}
 
@@ -38,17 +37,17 @@ public class MEMMTrainerTest {
 		Assert.assertNotNull(stream);
 		trainer.trainOnStream(stream);
 		trainer.finishTraining();
-		Element trainedModel = trainer.writeModel();
+		Element trainedModel = trainer.getModel().writeModel();
 		Assert.assertNotSame(untrainedXML, trainedModel.toXML());
 
-		Assert.assertEquals("memm", trainedModel.getLocalName());
-		Elements elements = trainedModel.getChildElements();
+		Assert.assertEquals("model", trainedModel.getLocalName());
+		Assert.assertEquals(1, trainedModel.getChildElements("etd").size());
+		Assert.assertEquals(1, trainedModel.getChildElements("memm").size());
+
+		Element memmModel = trainedModel.getFirstChildElement("memm");
+		Assert.assertEquals("memm", memmModel.getLocalName());
+		Elements elements = memmModel.getChildElements();
 		for (int i=0; i<elements.size(); i++)
 			Assert.assertEquals("maxent", elements.get(i).getLocalName());
-
-		Element fullModel = Model.makeModel().getRootElement();
-		Assert.assertEquals("model", fullModel.getLocalName());
-		Assert.assertEquals(1, fullModel.getChildElements("etd").size());
-		Assert.assertEquals(1, fullModel.getChildElements("memm").size());
 	}
 }

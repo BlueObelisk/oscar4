@@ -99,7 +99,8 @@ public class MEMMModel {
     public Element writeModel() throws Exception {
     	Element modelRoot = new Element("model");
     	// append the rescorer bits
-		modelRoot.appendChild(extractedTrainingData.toXML());
+    	if (extractedTrainingData != null)
+    		modelRoot.appendChild(extractedTrainingData.toXML());
 		// append the MEMM bits
         Element memmRoot = new Element("memm");
         for (String prev : gmByPrev.keySet()) {
@@ -113,7 +114,8 @@ public class MEMMModel {
         if(rescorer != null) {
             memmRoot.appendChild(rescorer.writeElement());
         }
-        modelRoot.appendChild(memmRoot);
+        if (memmRoot.getChildCount() != 0)
+        	modelRoot.appendChild(memmRoot);
 //		NESubtypes subtypes = NESubtypes.getInstance();
 //		if(subtypes.OK) modelRoot.appendChild(subtypes.toXML());
         return modelRoot;

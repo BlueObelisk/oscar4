@@ -46,6 +46,8 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  */
 public final class MEMMOutputRescorerTrainer {
 
+	private MEMM memm;
+	
 	Map<NamedEntityType,List<Event>> eventsByNamedEntityType;
 	Map<NamedEntityType,GISModel> modelsByNamedEntityType;
 	List<Double> goodProbsBefore;
@@ -87,7 +89,8 @@ public final class MEMMOutputRescorerTrainer {
 	/**Initialises an empty rescorer. This rescorer must be given data or a
 	 * model for it to work.
 	 */
-	public MEMMOutputRescorerTrainer() {
+	public MEMMOutputRescorerTrainer(MEMM memm) {
+		this.memm = memm;
 		eventsByNamedEntityType = new HashMap<NamedEntityType,List<Event>>();
 		grandTotalGain = 0.0;
 		
@@ -109,7 +112,7 @@ public final class MEMMOutputRescorerTrainer {
 	 * @throws Exception
 	 */
 	public void trainOnFile(File f, String domain) throws Exception {
-		trainOnFile(f, domain, MEMM.getInstance());
+		trainOnFile(f, domain, memm);
 	}
 	
 	/**Take a file of training data, and analyse it. The data produced in this
@@ -122,7 +125,7 @@ public final class MEMMOutputRescorerTrainer {
 	 * @param memm The MEMM to be used to to generate the input potential NEs.
 	 * @throws Exception
 	 */
-	public void trainOnFile(File f, String domain, MEMM memm) throws Exception {
+	public void trainOnFile(File f, String domain, MEMM mexmm) throws Exception {
 		Document doc = new Builder().build(f);
 		String name = f.getParentFile().getName();
 		Logger.getLogger(MEMMOutputRescorer.class).debug(name);
@@ -231,7 +234,7 @@ public final class MEMMOutputRescorerTrainer {
 				String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
 				testNEs.add(neStr);
 			}
-			entities.addAll(MEMM.getInstance().findNEs(tokSeq, null).keySet());
+			entities.addAll(memm.findNEs(tokSeq, null).keySet());
 		}
 		totalRecall += testNEs.size();
 

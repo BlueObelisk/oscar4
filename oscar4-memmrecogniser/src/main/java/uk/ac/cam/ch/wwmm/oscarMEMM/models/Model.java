@@ -58,15 +58,8 @@ public class Model {
 	 * @throws Exception
 	 */
 	public static Document makeModel() throws Exception {
-		Element modelRoot = new Element("model");
-		modelRoot.appendChild(ExtractedTrainingData.getInstance().toXML());
 		MEMM memm = MEMM.getInstance();
-		if(memm != null) modelRoot.appendChild(
-			memm.getModel().writeModel()
-		);
-//		NESubtypes subtypes = NESubtypes.getInstance();
-//		if(subtypes.OK) modelRoot.appendChild(subtypes.toXML());
-		return new Document(modelRoot);
+		return new Document(memm.getModel().writeModel());
 	}
 	
 	/**Examines an XML document produced with MakeModel, and uses the data

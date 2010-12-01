@@ -65,4 +65,19 @@ public class MEMMModelTest {
 			)
 		);
 	}
+
+	@Test
+	public void testWriteModel() throws Exception {
+		Document modelDoc = new ResourceGetter(
+				Model.class.getClassLoader(),
+				"uk/ac/cam/ch/wwmm/oscarMEMM/models/"
+		).getXMLDocument("chempapers.xml");
+		MEMMModel model = new MEMMModel();
+		model.readModel(modelDoc.getRootElement());
+
+		Element writtenModel = model.writeModel();
+		Assert.assertEquals("model", writtenModel.getLocalName());
+		Assert.assertEquals(1, writtenModel.getChildElements("memm").size());
+		Assert.assertEquals(1, writtenModel.getChildElements("etd").size());
+	}
 }

@@ -95,19 +95,26 @@ public class MEMMModel {
      * @throws Exception
      */
     public Element writeModel() throws Exception {
-        Element root = new Element("memm");
+    	Element modelRoot = new Element("model");
+    	// append the rescorer bits
+		modelRoot.appendChild(ExtractedTrainingData.getInstance().toXML());
+		// append the MEMM bits
+        Element memmRoot = new Element("memm");
         for (String prev : gmByPrev.keySet()) {
             Element maxent = new Element("maxent");
             maxent.addAttribute(new Attribute("prev", prev));
             StringGISModelWriter sgmw = new StringGISModelWriter(gmByPrev.get(prev));
             sgmw.persist();
             maxent.appendChild(sgmw.toString());
-            root.appendChild(maxent);
+            memmRoot.appendChild(maxent);
         }
         if(rescorer != null) {
-            root.appendChild(rescorer.writeElement());
+            memmRoot.appendChild(rescorer.writeElement());
         }
-        return root;
+        modelRoot.appendChild(memmRoot);
+//		NESubtypes subtypes = NESubtypes.getInstance();
+//		if(subtypes.OK) modelRoot.appendChild(subtypes.toXML());
+        return modelRoot;
     }
 
     private void makeEntityTypesAndZeroProbs() {

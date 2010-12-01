@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 
 /**Routines to co-ordinate the holding of experimental training data, and 
@@ -29,7 +30,13 @@ public class Model {
         Element modelRoot = modelDoc.getRootElement();
 		Element memmElem = modelRoot.getFirstChildElement("memm");
 		if (memmElem != null) {
-            memm = new MEMM(modelRoot);
+			MEMMModel model = new MEMMModel();
+			try {
+				model.readModel(modelDoc);
+			} catch (Exception e) {
+				throw new Error(e);
+			}
+            memm = new MEMM(model);
 		} else {
 			memm = null;
 		}

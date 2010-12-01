@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import nu.xom.Element;
 import opennlp.maxent.GISModel;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
 
 /**The main class for generating and running MEMMs
@@ -34,16 +34,9 @@ public final class MEMM {
 
     private static double confidenceThreshold;
 
-    public MEMM(Element elem) {
-    	model = new MEMMModel();
-
+    public MEMM(MEMMModel model) {
+    	this.model = model;
         confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;
-
-        try {
-            model.readModel(elem);
-        } catch (Exception e) {
-			throw new Error(e);
-		}
     }
 
     Set<String> getTagSet() {
@@ -138,6 +131,10 @@ public final class MEMM {
     public MEMMModel getModel() {
     	return model;
     }
+    
+    public void setModel(MEMMModel model) {
+    	this.model = model;
+    }
 
     public static MEMM getDefaultInstance() {
         if (defaultInstance == null) {
@@ -151,10 +148,6 @@ public final class MEMM {
             currentInstance = getDefaultInstance();
         }
         return currentInstance;
-    }
-
-    public static void load(Element elem) {
-        currentInstance = new MEMM(elem);
     }
 
 }

@@ -12,19 +12,24 @@ public class ModelTest {
 	public void testGetInstance() {
 		Model.loadModel();
 	}
-
 	
 	@Test
-	public void testLoadModel() {
+	public void testLoadChemPapers() {
 		Model model = Model.loadModel("chempapers");
 		assertTrue(model.getExtractedTrainingData().nonChemicalWords.contains("elongate"));
 		assertFalse(model.getExtractedTrainingData().nonChemicalWords.contains("leukaemic"));
-		
-		model = Model.loadModel("pubmed");
+	}
+
+	@Test
+	public void testLoadPubMed() {
+		Model model = Model.loadModel("pubmed");
 		assertFalse(model.getExtractedTrainingData().nonChemicalWords.contains("elongate"));
 		assertTrue(model.getExtractedTrainingData().nonChemicalWords.contains("leukaemic"));
+	}
 
-		model = Model.loadModel("model");
+	@Test
+	public void testLoadModel() {
+		Model model = Model.loadModel("model");
 		assertEquals(0, model.getExtractedTrainingData().nonChemicalWords.size());
 	}
 }

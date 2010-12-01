@@ -34,6 +34,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MutableMEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
@@ -60,23 +61,17 @@ public final class MEMMTrainer {
 
 	private final Logger logger = Logger.getLogger(MEMMTrainer.class);
 
+	private MutableMEMMModel model;
+
 	private Map<String, List<Event>> evsByPrev;
-	private Map<String, Double> zeroProbs; 
-	private Map<String, GISModel> gmByPrev;
-	private GISModel ubermodel;
 	private int trainingCycles;
 	private int featureCutOff;
-	
-	Set<String> tagSet;
-	Set<String> entityTypes;
 
 	private boolean useUber = false;
 	private boolean removeBlocked = false;
 	private boolean retrain=true;
 	private boolean splitTrain=true;
-	//public boolean patternFeatures=false;
 	private boolean featureSel=true;
-	//public boolean tampering=false;
 	private boolean simpleRescore=true;
 	private boolean filtering=true;
 	private boolean nameTypes=false;
@@ -86,29 +81,15 @@ public final class MEMMTrainer {
 	private Map<String,Set<String>> perniciousFeatures;
 	
 	private static double confidenceThreshold;
-	
-//	private RescoreMEMMOutputTrainer rescorerTrainer;
-	private MEMMOutputRescorer rescorer;
 
 	public MEMMTrainer() throws Exception {
+		model = new MutableMEMMModel();
 		evsByPrev = new HashMap<String, List<Event>>();
-		zeroProbs = new HashMap<String, Double>();
-		gmByPrev = new HashMap<String, GISModel>();
-		tagSet = new HashSet<String>();
 		perniciousFeatures = null;
 		
 		trainingCycles = 100;
 		featureCutOff = 1;
 		confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;
-		rescorer = null;
-	}
-
-	Set<String> getTagSet() {
-		return tagSet;
-	}
-	
-	Set<String> getEntityTypes() {
-		return entityTypes;
 	}
 
 	private void train(List<String> features, String thisTag, String prevTag) {
@@ -116,7 +97,7 @@ public final class MEMMTrainer {
 			features.removeAll(perniciousFeatures.get(prevTag));
 		}
 		if(features.size() == 0) features.add("EMPTY");
-		tagSet.add(thisTag);
+		model.getTagSet().add(thisTag);
 		if(useUber) {
 			features.add("$$prevTag=" + prevTag);
 		}
@@ -142,7 +123,6 @@ public final class MEMMTrainer {
 	}
 	
 	public void trainOnFile(File file) throws Exception {
-		long time = System.currentTimeMillis();
 		logger.debug("Train on: " + file + "... ");
 		trainOnStream(new FileInputStream(file));
 	}
@@ -153,19 +133,8 @@ public final class MEMMTrainer {
 		Nodes n = doc.query("//cmlPile");
 		for (int i = 0; i < n.size(); i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");
-		for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
-		if(false) {
-			n = doc.query("//ne[@type='CLASS']");
-			for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
-		}
-		if(false) {
-			n = doc.query("//ne");
-			for (int i = 0; i < n.size(); i++) {
-				Element e = (Element)n.get(i);
-				e.addAttribute(new Attribute("type", "CHEMICAL"));
-				//XOMTools.removeElementPreservingText((Element)n.get(i));
-			}			
-		}
+		for (int i = 0; i < n.size(); i++)
+			XOMTools.removeElementPreservingText((Element)n.get(i));
 
 		if(nameTypes) {
 			n = doc.query("//ne");
@@ -325,8 +294,9 @@ public final class MEMMTrainer {
 			}
 		}
 		rescorerTrainer.finishTraining();
-		rescorer = new MEMMOutputRescorer();
+		MEMMOutputRescorer rescorer = new MEMMOutputRescorer();
 		rescorer.readElement(rescorerTrainer.writeElement());
+		model.setRescorer(rescorer);
 
 		if(simpleRescore) {
 			trainOnSbFiles(files);
@@ -337,22 +307,8 @@ public final class MEMMTrainer {
 
 	
 	
-	
-	private void makeEntityTypesAndZeroProbs() {
-		entityTypes = new HashSet<String>();
-		for(String tagType : tagSet) {
-			if(tagType.startsWith("B-") || tagType.startsWith("W-")) entityTypes.add(tagType.substring(2));
-		}
-
-				
-		for(String tag : tagSet) {
-			zeroProbs.put(tag, 0.0);
-		}			
-	}
-
-	
 	public void finishTraining() throws Exception {
-		makeEntityTypesAndZeroProbs();
+		model.makeEntityTypesAndZeroProbs();
 		
 		if(useUber) {
 			List<Event> evs = new ArrayList<Event>();
@@ -360,7 +316,7 @@ public final class MEMMTrainer {
 				evs.addAll(evsByPrev.get(prevTagg));
 			}
 			DataIndexer di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), featureCutOff);
-			ubermodel = GIS.trainModel(trainingCycles, di);
+			model.setUberModel(GIS.trainModel(trainingCycles, di));
 		} else {
 			for(String prevTagg : evsByPrev.keySet()) {
 				logger.debug(prevTagg);
@@ -374,10 +330,10 @@ public final class MEMMTrainer {
 				DataIndexer di = null;
 				try {
 					di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), featureCutOff);
-					gmByPrev.put(prevTagg, GIS.trainModel(trainingCycles, di));
+					model.putGISModel(prevTagg, GIS.trainModel(trainingCycles, di));
 				} catch (Exception e) {
 					di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), 1);				
-					gmByPrev.put(prevTagg, GIS.trainModel(trainingCycles, di));
+					model.putGISModel(prevTagg, GIS.trainModel(trainingCycles, di));
 				}	
 			}
 		}
@@ -385,7 +341,7 @@ public final class MEMMTrainer {
 	
 	private Map<String, Double> runGIS(GISModel gm, String [] context) {
 		Map<String, Double> results = new HashMap<String, Double>();
-		results.putAll(zeroProbs);
+		results.putAll(model.getZeroProbs());
 		double [] gisResults = gm.eval(context);
 		for (int i = 0; i < gisResults.length; i++) {
 			results.put(gm.getOutcome(i), gisResults[i]);
@@ -396,26 +352,15 @@ public final class MEMMTrainer {
 	private Map<String,Map<String,Double>> calcResults(List<String> features) {
 		Map<String,Map<String,Double>> results = new HashMap<String,Map<String,Double>>();
 		if(useUber) {
-			for(String prevTag : tagSet) {
+			for(String prevTag : model.getTagSet()) {
 				List<String> newFeatures = new ArrayList<String>(features);
 				newFeatures.add("$$prevTag=" + prevTag);
-				results.put(prevTag, runGIS(ubermodel, newFeatures.toArray(new String[0])));					
+				results.put(prevTag, runGIS(model.getUberModel(), newFeatures.toArray(new String[0])));					
 			}
 		} else {
 			String [] featArray = features.toArray(new String[0]);
-			for(String tag : tagSet) {
-				if(false /* && tampering*/) {
-					List<String> newFeatures = new ArrayList<String>(features.size());
-					for(String feature : features) {
-						if(perniciousFeatures != null && perniciousFeatures.containsKey(tag) && perniciousFeatures.get(tag).contains(feature)) {
-							//System.out.println("Dropping: " + feature);
-						} else {
-							if(!feature.startsWith("anchor")) newFeatures.add(feature);							
-						}
-					}
-					featArray = newFeatures.toArray(new String[0]);
-				}
-				GISModel gm = gmByPrev.get(tag);
+			for(String tag : model.getTagSet()) {
+				GISModel gm = model.getGISModelByPrev(tag);
 				if(gm == null) continue;
 				Map<String, Double> modelResults = runGIS(gm, featArray);
 				results.put(tag, modelResults);
@@ -494,7 +439,7 @@ public final class MEMMTrainer {
 		String prevTag = "O";
 		for (int i = 0; i < tokens.size(); i++) {
 			String tag = tokens.get(i).getBioTag();
-			GISModel gm = gmByPrev.get(prevTag);
+			GISModel gm = model.getGISModelByPrev(prevTag);
 			if(gm == null) continue;
 			Map<String,Double> scoresForPrev = featureCVScores.get(prevTag);
 			if(scoresForPrev == null) {
@@ -548,14 +493,16 @@ public final class MEMMTrainer {
 	 */
 	public Element writeModel() throws Exception {
 		Element root = new Element("memm");
-		for(String prev : gmByPrev.keySet()) {
+		for(String prev : model.getGISModelPrevs()) {
 			Element maxent = new Element("maxent");
 			maxent.addAttribute(new Attribute("prev", prev));
-			StringGISModelWriter sgmw = new StringGISModelWriter(gmByPrev.get(prev));
+			StringGISModelWriter sgmw = new StringGISModelWriter(
+				model.getGISModelByPrev(prev));
 			sgmw.persist();
 			maxent.appendChild(sgmw.toString());
 			root.appendChild(maxent);
 		}
+		MEMMOutputRescorer rescorer = model.getRescorer();
 		if(rescorer != null) {
 			root.appendChild(rescorer.writeElement());
 		}
@@ -578,27 +525,26 @@ public final class MEMMTrainer {
 	 */
 	public void readModel(Element memmRoot) throws Exception {
 		Elements maxents = memmRoot.getChildElements("maxent");
-		gmByPrev = new HashMap<String,GISModel>();
-		tagSet = new HashSet<String>();
 		for (int i = 0; i < maxents.size(); i++) {
 			Element maxent = maxents.get(i);
 			String prev = maxent.getAttributeValue("prev");
 			StringGISModelReader sgmr = new StringGISModelReader(maxent.getValue());
 			GISModel gm = sgmr.getModel();
-			gmByPrev.put(prev, gm);
-			tagSet.add(prev);
+			model.putGISModel(prev, gm);
+			model.addTag(prev);
 			for (int j = 0; j < gm.getNumOutcomes(); j++) {
-				tagSet.add(gm.getOutcome(j));
+				model.addTag(gm.getOutcome(j));
 			}
 		}
 		Element rescorerElem = memmRoot.getFirstChildElement("rescorer");
 		if(rescorerElem != null) {
-			rescorer = new MEMMOutputRescorer();
+			MEMMOutputRescorer rescorer = new MEMMOutputRescorer();
 			rescorer.readElement(rescorerElem);
+			model.setRescorer(rescorer);
 		} else {
-			rescorer = null;
+			model.setRescorer(null);
 		}
-		makeEntityTypesAndZeroProbs();
+		model.makeEntityTypesAndZeroProbs();
 	}
 	
 	/**Uses this MEMM's rescorer to rescore a list of named entities. This
@@ -607,6 +553,6 @@ public final class MEMMTrainer {
 	 * @param entities The entities to rescore.
 	 */
 	public void rescore(List<NamedEntity> entities) {
-		rescorer.rescore(entities);
+		model.getRescorer().rescore(entities);
 	}
 }

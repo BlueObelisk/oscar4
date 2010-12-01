@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm.data;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -118,7 +119,7 @@ public class MEMMModel {
         return modelRoot;
     }
 
-    private void makeEntityTypesAndZeroProbs() {
+    protected void makeEntityTypesAndZeroProbs() {
         namedEntityTypes = new HashSet<NamedEntityType>();
         for (String tagType : tagSet) {
             if (tagType.startsWith("B-") || tagType.startsWith("W-")) {
@@ -144,6 +145,10 @@ public class MEMMModel {
 
 	public GISModel getGISModelByPrev(String tag) {
 		return gmByPrev.get(tag);
+	}
+
+	public Set<String> getGISModelPrevs() {
+		return Collections.unmodifiableSet(gmByPrev.keySet());
 	}
 
 	public GISModel getUberModel() {

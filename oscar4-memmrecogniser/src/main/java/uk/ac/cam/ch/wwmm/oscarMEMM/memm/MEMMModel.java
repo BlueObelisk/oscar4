@@ -14,6 +14,7 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 
 /**
  * Data model for {@link MEMM}.
@@ -29,6 +30,7 @@ public class MEMMModel {
     private MEMMOutputRescorer rescorer;
     private Set<String> tagSet;
     private Set<NamedEntityType> namedEntityTypes;
+    private ExtractedTrainingData extractedTrainingData;
 
     public MEMMModel() {
         zeroProbs = new HashMap<String, Double>();
@@ -54,8 +56,9 @@ public class MEMMModel {
      * @param memmRoot The XML element.
      * @throws Exception
      */
-    public void readModel(Element memmRoot) throws Exception {
-        Elements maxents = memmRoot.getChildElements("maxent");
+    public void readModel(Element modelRoot) throws Exception {
+		Element memmElem = modelRoot.getFirstChildElement("memm");
+        Elements maxents = memmElem.getChildElements("maxent");
         gmByPrev = new HashMap<String,GISModel>();
         tagSet = new HashSet<String>();
         for (int i = 0; i < maxents.size(); i++) {
@@ -69,13 +72,19 @@ public class MEMMModel {
                 tagSet.add(gm.getOutcome(j));
             }
         }
-        Element rescorerElem = memmRoot.getFirstChildElement("rescorer");
+        Element rescorerElem = memmElem.getFirstChildElement("rescorer");
         if(rescorerElem != null) {
             rescorer = new MEMMOutputRescorer();
             rescorer.readElement(rescorerElem);
         } else {
             rescorer = null;
         }
+        Element etdElem = modelRoot.getFirstChildElement("etd");
+		if (etdElem != null) {
+			this.extractedTrainingData = ExtractedTrainingData.reinitialise(etdElem);
+		} else {
+            this.extractedTrainingData = null;
+		}
         makeEntityTypesAndZeroProbs();
     }
 
@@ -135,5 +144,9 @@ public class MEMMModel {
 
 	public MEMMOutputRescorer getRescorer() {
 		return rescorer;
+	}
+
+	public ExtractedTrainingData getExtractedTrainingData() {
+		return extractedTrainingData;
 	}
 }

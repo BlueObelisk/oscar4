@@ -36,7 +36,7 @@ public class MEMMRecogniserTest {
 		Document doc = TextToSciXML.textToSciXML(s);
 		
 		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().
-			makeTokenisedDocument(Tokeniser.getInstance(), doc, false, false, false);
+			makeTokenisedDocument(Tokeniser.getInstance(), doc);
 		assertTrue(procDoc != null);
 		List<NamedEntity> neList;
 		ChemicalEntityRecogniser cei = new MEMMRecogniser();

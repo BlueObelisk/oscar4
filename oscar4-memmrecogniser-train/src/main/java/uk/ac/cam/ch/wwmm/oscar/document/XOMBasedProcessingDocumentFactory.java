@@ -179,7 +179,7 @@ public class XOMBasedProcessingDocumentFactory {
 			int offset) {
 		
 		Element annotations = safDoc != null ? safDoc.getRootElement() : e;
-		ITokenSequence ts = tokeniser.tokenise(text, procDoc, offset, annotations, tokeniseForNEs, mergeNEs);
+		ITokenSequence ts = tokeniser.tokenise(text, procDoc, offset, annotations);
 		if (annotations != null && tokeniseForNEs) {
 			modifyTokenisationForTraining(tokeniser, text, procDoc, offset, e, mergeNEs, ts.getTokens());
 			if (procDoc.getTokensByStart() != null) {

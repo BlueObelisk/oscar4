@@ -8,7 +8,6 @@ import nu.xom.Element;
 public interface ITokeniser {
 
 	public ITokenSequence tokenise(String text, IProcessingDocument procDoc, 
-			int offset,
-			Element element, boolean tokeniseForNEs, boolean mergeNEs);
+			int offset,	Element element);
 
 }

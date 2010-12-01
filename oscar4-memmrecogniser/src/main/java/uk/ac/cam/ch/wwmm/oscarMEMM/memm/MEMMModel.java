@@ -34,6 +34,7 @@ public class MEMMModel {
         zeroProbs = new HashMap<String, Double>();
         gmByPrev = new HashMap<String, GISModel>();
         tagSet = new HashSet<String>();
+        namedEntityTypes = new HashSet<NamedEntityType>();
         rescorer = null;
 	}
 
@@ -112,15 +113,15 @@ public class MEMMModel {
         }
     }
 
-    Set<String> getTagSet() {
+    public Set<String> getTagSet() {
         return tagSet;
     }
 
-    Set<NamedEntityType> getNamedEntityTypes() {
+    public Set<NamedEntityType> getNamedEntityTypes() {
         return namedEntityTypes;
     }
 
-    Map<String, Double> getZeroProbs() {
+    public Map<String, Double> getZeroProbs() {
     	return zeroProbs;
     }
 

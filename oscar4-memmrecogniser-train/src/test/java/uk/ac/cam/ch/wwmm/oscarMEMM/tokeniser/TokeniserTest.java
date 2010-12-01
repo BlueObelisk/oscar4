@@ -73,16 +73,18 @@ public class TokeniserTest {
 		assertEquals("acetate", tokens.get(2).getValue());
 		assertEquals("bar", tokens.get(3).getValue());
 		
+		//FIXME manually setting the biotag is necessary as this is done by
+		//Tokeniser.tokeniseOnAnnotationBoundaries
 		tokens.get(0).setBioTag("O");
 		tokens.get(1).setBioTag("B-CM");
 		tokens.get(2).setBioTag("I-CM");
 		tokens.get(3).setBioTag("O");
-		List <IToken> mergedTokens = tokeniser.mergeNeTokens(tokens, source, 0);
+		tokeniser.mergeNeTokens(tokens, source, 0);
 		
-		assertEquals(3, mergedTokens.size());
-		assertEquals("foo", mergedTokens.get(0).getValue());
-		assertEquals("ethyl acetate", mergedTokens.get(1).getValue());
-		assertEquals("bar", mergedTokens.get(2).getValue());
+		assertEquals(3, tokens.size());
+		assertEquals("foo", tokens.get(0).getValue());
+		assertEquals("ethyl acetate", tokens.get(1).getValue());
+		assertEquals("bar", tokens.get(2).getValue());
 	}
 	
 	@Test

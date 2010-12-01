@@ -1,0 +1,14 @@
+<PAPER>
+	<BODY>
+		<DIV>
+			<HEADER />
+			<P>
+				the quick
+				<ne id="o1" surface="methyl" type="CM">methyl</ne>brown
+				<ne id="o2" surface="ethyl acetate" type="CM">ethyl acetate</ne>
+				jumps over the<ne id="o3" surface="chlorinated" type="RN">chlorinated</ne>
+				dog
+			</P>
+		</DIV>
+	</BODY>
+</PAPER>

@@ -1,5 +1,8 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Set;
 
 import nu.xom.Document;
@@ -47,11 +50,19 @@ public class MEMMModelTest {
 		).getXMLDocument("chempapers.xml");
 		Element modelRoot = modelDoc.getRootElement();
 		Assert.assertNotNull(modelRoot);
-		Element memmElem = modelRoot.getFirstChildElement("memm");
-		Assert.assertNotNull(memmElem);
 		MEMMModel model = new MEMMModel();
-		model.readModel(memmElem);
+		model.readModel(modelRoot);
 		Assert.assertNotSame(0, model.getNamedEntityTypes().size());
 		Assert.assertNotNull(model.getRescorer());
+		assertTrue(
+			model.getExtractedTrainingData().nonChemicalWords.contains(
+				"elongate"
+			)
+		);
+		assertFalse(
+			model.getExtractedTrainingData().nonChemicalWords.contains(
+				"leukaemic"
+			)
+		);
 	}
 }

@@ -30,21 +30,21 @@ public class ProcessingDocumentFactory {
 	@Deprecated
 	public IProcessingDocument makeTokenisedDocument(ITokeniser instance,
 			Document doc, boolean b, boolean c, boolean d, Document safDoc) {
-		throw new RuntimeException("method shouldn't have been called");
+		throw new UnsupportedOperationException("method shouldn't have been called");
 	}
 
 	/**
 	 * Creates a tokenised ProcessingDocument from a SciXML document, using the supplied tokeniser
 	 */
 	public IProcessingDocument makeTokenisedDocument(ITokeniser tokeniser,
-			Document sciXmlDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) {
+			Document sciXmlDoc) {
 
 		ProcessingDocument procDoc = new ProcessingDocument();
 		Nodes placesForChemicals = XMLStrings.getInstance().getChemicalPlaces(sciXmlDoc);
 		for (int i = 0; i < placesForChemicals.size(); i++) {
 			Element e = (Element) placesForChemicals.get(i);
 			String source = e.getValue();
-			ITokenSequence ts = tokeniser.tokenise(source, procDoc, 0, null, false, false);
+			ITokenSequence ts = tokeniser.tokenise(source, procDoc, 0, null);
 			procDoc.addTokenSequence(ts);
 		}
 		
@@ -59,7 +59,7 @@ public class ProcessingDocumentFactory {
 			String source) {
 
 		ProcessingDocument procDoc = new ProcessingDocument();
-		ITokenSequence ts = tokeniser.tokenise(source, procDoc, 0, null, false, false);
+		ITokenSequence ts = tokeniser.tokenise(source, procDoc, 0, null);
 		procDoc.addTokenSequence(ts);
 		return procDoc;
 	}

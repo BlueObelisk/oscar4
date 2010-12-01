@@ -37,7 +37,7 @@ public class PatternRecogniserTest {
 		Document doc = TextToSciXML.textToSciXML(s);
 
 		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-			Tokeniser.getInstance(), doc, false, false, false);
+			Tokeniser.getInstance(), doc);
 		assertTrue(procDoc != null);
 		List<NamedEntity> neList;
 		ChemicalEntityRecogniser cei = new PatternRecogniser();

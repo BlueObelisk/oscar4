@@ -171,8 +171,7 @@ public class RegressionTestsforOscar3 {
 
 		Document doc = TextToSciXML.textToSciXML(sentence);
 		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance()
-				.makeTokenisedDocument(Tokeniser.getInstance(), doc, false,
-						false, false);
+				.makeTokenisedDocument(Tokeniser.getInstance(), doc);
 		// Check that ProcDoc is not empty
 		Assert.assertTrue(procDoc != null);
 

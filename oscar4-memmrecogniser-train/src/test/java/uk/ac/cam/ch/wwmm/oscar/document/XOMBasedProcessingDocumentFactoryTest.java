@@ -274,10 +274,26 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		String text = para.getValue();
 		int offset = Integer.parseInt(para.getAttributeValue("xtspanstart"));
 		
-		ITokenSequence ts = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, false, false, null, procDoc, e, text, offset);
-		for (IToken token : ts.getTokens()) {
-			assertTrue(ts == token.getTokenSequence());
+		ITokenSequence ts1 = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, false, false, null, procDoc, e, text, offset);
+		for (IToken token : ts1.getTokens()) {
+			assertTrue(ts1 == token.getTokenSequence());
 		}
-		assertTrue(e == ((TokenSequence)ts).getElem());
+		assertTrue(e == ((TokenSequence)ts1).getElem());
+		
+		ITokenSequence ts2 = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, false, null, procDoc, e, text, offset);
+		assertNotSame(ts2, ts1);
+		for (IToken token : ts2.getTokens()) {
+			assertTrue(ts2 == token.getTokenSequence());
+		}
+		assertTrue(e == ((TokenSequence)ts2).getElem());
+		
+		ITokenSequence ts3 = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, true, null, procDoc, e, text, offset);
+		assertNotSame(ts3, ts2);
+		assertNotSame(ts3, ts1);
+		for (IToken token : ts3.getTokens()) {
+			assertTrue(ts3 == token.getTokenSequence());
+		}
+		assertTrue(e == ((TokenSequence)ts3).getElem());
 	}
+	
 }

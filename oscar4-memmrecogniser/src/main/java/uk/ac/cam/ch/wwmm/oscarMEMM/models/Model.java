@@ -29,7 +29,7 @@ public class Model {
         Element modelRoot = modelDoc.getRootElement();
 		Element memmElem = modelRoot.getFirstChildElement("memm");
 		if (memmElem != null) {
-            memm = new MEMM(memmElem);
+            memm = new MEMM(modelRoot);
 		} else {
 			memm = null;
 		}

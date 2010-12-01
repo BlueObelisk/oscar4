@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
+package uk.ac.cam.ch.wwmm.oscarMEMM.memm.data;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,6 +11,7 @@ import nu.xom.Element;
 import nu.xom.Elements;
 import opennlp.maxent.GISModel;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
@@ -24,13 +25,13 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
  */
 public class MEMMModel {
 
-    private Map<String, Double> zeroProbs;
-    private Map<String, GISModel> gmByPrev;
-    private GISModel ubermodel;
-    private MEMMOutputRescorer rescorer;
-    private Set<String> tagSet;
-    private Set<NamedEntityType> namedEntityTypes;
-    private ExtractedTrainingData extractedTrainingData;
+    protected Map<String, Double> zeroProbs;
+    protected Map<String, GISModel> gmByPrev;
+    protected GISModel ubermodel;
+    protected MEMMOutputRescorer rescorer;
+    protected Set<String> tagSet;
+    protected Set<NamedEntityType> namedEntityTypes;
+    protected ExtractedTrainingData extractedTrainingData;
 
     public MEMMModel() {
         zeroProbs = new HashMap<String, Double>();

@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMModel;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 
 /**Routines to co-ordinate the holding of experimental training data, and 

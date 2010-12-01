@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMModel;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 
 public class ChemPapersModelTest {
 

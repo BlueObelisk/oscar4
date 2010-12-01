@@ -176,23 +176,42 @@ public final class Tokeniser implements ITokeniser {
 		tokens = tmpTokens;
 		
 		if (annotations != null && tokeniseForNEs) {
-			try {
-				/*
-				 * @lh359: This function is called
-				 * when we know the tag of the word
-				 * This is what was editing the results
-				 * in oscarCRF
-				 * 
-				 ***************************/
-				tokeniseOnAnnotationBoundaries(s, doc, offset, annotations, tokens);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			tidyHyphensAfterNEs(tokens);
-			if (mergeNEs) {
-				mergeNeTokens(tokens, s, offset);
-			}
+			modifyTokenisationForTraining(s, doc, offset, annotations,
+					mergeNEs, tokens);
 		}
+
+		TokenSequence tokenSequence = indexTokensAndMakeTokenSequence(s, doc,
+				offset, annotations, tokens);
+		
+		return tokenSequence;
+	}
+
+	private void modifyTokenisationForTraining(String s,
+			IProcessingDocument doc, int offset, Element annotations,
+			boolean mergeNEs, List<IToken> tokens) {
+		
+		try {
+			/*
+			 * @lh359: This function is called
+			 * when we know the tag of the word
+			 * This is what was editing the results
+			 * in oscarCRF
+			 * 
+			 ***************************/
+			tokeniseOnAnnotationBoundaries(s, doc, offset, annotations, tokens);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		tidyHyphensAfterNEs(tokens);
+		if (mergeNEs) {
+			mergeNeTokens(tokens, s, offset);
+		}
+	}
+
+	public TokenSequence indexTokensAndMakeTokenSequence(String s,
+			IProcessingDocument doc, int offset, Element annotations,
+			List<IToken> tokens) {
+		
 		/* Number tokens */
 		int id = 0;
 		for (IToken t : tokens) {
@@ -214,8 +233,6 @@ public final class Tokeniser implements ITokeniser {
 			t.setTokenSequence(tokenSequence);
 		}
 		tokenSequence.setElem(annotations);
-		
-		
 		return tokenSequence;
 	}
 
@@ -595,6 +612,7 @@ public final class Tokeniser implements ITokeniser {
 				else if (tokens.get(i).getStart() >= elemStart
 						&& tokens.get(i).getEnd() <= elemEnd) {
 					//token is fully contained within annotation
+					tokens.get(i).setBioTag("B-" + neType);
 					((Token)tokens.get(i)).setNeElem(currentElem);
 					inElem = true;
 					i++;
@@ -684,8 +702,8 @@ public final class Tokeniser implements ITokeniser {
 		}
 	}
 
-	
-	public List<IToken> mergeNeTokens(List<IToken> tokens, String sourceString,
+	//FIXME I'm not sure that this method does what one would expect...
+	public void mergeNeTokens(List<IToken> tokens, String sourceString,
 			int offset) {
 		List<IToken> newTokens = new ArrayList<IToken>();
 		IToken currentToken = null;
@@ -708,7 +726,7 @@ public final class Tokeniser implements ITokeniser {
 			}
 
 		}
-
-		return newTokens;
+		tokens.clear();
+		tokens.addAll(newTokens);
 	}
 }

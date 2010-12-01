@@ -97,7 +97,7 @@ public class MEMMModel {
     public Element writeModel() throws Exception {
     	Element modelRoot = new Element("model");
     	// append the rescorer bits
-		modelRoot.appendChild(ExtractedTrainingData.getInstance().toXML());
+		modelRoot.appendChild(extractedTrainingData.toXML());
 		// append the MEMM bits
         Element memmRoot = new Element("memm");
         for (String prev : gmByPrev.keySet()) {

@@ -14,7 +14,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
 
 /**The main class for generating and running MEMMs
  *
@@ -22,9 +21,6 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
  *
  */
 public final class MEMM {
-
-    private static MEMM currentInstance;
-    private static MEMM defaultInstance;
 
     private MEMMModel model;
 
@@ -79,7 +75,7 @@ public final class MEMM {
             classifierResults.add(calcResults(featuresForToken));
         }
 
-        EntityTokeniser lattice = new EntityTokeniser(this, tokSeq, classifierResults);
+        EntityTokeniser lattice = new EntityTokeniser(model, tokSeq, classifierResults);
         Map<NamedEntity,Double> neConfidences = lattice.getEntities(confidenceThreshold);
         PostProcessor pp = new PostProcessor(tokSeq, neConfidences);
         if (filtering) {
@@ -134,20 +130,6 @@ public final class MEMM {
     
     public void setModel(MEMMModel model) {
     	this.model = model;
-    }
-
-    public static MEMM getDefaultInstance() {
-        if (defaultInstance == null) {
-            defaultInstance = Model.getDefaultInstance().getMemm();
-        }
-        return defaultInstance;
-    }
-
-    public static MEMM getInstance() {
-        if (currentInstance == null) {
-            currentInstance = getDefaultInstance();
-        }
-        return currentInstance;
     }
 
 }

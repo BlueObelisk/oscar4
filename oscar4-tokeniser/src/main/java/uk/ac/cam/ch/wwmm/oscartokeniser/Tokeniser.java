@@ -7,7 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import nu.xom.Element;
-import nu.xom.Nodes;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
@@ -79,7 +78,7 @@ public final class Tokeniser implements ITokeniser {
 	 * @return The TokenSequence for the string.
 	 */
 	public ITokenSequence tokenise(String s) {
-		return tokenise(s, null, 0, null, false, false);
+		return tokenise(s, null, 0, null);
 	}
 
 	/**
@@ -104,13 +103,7 @@ public final class Tokeniser implements ITokeniser {
 	 * @return The TokenSequence for the string.
 	 */
 	public ITokenSequence tokenise(String s, IProcessingDocument doc, int offset,
-			Element annotations, boolean tokeniseForNEs, boolean mergeNEs) {
-		/*
-		 * @dmj30: The arguments tokeniseForNEs and mergeNEs confuse me.
-		 * Under what circumstances are we calling the tokeniser after we've
-		 * already identified the named entities? I suspect the method is
-		 * trying to do too many things.
-		 */
+			Element annotations) {
 		List<IToken> tokens = new LinkedList<IToken>();
 		Matcher m = tokenPattern.matcher(s);
 		/* Initial tokenisation */

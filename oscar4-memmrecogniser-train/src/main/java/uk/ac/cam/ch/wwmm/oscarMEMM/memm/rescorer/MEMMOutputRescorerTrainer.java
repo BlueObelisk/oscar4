@@ -30,6 +30,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
@@ -135,8 +136,15 @@ public final class MEMMOutputRescorerTrainer {
 
 		nr.makeTokenisers(false);*/
 		
-		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-			Tokeniser.getInstance(), doc, true, false, false);
+		IProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				Tokeniser.getInstance(), doc, true, false, false);
+		/*
+		 * previously, this was using the revised ProcessingDocumentFactory to create a revised ProcessingDocument,
+		 * which was probably a mistake - dmj30
+		 */
+//		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+//		Tokeniser.getInstance(), doc, true, false, false);
+
 		
 		List<NamedEntity> entities = new ArrayList<NamedEntity>();
 
@@ -203,8 +211,14 @@ public final class MEMMOutputRescorerTrainer {
 		nr.halfProcess(doc);
 
 		nr.makeTokenisers(false);*/
-		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+		IProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getInstance(), doc, true, false, false);
+		/*
+		 * previously, this was using the revised ProcessingDocumentFactory to create a revised ProcessingDocument,
+		 * which was probably a mistake - dmj30
+		 */
+//		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+//				Tokeniser.getInstance(), doc, true, false, false);
 		
 		List<NamedEntity> entities = new ArrayList<NamedEntity>();
 

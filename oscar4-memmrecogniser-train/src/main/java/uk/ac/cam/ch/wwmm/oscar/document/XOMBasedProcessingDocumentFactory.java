@@ -186,7 +186,7 @@ public class XOMBasedProcessingDocumentFactory {
 				procDoc.getTokensByStart().clear();
 				procDoc.getTokensByEnd().clear();
 			}
-			tokeniser.indexTokensAndMakeTokenSequence(text, procDoc, offset, e, ts.getTokens());
+			return tokeniser.indexTokensAndMakeTokenSequence(text, procDoc, offset, e, ts.getTokens());
 		}
 		
 		return ts;
@@ -215,7 +215,7 @@ public class XOMBasedProcessingDocumentFactory {
 		}
 	}
 	
-	public void tokeniseOnAnnotationBoundaries(Tokeniser tokeniser, String sourceString, IProcessingDocument doc,
+	void tokeniseOnAnnotationBoundaries(Tokeniser tokeniser, String sourceString, IProcessingDocument doc,
 			int offset, Element safOrInlineAnnotations, List<IToken> tokens) throws Exception {
 		Nodes annotationNodes;
 		int currentNodeId = 0;
@@ -373,7 +373,7 @@ public class XOMBasedProcessingDocumentFactory {
 	}
 	
 	
-	public void tidyHyphensAfterNEs(Tokeniser tokeniser, List<IToken> tokens) {
+	void tidyHyphensAfterNEs(Tokeniser tokeniser, List<IToken> tokens) {
 		int i = 0;
 		String prevTokType = "O";
 		while (i < tokens.size()) {
@@ -397,7 +397,7 @@ public class XOMBasedProcessingDocumentFactory {
 	
 	
 	//FIXME I'm not sure that this method does what one would expect...
-	public void mergeNeTokens(List<IToken> tokens, String sourceString,
+	void mergeNeTokens(List<IToken> tokens, String sourceString,
 			int offset) {
 		List<IToken> newTokens = new ArrayList<IToken>();
 		IToken currentToken = null;

@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -14,7 +15,6 @@ import nu.xom.Attribute;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
-import nu.xom.Elements;
 import nu.xom.Nodes;
 import opennlp.maxent.DataIndexer;
 import opennlp.maxent.Event;
@@ -34,13 +34,13 @@ import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MutableMEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorerTrainer;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
@@ -136,6 +136,13 @@ public final class MEMMTrainer {
 		for (int i = 0; i < n.size(); i++)
 			XOMTools.removeElementPreservingText((Element)n.get(i));
 
+		ExtractTrainingData etd = new ExtractTrainingData(
+			new ByteArrayInputStream(doc.toXML().getBytes())
+		);
+		model.setExtractedTrainingData(
+			new ExtractedTrainingData(etd.toXML())
+		);
+
 		if(nameTypes) {
 			n = doc.query("//ne");
 			for (int i = 0; i < n.size(); i++) {
@@ -162,7 +169,10 @@ public final class MEMMTrainer {
 	public void trainOnSbFilesNosplit(List<File> files) throws Exception {
 		if(retrain) {
 			HyphenTokeniser.reinitialise();
-			new ExtractTrainingData(files);
+			ExtractTrainingData etd = new ExtractTrainingData(files);
+			model.setExtractedTrainingData(
+				new ExtractedTrainingData(etd.toXML())
+			);
 			HyphenTokeniser.reinitialise();					
 		}
 		for(File f : files) {
@@ -256,8 +266,9 @@ public final class MEMMTrainer {
 		}*/
 	}
 
-	public void trainOnSbFilesWithRescore(List<File> files) throws Exception {
-		MEMMOutputRescorerTrainer rescorerTrainer = new MEMMOutputRescorerTrainer();
+	public void trainOnSbFilesWithRescore(List<File> files, MEMM memm) throws Exception {
+		MEMMOutputRescorerTrainer rescorerTrainer =
+			new MEMMOutputRescorerTrainer(memm);
 		List<List<File>> splitTrainFiles = new ArrayList<List<File>>();
 		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();
 		int splitNo = 3;
@@ -285,7 +296,7 @@ public final class MEMMTrainer {
 			}
 			for(File f : splitTrainFiles.get(split)) {
 				String domain = null;
-				rescorerTrainer.trainOnFile(f, domain, MEMM.getInstance());
+				rescorerTrainer.trainOnFile(f, domain, memm);
 			}				
 			evsByPrev.clear();
 			if(!simpleRescore) {
@@ -388,7 +399,7 @@ public final class MEMMTrainer {
 		}
 		
 		EntityTokeniser lattice = new EntityTokeniser(
-			MEMM.getInstance(), tokSeq, classifierResults
+			model, tokSeq, classifierResults
 		);
 		Map<NamedEntity,Double> neConfidences = lattice.getEntities(confidenceThreshold);
 		PostProcessor pp = new PostProcessor(tokSeq, neConfidences);
@@ -486,67 +497,6 @@ public final class MEMMTrainer {
 		}
 	}
 	
-	/**Produces an XML element containing the current MEMM model.
-	 * 
-	 * @return The XML element.
-	 * @throws Exception
-	 */
-	public Element writeModel() throws Exception {
-		Element root = new Element("memm");
-		for(String prev : model.getGISModelPrevs()) {
-			Element maxent = new Element("maxent");
-			maxent.addAttribute(new Attribute("prev", prev));
-			StringGISModelWriter sgmw = new StringGISModelWriter(
-				model.getGISModelByPrev(prev));
-			sgmw.persist();
-			maxent.appendChild(sgmw.toString());
-			root.appendChild(maxent);
-		}
-		MEMMOutputRescorer rescorer = model.getRescorer();
-		if(rescorer != null) {
-			root.appendChild(rescorer.writeElement());
-		}
-		return root;
-	}
-
-	/**Reads in an XML document containing a MEMM model.
-	 * 
-	 * @param doc The XML document.
-	 * @throws Exception
-	 */
-	public void readModel(Document doc) throws Exception {
-		readModel(doc.getRootElement());
-	}
-
-	/**Reads in a MEMM model from an XML element.
-	 * 
-	 * @param memmRoot The XML element.
-	 * @throws Exception
-	 */
-	public void readModel(Element memmRoot) throws Exception {
-		Elements maxents = memmRoot.getChildElements("maxent");
-		for (int i = 0; i < maxents.size(); i++) {
-			Element maxent = maxents.get(i);
-			String prev = maxent.getAttributeValue("prev");
-			StringGISModelReader sgmr = new StringGISModelReader(maxent.getValue());
-			GISModel gm = sgmr.getModel();
-			model.putGISModel(prev, gm);
-			model.addTag(prev);
-			for (int j = 0; j < gm.getNumOutcomes(); j++) {
-				model.addTag(gm.getOutcome(j));
-			}
-		}
-		Element rescorerElem = memmRoot.getFirstChildElement("rescorer");
-		if(rescorerElem != null) {
-			MEMMOutputRescorer rescorer = new MEMMOutputRescorer();
-			rescorer.readElement(rescorerElem);
-			model.setRescorer(rescorer);
-		} else {
-			model.setRescorer(null);
-		}
-		model.makeEntityTypesAndZeroProbs();
-	}
-	
 	/**Uses this MEMM's rescorer to rescore a list of named entities. This
 	 * updates the confidence values held within the NEs.
 	 * 
@@ -554,5 +504,9 @@ public final class MEMMTrainer {
 	 */
 	public void rescore(List<NamedEntity> entities) {
 		model.getRescorer().rescore(entities);
+	}
+
+	public MEMMModel getModel() {
+		return model;
 	}
 }

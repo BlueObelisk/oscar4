@@ -184,7 +184,7 @@ public final class MEMMTester {
 				new ExtractTrainingData(trainFilesList);
 				HyphenTokeniser.reinitialise();				
 
-				memm.readModel(new Builder().build("modeltest.xml"));
+				memm.getModel().readModel(new Builder().build("modeltest.xml"));
 				//nmt.examineModel("O");
 				//return;
 			}

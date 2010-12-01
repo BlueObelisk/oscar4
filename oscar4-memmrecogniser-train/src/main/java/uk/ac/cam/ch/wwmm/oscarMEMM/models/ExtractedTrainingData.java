@@ -48,7 +48,7 @@ public final class ExtractedTrainingData {
 	 */
 	public static ExtractedTrainingData getInstance() {
 		if(myInstance == null) {
-			Model.loadModel();
+			new ChemPapersModel().getExtractedTrainingData();
 		}
 		return myInstance;
 	}

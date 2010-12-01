@@ -8,6 +8,7 @@ import java.util.Map;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 
 /**Holds a paragraph, and detects probable sequences of tags.
  * 
@@ -19,10 +20,10 @@ final class EntityTokeniser {
 	private List<Map<String,Map<String,Double>>> classifierResults;
 	private List<Map<String,Double>> alphas;
 	private int length;
-	private MEMM memm;
+	private MEMMModel memm;
 	private ITokenSequence tokSeq;
 	
-	public EntityTokeniser(MEMM memm, ITokenSequence tokSeq, List<Map<String,Map<String,Double>>> classifierResults) {
+	public EntityTokeniser(MEMMModel memm, ITokenSequence tokSeq, List<Map<String,Map<String,Double>>> classifierResults) {
 		this.tokSeq = tokSeq;
 		this.classifierResults = classifierResults;
 		this.memm = memm;

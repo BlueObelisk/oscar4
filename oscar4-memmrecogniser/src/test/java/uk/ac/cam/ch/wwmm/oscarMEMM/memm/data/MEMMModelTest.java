@@ -13,8 +13,6 @@ import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
 
 public class MEMMModelTest {
 
@@ -46,7 +44,7 @@ public class MEMMModelTest {
 	@Test
 	public void testReadModel() throws Exception {
 		Document modelDoc = new ResourceGetter(
-			Model.class.getClassLoader(),
+			MEMMModel.class.getClassLoader(),
 			"uk/ac/cam/ch/wwmm/oscarMEMM/models/"
 		).getXMLDocument("chempapers.xml");
 		Element modelRoot = modelDoc.getRootElement();
@@ -70,8 +68,8 @@ public class MEMMModelTest {
 	@Test
 	public void testWriteModel() throws Exception {
 		Document modelDoc = new ResourceGetter(
-				Model.class.getClassLoader(),
-				"uk/ac/cam/ch/wwmm/oscarMEMM/models/"
+			MEMMModel.class.getClassLoader(),
+			"uk/ac/cam/ch/wwmm/oscarMEMM/models/"
 		).getXMLDocument("chempapers.xml");
 		MEMMModel model = new MEMMModel();
 		model.readModel(modelDoc.getRootElement());

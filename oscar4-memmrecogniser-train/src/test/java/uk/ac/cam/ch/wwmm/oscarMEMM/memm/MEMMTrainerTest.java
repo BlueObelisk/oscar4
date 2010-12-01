@@ -2,7 +2,6 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import java.io.InputStream;
 
-import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 
@@ -11,10 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.Model;
-
 import ch.unibe.jexample.Given;
-import ch.unibe.jexample.Injection;
-import ch.unibe.jexample.InjectionPolicy;
 import ch.unibe.jexample.JExample;
 
 @RunWith(JExample.class)

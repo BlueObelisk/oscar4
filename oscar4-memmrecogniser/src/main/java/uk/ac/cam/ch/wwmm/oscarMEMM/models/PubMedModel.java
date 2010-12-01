@@ -2,7 +2,7 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 
 import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMModel;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 
 public class PubMedModel extends MEMMModel {
 

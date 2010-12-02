@@ -74,11 +74,13 @@ public class MEMMModel {
                 tagSet.add(gm.getOutcome(j));
             }
         }
+        
         Element rescorerElem = memmElem.getFirstChildElement("rescorer");
         if(rescorerElem != null) {
             rescorer = new MEMMOutputRescorer();
             rescorer.readElement(rescorerElem);
         } else {
+        	
             rescorer = null;
         }
         Element etdElem = modelRoot.getFirstChildElement("etd");

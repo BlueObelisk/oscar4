@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 import opennlp.maxent.GISModel;
+
+import org.apache.log4j.Logger;
+
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -30,6 +33,7 @@ public final class MEMM {
 
     private static double confidenceThreshold;
 
+    Logger LOG = Logger.getLogger(MEMM.class);
     public MEMM(MEMMModel model) {
     	this.model = model;
         confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;
@@ -121,7 +125,9 @@ public final class MEMM {
      * @param entities The entities to rescore.
      */
     public void rescore(List<NamedEntity> entities) {
+    	if (model.getRescorer()!=null)
         model.getRescorer().rescore(entities);
+    	else LOG.info("Model does not contain a rescorer");
     }
 
     public MEMMModel getModel() {

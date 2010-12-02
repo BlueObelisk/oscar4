@@ -3,6 +3,7 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +18,8 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
+import nu.xom.ParsingException;
+import nu.xom.ValidityException;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
@@ -108,8 +111,8 @@ public final class ExtractTrainingData {
 		init(files);
 	}
 
-	public ExtractTrainingData(InputStream stream) {
-		init(stream);
+	public ExtractTrainingData(Document doc) {
+		init(doc);
 	}
 
 	private void initSets() {
@@ -143,11 +146,16 @@ public final class ExtractTrainingData {
 		int paperCount = 0;
 		for(File file : files) {
 			try {
-				extractTrainingData(goodPn, cwBag, cnwBag, ncwBag, ncnwBag, new FileInputStream(file));
-			} catch (FileNotFoundException exception) {
-				throw new Error(
-					"File not found: " + file.getAbsolutePath(), exception
-				);
+				Document doc = new Builder().build(file);
+				extractTrainingData(goodPn, cwBag, cnwBag, ncwBag, ncnwBag, doc);
+			} catch (FileNotFoundException e) {
+				throw new Error("File not found: " + file.getAbsolutePath(), e);
+			} catch (ValidityException e) {
+				throw new Error("Invalid XML: " + file.getAbsolutePath(), e);
+			} catch (ParsingException e) {
+				throw new Error("Failed to parse XML: " + file.getAbsolutePath(), e);
+			} catch (IOException e) {
+				throw new Error("Failed to read file: " + file.getAbsolutePath(), e);
 			}
 			paperCount++;
 		}
@@ -200,7 +208,7 @@ public final class ExtractTrainingData {
 		}
 	}
 
-	private void init(InputStream stream) {
+	private void init(Document doc) {
 		Set<String> goodPn;
 		goodPn = new HashSet<String>();
 
@@ -215,7 +223,7 @@ public final class ExtractTrainingData {
 		Bag<String> ncwBag = new Bag<String>();
 		Bag<String> ncnwBag = new Bag<String>();
 				
-		extractTrainingData(goodPn, cwBag, cnwBag, ncwBag, ncnwBag, stream);
+		extractTrainingData(goodPn, cwBag, cnwBag, ncwBag, ncnwBag, doc);
 		
 		for(String s : cwBag.getSet()) {
 			if(cwBag.getCount(s) > 0 && ncwBag.getCount(s) == 0) chemicalWords.add(s);
@@ -266,13 +274,12 @@ public final class ExtractTrainingData {
 	}
 
 	private void extractTrainingData(Set<String> goodPn, Bag<String> cwBag,
-			Bag<String> cnwBag, Bag<String> ncwBag, Bag<String> ncnwBag, InputStream stream) {
-		//System.out.println(f);
+			Bag<String> cnwBag, Bag<String> ncwBag, Bag<String> ncnwBag, Document doc) {
 		try {
-			Document doc = new Builder().build(stream);
-			
 			Nodes n = doc.query("//cmlPile");
-			for (int i = 0; i < n.size(); i++) n.get(i).detach();
+			for (int i = 0; i < n.size(); i++) {
+				n.get(i).detach();
+			}
 			
 			Document copy = new Document((Element)XOMTools.safeCopy(doc.getRootElement()));
 			n = copy.query("//ne");

@@ -136,9 +136,7 @@ public final class MEMMTrainer {
 		for (int i = 0; i < n.size(); i++)
 			XOMTools.removeElementPreservingText((Element)n.get(i));
 
-		ExtractTrainingData etd = new ExtractTrainingData(
-			new ByteArrayInputStream(doc.toXML().getBytes())
-		);
+		ExtractTrainingData etd = new ExtractTrainingData(doc);
 		model.setExtractedTrainingData(
 			new ExtractedTrainingData(etd.toXML())
 		);

@@ -1,5 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscardata;
 
+import java.util.List;
+
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -8,6 +10,7 @@ import nu.xom.Text;
 
 import org.apache.log4j.Logger;
 
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
 /**
@@ -193,4 +196,9 @@ public final class RParser {
 	void parse(Text textNode) {
 		topNode.parseXOMText(textNode);
 	}
+	
+	List <DataAnnotation> findData(ITokenSequence tokSeq) {
+		return topNode.annotateData(tokSeq);
+	}
+	
 }

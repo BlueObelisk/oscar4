@@ -49,7 +49,7 @@ public class MEMMRecogniserTest {
 	@Test
 	public void testFindNamedEntitiesFromString() throws Exception {
 		String source = "Hello acetone world!";
-		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(Tokeniser.getInstance(), source);
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(Tokeniser.getInstance(), source);
 		List <NamedEntity> neList = new MEMMRecogniser().findNamedEntities(procDoc);
 		assertEquals(1, neList.size());
 		assertEquals("acetone", neList.get(0).getSurface());
@@ -58,7 +58,7 @@ public class MEMMRecogniserTest {
 	@Test
 	public void testFindMultipleTokenEntity() throws Exception {
 		String text = "Hello ethyl acetate world!";
-		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
 		List<NamedEntity> neList = new MEMMRecogniser().findNamedEntities(procDoc.getTokenSequences());
 		
@@ -75,7 +75,7 @@ public class MEMMRecogniserTest {
 	@Test
 	public void testFindNonDictionaryEntity() throws Exception {
 		String text = "Hello 1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene world!";
-		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
 		List<NamedEntity> neList = new MEMMRecogniser().findNamedEntities(procDoc.getTokenSequences());
 		boolean foundCorrectNE = false;
@@ -90,7 +90,7 @@ public class MEMMRecogniserTest {
 	@Test
 	public void testFindNonDictionaryMultipleTokenEntity() throws Exception {
 		String text = "Hello 1,2-difluoro-1-chloro-2-methyl-ethyl acetate world!";
-		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
 		List<NamedEntity> neList = new MEMMRecogniser().findNamedEntities(procDoc.getTokenSequences());
 		boolean foundCorrectNE = false;

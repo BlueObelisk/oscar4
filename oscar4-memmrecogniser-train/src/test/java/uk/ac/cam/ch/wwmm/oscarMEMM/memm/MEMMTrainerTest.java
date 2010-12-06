@@ -79,7 +79,7 @@ public class MEMMTrainerTest {
 		model.readModel(trainedModel);
 		memm.setModel(model);
 
-		ProcessingDocument procdoc = new ProcessingDocumentFactory()
+		ProcessingDocument procdoc = ProcessingDocumentFactory.getInstance()
 				.makeTokenisedDocument(Tokeniser.getInstance(), sentence);
 		List<NamedEntity> neList = memm.findNamedEntities(procdoc);
 		Assert.assertEquals("Number of recognised entities: ",20, neList.size());

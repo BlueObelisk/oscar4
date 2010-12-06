@@ -19,7 +19,7 @@ public class Main {
 		
 		IProcessingDocument procDoc = null;
 		try {
-			procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+			procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), sourceDoc);
 		} catch (Exception e) {
 			e.printStackTrace();

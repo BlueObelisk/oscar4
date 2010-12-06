@@ -29,7 +29,8 @@ public class NamedEntityType {
 	public static final NamedEntityType CUSTOM = register("CUST", "Custom", 3);
 	public static final NamedEntityType STOP = register("STOP", "Stop Word", 11);
 	public static final NamedEntityType POLYMER = register("PM", "Polymer", 7);
-
+	public static final NamedEntityType DATA = register("DATA", "Data");
+	
     private final String name;
     private final String description;
     private final int priority;

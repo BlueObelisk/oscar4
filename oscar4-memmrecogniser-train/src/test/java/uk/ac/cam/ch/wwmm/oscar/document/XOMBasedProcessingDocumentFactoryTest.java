@@ -56,7 +56,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 	public void testMergeNeTokens() {
 		String source = "foo ethyl acetate bar";
 		Tokeniser tokeniser = Tokeniser.getInstance();
-		IProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(tokeniser, source);
+		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, source);
 		List <IToken> tokens = procDoc.getTokenSequences().get(0).getTokens();
 		assertEquals(4, tokens.size());
 		assertEquals("foo", tokens.get(0).getValue());

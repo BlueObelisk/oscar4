@@ -14,7 +14,7 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
  * @author ptc24
  *
  */
-public final class NamedEntity extends ResolvableStandoff {
+public final class NamedEntity extends ResolvableStandoff implements Annotation {
 
 	private int startOffset;
 	private int endOffset;

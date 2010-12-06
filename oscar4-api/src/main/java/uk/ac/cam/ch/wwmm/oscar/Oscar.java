@@ -157,7 +157,7 @@ public class Oscar {
 
     public List<ITokenSequence> tokenize(String input) throws Exception {
         Document doc = createInputDocument(input);
-        IProcessingDocument procDoc = new ProcessingDocumentFactory()
+        IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance()
                 .makeTokenisedDocument(tokenizer, doc);
         return procDoc.getTokenSequences();
     }

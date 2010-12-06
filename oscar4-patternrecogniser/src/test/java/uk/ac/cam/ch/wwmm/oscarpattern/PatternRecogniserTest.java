@@ -49,7 +49,7 @@ public class PatternRecogniserTest {
 	@Test
 	public void testFindNamedEntitiesFromString() throws Exception {
 		String text = "Hello acetone world!";
-		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
 		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
@@ -59,7 +59,7 @@ public class PatternRecogniserTest {
 	@Test
 	public void testFindMultipleTokenEntity() throws Exception {
 		String text = "Hello ethyl acetate world!";
-		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
 		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
@@ -69,7 +69,7 @@ public class PatternRecogniserTest {
 	@Test
 	public void testFindNonDictionaryEntity() throws Exception {
 		String text = "Hello 1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene world!";
-		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
 		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
@@ -79,7 +79,7 @@ public class PatternRecogniserTest {
 	@Test
 	public void testFindNonDictionaryMultipleTokenEntity() throws Exception {
 		String text = "Hello 1,2-difluoro-1-chloro-2-methyl-ethyl acetate world!";
-		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
 		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());

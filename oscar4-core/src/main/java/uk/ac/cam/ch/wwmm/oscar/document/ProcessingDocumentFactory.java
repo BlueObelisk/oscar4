@@ -16,7 +16,10 @@ public class ProcessingDocumentFactory {
 
 	private static ProcessingDocumentFactory myInstance;
 	
-	@Deprecated
+	private ProcessingDocumentFactory() {
+		
+	}
+
 	public static ProcessingDocumentFactory getInstance() {
 		if (myInstance == null) {
 			myInstance = new ProcessingDocumentFactory();

@@ -13,6 +13,7 @@ import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Node;
 import nu.xom.Text;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 
 /** A node in RParser's Regex heirarchy.
@@ -149,8 +150,8 @@ final class RPNode {
         children.add(RPchild);
     }
 
-    void parseXOMText(Text textNode) {
-    	parseXOMText(textNode, new HashSet<RPNode>());
+    List<DataAnnotation> parseXOMText(Text textNode) {
+    	return parseXOMText(textNode, new HashSet<RPNode>());
     }
     
     /**
@@ -160,10 +161,13 @@ final class RPNode {
      * @param textNode the nu.xom.Text to process
      * @param excludedChildren a set of RPNodes with the "unique" property that
      * already been found  
+     * @return 
      */
-    void parseXOMText(Text textNode, HashSet<RPNode> excludedChildren) {
+    List<DataAnnotation> parseXOMText(Text textNode, HashSet<RPNode> excludedChildren) {
+    	List <DataAnnotation> annotations = new ArrayList<DataAnnotation>();
     	boolean foundSomethingFlag = true;
     	while(foundSomethingFlag) {
+    		//foundSomethingFlag allows the RPNode to continue looking for a matching group in the string after one has been found
     		foundSomethingFlag = false;
         	String nodeText = textNode.getValue();
             for(ListIterator <RPNode> i=children.listIterator(); i.hasNext() && !foundSomethingFlag;) {
@@ -175,7 +179,8 @@ final class RPNode {
                 Pattern pat = child.getPattern();
                 Matcher m = pat.matcher(nodeText);
                 if(m.find()) {
-                	
+                	DataAnnotation annotation = new DataAnnotation(m.start(), m.end(), m.group(0));
+                	annotations.add(annotation);
                     String tokText;
                     int pg = child.getParseGroup();
                     try {
@@ -214,13 +219,15 @@ final class RPNode {
                     if(m.end() < nodeText.length()) {
                     	Text endText = new Text(nodeText.substring(m.end()));
                     	XOMTools.insertAfter(currentNode, endText);
-                    	parseXOMText(endText, excludedChildren);
+                    	annotations.addAll(parseXOMText(endText, excludedChildren));
                     	// Do something about uniqueness here...
                     }
                     foundSomethingFlag = true;
+                    annotation.setInternalMarkup(elem);
                 }
             }    		
     	}
+    	return annotations;
     }
         
     /**
@@ -239,4 +246,11 @@ final class RPNode {
         this.parseGroup = parseGroup;
     }
     
+    
+    List <DataAnnotation> annotateData(ITokenSequence tokSeq) {
+    	Text textNode = new Text(tokSeq.getSurface());
+    	//a parent element is needed in parseXOMText()
+    	new Element("dummy").appendChild(textNode);
+    	return parseXOMText(textNode);
+    }
 }

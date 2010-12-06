@@ -22,7 +22,7 @@ public class Main {
 		
 		try 
 		{
-			procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+			procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), sourceDoc);
 		    
 		 } 

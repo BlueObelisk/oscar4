@@ -19,7 +19,7 @@ public class ProcessingDocumentFactoryTest {
 	public void testMakeDocumentFromSimpleString() {
 		String source = "The quick brown fox jumps over the lazy dog";
 		Tokeniser tokeniser = Tokeniser.getInstance();
-		ProcessingDocument procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(tokeniser, source);
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, source);
 		assertEquals(1, procDoc.getTokenSequences().size());
 		assertEquals(9, procDoc.getTokenSequences().get(0).size());
 	}

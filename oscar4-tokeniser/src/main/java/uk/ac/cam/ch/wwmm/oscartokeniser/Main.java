@@ -20,7 +20,7 @@ public class Main {
 		Document sourceDoc = rg.getXMLDocument(resourceName);
 
 		try {
-			procDoc = new ProcessingDocumentFactory().makeTokenisedDocument(
+			procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), sourceDoc);
 		} catch (Exception e) {
             System.err.println("Can't find file, please check your path");

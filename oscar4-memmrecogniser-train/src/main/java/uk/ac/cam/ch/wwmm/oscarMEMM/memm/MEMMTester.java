@@ -29,7 +29,7 @@ import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermMaps;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.CreateETD;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
@@ -181,7 +181,7 @@ public final class MEMMTester {
 				//if(true) return;				
 			} else{
 				HyphenTokeniser.reinitialise();
-				new ExtractTrainingData(trainFilesList);
+				new CreateETD(trainFilesList);
 				HyphenTokeniser.reinitialise();				
 
 				memm.getModel().readModel(new Builder().build("modeltest.xml"));

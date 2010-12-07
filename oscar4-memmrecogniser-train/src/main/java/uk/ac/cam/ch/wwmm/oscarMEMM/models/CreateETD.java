@@ -31,12 +31,13 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.ptcDataStruct.Bag;
 import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
-/** Extracts and holds useful data from hand-annotated text.
- * 
+/** 
+ * Extracts and holds useful data from hand-annotated text.
+ * ETD: Extracted Training Data
  * @author ptc24
  * @author egonw
  */
-public final class ExtractTrainingData {
+public final class CreateETD {
 
 	/**Words only found in chemical named entities.*/
 	public Collection<String> chemicalWords;
@@ -107,11 +108,11 @@ public final class ExtractTrainingData {
 	 * 
 	 * @param files The files.
 	 */
-	public ExtractTrainingData(Collection<File> files) {
+	public CreateETD(Collection<File> files) {
 		init(files);
 	}
 
-	public ExtractTrainingData(Document doc) {
+	public CreateETD(Document doc) {
 		init(doc);
 	}
 

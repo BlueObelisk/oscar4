@@ -38,7 +38,7 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MutableMEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorerTrainer;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractTrainingData;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.CreateETD;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -135,7 +135,7 @@ public final class MEMMTrainer {
 		for (int i = 0; i < n.size(); i++)
 			XOMTools.removeElementPreservingText((Element)n.get(i));
 
-		ExtractTrainingData etd = new ExtractTrainingData(doc);
+		CreateETD etd = new CreateETD(doc);
 		model.setExtractedTrainingData(
 			new ExtractedTrainingData(etd.toXML())
 		);
@@ -166,7 +166,7 @@ public final class MEMMTrainer {
 	public void trainOnSbFilesNosplit(List<File> files) throws Exception {
 		if(retrain) {
 			HyphenTokeniser.reinitialise();
-			ExtractTrainingData etd = new ExtractTrainingData(files);
+			CreateETD etd = new CreateETD(files);
 			model.setExtractedTrainingData(
 				new ExtractedTrainingData(etd.toXML())
 			);
@@ -205,7 +205,7 @@ public final class MEMMTrainer {
 		for (int split = 0; split < splitNo; split++) {
 			if(retrain) {
 				HyphenTokeniser.reinitialise();
-				new ExtractTrainingData(splitTrainAntiFiles.get(split));
+				new CreateETD(splitTrainAntiFiles.get(split));
 				HyphenTokeniser.reinitialise();					
 			}
 			
@@ -219,7 +219,7 @@ public final class MEMMTrainer {
 		finishTraining();
 		if(retrain) {
 			HyphenTokeniser.reinitialise();
-			new ExtractTrainingData(files);
+			new CreateETD(files);
 			HyphenTokeniser.reinitialise();				
 		}
 	}

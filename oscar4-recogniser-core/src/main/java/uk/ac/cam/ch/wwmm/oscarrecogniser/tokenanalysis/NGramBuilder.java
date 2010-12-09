@@ -133,8 +133,6 @@ public class NGramBuilder {
 			addChemNGrams(c);
 			chemSet.add(NGram.parseWord(c));
 		}
-		//System.out.println(chemSet);
-		//System.out.println(engSet);
 		
 		// smooth nGrams and calculate logP data
 		LP4C = calcLP4(C1C, C2C, C3C, C4C);
@@ -334,17 +332,11 @@ public class NGramBuilder {
 					}
 					P2[i][j] = ((C2[i][j] - D)/sum) + gamma[i]*P1[j];
 					Pcum += P2[i][j];
-					if((P2[i][j]<=0)|(P2[i][j]>=1)) {
-						//System.out.println("\t\t***\t" + P2[i][j]);
-					}
 				}
 			} else {
 				for (int j = 0; j < A; j++) {
 					P2[i][j] = P1[j];
 					Pcum += P2[i][j];
-					if((P2[i][j]<=0)|(P2[i][j]>=1)) {
-						//System.out.println("\t\t***\t" + P2[i][j]);
-					}
 				}
 			}
 		}
@@ -423,17 +415,11 @@ public class NGramBuilder {
 						}
 						P3[i][j][k] = ((C3[i][j][k] - D)/sum) + Tgamma[i][j]*P2[j][k];
 						Pcum += P3[i][j][k];
-						if((P3[i][j][k]<=0)|(P3[i][j][k]>=1)) {
-							//System.out.println("\t\t***\t" + P3[i][j][k]);
-						}
 					}
 				} else {
 					for (int k = 0; k < A; k++) {
 						P3[i][j][k] = P2[j][k];
 						Pcum += P3[i][j][k];
-						if((P3[i][j][k]<=0)|(P3[i][j][k]>=1)) {
-							//System.out.println("\t\t***\t" + P3[i][j][k]);
-						}
 					}
 				}
 			}
@@ -519,17 +505,11 @@ public class NGramBuilder {
 							}
 							P4[i][j][k][l] = ((C4[i][j][k][l] - D)/sum) + Qgamma[i][j][k]*P3[j][k][l];
 							Pcum += P4[i][j][k][l];
-							if((P4[i][j][k][l]<=0)|(P4[i][j][k][l]>=1)) {
-								//System.out.println("\t\t***\t" + P4[i][j][k][l]);
-							}
 						}
 					} else {
 						for (int l = 0; l < A; l++) {
 							P4[i][j][k][l] = P3[j][k][l];
 							Pcum += P4[i][j][k][l];
-							if((P4[i][j][k][l]<=0)|(P4[i][j][k][l]>=1)) {
-								//System.out.println("\t\t***\t" + P4[i][j][k][l]);
-							}
 						}
 					}
 				}

@@ -72,7 +72,6 @@ public final class TokenSequenceSource implements Iterable<ITokenSequence>, Iter
 			if(filePointer == files.size()) return;
 			try {
 				File f = files.get(filePointer).getParentFile();
-				//System.out.println(f);
 				Document doc = new Builder().build(new File(f, "source.xml"));
 				
 				if(simple) {

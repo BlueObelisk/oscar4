@@ -46,10 +46,6 @@ public class SuffixClassifier {
 		
 		public void print(String history) {
 			for(Character c : continuations.keySet()) {
-				//if(!continuations.get(c).interesting()) {
-				//	System.out.println("Yeep!");
-				//}
-				System.out.println(c + history + "\t" + continuations.get(c).chemPaths + "\t" + continuations.get(c).nonChemPaths + "\t" + continuations.get(c).chemScore());					
 				continuations.get(c).print(c + history);
 			}
 		}

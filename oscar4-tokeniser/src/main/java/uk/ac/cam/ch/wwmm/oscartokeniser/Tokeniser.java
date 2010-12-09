@@ -136,7 +136,6 @@ public final class Tokeniser implements ITokeniser {
 		 * Newly created tokens are recursively subtokenised.
 		 */
 		while (i < tokens.size()) {
-			// System.out.println("***Before Split tokens = "+tokens.get(i).value);
 			List<IToken> results = splitToken(tokens.get(i));
 
 			
@@ -154,7 +153,6 @@ public final class Tokeniser implements ITokeniser {
 				 */
 			}
 		}
-		// System.out.println(System.nanoTime() - nt);
 		/* Discard empty tokens */
 		
 		/*
@@ -469,7 +467,6 @@ public final class Tokeniser implements ITokeniser {
 		tokens.add(new Token(token.getValue().substring(internalOffset),
 				splitOffset, token.getEnd(), token.getDoc(), token.getBioTag(),
 				((Token)token).getNeElem()));
-		// System.out.printf("Split: %s %d", value, splitOffset);
 		return tokens;
 	}
 

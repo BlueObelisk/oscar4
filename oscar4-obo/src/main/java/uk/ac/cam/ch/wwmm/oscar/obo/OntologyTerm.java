@@ -63,7 +63,6 @@ public final class OntologyTerm {
 			if(c.matches()) {
 				val = c.group(1);
 				//comment = c.group(2);
-				//System.out.println(comment);
 			}
 			Matcher qv = quotValPattern.matcher(val);
 			String qualifiers = "";

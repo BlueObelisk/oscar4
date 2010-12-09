@@ -52,8 +52,6 @@ public final class Token implements IToken {
 	public IToken getNAfter(int n) {
 		int pos = n + id;
 		if (tokenSequence == null){
-
-			System.out.println("I am NULL--- FEAR ME");
 			throw new RuntimeException();
 		}
 		else if(tokenSequence.getTokens().size() <= pos || pos <= 0) return null;

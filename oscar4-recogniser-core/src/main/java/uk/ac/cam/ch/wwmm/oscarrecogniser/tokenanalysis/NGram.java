@@ -129,8 +129,6 @@ public class NGram {
         NGram nng = new NGram(data);
         nng.saveData();
 
-        System.out.println("Model file generated. Ensure it is placed in src/main/resources/"+NGram.class.getPackage().getName().replace('.','/'));
-
     }
 
 
@@ -217,11 +215,6 @@ public class NGram {
 
         NGramBuilder ng = NGramBuilder.getInstance();
         NGram nng = NGram.getInstance();
-
-        System.out.printf("%-20s %8s %8s%n", "", "OLD", "NEW");
-        for (String w : a) {
-            System.out.printf("%-20s %8.3f %8.3f%n", w, ng.testWord(w), nng.testWord(w));
-        }
     }
 
 

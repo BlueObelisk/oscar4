@@ -231,8 +231,6 @@ public class Bag<X> {
 		double total = totalCount();
 		double entropy = 0.0;
 		for(X s : counts.keySet()) {
-			//System.out.println(s + " " + counts.get(s));
-			//System.out.println(entropy);
 			entropy -= (counts.get(s)/total) * Math.log(counts.get(s)/total) / Math.log(2);
 		}
 		return entropy;
@@ -252,8 +250,6 @@ public class Bag<X> {
 		double total = totalCount();
 		double crossEntropy = 0.0;
 		for(X s : counts.keySet()) {
-			//System.out.println(s + " " + counts.get(s));
-			//System.out.println(entropy);
 			crossEntropy -= (counts.get(s)/total) * Math.log(reference.getCount(s)/refTotal) / Math.log(2);
 		}
 		return crossEntropy;

@@ -113,7 +113,6 @@ public class DFANEFinder extends DFAFinder {
         logger.debug("Adding names from ChemNameDict to DFA finder...");
         try {
             for(String s : ChemNameDictRegistry.getInstance().getAllNames()) {
-                // System.out.println(s);
                 addNamedEntity(s, NamedEntityType.COMPOUND, false);
             }
         } catch (Exception e) {

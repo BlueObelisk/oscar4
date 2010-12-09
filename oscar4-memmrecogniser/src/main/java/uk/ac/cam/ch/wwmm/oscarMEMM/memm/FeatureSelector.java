@@ -111,10 +111,6 @@ final class FeatureSelector {
 			if(g > threshold) allowableFeatures.add(feature);
 		}
 		
-		//for(String feature : allowableFeatures) {
-		//	System.out.println(feature);
-		//}
-		
 		List<Event> newEvents = new ArrayList<Event>();
 		for(Event event : events) {
 			List<String> features = new ArrayList<String>();

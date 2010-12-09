@@ -89,8 +89,6 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 			neList.add((NamedEntity)rs);
 		}
 
-		//for(NamedEntity ne : neList) System.out.println(ne);
-
 		/*
 		Collections.sort(neList, new NEComparator());
 
@@ -125,7 +123,6 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 				//int end = ne.getEnd();
 				
 				IToken t = tokensByStart.get(start);
-				if(t != null) System.out.println("NOT NULL AHA: " + t.getValue());
 				if(t != null && t.getNAfter(-2) != null && t.getNAfter(1) != null) {
 					IToken prev = t.getNAfter(-1);
 					IToken next = t.getNAfter(1);
@@ -135,7 +132,6 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 						if(endToNe.containsKey(prevPrev.getEnd())) {
 							NamedEntity acronymOf = endToNe.get(prevPrev.getEnd());
 							if(StringTools.testForAcronym(ne.getSurface(), acronymOf.getSurface())) {
-								//System.out.println(ne.getSurface() + " is " + acronymOf.getSurface());
 								if(NamedEntityType.ASE.equals(acronymOf.getType()) || NamedEntityType.ASES.equals(acronymOf.getType())) {
 									//System.out.println("Skip ASE acronym");
 								} else {
@@ -193,7 +189,6 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 					neList.remove(i);
 				}
 			} else if(NamedEntityType.STOP.equals(ne.getType())) {
-				//System.out.println("STOP: " + neList.get(i).getSurface());
 				neList.remove(i);
 				stopNeList.add(ne);
 			} else {
@@ -203,7 +198,6 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 
 		// Some CPRs and ONTs will have been lost in the stopwording process
 		// Re-introduce them, and do the resolution process again
-		//for(NamedEntity ne : preserveNes) System.out.println(ne);
 		neList.addAll(preserveNes);
 		setPseudoConfidences(neList);
 		rsList = StandoffResolver.resolveStandoffs(neList);

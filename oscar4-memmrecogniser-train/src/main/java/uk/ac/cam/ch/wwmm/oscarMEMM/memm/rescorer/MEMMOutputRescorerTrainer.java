@@ -79,7 +79,6 @@ public final class MEMMOutputRescorerTrainer {
 			}
 			double rec = (goodIndex * 1.0) / maxRecall;
 			double prec = (goodIndex * 1.0) / (goodIndex + badIndex);
-			//System.out.println(goodIndex + badIndex + "\t" + goodIndex);
 			pw.println(rec + "\t" + prec + "\t" + prob);
 		}
 		pw.close();
@@ -201,10 +200,8 @@ public final class MEMMOutputRescorerTrainer {
 	 * @throws Exception
 	 */
 	private void runOnFile(File f) throws Exception {
-		//System.out.println(f);
 		Document doc = new Builder().build(f);
 		String name = f.getParentFile().getName();
-		//System.out.println(name);
 		Nodes n = doc.query("//cmlPile");
 		for (int i = 0; i < n.size(); i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");
@@ -243,19 +240,12 @@ public final class MEMMOutputRescorerTrainer {
 		FeatureExtractor fe = new FeatureExtractor(entities);
 		
 		for(NamedEntity entity : entities) {
-			//System.out.print(entity);
-			/*if(testNEs.contains(entity.toString())) {
-				System.out.println("\tGOOD");
-			} else {
-				System.out.println("\tBAD");
-			}*/
 			List<String> features = fe.getFeatures(entity);
 			NamedEntityType namedEntityType = entity.getType();
 			if(modelsByNamedEntityType.containsKey(namedEntityType)) {
 				GISModel model = modelsByNamedEntityType.get(namedEntityType);
 				if(model.getNumOutcomes() == 2) {
 					double prob = model.eval(features.toArray(new String[0]))[model.getIndex("T")];
-					//System.out.println(entity.getConfidence() + "\t->\t" + prob);
 					
 					double conf = entity.getConfidence();
 					
@@ -275,22 +265,11 @@ public final class MEMMOutputRescorerTrainer {
 					double confCaution = conf * (1-conf);
 					double probCaution = prob * (1-prob);
 					
-					/*if(gain > 0) {
-						if((conf - 0.5) * (prob - 0.5) < 0) {
-							System.out.println("CROSSOVER");
-						} else if(confCaution < probCaution)  {
-							System.out.println("DIMINISH");
-						} else {
-							System.out.println("BOOST");
-						}
-					}
-					System.out.println(gain);*/
 					totalGain += gain;
 				}
 			}
 		}
 		
-		//System.out.println("Total gain: " + totalGain);
 		grandTotalGain += totalGain;
 	}
 

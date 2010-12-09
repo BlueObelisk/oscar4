@@ -462,30 +462,24 @@ public class OBOOntology {
 		OntologyTerm term = terms.get(id);
 		if(term == null) return false;
 		if(!id.startsWith("CHEBI:")) {
-			//System.out.println("Not CHEBI");
 			return false;
 		}
 		if(term.getIsTypeOf().size() == 0) {
-			//System.out.println("No children");
 			return false;
 		}
 		if(ChemNameDictRegistry.getInstance().hasOntologyIdentifier(id)) {
-			//System.out.println("Has exact InChI");
 			return false;
 		}
 		for(Synonym synonym : term.getSynonyms()) {
 			if("EXACT FORMULA".equals(synonym.getType())) {
-				//System.out.println("Formula!");
 				return false;
 			}
 		}
 		for(String relType : term.getRelationships().keySet()) {
 			if("is_conjugate_base_of".equals(relType)) {
-				//System.out.println("Has conjugate base");
 				return false;
 			}
 			if("is_conjugate_acid_of".equals(relType)) {
-				//System.out.println("Has conjugate acid");
 				return false;
 			}
 			
@@ -493,11 +487,9 @@ public class OBOOntology {
 		boolean isOK = false;
 		for(String parentID : getIdsForIdWithAncestors(id)) {
 			if(parentID.equals("CHEBI:24433")) {
-				//System.out.println("Is a group");
 				return false; // That means it's a group
 			}
 			if(parentID.equals("CHEBI:36342")) {
-				//System.out.println("Is a particle");				
 				return false; // That means it's a particle		
 			}
 		}
@@ -516,9 +508,6 @@ public class OBOOntology {
 	public static void main(String[] args) throws Exception {
 		OBOOntology o = getInstance();
 
-		//for(String id : o.getIdsForTermWithDescendants("inhibitor")) {
-		//	System.out.println(o.getNameForID(id));			
-		//}
 		FileOutputStream fso = new FileOutputStream(new File("ontology.txt"));
 		o.writeOntTxt(new PrintWriter(fso));
 	}

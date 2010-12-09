@@ -99,9 +99,7 @@ final class EntityTokeniser {
 							
 							int startOffset = tokSeq.getToken(i).getStart();
 							int endOffset = tokSeq.getToken(i+j-1).getEnd();
-							//System.out.println(tokSeq.getToken(i).getValue()+" with a start of"+tokSeq.getToken(i).getStart()+" with an end of "+tokSeq.getToken(i).getEnd());
 							String entityStr = tokSeq.getStringAtOffsets(startOffset, endOffset);
-    						//System.err.println("Entity str " +entityStr);
 							NamedEntityType finalEntityType = namedEntityType;
 							if(NamedEntityType.valueOf("NCM").equals(finalEntityType)) namedEntityType = NamedEntityType.COMPOUND;
 							if(NamedEntityType.valueOf("NRN").equals(finalEntityType)) namedEntityType = NamedEntityType.REACTION;

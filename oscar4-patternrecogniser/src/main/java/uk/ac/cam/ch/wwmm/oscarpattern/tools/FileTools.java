@@ -50,12 +50,10 @@ public final class FileTools {
 		List<File> foundFiles = new ArrayList<File>();
 		File[] list = directory.listFiles();
 		for (int i = 0; i < list.length; i++) {
-//			System.out.println("*********fillles "+list[i].getName());
 			if(list[i].getName().equals(name)) {
 				
 				foundFiles.add(list[i]);
 			} else if(list[i].isDirectory()) {
-//				System.out.println("folder "+list[i]);
 				foundFiles.addAll(getFilesFromDirectoryByName(list[i], name));
 			}
 		}

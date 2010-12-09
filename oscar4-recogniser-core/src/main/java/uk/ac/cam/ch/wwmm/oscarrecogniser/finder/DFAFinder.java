@@ -287,7 +287,6 @@ public abstract class DFAFinder implements Serializable {
 		Map<Integer,Set<String>> tagMap = new HashMap<Integer,Set<String>>();
 		for (int i = 0; i < runAut.getSize(); i++) {
 			if (runAut.isAccept(i) && runAut.step(i, tagChar) != -1) {
-				//System.out.println(i);
 				tagMap.put(i, readOffTags(runAut, runAut.step(i, tagChar)));
 			}
 		}

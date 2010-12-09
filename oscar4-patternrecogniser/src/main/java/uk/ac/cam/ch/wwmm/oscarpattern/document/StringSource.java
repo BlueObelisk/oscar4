@@ -63,7 +63,6 @@ public final class StringSource implements Iterable<String>, Iterator<String> {
 		while(strings.size() == 0) {
 			if(filePointer == files.size()) return;
 			try {
-				//System.out.println(files.get(filePointer));
 				Document doc = new Builder().build(files.get(filePointer++));
 				
 				

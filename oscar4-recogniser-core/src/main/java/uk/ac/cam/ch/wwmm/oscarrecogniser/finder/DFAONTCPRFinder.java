@@ -63,7 +63,6 @@ public class DFAONTCPRFinder extends DFAFinder {
 		}
 		ois.close();
 		return finder;
-		//System.out.println("DFAs loaded in " + (System.currentTimeMillis() - time) + " milliseconds");
 	}
 	
 	/**Writes a DFAONTCPRFinder to the workspace.
@@ -80,7 +79,6 @@ public class DFAONTCPRFinder extends DFAFinder {
                                 new FileOutputStream(SERIALIZED_DFAFINDER))));
 		oos.writeObject(finder);
 		oos.close();
-		//System.out.println("DFAs loaded in " + (System.currentTimeMillis() - time) + " milliseconds");
 	}
 	
 	/**

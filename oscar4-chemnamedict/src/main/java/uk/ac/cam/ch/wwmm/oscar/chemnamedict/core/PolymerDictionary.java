@@ -1,7 +1,10 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashSet;
+
+import org.apache.commons.lang.StringUtils;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictIO;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
@@ -21,24 +24,41 @@ public class PolymerDictionary
 extends MutableChemNameDict
 implements IChemNameDict {
 
-	public PolymerDictionary() throws Exception {
-		super(new URI("http://wwmm.ch.cam.ac.uk/dictionary/polymer/"));
-		ChemNameDictIO.readXML(
-			new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/chemnamedict/")
-				.getXMLDocument("polymerCompounds.xml"),
-			this
-		);
+	private static final URI	POLYMER_DICTIONARY_URL;
+
+	static {
+		try {
+			POLYMER_DICTIONARY_URL = new URI("http://wwmm.ch.cam.ac.uk/dictionary/polymer/");
+		}
+		catch (URISyntaxException e) {
+			// Should not be thrown, as URL is valid.
+			throw new RuntimeException(e);
+		}
 	}
 
-	public void addName(String name) throws Exception {
-		if(name == null || name.trim().length() == 0) throw new Exception();
+	public PolymerDictionary() throws Exception {
+		super(POLYMER_DICTIONARY_URL);
+
+		ChemNameDictIO.readXML(
+					new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/chemnamedict/").getXMLDocument("polymerCompounds.xml"),
+					this);
+	}
+
+	@Override
+	public void addName(String name) {
+		if (StringUtils.isEmpty(name)) {
+			throw new IllegalArgumentException("The name cannot be null or empty, but was '" + String.valueOf(name)
+						+ "'");
+		}
+
 		name = StringTools.normaliseName(name);
 		IChemRecord record = new NameOnlyChemRecord();
 		record.addName(name);
 		addChemRecord(record);
 	}
 
-    public void addChemRecord(IChemRecord record) throws Exception {
+    @Override
+	public void addChemRecord(IChemRecord record) {
 		// Record is new. Add and index
 		chemRecords.add(record);
 		for(String name : record.getNames()) {

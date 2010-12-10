@@ -2,13 +2,16 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
+import nu.xom.ParsingException;
 import nu.xom.Serializer;
+import nu.xom.ValidityException;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecordIO;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IChemRecord;
@@ -43,7 +46,7 @@ import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
  */
 public final class ChemNameDictIO {
 
-	private static Document toXML(IChemNameDict dictionary) throws Exception {
+	private static Document toXML(IChemNameDict dictionary) {
 		Element cnde = new Element("newchemnamedict");
 
 		Element records = new Element("records");
@@ -55,73 +58,92 @@ public final class ChemNameDictIO {
 		return new Document(cnde);
 	}
 	
-	public static void readXML(Document doc, IMutableChemNameDict dictionary) throws Exception {
+	public static void readXML(Document doc, IMutableChemNameDict dictionary) {
 		Element root = doc.getRootElement();
-		if(root.getLocalName().equals("newchemnamedict")) {
-			for (int i = 0; i < root.getChildCount(); i++) {
-				if(root.getChild(i) instanceof Element) {
-					Element elem = (Element)root.getChild(i);
-					if(elem.getLocalName().equals("stops")) {
-						for (int j = 0; j < elem.getChildCount(); j++) {
-							if(elem.getChild(j) instanceof Element)
-								dictionary.addStopWord(elem.getChild(j).getValue());
-						}
-					} else if(elem.getLocalName().equals("orphanNames")) {
-						for (int j = 0; j < elem.getChildCount(); j++) {
-							if(elem.getChild(j) instanceof Element)
-								dictionary.addName(elem.getChild(j).getValue());
-						}					
-					} else if(elem.getLocalName().equals("records")) {
-						for (int j = 0; j < elem.getChildCount(); j++) {
-							if(elem.getChild(j) instanceof Element) {
-								dictionary.addChemRecord(
-									xmlToRecord((Element)elem.getChild(j))
-								);
-							}
-						}										
+
+		if (!"newchemnamedict".equals(root.getLocalName())) {
+			throw new IllegalArgumentException("Root tag name should be 'newchemnamedict' but was '"
+						+ root.getLocalName() + "'");
+		}
+
+		for (int i = 0; i < root.getChildCount(); i++) {
+			if(root.getChild(i) instanceof Element) {
+				Element elem = (Element)root.getChild(i);
+				if(elem.getLocalName().equals("stops")) {
+					for (int j = 0; j < elem.getChildCount(); j++) {
+						if(elem.getChild(j) instanceof Element)
+							dictionary.addStopWord(elem.getChild(j).getValue());
 					}
+				} else if(elem.getLocalName().equals("orphanNames")) {
+					for (int j = 0; j < elem.getChildCount(); j++) {
+						if(elem.getChild(j) instanceof Element)
+							dictionary.addName(elem.getChild(j).getValue());
+					}					
+				} else if(elem.getLocalName().equals("records")) {
+					for (int j = 0; j < elem.getChildCount(); j++) {
+						if(elem.getChild(j) instanceof Element) {
+							dictionary.addChemRecord(
+								xmlToRecord((Element)elem.getChild(j))
+							);
+						}
+					}										
 				}
-			}			
-		} else {
-			throw new Exception();
+			}
 		}
 	}
 	
-	private static ChemRecord xmlToRecord(Element elem) throws Exception {
-		if(!elem.getLocalName().equals("record")) throw new Exception();
+	private static ChemRecord xmlToRecord(Element elem) {
+		if (!"record".equals(elem.getLocalName())) {
+			throw new IllegalArgumentException("Tag name should be 'record' but was '" + elem.getLocalName() + "'");
+		}
+
 		ChemRecord record = new ChemRecord();
 		Elements inchis = elem.getChildElements("InChI");
-		if(inchis.size() != 1) throw new Exception();
+
+		if (inchis.size() != 1) {
+			throw new IllegalStateException("inchis.size() should be exactly 1, but was " + inchis.size());
+		}
+
 		record.setInChI(inchis.get(0).getValue());
 		Elements smiless = elem.getChildElements("SMILES");
-		if(smiless.size() > 1) {
-			throw new Exception();
+
+		if (smiless.size() > 1) {
+			throw new IllegalStateException("smiless.size() should not more than one, but was " + smiless.size());
 		} else if(smiless.size() == 1) {
 			record.setSMILES(smiless.get(0).getValue());
 		}
+
 		Elements names = elem.getChildElements("name");
+		
 		for (int i = 0; i < names.size(); i++) {
 			record.addName(names.get(i).getValue());
 		}
+		
 		Elements ontIDs = elem.getChildElements("ontID");
+		
 		for (int i = 0; i < ontIDs.size(); i++) {
 			record.addOntologyIdentifier(ontIDs.get(i).getValue());
 		}		
+		
 		return record;
 	}
 	
-	public static void writeToFile(File f, IChemNameDict dictionary) throws Exception {
+	public static void writeToFile(File f, IChemNameDict dictionary) throws IOException {
 		writeToFile(new FileOutputStream(f), dictionary);
 	}
 	
 	public static synchronized void writeToFile(OutputStream outStr,
-			IChemNameDict dictionary) throws Exception {
+			IChemNameDict dictionary) throws IOException {
 		Serializer s = new Serializer(outStr);
 		s.setIndent(2);
 		s.write(toXML(dictionary));
 	}
 	
-	public static void readFromFile(File f, IMutableChemNameDict dictionary) throws Exception {
+	/*
+	 * TODO: Wrap ValidityException and ParsingException into OscarException?
+	 * FIXME: This method is never called in OSCAR4 project. Perhaps it should be inlined?
+	 */
+	public static void readFromFile(File f, IMutableChemNameDict dictionary) throws IOException, ValidityException, ParsingException {
 		Document doc = new Builder().build(f);
 		readXML(doc, dictionary);
 	}

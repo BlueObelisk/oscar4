@@ -42,8 +42,7 @@ public class Oscar {
      * class. If they are not available from the classpath, it will
      * silently fail though. The defaults are: {@value}.
      */
-    public Oscar() throws Exception {
-        // TODO - look at dictionary initialisation... don't like throws Exception here
+    public Oscar() {
         dictionaryRegistry.register(new DefaultDictionary());
         dictionaryRegistry.register(new ChEBIDictionary());
         tokenizer = newDefaultTokeniser();

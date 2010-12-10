@@ -3,7 +3,7 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
 import java.util.regex.Pattern;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 
 public class PrefixFinder {
 	private static String primesRe = "[" + StringTools.primes + "]*";
@@ -28,7 +28,7 @@ public class PrefixFinder {
 		if(prefixPattern.matcher(s).matches()) {
 			int idx = s.indexOf("-");
 			// Check if it's a not-splitting word
-			if(ExtractedTrainingData.getInstance().notForPrefix.contains(s.substring(idx+1))) {
+			if(ManualAnnotations.getInstance().notForPrefix.contains(s.substring(idx+1))) {
 			//if(dataModel.notForPrefix.contains(s.substring(idx+1))) {
 				return null;
 			}

@@ -16,7 +16,7 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 
 /**
  * Data model for {@link MEMM}.
@@ -32,7 +32,7 @@ public class MEMMModel {
     protected MEMMOutputRescorer rescorer;
     protected Set<String> tagSet;
     protected Set<NamedEntityType> namedEntityTypes;
-    protected ExtractedTrainingData extractedTrainingData;
+    protected ManualAnnotations manualAnnotations;
 
     public MEMMModel() {
         zeroProbs = new HashMap<String, Double>();
@@ -85,9 +85,9 @@ public class MEMMModel {
         }
         Element etdElem = modelRoot.getFirstChildElement("etd");
 		if (etdElem != null) {
-			this.extractedTrainingData = ExtractedTrainingData.reinitialise(etdElem);
+			this.manualAnnotations = ManualAnnotations.reinitialise(etdElem);
 		} else {
-            this.extractedTrainingData = null;
+            this.manualAnnotations = null;
 		}
         makeEntityTypesAndZeroProbs();
     }
@@ -101,8 +101,8 @@ public class MEMMModel {
     public Element writeModel() throws Exception {
     	Element modelRoot = new Element("model");
     	// append the rescorer bits
-    	if (extractedTrainingData != null)
-    		modelRoot.appendChild(extractedTrainingData.toXML());
+    	if (manualAnnotations != null)
+    		modelRoot.appendChild(manualAnnotations.toXML());
 		// append the MEMM bits
         Element memmRoot = new Element("memm");
         for (String prev : gmByPrev.keySet()) {
@@ -163,7 +163,7 @@ public class MEMMModel {
 		return rescorer;
 	}
 
-	public ExtractedTrainingData getExtractedTrainingData() {
-		return extractedTrainingData;
+	public ManualAnnotations getManualAnnotations() {
+		return manualAnnotations;
 	}
 }

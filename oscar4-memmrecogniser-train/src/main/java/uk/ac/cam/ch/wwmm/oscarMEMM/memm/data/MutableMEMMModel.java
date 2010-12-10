@@ -2,7 +2,7 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm.data;
 
 import opennlp.maxent.GISModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 
 public class MutableMEMMModel extends MEMMModel {
 
@@ -26,8 +26,8 @@ public class MutableMEMMModel extends MEMMModel {
 		super.tagSet.add(prev);
 	}
 
-	public void setExtractedTrainingData(ExtractedTrainingData extractedTrainingData) {
-		super.extractedTrainingData = extractedTrainingData;
+	public void setExtractedTrainingData(ManualAnnotations manualAnnotations) {
+		super.manualAnnotations = manualAnnotations;
 	}
 
 }

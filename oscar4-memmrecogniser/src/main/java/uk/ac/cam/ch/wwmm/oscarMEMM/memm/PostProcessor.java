@@ -16,7 +16,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 
 /**
  * Handles postprocessing of MEMM results.
@@ -89,7 +89,7 @@ final class PostProcessor {
 			return 11;
 			// Fix things for alternate annotation scheme
 		}  else if ((namedEntityType.getName().length() < 4) && (!noPC &&
-			 ExtractedTrainingData.getInstance().nonChemicalWords.contains(surf)))
+			 ManualAnnotations.getInstance().nonChemicalWords.contains(surf)))
 			 {
 //		else if ((type.length() < 4)
 //				&& (!noPC && dataModel.nonChemicalWords

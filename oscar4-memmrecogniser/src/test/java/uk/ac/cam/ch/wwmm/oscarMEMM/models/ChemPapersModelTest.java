@@ -13,12 +13,12 @@ public class ChemPapersModelTest {
 	public void testLoadChemPapers() {
 		MEMMModel model = new ChemPapersModel();
 		assertTrue(
-			model.getExtractedTrainingData().nonChemicalWords.contains(
+			model.getManualAnnotations().nonChemicalWords.contains(
 				"elongate"
 			)
 		);
 		assertFalse(
-			model.getExtractedTrainingData().nonChemicalWords.contains(
+			model.getManualAnnotations().nonChemicalWords.contains(
 				"leukaemic"
 			)
 		);

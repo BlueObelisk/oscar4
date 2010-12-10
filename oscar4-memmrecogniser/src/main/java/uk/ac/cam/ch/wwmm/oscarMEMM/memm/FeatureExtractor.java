@@ -12,7 +12,7 @@ import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.FeatureSet;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 
 /**
@@ -163,9 +163,9 @@ public final class FeatureExtractor {
 			contextable.add(makeWordFeature(normWord));
 		}
 
-		ExtractedTrainingData etd = ExtractedTrainingData.getInstance();
-		makeWordFeatures(word, normWord, bigramable, etd);
-		makeReactionFeatures(word, bigramable, contextable, etd);
+		ManualAnnotations manualAnnotations = ManualAnnotations.getInstance();
+		makeWordFeatures(word, normWord, bigramable, manualAnnotations);
+		makeReactionFeatures(word, bigramable, contextable, manualAnnotations);
 
 		String wts = StringTools.withoutTerminalS(normWord);
 		contextable.add(WITHOUT_TERMINAL_S_FEATURE + wts);
@@ -207,17 +207,17 @@ public final class FeatureExtractor {
 		if (TermSets.getDefaultInstance().getClosedClass().contains(normWord)) {
 			local.add(STOPWORD_CLOSED_CLASS_FEATURE);
 		}
-		if (ExtractedTrainingData.getInstance().nonChemicalWords
+		if (ManualAnnotations.getInstance().nonChemicalWords
 				.contains(normWord)) {
 			local.add(STOPWORD_NON_CHEMICAL_WORD_FEATURE);
 		}
-		if (ExtractedTrainingData.getInstance().nonChemicalNonWords
+		if (ManualAnnotations.getInstance().nonChemicalNonWords
 				.contains(normWord)
 				&& !TermSets.getDefaultInstance().getElements().contains(normWord)) {
 			local.add(STOPWORD_NONCHEMICALNONWORD_FEATURE);
 		}
 		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
-				&& !(ChemNameDictRegistry.getInstance().hasName(normWord) || ExtractedTrainingData
+				&& !(ChemNameDictRegistry.getInstance().hasName(normWord) || ManualAnnotations
 						.getInstance().chemicalWords.contains(normWord))) {
 			local.add(STOPWORD_USER_DEFINED_FEATURE);
 		}
@@ -242,7 +242,7 @@ public final class FeatureExtractor {
 				|| TermSets.getDefaultInstance().getUsrDictWords().contains(word)) {
 			ngscore = SUFFIX_LO_SCORE;
 		}
-		if (ExtractedTrainingData.getInstance().chemicalWords.contains(normWord)) {
+		if (ManualAnnotations.getInstance().chemicalWords.contains(normWord)) {
 			ngscore = 100;
 		}
 		if (ChemNameDictRegistry.getInstance().hasName(word)) {
@@ -274,7 +274,7 @@ public final class FeatureExtractor {
 				|| TermSets.getDefaultInstance().getUsrDictWords().contains(word)) {
 			suffixScore = SUFFIX_LO_SCORE;
 		}
-		if (ExtractedTrainingData.getInstance().chemicalWords.contains(normWord)) {
+		if (ManualAnnotations.getInstance().chemicalWords.contains(normWord)) {
 			suffixScore = SUFFIX_HI_SCORE;
 		}
 		if (ChemNameDictRegistry.getInstance().hasName(word)) {
@@ -362,21 +362,21 @@ public final class FeatureExtractor {
 	}
 
 	private void makeReactionFeatures(String word,
-			List<String> bigramable, List<String> contextable, ExtractedTrainingData etd) {
-		if (etd.rnEnd.contains(word)) {
+			List<String> bigramable, List<String> contextable, ManualAnnotations manualAnnotations) {
+		if (manualAnnotations.rnEnd.contains(word)) {
 			bigramable.add(RNEND_FEATURE);
 			contextable.add(RNEND_FEATURE);
 		}
-		if (etd.rnMid.contains(word)) {
+		if (manualAnnotations.rnMid.contains(word)) {
 			bigramable.add(RNMID_FEATURE);
 			contextable.add(RNMID_FEATURE);
 		}
 	}
 
 	private void makeWordFeatures(String word, String normWord,
-			List<String> bigramable, ExtractedTrainingData etd) {
-		if (word.length() < 4 || etd.polysemous.contains(word)
-				|| etd.rnEnd.contains(word) || etd.rnMid.contains(word)) {
+			List<String> bigramable, ManualAnnotations manualAnnotations) {
+		if (word.length() < 4 || manualAnnotations.polysemous.contains(word)
+				|| manualAnnotations.rnEnd.contains(word) || manualAnnotations.rnMid.contains(word)) {
 			bigramable.add(makeWordFeature(word));
 			if (!word.equals(normWord)) {
 				bigramable.add(makeWordFeature(normWord));
@@ -426,7 +426,7 @@ public final class FeatureExtractor {
 					&& !TermSets.getDefaultInstance().getUsrDictWords().contains(word))
 				suspect = true;
 			if (!noPC
-					&& ExtractedTrainingData.getInstance().pnStops.contains(word))
+					&& ManualAnnotations.getInstance().pnStops.contains(word))
 				suspect = true;
 			int patternPosition = position + 1;
 			while (patternPosition < (tokSeq.size() - 2)

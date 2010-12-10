@@ -54,12 +54,12 @@ public class MEMMModelTest {
 		Assert.assertNotSame(0, model.getNamedEntityTypes().size());
 		Assert.assertNotNull(model.getRescorer());
 		assertTrue(
-			model.getExtractedTrainingData().nonChemicalWords.contains(
+			model.getManualAnnotations().nonChemicalWords.contains(
 				"elongate"
 			)
 		);
 		assertFalse(
-			model.getExtractedTrainingData().nonChemicalWords.contains(
+			model.getManualAnnotations().nonChemicalWords.contains(
 				"leukaemic"
 			)
 		);

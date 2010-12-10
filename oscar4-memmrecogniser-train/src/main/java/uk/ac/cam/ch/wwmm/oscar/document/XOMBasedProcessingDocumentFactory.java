@@ -114,7 +114,6 @@ public class XOMBasedProcessingDocumentFactory {
 		 */
 		   
 		Nodes placesForChemicals = XMLStrings.getInstance().getChemicalPlaces(procDoc.doc);
-
 		/***************************
 		 * @lh359: Iterates through 
 		 * the chemical sections

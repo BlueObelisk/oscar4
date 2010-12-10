@@ -167,6 +167,7 @@ public final class TokenSequence implements ITokenSequence {
       * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getNes()
       */
     public Map<NamedEntityType,List<List<String>>> getNes() {
+    	
         Map<NamedEntityType,List<List<String>>> neMap = new HashMap<NamedEntityType,List<List<String>>>();
         NamedEntityType namedEntityType = null;
         List<String> neTokens = null;

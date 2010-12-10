@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
+import nu.xom.Serializer;
 import opennlp.maxent.DataIndexer;
 import opennlp.maxent.Event;
 import opennlp.maxent.EventCollectorAsStream;
@@ -29,6 +31,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.tools.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -38,8 +41,8 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MutableMEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorerTrainer;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.CreateETD;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
@@ -132,13 +135,18 @@ public final class MEMMTrainer {
 		Nodes n = doc.query("//cmlPile");
 		for (int i = 0; i < n.size(); i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");
+		
+		
 		for (int i = 0; i < n.size(); i++)
 			XOMTools.removeElementPreservingText((Element)n.get(i));
 
-		CreateETD etd = new CreateETD(doc);
+		
+		
+		ExtractManualAnnotations extractManualAnnotations = new ExtractManualAnnotations(doc);
 		model.setExtractedTrainingData(
-			new ExtractedTrainingData(etd.toXML())
+			new ManualAnnotations(extractManualAnnotations.toXML())
 		);
+
 
 		if(nameTypes) {
 			n = doc.query("//ne");
@@ -150,6 +158,10 @@ public final class MEMMTrainer {
 				} else if(ne.getAttributeValue("type").equals(NamedEntityType.COMPOUND.getName()) && ne.getValue().matches("[A-Z]\\p{Ll}\\p{Ll}.*\\s.*")) {
 					ne.addAttribute(new Attribute("type", "NCM"));
 					logger.debug("NCM: " + ne.getValue());
+				}
+				else if (ne.getAttributeValue("type").equals(NamedEntityType.COMPOUND.getName()))  {
+					ne.addAttribute(new Attribute("type", "CM"));
+					logger.debug("CM: " + ne.getValue());
 				}
 			}
 		}
@@ -166,9 +178,9 @@ public final class MEMMTrainer {
 	public void trainOnSbFilesNosplit(List<File> files) throws Exception {
 		if(retrain) {
 			HyphenTokeniser.reinitialise();
-			CreateETD etd = new CreateETD(files);
+			ExtractManualAnnotations extractManualAnnotations = new ExtractManualAnnotations(files);
 			model.setExtractedTrainingData(
-				new ExtractedTrainingData(etd.toXML())
+				new ManualAnnotations(extractManualAnnotations.toXML())
 			);
 			HyphenTokeniser.reinitialise();					
 		}
@@ -205,7 +217,7 @@ public final class MEMMTrainer {
 		for (int split = 0; split < splitNo; split++) {
 			if(retrain) {
 				HyphenTokeniser.reinitialise();
-				new CreateETD(splitTrainAntiFiles.get(split));
+				new ExtractManualAnnotations(splitTrainAntiFiles.get(split));
 				HyphenTokeniser.reinitialise();					
 			}
 			
@@ -219,7 +231,7 @@ public final class MEMMTrainer {
 		finishTraining();
 		if(retrain) {
 			HyphenTokeniser.reinitialise();
-			new CreateETD(files);
+			new ExtractManualAnnotations(files);
 			HyphenTokeniser.reinitialise();				
 		}
 	}

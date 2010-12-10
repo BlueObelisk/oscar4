@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.etd.ExtractedTrainingData;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 
 /**
  * Encapsulates nGram parsing.
@@ -208,7 +208,7 @@ public class NGramBuilder {
 	private void readUdwTrainingData() {
 		Set<String> goodUDW = new HashSet<String>();
 		for(String word : TermSets.getDefaultInstance().getUsrDictWords()) {
-			if(!(ChemNameDictRegistry.getInstance().hasName(word) || ExtractedTrainingData.getInstance().chemicalWords.contains(word))) {
+			if(!(ChemNameDictRegistry.getInstance().hasName(word) || ManualAnnotations.getInstance().chemicalWords.contains(word))) {
 				goodUDW.add(word);
 			}
 		}
@@ -216,7 +216,7 @@ public class NGramBuilder {
 	}
 	
 	private void readExtractedTrainingData() {
-		ExtractedTrainingData etd = ExtractedTrainingData.getInstance();
+		ManualAnnotations etd = ManualAnnotations.getInstance();
 		readCollection(etd.chemicalWords, true);
 		readCollection(etd.nonChemicalWords, false);	
 	}

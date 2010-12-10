@@ -1,9 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscarrecogniser.etd;
-
-import nu.xom.Document;
-import nu.xom.Element;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
-import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+package uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -12,15 +7,20 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import nu.xom.Document;
+import nu.xom.Element;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+
 /** Extracts and holds useful data from hand-annotated text.
  *
  * @author ptc24
  * @author dmj30
  */
-public final class ExtractedTrainingData {
+public final class ManualAnnotations {
 
-    private static ExtractedTrainingData currentInstance;
-    private static ExtractedTrainingData defaultInstance;
+    private static ManualAnnotations currentInstance;
+    private static ManualAnnotations defaultInstance;
 
     /**Words only found in chemical named entities.*/
     public final Collection<String> chemicalWords;
@@ -48,7 +48,7 @@ public final class ExtractedTrainingData {
     public final Set<String> rnMid;
 
 
-    public ExtractedTrainingData() {
+    public ManualAnnotations() {
         chemicalWords = Collections.emptySet();
         nonChemicalWords = Collections.emptySet();
         afterHyphen = Collections.emptySet();
@@ -62,7 +62,7 @@ public final class ExtractedTrainingData {
     }
 
 
-    public ExtractedTrainingData(Element xml) {
+    public ManualAnnotations(Element xml) {
         chemicalWords = readStringsFromElement(xml.getFirstChildElement("chemicalWords"));
         nonChemicalWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalWords"));
         chemicalNonWords = readStringsFromElement(xml.getFirstChildElement("chemicalNonWords"));
@@ -80,24 +80,24 @@ public final class ExtractedTrainingData {
      *
      * @return The singleton.
      */
-    public static ExtractedTrainingData getInstance() {
+    public static ManualAnnotations getInstance() {
         if (currentInstance == null) {
             currentInstance = getDefaultInstance();
         }
         return currentInstance;
     }
 
-    public static ExtractedTrainingData getDefaultInstance() {
+    public static ManualAnnotations getDefaultInstance() {
         if (defaultInstance == null) {
             defaultInstance = loadDefaultInstance();
         }
         return defaultInstance;
     }
 
-    private static ExtractedTrainingData loadDefaultInstance() {
+    private static ManualAnnotations loadDefaultInstance() {
         String modelName = OscarProperties.getData().model;
         Element etdElement = loadEtdElement(modelName);
-        return new ExtractedTrainingData(etdElement);
+        return new ManualAnnotations(etdElement);
     }
 
 
@@ -122,11 +122,16 @@ public final class ExtractedTrainingData {
      *
      * @param elem The XML serialized data.
      */
-    public static ExtractedTrainingData reinitialise(Element elem) {
-        currentInstance = new ExtractedTrainingData(elem);
+    public static ManualAnnotations reinitialise(Element elem) {
+        currentInstance = new ManualAnnotations(elem);
         return currentInstance;
     }
-
+    /**Destroy the current singleton.
+	 * 
+	 */
+    public static void clear() {
+		currentInstance = new ManualAnnotations();		
+	}
     private Element stringsToElement(Collection<String> strings, String elemName) {
         Element elem = new Element(elemName);
         StringBuffer sb = new StringBuffer();

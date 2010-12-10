@@ -31,7 +31,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 		return findNamedEntities(procDoc.getTokenSequences());
 	}
 
-	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) throws Exception
+	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences)
 	{
 			 	List<NamedEntity> stopNeList;
 

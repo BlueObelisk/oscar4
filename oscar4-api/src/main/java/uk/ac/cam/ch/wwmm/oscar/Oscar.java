@@ -103,7 +103,7 @@ public class Oscar {
      * @return      the recognized chemical entities.
      * @throws Exception
      */
-    public List<NamedEntity> getNamedEntities(String input) throws Exception {
+    public List<NamedEntity> getNamedEntities(String input) {
         input = normalize(input);
         List<ITokenSequence> tokens = tokenize(input);
         List<NamedEntity> entities = recognizeNamedEntities(tokens);
@@ -154,7 +154,7 @@ public class Oscar {
     }
 
 
-    public List<ITokenSequence> tokenize(String input) throws Exception {
+    public List<ITokenSequence> tokenize(String input) {
         Document doc = createInputDocument(input);
         IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance()
                 .makeTokenisedDocument(tokenizer, doc);
@@ -174,7 +174,7 @@ public class Oscar {
     }
 
 
-    public List<NamedEntity> recognizeNamedEntities(List<ITokenSequence> tokens) throws Exception {
+    public List<NamedEntity> recognizeNamedEntities(List<ITokenSequence> tokens) {
         return recogniser.findNamedEntities(tokens);
     }
 

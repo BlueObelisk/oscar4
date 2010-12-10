@@ -73,7 +73,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         return findNamedEntities(procDoc.getTokenSequences());
     }
 
-    public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList) throws Exception {
+    public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList) {
 
         // Generate named entity list
         List<NamedEntity> neList = generateNamedEntities(tokSeqList);

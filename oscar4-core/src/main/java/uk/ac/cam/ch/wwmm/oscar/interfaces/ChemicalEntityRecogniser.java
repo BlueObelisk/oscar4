@@ -12,6 +12,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
  */
 public interface ChemicalEntityRecogniser {
 
-	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) throws Exception;
+	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences);
 
 }

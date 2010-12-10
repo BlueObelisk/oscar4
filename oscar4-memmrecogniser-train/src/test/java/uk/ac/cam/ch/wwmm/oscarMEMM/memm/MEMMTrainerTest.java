@@ -9,6 +9,7 @@ import nu.xom.Element;
 import nu.xom.Elements;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -67,7 +68,7 @@ public class MEMMTrainerTest {
 	}
 
 	
-	
+	@Ignore
 	@Given("testConstructor,testLearning")
 	public void testRecognising(MEMMTrainer trainer, Element trainedModel)
 			throws Exception {

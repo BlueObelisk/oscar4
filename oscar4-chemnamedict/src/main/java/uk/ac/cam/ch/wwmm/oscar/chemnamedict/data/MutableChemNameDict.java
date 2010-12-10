@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IInChIProvider;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IMutableChemNameDict;
@@ -23,13 +25,17 @@ implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
 		super(uri);
 	}
 
-	public void addStopWord(String word) throws Exception {
-		if(word == null || word.trim().length() == 0) throw new Exception();
+	public void addStopWord(String word) {
+		if (StringUtils.isEmpty(word)) {
+			throw new IllegalArgumentException("The word cannot be null or empty, but was '" + String.valueOf(word)
+						+ "'");
+		}
+
 		stopWords.add(StringTools.normaliseName(word));
 	}
 
 	public void addChemRecord(String inchi, String smiles, Set<String> names,
-			Set<String> ontIDs) throws Exception {
+			Set<String> ontIDs) {
 		ChemRecord record = new ChemRecord();
 		record.setInChI(inchi);
 		record.setSMILES(smiles);
@@ -38,7 +44,7 @@ implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
 		addChemRecord(record);
 	}
 
-	public void addChemRecord(IChemRecord record) throws Exception {
+	public void addChemRecord(IChemRecord record) {
 		IChemRecord recordToAdd = null;
 		// check if we know this compound already (by InChI)
 		if (record instanceof IInChIChemRecord) {
@@ -116,14 +122,17 @@ implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
 		}
 	}
 
-	public void addName(String name) throws Exception {
-		if(name == null || name.trim().length() == 0) throw new Exception();
+	public void addName(String name) {
+		if (StringUtils.isEmpty(name)) {
+			throw new IllegalArgumentException("The name cannot be null or empty, but was '" + String.valueOf(name)
+						+ "'");
+		}
+
 		name = StringTools.normaliseName(name);
 		addChemical(name, null, null);
 	}
 
-	public void addChemical(String name, String smiles, String inchi)
-			throws Exception {
+	public void addChemical(String name, String smiles, String inchi) {
 		ChemRecord record = new ChemRecord();
 		record.setInChI(inchi);
 		record.setSMILES(smiles);
@@ -131,10 +140,9 @@ implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
 		addChemRecord(record);
 	}
 
-	public void importChemNameDict(IChemNameDict cnd) throws Exception {
+	public void importChemNameDict(IChemNameDict cnd) {
 		for(IChemRecord record : cnd.getChemRecords()) {
 			addChemRecord(record);
 		}
 	}
-
 }

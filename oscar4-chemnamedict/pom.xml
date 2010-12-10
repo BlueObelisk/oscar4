@@ -20,6 +20,10 @@
             <artifactId>oscar4-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
             <groupId>xom</groupId>
             <artifactId>xom</artifactId>
         </dependency>

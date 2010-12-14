@@ -17,7 +17,6 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 public final class SentenceSplitter {
 
     private Set<String> splitTokens;
-    private Set<String> impossibleBefore;
     private NonSentenceEndings impossibleAfter;
 
 
@@ -36,7 +35,6 @@ public final class SentenceSplitter {
         splitTokens.add("?");
         splitTokens.add("!");
         splitTokens.add("\"");
-        impossibleBefore = new HashSet<String>();
         impossibleAfter = new NonSentenceEndings();
     }
 
@@ -77,8 +75,6 @@ public final class SentenceSplitter {
                     if ("\"".equals(value) && !splitTokens.contains(prevStr)) {
                         split = false;
                     } else if (impossibleAfter.contains(prevStr)) {
-                        split = false;
-                    } else if (impossibleBefore.contains(nextStr)) {
                         split = false;
                     } else if (splitTokens.contains(nextStr)) {
                         split = false;

@@ -305,7 +305,7 @@ public final class MEMMTrainer {
 			}
 			for(File f : splitTrainFiles.get(split)) {
 				String domain = null;
-				rescorerTrainer.trainOnFile(f, domain, memm);
+				rescorerTrainer.trainOnFile(f, memm);
 			}				
 			evsByPrev.clear();
 			if(!simpleRescore) {

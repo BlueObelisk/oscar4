@@ -60,10 +60,12 @@ final class EntityTokeniser {
 		double score = alphas.get(startPosition).get("B-"+ namedEntityType.getName());
 		// Second: the body of the entity - the second and subsequent tags
 		for (int i = startPosition+1; i < startPosition+length; i++) {
-			String prevTag = "I-" + namedEntityType.getName();
-			if(i == startPosition+1) {
+			String prevTag;
+			if (i == startPosition+1) {
 				prevTag = "B-" + namedEntityType.getName();
-			}
+			} else {
+                prevTag = "I-" + namedEntityType.getName();
+            }
 			if(!classifierResults.get(i).get(prevTag).containsKey("I-" + namedEntityType.getName())) {
 				return 0;
 			} else {
@@ -72,14 +74,20 @@ final class EntityTokeniser {
 		}
 		// Third: leave the entity
 		int afterPosition = startPosition + length;
-		if(afterPosition == this.length) {
+		if (afterPosition == this.length) {
 			return score;
 		} else {
-			String prevTag = "I-" + namedEntityType.getName();
-			if(length == 1) prevTag = "B-" + namedEntityType.getName();
+			String prevTag;
+			if (length == 1) {
+                prevTag = "B-" + namedEntityType.getName();
+            } else {
+                 prevTag = "I-" + namedEntityType.getName();
+            }
 			double afterTotal = 0.0;
 			for(String tag : classifierResults.get(afterPosition).keySet()) {
-				if(tag.startsWith("I-")) continue;
+				if (tag.startsWith("I-")) {
+                    continue;
+                }
 				//if(tag.equals("I-" + entityType)) continue;
 				afterTotal += classifierResults.get(afterPosition).get(prevTag).get(tag);
 			}

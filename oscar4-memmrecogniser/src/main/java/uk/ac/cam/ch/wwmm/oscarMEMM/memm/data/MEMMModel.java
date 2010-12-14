@@ -56,7 +56,7 @@ public class MEMMModel {
     /**
      * Reads in a MEMM model from an XML element.
      *
-     * @param memmRoot The XML element.
+     * @param modelRoot The XML element.
      * @throws Exception
      */
     public void readModel(Element modelRoot) throws Exception {

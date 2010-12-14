@@ -22,7 +22,7 @@ public final class XOMBasedProcessingDocument implements IXOMBasedProcessingDocu
 	public List<ITokenSequence> tokenSequences;
 	public Map<Integer,IToken> tokensByStart;
 	public Map<Integer,IToken> tokensByEnd;
-	List<List<IToken>> sentences;
+	List<Sentence> sentences;
 
 	public XOMBasedProcessingDocument() {
 
@@ -74,7 +74,7 @@ public final class XOMBasedProcessingDocument implements IXOMBasedProcessingDocu
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getSentences()
 	 */
-	public List<List<IToken>> getSentences() {
+	public List<Sentence> getSentences() {
 		return sentences;
 	}
 

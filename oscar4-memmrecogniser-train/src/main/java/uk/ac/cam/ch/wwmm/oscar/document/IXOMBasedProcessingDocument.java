@@ -42,6 +42,6 @@ public interface IXOMBasedProcessingDocument extends IProcessingDocument {
 	 * @return The list of list of tokens corresponding to the sentences in the
 	 *         document.
 	 */
-	public abstract List<List<IToken>> getSentences();
+	public abstract List<Sentence> getSentences();
 
 }

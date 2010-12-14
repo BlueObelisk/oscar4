@@ -11,6 +11,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import opennlp.maxent.GISModel;
+import opennlp.maxent.MaxentModel;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
@@ -147,7 +148,7 @@ public class MEMMModel {
     	return zeroProbs;
     }
 
-	public GISModel getGISModelByPrev(String tag) {
+	public MaxentModel getMaxentModelByPrev(String tag) {
 		return gmByPrev.get(tag);
 	}
 

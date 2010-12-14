@@ -11,7 +11,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
@@ -83,10 +82,10 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 			if(custTypes != null) ne.setCustTypes(custTypes);
 		}
 
-		List<ResolvableStandoff> rsList = StandoffResolver.resolveStandoffs(neList);
+		List<NamedEntity> rsList = StandoffResolver.resolveStandoffs(neList);
 		neList.clear();
-		for(ResolvableStandoff rs : rsList) {
-			neList.add((NamedEntity)rs);
+		for(NamedEntity rs : rsList) {
+			neList.add(rs);
 		}
 
 		/*
@@ -202,8 +201,8 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 		setPseudoConfidences(neList);
 		rsList = StandoffResolver.resolveStandoffs(neList);
 		neList.clear();
-		for(ResolvableStandoff rs : rsList) {
-			neList.add((NamedEntity)rs);
+		for(NamedEntity rs : rsList) {
+			neList.add(rs);
 		}
 
 		

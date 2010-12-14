@@ -10,7 +10,6 @@ import java.util.Set;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -87,12 +86,12 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
         setPseudoConfidences(neList);
 
-        List<ResolvableStandoff> rsList = StandoffResolver.resolveStandoffs(neList);
+        List<NamedEntity> rsList = StandoffResolver.resolveStandoffs(neList);
         for (NamedEntity ne : neList) {
             ne.setBlocked(true);
         }
-        for (ResolvableStandoff rs : rsList) {
-            ((NamedEntity) rs).setBlocked(false);
+        for (NamedEntity rs : rsList) {
+            rs.setBlocked(false);
         }
 
         return neList;

@@ -14,7 +14,7 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
  * @author ptc24
  *
  */
-public final class NamedEntity extends ResolvableStandoff implements Annotation {
+public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 
 	private int startOffset;
 	private int endOffset;
@@ -220,25 +220,18 @@ public final class NamedEntity extends ResolvableStandoff implements Annotation 
 	 * overlapping named entities to discard. Psuedo confidences are not used
 	 * 
 	 */
-	@Override
-	public int compareCalculatedConfidenceTo(ResolvableStandoff other) {
-		if(other instanceof NamedEntity) {
-			NamedEntity otherNe = (NamedEntity)other;
-			
-			double myConf = confidence;
-			if(Double.isNaN(myConf)) {
-				return 0;
-			}
+	public int compareCalculatedConfidenceTo(NamedEntity otherNe) {
+        double myConf = confidence;
+        if(Double.isNaN(myConf)) {
+            return 0;
+        }
 
-			double otherConf = otherNe.getConfidence();
-			if(Double.isNaN(otherConf)) {
-				return 0;
-			}
-			
-			return Double.compare(myConf, otherConf);
-		} else {
-			return 0;
-		}
+        double otherConf = otherNe.getConfidence();
+        if(Double.isNaN(otherConf)) {
+            return 0;
+        }
+
+        return Double.compare(myConf, otherConf);
 	}
 	
 	/**Compares the confidence/pseudo confidence score of the named entity 
@@ -246,27 +239,20 @@ public final class NamedEntity extends ResolvableStandoff implements Annotation 
 	 * overlapping named entities to discard.
 	 * 
 	 */
-	@Override
-	public int comparePseudoOrCalculatedConfidenceTo(ResolvableStandoff other) {
-		if(other instanceof NamedEntity) {
-			NamedEntity otherNe = (NamedEntity)other;
-			
-			double myConf = confidence;
-			if(Double.isNaN(myConf)) myConf = pseudoConfidence;
-			if(Double.isNaN(myConf)) {
-				return 0;
-			}
+	public int comparePseudoOrCalculatedConfidenceTo(NamedEntity otherNe) {
+        double myConf = confidence;
+        if(Double.isNaN(myConf)) myConf = pseudoConfidence;
+        if(Double.isNaN(myConf)) {
+            return 0;
+        }
 
-			double otherConf = otherNe.getConfidence();
-			if(Double.isNaN(otherConf)) otherConf = otherNe.pseudoConfidence;
-			if(Double.isNaN(otherConf)) {
-				return 0;
-			}
-			
-			return Double.compare(myConf, otherConf);
-		} else {
-			return 0;
-		}
+        double otherConf = otherNe.getConfidence();
+        if(Double.isNaN(otherConf)) otherConf = otherNe.pseudoConfidence;
+        if(Double.isNaN(otherConf)) {
+            return 0;
+        }
+
+        return Double.compare(myConf, otherConf);
 	}
 	
 	/**Compares the type of the named entity with that of another named entity
@@ -274,14 +260,8 @@ public final class NamedEntity extends ResolvableStandoff implements Annotation 
 	 * named entities to discard.
 	 * 
 	 */
-	@Override
-	public int compareTypeTo(ResolvableStandoff other) {
-		if(other instanceof NamedEntity) {
-			NamedEntity otherNe = (NamedEntity)other;
-			return Integer.valueOf(getType().getPriority()).compareTo(otherNe.getType().getPriority());
-		} else {
-			return 0;
-		}
+	public int compareTypeTo(NamedEntity otherNe) {
+        return Integer.valueOf(getType().getPriority()).compareTo(otherNe.getType().getPriority());
 	}
 	
 	
@@ -290,28 +270,16 @@ public final class NamedEntity extends ResolvableStandoff implements Annotation 
 	 * discard.
 	 * 
 	 */	
-	@Override
-	public int compareEnd(ResolvableStandoff other) {	
-		if(other instanceof NamedEntity) {
-			NamedEntity otherNe = (NamedEntity)other;			
-			return new Integer(endOffset).compareTo(otherNe.endOffset);
-		} else {
-			return 0;
-		}
+	public int compareEnd(NamedEntity otherNe) {
+        return new Integer(endOffset).compareTo(otherNe.endOffset);
 	}
 	
 	/**Compares the end offset of the named entity with the start offset
 	 * of another named entity, to see whether the two might overlap.
 	 * 
 	 */
-	@Override
-	public int compareEndToStart(ResolvableStandoff other) {
-		if(other instanceof NamedEntity) {
-			NamedEntity otherNe = (NamedEntity)other;			
-			return new Integer(endOffset).compareTo(otherNe.startOffset);
-		} else {
-			return 0;
-		}
+	public int compareEndToStart(NamedEntity otherNe) {
+        return new Integer(endOffset).compareTo(otherNe.startOffset);
 	}
 	
 	/**Compares the start offset of the named entity with that of another named
@@ -319,28 +287,16 @@ public final class NamedEntity extends ResolvableStandoff implements Annotation 
 	 * discard.
 	 * 
 	 */	
-	@Override
-	public int compareStart(ResolvableStandoff other) {
-		if(other instanceof NamedEntity) {
-			NamedEntity otherNe = (NamedEntity)other;			
-			return new Integer(startOffset).compareTo(otherNe.startOffset);
-		} else {
-			return 0;
-		}
+	public int compareStart(NamedEntity otherNe) {
+        return new Integer(startOffset).compareTo(otherNe.startOffset);
 	}
 	
 	/**Compares the start offset of the named entity with the end offset
 	 * of another named entity, to see whether the two might overlap.
 	 * 
 	 */
-	@Override
-	public int compareStartToEnd(ResolvableStandoff other) {
-		if(other instanceof NamedEntity) {
-			NamedEntity otherNe = (NamedEntity)other;			
-			return new Integer(startOffset).compareTo(otherNe.endOffset);
-		} else {
-			return 0;
-		}
+	public int compareStartToEnd(NamedEntity other) {
+        return new Integer(startOffset).compareTo(other.endOffset);
 	}
 	
 	/**A string representation of the NE, for debugging and related purposes.
@@ -433,21 +389,47 @@ public final class NamedEntity extends ResolvableStandoff implements Annotation 
 	
 	/**
 	 * If deprioritiseOnt is true will sort such that a non ontological term is prioritised
-	 * @param other
+	 * @param otherNe
 	 * @return int indicating sort order
 	 */
-	public int comparePropertiesSpecifiedPrioritisation(ResolvableStandoff other) {
-		if (other instanceof NamedEntity) {
-			NamedEntity otherNe = (NamedEntity)other;
-			if (deprioritiseOnt) {
-                if (NamedEntityType.ONTOLOGY.equals(type) && !NamedEntityType.ONTOLOGY.equals(otherNe.type)) {
-					return -1;
-				} else if (!NamedEntityType.ONTOLOGY.equals(type) && NamedEntityType.ONTOLOGY.equals(otherNe.type)) {
-					return 1;
-				}
-			}
-		}
+	public int comparePropertiesSpecifiedPrioritisation(NamedEntity otherNe) {
+        if (deprioritiseOnt) {
+            if (NamedEntityType.ONTOLOGY.equals(type) && !NamedEntityType.ONTOLOGY.equals(otherNe.type)) {
+                return -1;
+            } else if (!NamedEntityType.ONTOLOGY.equals(type) && NamedEntityType.ONTOLOGY.equals(otherNe.type)) {
+                return 1;
+            }
+        }
 		return 0;
+	}
+
+    public int compareTo(NamedEntity other) {
+        int startComparison = compareStart(other);
+        int endComparison = compareEnd(other);
+        if (startComparison < 0) {
+            return -1;
+        } else if (startComparison > 0) {
+            return 1;
+        } else if (endComparison < 0) {
+            return -1;
+        } else if (endComparison > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+	}
+
+	public boolean conflictsWith(NamedEntity other) {
+		// If this starts after (or at) the end of the other, no conflict
+		if (compareStartToEnd(other) >= 0) {
+            return false;
+        }
+		// If this ends before (or at) the start of the other, no conflict
+		if (compareEndToStart(other) <= 0) {
+            return false;
+        }
+		// Therefore, there must be a conflict
+		return true;
 	}
 
 }

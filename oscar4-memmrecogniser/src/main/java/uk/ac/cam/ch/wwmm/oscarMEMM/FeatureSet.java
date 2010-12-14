@@ -1,26 +1,25 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM;
 
-import java.util.ArrayList;
-import java.util.List;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.FeatureList;
 
 /**
  * @author sea36
  */
 public class FeatureSet {
 
-    private List<String> features = new ArrayList<String>();
-	private List<String> contextableFeatures = new ArrayList<String>();
-	private List<String> bigramableFeatures = new ArrayList<String>();
+    private FeatureList features = new FeatureList();
+	private FeatureList contextableFeatures = new FeatureList();
+	private FeatureList bigramableFeatures = new FeatureList();
 
-    public List<String> getFeatures() {
+    public FeatureList getFeatures() {
         return features;
     }
 
-    public List<String> getContextableFeatures() {
+    public FeatureList getContextableFeatures() {
         return contextableFeatures;
     }
 
-    public List<String> getBigramableFeatures() {
+    public FeatureList getBigramableFeatures() {
         return bigramableFeatures;
     }
     

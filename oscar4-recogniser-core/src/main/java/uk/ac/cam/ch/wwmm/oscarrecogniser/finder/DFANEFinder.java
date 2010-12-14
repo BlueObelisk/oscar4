@@ -38,6 +38,20 @@ public class DFANEFinder extends DFAFinder {
 
     public static Pattern P_TWO_ADJACENT_LOWERCASE = Pattern.compile("[a-z][a-z]");
     public static Pattern P_UPPERCASE_LETTER = Pattern.compile("[A-Z]");
+    
+    private static final String REP_CM_NON_WORD = "$CMNONWORD";
+    private static final String REP_ONT_WORD = "$ONTWORD";
+    private static final String REP_IN_CND = "$INCND";
+    private static final String REP_POLY_BRACKET_ = "$polybracket-";
+    private static final String REP_POLY_ = "$poly-";
+    private static final String REP_OPEN_BRACKET = "$-(-";
+    private static final String REP_ENDS_IN_ELEMENT = "$ENDSINEM";
+    private static final String REP_ELEMENT = "$EM";
+    private static final String REP_PREFIX_BODY = "$PREFIXBODY";
+    private static final String REP_HYPH = "$HYPH";
+    private static final String REP_DOTS = "$DOTS";
+    private static final String REP_STOP = "$STOP";
+    private static final String REP_CPR_FORMULA = "$CPR_FORMULA";
 
 
     /**Get the DFANEFinder singleton, initialising if necessary.
@@ -165,9 +179,9 @@ public class DFANEFinder extends DFAFinder {
         tokenRepresentations.addAll(getSubReRepsForToken(value));
         if (value.length() == 1) {
             if (StringTools.isHyphen(value)) {
-                tokenRepresentations.add("$HYPH");
+                tokenRepresentations.add(REP_HYPH);
             } else if (StringTools.isMidElipsis(value)) {
-                tokenRepresentations.add("$DOTS");
+                tokenRepresentations.add(REP_DOTS);
             }
         }
         for (NamedEntityType namedEntityType : TokenClassifier.getInstance().classifyToken(value)) {
@@ -185,7 +199,7 @@ public class DFANEFinder extends DFAFinder {
                 tokenRepresentations.add("$" + NamedEntityType.LOCANTPREFIX.getName());
             } else {
                 if (TokenClassifier.getInstance().macthesTlr(lastGroup, "formulaRegex")) {
-                    tokenRepresentations.add("$CPR_FORMULA");
+                    tokenRepresentations.add(REP_CPR_FORMULA);
                 }
                 if (TermSets.getDefaultInstance().getStopWords().contains(lastGroupNorm) ||
                         TermSets.getDefaultInstance().getClosedClass().contains(lastGroupNorm)) {//||
@@ -208,13 +222,13 @@ public class DFANEFinder extends DFAFinder {
 
 
         if (isPrefixBody(value)) {
-            tokenRepresentations.add("$PREFIXBODY");
+            tokenRepresentations.add(REP_PREFIX_BODY);
         }
         if (isElement(normalisedValue)) {
-            tokenRepresentations.add("$EM");
+            tokenRepresentations.add(REP_ELEMENT);
         }
         if (isEndingWithElementName(value)) {
-            tokenRepresentations.add("$ENDSINEM");
+            tokenRepresentations.add(REP_ENDS_IN_ELEMENT);
         }
 
         try {
@@ -253,13 +267,13 @@ public class DFANEFinder extends DFAFinder {
                     }
 
                     if (value.contains("(") && !value.contains(")")) {
-                        tokenRepresentations.add("$-(-");
+                        tokenRepresentations.add(REP_OPEN_BRACKET);
                     }
                     if (value.matches("[Pp]oly.+")) {
-                        tokenRepresentations.add("$poly-");
+                        tokenRepresentations.add(REP_POLY_);
                     }
                     if (value.matches("[Pp]oly[\\(\\[\\{].+")) {
-                        tokenRepresentations.add("$polybracket-");
+                        tokenRepresentations.add(REP_POLY_BRACKET_);
                     }
                 }
             }
@@ -268,10 +282,10 @@ public class DFANEFinder extends DFAFinder {
         }
 
         if (ChemNameDictRegistry.getInstance().hasName(value)) {
-            tokenRepresentations.add("$INCND");
+            tokenRepresentations.add(REP_IN_CND);
         }
         if (OntologyTermIdIndex.getInstance().containsTerm(normalisedValue)) {
-            tokenRepresentations.add("$ONTWORD");
+            tokenRepresentations.add(REP_ONT_WORD);
         }
 //        if(!TokenTypes.twoLowerPattern.matcher(t.getValue()).find() && TokenTypes.oneCapitalPattern.matcher(t.getValue()).find()) {
 //			//System.out.println("Yay!");
@@ -284,7 +298,7 @@ public class DFANEFinder extends DFAFinder {
 //        } else
         if (OscarProperties.getData().useWordShapeHeuristic) {
             if (!hasTwoAdjacentLowerCaseLetters(value) && hasCapitalLetter(value)) {
-                tokenRepresentations.add("$CMNONWORD");
+                tokenRepresentations.add(REP_CM_NON_WORD);
             }
         }
         //SciXML dependent - removed 24/11/10 by dmj30
@@ -304,7 +318,7 @@ public class DFANEFinder extends DFAFinder {
 //				ExtractTrainingData.getInstance().nonChemicalWords.contains(normValue) ||
 //				ExtractTrainingData.getInstance().nonChemicalNonWords.contains(normValue)) {
             if (!isElement(normalisedValue)) {
-                tokenRepresentations.add("$STOP");
+                tokenRepresentations.add(REP_STOP);
             }
         }
 

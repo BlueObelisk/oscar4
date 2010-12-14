@@ -505,4 +505,17 @@ public final class StringTools {
     public static String[] splitOnWhitespace(String s) {
         return P_WHITESPACE.split(s);
     }
+
+    public static boolean isLowerCaseWord(String s) {
+        if (s.length() == 0) {
+            return false;
+        }
+        for (int i = s.length()-1; i >= 0; i--) {
+            char c = s.charAt(i);
+            if (c < 'a' || c > 'z') {
+                return false;
+            }
+        }
+        return true;
+    }
 }

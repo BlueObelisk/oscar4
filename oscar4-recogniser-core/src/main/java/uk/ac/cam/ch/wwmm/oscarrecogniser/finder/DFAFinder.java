@@ -126,21 +126,6 @@ public abstract class DFAFinder implements Serializable {
 	}
 	
 	protected void addNamedEntity(String namedEntity, NamedEntityType namedEntityType, boolean alwaysAdd) {
-//		if (OscarProperties.getData().dfaSize > 0) {
-//			if (!dfaCount.containsKey(namedEntityType)) {
-//				dfaCount.put(namedEntityType, 0);
-//				dfaNumber.put(namedEntityType, 1);
-//			}
-//			int count = dfaCount.get(namedEntityType) + 1;
-//			if (count > OscarProperties.getData().dfaSize) {
-//				count = 0;
-//				String tmpType = namedEntityType + "_" + dfaNumber.get(namedEntityType);
-//				buildForType(tmpType);
-//				dfaNumber.put(namedEntityType, dfaNumber.get(namedEntityType) + 1);
-//			}
-//			dfaCount.put(namedEntityType, count);
-//			namedEntityType = namedEntityType + "_" + dfaNumber.get(namedEntityType);
-//		}
 
 		ITokenSequence tokenSequence = Tokeniser.getInstance().tokenise(namedEntity);
 		List<String> tokens = tokenSequence.getTokenStringList();
@@ -228,20 +213,6 @@ public abstract class DFAFinder implements Serializable {
 			return intId;
 		}
 	}
-	
-//	private void buildForType(String type) {
-//		if (autLists.containsKey(type)) {
-//			Automaton mainAut = Automaton.union(autLists.get(type));
-//			mainAut.determinize();
-//			runAuts.put(type, new RunAutomaton(mainAut, false));
-//			autLists.remove(type);
-//		}
-//		if (simpleAuts.containsKey(type)) {
-//			Automaton mainAut = simpleAuts.get(type).toAutomaton();
-//			runAuts.put(type + "b", new RunAutomaton(mainAut, false));
-//			simpleAuts.remove(type);
-//		}
-//	}
 	
 	private void finishInit() {
 		for(NamedEntityType type : new HashSet<NamedEntityType>(autLists.keySet())) {

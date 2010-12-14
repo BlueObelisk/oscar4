@@ -101,13 +101,13 @@ public final class FeatureExtractor {
 
 	private boolean newSuffixes = false;
 
-    public static List<List<String>> extractFeatures(ITokenSequence tokSeq) {
+    public static List<FeatureList> extractFeatures(ITokenSequence tokSeq) {
         FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq);
         return featureExtractor.getFeatureLists();
     }
 
-    private List<List<String>> getFeatureLists() {
-        List<List<String>> features = new ArrayList<List<String>>(tokenFeatureSets.size());
+    private List<FeatureList> getFeatureLists() {
+        List<FeatureList> features = new ArrayList<FeatureList>(tokenFeatureSets.size());
         for (FeatureSet fs : tokenFeatureSets) {
             features.add(fs.getFeatures());
         }
@@ -150,17 +150,17 @@ public final class FeatureExtractor {
 	 * TODO check whether this is ever called redundantly
 	 */
 	private void makeFeatures(int position) {
-		List<String> local = tokenFeatureSets.get(position).getFeatures();
-		List<String> contextable = tokenFeatureSets.get(position).getContextableFeatures();
-		List<String> bigramable = tokenFeatureSets.get(position).getBigramableFeatures();
+		FeatureList local = tokenFeatureSets.get(position).getFeatures();
+		FeatureList contextable = tokenFeatureSets.get(position).getContextableFeatures();
+		FeatureList bigramable = tokenFeatureSets.get(position).getBigramableFeatures();
 
 		IToken token = tokSeq.getToken(position);
 		String word = token.getValue();
-		contextable.add(makeWordFeature(word));
+		contextable.addFeature(makeWordFeature(word));
 
 		String normWord = StringTools.normaliseName(word);
 		if (!word.equals(normWord)) {
-			contextable.add(makeWordFeature(normWord));
+			contextable.addFeature(makeWordFeature(normWord));
 		}
 
 		ManualAnnotations manualAnnotations = ManualAnnotations.getInstance();
@@ -168,7 +168,7 @@ public final class FeatureExtractor {
 		makeReactionFeatures(word, bigramable, contextable, manualAnnotations);
 
 		String wts = StringTools.withoutTerminalS(normWord);
-		contextable.add(WITHOUT_TERMINAL_S_FEATURE + wts);
+		contextable.addFeature(WITHOUT_TERMINAL_S_FEATURE + wts);
 
 		makeShapeFeatures(word, bigramable, contextable);
 		makeSuffixFeature(word, contextable);
@@ -185,57 +185,57 @@ public final class FeatureExtractor {
 		}
 
 		if (ChemNameDictRegistry.getInstance().hasName(word)) {
-			local.add(IN_NAMEDICT_FEATURE);
+			local.addFeature(IN_NAMEDICT_FEATURE);
 		}
 
 		if (TermSets.getDefaultInstance().getElements().contains(normWord)) {
-			contextable.add(ELEMENT_FEATURE);
-			bigramable.add(ELEMENT_FEATURE);
+			contextable.addFeature(ELEMENT_FEATURE);
+			bigramable.addFeature(ELEMENT_FEATURE);
 		}
 		if (TermSets.getDefaultInstance().getEndingInElementNamePattern().matcher(word).matches()) {
-			contextable.add(ENDS_IN_ELEMENT_FEATURE);
-			bigramable.add(ENDS_IN_ELEMENT_FEATURE);
+			contextable.addFeature(ENDS_IN_ELEMENT_FEATURE);
+			bigramable.addFeature(ENDS_IN_ELEMENT_FEATURE);
 		}
 		if (oxPattern.matcher(word).matches()) {
-			contextable.add(OXIDATION_STATE_FEATURE);
-			bigramable.add(OXIDATION_STATE_FEATURE);
+			contextable.addFeature(OXIDATION_STATE_FEATURE);
+			bigramable.addFeature(OXIDATION_STATE_FEATURE);
 		}
 
 		if (TermSets.getDefaultInstance().getStopWords().contains(normWord)) {
-			local.add(STOPWORD_FEATURE);
+			local.addFeature(STOPWORD_FEATURE);
 		}
 		if (TermSets.getDefaultInstance().getClosedClass().contains(normWord)) {
-			local.add(STOPWORD_CLOSED_CLASS_FEATURE);
+			local.addFeature(STOPWORD_CLOSED_CLASS_FEATURE);
 		}
 		if (ManualAnnotations.getInstance().nonChemicalWords
 				.contains(normWord)) {
-			local.add(STOPWORD_NON_CHEMICAL_WORD_FEATURE);
+			local.addFeature(STOPWORD_NON_CHEMICAL_WORD_FEATURE);
 		}
 		if (ManualAnnotations.getInstance().nonChemicalNonWords
 				.contains(normWord)
 				&& !TermSets.getDefaultInstance().getElements().contains(normWord)) {
-			local.add(STOPWORD_NONCHEMICALNONWORD_FEATURE);
+			local.addFeature(STOPWORD_NONCHEMICALNONWORD_FEATURE);
 		}
 		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
 				&& !(ChemNameDictRegistry.getInstance().hasName(normWord) || ManualAnnotations
 						.getInstance().chemicalWords.contains(normWord))) {
-			local.add(STOPWORD_USER_DEFINED_FEATURE);
+			local.addFeature(STOPWORD_USER_DEFINED_FEATURE);
 		}
 	}
 
 	private void handleNoNewSuffices(String word, String normWord,
-			List<String> bigramable, List<String> contextable,
-			List<String> local, IToken token) {
+			FeatureList bigramable, FeatureList contextable,
+			FeatureList local, IToken token) {
 		double ngscore = NGram.getInstance().testWord(word);
 		// Already seen
 		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getValue());
 		ngscore = Math.max(ngscore, NGRAM_SCORE_LOWER_BOUND);
 		ngscore = Math.min(ngscore, NGRAM_SCORE_UPPER_BOUND);
 		for (int i = 0; i < ngscore; i++) {
-			local.add((NGRAM_INC_FEATURE + namedEntityType.getName()).intern());
+			local.addFeature((NGRAM_INC_FEATURE + namedEntityType.getName()).intern());
 		}
 		for (int i = 0; i > ngscore; i--) {
-			local.add((NGRAM_DEC_FEATURE + namedEntityType.getName()).intern());
+			local.addFeature((NGRAM_DEC_FEATURE + namedEntityType.getName()).intern());
 		}
 
 		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
@@ -250,24 +250,24 @@ public final class FeatureExtractor {
 		}
 
 		if (ngscore > 0) {
-			contextable.add(SUFFIX_CT_FEATURE + namedEntityType.getName());
-			bigramable.add(SUFFIX_CT_FEATURE + namedEntityType.getName());
+			contextable.addFeature(SUFFIX_CT_FEATURE + namedEntityType.getName());
+			bigramable.addFeature(SUFFIX_CT_FEATURE + namedEntityType.getName());
 		}
 	}
 
 	private void handleNewSuffices(String word, String normWord,
-			List<String> bigramable, List<String> contextable,
-			List<String> local, IToken token) {
+			FeatureList bigramable, FeatureList contextable,
+			FeatureList local, IToken token) {
 		double suffixScore = NGram.getInstance().testWordSuffix(word);
 		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getValue());
 
 		suffixScore = Math.max(suffixScore, SUFFIX_SCORE_LOWER_BOUND);
 		suffixScore = Math.min(suffixScore, SUFFIX_SCORE_UPPER_BOUND);
 		for (int i = 0; i < suffixScore; i++) {
-			local.add((SUFFIX_SCORE_INC_FEATURE + namedEntityType.getName()).intern());
+			local.addFeature((SUFFIX_SCORE_INC_FEATURE + namedEntityType.getName()).intern());
 		}
 		for (int i = 0; i > suffixScore; i--) {
-			local.add((SUFFIX_SCORE_DEC_FEATURE + namedEntityType.getName()).intern());
+			local.addFeature((SUFFIX_SCORE_DEC_FEATURE + namedEntityType.getName()).intern());
 		}
 
 		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
@@ -284,26 +284,26 @@ public final class FeatureExtractor {
 		ngscore = Math.max(ngscore, NGRAM_SCORE_LOWER_BOUND);
 		ngscore = Math.min(ngscore, NGRAM_SCORE_UPPER_BOUND);
 		for (int i = 0; i < ngscore; i++) {
-			local.add((NGRAMSCORE_INC_FEATURE + namedEntityType.getName()).intern());
+			local.addFeature((NGRAMSCORE_INC_FEATURE + namedEntityType.getName()).intern());
 		}
 		for (int i = 0; i > ngscore; i--) {
-			local.add((NGRAMSCORE_DEC_FEATURE + namedEntityType.getName()).intern());
+			local.addFeature((NGRAMSCORE_DEC_FEATURE + namedEntityType.getName()).intern());
 		}
 
 		if (suffixScore > 0) {
-			contextable.add(SUFFIX_CT_FEATURE + namedEntityType.getName());
-			bigramable.add(SUFFIX_CT_FEATURE + namedEntityType.getName());
+			contextable.addFeature(SUFFIX_CT_FEATURE + namedEntityType.getName());
+			bigramable.addFeature(SUFFIX_CT_FEATURE + namedEntityType.getName());
 		}
 	}
 
-	private void makeNGramFeatures(String word, List<String> local) {
+	private void makeNGramFeatures(String word, FeatureList local) {
 		StringBuilder decWord = new StringBuilder(RE_LINE_START).append(word).append(RE_LINE_END);
 		for (int j = 0; j < decWord.length() - 3; j++) {
 			for (int k = 1; k <= 4; k++) {
 				if (j < 4 - k) {
 					continue;
                 }
-				local.add(makeNGramFeature(decWord, j, k));
+				local.addFeature(makeNGramFeature(decWord, j, k));
 			}
 		}
 	}
@@ -342,50 +342,50 @@ public final class FeatureExtractor {
 	}
 	
 	
-	private void makeSuffixFeature(String word, List<String> contextable) {
+	private void makeSuffixFeature(String word, FeatureList contextable) {
 		String suffix = getSuffix(word);
 		String suffixFeature = SUFFIX_FEATURE + suffix;
-		contextable.add(suffixFeature);
+		contextable.addFeature(suffixFeature);
 	}
 
-	private void makeShapeFeatures(String word, List<String> bigramable,
-			List<String> contextable) {
+	private void makeShapeFeatures(String word, FeatureList bigramable,
+			FeatureList contextable) {
 		String wordShape = wordShape(word);
 		if (wordShape.length() > 3) {
 			wordShape = SHAPE_COMPLEX_FEATURE;
         }
 		if (!wordShape.equals(word)) {
 			String wordShapeFeature = SHAPE_FEATURE + wordShape;
-			bigramable.add(wordShapeFeature);
-			contextable.add(wordShapeFeature);
+			bigramable.addFeature(wordShapeFeature);
+			contextable.addFeature(wordShapeFeature);
 		}
 	}
 
 	private void makeReactionFeatures(String word,
-			List<String> bigramable, List<String> contextable, ManualAnnotations manualAnnotations) {
+			FeatureList bigramable, FeatureList contextable, ManualAnnotations manualAnnotations) {
 		if (manualAnnotations.rnEnd.contains(word)) {
-			bigramable.add(RNEND_FEATURE);
-			contextable.add(RNEND_FEATURE);
+			bigramable.addFeature(RNEND_FEATURE);
+			contextable.addFeature(RNEND_FEATURE);
 		}
 		if (manualAnnotations.rnMid.contains(word)) {
-			bigramable.add(RNMID_FEATURE);
-			contextable.add(RNMID_FEATURE);
+			bigramable.addFeature(RNMID_FEATURE);
+			contextable.addFeature(RNMID_FEATURE);
 		}
 	}
 
 	private void makeWordFeatures(String word, String normWord,
-			List<String> bigramable, ManualAnnotations manualAnnotations) {
+			FeatureList bigramable, ManualAnnotations manualAnnotations) {
 		if (word.length() < 4 || manualAnnotations.polysemous.contains(word)
 				|| manualAnnotations.rnEnd.contains(word) || manualAnnotations.rnMid.contains(word)) {
-			bigramable.add(makeWordFeature(word));
+			bigramable.addFeature(makeWordFeature(word));
 			if (!word.equals(normWord)) {
-				bigramable.add(makeWordFeature(normWord));
+				bigramable.addFeature(makeWordFeature(normWord));
             }
 		}
 	}
 
 	private void mergeFeatures(int position) {
-		List<String> mergedFeatures = tokenFeatureSets.get(position).getFeatures();
+		FeatureList mergedFeatures = tokenFeatureSets.get(position).getFeatures();
 
 		int backwards = Math.min(1, position);
 		int forwards = Math.min(1, tokSeq.size() - position - 1);
@@ -393,7 +393,7 @@ public final class FeatureExtractor {
 		if (!noC) {
 			for (int i = -backwards; i <= forwards; i++) {
 				for (String cf : tokenFeatureSets.get(position + i).getContextableFeatures()) {
-					mergedFeatures.add(("c" + i + ":" + cf).intern());
+					mergedFeatures.addFeature(("c" + i + ":" + cf).intern());
 				}
 			}
 		}
@@ -409,7 +409,7 @@ public final class FeatureExtractor {
 							// feature1 != feature2 is not a bug, if j == i
 							if (j != i || feature1 != feature2)
 								mergedFeatures
-										.add((prefix + feature1 + "__" + feature2)
+										.addFeature((prefix + feature1 + "__" + feature2)
 												.intern());
 						}
 					}
@@ -441,21 +441,21 @@ public final class FeatureExtractor {
 			if (patternPosition < tokSeq.size()) {
 				for (String feature : tokenFeatureSets.get(patternPosition).getBigramableFeatures()) {
 					if (suspect) {
-						mergedFeatures.add(("suspectpn->bg:" + feature).intern());
+						mergedFeatures.addFeature(("suspectpn->bg:" + feature).intern());
 					} else {
-						mergedFeatures.add(("pn->bg:" + feature).intern());
+						mergedFeatures.addFeature(("pn->bg:" + feature).intern());
 					}
 				}
 				if (!suspect) {
 					for (String feature : tokenFeatureSets.get(patternPosition).getContextableFeatures()) {
-						mergedFeatures.add(("pn->c:" + feature).intern());
+						mergedFeatures.addFeature(("pn->c:" + feature).intern());
 					}
 				}
 				for (int i = position + 1; i <= patternPosition; i++) {
 					if (suspect) {
-						tokenFeatureSets.get(i).getFeatures().add("inSuspectPN");
+						tokenFeatureSets.get(i).getFeatures().addFeature("inSuspectPN");
 					} else {
-						tokenFeatureSets.get(i).getFeatures().add("inPN");
+						tokenFeatureSets.get(i).getFeatures().addFeature("inPN");
 					}
 				}
 			}

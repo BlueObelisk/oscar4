@@ -86,16 +86,16 @@ public final class MEMMTrainer {
 		confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;
 	}
 
-	private void train(List<String> features, String thisTag, String prevTag) {
+	private void train(FeatureList features, String thisTag, String prevTag) {
 		if(perniciousFeatures != null && perniciousFeatures.containsKey(prevTag) /*&& !tampering*/) {
-			features.removeAll(perniciousFeatures.get(prevTag));
+			features.removeFeatures(perniciousFeatures.get(prevTag));
 		}
-		if(features.size() == 0) features.add("EMPTY");
+		if(features.getFeatureCount() == 0) features.addFeature("EMPTY");
 		model.getTagSet().add(thisTag);
 		if(useUber) {
-			features.add("$$prevTag=" + prevTag);
+			features.addFeature("$$prevTag=" + prevTag);
 		}
-		String [] c = features.toArray(new String[0]);
+		String [] c = features.toArray();
 		Event ev = new Event(thisTag, c);
 		List<Event> evs = evsByPrev.get(prevTag);
 		if(evs == null) {
@@ -106,7 +106,7 @@ public final class MEMMTrainer {
 	}
 	
 	private void trainOnSentence(ITokenSequence tokSeq) {
-        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
+        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq);
 		//extractor.printFeatures();
 		List<IToken> tokens = tokSeq.getTokens();
 		String prevTag = "O";
@@ -361,16 +361,16 @@ public final class MEMMTrainer {
 		return results;
 	}
 	
-	private Map<String,Map<String,Double>> calcResults(List<String> features) {
+	private Map<String,Map<String,Double>> calcResults(FeatureList features) {
 		Map<String,Map<String,Double>> results = new HashMap<String,Map<String,Double>>();
 		if(useUber) {
 			for(String prevTag : model.getTagSet()) {
-				List<String> newFeatures = new ArrayList<String>(features);
-				newFeatures.add("$$prevTag=" + prevTag);
-				results.put(prevTag, runGIS(model.getUberModel(), newFeatures.toArray(new String[0])));					
+				FeatureList newFeatures = new FeatureList(features);
+				newFeatures.addFeature("$$prevTag=" + prevTag);
+				results.put(prevTag, runGIS(model.getUberModel(), newFeatures.toArray()));
 			}
 		} else {
-			String [] featArray = features.toArray(new String[0]);
+			String [] featArray = features.toArray();
 			for(String tag : model.getTagSet()) {
 				MaxentModel gm = model.getMaxentModelByPrev(tag);
 				if(gm == null) continue;
@@ -387,7 +387,7 @@ public final class MEMMTrainer {
 	 * @return Named entities, with confidences.
 	 */
 	public List<NamedEntity> findNEs(ITokenSequence tokSeq) {
-		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
+		List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq);
 		List<IToken> tokens = tokSeq.getTokens();
 		if(tokens.size() == 0) return new ArrayList<NamedEntity>();
 
@@ -443,7 +443,7 @@ public final class MEMMTrainer {
 		if(featureCVScores == null) {
 			featureCVScores = new HashMap<String,Map<String,Double>>();
 		}
-		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
+		List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq);
 		List<IToken> tokens = tokSeq.getTokens();
 		String prevTag = "O";
 		for (int i = 0; i < tokens.size(); i++) {
@@ -459,17 +459,17 @@ public final class MEMMTrainer {
 			prevTag = tag;
 			int outcomeIndex = gm.getIndex(tag);
 			if(outcomeIndex == -1) continue;
-			List<String> features = featureLists.get(i);
-			if(features.size() == 0) continue;
-			String [] featuresArray = features.toArray(new String[0]);
-			String [] newFeaturesArray = features.toArray(new String[0]);
+			FeatureList features = featureLists.get(i);
+			if(features.getFeatureCount() == 0) continue;
+			String [] featuresArray = features.toArray();
+			String [] newFeaturesArray = features.toArray();
 			double [] baseProbs = gm.eval(featuresArray);
-			for (int j = 0; j < features.size(); j++) {
+			for (int j = 0; j < features.getFeatureCount(); j++) {
 				newFeaturesArray[j] = "IGNORETHIS";
 				double [] newProbs = gm.eval(newFeaturesArray);
 				double gain = infoLoss(newProbs, outcomeIndex) - infoLoss(baseProbs, outcomeIndex);
 				if(Double.isNaN(gain)) gain = 0.0;
-				String feature = features.get(j);
+				String feature = features.getFeature(j);
 				double oldScore = 0.0;
 				if(scoresForPrev.containsKey(feature)) oldScore = scoresForPrev.get(feature);
 				scoresForPrev.put(feature, gain + oldScore);

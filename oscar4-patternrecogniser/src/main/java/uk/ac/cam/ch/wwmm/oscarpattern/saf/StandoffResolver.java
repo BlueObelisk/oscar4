@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 
 /**Removes low-priority standoffs from a list, to produce a list of non-overlapping standoffs.
  * 
@@ -14,16 +14,16 @@ import uk.ac.cam.ch.wwmm.oscar.document.ResolvableStandoff;
 public class StandoffResolver {
 
 	@SuppressWarnings("unchecked")
-	public static List<ResolvableStandoff> resolveStandoffs(List<? extends ResolvableStandoff> standoffs) {
+	public static List<NamedEntity> resolveStandoffs(List<? extends NamedEntity> standoffs) {
 		Collections.sort(standoffs);
-		List<ResolvableStandoff> standoffBuffer = new ArrayList<ResolvableStandoff>();
-		List<ResolvableStandoff> resolved = new ArrayList<ResolvableStandoff>();
-		for(ResolvableStandoff rs : standoffs) {
+		List<NamedEntity> standoffBuffer = new ArrayList<NamedEntity>();
+		List<NamedEntity> resolved = new ArrayList<NamedEntity>();
+		for(NamedEntity rs : standoffs) {
 			int i = 0;
 			boolean addToBuffer = true;
 			// Scan through previously checked standoffs
 			while(i < standoffBuffer.size()) {
-				ResolvableStandoff prs = standoffBuffer.get(i);
+				NamedEntity prs = standoffBuffer.get(i);
 				// First, shift standoffs in buffer than end before this one starts into the
 				// resolved list
 				//if(prs.endOffset.compareTo(rs.startOffset) != 1) {

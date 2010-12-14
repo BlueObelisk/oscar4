@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
@@ -47,7 +48,7 @@ public abstract class DFAFinder implements Serializable {
 	protected Map<NamedEntityType, RunAutomaton> runAuts = new HashMap<NamedEntityType, RunAutomaton>();
 	protected final Map<String,String> tokenToRep = new HashMap<String,String>();//mapping between token strings and a unique representation code, usually an integer
 	protected Set<String> literals = new HashSet<String>();
-	protected int tokenId = 0;
+	protected AtomicInteger tokenId = new AtomicInteger();
 	
 //	protected Map<String,Integer> dfaNumber = new HashMap<String,Integer>();//keeps track of the number of automata that have been generated for a certain token
 //	protected Map<String,Integer> dfaCount = new HashMap<String,Integer>();//keeps track of the number of tokens of a certain token type encountered
@@ -89,7 +90,7 @@ public abstract class DFAFinder implements Serializable {
 		} else if (tokenToRep.containsKey(token)) {
 			return tokenToRep.get(token);
 		} else {
-			String representation = Integer.toString(++tokenId) + " ";
+			String representation = tokenId.incrementAndGet() + " ";
 			tokenToRep.put(token, representation);
 			if (isSubRe(token)) {
 				subRes.put(token, Pattern.compile(token.substring(2, token.length()-1)));

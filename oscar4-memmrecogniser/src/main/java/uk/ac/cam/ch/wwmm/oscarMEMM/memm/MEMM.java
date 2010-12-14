@@ -46,10 +46,11 @@ public final class MEMM {
         return model.getNamedEntityTypes();
     }
 
-    private Map<String, Double> runGIS(MaxentModel gm, String [] context) {
+    private Map<String, Double> runGIS(MaxentModel gm, List<String> featureList) {
         Map<String, Double> results = new HashMap<String, Double>();
         results.putAll(model.getZeroProbs());
-        double [] gisResults = gm.eval(context);
+        String[] features = featureList.toArray(new String[featureList.size()]);
+        double [] gisResults = gm.eval(features);
         for (int i = 0; i < gisResults.length; i++) {
             results.put(gm.getOutcome(i), gisResults[i]);
         }
@@ -97,17 +98,13 @@ public final class MEMM {
             for (String prevTag : model.getTagSet()) {
                 List<String> newFeatures = new ArrayList<String>(features);
                 newFeatures.add("$$prevTag=" + prevTag);
-                results.put(prevTag, runGIS(
-                	model.getUberModel(),
-                	newFeatures.toArray(new String[newFeatures.size()])
-                ));
+                results.put(prevTag, runGIS(model.getUberModel(), newFeatures));
             }
         } else {
-            String [] featArray = features.toArray(new String[features.size()]);
             for (String tag : model.getTagSet()) {
                 MaxentModel gm = model.getMaxentModelByPrev(tag);
                 if (gm != null) {
-                    Map<String, Double> modelResults = runGIS(gm, featArray);
+                    Map<String, Double> modelResults = runGIS(gm, features);
                     results.put(tag, modelResults);
                 }
             }

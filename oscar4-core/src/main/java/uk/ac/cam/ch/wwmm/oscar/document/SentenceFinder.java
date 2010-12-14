@@ -14,14 +14,14 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  * @author ptc24
  *
  */
-public final class SentenceSplitter {
+public final class SentenceFinder {
 
-    private static final SentenceSplitter SINGLETON_INSTANCE = new SentenceSplitter();
+    private static final SentenceFinder SINGLETON_INSTANCE = new SentenceFinder();
 
     private final Set<String> splitTokens;
     private final NonSentenceEndings nonSentenceEndings;
 
-    private SentenceSplitter() {
+    private SentenceFinder() {
         splitTokens = new HashSet<String>();
         splitTokens.add(".");
         splitTokens.add("?");

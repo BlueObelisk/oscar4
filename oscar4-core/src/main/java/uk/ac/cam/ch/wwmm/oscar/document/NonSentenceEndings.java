@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class NonSentenceEndings {
 
-	// Extracted from SentenceSplitter.
+	// Extracted from SentenceFinder.
 
 	@SuppressWarnings("serial")
 	private final Set<String> impossibleAfter = new HashSet<String>(Arrays.asList(

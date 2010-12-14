@@ -2,7 +2,6 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +15,6 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
-import nu.xom.Serializer;
 import opennlp.maxent.DataIndexer;
 import opennlp.maxent.Event;
 import opennlp.maxent.EventCollectorAsStream;
@@ -31,7 +29,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.tools.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -380,7 +377,7 @@ public final class MEMMTrainer {
 		} else {
 			String [] featArray = features.toArray(new String[0]);
 			for(String tag : model.getTagSet()) {
-				GISModel gm = model.getGISModelByPrev(tag);
+				GISModel gm = model.getMaxentModelByPrev(tag);
 				if(gm == null) continue;
 				Map<String, Double> modelResults = runGIS(gm, featArray);
 				results.put(tag, modelResults);
@@ -456,7 +453,7 @@ public final class MEMMTrainer {
 		String prevTag = "O";
 		for (int i = 0; i < tokens.size(); i++) {
 			String tag = tokens.get(i).getBioTag();
-			GISModel gm = model.getGISModelByPrev(prevTag);
+			GISModel gm = model.getMaxentModelByPrev(prevTag);
 			if(gm == null) continue;
 			Map<String,Double> scoresForPrev = featureCVScores.get(prevTag);
 			if(scoresForPrev == null) {

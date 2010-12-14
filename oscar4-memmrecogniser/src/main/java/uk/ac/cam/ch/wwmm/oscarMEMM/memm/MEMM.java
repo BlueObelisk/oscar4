@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import opennlp.maxent.GISModel;
-
+import opennlp.maxent.MaxentModel;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
@@ -47,7 +46,7 @@ public final class MEMM {
         return model.getNamedEntityTypes();
     }
 
-    private Map<String, Double> runGIS(GISModel gm, String [] context) {
+    private Map<String, Double> runGIS(MaxentModel gm, String [] context) {
         Map<String, Double> results = new HashMap<String, Double>();
         results.putAll(model.getZeroProbs());
         double [] gisResults = gm.eval(context);
@@ -106,7 +105,7 @@ public final class MEMM {
         } else {
             String [] featArray = features.toArray(new String[features.size()]);
             for (String tag : model.getTagSet()) {
-                GISModel gm = model.getGISModelByPrev(tag);
+                MaxentModel gm = model.getMaxentModelByPrev(tag);
                 if (gm != null) {
                     Map<String, Double> modelResults = runGIS(gm, featArray);
                     results.put(tag, modelResults);

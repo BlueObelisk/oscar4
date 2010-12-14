@@ -46,10 +46,10 @@ public final class MEMM {
         return model.getNamedEntityTypes();
     }
 
-    private Map<String, Double> runGIS(MaxentModel gm, List<String> featureList) {
+    private Map<String, Double> runGIS(MaxentModel gm, FeatureList featureList) {
         Map<String, Double> results = new HashMap<String, Double>();
         results.putAll(model.getZeroProbs());
-        String[] features = featureList.toArray(new String[featureList.size()]);
+        String[] features = featureList.toArray();
         double [] gisResults = gm.eval(features);
         for (int i = 0; i < gisResults.length; i++) {
             results.put(gm.getOutcome(i), gisResults[i]);
@@ -65,7 +65,7 @@ public final class MEMM {
      * @return Named entities, with confidences.
      */
     public List<NamedEntity> findNEs(ITokenSequence tokSeq) {
-        List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
+        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq);
         List<IToken> tokens = tokSeq.getTokens();
         if (tokens.isEmpty()) {
             return Collections.emptyList();
@@ -73,7 +73,7 @@ public final class MEMM {
 
         List<Map<String,Map<String,Double>>> classifierResults = new ArrayList<Map<String,Map<String,Double>>>();
         for (int i = 0; i < tokens.size(); i++) {
-            List<String> featuresForToken = featureLists.get(i);
+            FeatureList featuresForToken = featureLists.get(i);
             classifierResults.add(classifyToken(featuresForToken));
         }
 
@@ -92,12 +92,12 @@ public final class MEMM {
         return namedEntities;
     }
 
-    private Map<String,Map<String,Double>> classifyToken(List<String> features) {
+    private Map<String,Map<String,Double>> classifyToken(FeatureList features) {
         Map<String,Map<String,Double>> results = new HashMap<String,Map<String,Double>>();
         if (useUber) {
             for (String prevTag : model.getTagSet()) {
-                List<String> newFeatures = new ArrayList<String>(features);
-                newFeatures.add("$$prevTag=" + prevTag);
+                FeatureList newFeatures = new FeatureList(features);
+                newFeatures.addFeature("$$prevTag=" + prevTag);
                 results.put(prevTag, runGIS(model.getUberModel(), newFeatures));
             }
         } else {

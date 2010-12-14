@@ -119,18 +119,6 @@ public final class TokenSequence implements ITokenSequence {
     }
 
     /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getStringAtOffsets2(int, int)
-      */
-    public String getStringAtOffsets2(int start, int end) {
-        if (end > surface.length() + offset) {
-            end = surface.length();
-        }
-        if (start < surface.length()) {
-            start = surface.length() - offset ;
-        }
-        return surface.substring(start - offset, end - offset);
-    }
-    /* (non-Javadoc)
       * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getStringAtOffsets(int, int)
       */
     public String getStringAtOffsets(int start, int end) {
@@ -216,78 +204,6 @@ public final class TokenSequence implements ITokenSequence {
             }
         }
         return nonNes;
-    }
-
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#toBIOEW()
-      */
-    public void toBIOEW() {
-        for (int i = 0; i < tokens.size(); i++) {
-            String tag = tokens.get(i).getBioTag();
-            if (!tag.equals("O")) {
-                //String prevTag = "OOS";
-                String nextTag = "OOS";
-                //if(i > 0) prevTag = tokens.get(i-1).getBioTag();
-                if (i < tokens.size() - 1) {
-                    nextTag = tokens.get(i+1).getBioTag();
-                }
-                if (tag.startsWith("B") && !nextTag.equals("I-" + tag.substring(2))) {
-                    tokens.get(i).setBioTag("W-" + tag.substring(2));
-                } else if (tag.startsWith("I-") && !nextTag.equals("I-" + tag.substring(2))) {
-                    tokens.get(i).setBioTag("E-" + tag.substring(2));
-                }
-            }
-        }
-    }
-
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#toRichTags()
-      */
-    public void toRichTags() {
-        for (int i = 0; i < tokens.size(); i++) {
-            String tag = tokens.get(i).getBioTag();
-            //String prevTag = "OOS";
-            //String nextTag = "OOS";
-            String prevTag = "O";
-            String nextTag = "O";
-            if (i > 0) {
-                prevTag = tokens.get(i-1).getBioTag();
-            }
-            if (i < tokens.size() - 1) {
-                nextTag = tokens.get(i+1).getBioTag();
-            }
-            if (tag.equals("O")) {
-                if (prevTag.equals("OOS")) {
-                    if (nextTag.equals("O")) {
-                        tokens.get(i).setBioTag("O-B-OOS");
-                    } else if (nextTag.equals("OOS")) {
-                        tokens.get(i).setBioTag("O-W-OOS");
-                    } else {
-                        tokens.get(i).setBioTag("O-W-" + nextTag.substring(2));
-                    }
-                } else if (nextTag.equals("OOS")) {
-                    if (prevTag.startsWith("O")) {
-                        tokens.get(i).setBioTag("O-E-OOS");
-                    } else {
-                        tokens.get(i).setBioTag("O-W-OOS");
-                    }
-                } else if (prevTag.startsWith("O") && nextTag.equals("O")) {
-                    tokens.get(i).setBioTag("O-I");
-                } else if (prevTag.startsWith("O")) {
-                    tokens.get(i).setBioTag("O-E-" + nextTag.substring(2));
-                } else if (nextTag.startsWith("O")) {
-                    tokens.get(i).setBioTag("O-B-" + prevTag.substring(2));
-                } else {
-                    tokens.get(i).setBioTag("O-W-" + nextTag.substring(2));
-                }
-            } else {
-                if (tag.startsWith("B") && !nextTag.equals("I-" + tag.substring(2))) {
-                    tokens.get(i).setBioTag("W-" + tag.substring(2));
-                } else if (tag.startsWith("I-") && !nextTag.equals("I-" + tag.substring(2))) {
-                    tokens.get(i).setBioTag("E-" + tag.substring(2));
-                }
-            }
-        }
     }
 
 }

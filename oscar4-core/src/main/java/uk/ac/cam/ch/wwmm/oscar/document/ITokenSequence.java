@@ -71,14 +71,6 @@ public interface ITokenSequence {
 	 */
 	public abstract String getSubstring(int startToken, int endToken);
 
-	/**Gets a substring of the source string that runs between two offsets.
-	 * 
-	 * @param start The start offset.
-	 * @param end The end offset.
-	 * @return The substring.
-	 */
-	public abstract String getStringAtOffsets2(int start, int end);
-
 	public abstract String getStringAtOffsets(int start, int end);
 
 	/**Gets all of the token values of tokens that are hyphenated with 
@@ -102,17 +94,5 @@ public interface ITokenSequence {
 	 * @return The string values.
 	 */
 	public abstract List<String> getNonNes();
-
-	/**Converts the BIO-coding of the NE information to a BIOEW-coding.
-	 * This alters the Token objects that comprise the token sequence.
-	 * 
-	 */
-	public abstract void toBIOEW();
-
-	/**Converts the BIO-coding of the NE information to a much richer tagset.
-	 * This alters the Token objects that comprise the token sequence.
-	 * 
-	 */
-	public abstract void toRichTags();
 
 }

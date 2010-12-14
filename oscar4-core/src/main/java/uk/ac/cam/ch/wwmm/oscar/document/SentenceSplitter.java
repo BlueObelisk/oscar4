@@ -7,7 +7,7 @@ import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
-import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
+import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /**Finds sentences in lists of tokens.
  *
@@ -16,18 +16,10 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
  */
 public final class SentenceSplitter {
 
-    private Set<String> splitTokens;
-    private NonSentenceEndings impossibleAfter;
+    private static final SentenceSplitter SINGLETON_INSTANCE = new SentenceSplitter();
 
-
-    private static SentenceSplitter defaultInstance;
-
-    private static synchronized SentenceSplitter getDefaultInstance() {
-        if (defaultInstance == null) {
-            defaultInstance = new SentenceSplitter();
-        }
-        return defaultInstance;
-    }
+    private final Set<String> splitTokens;
+    private final NonSentenceEndings nonSentenceEndings;
 
     private SentenceSplitter() {
         splitTokens = new HashSet<String>();
@@ -35,10 +27,8 @@ public final class SentenceSplitter {
         splitTokens.add("?");
         splitTokens.add("!");
         splitTokens.add("\"");
-        impossibleAfter = new NonSentenceEndings();
+        nonSentenceEndings = new NonSentenceEndings();
     }
-
-
 
     /**Splits a list of tokens into a list of sentences.
      *
@@ -46,61 +36,59 @@ public final class SentenceSplitter {
      * @return The list of list of tokens, corresponding to the sentences.
      */
     public static List<List<IToken>> makeSentences(List<IToken> tokens) {
-        return getDefaultInstance().makeSentencesInternal(tokens);
+        return SINGLETON_INSTANCE.makeSentencesInternal(tokens);
     }
 
-    private List<List<IToken>> makeSentencesInternal(List<IToken> tokens) {
-        List<List<IToken>> sentences = new ArrayList<List<IToken>>();
-        List<IToken> sentence = new ArrayList<IToken>();
-        sentences.add(sentence);
+    private List<List<IToken>> makeSentencesInternal(List<IToken> tokenList) {
+        List<List<IToken>> sentenceList = new ArrayList<List<IToken>>();
+        List<IToken> currentSentence = new ArrayList<IToken>();
+        sentenceList.add(currentSentence);
         List<IToken> prevSentence = null;
-        for(IToken t : tokens) {
-            IStandoffTable sot = t.getDoc().getStandoffTable();
-            if (sentence.isEmpty()
-                    && sot instanceof StandoffTable
-                    && XMLStrings.getInstance().isCitationReferenceUnderStyle(sot.getElemAtOffset(t.getStart()))) {
-                prevSentence.add(t);
+        for (IToken token : tokenList) {
+            IStandoffTable standoffTable = token.getDoc().getStandoffTable();
+            if (currentSentence.isEmpty()
+                    && isCitationReference(token, standoffTable)) {
+                prevSentence.add(token);
             } else {
-                sentence.add(t);
+                currentSentence.add(token);
             }
             boolean split = false;
-            String value = t.getValue();
+            String value = token.getValue();
             if (splitTokens.contains(value)) {
                 split = true;
-                IToken next = t.getNAfter(1);
-                IToken prev = t.getNAfter(-1);
+                IToken next = token.getNAfter(1);
+                IToken prev = token.getNAfter(-1);
                 if (next != null && prev != null) {
                     String nextStr = next.getValue();
                     String prevStr = prev.getValue();
                     if ("\"".equals(value) && !splitTokens.contains(prevStr)) {
                         split = false;
-                    } else if (impossibleAfter.contains(prevStr)) {
+                    } else if (nonSentenceEndings.contains(prevStr)) {
                         split = false;
                     } else if (splitTokens.contains(nextStr)) {
                         split = false;
-                    } else if(t.getEnd() == next.getStart() &&
-                            sot instanceof StandoffTable &&
-                            XMLStrings.getInstance().isCitationReferenceUnderStyle(
-                                    ((StandoffTable)sot).getElemAtOffset(
-                                            next.getStart()
-                                    )
-                            )) {
+                    } else if (token.getEnd() == next.getStart() &&
+                            isCitationReference(next, standoffTable)) {
                         split = false;
-                    } else if (nextStr.matches("[a-z]+")) {
+                    } else if (StringTools.isLowerCaseWord(nextStr)) {
                         split = false;
                     }
                 }
             }
             if (split) {
-                prevSentence = sentence;
-                sentence = new ArrayList<IToken>();
-                sentences.add(sentence);
+                prevSentence = currentSentence;
+                currentSentence = new ArrayList<IToken>();
+                sentenceList.add(currentSentence);
             }
         }
-        if (sentence.isEmpty()) {
-            sentences.remove(sentence);
+        if (currentSentence.isEmpty()) {
+            sentenceList.remove(currentSentence);
         }
-        return sentences;
+        return sentenceList;
+    }
+
+    private Boolean isCitationReference(IToken token, IStandoffTable standoffTable) {
+        return XMLStrings.getInstance().isCitationReferenceUnderStyle(standoffTable.getElemAtOffset(token.getStart()));
     }
 
 }

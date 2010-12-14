@@ -106,12 +106,10 @@ public final class MEMMOutputRescorerTrainer {
 	 * finishTraining() method must be called to do that.
 	 * 
 	 * @param f The file to train on.
-	 * @param domain Experimental: the domain of the training data 
-	 * (may be null).
 	 * @throws Exception
 	 */
-	public void trainOnFile(File f, String domain) throws Exception {
-		trainOnFile(f, domain, memm);
+	public void trainOnFile(File f) throws Exception {
+		trainOnFile(f, memm);
 	}
 	
 	/**Take a file of training data, and analyse it. The data produced in this
@@ -119,12 +117,10 @@ public final class MEMMOutputRescorerTrainer {
 	 * finishTraining() method must be called to do that.
 	 * 
 	 * @param f The file to train on.
-	 * @param domain Experimental: the domain of the training data
-	 * (may be null).
 	 * @param memm The MEMM to be used to to generate the input potential NEs.
 	 * @throws Exception
 	 */
-	public void trainOnFile(File f, String domain, MEMM mexmm) throws Exception {
+	public void trainOnFile(File f, MEMM mexmm) throws Exception {
 		Document doc = new Builder().build(f);
 		String name = f.getParentFile().getName();
 		Logger.getLogger(MEMMOutputRescorer.class).debug(name);
@@ -159,7 +155,7 @@ public final class MEMMOutputRescorerTrainer {
 				String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
 				testNEs.add(neStr);
 			}
-			entities.addAll(memm.findNEs(tokSeq, domain));
+			entities.addAll(memm.findNEs(tokSeq));
 		}
 
 		FeatureExtractor fe = new FeatureExtractor(entities);
@@ -231,7 +227,7 @@ public final class MEMMOutputRescorerTrainer {
 				String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
 				testNEs.add(neStr);
 			}
-			entities.addAll(memm.findNEs(tokSeq, null));
+			entities.addAll(memm.findNEs(tokSeq));
 		}
 		totalRecall += testNEs.size();
 

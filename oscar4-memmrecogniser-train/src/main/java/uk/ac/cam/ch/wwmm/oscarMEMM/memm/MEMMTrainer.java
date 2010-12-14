@@ -392,14 +392,12 @@ public final class MEMMTrainer {
 	/**Finds the named entities in a token sequence.
 	 * 
 	 * @param tokSeq The token sequence.
-	 * @param domain A string to represent the domain (experimental, should
-	 * usually be null).
 	 * @return Named entities, with confidences.
 	 */
-	public Map<NamedEntity,Double> findNEs(ITokenSequence tokSeq) {
+	public List<NamedEntity> findNEs(ITokenSequence tokSeq) {
 		List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
 		List<IToken> tokens = tokSeq.getTokens();
-		if(tokens.size() == 0) return new HashMap<NamedEntity,Double>();
+		if(tokens.size() == 0) return new ArrayList<NamedEntity>();
 
 		List<Map<String,Map<String,Double>>> classifierResults = new ArrayList<Map<String,Map<String,Double>>>();	
 		for (int i = 0; i < tokens.size(); i++) {
@@ -409,7 +407,7 @@ public final class MEMMTrainer {
 		EntityTokeniser lattice = new EntityTokeniser(
 			model, tokSeq, classifierResults
 		);
-		Map<NamedEntity,Double> neConfidences = lattice.getEntities(confidenceThreshold);
+		List<NamedEntity> neConfidences = lattice.getEntities(confidenceThreshold);
 		PostProcessor pp = new PostProcessor(tokSeq, neConfidences);
 		if(filtering) pp.filterEntities();
 		pp.getBlocked();

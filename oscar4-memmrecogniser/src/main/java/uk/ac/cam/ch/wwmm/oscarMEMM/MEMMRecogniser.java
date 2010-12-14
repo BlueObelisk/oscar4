@@ -154,7 +154,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
         MEMM memm = new MEMM(getModel());
         for (ITokenSequence tokseq : toxicList) {
-            for (NamedEntity ne : memm.findNEs(tokseq, null).keySet()) {
+            for (NamedEntity ne : memm.findNEs(tokseq, null)) {
                 if (ne.getConfidence() > getMemmThreshold()) {
                     neList.add(ne);
                 }

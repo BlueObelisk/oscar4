@@ -87,8 +87,8 @@ final class EntityTokeniser {
 		}
 	}
 	
-	public Map<NamedEntity,Double> getEntities(double threshold) {
-		Map<NamedEntity,Double> entities = new HashMap<NamedEntity,Double>();
+	public List<NamedEntity> getEntities(double threshold) {
+		List<NamedEntity> entities = new ArrayList<NamedEntity>();
 		for (int i = 0; i < length; i++) {
 			for(NamedEntityType namedEntityType : memm.getNamedEntityTypes()) {
 				double entitiesProb = probEntityStartsAt(namedEntityType, i);
@@ -105,7 +105,7 @@ final class EntityTokeniser {
 							if(NamedEntityType.valueOf("NRN").equals(finalEntityType)) namedEntityType = NamedEntityType.REACTION;
 							NamedEntity ne = new NamedEntity(tokSeq.getTokens(i,i+j-1), entityStr, namedEntityType);
 							ne.setConfidence(entityProb);
-							entities.put(ne, entityProb);
+							entities.add(ne);
 						}
 						//breaks loops when falls below a certain amount
 						entitiesProb -= entityProb;

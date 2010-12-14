@@ -159,7 +159,7 @@ public final class MEMMOutputRescorerTrainer {
 				String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
 				testNEs.add(neStr);
 			}
-			entities.addAll(memm.findNEs(tokSeq, domain).keySet());
+			entities.addAll(memm.findNEs(tokSeq, domain));
 		}
 
 		FeatureExtractor fe = new FeatureExtractor(entities);
@@ -231,7 +231,7 @@ public final class MEMMOutputRescorerTrainer {
 				String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
 				testNEs.add(neStr);
 			}
-			entities.addAll(memm.findNEs(tokSeq, null).keySet());
+			entities.addAll(memm.findNEs(tokSeq, null));
 		}
 		totalRecall += testNEs.size();
 

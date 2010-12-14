@@ -43,24 +43,25 @@ public abstract class DFAFinder implements Serializable {
 //	private final Logger logger = Logger.getLogger(DFAFinder.class);
 
 	private static final long serialVersionUID = 6130629462990087075L;
-	protected Map<NamedEntityType, List<Automaton>> autLists = new HashMap<NamedEntityType, List<Automaton>>();//mapping between token type and automata. Possibly these automata are only used when performing Pattern based entity recognition
-	protected Map<NamedEntityType, SuffixTree> simpleAuts = new HashMap<NamedEntityType, SuffixTree>();
-	protected Map<NamedEntityType, RunAutomaton> runAuts = new HashMap<NamedEntityType, RunAutomaton>();
-	protected final Map<String,String> tokenToRep = new HashMap<String,String>();//mapping between token strings and a unique representation code, usually an integer
-	protected Set<String> literals = new HashSet<String>();
-	protected AtomicInteger tokenId = new AtomicInteger();
+
+	private final Map<NamedEntityType, List<Automaton>> autLists = new HashMap<NamedEntityType, List<Automaton>>();//mapping between token type and automata. Possibly these automata are only used when performing Pattern based entity recognition
+	private final Map<NamedEntityType, SuffixTree> simpleAuts = new HashMap<NamedEntityType, SuffixTree>();
+	private final Map<NamedEntityType, RunAutomaton> runAuts = new HashMap<NamedEntityType, RunAutomaton>();
+	private final Map<String,String> tokenToRep = new HashMap<String,String>();//mapping between token strings and a unique representation code, usually an integer
+	private final Set<String> literals = new HashSet<String>();
+	private final AtomicInteger tokenId = new AtomicInteger();
 	
 //	protected Map<String,Integer> dfaNumber = new HashMap<String,Integer>();//keeps track of the number of automata that have been generated for a certain token
 //	protected Map<String,Integer> dfaCount = new HashMap<String,Integer>();//keeps track of the number of tokens of a certain token type encountered
 	
-	protected Map<String,Integer> ontIdToIntId = new HashMap<String,Integer>();
-	protected List<String> ontIds = new ArrayList<String>();
-	protected Map<NamedEntityType,Map<Integer,Set<String>>> runAutToStateToOntIds;
+	private final Map<String,Integer> ontIdToIntId = new HashMap<String,Integer>();
+    private final List<String> ontIds = new ArrayList<String>();
+	private final Map<NamedEntityType,Map<Integer,Set<String>>> runAutToStateToOntIds = new HashMap<NamedEntityType,Map<Integer,Set<String>>>();;
 	
-	protected Map<String,Pattern> subRes = new HashMap<String,Pattern>();
+	private final Map<String,Pattern> subRes = new HashMap<String,Pattern>();
 	
-	protected final static Pattern matchSubRe = Pattern.compile("\\$\\{.*\\}");//dl387: I'm not sure what this is actually supposed to be matching!
-	protected final static Pattern digitOrSpace = Pattern.compile("[0-9 ]+");
+	private final static Pattern matchSubRe = Pattern.compile("\\$\\{.*\\}");//dl387: I'm not sure what this is actually supposed to be matching!
+	private final static Pattern digitOrSpace = Pattern.compile("[0-9 ]+");
 
 	protected DFAFinder() {}
 
@@ -227,7 +228,7 @@ public abstract class DFAFinder implements Serializable {
 			runAuts.put(NamedEntityType.valueOf(type.getName()+"-b"), new RunAutomaton(mainAut, false));
 			simpleAuts.remove(type);
 		}
-		runAutToStateToOntIds = new HashMap<NamedEntityType,Map<Integer,Set<String>>>();
+		runAutToStateToOntIds.clear();
 		for (NamedEntityType type : runAuts.keySet()) {
 			if (NamedEntityType.ONTOLOGY.isInstance(type) || NamedEntityType.CUSTOM.isInstance(type)) {
 			    runAutToStateToOntIds.put(type, analyseAutomaton(runAuts.get(type), 'X'));

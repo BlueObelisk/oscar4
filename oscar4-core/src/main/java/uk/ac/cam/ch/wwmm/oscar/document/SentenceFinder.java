@@ -35,22 +35,22 @@ public final class SentenceFinder {
      * @param tokens The list of tokens.
      * @return The list of list of tokens, corresponding to the sentences.
      */
-    public static List<List<IToken>> makeSentences(List<IToken> tokens) {
+    public static List<Sentence> makeSentences(List<IToken> tokens) {
         return SINGLETON_INSTANCE.makeSentencesInternal(tokens);
     }
 
-    private List<List<IToken>> makeSentencesInternal(List<IToken> tokenList) {
-        List<List<IToken>> sentenceList = new ArrayList<List<IToken>>();
-        List<IToken> currentSentence = new ArrayList<IToken>();
+    private List<Sentence> makeSentencesInternal(List<IToken> tokenList) {
+        List<Sentence> sentenceList = new ArrayList<Sentence>();
+        Sentence currentSentence = new Sentence();
         sentenceList.add(currentSentence);
-        List<IToken> prevSentence = null;
+        Sentence prevSentence = null;
         for (IToken token : tokenList) {
             IStandoffTable standoffTable = token.getDoc().getStandoffTable();
             if (currentSentence.isEmpty()
                     && isCitationReference(token, standoffTable)) {
-                prevSentence.add(token);
+                prevSentence.addToken(token);
             } else {
-                currentSentence.add(token);
+                currentSentence.addToken(token);
             }
             boolean split = false;
             String value = token.getValue();
@@ -77,7 +77,7 @@ public final class SentenceFinder {
             }
             if (split) {
                 prevSentence = currentSentence;
-                currentSentence = new ArrayList<IToken>();
+                currentSentence = new Sentence();
                 sentenceList.add(currentSentence);
             }
         }

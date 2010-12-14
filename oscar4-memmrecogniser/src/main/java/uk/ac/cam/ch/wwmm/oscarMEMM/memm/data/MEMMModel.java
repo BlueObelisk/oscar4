@@ -126,7 +126,7 @@ public class MEMMModel {
     protected void makeEntityTypesAndZeroProbs() {
         namedEntityTypes = new HashSet<NamedEntityType>();
         for (String tagType : tagSet) {
-            if (tagType.startsWith("B-") || tagType.startsWith("W-")) {
+            if (tagType.startsWith("B-")) {
                 namedEntityTypes.add(NamedEntityType.valueOf(tagType.substring(2)));
             }
         }

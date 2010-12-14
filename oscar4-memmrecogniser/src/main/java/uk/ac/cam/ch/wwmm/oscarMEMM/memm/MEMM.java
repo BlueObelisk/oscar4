@@ -66,22 +66,22 @@ public final class MEMM {
      * usually be null).
      * @return Named entities, with confidences.
      */
-    public Map<NamedEntity,Double> findNEs(ITokenSequence tokSeq, String domain) {
+    public List<NamedEntity> findNEs(ITokenSequence tokSeq, String domain) {
         List<List<String>> featureLists = FeatureExtractor.extractFeatures(tokSeq);
         List<IToken> tokens = tokSeq.getTokens();
         if (tokens.isEmpty()) {
-            return Collections.emptyMap();
+            return Collections.emptyList();
         }
 
         List<Map<String,Map<String,Double>>> classifierResults = new ArrayList<Map<String,Map<String,Double>>>();
         for (int i = 0; i < tokens.size(); i++) {
             List<String> featuresForToken = featureLists.get(i);
-            classifierResults.add(calcResults(featuresForToken));
+            classifierResults.add(classifyToken(featuresForToken));
         }
 
         EntityTokeniser lattice = new EntityTokeniser(model, tokSeq, classifierResults);
-        Map<NamedEntity,Double> neConfidences = lattice.getEntities(confidenceThreshold);
-        PostProcessor pp = new PostProcessor(tokSeq, neConfidences);
+        List<NamedEntity> namedEntities = lattice.getEntities(confidenceThreshold);
+        PostProcessor pp = new PostProcessor(tokSeq, namedEntities);
         if (filtering) {
             pp.filterEntities();
         }
@@ -89,12 +89,12 @@ public final class MEMM {
         if (removeBlocked) {
             pp.removeBlocked();
         }
-        neConfidences = pp.getEntities();
+        namedEntities = pp.getEntities();
 
-        return neConfidences;
+        return namedEntities;
     }
 
-    private Map<String,Map<String,Double>> calcResults(List<String> features) {
+    private Map<String,Map<String,Double>> classifyToken(List<String> features) {
         Map<String,Map<String,Double>> results = new HashMap<String,Map<String,Double>>();
         if (useUber) {
             for (String prevTag : model.getTagSet()) {

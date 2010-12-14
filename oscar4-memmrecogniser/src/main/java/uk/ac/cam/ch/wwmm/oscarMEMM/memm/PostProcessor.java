@@ -26,7 +26,7 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
  */
 final class PostProcessor {
 
-	private Map<NamedEntity, Double> entities;
+	private List<NamedEntity> entities;
 	private Set<NamedEntity> blocked;
 	private ITokenSequence tokSeq;
 
@@ -40,7 +40,7 @@ final class PostProcessor {
 
 	private static boolean noPC = false;
 
-	public PostProcessor(ITokenSequence tokSeq, Map<NamedEntity, Double> entities) {
+	public PostProcessor(ITokenSequence tokSeq, List<NamedEntity> entities) {
 		this.tokSeq = tokSeq;
 		this.entities = entities;
 	}
@@ -102,7 +102,7 @@ final class PostProcessor {
 	}
 
 	public void filterEntities() {
-		List<NamedEntity> neList = new ArrayList<NamedEntity>(entities.keySet());
+		List<NamedEntity> neList = new ArrayList<NamedEntity>(entities);
 
 		// Post-processing
 		for (NamedEntity ne : neList) {
@@ -146,18 +146,18 @@ final class PostProcessor {
 	}
 
 	private List<NamedEntity> getSorted() {
-		List<NamedEntity> sorted = new ArrayList<NamedEntity>(entities.keySet());
+		List<NamedEntity> sorted = new ArrayList<NamedEntity>(entities);
 		Collections.sort(sorted, Collections
 				.reverseOrder(new Comparator<NamedEntity>() {
 					// @SuppressWarnings("unchecked")
 					public int compare(NamedEntity o1, NamedEntity o2) {
-						return entities.get(o1).compareTo(entities.get(o2));
+                        return Double.compare(o1.getConfidence(), o2.getConfidence());
 					}
 				}));
 		return sorted;
 	}
 
-	public Map<NamedEntity, Double> getEntities() {
+	public List<NamedEntity> getEntities() {
 		return entities;
 	}
 

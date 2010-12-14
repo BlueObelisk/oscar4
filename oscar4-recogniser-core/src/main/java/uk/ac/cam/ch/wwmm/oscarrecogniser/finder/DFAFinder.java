@@ -51,9 +51,6 @@ public abstract class DFAFinder implements Serializable {
 	private final Set<String> literals = new HashSet<String>();
 	private final AtomicInteger tokenId = new AtomicInteger();
 	
-//	protected Map<String,Integer> dfaNumber = new HashMap<String,Integer>();//keeps track of the number of automata that have been generated for a certain token
-//	protected Map<String,Integer> dfaCount = new HashMap<String,Integer>();//keeps track of the number of tokens of a certain token type encountered
-	
 	private final Map<String,Integer> ontIdToIntId = new HashMap<String,Integer>();
     private final List<String> ontIds = new ArrayList<String>();
 	private final Map<NamedEntityType,Map<Integer,Set<String>>> runAutToStateToOntIds = new HashMap<NamedEntityType,Map<Integer,Set<String>>>();;

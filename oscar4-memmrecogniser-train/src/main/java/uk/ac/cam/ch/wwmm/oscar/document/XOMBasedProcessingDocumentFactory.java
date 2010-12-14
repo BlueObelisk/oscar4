@@ -161,7 +161,7 @@ public class XOMBasedProcessingDocumentFactory {
 			procDoc.sentences = new ArrayList<List<IToken>>();
 			for(ITokenSequence ts : procDoc.tokenSequences) {
 				List<IToken> tokens = ts.getTokens();
-				List<List<IToken>> sentences = SentenceSplitter.makeSentences(tokens);
+				List<List<IToken>> sentences = SentenceFinder.makeSentences(tokens);
 				procDoc.sentences.addAll(sentences);
 //				for(List<Token> sentence : sentences) {
 //					NewGeniaRunner.runGenia(sentence);

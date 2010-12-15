@@ -301,24 +301,8 @@ public abstract class DFAFinder implements Serializable {
 	
 	protected void findItems(ITokenSequence tokenSequence, List<RepresentationList> repsList, int startToken, int endToken, NECollector collector) {
 		
-		List<AutomatonState> autStates = new ArrayList<AutomatonState>();
-		List<AutomatonState> newAutStates = new ArrayList<AutomatonState>();
-
-		for(NamedEntityType type : runAuts.keySet()) {
-			AutomatonState a = new AutomatonState(runAuts.get(type), type, 0);
-			String tokenRepresentation = generateTokenRepresentation("$^");
-			for (int j = 0; j < tokenRepresentation.length(); j++) {
-				char c = tokenRepresentation.charAt(j);
-				a.step(c);
-				if (a.getState() == -1) {
-					break;
-				}
-			}
-			if (a.getState() != -1) {
-				a.addRep("$^");
-				autStates.add(a);					
-			}
-		}
+		List<AutomatonState> autStates = initAutomatonStates();
+        List<AutomatonState> newAutStates = new ArrayList<AutomatonState>();
 		int i = -1;
 		for(IToken token : tokenSequence.getTokens()) {
 			i++;
@@ -341,14 +325,7 @@ public abstract class DFAFinder implements Serializable {
                 }
 				for (int k = 0; k < autStates.size(); k++) {
 					AutomatonState a = autStates.get(k).clone();
-					for(int j = 0; j < tokenRepCode.length(); j++) {
-						char c = tokenRepCode.charAt(j);
-						a.step(c);
-						if (a.getState() == -1) {
-                            break;
-                        }
-					}
-					if (a.getState() != -1) {
+                    if (stepIntoAutomaton(tokenRepCode, a)) {
 						a.addRep(tokenRep);
 						if (a.isAccept()) {
 							handleNamedEntity(a, i, tokenSequence, collector);
@@ -357,11 +334,36 @@ public abstract class DFAFinder implements Serializable {
 					}
 				}
 			}
+            // Swap/clear lists
 			List<AutomatonState> tmp = autStates;
 			autStates = newAutStates;
 			tmp.clear();
 			newAutStates = tmp;
 		}		
 	}
-		
+
+    private List<AutomatonState> initAutomatonStates() {
+        List<AutomatonState> autStates = new ArrayList<AutomatonState>();
+        for (NamedEntityType type : runAuts.keySet()) {
+			AutomatonState a = new AutomatonState(runAuts.get(type), type, 0);
+			String tokenRepresentation = generateTokenRepresentation("$^");
+            if (stepIntoAutomaton(tokenRepresentation, a)) {
+				a.addRep("$^");
+				autStates.add(a);
+			}
+		}
+        return autStates;
+    }
+
+    private boolean stepIntoAutomaton(String tokenRepCode, AutomatonState a) {
+        for (int j = 0; j < tokenRepCode.length(); j++) {
+            char c = tokenRepCode.charAt(j);
+            a.step(c);
+            if (a.getState() == -1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

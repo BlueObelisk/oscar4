@@ -6,29 +6,16 @@
 
 package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import nu.xom.Document;
-import nu.xom.Element;
-import nu.xom.Elements;
-import nu.xom.Node;
-import nu.xom.Nodes;
-import nu.xom.Text;
-
+import nu.xom.*;
 import org.apache.log4j.Logger;
-
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** A regex-based parser, finds chemical formulae etcetera.
  *
@@ -36,7 +23,7 @@ import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
  */
 public class TokenClassifier {
 
-    private final Logger logger = Logger.getLogger(TokenClassifier.class);
+    private static final Logger logger = Logger.getLogger(TokenClassifier.class);
 
     private static final String REGEX_FILENAME = "tokenLevelRegularExpressions.xml";
 
@@ -45,7 +32,7 @@ public class TokenClassifier {
     // Singleton instance
     private static TokenClassifier defaultInstance = null;
 
-    private List<TokenClass> tokenLevelRegexs;
+    private Map<String,TokenClass> tokenLevelRegexs;
 
     private Map<String,String> nodeDict;
 
@@ -86,7 +73,7 @@ public class TokenClassifier {
         doc = document;
         nodeDict = new HashMap<String,String>();
 
-        tokenLevelRegexs = new ArrayList<TokenClass>();
+        tokenLevelRegexs = new LinkedHashMap<String, TokenClass>();
         Elements tlrElems = doc.getRootElement().getFirstChildElement("tlrs").getChildElements("tlr");
         for (int i = 0; i < tlrElems.size(); i++) {
             TokenClass tlr = new TokenClass(tlrElems.get(i), this);
@@ -95,7 +82,11 @@ public class TokenClassifier {
                             "groupFormulaRegex".equals(tlr.getName()))) continue;
             if(OscarProperties.getData().useWordShapeHeuristic &&
                     ("potentialAcronymRegex".equals(tlr.getName()))) continue;
-            tokenLevelRegexs.add(tlr);
+            if (tokenLevelRegexs.containsKey(tlr.getName())) {
+                logger.warn("Duplicate TokenLevelRegex defined: "+tlr.getName());
+            } else {
+                tokenLevelRegexs.put(tlr.getName(), tlr);
+            }
         }
 
         nodeDict = null;
@@ -173,8 +164,8 @@ public class TokenClassifier {
      */
     public Set<NamedEntityType> classifyToken(String token) {
         Set<NamedEntityType> results = Collections.emptySet();
-        for (TokenClass tokenLevelRegex : tokenLevelRegexs) {
-            if (tokenLevelRegex.matches(token)) {
+        for (TokenClass tokenLevelRegex : tokenLevelRegexs.values()) {
+            if (tokenLevelRegex.isMatch(token)) {
                 if (results.isEmpty()) {
                     results = Collections.singleton(tokenLevelRegex.getType());
                 } else {
@@ -189,13 +180,12 @@ public class TokenClassifier {
     }
 
     // FIXME optimality
-    public boolean macthesTlr(String token, String tlrName) {
-        for(TokenClass tlr : tokenLevelRegexs) {
-            if(tlr.getName().equals(tlrName)) {
-                return tlr.matches(token);
-            }
+    public boolean isTokenLevelRegexMatch(String token, String tlrName) {
+        TokenClass tokenClass = tokenLevelRegexs.get(tlrName);
+        if (tokenClass == null) {
+            return false;
         }
-        return false;
+        return tokenClass.isMatch(token);
     }
 
     public int makeHash() {
@@ -223,7 +213,7 @@ public class TokenClassifier {
             pattern = Pattern.compile(regex, Pattern.COMMENTS);
         }
 
-        public boolean matches(String s) {
+        public boolean isMatch(String s) {
             Matcher m = pattern.matcher(s);
             return m.matches();
         }

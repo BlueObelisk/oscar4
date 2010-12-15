@@ -295,11 +295,11 @@ public abstract class DFAFinder implements Serializable {
         }
 	}
 	
-	protected void findItems(ITokenSequence tokenSequence, List<List<String>> repsList, NECollector collector) {
+	protected void findItems(ITokenSequence tokenSequence, List<RepresentationList> repsList, NECollector collector) {
 		findItems(tokenSequence, repsList, 0, tokenSequence.getTokens().size()-1, collector);
 	}
 	
-	protected void findItems(ITokenSequence tokenSequence, List<List<String>> repsList, int startToken, int endToken, NECollector collector) {
+	protected void findItems(ITokenSequence tokenSequence, List<RepresentationList> repsList, int startToken, int endToken, NECollector collector) {
 		
 		List<AutomatonState> autStates = new ArrayList<AutomatonState>();
 		List<AutomatonState> newAutStates = new ArrayList<AutomatonState>();
@@ -326,7 +326,7 @@ public abstract class DFAFinder implements Serializable {
                 continue;
             }
 			handleTokenForPrefix(token, collector);
-			List<String> tokenRepresentations = repsList.get(token.getId());
+			RepresentationList tokenRepresentations = repsList.get(token.getId());
 			if (tokenRepresentations.isEmpty()) {
 				autStates.clear();
 				continue;

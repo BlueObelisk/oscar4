@@ -25,6 +25,10 @@
     	<groupId>xom</groupId>
     	<artifactId>xom</artifactId>
     </dependency>
+		<dependency>
+			<groupId>wwmm-expediency</groupId>
+			<artifactId>maxent</artifactId>
+		</dependency>
     <dependency>
     	<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
     	<artifactId>oscar4-core</artifactId>
@@ -32,6 +36,10 @@
     <dependency>
     	<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
     	<artifactId>oscar4-memmrecogniser</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
+    	<artifactId>oscar4-recogniser-core</artifactId>
     </dependency>
   </dependencies>
 </project>

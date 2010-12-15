@@ -1,15 +1,10 @@
-
-<!-- <?xml version='1.0' encoding='UTF-8'?> -->
-
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- DOCTYPE regexps SYSTEM "src/main/resources/uk/ac/cam/ch/wwmm/oscarMEMM/tokenAnalysis/tlrs.dtd" -->
-
 <!--
   - XML structure 
   - <insert idref=Xxx> within <regexp>
   -     replaced with contents of <def id=Xxx>
   -->
-
-
 <regexps>
 
 <!-- "Token-Level Regexps -->

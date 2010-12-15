@@ -198,7 +198,7 @@ public class DFANEFinder extends DFAFinder {
             if (lastGroup == null || lastGroup.equals("")) {
                 tokenRepresentations.addRepresentation("$" + NamedEntityType.LOCANTPREFIX.getName());
             } else {
-                if (TokenClassifier.getInstance().macthesTlr(lastGroup, "formulaRegex")) {
+                if (isChemicalFormula(lastGroup)) {
                     tokenRepresentations.addRepresentation(REP_CPR_FORMULA);
                 }
                 if (TermSets.getDefaultInstance().getStopWords().contains(lastGroupNorm) ||
@@ -323,6 +323,10 @@ public class DFANEFinder extends DFAFinder {
         }
 
         return tokenRepresentations;
+    }
+
+    private boolean isChemicalFormula(String lastGroup) {
+        return TokenClassifier.getInstance().isTokenLevelRegexMatch(lastGroup, "formulaRegex");
     }
 
     private boolean hasCapitalLetter(String value) {

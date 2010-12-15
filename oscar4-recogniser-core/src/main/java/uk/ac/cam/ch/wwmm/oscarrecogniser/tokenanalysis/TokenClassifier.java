@@ -38,6 +38,8 @@ public class TokenClassifier {
 
     private final Logger logger = Logger.getLogger(TokenClassifier.class);
 
+    private static final String REGEX_FILENAME = "tokenLevelRegularExpressions.xml";
+
     private static ResourceGetter rg = new ResourceGetter("/uk/ac/cam/ch/wwmm/oscarrecogniser/tokenanalysis/");
 
     // Singleton instance
@@ -66,7 +68,7 @@ public class TokenClassifier {
         try {
             if (defaultInstance == null) {
                 defaultInstance = new TokenClassifier();
-                defaultInstance.readXML(rg.getXMLDocument("tlrs.xml"));
+                defaultInstance.readXML(rg.getXMLDocument(REGEX_FILENAME));
             }
             return defaultInstance;
         } catch (Exception e) {

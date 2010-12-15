@@ -7,6 +7,8 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,17 +24,17 @@ import java.util.regex.Pattern;
  */
 public final class TermMaps {
 
-	private final Logger logger = Logger.getLogger(TermMaps.class);
+	private static final Logger logger = Logger.getLogger(TermMaps.class);
+
+    private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/obo/terms/");
+
+    private static final String ONTOLOGY_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/ontology.txt";
 
 	private Map<String, NamedEntityType> neTerms;
 	private Map<String, String> iePatterns;
-	private Map<String, String> ontology;
 	private Map<String, String> custEnt;
 	private Map<String, String> structureTypes;
 	private Set<String> suffixes;
-
-	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/obo/terms/");
-	private static Pattern definePattern = Pattern.compile("(.*?) = (.*)");
 
 	private static TermMaps myInstance;
 
@@ -70,46 +72,7 @@ public final class TermMaps {
 		}
 	}
 
-	private static HashMap<String, String> getTermMap(String filename, boolean concatenateTypes) throws Exception {
-		HashMap<String, String> defines = new HashMap<String, String>();
-
-		HashMap<String, String> lexicons = new HashMap<String, String>();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(rg.getStream(filename), "UTF-8"));
-		String line = reader.readLine();
-		String lexname = "";
-		while(line != null) {
-			while(line.endsWith(">>>")) {
-				line = line.substring(0,line.length()-3);
-				line += reader.readLine();
-			}
-			if(line.length() == 0) {
-				// Blank line
-			} else if(line.charAt(0) == '#') {
-				// Comment
-			} else if(line.matches("\\[\\S*\\]")) {
-				lexname = line.substring(1, line.length()-1);
-			} else {
-				for(String d : defines.keySet()) {
-					line = line.replace(d, defines.get(d));
-				}
-				if("DEFINE".equals(lexname)) {
-					Matcher m = definePattern.matcher(line);
-					if(m.matches()) {
-						defines.put(m.group(1), m.group(2));
-					}
-				} else if(concatenateTypes && lexicons.get(line) != null) {
-					String newLexName = StringTools.normaliseName(lexname);
-					lexicons.put(line, newLexName += " " + lexicons.get(line));
-				} else {
-					lexicons.put(line, StringTools.normaliseName(lexname));
-					lexicons.put(StringTools.normaliseName(line), StringTools.normaliseName(lexname));
-				}
-				//if(line.matches(".*[a-z][a-z].*")) lexicons.put(line.toLowerCase(), lexname);
-			}
-			line = reader.readLine();
-		}
-		return lexicons;
-	}
+	
 
 	private void digestSuffixes() {
 		suffixes = new HashSet<String>();
@@ -123,9 +86,18 @@ public final class TermMaps {
 		}
     }
 
+    private Map<String, String> loadTerms(String path, boolean concatenateTypes) throws IOException {
+        InputStream is = RESOURCE_GETTER.getStream(path);
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            return TermsFileReader.loadTermMap(in, concatenateTypes);
+        } finally {
+            is.close();
+        }
+    }
 
     private Map<String, NamedEntityType> getNeTermMap(String filename, boolean concatenateTypes) throws Exception {
-        Map<String,String> termMap = getTermMap(filename, concatenateTypes);
+        Map<String,String> termMap = loadTerms(filename, concatenateTypes);
         Map<String,NamedEntityType> neTermMap = new HashMap<String, NamedEntityType>();
         for (Map.Entry<String,String> e : termMap.entrySet()) {
             neTermMap.put(e.getKey(), NamedEntityType.valueOf(e.getValue()));
@@ -141,19 +113,9 @@ public final class TermMaps {
 			Map <String, NamedEntityType> polyNeTerms = getNeTermMap("polyNeTerms.txt", false);
 			neTerms.putAll(polyNeTerms);
 		}
-		iePatterns = getTermMap("iePatterns.txt", false);
-		structureTypes = getTermMap("structureTypes.txt", false);
-		custEnt = getTermMap("custEnt.txt", true);
-		if(OscarProperties.getData().useONT) {
-			ontology = getTermMap("ontology.txt", true);
-			//add polymer ontology if set to polymer mode
-			if (OscarProperties.getData().polymerMode) {
-				Map<String, String> polyOntology = getTermMap("polyOntology.txt", true);
-				ontology.putAll(polyOntology);
-			}
-		} else {
-			ontology = new HashMap<String,String>();
-		}
+		iePatterns = loadTerms("iePatterns.txt", false);
+		structureTypes = loadTerms("structureTypes.txt", false);
+		custEnt = loadTerms("custEnt.txt", true);
 		digestSuffixes();
 		logger.debug("term maps initialised");
 	}
@@ -174,10 +136,6 @@ public final class TermMaps {
 	 */
 	public static Map<String, String> getIePatterns() {
 		return getInstance().iePatterns;
-	}
-
-	static Map<String, String> getOntology() {
-		return getInstance().ontology;
 	}
 
 	/**Gets the term map for custEnt.txt.

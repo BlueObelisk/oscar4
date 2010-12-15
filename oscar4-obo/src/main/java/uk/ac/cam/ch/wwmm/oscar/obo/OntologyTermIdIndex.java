@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscar.obo;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,8 +43,9 @@ public final class OntologyTermIdIndex {
 
     private OntologyTermIdIndex() {
 		termIdMap = ArrayListMultimap.create();
-		for (String term : TermMaps.getOntology().keySet()) {
-			addTerm(term, TermMaps.getOntology().get(term));
+        Map<String,String> ontology = OntologyTerms.getDefaultInstance().getOntology();
+		for (String term : ontology.keySet()) {
+			addTerm(term, ontology.get(term));
 		}
 		if (OscarProperties.getData().useDSO) {
 			try {

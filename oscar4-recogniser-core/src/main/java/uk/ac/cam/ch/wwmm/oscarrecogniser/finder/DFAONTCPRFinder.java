@@ -40,8 +40,12 @@ public class DFAONTCPRFinder extends DFAFinder {
 	private static final long serialVersionUID = -1417523538712568934L;
 	private static DFAONTCPRFinder myInstance;
 	private static final String SERIALIZED_DFAFINDER = "dfa_ontcpr.dat.gz";
-	
-	/**
+
+    private static final String REP_ONTWORD = "$ONTWORD";
+    private static final String REP_HYPH = "$HYPH";
+    private static final String REP_DOTS = "$DOTS";
+
+    /**
 	 * Load a DFAONTCPRFinder from the workspace
 	 * @return the deserialized DFAONTCPRFinder
 	 * @throws IOException 
@@ -147,7 +151,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 		for(String s : TermMaps.getCustEnt().keySet()){
 			addNamedEntity(s, NamedEntityType.CUSTOM, true);
 		}
-		addNamedEntity("$ONTWORD", NamedEntityType.ONTOLOGY, false);
+		addNamedEntity(REP_ONTWORD, NamedEntityType.ONTOLOGY, false);
 	}
 	
 	/**Finds the ONT/CPR/CUST NEs from a token sequence.
@@ -179,19 +183,19 @@ public class DFAONTCPRFinder extends DFAFinder {
             representations.addRepresentation(normalisedValue);
         }
 		if (OntologyTermIdIndex.getInstance().containsTerm(normalisedValue)) {
-            representations.addRepresentation("$ONTWORD");
+            representations.addRepresentation(REP_ONTWORD);
         }
 		if (tokenValue.length() == 1) {
 			if (StringTools.isHyphen(tokenValue)) {
-				representations.addRepresentation("$HYPH");
+				representations.addRepresentation(REP_HYPH);
 			} else if (StringTools.isMidElipsis(tokenValue)) {
-				representations.addRepresentation("$DOTS");
+				representations.addRepresentation(REP_DOTS);
 			}
 		}
 		representations.addRepresentations(getSubReRepsForToken(tokenValue));
 		return representations;
 	}
-	
+
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		buildAndSerializeDFAONTCPRFinder();
 	}

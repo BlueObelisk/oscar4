@@ -147,21 +147,21 @@ public class DFANEFinder extends DFAFinder {
      */
     public List<NamedEntity> findNamedEntities(ITokenSequence t) {
         NECollector nec = new NECollector();
-        List<List<String>> repsList = generateTokenRepresentations(t);
+        List<RepresentationList> repsList = generateTokenRepresentations(t);
         findItems(t, repsList, nec);
         return nec.getNes();
     }
 
-    private List<List<String>> generateTokenRepresentations(ITokenSequence t) {
-        List<List<String>> repsList = new ArrayList<List<String>>();
+    private List<RepresentationList> generateTokenRepresentations(ITokenSequence t) {
+        List<RepresentationList> repsList = new ArrayList<RepresentationList>();
         for(IToken token : t.getTokens()) {
             repsList.add(generateTokenRepresentations(token));
         }
         return repsList;
     }
 
-    protected List<String> generateTokenRepresentations(IToken token) {
-        List<String> tokenRepresentations = new ArrayList<String>();
+    protected RepresentationList generateTokenRepresentations(IToken token) {
+        RepresentationList tokenRepresentations = new RepresentationList();
         // Avoid complications with compound refs
         //SciXML dependent - removed 24/11/10 by dmj30
 //		if (TokenTypes.isCompRef(t)) {
@@ -170,24 +170,24 @@ public class DFANEFinder extends DFAFinder {
 //		}
 //		if (TokenTypes.isRef(t)) tokenReps.add("$CITREF");
         String value = token.getValue();
-        tokenRepresentations.add(value);
+        tokenRepresentations.addRepresentation(value);
         String normalisedValue = StringTools.normaliseName(value);
 
         if (!normalisedValue.equals(value)) {
-            tokenRepresentations.add(normalisedValue);
+            tokenRepresentations.addRepresentation(normalisedValue);
         }
-        tokenRepresentations.addAll(getSubReRepsForToken(value));
+        tokenRepresentations.addRepresentations(getSubReRepsForToken(value));
         if (value.length() == 1) {
             if (StringTools.isHyphen(value)) {
-                tokenRepresentations.add(REP_HYPH);
+                tokenRepresentations.addRepresentation(REP_HYPH);
             } else if (StringTools.isMidElipsis(value)) {
-                tokenRepresentations.add(REP_DOTS);
+                tokenRepresentations.addRepresentation(REP_DOTS);
             }
         }
         for (NamedEntityType namedEntityType : TokenClassifier.getInstance().classifyToken(value)) {
             if (!NamedEntityType.PROPERNOUN.equals(namedEntityType)
                     || !(value.matches("[A-Z][a-z]+") && TermSets.getDefaultInstance().getUsrDictWords().contains(value.toLowerCase()) && !TermSets.getDefaultInstance().getUsrDictWords().contains(value))) {
-                tokenRepresentations.add("$"+ namedEntityType.getName());
+                tokenRepresentations.addRepresentation("$"+ namedEntityType.getName());
             }
         }
         boolean stopWord = false;
@@ -196,10 +196,10 @@ public class DFANEFinder extends DFAFinder {
             String lastGroup = m.group(m.groupCount());
             String lastGroupNorm = StringTools.normaliseName(lastGroup);
             if (lastGroup == null || lastGroup.equals("")) {
-                tokenRepresentations.add("$" + NamedEntityType.LOCANTPREFIX.getName());
+                tokenRepresentations.addRepresentation("$" + NamedEntityType.LOCANTPREFIX.getName());
             } else {
                 if (TokenClassifier.getInstance().macthesTlr(lastGroup, "formulaRegex")) {
-                    tokenRepresentations.add(REP_CPR_FORMULA);
+                    tokenRepresentations.addRepresentation(REP_CPR_FORMULA);
                 }
                 if (TermSets.getDefaultInstance().getStopWords().contains(lastGroupNorm) ||
                         TermSets.getDefaultInstance().getClosedClass().contains(lastGroupNorm)) {//||
@@ -222,13 +222,13 @@ public class DFANEFinder extends DFAFinder {
 
 
         if (isPrefixBody(value)) {
-            tokenRepresentations.add(REP_PREFIX_BODY);
+            tokenRepresentations.addRepresentation(REP_PREFIX_BODY);
         }
         if (isElement(normalisedValue)) {
-            tokenRepresentations.add(REP_ELEMENT);
+            tokenRepresentations.addRepresentation(REP_ELEMENT);
         }
         if (isEndingWithElementName(value)) {
-            tokenRepresentations.add(REP_ENDS_IN_ELEMENT);
+            tokenRepresentations.addRepresentation(REP_ENDS_IN_ELEMENT);
         }
 
         try {
@@ -248,12 +248,12 @@ public class DFANEFinder extends DFAFinder {
                 }
 
                 if (score > OscarProperties.getData().ngramThreshold) {
-                    tokenRepresentations.add("$" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName());
+                    tokenRepresentations.addRepresentation("$" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName());
                     if (value.startsWith("-")) {
-                        tokenRepresentations.add("$-" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName());
+                        tokenRepresentations.addRepresentation("$-" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName());
                     }
                     if (value.endsWith("-")) {
-                        tokenRepresentations.add("$" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName() + "-");
+                        tokenRepresentations.addRepresentation("$" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName() + "-");
                     }
 
                     String withoutLastBracket = value;
@@ -262,18 +262,18 @@ public class DFANEFinder extends DFAFinder {
                     }
                     for (int i = 1; i < withoutLastBracket.length(); i++) {
                         if (TermMaps.getSuffixes().contains(withoutLastBracket.substring(i))) {
-                            tokenRepresentations.add("$-" + withoutLastBracket.substring(i));
+                            tokenRepresentations.addRepresentation("$-" + withoutLastBracket.substring(i));
                         }
                     }
 
                     if (value.contains("(") && !value.contains(")")) {
-                        tokenRepresentations.add(REP_OPEN_BRACKET);
+                        tokenRepresentations.addRepresentation(REP_OPEN_BRACKET);
                     }
                     if (value.matches("[Pp]oly.+")) {
-                        tokenRepresentations.add(REP_POLY_);
+                        tokenRepresentations.addRepresentation(REP_POLY_);
                     }
                     if (value.matches("[Pp]oly[\\(\\[\\{].+")) {
-                        tokenRepresentations.add(REP_POLY_BRACKET_);
+                        tokenRepresentations.addRepresentation(REP_POLY_BRACKET_);
                     }
                 }
             }
@@ -282,10 +282,10 @@ public class DFANEFinder extends DFAFinder {
         }
 
         if (ChemNameDictRegistry.getInstance().hasName(value)) {
-            tokenRepresentations.add(REP_IN_CND);
+            tokenRepresentations.addRepresentation(REP_IN_CND);
         }
         if (OntologyTermIdIndex.getInstance().containsTerm(normalisedValue)) {
-            tokenRepresentations.add(REP_ONT_WORD);
+            tokenRepresentations.addRepresentation(REP_ONT_WORD);
         }
 //        if(!TokenTypes.twoLowerPattern.matcher(t.getValue()).find() && TokenTypes.oneCapitalPattern.matcher(t.getValue()).find()) {
 //			//System.out.println("Yay!");
@@ -298,7 +298,7 @@ public class DFANEFinder extends DFAFinder {
 //        } else
         if (OscarProperties.getData().useWordShapeHeuristic) {
             if (!hasTwoAdjacentLowerCaseLetters(value) && hasCapitalLetter(value)) {
-                tokenRepresentations.add(REP_CM_NON_WORD);
+                tokenRepresentations.addRepresentation(REP_CM_NON_WORD);
             }
         }
         //SciXML dependent - removed 24/11/10 by dmj30
@@ -318,7 +318,7 @@ public class DFANEFinder extends DFAFinder {
 //				ExtractTrainingData.getInstance().nonChemicalWords.contains(normValue) ||
 //				ExtractTrainingData.getInstance().nonChemicalNonWords.contains(normValue)) {
             if (!isElement(normalisedValue)) {
-                tokenRepresentations.add(REP_STOP);
+                tokenRepresentations.addRepresentation(REP_STOP);
             }
         }
 

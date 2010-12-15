@@ -11,11 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import nu.xom.Attribute;
-import nu.xom.Builder;
-import nu.xom.Document;
-import nu.xom.Element;
-import nu.xom.Nodes;
 import opennlp.maxent.DataIndexer;
 import opennlp.maxent.Event;
 import opennlp.maxent.EventCollectorAsStream;
@@ -23,12 +18,17 @@ import opennlp.maxent.GIS;
 import opennlp.maxent.GISModel;
 import opennlp.maxent.TwoPassDataIndexer;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import nu.xom.Attribute;
+import nu.xom.Builder;
+import nu.xom.Document;
+import nu.xom.Element;
+import nu.xom.Nodes;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -46,6 +46,8 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  */
 public final class MEMMOutputRescorerTrainer {
 
+	private static final Logger LOG = LoggerFactory.getLogger(MEMMOutputRescorerTrainer.class);
+	
 	private MEMM memm;
 	
 	Map<NamedEntityType,List<Event>> eventsByNamedEntityType;
@@ -123,7 +125,7 @@ public final class MEMMOutputRescorerTrainer {
 	public void trainOnFile(File f, MEMM mexmm) throws Exception {
 		Document doc = new Builder().build(f);
 		String name = f.getParentFile().getName();
-		Logger.getLogger(MEMMOutputRescorer.class).debug(name);
+		LOG.debug(name);
 		Nodes n = doc.query("//cmlPile");
 		for (int i = 0; i < n.size(); i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");

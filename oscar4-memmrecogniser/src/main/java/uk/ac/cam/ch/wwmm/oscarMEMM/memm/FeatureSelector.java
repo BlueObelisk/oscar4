@@ -9,7 +9,8 @@ import java.util.Set;
 
 import opennlp.maxent.Event;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import uk.ac.cam.ch.wwmm.oscarrecogniser.ptcDataStruct.Bag;
 
@@ -20,8 +21,8 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.ptcDataStruct.Bag;
  */
 final class FeatureSelector {
 
-	private final Logger logger = Logger.getLogger(FeatureSelector.class);
-
+	private static final Log LOG = LogFactory.getLog(FeatureSelector.class);
+	
 	private Bag<String> featureCounts;
 	private Bag<String> outcomeCounts;
 	private Bag<String> outcomeCountsByFeature;
@@ -41,7 +42,7 @@ final class FeatureSelector {
 	
 	public List<Event> selectFeatures(List<Event> events, double threshold) {
 		
-		logger.debug("Selecting features...\t");
+		LOG.debug("Selecting features...\t");
 		
 		totalEvents = events.size();
 		totalFeatures = 0;
@@ -122,7 +123,7 @@ final class FeatureSelector {
 			newEvents.add(newEvent);
 		}
 
-		logger.debug("Selected " + allowableFeatures.size() + " features from " + featureCounts.size());
+		LOG.debug("Selected " + allowableFeatures.size() + " features from " + featureCounts.size());
 		return newEvents;
 	}
 	

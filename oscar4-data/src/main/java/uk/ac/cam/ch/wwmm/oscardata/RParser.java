@@ -2,14 +2,14 @@ package uk.ac.cam.ch.wwmm.oscardata;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Node;
 import nu.xom.Text;
-
-import org.apache.log4j.Logger;
-
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
@@ -20,7 +20,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
  */
 public final class RParser {
 
-	private static Logger logger = Logger.getLogger(RParser.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RParser.class);
 	private static ResourceGetter rg = new ResourceGetter(
 			"uk/ac/cam/ch/wwmm/oscardata/");
 
@@ -83,7 +83,7 @@ public final class RParser {
 	 *            XOM Document containing regular expressions for parsing
 	 */
 	private void readXML(Document document) throws Exception {
-		logger.debug("Initialising data parser... ");
+		LOG.debug("Initialising data parser... ");
 		doc = document;
 		// create top RPNode
 		topNode = new RPNode(this);
@@ -106,7 +106,7 @@ public final class RParser {
 				}
 			}
 		}
-		logger.debug("regexes initialised");
+		LOG.debug("regexes initialised");
 	}
 
 	// Methods to find and parse nodes
@@ -120,8 +120,8 @@ public final class RParser {
 		// Nodes nodes = doc.query("//node");
 		Elements nodes = doc.getRootElement().getChildElements("node");
 		for (int i = 0; i < nodes.size(); i++) {
-			String type = ((Element) nodes.get(i)).getAttributeValue("type");
-			String id = ((Element) nodes.get(i)).getAttributeValue("id");
+			String type = nodes.get(i).getAttributeValue("type");
+			String id = nodes.get(i).getAttributeValue("id");
 			if ((type.equals(targetType)) & (id.equals(targetId))) {
 				return nodes.get(i);
 			}

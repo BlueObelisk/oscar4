@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -26,6 +26,8 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
  */
 final class PostProcessor {
 
+	private static final Logger LOG = LoggerFactory.getLogger(MEMM.class);
+	
 	private List<NamedEntity> entities;
 	private Set<NamedEntity> blocked;
 	private ITokenSequence tokSeq;
@@ -142,7 +144,7 @@ final class PostProcessor {
 
 	public void removeBlocked() {
 		for (NamedEntity ne : getBlocked()) {
-			Logger.getLogger(PostProcessor.class).debug("Removing: " + ne);
+			LOG.debug("Removing: " + ne);
 			entities.remove(ne);
 		}
 	}

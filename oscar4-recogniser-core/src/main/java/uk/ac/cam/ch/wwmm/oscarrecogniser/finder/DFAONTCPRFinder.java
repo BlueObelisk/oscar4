@@ -157,38 +157,38 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 */
 	public List<NamedEntity> findNamedEntities(ITokenSequence tokenSequence) {
 		NECollector nec = new NECollector();
-		List<List<String>> repsList = generateTokenRepresentations(tokenSequence);
+		List<RepresentationList> repsList = generateTokenRepresentations(tokenSequence);
 		findItems(tokenSequence, repsList, nec);
 		return nec.getNes();
 	}
 	
-	private List<List<String>> generateTokenRepresentations(ITokenSequence tokenSequence) {
-		List<List<String>> repsList = new ArrayList<List<String>>();
+	private List<RepresentationList> generateTokenRepresentations(ITokenSequence tokenSequence) {
+		List<RepresentationList> repsList = new ArrayList<RepresentationList>();
 		for(IToken token : tokenSequence.getTokens()) {
 			repsList.add(generateTokenRepresentations(token));
 		}
 		return repsList;
 	}
 	
-	protected List<String> generateTokenRepresentations(IToken token) {
-		List<String> representations = new ArrayList<String>();
+	protected RepresentationList generateTokenRepresentations(IToken token) {
+		RepresentationList representations = new RepresentationList();
 		String tokenValue = token.getValue();
-		representations.add(tokenValue);
+		representations.addRepresentation(tokenValue);
 		String normalisedValue = StringTools.normaliseName(tokenValue);
 		if (!normalisedValue.equals(tokenValue)) {
-            representations.add(normalisedValue);
+            representations.addRepresentation(normalisedValue);
         }
 		if (OntologyTermIdIndex.getInstance().containsTerm(normalisedValue)) {
-            representations.add("$ONTWORD");
+            representations.addRepresentation("$ONTWORD");
         }
 		if (tokenValue.length() == 1) {
 			if (StringTools.isHyphen(tokenValue)) {
-				representations.add("$HYPH");
+				representations.addRepresentation("$HYPH");
 			} else if (StringTools.isMidElipsis(tokenValue)) {
-				representations.add("$DOTS");
+				representations.addRepresentation("$DOTS");
 			}
 		}
-		representations.addAll(getSubReRepsForToken(tokenValue));
+		representations.addRepresentations(getSubReRepsForToken(tokenValue));
 		return representations;
 	}
 	

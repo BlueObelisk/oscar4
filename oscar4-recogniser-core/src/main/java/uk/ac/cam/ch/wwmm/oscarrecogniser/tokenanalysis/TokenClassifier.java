@@ -8,6 +8,25 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
 
 import nu.xom.*;
 import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import nu.xom.Document;
+import nu.xom.Element;
+import nu.xom.Elements;
+import nu.xom.Node;
+import nu.xom.Nodes;
+import nu.xom.Text;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -23,9 +42,8 @@ import java.util.regex.Pattern;
  */
 public class TokenClassifier {
 
-    private static final Logger logger = Logger.getLogger(TokenClassifier.class);
-
     private static final String REGEX_FILENAME = "tokenLevelRegularExpressions.xml";
+	private static final Logger LOG = LoggerFactory.getLogger(TokenClassifier.class);
 
     private static ResourceGetter rg = new ResourceGetter("/uk/ac/cam/ch/wwmm/oscarrecogniser/tokenanalysis/");
 
@@ -69,7 +87,7 @@ public class TokenClassifier {
      * @param document XOM Document containing regular expressions for parsing
      */
     private void readXML(Document document) throws Exception {
-        logger.debug("Initialising tlrs... ");
+    	LOG.debug("Initialising tlrs... ");
         doc = document;
         nodeDict = new HashMap<String,String>();
 
@@ -92,7 +110,7 @@ public class TokenClassifier {
         nodeDict = null;
 
         System.gc();
-        logger.debug("tlrs initialised");
+        LOG.debug("tlrs initialised");
     }
 
     // Methods to find and parse nodes

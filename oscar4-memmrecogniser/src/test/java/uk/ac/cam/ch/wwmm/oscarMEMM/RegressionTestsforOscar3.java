@@ -6,7 +6,6 @@ import java.util.List;
 
 import nu.xom.Document;
 
-import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -25,8 +24,6 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  * 
  */
 public class RegressionTestsforOscar3 {
-
-	Logger LOG = Logger.getLogger(RegressionTestsforOscar3.class);
 
 	@Test
 	public void testConstructor() {

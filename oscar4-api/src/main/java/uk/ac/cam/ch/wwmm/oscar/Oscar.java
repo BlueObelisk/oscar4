@@ -8,7 +8,8 @@ import java.util.Set;
 import nu.xom.Document;
 import nu.xom.Element;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
@@ -27,7 +28,7 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  */
 public class Oscar {
 
-    private static final Logger LOG = Logger.getLogger(Oscar.class);
+    private static final Log LOG = LogFactory.getLog(Oscar.class);
 
     private ChemNameDictRegistry dictionaryRegistry = ChemNameDictRegistry.getInstance();
 

@@ -5,7 +5,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTermIdIndex;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
@@ -25,6 +26,8 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  * 4) Don't split!
  */
 public final class HyphenTokeniser {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(HyphenTokeniser.class);
 	
 	private static HyphenTokeniser myInstance = null;
 	private Set<String> splitSuffixes;
@@ -56,8 +59,7 @@ public final class HyphenTokeniser {
 	}
 	
 	private HyphenTokeniser() throws Exception {
-		Logger logger = Logger.getLogger(HyphenTokeniser.class);
-		logger.debug("Initialising hyphen tokeniser... ");
+		LOG.debug("Initialising hyphen tokeniser... ");
 		splitSuffixes = new HashSet<String>();
 		splitSuffixes.addAll(TermSets.getDefaultInstance().getSplitSuffixes());
 		noSplitPrefixes = TermSets.getDefaultInstance().getNoSplitPrefixes();
@@ -71,7 +73,7 @@ public final class HyphenTokeniser {
 
 
 		splitOnEnDash = OscarProperties.getData().splitOnEnDash;
-		logger.debug("hyphen tokeniser initialised");
+		LOG.debug("hyphen tokeniser initialised");
 	}
 	
 	

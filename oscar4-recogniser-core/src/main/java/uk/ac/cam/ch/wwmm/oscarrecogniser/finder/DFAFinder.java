@@ -303,12 +303,8 @@ public abstract class DFAFinder implements Serializable {
 		
 		List<AutomatonState> autStates = initAutomatonStates();
         List<AutomatonState> newAutStates = new ArrayList<AutomatonState>();
-		int i = -1;
-		for(IToken token : tokenSequence.getTokens()) {
-			i++;
-			if (i < startToken || i > endToken) {
-                continue;
-            }
+        for (int i = startToken; i <= endToken; i++) {
+            IToken token = tokenSequence.getToken(i);            
 			handleTokenForPrefix(token, collector);
 			RepresentationList tokenRepresentations = repsList.get(token.getId());
 			if (tokenRepresentations.isEmpty()) {

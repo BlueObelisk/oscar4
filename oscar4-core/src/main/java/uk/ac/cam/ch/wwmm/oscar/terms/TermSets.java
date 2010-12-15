@@ -8,7 +8,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -22,7 +23,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  */
 public final class TermSets {
 
-    private static final Logger LOG = Logger.getLogger(TermSets.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TermSets.class);
     private static final ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/terms/");
 
     private static TermSets defaultInstance;

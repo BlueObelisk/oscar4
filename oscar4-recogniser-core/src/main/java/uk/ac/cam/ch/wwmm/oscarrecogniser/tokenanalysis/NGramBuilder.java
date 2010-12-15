@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
@@ -28,7 +29,7 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
  */
 public class NGramBuilder {
 
-	private final Logger logger = Logger.getLogger(NGramBuilder.class);
+	private static final Logger LOG = LoggerFactory.getLogger(NGramBuilder.class);
 
     // Empirically determined scaling factor to limit loss of precision
     // in moving from double to short
@@ -124,7 +125,7 @@ public class NGramBuilder {
 		E3C = null;
 		E4C = null;
 
-		logger.debug("nGrams initialised");
+		LOG.debug("nGrams initialised");
 	}
 
     double[][][][] getLP4C() {

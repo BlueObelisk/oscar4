@@ -8,7 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 import opennlp.maxent.MaxentModel;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
@@ -33,7 +34,8 @@ public final class MEMM {
 
     private static double confidenceThreshold;
 
-    Logger LOG = Logger.getLogger(MEMM.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MEMM.class);
+
     public MEMM(MEMMModel model) {
     	this.model = model;
         confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;

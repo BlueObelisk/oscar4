@@ -9,8 +9,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
-
 /** A term in an OBO ontology.
  * 
  * @author ptc24
@@ -55,7 +53,6 @@ public final class OntologyTerm {
 			if(!line.contains(":")) continue;
 			Matcher m = tagValuePattern.matcher(line);
 			boolean matches = m.matches();
-			Logger.getLogger(OntologyTerm.class).debug("No match");
 			String tag = m.group(1);
 			String val = m.group(2);
 			Matcher c = commentPattern.matcher(val);

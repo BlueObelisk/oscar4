@@ -24,8 +24,13 @@
             <artifactId>oscar4-chemnamedict</artifactId>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>apache-log4j-extras</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+        	<scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -42,7 +47,6 @@
           <artifactId>guava-collections</artifactId>
           <version>r03</version>
         </dependency>
-        
     </dependencies>
     
 </project>

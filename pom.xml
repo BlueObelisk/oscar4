@@ -35,6 +35,14 @@
             <url>http://scg.unibe.ch/download/jexample/maven/</url>
         </repository>
     </repositories>
+    
+    <scm>
+    	<url>http://bitbucket.org/wwmm/oscar4/src</url>
+    </scm>
+    
+    <issueManagement>
+    	<url>https://bitbucket.org/wwmm/oscar4/issues</url>
+    </issueManagement>
 
     <modules>
         <module>oscar4-core</module>

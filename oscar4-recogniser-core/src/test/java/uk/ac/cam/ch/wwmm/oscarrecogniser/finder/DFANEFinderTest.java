@@ -15,6 +15,7 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.PolymerDictionary;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
@@ -42,7 +43,7 @@ public class DFANEFinderTest {
 
         finder = DFANEFinder.getInstance();
         ITokenSequence ts = tokeniser.tokenise(paragraph);
-        List<NamedEntity> namedEntityList = finder.findNamedEntities(ts);
+        List<NamedEntity> namedEntityList = finder.findNamedEntities(ts, NGram.getInstance());
         String expected = "[NE:STOP:18:20:of], [NE:CPR:21:23:4-], [NE:CM:21:31:4-pyridone], [NE:CM:21:31:4-pyridone], [NE:STOP:32:34:by], [NE:STOP:46:50:with], [NE:CM:51:57:methyl], [NE:CM:51:57:methyl], [NE:CM:51:57:methyl], [NE:CM:58:63:ethyl], [NE:CM:58:63:ethyl], [NE:ONT:58:63:ethyl], [NE:CM:51:70:methyl ethyl ketone], [NE:CM:58:70:ethyl ketone], [NE:CM:64:70:ketone], [NE:CM:64:70:ketone], [NE:ONT:64:70:ketone], [NE:STOP:71:73:as], [NE:STOP:84:89:above], [NE:STOP:91:94:the], [NE:ONT:101:105:salt], [NE:STOP:111:114:was], [NE:STOP:128:132:with], [NE:STOP:133:138:about], [NE:STOP:146:148:of], [NE:CM:153:160:ethanol], [NE:CM:153:160:ethanol], [NE:CM:153:160:ethanol], [NE:STOP:161:164:for], [NE:STOP:186:189:the], [NE:STOP:208:210:of], [NE:STOP:226:228:as], [NE:AHA:255:257:It], [NE:STOP:258:261:was], [NE:STOP:277:281:from], [NE:CM:286:293:ethanol], [NE:CM:286:293:ethanol], [NE:CM:286:293:ethanol], [NE:AHA:295:297:It], [NE:STOP:319:326:between], [NE:STOP:340:347:without], [NE:ONT:348:355:melting], [NE:CM:363:368:calcd], [NE:CM:363:368:calcd], [NE:STOP:370:373:for], [NE:CM:374:384:C5H4NO5SNa], [NE:CM:387:393:1.5H2O], [NE:AHA:395:396:C], [NE:CM:395:396:C], [NE:CM:395:396:C], [NE:AHA:406:407:H], [NE:CM:406:407:H], [NE:CM:406:407:H], [NE:AHA:416:417:N], [NE:CM:416:417:N], [NE:CM:416:417:N], [NE:AHA:433:434:C], [NE:CM:433:434:C], [NE:CM:433:434:C], [NE:AHA:444:445:H], [NE:CM:444:445:H], [NE:CM:444:445:H], [NE:AHA:454:455:N], [NE:CM:454:455:N], [NE:CM:454:455:N], [NE:ONT:464:474:Hydrolysis], [NE:STOP:475:477:of], [NE:STOP:478:481:the], [NE:ONT:482:487:ester], [NE:STOP:488:490:in], [NE:STOP:491:496:0.2 M], [NE:AHA:495:496:M], [NE:CM:497:510:sulfuric acid], [NE:STOP:506:510:acid], [NE:ONT:506:510:acid], [NE:STOP:511:514:for], [NE:STOP:522:524:at], [NE:STOP:540:542:by], [NE:STOP:558:562:with], [NE:AHA:563:567:NaOH], [NE:CM:563:567:NaOH], [NE:CM:563:567:NaOH], [NE:STOP:568:571:and], [NE:STOP:585:586:a], [NE:STOP:595:599:from], [NE:STOP:600:605:which], [NE:CPR:606:608:3-], [NE:CM:606:626:3-hydroxy-4-pyridone], [NE:CM:606:626:3-hydroxy-4-pyridone], [NE:STOP:627:630:may], [NE:STOP:631:633:be], [NE:STOP:659:661:by], [NE:STOP:674:678:with], [NE:CM:691:698:ethanol], [NE:CM:691:698:ethanol], [NE:CM:691:698:ethanol], [NE:STOP:699:702:and], [NE:STOP:716:718:by], [NE:ONT:719:734:crystallization], [NE:STOP:735:739:from], [NE:CM:740:748:methanol], [NE:CM:740:748:methanol], [NE:CM:740:748:methanol], [NE:STOP:749:751:as], [NE:STOP:752:757:above]";
 
         List<String> found = new ArrayList<String>();
@@ -70,7 +71,7 @@ public class DFANEFinderTest {
         );
 
         ITokenSequence ts = tokeniser.tokenise(paragraph.toString());
-        List<NamedEntity> namedEntityList = finder.findNamedEntities(ts);
+        List<NamedEntity> namedEntityList = finder.findNamedEntities(ts, NGram.getInstance());
         String expected = "[NE:ONT:464:474:Hydrolysis], [NE:STOP:475:477:of], [NE:STOP:478:481:the], [NE:ONT:482:487:ester], [NE:STOP:488:490:in], [NE:STOP:491:496:0.2 M], [NE:AHA:495:496:M], [NE:CM:497:510:sulfuric acid], [NE:STOP:506:510:acid], [NE:ONT:506:510:acid], [NE:STOP:511:514:for], [NE:STOP:522:524:at]";
 
         List<String> found = new ArrayList<String>();
@@ -96,7 +97,7 @@ public class DFANEFinderTest {
     		new PolymerDictionary()
     	);
         ITokenSequence ts = tokeniser.tokenise(paragraph);
-        List<NamedEntity> namedEntityList = finder.findNamedEntities(ts);
+        List<NamedEntity> namedEntityList = finder.findNamedEntities(ts, NGram.getInstance());
         boolean foundHEPEI25K = false;
         for (NamedEntity ne : namedEntityList) {
         	String neStr = ne.toString();

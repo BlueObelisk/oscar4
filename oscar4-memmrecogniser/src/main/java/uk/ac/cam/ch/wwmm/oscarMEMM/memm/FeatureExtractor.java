@@ -100,9 +100,10 @@ public final class FeatureExtractor {
 	private boolean noC = false;
 
 	private boolean newSuffixes = false;
+	private NGram nGram;
 
-    public static List<FeatureList> extractFeatures(ITokenSequence tokSeq) {
-        FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq);
+    public static List<FeatureList> extractFeatures(ITokenSequence tokSeq, NGram nGram) {
+        FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq, nGram);
         return featureExtractor.getFeatureLists();
     }
 
@@ -114,8 +115,9 @@ public final class FeatureExtractor {
         return features;
     }
 
-    private FeatureExtractor(ITokenSequence tokSeq) {
+    private FeatureExtractor(ITokenSequence tokSeq, NGram nGram) {
 		this.tokSeq = tokSeq;
+		this.nGram = nGram;
 		makeFeatures();
 	}
 
@@ -226,7 +228,7 @@ public final class FeatureExtractor {
 	private void handleNoNewSuffices(String word, String normWord,
 			FeatureList bigramable, FeatureList contextable,
 			FeatureList local, IToken token) {
-		double ngscore = NGram.getInstance().testWord(word);
+		double ngscore = nGram.testWord(word);
 		// Already seen
 		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getValue());
 		ngscore = Math.max(ngscore, NGRAM_SCORE_LOWER_BOUND);
@@ -258,7 +260,7 @@ public final class FeatureExtractor {
 	private void handleNewSuffices(String word, String normWord,
 			FeatureList bigramable, FeatureList contextable,
 			FeatureList local, IToken token) {
-		double suffixScore = NGram.getInstance().testWordSuffix(word);
+		double suffixScore = nGram.testWordSuffix(word);
 		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getValue());
 
 		suffixScore = Math.max(suffixScore, SUFFIX_SCORE_LOWER_BOUND);
@@ -280,7 +282,7 @@ public final class FeatureExtractor {
 		if (ChemNameDictRegistry.getInstance().hasName(word)) {
 			suffixScore = SUFFIX_HI_SCORE;
 		}
-		double ngscore = NGram.getInstance().testWord(word);
+		double ngscore = nGram.testWord(word);
 		ngscore = Math.max(ngscore, NGRAM_SCORE_LOWER_BOUND);
 		ngscore = Math.min(ngscore, NGRAM_SCORE_UPPER_BOUND);
 		for (int i = 0; i < ngscore; i++) {

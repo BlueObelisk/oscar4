@@ -43,8 +43,6 @@ public class Oscar {
      * silently fail though. The defaults are: {@value}.
      */
     public Oscar() {
-        dictionaryRegistry.register(new DefaultDictionary());
-        dictionaryRegistry.register(new ChEBIDictionary());
         tokenizer = newDefaultTokeniser();
         recogniser = newDefaultRecogniser();
     }

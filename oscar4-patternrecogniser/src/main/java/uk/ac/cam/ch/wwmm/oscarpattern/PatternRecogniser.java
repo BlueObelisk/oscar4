@@ -18,22 +18,41 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarpattern.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFANEFinder;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 
 /**
  * Name recognition using patterns
  * @author j_robinson
  */
-public class PatternRecogniser implements ChemicalEntityRecogniser
-{
+public class PatternRecogniser implements ChemicalEntityRecogniser {
 
-	public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) throws Exception
-	{
+	private NGram nGram;
+	
+	/**
+	 * Create a PatternRecogniser that employs an NGram model customised
+	 * according to the default model, as set in OscarProperties.
+	 */
+	public PatternRecogniser() {
+		nGram = NGramBuilder.buildModel(ManualAnnotations.getDefaultInstance());
+	}
+	
+	/**
+	 * Create a PatternRecogniser that employs an NGram model customised
+	 * according to the given extracted training data. Pass null as an
+	 * argument to create an un-customised NGram model.
+	 */
+	public PatternRecogniser(ManualAnnotations etd) {
+		nGram = NGramBuilder.buildModel(etd);
+	}
+
+	public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) throws Exception {
 		return findNamedEntities(procDoc.getTokenSequences());
 	}
 
-	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences)
-	{
-			 	List<NamedEntity> stopNeList;
+	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) {
+	 	List<NamedEntity> stopNeList;
 
 		//String text = doc.getValue();
 
@@ -43,7 +62,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser
 	 	Map<Integer,Token> tokensByEnd = new HashMap<Integer,Token>();
 
 	 	for(ITokenSequence t : tokenSequences) {
-			neList.addAll(DFANEFinder.getInstance().findNamedEntities(t));
+			neList.addAll(DFANEFinder.getInstance().findNamedEntities(t, nGram));
 		}
 
 		// Make sure all NEs at a position share their ontIds

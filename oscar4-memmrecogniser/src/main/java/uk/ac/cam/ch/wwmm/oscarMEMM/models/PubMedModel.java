@@ -3,6 +3,7 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 
 public class PubMedModel extends MEMMModel {
 
@@ -15,9 +16,10 @@ public class PubMedModel extends MEMMModel {
 			this.readModel(modelDoc);
 		} catch (Exception exception) {
 			throw new Error(
-				"Error while loading the chempaper MEMM model: " + exception,
+				"Error while loading the pubmed MEMM model: " + exception,
 				exception
 				);
 		}
+		nGram = NGramBuilder.buildModel(manualAnnotations);
 	}
 }

@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
+
 /**
  * Central point of access to query dictionaries.
  *
@@ -21,10 +24,14 @@ public class ChemNameDictRegistry {
 
 	private ChemNameDictRegistry() {
 		dictionaries = new HashMap<URI,IChemNameDict>();
+		register(new DefaultDictionary());
+        register(new ChEBIDictionary());
 	}
 
 	/**
 	 * Returns an instance of the {@link ChemNameDict} registry.
+	 * The ChEBIDictionary and the DefaultDictionary are 
+	 * registered by default.
 	 *
 	 * @return a {@link ChemNameDictRegistry}.
 	 */

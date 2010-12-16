@@ -137,6 +137,7 @@ public abstract class DFAFinder implements Serializable {
 			sb.append(generateTokenRepresentation(token));
 		}
 		String preReStr = sb.toString();
+        TermMaps termMaps = TermMaps.getInstance();
 		for(String reStr : StringTools.expandRegex(preReStr)) {
 			if (digitOrSpace.matcher(reStr).matches()) {
 				if (simpleAuts.containsKey(namedEntityType)) {
@@ -150,7 +151,7 @@ public abstract class DFAFinder implements Serializable {
 						simpleAuts.get(namedEntityType).addContents(reStr + "X" + getNumberForOntologyId(ontologyId));
 					}
 				} else if (isCustomTerm(namedEntity, namedEntityType)) {
-					String customTypeString = TermMaps.getCustEnt().get(namedEntity);
+					String customTypeString = termMaps.getCustEnt().get(namedEntity);
 					List<String> customTypes = Arrays.asList(StringTools.splitOnWhitespace(customTypeString));
 					for(String customType : customTypes) {
 						simpleAuts.get(namedEntityType).addContents(reStr + "X" + getNumberForOntologyId(customType));
@@ -169,7 +170,7 @@ public abstract class DFAFinder implements Serializable {
                     }
 					sb.append("))?");
 				} else if (isCustomTerm(namedEntity, namedEntityType)) {
-					String customTypeString = TermMaps.getCustEnt().get(namedEntity);
+					String customTypeString = termMaps.getCustEnt().get(namedEntity);
 					List<String> customTypes = Arrays.asList(StringTools.splitOnWhitespace(customTypeString));
 					sb.append("(X(");
 					for (Iterator<String> it = customTypes.iterator(); it.hasNext();) {
@@ -188,7 +189,7 @@ public abstract class DFAFinder implements Serializable {
 	}
 
     private boolean isCustomTerm(String namedEntity, NamedEntityType namedEntityType) {
-        return NamedEntityType.CUSTOM.isInstance(namedEntityType) && TermMaps.getCustEnt().containsKey(namedEntity);
+        return NamedEntityType.CUSTOM.isInstance(namedEntityType) && TermMaps.getInstance().getCustEnt().containsKey(namedEntity);
     }
 
     private boolean isOntologyTerm(String namedEntity, NamedEntityType namedEntityType) {

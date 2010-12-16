@@ -33,9 +33,8 @@ public class TermsFileReader {
 		String line = in.readLine();
 		String lexname = "";
 		while(line != null) {
-			while(line.endsWith(">>>")) {
-				line = line.substring(0,line.length()-3);
-				line += in.readLine();
+            if (line.endsWith(">>>")) {
+                line = readMultiLine(in, line);
 			}
 			if(line.length() == 0) {
 				// Blank line
@@ -65,5 +64,19 @@ public class TermsFileReader {
 		}
 		return lexicons;
 	}
+
+    private static String readMultiLine(BufferedReader in, String line) throws IOException {
+        StringBuilder s = new StringBuilder(line);
+        do {
+            s.setLength(s.length()-3);
+            line = in.readLine();
+            if (line == null) {
+                throw new EOFException();
+            }
+            s.append(line);
+        } while (line.endsWith(">>>"));
+        line = s.toString();
+        return line;
+    }
 
 }

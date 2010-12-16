@@ -48,7 +48,7 @@ public final class TermMaps {
 	 *
 	 * @throws Exception
 	 */
-	public static void reinitialise() throws Exception {
+	public static void reinitialise() {
 		myInstance = null;
 		getInstance();
 	}
@@ -101,7 +101,7 @@ public final class TermMaps {
         }
     }
 
-    private Map<String, NamedEntityType> getNeTermMap(String filename, boolean concatenateTypes) throws Exception {
+    private Map<String, NamedEntityType> getNeTermMap(String filename, boolean concatenateTypes) throws IOException {
         Map<String,String> termMap = loadTerms(filename, concatenateTypes);
         Map<String,NamedEntityType> neTermMap = new HashMap<String, NamedEntityType>();
         for (Map.Entry<String,String> e : termMap.entrySet()) {
@@ -110,7 +110,7 @@ public final class TermMaps {
         return neTermMap;
     }
 
-	private TermMaps() throws Exception {
+	private TermMaps() throws IOException {
 		logger.debug("Initialising term maps... ");
 		neTerms = getNeTermMap(NE_TERMS_FILE, false);
 		//add additional neTerms for polymers if set to polymer mode

@@ -92,57 +92,6 @@ public class NGram {
         }
     }
 
-    //FIXME dmj30 ready for deletion
-//    public static void buildModelFile() throws IOException {
-//
-//        NGramBuilder ng = NGramBuilder.getInstance();
-//        double[][][][] lp4c = ng.getLP4C();
-//        double[][][][] lp4e = ng.getLP4E();
-//
-//        int len = lp4c.length;
-//
-//        int step0 = len*len*len;
-//        int step1 = len*len;
-//        int step2 = len;
-//
-//        short[] data = new short[len*len*len*len];
-//
-//        double max = 0, min = 0;
-//
-//        for (int i0 = 0; i0 < len; i0++) {
-//            for (int i1 = 0; i1 < len; i1++) {
-//                for (int i2 = 0; i2 < len; i2++) {
-//                    for (int i3 = 0; i3 < len; i3++) {
-//
-//                        double dif = lp4c[i0][i1][i2][i3] - lp4e[i0][i1][i2][i3];
-//                        if (dif > max) {
-//                            max = dif;
-//                        }
-//                        if (dif < min) {
-//                            min = dif;
-//                        }
-//
-//                        double sd = SCALE*dif;
-//                        if (sd > Short.MAX_VALUE) {
-//                            System.err.println("Warning: upper bound exceeded - "+sd);
-//                            sd = Short.MAX_VALUE;
-//                        } else if (sd < Short.MIN_VALUE) {
-//                            System.err.println("Warning: lower bound exceeded - "+sd);
-//                            sd = Short.MIN_VALUE;
-//                        }
-//                        data[i0*step0 + i1*step1 + i2*step2 + i3] = (short) Math.round(sd);
-//
-//                    }
-//                }
-//            }
-//        }
-//
-//        NGram nng = new NGram(data);
-//        nng.saveData();
-//
-//    }
-
-
 
     /**
      * Test a word against training data.
@@ -220,24 +169,7 @@ public class NGram {
 		return "^^^" + s + "$";
 	}
 
-	//FIXME dmj30 ready for deletion
-//    public static void compareModels(String s) {
-//
-//        String[] a = s.split("\\s+");
-//
-//        NGramBuilder ng = NGramBuilder.getInstance();
-//        NGram nng = NGram.getInstance();
-//    }
-//
-//
-//    public static void main(String[] args) throws IOException {
-//
-////        buildModelFile();
-//        String s = "The quick brown ethyl ethanoate ethanoate. jumps over the lazy ferrous ferrous. bromide bromide.";
-//        compareModels(s);
-//
-//    }
-
+	
 	short[] getData() {
 		return data;
 	}

@@ -26,9 +26,13 @@ public final class TermMaps {
 
 	private static final Logger logger = Logger.getLogger(TermMaps.class);
 
-    private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/obo/terms/");
+    private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter("/");
 
-    private static final String ONTOLOGY_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/ontology.txt";
+    private static final String NE_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/neTerms.txt";
+    private static final String POLY_NE_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/polyNeTerms.txt";
+    private static final String IE_PATTERNS_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/iePatterns.txt";
+    private static final String STRUCTURE_TYPES_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/structureTypes.txt";
+    private static final String CUST_ENT_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/custEnt.txt";
 
 	private Map<String, NamedEntityType> neTerms;
 	private Map<String, String> iePatterns;
@@ -38,7 +42,8 @@ public final class TermMaps {
 
 	private static TermMaps myInstance;
 
-	/**Initialise the TermMaps singleton, deleting the old one if one already
+
+    /**Initialise the TermMaps singleton, deleting the old one if one already
 	 * exists.
 	 *
 	 * @throws Exception
@@ -107,15 +112,15 @@ public final class TermMaps {
 
 	private TermMaps() throws Exception {
 		logger.debug("Initialising term maps... ");
-		neTerms = getNeTermMap("neTerms.txt", false);
+		neTerms = getNeTermMap(NE_TERMS_FILE, false);
 		//add additional neTerms for polymers if set to polymer mode
 		if (OscarProperties.getData().polymerMode) {
-			Map <String, NamedEntityType> polyNeTerms = getNeTermMap("polyNeTerms.txt", false);
+			Map <String, NamedEntityType> polyNeTerms = getNeTermMap(POLY_NE_TERMS_FILE, false);
 			neTerms.putAll(polyNeTerms);
 		}
-		iePatterns = loadTerms("iePatterns.txt", false);
-		structureTypes = loadTerms("structureTypes.txt", false);
-		custEnt = loadTerms("custEnt.txt", true);
+		iePatterns = loadTerms(IE_PATTERNS_TERMS_FILE, false);
+		structureTypes = loadTerms(STRUCTURE_TYPES_TERMS_FILE, false);
+		custEnt = loadTerms(CUST_ENT_TERMS_FILE, true);
 		digestSuffixes();
 		logger.debug("term maps initialised");
 	}

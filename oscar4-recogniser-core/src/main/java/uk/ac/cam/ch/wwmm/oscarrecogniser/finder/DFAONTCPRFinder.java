@@ -148,7 +148,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 		for(String s : OntologyTermIdIndex.getInstance().getAllTerms()){
 			addNamedEntity(s, NamedEntityType.ONTOLOGY, false);
 		}
-		for(String s : TermMaps.getCustEnt().keySet()){
+        for(String s : TermMaps.getInstance().getCustEnt().keySet()){
 			addNamedEntity(s, NamedEntityType.CUSTOM, true);
 		}
 		addNamedEntity(REP_ONTWORD, NamedEntityType.ONTOLOGY, false);

@@ -9,10 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**A class to hold several mappings between terms and their identifiers.
  *
@@ -21,7 +18,7 @@ import java.util.Set;
  */
 public final class TermMaps {
 
-    private static final Logger logger = Logger.getLogger(TermMaps.class);
+    private static final Logger LOG = Logger.getLogger(TermMaps.class);
 
     private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter("/");
 
@@ -31,11 +28,11 @@ public final class TermMaps {
     private static final String STRUCTURE_TYPES_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/structureTypes.txt";
     private static final String CUST_ENT_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/custEnt.txt";
 
-    private Map<String, NamedEntityType> neTerms;
-    private Map<String, String> iePatterns;
-    private Map<String, String> custEnt;
-    private Map<String, String> structureTypes;
-    private Set<String> suffixes;
+    private final Map<String, NamedEntityType> neTerms;
+    private final Map<String, String> iePatterns;
+    private final Map<String, String> custEnt;
+    private final Map<String, String> structureTypes;
+    private final Set<String> suffixes;
 
     private static TermMaps myInstance;
 
@@ -48,19 +45,6 @@ public final class TermMaps {
     public static void reinitialise() {
         myInstance = null;
         getInstance();
-    }
-
-    /**Initialise the TermMaps singleton, if this has not already been done.
-     *
-     */
-    public static void init() {
-        try {
-            if(myInstance == null) {
-                myInstance = new TermMaps();
-            }
-        } catch (Exception e) {
-            throw new Error(e);
-        }
     }
 
     private static TermMaps getInstance() {
@@ -76,16 +60,17 @@ public final class TermMaps {
 
 
 
-    private void digestSuffixes() {
-        suffixes = new HashSet<String>();
+    private Set<String> digestSuffixes(Map<String, NamedEntityType> neTerms) {
+        Set<String> suffixes = new HashSet<String>();
         for(String s : neTerms.keySet()) {
-            String [] ss = s.split("\\s+");
+            String[] ss = s.split("\\s+");
             for (int i = 0; i < ss.length; i++) {
                 if(ss[i].startsWith("$-")) {
                     suffixes.add(ss[i].substring(2));
                 }
             }
         }
+        return suffixes;
     }
 
     private Map<String, String> loadTerms(String path, boolean concatenateTypes) throws IOException {
@@ -108,18 +93,19 @@ public final class TermMaps {
     }
 
     private TermMaps() throws IOException {
-        logger.debug("Initialising term maps... ");
-        neTerms = getNeTermMap(NE_TERMS_FILE, false);
+        LOG.debug("Initialising term maps... ");
+        Map<String,NamedEntityType> neTerms = getNeTermMap(NE_TERMS_FILE, false);
         //add additional neTerms for polymers if set to polymer mode
         if (OscarProperties.getData().polymerMode) {
             Map <String, NamedEntityType> polyNeTerms = getNeTermMap(POLY_NE_TERMS_FILE, false);
             neTerms.putAll(polyNeTerms);
         }
-        iePatterns = loadTerms(IE_PATTERNS_TERMS_FILE, false);
-        structureTypes = loadTerms(STRUCTURE_TYPES_TERMS_FILE, false);
-        custEnt = loadTerms(CUST_ENT_TERMS_FILE, true);
-        digestSuffixes();
-        logger.debug("term maps initialised");
+        this.neTerms = Collections.unmodifiableMap(neTerms);
+        this.iePatterns = Collections.unmodifiableMap(loadTerms(IE_PATTERNS_TERMS_FILE, false));
+        this.structureTypes = Collections.unmodifiableMap(loadTerms(STRUCTURE_TYPES_TERMS_FILE, false));
+        this.custEnt = Collections.unmodifiableMap(loadTerms(CUST_ENT_TERMS_FILE, true));
+        this.suffixes = Collections.unmodifiableSet(digestSuffixes(neTerms));
+        LOG.debug("term maps initialised");
     }
 
 

@@ -1,6 +1,7 @@
-package uk.ac.cam.ch.wwmm.oscar.obo;
+package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
 import org.apache.log4j.Logger;
+import uk.ac.cam.ch.wwmm.oscar.obo.TermsFileReader;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -22,11 +23,11 @@ public final class TermMaps {
 
     private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter("/");
 
-    private static final String NE_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/neTerms.txt";
+    private static final String NE_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/terms/neTerms.txt";
     private static final String POLY_NE_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/polyNeTerms.txt";
-    private static final String IE_PATTERNS_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/iePatterns.txt";
-    private static final String STRUCTURE_TYPES_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/structureTypes.txt";
-    private static final String CUST_ENT_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/custEnt.txt";
+    private static final String IE_PATTERNS_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/terms/iePatterns.txt";
+    private static final String STRUCTURE_TYPES_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/terms/structureTypes.txt";
+    private static final String CUST_ENT_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/terms/custEnt.txt";
 
     private final Map<String, NamedEntityType> neTerms;
     private final Map<String, String> iePatterns;

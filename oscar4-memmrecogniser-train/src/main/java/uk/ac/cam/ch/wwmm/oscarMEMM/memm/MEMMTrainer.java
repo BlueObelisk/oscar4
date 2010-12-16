@@ -106,7 +106,7 @@ public final class MEMMTrainer {
 	}
 	
 	private void trainOnSentence(ITokenSequence tokSeq) {
-        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq);
+        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram());
 		//extractor.printFeatures();
 		List<IToken> tokens = tokSeq.getTokens();
 		String prevTag = "O";
@@ -129,8 +129,9 @@ public final class MEMMTrainer {
 		n = doc.query("//ne[@type='CPR']");
 		
 		
-		for (int i = 0; i < n.size(); i++)
+		for (int i = 0; i < n.size(); i++) {
 			XOMTools.removeElementPreservingText((Element)n.get(i));
+		}
 
 		
 		
@@ -140,6 +141,7 @@ public final class MEMMTrainer {
 		);
 
 
+		//another manual code switch?
 		if(nameTypes) {
 			n = doc.query("//ne");
 			for (int i = 0; i < n.size(); i++) {
@@ -387,7 +389,7 @@ public final class MEMMTrainer {
 	 * @return Named entities, with confidences.
 	 */
 	public List<NamedEntity> findNEs(ITokenSequence tokSeq) {
-		List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq);
+		List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram());
 		List<IToken> tokens = tokSeq.getTokens();
 		if(tokens.size() == 0) return new ArrayList<NamedEntity>();
 
@@ -443,7 +445,7 @@ public final class MEMMTrainer {
 		if(featureCVScores == null) {
 			featureCVScores = new HashMap<String,Map<String,Double>>();
 		}
-		List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq);
+		List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram());
 		List<IToken> tokens = tokSeq.getTokens();
 		String prevTag = "O";
 		for (int i = 0; i < tokens.size(); i++) {

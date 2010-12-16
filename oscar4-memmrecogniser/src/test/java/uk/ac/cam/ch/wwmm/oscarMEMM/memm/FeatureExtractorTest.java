@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
@@ -25,7 +26,7 @@ public class FeatureExtractorTest {
         Tokeniser tokeniser = Tokeniser.getInstance();
         ITokenSequence tokSeq = tokeniser.tokenise(s);
         
-        List<FeatureList> features = FeatureExtractor.extractFeatures(tokSeq);
+        List<FeatureList> features = FeatureExtractor.extractFeatures(tokSeq, NGram.getInstance());
 
         /*
         assertArrayMatch(Arrays.asList("4G=^We$", "c0:w=We", "c0:wts=We", "c0:ws=42", "c0:s=", "c1:w=have", "c1:wts=have", "c1:ws=1", "c1:s=", "bg:0:1:w=We__ws=1", "bg:0:1:ws=42__ws=1"), features.get(0));

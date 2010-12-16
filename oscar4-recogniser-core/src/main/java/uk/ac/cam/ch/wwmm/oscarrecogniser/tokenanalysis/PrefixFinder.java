@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
 
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -22,20 +23,26 @@ public class PrefixFinder {
 	
 	public static Pattern prefixBody = Pattern.compile(prefixRe);
 
-	public static String getPrefix(String s) {
-		//GetDataFromModels dataModel = new GetDataFromModels();
-
+	public static String getPrefix(String s, ManualAnnotations manualAnnotations) {
 		if(prefixPattern.matcher(s).matches()) {
 			int idx = s.indexOf("-");
 			// Check if it's a not-splitting word
-			if(ManualAnnotations.getInstance().notForPrefix.contains(s.substring(idx+1))) {
-			//if(dataModel.notForPrefix.contains(s.substring(idx+1))) {
-				return null;
+			if (manualAnnotations != null) {
+				if(manualAnnotations.getNotForPrefix().contains(s.substring(idx+1))) {
+					return null;
+				}
+				if(idx == 0) {
+					return null;
+				}	
 			}
-			if(idx == 0) return null;
 			return s.substring(0, idx+1);
 		}
 		return null;		
+	}
+
+	//TODO redirect callers to getPrefix(String, ManualAnnotations)
+	public static String getPrefix(String string) {
+		return getPrefix(string, null);
 	}
 
 }

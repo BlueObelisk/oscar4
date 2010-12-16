@@ -65,7 +65,7 @@ public final class MEMM {
      * @return Named entities, with confidences.
      */
     public List<NamedEntity> findNEs(ITokenSequence tokSeq) {
-        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq);
+        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram());
         List<IToken> tokens = tokSeq.getTokens();
         if (tokens.isEmpty()) {
             return Collections.emptyList();

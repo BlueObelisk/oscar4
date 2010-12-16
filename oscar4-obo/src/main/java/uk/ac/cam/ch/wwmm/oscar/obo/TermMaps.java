@@ -34,7 +34,7 @@ public final class TermMaps {
     private final Map<String, String> structureTypes;
     private final Set<String> suffixes;
 
-    private static TermMaps myInstance;
+    private static TermMaps defaultInstance;
 
 
     /**Initialise the TermMaps singleton, deleting the old one if one already
@@ -43,19 +43,27 @@ public final class TermMaps {
      * @throws Exception
      */
     public static void reinitialise() {
-        myInstance = null;
+        defaultInstance = null;
         getInstance();
     }
 
-    private static TermMaps getInstance() {
-        try {
-            if(myInstance == null) {
-                myInstance = new TermMaps();
-            }
-            return myInstance;
-        } catch (Exception e) {
-            throw new Error(e);
+    public static TermMaps getInstance() {
+        TermMaps instance = defaultInstance;
+        if (instance == null) {
+            instance = loadDefaultInstance();
         }
+        return instance;
+    }
+
+    private static synchronized TermMaps loadDefaultInstance() {
+        if (defaultInstance == null) {
+            try {
+                defaultInstance = new TermMaps();
+            } catch (IOException e) {
+                throw new RuntimeException("Error loading term maps", e);
+            }
+        }
+        return defaultInstance;
     }
 
 
@@ -114,40 +122,40 @@ public final class TermMaps {
      *
      * @return The term map.
      */
-    public static Map<String, NamedEntityType> getNeTerms() {
-        return getInstance().neTerms;
+    public Map<String, NamedEntityType> getNeTerms() {
+        return neTerms;
     }
 
     /**Gets the term map for iePatterns.txt.
      *
      * @return The term map.
      */
-    public static Map<String, String> getIePatterns() {
-        return getInstance().iePatterns;
+    public Map<String, String> getIePatterns() {
+        return iePatterns;
     }
 
     /**Gets the term map for custEnt.txt.
      *
      * @return The term map.
      */
-    public static Map<String, String> getCustEnt() {
-        return getInstance().custEnt;
+    public Map<String, String> getCustEnt() {
+        return custEnt;
     }
 
     /**Gets the term map for structureTypes.txt.
      *
      * @return The term map.
      */
-    public static Map<String, String> getStructureTypes() {
-        return getInstance().structureTypes;
+    public Map<String, String> getStructureTypes() {
+        return structureTypes;
     }
 
     /**Gets a collection of suffixes harvested from neTerms.txt.
      *
      * @return A collection of suffixes harvested from neTerms.txt
      */
-    public static Set<String> getSuffixes() {
-        return getInstance().suffixes;
+    public Set<String> getSuffixes() {
+        return suffixes;
     }
 
 }

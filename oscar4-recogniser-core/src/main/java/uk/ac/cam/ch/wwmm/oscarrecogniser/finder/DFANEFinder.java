@@ -112,16 +112,17 @@ public class DFANEFinder extends DFAFinder {
 
     @Override
     protected void loadTerms() {
+        TermMaps termMaps = TermMaps.getInstance();
         logger.debug("Adding terms to DFA finder...");
-        for(String s : TermMaps.getNeTerms().keySet()){
-            addNamedEntity(s, TermMaps.getNeTerms().get(s), true);
+        for(String s : termMaps.getNeTerms().keySet()){
+            addNamedEntity(s, termMaps.getNeTerms().get(s), true);
         }
         logger.debug("Adding ontology terms to DFA finder...");
         for(String s : OntologyTermIdIndex.getInstance().getAllTerms()){
             addNamedEntity(s, NamedEntityType.ONTOLOGY, false);
         }
         logger.debug("Adding custom NEs ...");
-        for(String s : TermMaps.getCustEnt().keySet()){
+        for(String s : termMaps.getCustEnt().keySet()){
             addNamedEntity(s, NamedEntityType.CUSTOM, true);
         }
         logger.debug("Adding names from ChemNameDict to DFA finder...");
@@ -260,8 +261,9 @@ public class DFANEFinder extends DFAFinder {
                     while(withoutLastBracket.endsWith(")") || withoutLastBracket.endsWith("]")) {
                         withoutLastBracket = withoutLastBracket.substring(0, withoutLastBracket.length()-1);
                     }
+                    TermMaps termMaps = TermMaps.getInstance();
                     for (int i = 1; i < withoutLastBracket.length(); i++) {
-                        if (TermMaps.getSuffixes().contains(withoutLastBracket.substring(i))) {
+                        if (termMaps.getSuffixes().contains(withoutLastBracket.substring(i))) {
                             tokenRepresentations.addRepresentation("$-" + withoutLastBracket.substring(i));
                         }
                     }

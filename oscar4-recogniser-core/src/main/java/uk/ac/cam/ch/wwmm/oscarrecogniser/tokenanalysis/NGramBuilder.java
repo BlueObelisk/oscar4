@@ -25,12 +25,12 @@ public class NGramBuilder {
 
 	private final Logger logger = Logger.getLogger(NGramBuilder.class);
 
-	/**
-	 * Holds unique instance required by singleton pattern.
-	 */    
-	private static NGramBuilder myInstance = null;
+    // Empirically determined scaling factor to limit loss of precision
+    // in moving from double to short
+    // Values range -40 to + 40
+    static final double SCALE = 500;
 	
-	private String alphabet;
+	private String alphabet = "$^S0%<>&'()*+,-./:;=?@[]abcdefghijklmnopqrstuvwxyz|~";
 	
 	// nGram counts
 	private int[]       C1C;
@@ -56,41 +56,22 @@ public class NGramBuilder {
 	
 	private List<String> chemWords;
 	private List<String> englishWords;
-	public Set<String> chemSet;
-	public Set<String> engSet;
+	private Set<String> chemSet;
+	private Set<String> engSet;
 	
 	private Pattern matchWhiteSpace = Pattern.compile("\\s+");
 	private Pattern matchTwoOrMoreAdjacentLetters = Pattern.compile(".*[a-z][a-z].*");
+
+	private ManualAnnotations etd;
 	
 	/** Creates a new instance of nGram */
-	private NGramBuilder() {
-		setAlphabet("$^S0%<>&'()*+,-./:;=?@[]abcdefghijklmnopqrstuvwxyz|~");
+	private NGramBuilder(ManualAnnotations etd) {
 		extraChemical = null;
 		extraEnglish = null;
 		extraOnly = false;
+		this.etd = etd;
 	}
 	
-	/**
-	 * Returns instance of singleton, instancing class if necessary.
-	 * @return Instance of singleton
-	 * @throws Exception Training data cannot be loaded
-	 */    
-	public static NGramBuilder getInstance() {
-		if(myInstance==null) {
-			myInstance = new NGramBuilder();
-			myInstance.initialise();
-		}
-		return myInstance;
-	}	
-
-	public static void reinitialise(Collection<String> chemicals, Collection<String> english, boolean extraOnly) throws Exception {
-		myInstance = new NGramBuilder();
-		myInstance.extraChemical = chemicals;
-		myInstance.extraEnglish = english;
-		myInstance.extraOnly = extraOnly;
-		myInstance.initialise();		
-	}
-
 
     private void initialise() {
 		logger.debug("Initialising nGrams... ");
@@ -106,10 +87,6 @@ public class NGramBuilder {
 	 * Load training data and calculate smoothed nGrams
 	 */    
 	private void train() {
-		//try {
-		//	betasquared = Double.parseDouble(OscarProperties.getProperty("betasquared"));
-		//} catch (Exception e) {
-		
 		// initialise count arrays        
 		int a = alphabet.length();
 
@@ -165,7 +142,9 @@ public class NGramBuilder {
 	private void readTrainingData() {
 		if(!extraOnly) {
 			readStopWordsTrainingData();
-			readExtractedTrainingData();
+			if (etd != null) {
+				readExtractedTrainingData();
+			}
 			readChemNameDictTrainingData();
 			readElementsTrainingData();
 			readUdwTrainingData();
@@ -208,7 +187,8 @@ public class NGramBuilder {
 	private void readUdwTrainingData() {
 		Set<String> goodUDW = new HashSet<String>();
 		for(String word : TermSets.getDefaultInstance().getUsrDictWords()) {
-			if(!(ChemNameDictRegistry.getInstance().hasName(word) || ManualAnnotations.getInstance().chemicalWords.contains(word))) {
+			if(!(ChemNameDictRegistry.getInstance().hasName(word) ||
+					(etd != null && etd.chemicalWords.contains(word)))) {
 				goodUDW.add(word);
 			}
 		}
@@ -216,7 +196,6 @@ public class NGramBuilder {
 	}
 	
 	private void readExtractedTrainingData() {
-		ManualAnnotations etd = ManualAnnotations.getInstance();
 		readCollection(etd.chemicalWords, true);
 		readCollection(etd.nonChemicalWords, false);	
 	}
@@ -531,50 +510,6 @@ public class NGramBuilder {
 	}    
 	
 	
-	/**
-	 * Test a word against training data.
-	 * Returned score represents relative log probabilities of chemical vs
-	 * english; i.e. scores > 0 are probably chemical.
-	 * @param word String to be tested
-	 * @return <PRE>ln(P(chemical|word)/P(english|word))</PRE>
-	 * @deprecated use testWord in NGram instead
-	 */
-	@Deprecated
-	double testWord(String word) {
-		//if(cache.containsKey(word)) {
-		//	return cache.get(word);
-		//}
-		String w = NGram.parseWord(word);
-		//if(chemSet.contains(w)) return 100.0;
-		//if(engSet.contains(w)) return -100.0;
-		int l = w.length();
-		if(l<=1) {
-			return 0;
-		}
-		w = NGram.addStartAndEnd(w);
-		l = w.length();
-		int s1 = alphabet.indexOf(w.charAt(0));
-		int s2 = alphabet.indexOf(w.charAt(1));
-		int s3 = alphabet.indexOf(w.charAt(2));
-		int s0 = 0;
-		double logP = 0;
-		for (int i = 3; i < l; i++) {
-			s0 = s1;
-			s1 = s2;
-			s2 = s3;
-			s3 = alphabet.indexOf(w.charAt(i));
-			double score = LP4C[s0][s1][s2][s3] - LP4E[s0][s1][s2][s3];
-			logP += score;
-		}
-		//if(!Token.suffixPattern.matcher(w.substring(1, w.length()-2)).matches()) logP = -100.0;
-		//try {
-		//	if(WordLists.getInstance().usrDictWords.contains(word)) logP -= 4; 
-		//} catch (Exception e) {
-		//	e.printStackTrace();
-		//}
-		//cache.put(word, logP);
-		return logP;
-	}
 	
 	/** Add a chemical name to training frequency data */
 	private void addChemical(String word) {
@@ -634,17 +569,88 @@ public class NGramBuilder {
 		}		
 	}
 
-	/** Register new alphabet of valid characters */
-	private void setAlphabet(String alphabet) {
-		this.alphabet = alphabet;
+	/**
+	 * 
+	 * Builds a new NGram model for chemical name recognition, using
+	 * 
+	 * a) The stopwords list from TermSets
+	 * b) The elements list from TermSets
+	 * c) The chemAse and nonChemAse lists from TermSets
+	 * d) Chemical names from the dictionaries currently registered in ChemNameDictRegistry
+	 * e) English words from TermSets
+	 * 
+	 */
+	public static NGram buildModel() {
+		return buildModel(null);
+	}
+
+	/**
+	 * 
+	 * Builds a new NGram model for chemical name recognition, using
+	 * 
+	 * a) The stopwords list from TermSets
+	 * b) The elements list from TermSets
+	 * c) The chemAse and nonChemAse lists from TermSets
+	 * d) Chemical names from the dictionaries currently registered in ChemNameDictRegistry
+	 * e) English words from TermSets
+	 * f) The chemical word and nonChemical word lists from the given ExtractedTrainingData
+	 * 
+	 * @param etd (additional) extracted training data from a MEMM model file
+	 */
+	public static NGram buildModel(ManualAnnotations etd) {
+		NGramBuilder builder = new NGramBuilder(etd);
+		builder.initialise();
+		return builder.toNGram();
 	}
 	
-	@Deprecated
-    public double testWordProb(String word){
-		double score = testWord(word);
-		double prior = chemSet.size() / (chemSet.size() + engSet.size() + 0.0);
-		score = Math.log(prior) - Math.log(1-prior) + score;
-		return Math.exp(score) / (1 + Math.exp(score));
-	}
+	
+	/**
+	 * Compresses the double arrays to short arrays to save memory and
+	 * assigns the data to an NGram
+	 * 
+	 */
+	private NGram toNGram() {
+
+        int len = LP4C.length;
+
+        int step0 = len*len*len;
+        int step1 = len*len;
+        int step2 = len;
+
+        short[] data = new short[len*len*len*len];
+
+        double max = 0, min = 0;
+
+        for (int i0 = 0; i0 < len; i0++) {
+            for (int i1 = 0; i1 < len; i1++) {
+                for (int i2 = 0; i2 < len; i2++) {
+                    for (int i3 = 0; i3 < len; i3++) {
+
+                        double dif = LP4C[i0][i1][i2][i3] - LP4E[i0][i1][i2][i3];
+                        if (dif > max) {
+                            max = dif;
+                        }
+                        if (dif < min) {
+                            min = dif;
+                        }
+
+                        double sd = SCALE*dif;
+                        if (sd > Short.MAX_VALUE) {
+                            System.err.println("Warning: upper bound exceeded - "+sd);
+                            sd = Short.MAX_VALUE;
+                        } else if (sd < Short.MIN_VALUE) {
+                            System.err.println("Warning: lower bound exceeded - "+sd);
+                            sd = Short.MIN_VALUE;
+                        }
+                        data[i0*step0 + i1*step1 + i2*step2 + i3] = (short) Math.round(sd);
+
+                    }
+                }
+            }
+        }
+
+        return new NGram(data);
+
+    }
 }
 

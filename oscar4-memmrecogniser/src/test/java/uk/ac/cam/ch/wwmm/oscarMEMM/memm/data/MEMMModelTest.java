@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm.data;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -21,8 +22,15 @@ public class MEMMModelTest {
 		MEMMModel model = new MEMMModel();
 		// this test ensures that no Exceptions and Errors are thrown
 		Assert.assertNotNull(model);
-		// but no rescorer is defined
-		Assert.assertNull(model.getRescorer());
+		// and that the fields are initialised correctly
+		assertNotNull(model.getZeroProbs());
+		assertNull(model.getUberModel());
+		assertNull(model.getRescorer());
+		assertNotNull(model.getTagSet());
+		assertNotNull(model.getNamedEntityTypes());
+		assertNull(model.getManualAnnotations());
+		assertNotNull(model.getGISModelPrevs());
+		assertNull(model.getNGram());
 	}
 
 	@Test

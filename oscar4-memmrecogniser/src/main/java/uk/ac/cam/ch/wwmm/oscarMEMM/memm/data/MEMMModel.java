@@ -18,6 +18,7 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 
 /**
  * Data model for {@link MEMM}.
@@ -34,6 +35,8 @@ public class MEMMModel {
     protected Set<String> tagSet;
     protected Set<NamedEntityType> namedEntityTypes;
     protected ManualAnnotations manualAnnotations;
+    protected NGram nGram;
+    
 
     public MEMMModel() {
         zeroProbs = new HashMap<String, Double>();
@@ -166,5 +169,9 @@ public class MEMMModel {
 
 	public ManualAnnotations getManualAnnotations() {
 		return manualAnnotations;
+	}
+	
+	public NGram getNGram() {
+		return nGram;
 	}
 }

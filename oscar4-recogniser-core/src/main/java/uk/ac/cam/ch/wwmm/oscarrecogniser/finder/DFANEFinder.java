@@ -8,8 +8,6 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -59,6 +57,7 @@ public class DFANEFinder extends DFAFinder {
      */
     public static DFANEFinder getInstance() {
         if (myInstance == null) {
+            /* dictionaries are initialised by ChemNaneDictRegistry constructor
             try {
     			ChemNameDictRegistry.getInstance().register(
     				new DefaultDictionary()
@@ -72,6 +71,7 @@ public class DFANEFinder extends DFAFinder {
     				exception
     			);
     		}
+    		*/
             myInstance = new DFANEFinder();
         }
         return myInstance;
@@ -145,22 +145,22 @@ public class DFANEFinder extends DFAFinder {
      * @param t The token sequence
      * @return The NEs.
      */
-    public List<NamedEntity> findNamedEntities(ITokenSequence t) {
+    public List<NamedEntity> findNamedEntities(ITokenSequence t, NGram nGram) {
         NECollector nec = new NECollector();
-        List<RepresentationList> repsList = generateTokenRepresentations(t);
+        List<RepresentationList> repsList = generateTokenRepresentations(t, nGram);
         findItems(t, repsList, nec);
         return nec.getNes();
     }
 
-    private List<RepresentationList> generateTokenRepresentations(ITokenSequence t) {
+    private List<RepresentationList> generateTokenRepresentations(ITokenSequence t, NGram nGram) {
         List<RepresentationList> repsList = new ArrayList<RepresentationList>();
         for(IToken token : t.getTokens()) {
-            repsList.add(generateTokenRepresentations(token));
+            repsList.add(generateTokenRepresentations(token, nGram));
         }
         return repsList;
     }
 
-    protected RepresentationList generateTokenRepresentations(IToken token) {
+    protected RepresentationList generateTokenRepresentations(IToken token, NGram nGram) {
         RepresentationList tokenRepresentations = new RepresentationList();
         // Avoid complications with compound refs
         //SciXML dependent - removed 24/11/10 by dmj30
@@ -244,7 +244,7 @@ public class DFANEFinder extends DFAFinder {
                     score = -100;
                 }
                 else {
-                    score = NGram.getInstance().testWord(value);
+                    score = nGram.testWord(value);
                 }
 
                 if (score > OscarProperties.getData().ngramThreshold) {

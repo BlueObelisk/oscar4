@@ -17,7 +17,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
  * @author ptc24
  * @author dmj30
  */
-public final class ManualAnnotations {
+public class ManualAnnotations {
 
     private static ManualAnnotations currentInstance;
     private static ManualAnnotations defaultInstance;
@@ -89,17 +89,20 @@ public final class ManualAnnotations {
 
     public static ManualAnnotations getDefaultInstance() {
         if (defaultInstance == null) {
-            defaultInstance = loadDefaultInstance();
+            defaultInstance = loadDefaultManualAnnotations();
         }
         return defaultInstance;
     }
 
-    private static ManualAnnotations loadDefaultInstance() {
+    private static ManualAnnotations loadDefaultManualAnnotations() {
         String modelName = OscarProperties.getData().model;
-        Element etdElement = loadEtdElement(modelName);
-        return new ManualAnnotations(etdElement);
+        return loadManualAnnotations(modelName);
     }
 
+    public static ManualAnnotations loadManualAnnotations(String modelName) {
+    	Element etdElement = loadEtdElement(modelName);
+        return new ManualAnnotations(etdElement);
+    }
 
     static Element loadEtdElement(String modelName) {
         ResourceGetter rg = new ResourceGetter("/uk/ac/cam/ch/wwmm/oscarrecogniser/models/");
@@ -113,6 +116,7 @@ public final class ManualAnnotations {
     /**
      * Re-initialise the current singleton, using the current model file.
      */
+    //FIXME no it doesn't
     public static void reinitialise() {
         currentInstance = getDefaultInstance();
     }
@@ -177,5 +181,10 @@ public final class ManualAnnotations {
             throw new Error(e);
         }
     }
+
+
+	public Set <String> getNotForPrefix() {
+		return notForPrefix;
+	}
 
 }

@@ -1,5 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
+import static org.junit.Assert.*;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,5 +107,43 @@ public class MEMMTrainerTest {
 		memm.setModel(model);
 		Assert.assertEquals("Number of Chemical words in ExtractedManualAnnotations size",176, model.getManualAnnotations().chemicalWords.size());
 		Assert.assertEquals("Number of Chemical words in ExtractedManualAnnotations size",1452, model.getManualAnnotations().nonChemicalWords.size());
+	}
+	
+	
+	@Ignore
+	@Test
+	/**
+	 * To check that the same model is always produced from the same input
+	 */
+	public void testDeterministicModelProduction() throws Exception {
+		Element model1 = trainModel();
+		Element model2 = trainModel();
+		assertTrue(model1.toXML().equals(model2.toXML()));
+		
+//		MEMMRecogniser memm = new MEMMRecogniser();
+		MEMMModel model = new MEMMModel();
+		model.readModel(model1);
+//		memm.setModel(model);
+         
+//		ProcessingDocument procdoc = ProcessingDocumentFactory.getInstance()
+//				.makeTokenisedDocument(Tokeniser.getInstance(), "the quick brown fox");
+//		memm.findNamedEntities(procdoc);
+		
+		Element model3 = trainModel();
+		
+		assertTrue(model1.toXML().equals(model2.toXML()));
+		assertTrue(model1.toXML().equals(model3.toXML()));
+	}
+
+	private Element trainModel() throws Exception {
+		MEMMTrainer trainer = new MEMMTrainer();
+		InputStream stream = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+					"uk/ac/cam/ch/wwmm/oscarMEMM/memm/paper.xml");
+		trainer.trainOnStream(stream);
+		trainer.finishTraining();
+		return trainer.getModel().writeModel();
 	}
 }

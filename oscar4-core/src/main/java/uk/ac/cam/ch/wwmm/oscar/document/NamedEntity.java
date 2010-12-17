@@ -53,8 +53,15 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 		custTypes = null;
 		addPunctuation();
 	}
-	
-	/**Creates a named entity, corresponding to a prefix of a single token,
+
+    public NamedEntity(String surface, int start, int end, NamedEntityType type) {
+        this.surface = surface;
+        this.startOffset = start;
+        this.endOffset = end;
+        this.type = type;
+    }
+
+    /**Creates a named entity, corresponding to a prefix of a single token,
 	 * of type CPR.
 	 * 
 	 * @param t The token that contains the prefix.
@@ -432,4 +439,28 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 		return true;
 	}
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof NamedEntity) {
+            NamedEntity that = (NamedEntity) o;
+            return getStart() == that.getStart()
+                    && getEnd() == that.getEnd()
+                    && getSurface().equals(that.getSurface())
+                    && getType().equals(that.getType());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = startOffset;
+        result = 31 * result + endOffset;
+        result = 31 * result + (surface != null ? surface.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
+    }
 }

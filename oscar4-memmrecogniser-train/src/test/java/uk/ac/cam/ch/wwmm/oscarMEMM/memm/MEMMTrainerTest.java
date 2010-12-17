@@ -11,7 +11,6 @@ import nu.xom.Element;
 import nu.xom.Elements;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -70,20 +69,16 @@ public class MEMMTrainerTest {
 	}
 
 	
-	@Ignore
-	@Given("testConstructor,testLearning")
-	public void testRecognising(MEMMTrainer trainer, Element trainedModel)
-			throws Exception {
+	@Test
+	public void testRecognising() throws Exception {
+		List<String> expectedSurfaceList = Arrays.asList("ether", "ether", "ketone", "ketone", "nitrogen", "nitrogen", "bisphthalazinone", "sulfonated difluoride ketone", "difluoride ketone", "ketone", "potassium", "potassium carbonate", "mmol", "DMSO", "toluene", "Nitrogen", "Nitrogen", "water", "toluene", "DMSO", "methanol", "water", "water", "polymer", "7a");
+		List<String> expectedTypeList = Arrays.asList("ONT", "ONT", "CM", "ONT", "CM", "ONT", "CM", "CM", "CM", "ONT", "ONT", "CM", "CM", "CM", "CM", "CM", "ONT", "CM", "CM", "CM", "CM", "CM", "CM", "ONT", "CM");
 
-		List<String> expectedSurfaceList = Arrays.asList("Poly(phthalazinone", "ether", "ether", "ketone", "ketone", "nitrogen", "nitrogen", "bisphthalazinone", "sulfonated difluoride ketone", "difluoride ketone", "ketone", "potassium", "potassium carbonate", "DMSO", "toluene", "Nitrogen", "Nitrogen", "water", "toluene", "DMSO", "methanol", "water", "water", "polymer", "7a");
-		List<String> expectedTypeList = Arrays.asList("CM", "ONT", "ONT", "CM", "ONT", "CM", "ONT", "CM", "CM", "CM", "ONT", "ONT", "CM", "CM", "CM", "CM", "ONT", "CM", "CM", "CM", "CM", "CM", "CM", "ONT", "CM");
 		String sentence = "Preparation of Sulfonated Poly(phthalazinone ether ether ketone) 7a. To a 25 mL three-necked round-bottomed flask fitted with a Dean-stark trap, a condenser, a nitrogen inlet/outlet, and magnetic stirrer was added bisphthalazinone monomer 4 (0.6267 g, 1 mmol), sulfonated difluoride ketone 5 (0.4223 g, 1 mmol), anhydrous potassium carbonate (0.1935 g, 1.4 mmol), 5 mL of DMSO, and 6 mL of toluene. Nitrogen was purged through the reaction mixture with stirring for 10 min, and then the mixture was slowly heated to 140 °C and kept stirring for 2 h. After water generated was azoetroped off with toluene. The temperature was slowly increased to 175 °C. The temperature was maintained for 20 h, and the viscous solution was cooled to 100 °C followed by diluting with 2 mL of DMSO and, thereafter, precipitated into 100 mL of 1:  1 (v/v) methanol/water. The precipitates were filtered and washed with water for three times. The fibrous residues were collected and dried at 110 °C under vacuum for 24 h. A total of 0.9423 g of polymer 7a was obtained in high yield of 93%.";
 		List<String> actualSurfaceList = new ArrayList<String>();
 		List<String> actualTypeList = new ArrayList<String>();
 		MEMMRecogniser memm = new MEMMRecogniser();
-		MEMMModel model = new MEMMModel();
-		model.readModel(trainedModel);
-		memm.setModel(model);
+		memm.setModel(trainModel());
          
 		ProcessingDocument procdoc = ProcessingDocumentFactory.getInstance()
 				.makeTokenisedDocument(Tokeniser.getInstance(), sentence);
@@ -92,7 +87,6 @@ public class MEMMTrainerTest {
 		for (NamedEntity namedEntity : neList) {
 			actualSurfaceList.add(namedEntity.getSurface());
 			actualTypeList.add(namedEntity.getType().getName());
-					
 		}
 		Assert.assertEquals("Chemical Names recognised",expectedSurfaceList,actualSurfaceList);
 		Assert.assertEquals("Chemical Types recognised",expectedTypeList,actualTypeList);
@@ -110,32 +104,28 @@ public class MEMMTrainerTest {
 	}
 	
 	
-	@Ignore
 	@Test
 	/**
 	 * To check that the same model is always produced from the same input
 	 */
 	public void testDeterministicModelProduction() throws Exception {
-		Element model1 = trainModel();
-		Element model2 = trainModel();
+		Element model1 = trainModel().writeModel();
+		Element model2 = trainModel().writeModel();
 		assertTrue(model1.toXML().equals(model2.toXML()));
 		
-//		MEMMRecogniser memm = new MEMMRecogniser();
 		MEMMModel model = new MEMMModel();
+		//previously, reading a model has triggered a change in the
+		//ManualAnnotations/ExtractedTrainingData causing a different
+		//model to be produced
 		model.readModel(model1);
-//		memm.setModel(model);
-         
-//		ProcessingDocument procdoc = ProcessingDocumentFactory.getInstance()
-//				.makeTokenisedDocument(Tokeniser.getInstance(), "the quick brown fox");
-//		memm.findNamedEntities(procdoc);
-		
-		Element model3 = trainModel();
+
+		Element model3 = trainModel().writeModel();
 		
 		assertTrue(model1.toXML().equals(model2.toXML()));
 		assertTrue(model1.toXML().equals(model3.toXML()));
 	}
 
-	private Element trainModel() throws Exception {
+	private MEMMModel trainModel() throws Exception {
 		MEMMTrainer trainer = new MEMMTrainer();
 		InputStream stream = this
 				.getClass()
@@ -144,6 +134,6 @@ public class MEMMTrainerTest {
 					"uk/ac/cam/ch/wwmm/oscarMEMM/memm/paper.xml");
 		trainer.trainOnStream(stream);
 		trainer.finishTraining();
-		return trainer.getModel().writeModel();
+		return trainer.getModel();
 	}
 }

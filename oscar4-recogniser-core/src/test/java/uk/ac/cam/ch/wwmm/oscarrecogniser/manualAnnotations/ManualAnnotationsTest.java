@@ -44,12 +44,12 @@ public class ManualAnnotationsTest {
 	
 	@Test
 	public void testReinitialise() {
-		ManualAnnotations.reinitialise(ManualAnnotations.loadEtdElement("chempapers"));
-		assertTrue(ManualAnnotations.getInstance().nonChemicalWords.contains("elongate"));
-		assertFalse(ManualAnnotations.getInstance().nonChemicalWords.contains("leukaemic"));
+		ManualAnnotations annotations1 = ManualAnnotations.reinitialise(ManualAnnotations.loadEtdElement("chempapers"));
+		assertTrue(annotations1.nonChemicalWords.contains("elongate"));
+		assertFalse(annotations1.nonChemicalWords.contains("leukaemic"));
 		
-		ManualAnnotations.reinitialise(ManualAnnotations.loadEtdElement("pubmed"));
-		assertFalse(ManualAnnotations.getInstance().nonChemicalWords.contains("elongate"));
-		assertTrue(ManualAnnotations.getInstance().nonChemicalWords.contains("leukaemic"));
+		ManualAnnotations annotations2 = ManualAnnotations.reinitialise(ManualAnnotations.loadEtdElement("pubmed"));
+		assertFalse(annotations2.nonChemicalWords.contains("elongate"));
+		assertTrue(annotations2.nonChemicalWords.contains("leukaemic"));
 	}
 }

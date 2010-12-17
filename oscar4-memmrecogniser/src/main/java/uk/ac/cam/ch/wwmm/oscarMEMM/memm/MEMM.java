@@ -65,7 +65,7 @@ public final class MEMM {
      * @return Named entities, with confidences.
      */
     public List<NamedEntity> findNEs(ITokenSequence tokSeq) {
-        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram());
+        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram(), model.getManualAnnotations());
         List<IToken> tokens = tokSeq.getTokens();
         if (tokens.isEmpty()) {
             return Collections.emptyList();
@@ -79,7 +79,7 @@ public final class MEMM {
 
         EntityTokeniser lattice = new EntityTokeniser(model, tokSeq, classifierResults);
         List<NamedEntity> namedEntities = lattice.getEntities(confidenceThreshold);
-        PostProcessor pp = new PostProcessor(tokSeq, namedEntities);
+        PostProcessor pp = new PostProcessor(tokSeq, namedEntities, model.getManualAnnotations());
         if (filtering) {
             pp.filterEntities();
         }

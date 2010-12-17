@@ -402,7 +402,7 @@ public final class MEMMTrainer {
 			model, tokSeq, classifierResults
 		);
 		List<NamedEntity> neConfidences = lattice.getEntities(confidenceThreshold);
-		PostProcessor pp = new PostProcessor(tokSeq, neConfidences);
+		PostProcessor pp = new PostProcessor(tokSeq, neConfidences, new ManualAnnotations());
 		if(filtering) pp.filterEntities();
 		pp.getBlocked();
 		if(removeBlocked) pp.removeBlocked();

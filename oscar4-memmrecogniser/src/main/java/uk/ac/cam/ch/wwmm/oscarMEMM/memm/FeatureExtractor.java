@@ -12,6 +12,7 @@ import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.FeatureSet;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 
@@ -100,10 +101,16 @@ public final class FeatureExtractor {
 	private boolean noC = false;
 
 	private boolean newSuffixes = false;
-	private NGram nGram;
-
-    public static List<FeatureList> extractFeatures(ITokenSequence tokSeq, NGram nGram) {
-        FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq, nGram);
+	private NGram ngram;
+	private ManualAnnotations manualAnnotations;
+	
+	
+	public static List<FeatureList> extractFeatures(ITokenSequence tokSeq, NGram ngram) {
+		return extractFeatures(tokSeq, ngram, new ManualAnnotations());
+	}
+	
+    public static List<FeatureList> extractFeatures(ITokenSequence tokSeq, NGram ngram, ManualAnnotations annotations) {
+        FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq, ngram, annotations);
         return featureExtractor.getFeatureLists();
     }
 
@@ -115,9 +122,10 @@ public final class FeatureExtractor {
         return features;
     }
 
-    private FeatureExtractor(ITokenSequence tokSeq, NGram nGram) {
+    private FeatureExtractor(ITokenSequence tokSeq, NGram ngram, ManualAnnotations annotations) {
 		this.tokSeq = tokSeq;
-		this.nGram = nGram;
+		this.ngram = ngram;
+		this.manualAnnotations = annotations;
 		makeFeatures();
 	}
 
@@ -165,7 +173,6 @@ public final class FeatureExtractor {
 			contextable.addFeature(makeWordFeature(normWord));
 		}
 
-		ManualAnnotations manualAnnotations = ManualAnnotations.getInstance();
 		makeWordFeatures(word, normWord, bigramable, manualAnnotations);
 		makeReactionFeatures(word, bigramable, contextable, manualAnnotations);
 
@@ -209,18 +216,18 @@ public final class FeatureExtractor {
 		if (TermSets.getDefaultInstance().getClosedClass().contains(normWord)) {
 			local.addFeature(STOPWORD_CLOSED_CLASS_FEATURE);
 		}
-		if (ManualAnnotations.getInstance().nonChemicalWords
+		if (manualAnnotations.nonChemicalWords
 				.contains(normWord)) {
 			local.addFeature(STOPWORD_NON_CHEMICAL_WORD_FEATURE);
 		}
-		if (ManualAnnotations.getInstance().nonChemicalNonWords
+		if (manualAnnotations.nonChemicalNonWords
 				.contains(normWord)
 				&& !TermSets.getDefaultInstance().getElements().contains(normWord)) {
 			local.addFeature(STOPWORD_NONCHEMICALNONWORD_FEATURE);
 		}
 		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
-				&& !(ChemNameDictRegistry.getInstance().hasName(normWord) || ManualAnnotations
-						.getInstance().chemicalWords.contains(normWord))) {
+				&& !(ChemNameDictRegistry.getInstance().hasName(normWord) || 
+						manualAnnotations.chemicalWords.contains(normWord))) {
 			local.addFeature(STOPWORD_USER_DEFINED_FEATURE);
 		}
 	}
@@ -228,7 +235,7 @@ public final class FeatureExtractor {
 	private void handleNoNewSuffices(String word, String normWord,
 			FeatureList bigramable, FeatureList contextable,
 			FeatureList local, IToken token) {
-		double ngscore = nGram.testWord(word);
+		double ngscore = ngram.testWord(word);
 		// Already seen
 		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getValue());
 		ngscore = Math.max(ngscore, NGRAM_SCORE_LOWER_BOUND);
@@ -244,7 +251,7 @@ public final class FeatureExtractor {
 				|| TermSets.getDefaultInstance().getUsrDictWords().contains(word)) {
 			ngscore = SUFFIX_LO_SCORE;
 		}
-		if (ManualAnnotations.getInstance().chemicalWords.contains(normWord)) {
+		if (manualAnnotations.chemicalWords.contains(normWord)) {
 			ngscore = 100;
 		}
 		if (ChemNameDictRegistry.getInstance().hasName(word)) {
@@ -260,7 +267,7 @@ public final class FeatureExtractor {
 	private void handleNewSuffices(String word, String normWord,
 			FeatureList bigramable, FeatureList contextable,
 			FeatureList local, IToken token) {
-		double suffixScore = nGram.testWordSuffix(word);
+		double suffixScore = ngram.testWordSuffix(word);
 		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getValue());
 
 		suffixScore = Math.max(suffixScore, SUFFIX_SCORE_LOWER_BOUND);
@@ -276,13 +283,13 @@ public final class FeatureExtractor {
 				|| TermSets.getDefaultInstance().getUsrDictWords().contains(word)) {
 			suffixScore = SUFFIX_LO_SCORE;
 		}
-		if (ManualAnnotations.getInstance().chemicalWords.contains(normWord)) {
+		if (manualAnnotations.chemicalWords.contains(normWord)) {
 			suffixScore = SUFFIX_HI_SCORE;
 		}
 		if (ChemNameDictRegistry.getInstance().hasName(word)) {
 			suffixScore = SUFFIX_HI_SCORE;
 		}
-		double ngscore = nGram.testWord(word);
+		double ngscore = ngram.testWord(word);
 		ngscore = Math.max(ngscore, NGRAM_SCORE_LOWER_BOUND);
 		ngscore = Math.min(ngscore, NGRAM_SCORE_UPPER_BOUND);
 		for (int i = 0; i < ngscore; i++) {
@@ -428,7 +435,7 @@ public final class FeatureExtractor {
 					&& !TermSets.getDefaultInstance().getUsrDictWords().contains(word))
 				suspect = true;
 			if (!noPC
-					&& ManualAnnotations.getInstance().pnStops.contains(word))
+					&& manualAnnotations.pnStops.contains(word))
 				suspect = true;
 			int patternPosition = position + 1;
 			while (patternPosition < (tokSeq.size() - 2)

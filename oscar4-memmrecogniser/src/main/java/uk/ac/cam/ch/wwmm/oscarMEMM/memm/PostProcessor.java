@@ -29,6 +29,7 @@ final class PostProcessor {
 	private List<NamedEntity> entities;
 	private Set<NamedEntity> blocked;
 	private ITokenSequence tokSeq;
+	private ManualAnnotations annotations;
 
 	private static Pattern cjPattern = Pattern.compile("\\S+(ic|al|ous)");
 	private static Pattern asePattern = Pattern.compile("\\S+[Aa]ses?");
@@ -40,18 +41,19 @@ final class PostProcessor {
 
 	private static boolean noPC = false;
 
-	public PostProcessor(ITokenSequence tokSeq, List<NamedEntity> entities) {
+	public PostProcessor(ITokenSequence tokSeq, List<NamedEntity> entities, ManualAnnotations annotations) {
 		this.tokSeq = tokSeq;
 		this.entities = entities;
+		this.annotations = annotations;
 	}
 
-	public static int filterEntity(NamedEntity ne) {
+	public int filterEntity(NamedEntity ne) {
 		String surf = ne.getSurface();
 		NamedEntityType namedEntityType = ne.getType();
 		return filterEntity(surf, namedEntityType);
 	}
 
-	public static int filterEntity(String surf, NamedEntityType namedEntityType) {
+	public int filterEntity(String surf, NamedEntityType namedEntityType) {
 		//GetDataFromModels dataModel = new GetDataFromModels();
 
 		surf = surf.replaceAll("\\s+", " ");
@@ -89,7 +91,7 @@ final class PostProcessor {
 			return 11;
 			// Fix things for alternate annotation scheme
 		}  else if ((namedEntityType.getName().length() < 4) && (!noPC &&
-			 ManualAnnotations.getInstance().nonChemicalWords.contains(surf)))
+			 annotations.nonChemicalWords.contains(surf)))
 			 {
 //		else if ((type.length() < 4)
 //				&& (!noPC && dataModel.nonChemicalWords

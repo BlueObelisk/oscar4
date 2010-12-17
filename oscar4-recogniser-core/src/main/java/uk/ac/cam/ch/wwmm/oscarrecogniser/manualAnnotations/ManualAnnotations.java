@@ -19,6 +19,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
  */
 public class ManualAnnotations {
 
+	//FIXME dmj30 remove currentInstance and singleton-ish methods entirely
     private static ManualAnnotations currentInstance;
     private static ManualAnnotations defaultInstance;
 
@@ -48,6 +49,10 @@ public class ManualAnnotations {
     public final Set<String> rnMid;
 
 
+    /**
+     * Creates a ManualAnnotations object in which all the term sets
+     * are initialised but empty.
+     */
     public ManualAnnotations() {
         chemicalWords = Collections.emptySet();
         nonChemicalWords = Collections.emptySet();
@@ -62,6 +67,11 @@ public class ManualAnnotations {
     }
 
 
+    /**
+     * 
+     * Creates a ManualAnnotations object in which the term sets
+     * are loaded from the given XML element.
+     */
     public ManualAnnotations(Element xml) {
         chemicalWords = readStringsFromElement(xml.getFirstChildElement("chemicalWords"));
         nonChemicalWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalWords"));
@@ -75,18 +85,11 @@ public class ManualAnnotations {
         rnMid = readStringsFromElement(xml.getFirstChildElement("rnMid"));
     }
 
-    /**Get the current singleton. If this does not exist, initialise it using
-     * the current model file.
-     *
-     * @return The singleton.
-     */
-    public static ManualAnnotations getInstance() {
-        if (currentInstance == null) {
-            currentInstance = getDefaultInstance();
-        }
-        return currentInstance;
-    }
 
+    /**
+     * Creates a ManualAnnotations object in which the term sets
+     * are loaded from the default model file.
+     */
     public static ManualAnnotations getDefaultInstance() {
         if (defaultInstance == null) {
             defaultInstance = loadDefaultManualAnnotations();
@@ -99,6 +102,11 @@ public class ManualAnnotations {
         return loadManualAnnotations(modelName);
     }
 
+    /**
+     * Creates a ManualAnnotations object in which the term sets
+     * are loaded from the specified model file.
+     * @param modelName the name of the model file, excluding ".xml" 
+     */
     public static ManualAnnotations loadManualAnnotations(String modelName) {
     	Element etdElement = loadEtdElement(modelName);
         return new ManualAnnotations(etdElement);
@@ -113,13 +121,6 @@ public class ManualAnnotations {
         return modelDoc.getRootElement().getFirstChildElement("etd");
     }
 
-    /**
-     * Re-initialise the current singleton, using the current model file.
-     */
-    //FIXME no it doesn't
-    public static void reinitialise() {
-        currentInstance = getDefaultInstance();
-    }
 
     /**Re-initialise the current singleton, given an XML serialization
      * produced by toXML.

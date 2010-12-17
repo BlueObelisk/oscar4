@@ -46,7 +46,7 @@ public final class StringTools {
     public static final String whiteSpace = "\u0020\u0085\u00a0\u1680\u180e\u2000\u2001\u2002\u2003" +
             "\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000";
 
-    private static final Pattern optionalPattern = Pattern.compile("\\(([0-9 ]+)\\)\\?");
+    private static final Pattern P_OPTIONAL_GROUP = Pattern.compile("\\(([0-9 ]+)\\)\\?");
 
     /**Finds the first uppercase letter in a name that might sensibly be
      * converted to lowercase.
@@ -57,6 +57,8 @@ public final class StringTools {
 
     private static final Pattern P_WHITESPACE = Pattern.compile("\\s+");
 
+    private static final Pattern P_ALL_WS_DIGIT = Pattern.compile("[0-9 ]+");
+    private static final Pattern P_ALL_WS_DIGIT_GROUPS = Pattern.compile("[0-9 ()?]+");
 
     /**Removes the letter "s" from the end of a string, if present.
      *
@@ -439,33 +441,34 @@ public final class StringTools {
     /** Expands a string consisting of digits, whitespace and regex characters
      * into a finite set of digits/whitespace only strings if possible.
      *
+     * A?BC? >>
+     *          B
+     *          AB
+     *          BC
+     *          ABC
+     *
      * @param regex The regex to expand.
      * @return The strings that the regex can match.
      */
     public static Set<String> expandRegex(String regex) {
-        Set<String> results = new LinkedHashSet<String>();
         if (regex == null || regex.length() == 0) {
-            return results;
+            return Collections.emptySet();
         }
-        if (regex.matches("[0-9 ]+")) {
-            results.add(regex);
-            return results;
-        } else if (regex.matches("[0-9 ()?]+")) {
-            Matcher m = optionalPattern.matcher(regex);
-            if (m.find()) {
-                String before = regex.substring(0, m.start());
-                String middle = regex.substring(m.start(1), m.end(1));
-                String after = regex.substring(m.end());
-                results.addAll(expandRegex(before + after));
-                results.addAll(expandRegex(before + middle + after));
-            } else {
-                results.add(regex);
+        if (!P_ALL_WS_DIGIT.matcher(regex).matches()) {
+            if (P_ALL_WS_DIGIT_GROUPS.matcher(regex).matches()) {
+                Matcher m = P_OPTIONAL_GROUP.matcher(regex);
+                if (m.find()) {
+                    String before = regex.substring(0, m.start());
+                    String middle = regex.substring(m.start(1), m.end(1));
+                    String after = regex.substring(m.end());
+                    Set<String> results = new LinkedHashSet<String>();
+                    results.addAll(expandRegex(before + after));
+                    results.addAll(expandRegex(before + middle + after));
+                    return results;
+                }
             }
-            return results;
-        } else {
-            results.add(regex);
-            return results;
         }
+        return Collections.singleton(regex);
     }
 
     /**

@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 public class DFAFinderTest {
 
     @Test
-    public void testFindSimpleTerms() {
+    public void testFindSimpleTermsLowerCase() {
         NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
         Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
         terms.put("fox", ANIMAL);
@@ -35,9 +35,9 @@ public class DFAFinderTest {
         assertTrue(neList.contains(new NamedEntity("dog", 40, 43, ANIMAL)));
     }
 
-
     @Test
-    public void testFindSimpleTermsDifferentCase() {
+    public void testFindSimpleTermsCapitalised() {
+        // lower-case terms, upper-case in text
         NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
         Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
         terms.put("fox", ANIMAL);
@@ -50,7 +50,62 @@ public class DFAFinderTest {
         assertTrue(neList.contains(new NamedEntity("Dog", 40, 43, ANIMAL)));
     }
 
-    
+    @Test
+    public void testFindSimpleTermsMixedCase() {
+        NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
+        Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
+        terms.put("fox", ANIMAL);
+        terms.put("dog", ANIMAL);
+        Finder finder = new Finder(terms);
+        String s = "The quick brown FOX jumps over the lazy doG.";
+        List<NamedEntity> neList = finder.findNamedEntities(s);
+        assertEquals(1, neList.size());
+//        assertTrue(neList.contains(new NamedEntity("FOX", 16, 19, ANIMAL)));
+        assertTrue(neList.contains(new NamedEntity("doG", 40, 43, ANIMAL)));
+    }
+
+
+    @Test
+    public void testFindSimpleTermsDifferentCase() {
+        // upper-case terms, lower-case in text
+        NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
+        Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
+        terms.put("Fox", ANIMAL);
+        terms.put("Dog", ANIMAL);
+        Finder finder = new Finder(terms);
+        String s = "The quick brown fox jumps over the lazy dog.";
+        List<NamedEntity> neList = finder.findNamedEntities(s);
+        assertEquals(0, neList.size());
+    }
+
+
+    @Test
+    public void testFindMultiTokenTerm() {
+        NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
+        Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
+        terms.put("brown fox", ANIMAL);
+        terms.put("red fox", ANIMAL);
+        terms.put("fox", ANIMAL);
+        Finder finder = new Finder(terms);
+        String s = "The quick brown fox jumps over the lazy Dog.";
+        List<NamedEntity> neList = finder.findNamedEntities(s);
+        assertEquals(2, neList.size());
+        assertTrue(neList.contains(new NamedEntity("brown fox", 10, 19, ANIMAL)));
+        assertTrue(neList.contains(new NamedEntity("fox", 16, 19, ANIMAL)));
+    }
+
+    @Test
+    public void testFindHyphenatedTerm() {
+        NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
+        Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
+        terms.put("brown - fox", ANIMAL);
+        Finder finder = new Finder(terms);
+        String s = "The quick brown - fox jumps over the lazy Dog.";
+        List<NamedEntity> neList = finder.findNamedEntities(s);
+        assertEquals(1, neList.size());
+        assertTrue(neList.contains(new NamedEntity("brown - fox", 10, 21, ANIMAL)));
+    }
+
     static class Finder extends DFAFinder {
 
         private Map<String, NamedEntityType> terms;
@@ -98,7 +153,7 @@ public class DFAFinderTest {
                     tokenRepresentations.addRepresentation("$DOTS");
                 }
             }
-
+//            System.err.println(tokenRepresentations.toList());
             return tokenRepresentations;
         }
 

@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
@@ -104,6 +105,20 @@ public class DFAFinderTest {
         List<NamedEntity> neList = finder.findNamedEntities(s);
         assertEquals(1, neList.size());
         assertTrue(neList.contains(new NamedEntity("brown - fox", 10, 21, ANIMAL)));
+    }
+
+    @Test
+    @Ignore
+    // TODO - DFAFinder does not generate representations for term tokens in the same way that it does for input text
+    public void testFindHyphenatedTermMatchEndash() {
+        NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
+        Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
+        terms.put("brown - fox", ANIMAL);
+        Finder finder = new Finder(terms);
+        String s = "The quick brown \u2013 fox jumps over the lazy Dog.";
+        List<NamedEntity> neList = finder.findNamedEntities(s);
+        assertEquals(1, neList.size());
+        assertTrue(neList.contains(new NamedEntity("brown \u2013 fox", 10, 21, ANIMAL)));
     }
 
     static class Finder extends DFAFinder {

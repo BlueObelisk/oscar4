@@ -23,6 +23,13 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /** A subclass of DFAFinder, used to find named entities.
  *
+ * Notes:
+ * case-sensitivity:
+ *   it appears that lower-case terms can match words in text containing upper-case
+ *   characters so long as they also contain consecutive lower-case characters, but if
+ *   there are upper-case characters in the term, then they must be upper-case
+ *   in the text in order to match.
+ *
  * @author ptc24
  *
  */

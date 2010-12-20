@@ -28,13 +28,9 @@ public final class Token implements IToken {
 	private ITokenSequence tokenSequence;
 	
 	private Element neElem;
-	private String [] geniaData = null;
-	private List<Token> chunk;
-	private String chunkType;
 	
 	/** The B/I/O tag, when inline annotation is digested */
 	private String bioTag;
-	
 
 	public Token(String value, int start, int end, IProcessingDocument doc, String bioTag, Element neElem) {
 		this.start = start;

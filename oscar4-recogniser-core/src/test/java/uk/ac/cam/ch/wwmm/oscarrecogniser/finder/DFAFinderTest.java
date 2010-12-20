@@ -5,16 +5,15 @@ import org.junit.Test;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -120,6 +119,28 @@ public class DFAFinderTest {
         assertEquals(1, neList.size());
         assertTrue(neList.contains(new NamedEntity("brown \u2013 fox", 10, 21, ANIMAL)));
     }
+
+    @Test
+    @Ignore
+    public void testChebiTerms() {
+        Map<String,String> ontology = OntologyTerms.getDefaultInstance().getOntology();
+        NamedEntityType ONT = NamedEntityType.valueOf("ONT");
+        boolean fail = false;
+        for (String term : ontology.keySet()) {
+            Finder finder = new Finder(Collections.singletonMap(term, ONT));
+            String s = "I know that "+term+" is a chemical entity!";
+            List<NamedEntity> neList = finder.findNamedEntities(s);
+            if (neList.size() != 1) {
+                System.err.println(neList.size()+"\t"+term);
+                for (NamedEntity ne : neList) {
+                    System.err.println("    "+ne.getStart()+"-"+ne.getEnd()+" "+ne.getSurface());
+                }
+                fail = true;
+            }
+        }
+        assertFalse(fail);
+    }
+
 
     static class Finder extends DFAFinder {
 

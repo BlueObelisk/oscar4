@@ -137,7 +137,7 @@ public abstract class DFAFinder implements Serializable {
 		}
 		String preReStr = sb.toString();
         TermMaps termMaps = TermMaps.getInstance();
-		for(String reStr : StringTools.expandRegex(preReStr)) {
+        for(String reStr : StringTools.expandRegex(preReStr)) {
 			if (digitOrSpace.matcher(reStr).matches()) {
 				if (simpleAuts.containsKey(namedEntityType)) {
 					simpleAuts.get(namedEntityType).addContents(reStr);
@@ -265,7 +265,7 @@ public abstract class DFAFinder implements Serializable {
 	
 	protected void handleNamedEntity(AutomatonState a, int endToken, ITokenSequence t, NECollector collector) {
 		String surface = t.getSubstring(a.getStartToken(), endToken);
-		NamedEntityType type = a.getType();
+        NamedEntityType type = a.getType();
         if (type.getParent() != null) {
             type = type.getParent();
         }
@@ -304,8 +304,11 @@ public abstract class DFAFinder implements Serializable {
 		List<AutomatonState> autStates = initAutomatonStates();
         List<AutomatonState> newAutStates = new ArrayList<AutomatonState>();
         for (int i = startToken; i <= endToken; i++) {
-            IToken token = tokenSequence.getToken(i);            
-			handleTokenForPrefix(token, collector);
+            IToken token = tokenSequence.getToken(i);
+//          sea36: commented out
+//          this just seems to extract e.g. 2- from 2-anthryl
+//          as an additional named entity
+//			handleTokenForPrefix(token, collector);
 			RepresentationList tokenRepresentations = repsList.get(token.getId());
 			if (tokenRepresentations.isEmpty()) {
 				autStates.clear();
@@ -324,7 +327,7 @@ public abstract class DFAFinder implements Serializable {
                     if (stepIntoAutomaton(tokenRepCode, a)) {
 						a.addRep(tokenRep);
 						if (a.isAccept()) {
-							handleNamedEntity(a, i, tokenSequence, collector);
+                            handleNamedEntity(a, i, tokenSequence, collector);
 						}
 						newAutStates.add(a);
 					}

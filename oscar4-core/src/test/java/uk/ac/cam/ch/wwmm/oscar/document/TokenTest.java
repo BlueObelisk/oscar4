@@ -3,6 +3,10 @@ package uk.ac.cam.ch.wwmm.oscar.document;
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+
 public class TokenTest {
 
 	@Test
@@ -47,7 +51,10 @@ public class TokenTest {
 		Token token = new Token(
 			null, 0, 77, null, null, null
 		);
-		token.setBioTag("CM");
-		Assert.assertEquals("CM", token.getBioTag());
+		token.setBioTag(new BioType(BioTag.B, NamedEntityType.COMPOUND));
+		Assert.assertEquals(
+			new BioType(BioTag.B, NamedEntityType.COMPOUND),
+			token.getBioTag()
+		);
 	}
 }

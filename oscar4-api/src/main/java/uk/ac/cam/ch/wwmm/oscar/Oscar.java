@@ -11,8 +11,6 @@ import nu.xom.Element;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
@@ -36,7 +34,6 @@ public class Oscar {
     private ITokeniser tokenizer;
     private ChemicalEntityRecogniser recogniser;
 
-
     /**
      * The dictionaries that are loading upon instantiation of this
      * class. If they are not available from the classpath, it will
@@ -47,12 +44,23 @@ public class Oscar {
         recogniser = newDefaultRecogniser();
     }
 
-
+    /**
+     * Returns the {@link ChemNameDictRegistry} used in this {@link Oscar}
+     * instance.
+     *
+     * @return The current chemical name dictionary.
+     */
     public ChemNameDictRegistry getDictionaryRegistry() {
         return dictionaryRegistry;
     }
 
-
+    /**
+     * Returns the tokenizer used in this text analyzer for splitting
+     * sentences up in tokens.
+     *
+     * @return the active {@link ITokeniser}.
+     * @see    #setTokenizer(ITokeniser)
+     */
     public ITokeniser getTokenizer() {
         if (tokenizer == null) {
             tokenizer = newDefaultTokeniser();
@@ -60,6 +68,13 @@ public class Oscar {
         return tokenizer;
     }
 
+    /**
+     * Sets the {@link ITokeniser} implementation to be used for sentence
+     * splitting.
+     *
+     * @param tokenizer and {@link ITokeniser} implementation.
+     * @see   #getTokenizer()
+     */
     public void setTokenizer(ITokeniser tokenizer) {
         if (tokenizer == null) {
             throw new IllegalArgumentException("Null tokenizer");
@@ -71,7 +86,13 @@ public class Oscar {
         return Tokeniser.getInstance();
     }
 
-
+    /**
+     * Returns the chemical entity recognizer used by this Oscar to
+     * convert named entities into chemical structures.
+     *
+     * @return an {@link ChemicalEntityRecogniser}.
+     * @see    #setRecogniser(ChemicalEntityRecogniser)
+     */
     public ChemicalEntityRecogniser getRecogniser() {
         if (recogniser == null) {
             recogniser = newDefaultRecogniser();
@@ -79,6 +100,12 @@ public class Oscar {
         return recogniser;
     }
 
+    /**
+     * Sets a new chemical name recogniser.
+     *
+     * @param recogniser the new {@link ChemicalEntityRecogniser}.
+     * @see Oscar#getRecogniser()
+     */
     public void setRecogniser(ChemicalEntityRecogniser recogniser) {
         if (recogniser == null) {
             throw new IllegalArgumentException("Null recogniser");
@@ -89,7 +116,6 @@ public class Oscar {
     private ChemicalEntityRecogniser newDefaultRecogniser() {
         return new MEMMRecogniser();
     }
-
 
     /**
      * Wrapper methods that runs the full Oscar workflow, except for resolving detected
@@ -124,7 +150,13 @@ public class Oscar {
         return molecules;
     }
 
-
+    /**
+     * Converts named entities into chemical structures, represented by their
+     * InChIs returned as {@link String}s.
+     *
+     * @param  entities a {@link List} of {@link NamedEntity}s.
+     * @return          a {@link Map} linking {@link NamedEntity}s to InChIs 
+     */
     public Map<NamedEntity,String> resolveNamedEntities(List<NamedEntity> entities) {
         Map<NamedEntity,String> hits = new HashMap<NamedEntity,String>();
         for (NamedEntity entity : entities) {
@@ -151,7 +183,12 @@ public class Oscar {
         return inchis.iterator().next();
     }
 
-
+    /**
+     * Converts a text into token sequences, one for each sentence.
+     *
+     * @param  input a text to analyze.
+     * @return       a {@link List} of {@link ITokenSequence}s.
+     */
     public List<ITokenSequence> tokenize(String input) {
         Document doc = createInputDocument(input);
         IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance()
@@ -166,12 +203,25 @@ public class Oscar {
         return doc;
     }
 
-
+    /**
+     * Normalized the text. Text normalization involves, among others, converting
+     * all hyphens into one character, simplifying the subsequent named entity
+     * detection.
+     *
+     * @param  input the unnormalized text.
+     * @return       the normalized text.
+     */
     public String normalize(String input) {
         return input;
     }
 
-
+    /**
+     * Extracts named entities from a text represented as a {@link List}
+     * of {@link ITokenSequence}s.
+     *
+     * @param  entities a {@link List} of {@link ITokenSequence}s.
+     * @return          a {@link List} of {@link NamedEntity}s.
+     */
     public List<NamedEntity> recognizeNamedEntities(List<ITokenSequence> tokens) {
         return recogniser.findNamedEntities(tokens);
     }

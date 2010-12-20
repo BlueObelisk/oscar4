@@ -16,6 +16,22 @@ public class BioType {
         this.type = type;
     }
 
+    public BioType(NamedEntityType type) {
+        if (type == null) {
+            throw new IllegalArgumentException("Null argument: "+type);
+        }
+        this.type = type;
+        this.bioTag = null;
+    }
+
+    public BioType(BioTag bioTag) {
+        if (bioTag == null) {
+            throw new IllegalArgumentException("Null argument: "+bioTag);
+        }
+        this.bioTag = bioTag;
+        this.type = null;
+    }
+
     public BioTag getBio() {
         return bioTag;
     }
@@ -26,7 +42,8 @@ public class BioType {
 
     @Override
     public int hashCode() {
-        return getType().hashCode() * 31 + bioTag.hashCode();
+        return (type != null ? type.hashCode() * 31 : 0)
+        	   + (bioTag != null ? bioTag.hashCode() : 0);
     }
 
     @Override
@@ -36,6 +53,10 @@ public class BioType {
         }
         if (obj instanceof BioType) {
             final BioType that = (BioType) obj;
+            if (getType() == null && that.getType() == null &&
+            	getBio().equals(that.getBio())) return true;
+            if (getBio() == null && that.getBio() == null &&
+            	getType().equals(that.getType())) return true;
             return getType().equals(that.getType()) && getBio().equals(that.getBio());
         }
         return false;
@@ -43,7 +64,34 @@ public class BioType {
 
     @Override
     public String toString() {
-        return getBio()+"-"+getType();
+    	if (getBio() == null) return "" + getType();
+    	if (getType() == null) return "" + getBio();
+        return getBio() + "-" + getType();
+    }
+    
+    public static BioType fromString(String string) {
+    	if (string.contains("-")) {
+    		String bioTagString = string.substring(0, string.indexOf("-"));
+    		BioTag tag = BioTag.valueOf(bioTagString);
+
+    		String neTypeString = string.substring(string.indexOf("-")+1);
+    		NamedEntityType neType = NamedEntityType.valueOf(neTypeString);
+
+    		return new BioType(tag, neType);
+    	}
+    	try {
+    		BioTag tag = BioTag.valueOf(string);
+    		if (tag != null) return new BioType(tag);
+    	} catch (IllegalArgumentException exception) {
+    		// this happens when the string is not a BioTag, so we
+    		// try the NamedEntityType next...
+    	}
+    	NamedEntityType neType = NamedEntityType.valueOf(string);
+    	if (neType != null) return new BioType(neType);
+
+    	throw new IllegalArgumentException(
+    		"Unrecognized BioType: " + string
+    	);
     }
 
 }

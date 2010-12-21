@@ -1,6 +1,9 @@
 package uk.ac.cam.ch.wwmm.oscar.document;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -12,6 +15,9 @@ import nu.xom.Element;
 
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 public class XOMBasedProcessingDocumentFactoryTest {
@@ -66,10 +72,10 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		
 		//FIXME manually setting the biotag is necessary as this is done by
 		//XOMBasedProcessingDocumentFactory.tokeniseOnAnnotationBoundaries
-		tokens.get(0).setBioTag("O");
-		tokens.get(1).setBioTag("B-CM");
-		tokens.get(2).setBioTag("I-CM");
-		tokens.get(3).setBioTag("O");
+		tokens.get(0).setBioTag(new BioType(BioTag.O));
+		tokens.get(1).setBioTag(new BioType(BioTag.B, NamedEntityType.COMPOUND));
+		tokens.get(2).setBioTag(new BioType(BioTag.I, NamedEntityType.COMPOUND));
+		tokens.get(3).setBioTag(new BioType(BioTag.O));
 		XOMBasedProcessingDocumentFactory.getInstance().mergeNeTokens(tokens, source, 0);
 		
 		assertEquals(3, tokens.size());
@@ -93,7 +99,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		
 		//produces "the" "quick" "methyl" "brown" "fox" "jumps" "over" "the" "chlorinated" "dog"
 		tokens.get(3).setValue("-brown");
-		tokens.get(2).setBioTag("B-CM");
+		tokens.get(2).setBioTag(new BioType(BioTag.B, NamedEntityType.COMPOUND));
 		//produces "the" "quick" "methyl" "-brown" "fox" "jumps" "over" "the" "chlorinated" "dog"
 		
 		XOMBasedProcessingDocumentFactory.getInstance().tidyHyphensAfterNEs(tokeniser, tokens);

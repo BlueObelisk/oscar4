@@ -12,6 +12,8 @@ import nu.xom.Element;
 import nu.xom.Elements;
 import opennlp.maxent.GISModel;
 import opennlp.maxent.MaxentModel;
+import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
@@ -28,20 +30,20 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
  */
 public class MEMMModel {
 
-    protected Map<String, Double> zeroProbs;
-    protected Map<String, GISModel> gmByPrev;
+    protected Map<BioType, Double> zeroProbs;
+    protected Map<BioType, GISModel> gmByPrev;
     protected GISModel ubermodel;
     protected MEMMOutputRescorer rescorer;
-    protected Set<String> tagSet;
+    protected Set<BioType> tagSet;
     protected Set<NamedEntityType> namedEntityTypes;
     protected ManualAnnotations manualAnnotations;
     protected NGram nGram;
     
 
     public MEMMModel() {
-        zeroProbs = new HashMap<String, Double>();
-        gmByPrev = new HashMap<String, GISModel>();
-        tagSet = new HashSet<String>();
+        zeroProbs = new HashMap<BioType, Double>();
+        gmByPrev = new HashMap<BioType, GISModel>();
+        tagSet = new HashSet<BioType>();
         namedEntityTypes = new HashSet<NamedEntityType>();
         rescorer = null;
 	}
@@ -65,17 +67,17 @@ public class MEMMModel {
     public void readModel(Element modelRoot) throws Exception {
 		Element memmElem = modelRoot.getFirstChildElement("memm");
         Elements maxents = memmElem.getChildElements("maxent");
-        gmByPrev = new HashMap<String,GISModel>();
-        tagSet = new HashSet<String>();
+        gmByPrev = new HashMap<BioType,GISModel>();
+        tagSet = new HashSet<BioType>();
         for (int i = 0; i < maxents.size(); i++) {
             Element maxent = maxents.get(i);
-            String prev = maxent.getAttributeValue("prev");
+            BioType prev = BioType.fromString(maxent.getAttributeValue("prev"));
             StringGISModelReader sgmr = new StringGISModelReader(maxent.getValue());
             GISModel gm = sgmr.getModel();
             gmByPrev.put(prev, gm);
             tagSet.add(prev);
             for (int j = 0; j < gm.getNumOutcomes(); j++) {
-                tagSet.add(gm.getOutcome(j));
+                tagSet.add(BioType.fromString(gm.getOutcome(j)));
             }
         }
         
@@ -109,9 +111,9 @@ public class MEMMModel {
     		modelRoot.appendChild(manualAnnotations.toXML());
 		// append the MEMM bits
         Element memmRoot = new Element("memm");
-        for (String prev : gmByPrev.keySet()) {
+        for (BioType prev : gmByPrev.keySet()) {
             Element maxent = new Element("maxent");
-            maxent.addAttribute(new Attribute("prev", prev));
+            maxent.addAttribute(new Attribute("prev", prev.toString()));
             StringGISModelWriter sgmw = new StringGISModelWriter(gmByPrev.get(prev));
             sgmw.persist();
             maxent.appendChild(sgmw.toString());
@@ -129,17 +131,17 @@ public class MEMMModel {
 
     protected void makeEntityTypesAndZeroProbs() {
         namedEntityTypes = new HashSet<NamedEntityType>();
-        for (String tagType : tagSet) {
-            if (tagType.startsWith("B-")) {
-                namedEntityTypes.add(NamedEntityType.valueOf(tagType.substring(2)));
+        for (BioType tagType : tagSet) {
+            if (tagType.getBio() == BioTag.B) {
+                namedEntityTypes.add(tagType.getType());
             }
         }
-        for(String tag : tagSet) {
+        for(BioType tag : tagSet) {
             zeroProbs.put(tag, 0.0);
         }
     }
 
-    public Set<String> getTagSet() {
+    public Set<BioType> getTagSet() {
         return tagSet;
     }
 
@@ -147,15 +149,15 @@ public class MEMMModel {
         return namedEntityTypes;
     }
 
-    public Map<String, Double> getZeroProbs() {
+    public Map<BioType, Double> getZeroProbs() {
     	return zeroProbs;
     }
 
-	public MaxentModel getMaxentModelByPrev(String tag) {
+	public MaxentModel getMaxentModelByPrev(BioType tag) {
 		return gmByPrev.get(tag);
 	}
 
-	public Set<String> getGISModelPrevs() {
+	public Set<BioType> getGISModelPrevs() {
 		return Collections.unmodifiableSet(gmByPrev.keySet());
 	}
 

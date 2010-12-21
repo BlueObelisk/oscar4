@@ -14,6 +14,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 
@@ -38,7 +39,7 @@ public final class MEMM {
         confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;
     }
 
-    Set<String> getTagSet() {
+    Set<BioType> getTagSet() {
         return model.getTagSet();
     }
 
@@ -46,13 +47,16 @@ public final class MEMM {
         return model.getNamedEntityTypes();
     }
 
-    private Map<String, Double> runGIS(MaxentModel gm, FeatureList featureList) {
-        Map<String, Double> results = new HashMap<String, Double>();
+    private Map<BioType, Double> runGIS(MaxentModel gm, FeatureList featureList) {
+        Map<BioType, Double> results = new HashMap<BioType, Double>();
         results.putAll(model.getZeroProbs());
         String[] features = featureList.toArray();
         double [] gisResults = gm.eval(features);
         for (int i = 0; i < gisResults.length; i++) {
-            results.put(gm.getOutcome(i), gisResults[i]);
+            results.put(
+            	BioType.fromString(gm.getOutcome(i)),
+            	gisResults[i]
+            );
         }
         return results;
     }
@@ -71,7 +75,7 @@ public final class MEMM {
             return Collections.emptyList();
         }
 
-        List<Map<String,Map<String,Double>>> classifierResults = new ArrayList<Map<String,Map<String,Double>>>();
+        List<Map<BioType,Map<BioType,Double>>> classifierResults = new ArrayList<Map<BioType,Map<BioType,Double>>>();
         for (int i = 0; i < tokens.size(); i++) {
             FeatureList featuresForToken = featureLists.get(i);
             classifierResults.add(classifyToken(featuresForToken));
@@ -92,19 +96,19 @@ public final class MEMM {
         return namedEntities;
     }
 
-    private Map<String,Map<String,Double>> classifyToken(FeatureList features) {
-        Map<String,Map<String,Double>> results = new HashMap<String,Map<String,Double>>();
+    private Map<BioType,Map<BioType,Double>> classifyToken(FeatureList features) {
+        Map<BioType,Map<BioType,Double>> results = new HashMap<BioType,Map<BioType,Double>>();
         if (useUber) {
-            for (String prevTag : model.getTagSet()) {
+            for (BioType prevTag : model.getTagSet()) {
                 FeatureList newFeatures = new FeatureList(features);
                 newFeatures.addFeature("$$prevTag=" + prevTag);
                 results.put(prevTag, runGIS(model.getUberModel(), newFeatures));
             }
         } else {
-            for (String tag : model.getTagSet()) {
+            for (BioType tag : model.getTagSet()) {
                 MaxentModel gm = model.getMaxentModelByPrev(tag);
                 if (gm != null) {
-                    Map<String, Double> modelResults = runGIS(gm, features);
+                    Map<BioType, Double> modelResults = runGIS(gm, features);
                     results.put(tag, modelResults);
                 }
             }

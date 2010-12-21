@@ -7,6 +7,9 @@ import java.util.List;
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XMLSpanTagger;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -303,7 +306,10 @@ public class XOMBasedProcessingDocumentFactory {
 				else if (tokens.get(i).getStart() >= elemStart
 						&& tokens.get(i).getEnd() <= elemEnd) {
 					//token is fully contained within annotation
-					tokens.get(i).setBioTag("B-" + neType);
+					tokens.get(i).setBioTag(new BioType(
+						BioTag.B,
+						NamedEntityType.valueOf(neType)
+					));
 					((Token)tokens.get(i)).setNeElem(currentElem);
 					inElem = true;
 					i++;
@@ -357,7 +363,10 @@ public class XOMBasedProcessingDocumentFactory {
 				}
 				else if (tokens.get(i).getEnd() <= elemEnd) {
 					//token is contained in the annotation
-					tokens.get(i).setBioTag("I-" + neType);
+					tokens.get(i).setBioTag(new BioType(
+						BioTag.I,
+						NamedEntityType.valueOf(neType)
+					));
 					((Token)tokens.get(i)).setNeElem(currentElem);
 					i++;
 				} else {
@@ -374,10 +383,10 @@ public class XOMBasedProcessingDocumentFactory {
 	
 	void tidyHyphensAfterNEs(Tokeniser tokeniser, List<IToken> tokens) {
 		int i = 0;
-		String prevTokType = "O";
+		BioType prevTokType = new BioType(BioTag.O);
 		while (i < tokens.size()) {
-			if (prevTokType.equals("O")
-					|| !tokens.get(i).getBioTag().equals("O")
+			if (BioTag.O == prevTokType.getBio()
+					|| BioTag.O != tokens.get(i).getBioTag().getBio()
 					|| tokens.get(i).getValue().length() < 2
 					|| !StringTools.isHyphen(tokens.get(i).getValue()
 							.substring(0, 1))
@@ -400,16 +409,17 @@ public class XOMBasedProcessingDocumentFactory {
 			int offset) {
 		List<IToken> newTokens = new ArrayList<IToken>();
 		IToken currentToken = null;
-		String neClass = null;
+		NamedEntityType neClass = null;
 		for (IToken t : tokens) {
 			if (currentToken == null || neClass == null
-					|| t.getBioTag().startsWith("O") || t.getBioTag().startsWith("B")) {
+					|| BioTag.O == t.getBioTag().getBio()
+					|| BioTag.B == t.getBioTag().getBio()) {
 				currentToken = t;
 				newTokens.add(t);
-				if (currentToken.getBioTag().equals("O")) {
+				if (BioTag.O == currentToken.getBioTag().getBio()) {
 					neClass = null;
 				} else {
-					neClass = currentToken.getBioTag().substring(2);
+					neClass = currentToken.getBioTag().getType();
 				}
 				// inside
 			} else {

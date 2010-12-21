@@ -26,6 +26,8 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
@@ -57,7 +59,7 @@ public final class MEMMTrainer {
 
 	private MutableMEMMModel model;
 
-	private Map<String, List<Event>> evsByPrev;
+	private Map<BioType, List<Event>> evsByPrev;
 	private int trainingCycles;
 	private int featureCutOff;
 
@@ -70,15 +72,15 @@ public final class MEMMTrainer {
 	private boolean filtering=true;
 	private boolean nameTypes=false;
 		
-	private Map<String,Map<String,Double>> featureCVScores;
+	private Map<BioType,Map<String,Double>> featureCVScores;
 	
-	private Map<String,Set<String>> perniciousFeatures;
+	private Map<BioType,Set<String>> perniciousFeatures;
 	
 	private static double confidenceThreshold;
 
 	public MEMMTrainer() throws Exception {
 		model = new MutableMEMMModel();
-		evsByPrev = new HashMap<String, List<Event>>();
+		evsByPrev = new HashMap<BioType, List<Event>>();
 		perniciousFeatures = null;
 		
 		trainingCycles = 100;
@@ -86,7 +88,7 @@ public final class MEMMTrainer {
 		confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;
 	}
 
-	private void train(FeatureList features, String thisTag, String prevTag) {
+	private void train(FeatureList features, BioType thisTag, BioType prevTag) {
 		if(perniciousFeatures != null && perniciousFeatures.containsKey(prevTag) /*&& !tampering*/) {
 			features.removeFeatures(perniciousFeatures.get(prevTag));
 		}
@@ -96,7 +98,7 @@ public final class MEMMTrainer {
 			features.addFeature("$$prevTag=" + prevTag);
 		}
 		String [] c = features.toArray();
-		Event ev = new Event(thisTag, c);
+		Event ev = new Event(thisTag.toString(), c);
 		List<Event> evs = evsByPrev.get(prevTag);
 		if(evs == null) {
 			evs = new ArrayList<Event>();
@@ -109,7 +111,7 @@ public final class MEMMTrainer {
         List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram());
 		//extractor.printFeatures();
 		List<IToken> tokens = tokSeq.getTokens();
-		String prevTag = "O";
+		BioType prevTag = new BioType(BioTag.O);
 		for (int i = 0; i < tokens.size(); i++) {
 			train(featureLists.get(i), tokens.get(i).getBioTag(), prevTag);
 			prevTag = tokens.get(i).getBioTag();
@@ -298,7 +300,6 @@ public final class MEMMTrainer {
 				trainOnSbFilesWithCVFS(splitTrainAntiFiles.get(split));
 			}
 			for(File f : splitTrainFiles.get(split)) {
-				String domain = null;
 				rescorerTrainer.trainOnFile(f, memm);
 			}				
 			evsByPrev.clear();
@@ -326,13 +327,13 @@ public final class MEMMTrainer {
 		
 		if(useUber) {
 			List<Event> evs = new ArrayList<Event>();
-			for(String prevTagg : evsByPrev.keySet()) {
+			for(BioType prevTagg : evsByPrev.keySet()) {
 				evs.addAll(evsByPrev.get(prevTagg));
 			}
 			DataIndexer di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), featureCutOff);
 			model.setUberModel(GIS.trainModel(trainingCycles, di));
 		} else {
-			for(String prevTagg : evsByPrev.keySet()) {
+			for(BioType prevTagg : evsByPrev.keySet()) {
 				logger.debug(prevTagg);
 				List<Event> evs = evsByPrev.get(prevTagg);
 				if(featureSel) {
@@ -353,30 +354,30 @@ public final class MEMMTrainer {
 		}
 	}
 	
-	private Map<String, Double> runGIS(MaxentModel gm, String [] context) {
-		Map<String, Double> results = new HashMap<String, Double>();
+	private Map<BioType, Double> runGIS(MaxentModel gm, String [] context) {
+		Map<BioType, Double> results = new HashMap<BioType, Double>();
 		results.putAll(model.getZeroProbs());
 		double [] gisResults = gm.eval(context);
 		for (int i = 0; i < gisResults.length; i++) {
-			results.put(gm.getOutcome(i), gisResults[i]);
+			results.put(BioType.fromString(gm.getOutcome(i)), gisResults[i]);
 		}
 		return results;
 	}
 	
-	private Map<String,Map<String,Double>> calcResults(FeatureList features) {
-		Map<String,Map<String,Double>> results = new HashMap<String,Map<String,Double>>();
+	private Map<BioType,Map<BioType,Double>> calcResults(FeatureList features) {
+		Map<BioType,Map<BioType,Double>> results = new HashMap<BioType,Map<BioType,Double>>();
 		if(useUber) {
-			for(String prevTag : model.getTagSet()) {
+			for(BioType prevTag : model.getTagSet()) {
 				FeatureList newFeatures = new FeatureList(features);
 				newFeatures.addFeature("$$prevTag=" + prevTag);
 				results.put(prevTag, runGIS(model.getUberModel(), newFeatures.toArray()));
 			}
 		} else {
 			String [] featArray = features.toArray();
-			for(String tag : model.getTagSet()) {
+			for(BioType tag : model.getTagSet()) {
 				MaxentModel gm = model.getMaxentModelByPrev(tag);
 				if(gm == null) continue;
-				Map<String, Double> modelResults = runGIS(gm, featArray);
+				Map<BioType, Double> modelResults = runGIS(gm, featArray);
 				results.put(tag, modelResults);
 			}
 		}
@@ -393,7 +394,7 @@ public final class MEMMTrainer {
 		List<IToken> tokens = tokSeq.getTokens();
 		if(tokens.size() == 0) return new ArrayList<NamedEntity>();
 
-		List<Map<String,Map<String,Double>>> classifierResults = new ArrayList<Map<String,Map<String,Double>>>();	
+		List<Map<BioType,Map<BioType,Double>>> classifierResults = new ArrayList<Map<BioType,Map<BioType,Double>>>();	
 		for (int i = 0; i < tokens.size(); i++) {
 			classifierResults.add(calcResults(featureLists.get(i)));
 		}
@@ -443,13 +444,13 @@ public final class MEMMTrainer {
 	
 	private void cvFeatures(ITokenSequence tokSeq) {
 		if(featureCVScores == null) {
-			featureCVScores = new HashMap<String,Map<String,Double>>();
+			featureCVScores = new HashMap<BioType,Map<String,Double>>();
 		}
 		List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram());
 		List<IToken> tokens = tokSeq.getTokens();
-		String prevTag = "O";
+		BioType prevTag = new BioType(BioTag.O);
 		for (int i = 0; i < tokens.size(); i++) {
-			String tag = tokens.get(i).getBioTag();
+			BioType tag = tokens.get(i).getBioTag();
 			MaxentModel gm = model.getMaxentModelByPrev(prevTag);
 			if(gm == null) continue;
 			Map<String,Double> scoresForPrev = featureCVScores.get(prevTag);
@@ -459,7 +460,7 @@ public final class MEMMTrainer {
 			}
 			
 			prevTag = tag;
-			int outcomeIndex = gm.getIndex(tag);
+			int outcomeIndex = gm.getIndex(tag.toString());
 			if(outcomeIndex == -1) continue;
 			FeatureList features = featureLists.get(i);
 			if(features.getFeatureCount() == 0) continue;
@@ -481,8 +482,8 @@ public final class MEMMTrainer {
 	}
 	
 	private void findPerniciousFeatures() {
-		perniciousFeatures = new HashMap<String,Set<String>>();
-		for(String prev : featureCVScores.keySet()) {
+		perniciousFeatures = new HashMap<BioType,Set<String>>();
+		for(BioType prev : featureCVScores.keySet()) {
 			Set<String> pffp = new HashSet<String>();
 			perniciousFeatures.put(prev, pffp);
 			

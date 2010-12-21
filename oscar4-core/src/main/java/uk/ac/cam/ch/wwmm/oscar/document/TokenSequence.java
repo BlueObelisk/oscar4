@@ -10,6 +10,8 @@ import java.util.Set;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 import nu.xom.Element;
+import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
 /**A tokenised representation of a piece of text, as made by the Tokeniser
@@ -19,6 +21,8 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
  *
  */
 public final class TokenSequence implements ITokenSequence {
+
+	private final BioType B_CPR = new BioType(BioTag.B, NamedEntityType.LOCANTPREFIX);
 
     private String surface;
     private int offset;
@@ -134,15 +138,15 @@ public final class TokenSequence implements ITokenSequence {
             if (i < tokens.size()-1
                     && tokens.get(i).getValue().length() == 1
                     && StringTools.isHyphen(tokens.get(i).getValue())
-                    && "O".equals(tokens.get(i).getBioTag())
-                    && "O".equals(tokens.get(i+1).getBioTag())
-                    && !"O".equals(tokens.get(i-1).getBioTag())
+                    && BioTag.O == tokens.get(i).getBioTag().getBio()
+                    && BioTag.O == tokens.get(i+1).getBioTag().getBio()
+                    && BioTag.O != tokens.get(i-1).getBioTag().getBio()
                     && tokens.get(i).getStart() == tokens.get(i-1).getEnd()
                     && tokens.get(i).getEnd() == tokens.get(i+1).getStart()
                     ) {
                 afterHyphens.add(tokens.get(i+1).getValue());
-            } else if ("O".equals(tokens.get(i).getBioTag())
-                    && "B-CPR".equals(tokens.get(i-1).getBioTag())
+            } else if (BioTag.O == tokens.get(i).getBioTag().getBio()
+                    && B_CPR == tokens.get(i-1).getBioTag()
                     && tokens.get(i).getStart() == tokens.get(i-1).getEnd()
                     ) {
                 afterHyphens.add(tokens.get(i).getValue());
@@ -161,10 +165,10 @@ public final class TokenSequence implements ITokenSequence {
         List<String> neTokens = null;
         for (IToken t : tokens) {
             if (namedEntityType == null) {
-                if (!"O".equals(t.getBioTag())) {
+                if (BioTag.O != t.getBioTag().getBio()) {
                     neTokens = new ArrayList<String>();
                     // Trim of the B- in the BIO tag
-                    namedEntityType = NamedEntityType.valueOf(t.getBioTag().substring(2));
+                    namedEntityType = t.getBioTag().getType();
                     neTokens.add(t.getValue());
                     if (!neMap.containsKey(namedEntityType)) {
                         neMap.put(namedEntityType, new ArrayList<List<String>>());
@@ -172,13 +176,13 @@ public final class TokenSequence implements ITokenSequence {
                     neMap.get(namedEntityType).add(neTokens);
                 }
             } else {
-                if ("O".equals(t.getBioTag())) {
+                if (BioTag.O == t.getBioTag().getBio()) {
                     namedEntityType = null;
                     neTokens = null;
-                } else if (t.getBioTag().startsWith("B-")) {
+                } else if (t.getBioTag().getBio() == BioTag.B) {
                     neTokens = new ArrayList<String>();
                     // Trim of the B- in the BIO tag
-                    namedEntityType = NamedEntityType.valueOf(t.getBioTag().substring(2));
+                    namedEntityType = t.getBioTag().getType();
                     neTokens.add(t.getValue());
                     if (!neMap.containsKey(namedEntityType)) {
                         neMap.put(namedEntityType, new ArrayList<List<String>>());
@@ -199,7 +203,7 @@ public final class TokenSequence implements ITokenSequence {
     public List<String> getNonNes() {
         List<String> nonNes = new ArrayList<String>();
         for (IToken token : tokens) {
-            if ("O".equals(token.getBioTag())) {
+            if (BioTag.O == token.getBioTag().getBio()) {
                 nonNes.add(token.getValue());
             }
         }

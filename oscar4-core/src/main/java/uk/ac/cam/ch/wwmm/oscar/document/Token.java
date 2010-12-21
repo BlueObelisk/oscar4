@@ -1,8 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.document;
 
 import nu.xom.Element;
-
-import java.util.List;
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 
 /**A token - corresponding to a word, a number, a character of punctuation or
  * suchlike. Not whitespace.
@@ -28,15 +27,11 @@ public final class Token implements IToken {
 	private ITokenSequence tokenSequence;
 	
 	private Element neElem;
-	private String [] geniaData = null;
-	private List<Token> chunk;
-	private String chunkType;
 	
 	/** The B/I/O tag, when inline annotation is digested */
-	private String bioTag;
-	
+	private BioType bioTag;
 
-	public Token(String value, int start, int end, IProcessingDocument doc, String bioTag, Element neElem) {
+	public Token(String value, int start, int end, IProcessingDocument doc, BioType bioTag, Element neElem) {
 		this.start = start;
 		this.end = end;
 		this.value = value;
@@ -119,14 +114,14 @@ public final class Token implements IToken {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getBioTag()
 	 */
-	public String getBioTag() {
+	public BioType getBioTag() {
 		return bioTag;
 	}
 	
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#setBioTag(java.lang.String)
 	 */
-	public void setBioTag(String bioTag) {
+	public void setBioTag(BioType bioTag) {
 		this.bioTag = bioTag;
 	}
 	

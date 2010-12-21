@@ -28,12 +28,12 @@ public class PubMedModelTest {
 	public void testLoadChemPapers() {
 		MEMMModel model = new PubMedModel();
 		assertFalse(
-			model.getManualAnnotations().nonChemicalWords.contains(
+			model.getManualAnnotations().getNonChemicalWords().contains(
 				"elongate"
 			)
 		);
 		assertTrue(
-			model.getManualAnnotations().nonChemicalWords.contains(
+			model.getManualAnnotations().getNonChemicalWords().contains(
 				"leukaemic"
 			)
 		);

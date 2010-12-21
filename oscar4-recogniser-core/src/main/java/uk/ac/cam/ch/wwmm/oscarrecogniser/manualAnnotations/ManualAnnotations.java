@@ -24,29 +24,29 @@ public class ManualAnnotations {
     private static ManualAnnotations defaultInstance;
 
     /**Words only found in chemical named entities.*/
-    public final Collection<String> chemicalWords;
+    private final Set<String> chemicalWords;
     /**Words never found in chemical named entities.*/
-    public final Collection<String> nonChemicalWords;
+    private final Set<String> nonChemicalWords;
     /**Nonwords only found in chemical named entities.*/
-    public final Set<String> chemicalNonWords;
+    private final Set<String> chemicalNonWords;
     /**Nonwords never found in chemical named entities.*/
-    public final Set<String> nonChemicalNonWords;
+    private final Set<String> nonChemicalNonWords;
     /**Words that occur after a hyphen, with a chemical named entity before
      * the hyphen. E.g. "based" from "acetone-based".
      */
-    public final Set<String> afterHyphen;
+    private final Set<String> afterHyphen;
     /**Words where a prefix like 3- should not be interpreted as a CPR*/
-    public final Set<String> notForPrefix;
+    private final Set<String> notForPrefix;
     /**Words with initial capitalisation that are not likely to be
      * proper nouns.
      */
-    public final Set<String> pnStops;
+    private final Set<String> pnStops;
     /**Strings seen both in and not in chemical named entities.*/
-    public final Set<String> polysemous;
+    private final Set<String> polysemous;
     /**Words found at the end of multi-word reaction names.*/
-    public final Set<String> rnEnd;
+    private final Set<String> rnEnd;
     /**Words found in the middle of multi-word reaction names.*/
-    public final Set<String> rnMid;
+    private final Set<String> rnMid;
 
 
     /**
@@ -186,6 +186,42 @@ public class ManualAnnotations {
 
 	public Set <String> getNotForPrefix() {
 		return notForPrefix;
+	}
+
+	public Set <String> getNonChemicalWords() {
+		return nonChemicalWords;
+	}
+
+	public Set<String> getChemicalWords() {
+		return chemicalWords;
+	}
+
+	public Set<String> getChemicalNonWords() {
+		return chemicalNonWords;
+	}
+
+	public Set<String> getNonChemicalNonWords() {
+		return nonChemicalNonWords;
+	}
+
+	public Set<String> getAfterHyphen() {
+		return afterHyphen;
+	}
+
+	public Set<String> getPnStops() {
+		return pnStops;
+	}
+
+	public Set<String> getPolysemous() {
+		return polysemous;
+	}
+
+	public Set<String> getRnEnd() {
+		return rnEnd;
+	}
+
+	public Set<String> getRnMid() {
+		return rnMid;
 	}
 
 }

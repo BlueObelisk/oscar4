@@ -91,7 +91,7 @@ final class PostProcessor {
 			return 11;
 			// Fix things for alternate annotation scheme
 		}  else if ((namedEntityType.getName().length() < 4) && (!noPC &&
-			 annotations.nonChemicalWords.contains(surf)))
+			 annotations.getNonChemicalWords().contains(surf)))
 			 {
 //		else if ((type.length() < 4)
 //				&& (!noPC && dataModel.nonChemicalWords

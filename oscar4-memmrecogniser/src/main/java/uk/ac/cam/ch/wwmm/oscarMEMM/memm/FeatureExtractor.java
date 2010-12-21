@@ -216,18 +216,18 @@ public final class FeatureExtractor {
 		if (TermSets.getDefaultInstance().getClosedClass().contains(normWord)) {
 			local.addFeature(STOPWORD_CLOSED_CLASS_FEATURE);
 		}
-		if (manualAnnotations.nonChemicalWords
+		if (manualAnnotations.getNonChemicalWords()
 				.contains(normWord)) {
 			local.addFeature(STOPWORD_NON_CHEMICAL_WORD_FEATURE);
 		}
-		if (manualAnnotations.nonChemicalNonWords
+		if (manualAnnotations.getNonChemicalNonWords()
 				.contains(normWord)
 				&& !TermSets.getDefaultInstance().getElements().contains(normWord)) {
 			local.addFeature(STOPWORD_NONCHEMICALNONWORD_FEATURE);
 		}
 		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
 				&& !(ChemNameDictRegistry.getInstance().hasName(normWord) || 
-						manualAnnotations.chemicalWords.contains(normWord))) {
+						manualAnnotations.getChemicalWords().contains(normWord))) {
 			local.addFeature(STOPWORD_USER_DEFINED_FEATURE);
 		}
 	}
@@ -251,7 +251,7 @@ public final class FeatureExtractor {
 				|| TermSets.getDefaultInstance().getUsrDictWords().contains(word)) {
 			ngscore = SUFFIX_LO_SCORE;
 		}
-		if (manualAnnotations.chemicalWords.contains(normWord)) {
+		if (manualAnnotations.getChemicalWords().contains(normWord)) {
 			ngscore = 100;
 		}
 		if (ChemNameDictRegistry.getInstance().hasName(word)) {
@@ -283,7 +283,7 @@ public final class FeatureExtractor {
 				|| TermSets.getDefaultInstance().getUsrDictWords().contains(word)) {
 			suffixScore = SUFFIX_LO_SCORE;
 		}
-		if (manualAnnotations.chemicalWords.contains(normWord)) {
+		if (manualAnnotations.getChemicalWords().contains(normWord)) {
 			suffixScore = SUFFIX_HI_SCORE;
 		}
 		if (ChemNameDictRegistry.getInstance().hasName(word)) {
@@ -372,11 +372,11 @@ public final class FeatureExtractor {
 
 	private void makeReactionFeatures(String word,
 			FeatureList bigramable, FeatureList contextable, ManualAnnotations manualAnnotations) {
-		if (manualAnnotations.rnEnd.contains(word)) {
+		if (manualAnnotations.getRnEnd().contains(word)) {
 			bigramable.addFeature(RNEND_FEATURE);
 			contextable.addFeature(RNEND_FEATURE);
 		}
-		if (manualAnnotations.rnMid.contains(word)) {
+		if (manualAnnotations.getRnMid().contains(word)) {
 			bigramable.addFeature(RNMID_FEATURE);
 			contextable.addFeature(RNMID_FEATURE);
 		}
@@ -384,8 +384,8 @@ public final class FeatureExtractor {
 
 	private void makeWordFeatures(String word, String normWord,
 			FeatureList bigramable, ManualAnnotations manualAnnotations) {
-		if (word.length() < 4 || manualAnnotations.polysemous.contains(word)
-				|| manualAnnotations.rnEnd.contains(word) || manualAnnotations.rnMid.contains(word)) {
+		if (word.length() < 4 || manualAnnotations.getPolysemous().contains(word)
+				|| manualAnnotations.getRnEnd().contains(word) || manualAnnotations.getRnMid().contains(word)) {
 			bigramable.addFeature(makeWordFeature(word));
 			if (!word.equals(normWord)) {
 				bigramable.addFeature(makeWordFeature(normWord));
@@ -435,7 +435,7 @@ public final class FeatureExtractor {
 					&& !TermSets.getDefaultInstance().getUsrDictWords().contains(word))
 				suspect = true;
 			if (!noPC
-					&& manualAnnotations.pnStops.contains(word))
+					&& manualAnnotations.getPnStops().contains(word))
 				suspect = true;
 			int patternPosition = position + 1;
 			while (patternPosition < (tokSeq.size() - 2)

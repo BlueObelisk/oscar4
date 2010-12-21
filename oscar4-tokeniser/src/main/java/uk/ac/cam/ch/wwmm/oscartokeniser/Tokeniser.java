@@ -14,6 +14,8 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
+import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 
 /**
  * Tokenisation of text.
@@ -121,7 +123,7 @@ public final class Tokeniser implements ITokeniser {
 			int start = m.start() + offset;
 			int end = m.end() + offset;
 			String value = m.group();
-			tokens.add(new Token(value, start, end, doc, "O", null));
+			tokens.add(new Token(value, start, end, doc, new BioType(BioTag.O), null));
 		}
 		/* Split tokens */
 		// This isn't theoretically optimal, as it involves traversing

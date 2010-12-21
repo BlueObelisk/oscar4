@@ -1,5 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.document;
 
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
+
 public interface IToken {
 
 	/**Gets the <i>n</i>th token after this one, or null. For example, 
@@ -51,9 +53,9 @@ public interface IToken {
 	 * 
 	 * @return The BIO tag of this token.
 	 */
-	public abstract String getBioTag();
+	public abstract BioType getBioTag();
 
-	public abstract void setBioTag(String bioTag);
+	public abstract void setBioTag(BioType bioTag);
 
 	/**Gets the TokenSequence that contains this token.
 	 * 

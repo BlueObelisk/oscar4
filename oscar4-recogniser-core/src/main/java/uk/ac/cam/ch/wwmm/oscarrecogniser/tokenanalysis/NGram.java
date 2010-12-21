@@ -11,7 +11,7 @@ import java.util.zip.GZIPOutputStream;
 public class NGram {
 
     private static final String ALPHABET = "$^S0%<>&'()*+,-./:;=?@[]abcdefghijklmnopqrstuvwxyz|~";
-    private static final String MODEL_FILE = "ngram-model.dat.gz";
+    private static final String MODEL_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/tokenanalysis/ngram-model.dat.gz";
 
     private static NGram instance;
 
@@ -26,9 +26,11 @@ public class NGram {
     /**
      * Loads the serialised NGram model from disk. This is not
      * recommended; the NGram model should be customised according
-     * to the ExtractedTrainingData and the serialised model was
-     * customised using unknown training data. This method is
-     * currently retained for convenience during testing.
+     * to the ExtractedTrainingData. The serialised model inherited
+     * from OSCAR3 was customised using unknown training data
+     * and due to a serialisation bug is missing probabilities
+     * at the end of the data array. This method is currently
+     * retained for convenience during testing.
      * 
      * Use NGramBuilder.buildModel instead.
      */
@@ -37,61 +39,63 @@ public class NGram {
         if (instance == null) {
             try {
                 instance = new NGram();
-            } catch (IOException e) {
+                instance.loadData(MODEL_FILE);
+            } 
+            catch (EOFException e) {
+            	//squish it
+            }
+            catch (IOException e) {
                 throw new RuntimeException("Error loading data", e);
             }
         }
         return instance;
     }
 
+    static NGram loadModel(String modelFile) throws IOException {
+    	NGram nGram = new NGram();
+    	nGram.loadData(modelFile);
+    	return nGram;
+    }
 
     private NGram() throws IOException {
-        // private constructor
         this.data = new short[len*len*len*len];
-        loadData();
     }
 
     NGram(short[] data) {
         this.data = data;
     }
 
-    // potentially of use if we want to be able to serialise/deserialise
-    // the NGram models again in the future
-    private void loadData() throws IOException {
-        InputStream is = getClass().getResourceAsStream(MODEL_FILE);
+    private void loadData(String modelFile) throws IOException {
+        InputStream is = ClassLoader.getSystemResourceAsStream(modelFile);
         if (is == null) {
-            throw new FileNotFoundException("File not found: "+MODEL_FILE);
+            throw new FileNotFoundException("File not found: "+modelFile);
         }
         DataInputStream in = new DataInputStream(
                 new BufferedInputStream(
                         new GZIPInputStream(is)));
-        try {
-            int len4 = len*len*len*len;
-            for (int i = 0; i < len4; i++) {
-                data[i] = in.readShort();
-            }
-        } catch (IOException e) {
-            in.close();
+        int len4 = len*len*len*len;
+        for (int i = 0; i < len4; i++) {
+            data[i] = in.readShort();
         }
     }
 
-    // potentially of use if we want to be able to serialise/deserialise
-    // the NGram models again in the future
-    private void saveData() throws IOException {
+    void saveData(OutputStream os) throws IOException {
         DataOutputStream out = new DataOutputStream(
                 new BufferedOutputStream(
-                        new GZIPOutputStream(
-                                new FileOutputStream(MODEL_FILE))));
+                        new GZIPOutputStream(os)));
         try {
             int len4 = len*len*len*len;
             for (int i = 0; i < len4; i++) {
                 out.writeShort(data[i]);
             }
         } catch (IOException e) {
-            out.close();
+            e.printStackTrace();
+        }
+        finally {
+        	out.close();
         }
     }
-
+    
 
     /**
      * Test a word against training data.

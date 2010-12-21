@@ -8,7 +8,7 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 public class MutableMEMMModel extends MEMMModel {
 
 	public MutableMEMMModel() {
-		nGram = NGramBuilder.buildModel();
+		nGram = NGramBuilder.buildOrDeserialiseModel();
 	}
 	
 	public void setRescorer(MEMMOutputRescorer rescorer) {

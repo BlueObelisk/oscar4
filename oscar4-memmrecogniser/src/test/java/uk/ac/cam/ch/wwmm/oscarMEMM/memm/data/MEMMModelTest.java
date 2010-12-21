@@ -1,7 +1,8 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm.data;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
@@ -13,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
 public class MEMMModelTest {
@@ -35,7 +37,7 @@ public class MEMMModelTest {
 
 	@Test
 	public void testGetTagSet() {
-		Set<String> set = new MEMMModel().getTagSet();
+		Set<BioType> set = new MEMMModel().getTagSet();
 		Assert.assertNotNull(set);
 		// a new instance should have no data
 		Assert.assertEquals(0, set.size());

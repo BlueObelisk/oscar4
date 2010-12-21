@@ -677,10 +677,34 @@ public class NGramBuilder {
 	}
 	
 	
+	/**
+	 * 
+	 * Builds or, if possible, deserialises a new NGram model for chemical name recognition, using
+	 * 
+	 * a) The stopwords list from TermSets
+	 * b) The elements list from TermSets
+	 * c) The chemAse and nonChemAse lists from TermSets
+	 * d) Chemical names from the dictionaries currently registered in ChemNameDictRegistry
+	 * e) English words from TermSets
+	 * 
+	 */
 	public static NGram buildOrDeserialiseModel() {
 		return buildOrDeserialiseModel(null);
 	}
 
+	/**
+	 * 
+	 * Builds or, if possible, deserialises a new NGram model for chemical name recognition, using
+	 * 
+	 * a) The stopwords list from TermSets
+	 * b) The elements list from TermSets
+	 * c) The chemAse and nonChemAse lists from TermSets
+	 * d) Chemical names from the dictionaries currently registered in ChemNameDictRegistry
+	 * e) English words from TermSets
+	 * f) The chemical word and nonChemical word lists from the given ExtractedTrainingData
+	 * 
+	 * @param etd (additional) extracted training data from a MEMM model file
+	 */
 	public static NGram buildOrDeserialiseModel(ManualAnnotations annotations) {
 		NGramBuilder builder = new NGramBuilder(annotations);
 		try {

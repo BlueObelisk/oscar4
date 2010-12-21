@@ -10,12 +10,11 @@ import java.util.zip.GZIPOutputStream;
  */
 public class NGram {
 
-    private static final String ALPHABET = "$^S0%<>&'()*+,-./:;=?@[]abcdefghijklmnopqrstuvwxyz|~";
     private static final String MODEL_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/tokenanalysis/ngram-model.dat.gz";
 
     private static NGram instance;
 
-    private final int len = ALPHABET.length();
+    private final int len = NGramBuilder.ALPHABET.length();
     private final int step0 = len*len*len;
     private final int step1 = len*len;
     private final int step2 = len;
@@ -115,16 +114,16 @@ public class NGram {
         w = addStartAndEnd(w);
         l = w.length();
 
-        int s1 = ALPHABET.indexOf(w.charAt(0));
-        int s2 = ALPHABET.indexOf(w.charAt(1));
-        int s3 = ALPHABET.indexOf(w.charAt(2));
+        int s1 = NGramBuilder.ALPHABET.indexOf(w.charAt(0));
+        int s2 = NGramBuilder.ALPHABET.indexOf(w.charAt(1));
+        int s3 = NGramBuilder.ALPHABET.indexOf(w.charAt(2));
         int s0 = 0;
         double logP = 0;
         for (int i = 3; i < l; i++) {
             s0 = s1;
             s1 = s2;
             s2 = s3;
-            s3 = ALPHABET.indexOf(w.charAt(i));
+            s3 = NGramBuilder.ALPHABET.indexOf(w.charAt(i));
             short score = data[s0* step0 + s1* step1 + s2* step2 + s3];
             logP += score;
         }

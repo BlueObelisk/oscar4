@@ -20,14 +20,14 @@ public class ManualAnnotationsTest {
 	@Test
 	public void testReadXML() {
 		ManualAnnotations manualAnnotations = new ManualAnnotations();
-		assertFalse(manualAnnotations.chemicalWords.contains("ammonia"));
+		assertFalse(manualAnnotations.getChemicalWords().contains("ammonia"));
 		
 		ResourceGetter rg = new ResourceGetter("/uk/ac/cam/ch/wwmm/oscarrecogniser/models/");
 		Document modelDoc = rg.getXMLDocument("chempapers.xml");
 		Element etdElement = modelDoc.getRootElement().getFirstChildElement("etd");
 
         manualAnnotations = new ManualAnnotations(etdElement);
-		assertTrue(manualAnnotations.chemicalWords.contains("ammonia"));
+		assertTrue(manualAnnotations.getChemicalWords().contains("ammonia"));
 	}
 
 //  XXX Becoming immutable
@@ -45,11 +45,11 @@ public class ManualAnnotationsTest {
 	@Test
 	public void testReinitialise() {
 		ManualAnnotations annotations1 = ManualAnnotations.reinitialise(ManualAnnotations.loadEtdElement("chempapers"));
-		assertTrue(annotations1.nonChemicalWords.contains("elongate"));
-		assertFalse(annotations1.nonChemicalWords.contains("leukaemic"));
+		assertTrue(annotations1.getNonChemicalWords().contains("elongate"));
+		assertFalse(annotations1.getNonChemicalWords().contains("leukaemic"));
 		
 		ManualAnnotations annotations2 = ManualAnnotations.reinitialise(ManualAnnotations.loadEtdElement("pubmed"));
-		assertFalse(annotations2.nonChemicalWords.contains("elongate"));
-		assertTrue(annotations2.nonChemicalWords.contains("leukaemic"));
+		assertFalse(annotations2.getNonChemicalWords().contains("elongate"));
+		assertTrue(annotations2.getNonChemicalWords().contains("leukaemic"));
 	}
 }

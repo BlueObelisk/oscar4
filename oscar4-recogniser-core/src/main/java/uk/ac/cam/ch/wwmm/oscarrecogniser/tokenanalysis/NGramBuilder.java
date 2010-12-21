@@ -1,5 +1,10 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -30,7 +35,7 @@ public class NGramBuilder {
     // Values range -40 to + 40
     static final double SCALE = 500;
 	
-	private String alphabet = "$^S0%<>&'()*+,-./:;=?@[]abcdefghijklmnopqrstuvwxyz|~";
+	static final String ALPHABET = "$^S0%<>&'()*+,-./:;=?@[]abcdefghijklmnopqrstuvwxyz|~";
 	
 	// nGram counts
 	private int[]       C1C;
@@ -52,34 +57,28 @@ public class NGramBuilder {
 	
 	private boolean extraOnly;
 	
-	private Set<String> dontUse;
 	
 	private List<String> chemWords;
 	private List<String> englishWords;
 	private Set<String> chemSet;
 	private Set<String> engSet;
 	
-	private Pattern matchWhiteSpace = Pattern.compile("\\s+");
-	private Pattern matchTwoOrMoreAdjacentLetters = Pattern.compile(".*[a-z][a-z].*");
+	private static final Pattern matchWhiteSpace = Pattern.compile("\\s+");
+	private static final Pattern matchTwoOrMoreAdjacentLetters = Pattern.compile(".*[a-z][a-z].*");
 
 	private ManualAnnotations etd;
 	
-	/** Creates a new instance of nGram */
-	private NGramBuilder(ManualAnnotations etd) {
-		extraChemical = null;
-		extraEnglish = null;
-		extraOnly = false;
-		this.etd = etd;
-	}
 	
-
-    private void initialise() {
-		logger.debug("Initialising nGrams... ");
-		dontUse = new HashSet<String>();
+	/** Creates a new instance of nGram */
+	NGramBuilder(ManualAnnotations etd) {
+		this.etd = etd;
 		chemWords = new ArrayList<String>();
 		englishWords = new ArrayList<String>();
 		readTrainingData();
-		train();
+	}
+	
+    NGramBuilder() {
+		this(null);
 	}
 
 
@@ -88,7 +87,7 @@ public class NGramBuilder {
 	 */    
 	private void train() {
 		// initialise count arrays        
-		int a = alphabet.length();
+		int a = ALPHABET.length();
 
 		C1C = new int[a];
 		C2C = new int[a][a];
@@ -136,6 +135,14 @@ public class NGramBuilder {
         return LP4E;
     }
 	
+    public List <String> getEnglishWords() {
+		return englishWords;
+	}
+
+	public List <String> getChemicalWords() {
+		return chemWords;
+	}
+    
 	/**
 	 * Read training data from plain text
 	 */
@@ -188,7 +195,7 @@ public class NGramBuilder {
 		Set<String> goodUDW = new HashSet<String>();
 		for(String word : TermSets.getDefaultInstance().getUsrDictWords()) {
 			if(!(ChemNameDictRegistry.getInstance().hasName(word) ||
-					(etd != null && etd.chemicalWords.contains(word)))) {
+					(etd != null && etd.getChemicalWords().contains(word)))) {
 				goodUDW.add(word);
 			}
 		}
@@ -196,8 +203,8 @@ public class NGramBuilder {
 	}
 	
 	private void readExtractedTrainingData() {
-		readCollection(etd.chemicalWords, true);
-		readCollection(etd.nonChemicalWords, false);	
+		readCollection(etd.getChemicalWords(), true);
+		readCollection(etd.getNonChemicalWords(), false);	
 	}
 	
 	private void readAseTrainingData() {
@@ -217,7 +224,7 @@ public class NGramBuilder {
 	private double[][][][] calcLP4
 	(int[] C1, int[][] C2, int[][][] C3, int[][][][] C4) {
 		// General constants
-		int A = alphabet.length();	// Alphabet size
+		int A = ALPHABET.length();	// Alphabet size
 		
 		// Unigrams ////////////////////////////////////////
 		
@@ -532,7 +539,6 @@ public class NGramBuilder {
 	}
 	
 	private void addWordNGrams(String word, int[] C1, int[][] C2, int[][][] C3, int [][][][] C4) {
-		if(dontUse.contains(word)) return;
 		String w = NGram.parseWord(word);
 		//englishTest.add(w);
 		int l = w.length();
@@ -555,7 +561,7 @@ public class NGramBuilder {
 			if(i>0) {
 				s2 = s3;
 			}
-			s3 = alphabet.indexOf(w.charAt(i));
+			s3 = ALPHABET.indexOf(w.charAt(i));
 			C1[s3]++;
 			if(i>0) {
 				C2[s2][s3]++;
@@ -599,9 +605,11 @@ public class NGramBuilder {
 	 */
 	public static NGram buildModel(ManualAnnotations etd) {
 		NGramBuilder builder = new NGramBuilder(etd);
-		builder.initialise();
+		builder.train();
 		return builder.toNGram();
 	}
+	
+	
 	
 	
 	/**
@@ -652,5 +660,62 @@ public class NGramBuilder {
         return new NGram(data);
 
     }
+
+
+	public String calculateSourceDataFingerprint() {
+		return englishWords.hashCode() + "_" + chemWords.hashCode();
+	}
+
+	private static String getModelFileLocation(String fingerprint) {
+		String outputDir = "uk/ac/cam/ch/wwmm/oscarrecogniser/tokenanalysis/";
+		return outputDir + "ngram-model" + fingerprint + ".dat.gz";
+	}
+
+	static NGram deserialiseModel(String fingerprint) throws IOException {
+		String modelFileLocation = getModelFileLocation(fingerprint);
+		return NGram.loadModel(modelFileLocation);
+	}
+	
+	
+	public static NGram buildOrDeserialiseModel() {
+		return buildOrDeserialiseModel(null);
+	}
+
+	public static NGram buildOrDeserialiseModel(ManualAnnotations annotations) {
+		NGramBuilder builder = new NGramBuilder(annotations);
+		try {
+			return deserialiseModel(builder.calculateSourceDataFingerprint());
+		}
+		catch (IOException e) {
+			builder.train();
+			return builder.toNGram();
+		}
+	}
+	
+	
+	
+	/**
+	 * Build an NGram model and serialise it.
+	 * @throws IOException 
+	 */
+	public static void main(String[] args) throws IOException {
+		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("chempapers");
+		// pass manual annotations to NGramBuilder constructor to produce a customised NGram model
+		// or pass no arguments to produce a vanilla NGram model
+		System.out.println("building ngrams...");
+//		NGramBuilder builder = new NGramBuilder();
+		NGramBuilder builder = new NGramBuilder(annotations);
+		builder.train();
+		NGram nGram = builder.toNGram();
+		
+		// serialise model
+		System.out.println("serialising data...");
+		File outputFile = new File("src/main/resources/" + getModelFileLocation(builder.calculateSourceDataFingerprint()));
+		OutputStream fos = new FileOutputStream(outputFile);
+		nGram.saveData(fos);
+		System.out.println("...done!");
+	}
+
+	
 }
 

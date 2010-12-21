@@ -20,6 +20,6 @@ public class ChemPapersModel extends MEMMModel {
 				exception
 				);
 		}
-		nGram = NGramBuilder.buildModel(manualAnnotations);
+		nGram = NGramBuilder.buildOrDeserialiseModel(manualAnnotations);
 	}
 }

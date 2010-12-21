@@ -35,7 +35,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 * according to the default model, as set in OscarProperties.
 	 */
 	public PatternRecogniser() {
-		nGram = NGramBuilder.buildModel(ManualAnnotations.getDefaultInstance());
+		nGram = NGramBuilder.buildOrDeserialiseModel(ManualAnnotations.getDefaultInstance());
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 * argument to create an un-customised NGram model.
 	 */
 	public PatternRecogniser(ManualAnnotations etd) {
-		nGram = NGramBuilder.buildModel(etd);
+		nGram = NGramBuilder.buildOrDeserialiseModel(etd);
 	}
 
 	public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) throws Exception {

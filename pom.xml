@@ -102,6 +102,11 @@
                 <artifactId>oscar4-api</artifactId>
                 <version>${oscar.version}</version>
             </dependency>
+            <dependency>
+                <groupId>${oscar.groupId}</groupId>
+                <artifactId>oscar4-recogniser-core</artifactId>
+                <version>${oscar.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>opsin</groupId>

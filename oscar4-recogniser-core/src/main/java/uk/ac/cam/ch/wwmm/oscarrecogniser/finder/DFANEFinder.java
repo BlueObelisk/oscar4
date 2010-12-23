@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
@@ -35,7 +36,7 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  */
 public class DFANEFinder extends DFAFinder {
 
-    private final Logger logger = Logger.getLogger(DFANEFinder.class);
+    private final Logger logger = LoggerFactory.getLogger(DFANEFinder.class);
 
     private static final long serialVersionUID = -3307600610608772402L;
     private static DFANEFinder myInstance;

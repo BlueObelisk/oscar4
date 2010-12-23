@@ -6,20 +6,14 @@
 
 package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
 
-import nu.xom.*;
-import org.apache.log4j.Logger;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nu.xom.Document;
 import nu.xom.Element;
@@ -27,14 +21,14 @@ import nu.xom.Elements;
 import nu.xom.Node;
 import nu.xom.Nodes;
 import nu.xom.Text;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
-
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /** A regex-based parser, finds chemical formulae etcetera.
  *
@@ -101,7 +95,7 @@ public class TokenClassifier {
             if(OscarProperties.getData().useWordShapeHeuristic &&
                     ("potentialAcronymRegex".equals(tlr.getName()))) continue;
             if (tokenLevelRegexs.containsKey(tlr.getName())) {
-                logger.warn("Duplicate TokenLevelRegex defined: "+tlr.getName());
+            	LOG.warn("Duplicate TokenLevelRegex defined: "+tlr.getName());
             } else {
                 tokenLevelRegexs.put(tlr.getName(), tlr);
             }

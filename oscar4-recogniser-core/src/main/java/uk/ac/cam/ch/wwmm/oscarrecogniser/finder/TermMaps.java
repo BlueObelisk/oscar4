@@ -1,6 +1,8 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.cam.ch.wwmm.oscar.obo.TermsFileReader;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -19,7 +21,7 @@ import java.util.*;
  */
 public final class TermMaps {
 
-    private static final Logger LOG = Logger.getLogger(TermMaps.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TermMaps.class);
 
     private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter("/");
 

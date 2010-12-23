@@ -1,9 +1,5 @@
 package uk.ac.cam.ch.wwmm.oscar.obo;
 
-import org.apache.log4j.Logger;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
-import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,12 +8,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+
 /**
  * @author Sam Adams
  */
 public class OntologyTerms {
 
-    private static final Logger LOG = Logger.getLogger(OntologyTerms.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OntologyTerm.class);
 
     private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter("/");
 

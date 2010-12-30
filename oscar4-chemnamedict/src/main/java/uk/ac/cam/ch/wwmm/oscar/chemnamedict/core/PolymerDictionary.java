@@ -3,6 +3,7 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashSet;
+import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -37,7 +38,7 @@ implements IChemNameDict {
 	}
 
 	public PolymerDictionary() throws Exception {
-		super(POLYMER_DICTIONARY_URL);
+		super(POLYMER_DICTIONARY_URL, Locale.ENGLISH);
 
 		ChemNameDictIO.readXML(
 					new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/chemnamedict/").getXMLDocument("polymerCompounds.xml"),

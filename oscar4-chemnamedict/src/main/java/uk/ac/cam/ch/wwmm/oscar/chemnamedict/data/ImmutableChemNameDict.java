@@ -3,6 +3,7 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict.data;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,9 +40,11 @@ public class ImmutableChemNameDict implements IChemNameDict {
 	protected Set<String> stopWords;
 
 	private URI uri;
+	private Locale language;
 
-	public ImmutableChemNameDict(URI uri) {
+	public ImmutableChemNameDict(URI uri, Locale language) {
 		this.uri = uri;
+		this.language = language;
 		chemRecords = new HashSet<IChemRecord>();
 		indexByInchi = new HashMap<String,IChemRecord>();
 		indexByName = new HashMap<String,Set<IChemRecord>>();
@@ -49,7 +52,11 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		orphanNames = new HashSet<String>();
 		stopWords = new HashSet<String>();
 	}
-	
+
+	public Locale getLanguage() {
+		return language;
+	}
+
 	public URI getURI() {
 		return this.uri;
 	}

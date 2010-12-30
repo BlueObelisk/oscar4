@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import nu.xom.Element;
@@ -97,5 +98,9 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 			e.printStackTrace();			
 		}
 		return Collections.emptySet();
+	}
+
+	public Locale getLanguage() {
+		return Locale.ENGLISH;
 	}
 }

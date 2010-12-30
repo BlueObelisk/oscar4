@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Locale;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictIO;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
@@ -22,7 +23,7 @@ public class ChEBIDictionary extends MutableChemNameDict {
 	}
 
 	public ChEBIDictionary() {
-		super(CHEBI_DICTIONARY_URL);
+		super(CHEBI_DICTIONARY_URL, Locale.ENGLISH);
 
 		ChemNameDictIO.readXML(
 					new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/chemnamedict/").getXMLDocument("chemnamedict.xml"),

@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
 import java.net.URI;
+import java.util.Locale;
 import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IChemRecord;
@@ -19,4 +20,5 @@ public interface IChemNameDict {
 
 	public Set<IChemRecord> getChemRecords();
 
+	public Locale getLanguage();
 }

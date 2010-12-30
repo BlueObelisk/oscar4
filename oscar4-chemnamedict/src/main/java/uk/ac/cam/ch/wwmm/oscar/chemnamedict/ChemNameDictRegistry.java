@@ -5,8 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
@@ -18,11 +22,15 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
  */
 public class ChemNameDictRegistry {
 
+	private Logger log = LoggerFactory.getLogger(ChemNameDictRegistry.class);
+
 	private static ChemNameDictRegistry instance = null;
 
+	private Locale language;
 	Map<URI,IChemNameDict> dictionaries = null;
 
-	private ChemNameDictRegistry() {
+	private ChemNameDictRegistry(Locale language) {
+		this.language = language;
 		dictionaries = new HashMap<URI,IChemNameDict>();
 		register(new DefaultDictionary());
         register(new ChEBIDictionary());
@@ -37,7 +45,13 @@ public class ChemNameDictRegistry {
 	 */
 	public static ChemNameDictRegistry getInstance() {
 		if (instance == null)
-			instance = new ChemNameDictRegistry();
+			instance = new ChemNameDictRegistry(Locale.ENGLISH);
+		return instance;
+	}
+
+	public static ChemNameDictRegistry getInstance(Locale language) {
+		if (instance == null)
+			instance = new ChemNameDictRegistry(language);
 		return instance;
 	}
 
@@ -47,6 +61,8 @@ public class ChemNameDictRegistry {
 	 * @param dictionary
 	 */
 	public void register(IChemNameDict dictionary) {
+		if (this.language.getLanguage().equals(dictionary.getLanguage().getLanguage()))
+			log.warn("Registry has different language than dictionary");
 		dictionaries.put(dictionary.getURI(), dictionary);
 	}
 

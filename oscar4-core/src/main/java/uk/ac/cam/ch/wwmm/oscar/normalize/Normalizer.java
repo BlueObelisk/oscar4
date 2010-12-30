@@ -1,6 +1,5 @@
 package uk.ac.cam.ch.wwmm.oscar.normalize;
 
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +27,6 @@ public class Normalizer implements ITextNormalizer {
 
     private static Normalizer defaultInstance = null;
 
-    @SuppressWarnings("serial")
     private Normalizer() {
         normalizedCharacters = new HashMap<Character, String>();
         normalizedCharacters.put('\u00C6',"ae");//common ligatures
@@ -52,6 +50,24 @@ public class Normalizer implements ITextNormalizer {
         normalizedCharacters.put('\u2015',"-");
         normalizedCharacters.put('\uFEFF',"");//BOM-found at the start of some UTF files
         normalizedCharacters.put('\uFEFF',"");//BOM-found at the start of some UTF files
+        // punctuation
+        normalizedCharacters.put('\u2047',"??");
+        normalizedCharacters.put('\uFE56',"?");
+        normalizedCharacters.put('\u2048',"?!");
+        normalizedCharacters.put('\u2049',"!?");
+        normalizedCharacters.put('\u203D',"?!");
+        normalizedCharacters.put('\u01C3',"!");
+        normalizedCharacters.put('\uA71D',"!");
+        normalizedCharacters.put('\u203C',"!!");
+        normalizedCharacters.put('\uFE57',"!");
+        normalizedCharacters.put('\uFF01',"!");
+        normalizedCharacters.put('\u2018',"'");
+        normalizedCharacters.put('\u2019',"'");
+        normalizedCharacters.put('\u2032',"'");
+        normalizedCharacters.put('\u2033',"''");
+        normalizedCharacters.put('\u2033',"''");
+        normalizedCharacters.put('\u201C',"\"");
+        normalizedCharacters.put('\u201D',"\"");
 
         // FIXME: the below feels wrong... we dunno even if they are tokens!!!
         // E.g. "pi-bonding", versus "pipe"
@@ -82,6 +98,7 @@ public class Normalizer implements ITextNormalizer {
         normalizedStrings.put("chi-", "\u03c7-");
         normalizedStrings.put("psi-", "\u03c8-");
         normalizedStrings.put("omega-", "\u03c9-");
+
     }
 
     public Normalizer(Map<Character,String> normalizedCharacters, Map<String,String> normalizedStrings) {

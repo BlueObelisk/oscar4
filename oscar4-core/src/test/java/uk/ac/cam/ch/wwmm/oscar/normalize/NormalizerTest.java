@@ -75,6 +75,19 @@ public class NormalizerTest {
 		);
 	}
 
+	@Test
+	public void testPunctuation() throws IOException {
+		Normalizer normalizer = Normalizer.getDefaultInstance();
+		Assert.assertEquals(
+			"\"quoted text\"",
+			normalizer.normalize("\u201Cquoted text\u201D")
+		);
+		Assert.assertEquals(
+			"WTF!?",
+			normalizer.normalize("WTF\u2049")
+		);
+	}
+
 	private String convertStreamToString(InputStream is)
 	throws IOException {
 		if (is != null) {

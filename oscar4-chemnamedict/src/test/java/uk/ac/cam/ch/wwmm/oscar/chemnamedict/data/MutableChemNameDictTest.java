@@ -1,10 +1,11 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.data;
 
 import java.net.URI;
 
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IMutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 
 public class MutableChemNameDictTest {

@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.data;
 
 import java.net.URI;
 

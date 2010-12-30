@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict.data;
 
 import java.net.URI;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -21,8 +22,8 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 public class MutableChemNameDict extends ImmutableChemNameDict
 implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
 
-	public MutableChemNameDict(URI uri) {
-		super(uri);
+	public MutableChemNameDict(URI uri, Locale language) {
+		super(uri, language);
 	}
 
 	public void addStopWord(String word) {

@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author egonw
+ *
+ * @see NonSentenceEndings
+ */
 public class SentenceSplitTokens {
 
 	private final Set<String> splitTokens =

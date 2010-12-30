@@ -1,9 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.document;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
@@ -18,15 +16,11 @@ public final class SentenceFinder {
 
     private static final SentenceFinder SINGLETON_INSTANCE = new SentenceFinder();
 
-    private final Set<String> splitTokens;
+    private final SentenceSplitTokens splitTokens;
     private final NonSentenceEndings nonSentenceEndings;
 
     private SentenceFinder() {
-        splitTokens = new HashSet<String>();
-        splitTokens.add(".");
-        splitTokens.add("?");
-        splitTokens.add("!");
-        splitTokens.add("\"");
+        splitTokens = new SentenceSplitTokens();
         nonSentenceEndings = new NonSentenceEndings();
     }
 

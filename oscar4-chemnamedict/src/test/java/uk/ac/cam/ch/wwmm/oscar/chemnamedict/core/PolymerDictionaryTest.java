@@ -6,7 +6,7 @@ import org.junit.Test;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
 
-public class PolymerDictionaryTest {
+public class PolymerDictionaryTest extends AbstractDictionaryTest {
 
 	@Test
 	public void testACompound() throws Exception {
@@ -22,6 +22,11 @@ public class PolymerDictionaryTest {
 		registry.register(dict);
 		Assert.assertNotNull(registry);
 		Assert.assertTrue(registry.hasName("HPEI25K"));
+	}
+
+	@Override
+	public IChemNameDict getDictionary() throws Exception {
+		return new PolymerDictionary();
 	}
 	
 }

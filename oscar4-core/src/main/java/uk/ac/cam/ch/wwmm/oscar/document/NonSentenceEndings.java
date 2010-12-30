@@ -10,6 +10,8 @@ import java.util.Set;
  *
  * @author ptc24
  * @author egonw
+ *
+ * @see SentenceSplitTokens
  */
 public class NonSentenceEndings {
 

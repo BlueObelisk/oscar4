@@ -172,6 +172,7 @@ public final class ExtractManualAnnotations {
 			paperCount++;
 		}
 
+		
 		for (String s : cwBag.getSet()) {
 			if (cwBag.getCount(s) > 0 && ncwBag.getCount(s) == 0)
 				chemicalWords.add(s);
@@ -262,6 +263,7 @@ public final class ExtractManualAnnotations {
 			if (ncnwBag.getCount(s) > 0 && cnwBag.getCount(s) == 0)
 				nonChemicalNonWords.add(s);
 		}
+
 		Set<String> allChem = new HashSet<String>();
 		allChem.addAll(cwBag.getSet());
 		allChem.addAll(cnwBag.getSet());
@@ -312,33 +314,6 @@ public final class ExtractManualAnnotations {
 				n.get(i).detach();
 			}
 
-
-
-			/************************************************
-			 * @lh359 Hack around getting the chemical Entities from the
-			 *        annotated Document since ProcessingDocument does not
-			 *        find the NEs
-			 */
-
-			Nodes nodes = doc.query("//ne");
-			for (int i = 0; i < nodes.size(); i++) {
-				Element nodeElement = (Element) nodes.get(i);
-				if (nodeElement.getAttribute("type").getValue()
-						.equals(NamedEntityType.COMPOUND.toString())) {
-					String content = nodeElement.getValue();
-					if (content.matches(".*[A-Z].*")) {
-						cnwBag.add(content);
-					} else {
-						cwBag.add(content);
-					}
-				}
-			}
-
-			/********************
-			 * End of dirty hack
-			 */
-			
-			
 			Document copy = new Document((Element) XOMTools.safeCopy(doc
 					.getRootElement()));
 			n = copy.query("//ne");
@@ -392,6 +367,7 @@ public final class ExtractManualAnnotations {
 						}
 					}
 				}
+
 				if (neMap.containsKey(NamedEntityType.REACTION)) {
 					for (List<String> ne : neMap.get(NamedEntityType.REACTION)) {
 						if (ne.size() > 1) {
@@ -426,6 +402,7 @@ public final class ExtractManualAnnotations {
 					}
 				}
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

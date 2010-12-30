@@ -181,9 +181,15 @@ public class XOMBasedProcessingDocumentFactory {
 			int offset) {
 		
 		Element annotations = safDoc != null ? safDoc.getRootElement() : e;
+
 		ITokenSequence ts = tokeniser.tokenise(text, procDoc, offset, annotations);
+
 		if (annotations != null && tokeniseForNEs) {
-			modifyTokenisationForTraining(tokeniser, text, procDoc, offset, e, mergeNEs, ts.getTokens());
+            /**************
+             * @lh359 corrected modifyTokenisationForTraining to pass annotations instead of
+             *  'e'
+             */
+            modifyTokenisationForTraining(tokeniser, text, procDoc, offset, annotations, mergeNEs, ts.getTokens());
 			if (procDoc.getTokensByStart() != null) {
 				procDoc.getTokensByStart().clear();
 				procDoc.getTokensByEnd().clear();
@@ -198,7 +204,8 @@ public class XOMBasedProcessingDocumentFactory {
 	private void modifyTokenisationForTraining(Tokeniser tokeniser, String s,
 			IProcessingDocument procDoc, int offset, Element annotations,
 			boolean mergeNEs, List<IToken> tokens) {
-		
+
+
 		try {
 			/*
 			 * @lh359: This function is called
@@ -207,6 +214,7 @@ public class XOMBasedProcessingDocumentFactory {
 			 * in oscarCRF
 			 * 
 			 ***************************/
+
 			tokeniseOnAnnotationBoundaries(tokeniser, s, procDoc, offset, annotations, tokens);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -252,6 +260,15 @@ public class XOMBasedProcessingDocumentFactory {
 					.getAttributeValue("from"));
 			elemEnd = doc.getStandoffTable().getOffsetAtXPoint(currentElem
 					.getAttributeValue("to"));
+			/*@lh359
+			 * Now retrieves the neType
+			 */
+			Nodes nodes = currentElem.query(".//slot[@name='type']");
+			neType = currentElem.getAttributeValue("type");
+			if (nodes.size() > 0)
+				neType = nodes.get(0).getValue();
+
+
 		}
 		else {
 			sourceIsInline = true;

@@ -137,7 +137,7 @@ public class RegressionTestsforOscar3 {
 		String sentence = rg.getString("Sentence6.txt");
 		List<String> expectedSurfaceList = Arrays
 				.asList("A_1",
-						"8-hydroxyquinoline-7−carboxylic acid_1",
+						"8-hydroxyquinoline-7-carboxylic acid_1",
 						"benzylamine_1",
 						"1‐hydroxybenzotriazole_1",
 						"1-(3-dimethylaminopropyl)-3-ethylcarbodiimide hydrochloride_1",

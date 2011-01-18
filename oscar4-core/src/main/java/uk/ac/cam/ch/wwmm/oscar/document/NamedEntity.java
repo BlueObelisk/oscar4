@@ -34,7 +34,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	
 	/**Creates a new NamedEntity.
 	 * 
-	 * @param tokens The tokens that consititue the named entity.
+	 * @param tokens The tokens that constitute the named entity.
 	 * @param surface The text string of the named entity.
 	 * @param type The type of the named entity.
 	 */

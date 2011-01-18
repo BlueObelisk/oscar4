@@ -44,7 +44,7 @@ public class MEMMRecogniserTest {
 	}
 	
 	@Test
-	public void testFindNamedEntitiesFromString() throws Exception {
+	public void testFindNamedEntitiesFromString() {
 		String source = "Hello acetone world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(Tokeniser.getInstance(), source);
 		List <NamedEntity> neList = new MEMMRecogniser().findNamedEntities(procDoc);

@@ -2,6 +2,12 @@ package uk.ac.cam.ch.wwmm.oscar.document;
 
 import static org.junit.Assert.*;
 
+import java.io.InputStream;
+
+
+import nu.xom.Builder;
+import nu.xom.Document;
+
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -24,5 +30,24 @@ public class ProcessingDocumentFactoryTest {
 		assertEquals(9, procDoc.getTokenSequences().get(0).size());
 	}
 	
-	
+	@Test
+	public void testMakeDocumentFromSciXML() throws Exception {
+		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/testDoc.xml");
+		Document doc = new Builder().build(in);
+		Tokeniser tokeniser = Tokeniser.getInstance();
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, doc);
+		assertEquals(3, procDoc.getTokenSequences().size());
+		
+		assertEquals(0, procDoc.getTokenSequences().get(0).size());
+		
+		assertEquals(10, procDoc.getTokenSequences().get(1).size());
+		assertEquals("The quick brown fox jumps over the lazy dog.", procDoc.getTokenSequences().get(1).getSurface());
+		assertEquals(4, procDoc.getTokenSequences().get(1).getToken(1).getStart());
+		assertEquals(0, procDoc.getTokenSequences().get(1).getOffset());
+		
+		assertEquals(10, procDoc.getTokenSequences().get(2).size());
+		assertEquals("The slow green turtle sneaks under the watchful cat.", procDoc.getTokenSequences().get(2).getSurface());
+		assertEquals(48, procDoc.getTokenSequences().get(2).getToken(1).getStart());
+		assertEquals(44, procDoc.getTokenSequences().get(2).getOffset());
+	}
 }

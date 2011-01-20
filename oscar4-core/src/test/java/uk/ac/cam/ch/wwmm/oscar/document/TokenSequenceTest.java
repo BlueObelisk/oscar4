@@ -1,5 +1,10 @@
 package uk.ac.cam.ch.wwmm.oscar.document;
 
+/**
+ * 
+ * @author egonw
+ * @author dmj30
+ */
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +48,14 @@ public class TokenSequenceTest {
 	@Test
 	public void testGetTokens() {
 		TokenSequence seq = new TokenSequence(
-			"This is a token sequence.", 5, null,
+			"This is a token sequence.", 0, null,
 			new ArrayList<IToken>() {{
-				add(new Token("This", 0, 3, null, null, null));
-				add(new Token("is", 5, 6, null, null, null));
-				add(new Token("a", 8, 8, null, null, null));
-				add(new Token("token", 10, 14, null, null, null));
-				add(new Token("sequence", 16, 23, null, null, null));
-				add(new Token(".", 24, 24, null, null, null));
+				add(new Token("This", 0, 4, null, null, null));
+				add(new Token("is", 5, 7, null, null, null));
+				add(new Token("a", 8, 9, null, null, null));
+				add(new Token("token", 10, 15, null, null, null));
+				add(new Token("sequence", 16, 24, null, null, null));
+				add(new Token(".", 24, 25, null, null, null));
 			}}
 		);
 		List<IToken> tokens = seq.getTokens();
@@ -65,14 +70,14 @@ public class TokenSequenceTest {
 	@Test
 	public void testGetTokensStringList() {
 		TokenSequence seq = new TokenSequence(
-			"This is a token sequence.", 5, null,
+			"This is a token sequence.", 0, null,
 			new ArrayList<IToken>() {{
-				add(new Token("This", 0, 3, null, null, null));
-				add(new Token("is", 5, 6, null, null, null));
-				add(new Token("a", 8, 8, null, null, null));
-				add(new Token("token", 10, 14, null, null, null));
-				add(new Token("sequence", 16, 23, null, null, null));
-				add(new Token(".", 24, 24, null, null, null));
+				add(new Token("This", 0, 4, null, null, null));
+				add(new Token("is", 5, 7, null, null, null));
+				add(new Token("a", 8, 9, null, null, null));
+				add(new Token("token", 10, 15, null, null, null));
+				add(new Token("sequence", 16, 24, null, null, null));
+				add(new Token(".", 24, 25, null, null, null));
 			}}
 		);
 		List<String> tokens = seq.getTokenStringList();
@@ -87,14 +92,14 @@ public class TokenSequenceTest {
 	@Test
 	public void testSize() {
 		TokenSequence seq = new TokenSequence(
-			"This is a token sequence.", 5, null,
+			"This is a token sequence.", 0, null,
 			new ArrayList<IToken>() {{
-				add(new Token("This", 0, 3, null, null, null));
-				add(new Token("is", 5, 6, null, null, null));
-				add(new Token("a", 8, 8, null, null, null));
-				add(new Token("token", 10, 14, null, null, null));
-				add(new Token("sequence", 16, 23, null, null, null));
-				add(new Token(".", 24, 24, null, null, null));
+				add(new Token("This", 0, 4, null, null, null));
+				add(new Token("is", 5, 7, null, null, null));
+				add(new Token("a", 8, 9, null, null, null));
+				add(new Token("token", 10, 15, null, null, null));
+				add(new Token("sequence", 16, 24, null, null, null));
+				add(new Token(".", 24, 25, null, null, null));
 			}}
 		);
 		Assert.assertEquals(6, seq.size());
@@ -104,14 +109,14 @@ public class TokenSequenceTest {
 	@Test
 	public void testToken_int() {
 		TokenSequence seq = new TokenSequence(
-			"This is a token sequence.", 5, null,
+			"This is a token sequence.", 0, null,
 			new ArrayList<IToken>() {{
-				add(new Token("This", 0, 3, null, null, null));
-				add(new Token("is", 5, 6, null, null, null));
-				add(new Token("a", 8, 8, null, null, null));
-				add(new Token("token", 10, 14, null, null, null));
-				add(new Token("sequence", 16, 23, null, null, null));
-				add(new Token(".", 24, 24, null, null, null));
+				add(new Token("This", 0, 4, null, null, null));
+				add(new Token("is", 5, 7, null, null, null));
+				add(new Token("a", 8, 9, null, null, null));
+				add(new Token("token", 10, 15, null, null, null));
+				add(new Token("sequence", 16, 24, null, null, null));
+				add(new Token(".", 24, 25, null, null, null));
 			}}
 		);
 		Assert.assertEquals("is", seq.getToken(1).getValue());
@@ -119,21 +124,40 @@ public class TokenSequenceTest {
 	}
 
 	@SuppressWarnings("serial")
-	@Ignore
+	@Test
 	public void testSubstring() {
 		TokenSequence seq = new TokenSequence(
-			"This is a token sequence.", 5, null,
+			"This is a token sequence.", 0, null,
 			new ArrayList<IToken>() {{
-				add(new Token("This", 0, 3, null, null, null));
-				add(new Token("is", 5, 6, null, null, null));
-				add(new Token("a", 8, 8, null, null, null));
-				add(new Token("token", 10, 14, null, null, null));
-				add(new Token("sequence", 16, 23, null, null, null));
-				add(new Token(".", 24, 24, null, null, null));
+				add(new Token("This", 0, 4, null, null, null));
+				add(new Token("is", 5, 7, null, null, null));
+				add(new Token("a", 8, 9, null, null, null));
+				add(new Token("token", 10, 15, null, null, null));
+				add(new Token("sequence", 16, 24, null, null, null));
+				add(new Token(".", 24, 25, null, null, null));
 			}}
 		);
 		Assert.assertEquals(
-			"is a token", seq.getSubstring(2, 4)
+			"is a token", seq.getSubstring(1, 3)
+		);
+	}
+	
+	@SuppressWarnings("serial")
+	@Test
+	public void testSubstringWithOffset() {
+		TokenSequence seq = new TokenSequence(
+			"This is a token sequence.", 5, null,
+			new ArrayList<IToken>() {{
+				add(new Token("This", 5, 9, null, null, null));
+				add(new Token("is", 10, 12, null, null, null));
+				add(new Token("a", 13, 14, null, null, null));
+				add(new Token("token", 15, 20, null, null, null));
+				add(new Token("sequence", 21, 29, null, null, null));
+				add(new Token(".", 29, 30, null, null, null));
+			}}
+		);
+		Assert.assertEquals(
+			"is a token", seq.getSubstring(1, 3)
 		);
 	}
 }

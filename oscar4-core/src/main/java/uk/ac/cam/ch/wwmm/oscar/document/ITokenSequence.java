@@ -63,7 +63,7 @@ public interface ITokenSequence {
 	public abstract List<String> getTokenStringList();
 
 	/**Gets a substring of the source string that runs between two tokens 
-	 * (inclusive).
+	 * (inclusive). Note that token indices run from 0 to n.
 	 * 
 	 * @param startToken The first token (inclusive).
 	 * @param endToken The last token (inclusive).

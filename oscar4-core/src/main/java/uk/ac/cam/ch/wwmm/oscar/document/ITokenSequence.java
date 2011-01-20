@@ -95,4 +95,17 @@ public interface ITokenSequence {
 	 */
 	public abstract List<String> getNonNes();
 
+	/**
+	 * Returns the token that ends at the given index, or null if no such
+	 * token exists. 
+	 */
+	public abstract IToken getTokenByEndIndex(int index);
+
+	/**
+	 * Returns the token that starts at the given index, or null if no such
+	 * token exists. 
+	 */
+	public abstract IToken getTokenByStartIndex(int index);
+
+
 }

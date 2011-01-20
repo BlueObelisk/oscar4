@@ -4,6 +4,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
+import uk.ac.cam.ch.wwmm.oscar.xmltools.XMLSpanTagger;
 
 /**
  * 
@@ -39,15 +40,18 @@ public class ProcessingDocumentFactory {
 	/**
 	 * Creates a tokenised ProcessingDocument from a SciXML document, using the supplied tokeniser
 	 */
-	public IProcessingDocument makeTokenisedDocument(ITokeniser tokeniser,
+	public ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser,
 			Document sciXmlDoc) {
 
 		ProcessingDocument procDoc = new ProcessingDocument();
-		Nodes placesForChemicals = XMLStrings.getInstance().getChemicalPlaces(sciXmlDoc);
+		Document taggedDoc = (Document) sciXmlDoc.copy();
+		XMLSpanTagger.tagUpDocument(taggedDoc.getRootElement(), "a"); //"a" was used in OSCAR3, but the prefix seems pretty unnecessary 
+		Nodes placesForChemicals = XMLStrings.getInstance().getChemicalPlaces(taggedDoc);
 		for (int i = 0; i < placesForChemicals.size(); i++) {
 			Element e = (Element) placesForChemicals.get(i);
 			String source = e.getValue();
-			ITokenSequence ts = tokeniser.tokenise(source, procDoc, 0, null);
+			int offset = Integer.parseInt(e.getAttributeValue("xtspanstart"));
+			ITokenSequence ts = tokeniser.tokenise(source, procDoc, offset, null);
 			procDoc.addTokenSequence(ts);
 		}
 		

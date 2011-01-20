@@ -210,4 +210,33 @@ public final class TokenSequence implements ITokenSequence {
         return nonNes;
     }
 
+	public IToken getTokenByStartIndex(int index) {
+		checkIndex(index);
+		for (IToken token : tokens) {
+			if (token.getStart() == index) {
+				return token;
+			}
+		}
+		return null;
+	}
+
+	private void checkIndex(int index) {
+		if (index < offset) {
+			throw new ArrayIndexOutOfBoundsException("index " + index + " occurs before the beginning of this token sequence");
+		}
+		if (index > offset + surface.length()) {
+			throw new ArrayIndexOutOfBoundsException("index " + index + " occurs after the end of this token sequence");
+		}
+	}
+
+	public IToken getTokenByEndIndex(int index) {
+		checkIndex(index);
+		for (IToken token : tokens) {
+			if (token.getEnd() == index) {
+				return token;
+			}
+		}
+		return null;
+	}
+
 }

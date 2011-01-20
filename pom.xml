@@ -17,6 +17,32 @@
 
     <name>oscar4-parent</name>
 
+	<developers>
+		<developer>
+			<id>dmj30</id>
+			<name>David Jessop</name>
+		</developer>
+		<developer>
+			<id>egonw</id>
+			<name>Egon Willighagen</name>
+		</developer>
+		<developer>
+			<id>lh359</id>
+			<name>Lezan Hawizy</name>
+		</developer>
+		<developer>
+			<id>sea36</id>
+			<name>Sam Adams</name>
+		</developer>
+		<developer>
+			<id>ptc24</id>
+			<name>Peter Corbett</name>
+			<roles>
+				<role>Main developer of OSCAR3, author of inherited code.</role>
+			</roles>
+		</developer>
+	</developers>
+
     <properties>
         <oscar.groupId>${project.groupId}</oscar.groupId>
         <oscar.version>${project.version}</oscar.version>

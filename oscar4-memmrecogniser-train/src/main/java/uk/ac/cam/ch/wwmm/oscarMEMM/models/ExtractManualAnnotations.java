@@ -324,8 +324,7 @@ public final class ExtractManualAnnotations {
 			doc = copy;
 			IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory
 					.getInstance().makeTokenisedDocument(
-							Tokeniser.getInstance(), doc, true, true, false,
-							safDoc);
+							Tokeniser.getInstance(), doc, true, true, safDoc);
 			for (ITokenSequence tokSeq : procDoc.getTokenSequences()) {
 				afterHyphen.addAll(tokSeq.getAfterHyphens());
 				Map<NamedEntityType, List<List<String>>> neMap = tokSeq

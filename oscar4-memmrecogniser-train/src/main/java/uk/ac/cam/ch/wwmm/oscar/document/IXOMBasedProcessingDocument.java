@@ -35,13 +35,4 @@ public interface IXOMBasedProcessingDocument extends IProcessingDocument {
 	 */
 	public abstract IToken getTokenByEnd(String rightXPoint) throws Exception;
 
-	/**
-	 * Gets a list of list of tokens corresponding to the sentences in the
-	 * document.
-	 * 
-	 * @return The list of list of tokens corresponding to the sentences in the
-	 *         document.
-	 */
-	public abstract List<Sentence> getSentences();
-
 }

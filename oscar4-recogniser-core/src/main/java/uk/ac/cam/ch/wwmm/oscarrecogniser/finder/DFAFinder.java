@@ -288,10 +288,28 @@ public abstract class DFAFinder implements Serializable {
 		}
 	}
 	
+	/**
+	 * Collects a CPR named entity from the beginning of a token where appropriate
+	 * (e.g. "1,2-disubstituted") or by combination with the previous token where
+	 * the tokeniser has split the CPR (e.g. in "1,2-").
+	 * @param t
+	 * @param collector
+	 */
 	protected void handleTokenForPrefix(IToken t, NECollector collector) {
 		String prefix = PrefixFinder.getPrefix(t.getValue());
         if (prefix != null) {
             collector.collect(NamedEntity.forPrefix(t, prefix));
+        }
+        else if ("-".equals(t.getValue())) {
+        	IToken prev = t.getNAfter(-1);
+        	if (prev != null) {
+        		String combinedSurface = t.getTokenSequence().getSurface().substring(
+            			prev.getStart(), t.getEnd());
+            	prefix = PrefixFinder.getPrefix(combinedSurface);
+            	if (prefix != null) {
+                    collector.collect(NamedEntity.forPrefix(t, prefix));
+                }	
+        	}
         }
 	}
 	
@@ -305,10 +323,7 @@ public abstract class DFAFinder implements Serializable {
         List<AutomatonState> newAutStates = new ArrayList<AutomatonState>();
         for (int i = startToken; i <= endToken; i++) {
             IToken token = tokenSequence.getToken(i);
-//          sea36: commented out
-//          this just seems to extract e.g. 2- from 2-anthryl
-//          as an additional named entity
-//			handleTokenForPrefix(token, collector);
+			handleTokenForPrefix(token, collector);
 			RepresentationList tokenRepresentations = repsList.get(token.getId());
 			if (tokenRepresentations.isEmpty()) {
 				autStates.clear();

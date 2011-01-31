@@ -49,7 +49,9 @@ public final class Token implements IToken {
 		if (tokenSequence == null){
 			throw new RuntimeException();
 		}
-		else if(tokenSequence.getTokens().size() <= pos || pos <= 0) return null;
+		else if(tokenSequence.getTokens().size() <= pos || pos < 0) {
+			return null;
+		}
 		return tokenSequence.getTokens().get(pos);
 	}
 

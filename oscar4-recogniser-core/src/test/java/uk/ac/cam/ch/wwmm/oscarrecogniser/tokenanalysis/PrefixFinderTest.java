@@ -11,6 +11,11 @@ import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 
+/**
+ * 
+ * @author dmj30
+ *
+ */
 public class PrefixFinderTest {
 
 	@Test
@@ -35,5 +40,11 @@ public class PrefixFinderTest {
 		
 		notForPrefix.add("chlorotoluene");
 		assertNull(PrefixFinder.getPrefix("m-chlorotoluene", mockAnnotations));
+	}
+	
+	@Test
+	public void testFunnyHyphens() {
+		String text = "1‐hydroxybenzotriazole";
+		assertEquals("1‐", PrefixFinder.getPrefix(text));
 	}
 }

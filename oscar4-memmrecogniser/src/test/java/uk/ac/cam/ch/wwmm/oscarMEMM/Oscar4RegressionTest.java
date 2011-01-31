@@ -19,10 +19,13 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
- * @author lh359
+ * Test failures here may indicate changes to OSCAR's features as
+ * opposed to bugs.
  * 
+ * @author lh359
+ * @author dmj30
  */
-public class RegressionTestsforOscar4 {
+public class Oscar4RegressionTest {
 
 	@Test
 	public void testConstructor() {
@@ -69,9 +72,9 @@ public class RegressionTestsforOscar4 {
 		ResourceGetter rg = new ResourceGetter(
 				"uk/ac/cam/ch/wwmm/oscar3/test/regressionTest/");
 		String sentence = rg.getString("Sentence3.txt");
-		List<String> expectedSurfaceList = Arrays.asList("dNTPs_1","γ-_1","γ-phosphates_1","dUTP_1","ligand_1","groups_1","C5_1","uracil_1","γ-_2","dNTPs_2","AMV_1","size_1","γ-_3","γ-phosphonate_1");
-		List<Double> expectedProbList = Arrays.asList(0.3512814228967421,0.00, 0.968218689388447,0.5126968674819777,0.00, 0.00, 0.46708681080060027,0.4541378222332686,0.00, 0.3237872882805317,0.29253811092128085,0.00, 0.00, 0.9917673063361496);
-		List<String> expectedTypeList = Arrays.asList("CM","CPR","CM","CM","ONT","ONT","CM","CM","CPR","CM","CM","ONT","CPR","CM");
+		List<String> expectedSurfaceList = Arrays.asList("dNTPs_1","α-_1", "β-_1", "γ-_1","γ-phosphates_1","dUTP_1","ligand_1","groups_1","C5_1","uracil_1","γ-_2","dNTPs_2","AMV_1","size_1","γ-_3","γ-phosphonate_1");
+		List<Double> expectedProbList = Arrays.asList(0.3512814228967421, 0.00, 0.00, 0.00, 0.968218689388447,0.5126968674819777,0.00, 0.00, 0.46708681080060027,0.4541378222332686,0.00, 0.3237872882805317,0.29253811092128085,0.00, 0.00, 0.9917673063361496);
+		List<String> expectedTypeList = Arrays.asList("CM","CPR","CPR","CPR","CM","CM","ONT","ONT","CM","CM","CPR","CM","CM","ONT","CPR","CM");
 		evaluateNamedEntities(sentence, expectedSurfaceList, expectedTypeList,
 				expectedProbList);
 	}
@@ -106,16 +109,17 @@ public class RegressionTestsforOscar4 {
 		ResourceGetter rg = new ResourceGetter(
 				"uk/ac/cam/ch/wwmm/oscar3/test/regressionTest/");
 		String sentence = rg.getString("Sentence6.txt");
-		List<String> expectedSurfaceList = Arrays.asList("8-hydroxyquinoline-7-carboxylic acid_1","acid_1","benzylamine_1","1‐hydroxybenzotriazole_1","1-(3-dimethylaminopropyl)-3-ethylcarbodiimide hydrochloride_1","hydrochloride_1","triethylamine_1","DMF_1","methanol_1","C-18_1","water_1","acetonitrile_1","TFA_1");
-		List<Double> expectedProbList = Arrays.asList(0.9763876481410927, 0.00, 0.877166645595111, 0.8070202675168012, 0.8771168559135208, 0.00, 0.9430003382163082, 0.7821893198686901, 0.9943684604393002, 0.39805870405590443, 0.9726097731082048, 0.9469694587383923, 0.5893981910757157);
-		List<String> expectedTypeList = Arrays.asList("CM","ONT","CM","CM","CM","ONT","CM","CM","CM","CM","CM","CM","CM");
+		List<String> expectedSurfaceList = Arrays.asList("8-_1", "8-hydroxyquinoline-7-carboxylic acid_1","acid_1","benzylamine_1","1‐_1","1‐hydroxybenzotriazole_1","1-_1","1-(3-dimethylaminopropyl)-3-ethylcarbodiimide hydrochloride_1","hydrochloride_1","triethylamine_1","DMF_1","methanol_1","C-_1","C-18_1","water_1","acetonitrile_1","TFA_1");
+		List<Double> expectedProbList = Arrays.asList(0.00, 0.9763876481410927, 0.00, 0.877166645595111, 0.00, 0.8070202675168012, 0.00, 0.8771168559135208, 0.00, 0.9430003382163082, 0.7821893198686901, 0.9943684604393002, 0.00, 0.39805870405590443, 0.9726097731082048, 0.9469694587383923, 0.5893981910757157);
+		List<String> expectedTypeList = Arrays.asList("CPR","CM","ONT","CM","CPR","CM","CPR","CM","ONT","CM","CM","CM","CPR","CM","CM","CM","CM");
 		evaluateNamedEntities(sentence, expectedSurfaceList, expectedTypeList,
 				expectedProbList);
 	}
 
-	/*
+	/**
 	 * Evaluates the NamedEntities produced by the MEMM recogniser against the
-	 * surface, probability and type values found by OSCAR3's MEMM Recogniser
+	 * previously generated surface, probability and type values found by
+	 *  OSCAR4's MEMM Recogniser
 	 */
     private void evaluateNamedEntities(String sentence,
 			List<String> expectedSurfaceList, List<String> expectedTypeNames,

@@ -120,8 +120,8 @@ public class ChemNameDictRegistry {
 			if (dict instanceof ISMILESProvider) {
 				ISMILESProvider smiDict = (ISMILESProvider)dict;
 				String smiles = smiDict.getShortestSMILES(queryName);
-				if (shortestSMILES == null ||
-					smiles.length() < shortestSMILES.length()) {
+				if (smiles !=null && (shortestSMILES == null ||
+					smiles.length() < shortestSMILES.length())) {
 					shortestSMILES = smiles;
 				}
 			}

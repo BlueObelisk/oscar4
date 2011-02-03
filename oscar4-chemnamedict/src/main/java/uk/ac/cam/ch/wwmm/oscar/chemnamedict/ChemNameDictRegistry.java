@@ -61,8 +61,9 @@ public class ChemNameDictRegistry {
 	 * @param dictionary
 	 */
 	public void register(IChemNameDict dictionary) {
-		if (this.language.getLanguage().equals(dictionary.getLanguage().getLanguage()))
+		if (!language.getLanguage().equals(dictionary.getLanguage().getLanguage())){
 			log.warn("Registry has different language than dictionary");
+		}
 		dictionaries.put(dictionary.getURI(), dictionary);
 	}
 

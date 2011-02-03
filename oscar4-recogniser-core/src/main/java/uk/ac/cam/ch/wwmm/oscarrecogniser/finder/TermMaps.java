@@ -27,14 +27,10 @@ public final class TermMaps {
 
     private static final String NE_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/terms/neTerms.txt";
     private static final String POLY_NE_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/polyNeTerms.txt";
-    private static final String IE_PATTERNS_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/terms/iePatterns.txt";
-    private static final String STRUCTURE_TYPES_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/terms/structureTypes.txt";
     private static final String CUST_ENT_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/terms/custEnt.txt";
 
     private final Map<String, NamedEntityType> neTerms;
-    private final Map<String, String> iePatterns;
     private final Map<String, String> custEnt;
-    private final Map<String, String> structureTypes;
     private final Set<String> suffixes;
 
     private static TermMaps defaultInstance;
@@ -112,8 +108,6 @@ public final class TermMaps {
             neTerms.putAll(polyNeTerms);
         }
         this.neTerms = Collections.unmodifiableMap(neTerms);
-        this.iePatterns = Collections.unmodifiableMap(loadTerms(IE_PATTERNS_TERMS_FILE, false));
-        this.structureTypes = Collections.unmodifiableMap(loadTerms(STRUCTURE_TYPES_TERMS_FILE, false));
         this.custEnt = Collections.unmodifiableMap(loadTerms(CUST_ENT_TERMS_FILE, true));
         this.suffixes = Collections.unmodifiableSet(digestSuffixes(neTerms));
         LOG.debug("term maps initialised");
@@ -129,28 +123,12 @@ public final class TermMaps {
         return neTerms;
     }
 
-    /**Gets the term map for iePatterns.txt.
-     *
-     * @return The term map.
-     */
-    public Map<String, String> getIePatterns() {
-        return iePatterns;
-    }
-
     /**Gets the term map for custEnt.txt.
      *
      * @return The term map.
      */
     public Map<String, String> getCustEnt() {
         return custEnt;
-    }
-
-    /**Gets the term map for structureTypes.txt.
-     *
-     * @return The term map.
-     */
-    public Map<String, String> getStructureTypes() {
-        return structureTypes;
     }
 
     /**Gets a collection of suffixes harvested from neTerms.txt.

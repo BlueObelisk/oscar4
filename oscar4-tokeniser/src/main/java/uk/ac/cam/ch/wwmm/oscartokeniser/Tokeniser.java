@@ -438,9 +438,10 @@ public final class Tokeniser implements ITokeniser {
 		if (splittableHyphenIndex != -1
 				&& !token.getValue().matches(".*[a-z][a-z].*")
 				&& token.getValue().matches(".*[A-Z].*")) {
-//			if (TLRHolder.getInstance().macthesTlr(token.getValue(), "bondRegex")) {
-//				splittableHyphenIndex = -1;
-//			}
+			//FIXME dmj30 I don't see the point of the two String.matches calls above
+			if (TokenClassifier.getInstance().isTokenLevelRegexMatch(token.getValue(), "bondRegex")) {
+				splittableHyphenIndex = -1;
+			}
 		}
 		if (splittableHyphenIndex != -1) {
 			if (token.getValue().endsWith("NMR")) {

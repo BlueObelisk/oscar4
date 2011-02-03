@@ -11,12 +11,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * @author ptc24
  * @author Sam Adams
+ * @author dmj30
  */
 public class TermsFileReader {
 
     private static final Pattern definePattern = Pattern.compile("(.*?) = (.*)");
-
+    private static final Pattern lexnamePattern = Pattern.compile("\\[\\S*\\]");
 
 
 
@@ -24,7 +26,7 @@ public class TermsFileReader {
      * Reads a terms file into a Map
      * @param in
      * @param concatenateTypes
-     * @return
+     * @return a Map of terms to space-separated ids
      * @throws IOException
      */
     public static Map<String, String> loadTermMap(BufferedReader in, boolean concatenateTypes) throws IOException {
@@ -40,7 +42,7 @@ public class TermsFileReader {
 				// Blank line
 			} else if(line.charAt(0) == '#') {
 				// Comment
-			} else if(line.matches("\\[\\S*\\]")) {
+			} else if(lexnamePattern.matcher(line).matches()) {
 				lexname = line.substring(1, line.length()-1);
 			} else {
 				for(String d : defines.keySet()) {

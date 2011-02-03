@@ -81,6 +81,9 @@ public class OntologyTerms {
         }
     }
 
+    /**
+     * @return a Map of ontology terms to space-separated ontology ids
+     */
     public Map<String, String> getOntology() {
         return ontology;
     }

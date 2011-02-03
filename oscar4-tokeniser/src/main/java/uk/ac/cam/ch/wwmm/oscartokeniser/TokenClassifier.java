@@ -4,7 +4,7 @@
  * Created on 13 August 2004, 18:50
  */
 
-package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
+package uk.ac.cam.ch.wwmm.oscartokeniser;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,7 +39,7 @@ public class TokenClassifier {
     private static final String REGEX_FILENAME = "tokenLevelRegularExpressions.xml";
 	private static final Logger LOG = LoggerFactory.getLogger(TokenClassifier.class);
 
-    private static ResourceGetter rg = new ResourceGetter("/uk/ac/cam/ch/wwmm/oscarrecogniser/tokenanalysis/");
+    private static ResourceGetter rg = new ResourceGetter("/uk/ac/cam/ch/wwmm/oscartokeniser/");
 
     // Singleton instance
     private static TokenClassifier defaultInstance = null;

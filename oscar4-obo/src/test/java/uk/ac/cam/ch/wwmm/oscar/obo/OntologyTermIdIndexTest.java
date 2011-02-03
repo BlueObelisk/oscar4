@@ -1,26 +1,31 @@
 package uk.ac.cam.ch.wwmm.oscar.obo;
 
+import static org.junit.Assert.*;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+
 public class OntologyTermIdIndexTest {
 
 	@Test
 	public void testGetInstance() {
 		OntologyTermIdIndex instance = OntologyTermIdIndex.getInstance();
-		Assert.assertNotNull(instance);
+		assertNotNull(instance);
 	}
 
 	@Test
 	public void testContainsAcid() {
 		OntologyTermIdIndex instance = OntologyTermIdIndex.getInstance();
-		Assert.assertTrue(instance.containsTerm("acid"));
+		assertTrue(instance.containsTerm("acid"));
 		List<String> identifiers = instance.getIdsForTerm("acid");
-		Assert.assertNotSame(0, identifiers.size());
-		Assert.assertTrue(
+		assertNotSame(0, identifiers.size());
+		assertTrue(
 			"Missing ChEBI identifier: CHEBI:37527",
 			identifiers.contains("CHEBI:37527 CHEBI:37527")
 		);
@@ -31,7 +36,22 @@ public class OntologyTermIdIndexTest {
 	public void testGetAllTerms() {
 		OntologyTermIdIndex instance = OntologyTermIdIndex.getInstance();
 		Set<String> allTerms = instance.getAllTerms();
-		Assert.assertNotSame(0, allTerms.size());
-		Assert.assertTrue(allTerms.contains("acid"));
+		assertNotSame(0, allTerms.size());
+		assertTrue(allTerms.contains("acid"));
 	}
+	
+	
+	@Test
+	public void testMakeHyphTokable() {
+		Set <String> strings = new HashSet<String>();
+		strings.add("foobar");
+		strings.add("foo-bar");
+		strings.add("gay bar");
+		
+		Set <String> hyphTokable = OntologyTermIdIndex.getInstance().makeHyphTokable(strings);
+		assertEquals(2, hyphTokable.size());
+		assertTrue(hyphTokable.contains("foo bar"));
+		assertTrue(hyphTokable.contains("gay bar"));
+	}
+	
 }

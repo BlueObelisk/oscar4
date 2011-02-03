@@ -23,7 +23,9 @@ public final class OntologyTermIdIndex {
 	private ListMultimap<String,String> termIdMap;
 	private Set<String> hyphTokable;
 	
-	private static Pattern maybeHyphPattern = Pattern.compile("(\\S+)\\s+\\$\\(\\s+\\$HYPH\\s+\\$\\)\\s+\\$\\?\\s+(\\S+)");
+//	private static Pattern maybeHyphPattern = Pattern.compile("(\\S+)\\s+\\$\\(\\s+\\$HYPH\\s+\\$\\)\\s+\\$\\?\\s+(\\S+)");
+//																foo $( $HYPH $) $? bar
+	private static Pattern maybeHyphPattern = Pattern.compile("(\\S+)(?:\\s+|-)(\\S+)");
 	
 	private static OntologyTermIdIndex defaultInstance;
 	
@@ -63,7 +65,7 @@ public final class OntologyTermIdIndex {
 	}
 	
 	private void addTerm(String term, String id) {
-        termIdMap.put(term, id);
+		termIdMap.put(term, id);
 	}
 	
 	/**Whether the ontology set contains a given term name or synonym.
@@ -97,22 +99,23 @@ public final class OntologyTermIdIndex {
 	 * 
 	 * @return Some data for the HyphenTokeniser.
 	 */
-	/*
-	 * This method appears to be broken. getInstance().termsWithIDs.keySet()
-	 * returns 31616 items but nothing matches maybeHyphPattern
-	 */
 	public Set<String> getHyphTokable() {
 		if (hyphTokable == null) {
-			Set<String> ht = new HashSet<String>();
-			for (String term : termIdMap.keySet()) {
-				Matcher m = maybeHyphPattern.matcher(term);
-				while(m.find()) {
-					ht.add(m.group(1) + " " + m.group(2));
-				}
-			}
+			Set<String> ht = makeHyphTokable(termIdMap.keySet());
             hyphTokable = ht;
 		}
 		return hyphTokable;
+	}
+
+	Set<String> makeHyphTokable(Set<String> ontologyTerms) {
+		Set<String> ht = new HashSet<String>();
+		for (String term : ontologyTerms) {
+			Matcher m = maybeHyphPattern.matcher(term);
+			while(m.find()) {
+				ht.add(m.group(1) + " " + m.group(2));
+			}
+		}
+		return ht;
 	}
 	
 }

@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscar.obo;
 
+import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 import java.io.BufferedReader;
@@ -28,12 +29,13 @@ public class TermsFileReader {
      * @param concatenateTypes
      * @return a Map of terms to space-separated ids
      * @throws IOException
+     * @throws DataFormatException 
      */
-    public static Map<String, String> loadTermMap(BufferedReader in, boolean concatenateTypes) throws IOException {
+    public static Map<String, String> loadTermMap(BufferedReader in, boolean concatenateTypes) throws IOException, DataFormatException {
         HashMap<String, String> defines = new HashMap<String, String>();
 		HashMap<String, String> lexicons = new HashMap<String, String>();
 		String line = in.readLine();
-		String lexname = "";
+		String lexname = null;
 		while(line != null) {
             if (line.endsWith(">>>")) {
                 line = readMultiLine(in, line);
@@ -45,6 +47,9 @@ public class TermsFileReader {
 			} else if(lexnamePattern.matcher(line).matches()) {
 				lexname = line.substring(1, line.length()-1);
 			} else {
+				if (lexname == null) {
+					throw new DataFormatException("malformed terms file: error parsing line \"" + line + "\"");
+				}
 				for(String d : defines.keySet()) {
 					line = line.replace(d, defines.get(d));
 				}

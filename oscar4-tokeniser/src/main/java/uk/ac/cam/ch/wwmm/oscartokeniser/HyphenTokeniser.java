@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTermIdIndex;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
@@ -91,7 +92,7 @@ public final class HyphenTokeniser {
 		}
 	}
 	
-	private int indexOfSplittableHyphenInternal(String tokenValue) {
+	private int indexOfSplittableHyphenInternal(String tokenValue) throws ResourceInitialisationException {
 		//TODO break each tokenisation case into a separate method and unit test
 		boolean balancedBrackets = StringTools.bracketsAreBalanced(tokenValue);
 		
@@ -222,8 +223,9 @@ public final class HyphenTokeniser {
 	/**
 	 * Checks if the OntologyTerms contains an equivalent term to the tokenValue
 	 * in which the hyphen at the currentIndex has been replaced by a space
+	 * @throws ResourceInitialisationException 
 	 */
-	private boolean termContainedInHyphTokable(String tokenValue, int currentIndex) {
+	private boolean termContainedInHyphTokable(String tokenValue, int currentIndex) throws ResourceInitialisationException {
 		StringBuilder builder = new StringBuilder(tokenValue.length());
 		builder.append(StringTools.normaliseName(tokenValue.substring(0,currentIndex)));
 		builder.append(" ");

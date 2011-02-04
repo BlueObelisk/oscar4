@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+
+import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.dso.DSOtoOBO;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 
@@ -29,21 +31,21 @@ public final class OntologyTermIdIndex {
 	
 	private static OntologyTermIdIndex defaultInstance;
 	
-	public static OntologyTermIdIndex getInstance() {
+	public static OntologyTermIdIndex getInstance() throws ResourceInitialisationException {
 		if (defaultInstance == null) {
             return createInstance();
         }
 		return defaultInstance;
 	}
 
-    private static synchronized OntologyTermIdIndex createInstance() {
+    private static synchronized OntologyTermIdIndex createInstance() throws ResourceInitialisationException {
         if (defaultInstance == null) {
             defaultInstance = new OntologyTermIdIndex();
         }
         return defaultInstance;    
     }
 
-    private OntologyTermIdIndex() {
+    private OntologyTermIdIndex() throws ResourceInitialisationException {
 		termIdMap = ArrayListMultimap.create();
         Map<String,String> ontology = OntologyTerms.getDefaultInstance().getOntology();
 		for (String term : ontology.keySet()) {

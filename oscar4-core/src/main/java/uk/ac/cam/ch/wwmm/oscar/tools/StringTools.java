@@ -252,7 +252,7 @@ public final class StringTools {
     /**
      * Replace whitespace with a single space, remove soft hyphens, and convert
      * (whitespace-delimited) tokens to lowercase if two adjacent lowercase
-     * characters are detected.
+     * characters are detected in the token in question.
      *
      * @param name
      *            The name to convert.

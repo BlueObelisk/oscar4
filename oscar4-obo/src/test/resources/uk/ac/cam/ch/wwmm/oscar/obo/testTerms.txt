@@ -1,0 +1,18 @@
+# comment
+
+
+[DEFINE]
+$DEF = definition
+
+[TERMS]
+# another comment
+this is a term
+this term references a $DEF
+
+[MORETERMS]
+This term teSTS the      STRING     NorMALISATION.
+this term checks there's no problem with $UNDECLARED $declarations
+
+this is >>>
+a >>>
+multi-line term

@@ -15,7 +15,7 @@ import java.util.Properties;
  */
 public class OscarProperties {
 
-	private static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/tools/", true);
+	private static ResourceGetter rg = new ResourceGetter(OscarProperties.class.getClassLoader(), "uk/ac/cam/ch/wwmm/oscar/tools/");
 
 	private OscarPropertiesData oscarProperties;
 	private static OscarProperties myInstance;

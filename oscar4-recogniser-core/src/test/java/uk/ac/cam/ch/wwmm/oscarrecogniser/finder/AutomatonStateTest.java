@@ -5,7 +5,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RunAutomaton;
 

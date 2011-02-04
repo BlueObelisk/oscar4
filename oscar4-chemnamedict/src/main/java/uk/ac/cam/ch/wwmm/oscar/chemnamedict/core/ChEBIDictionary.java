@@ -26,7 +26,7 @@ public class ChEBIDictionary extends MutableChemNameDict {
 		super(CHEBI_DICTIONARY_URL, Locale.ENGLISH);
 
 		ChemNameDictIO.readXML(
-					new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/chemnamedict/").getXMLDocument("chemnamedict.xml"),
+					new ResourceGetter(ChEBIDictionary.class.getClassLoader(),"uk/ac/cam/ch/wwmm/oscar/chemnamedict/").getXMLDocument("chemnamedict.xml"),
 					this);
 	}
 }

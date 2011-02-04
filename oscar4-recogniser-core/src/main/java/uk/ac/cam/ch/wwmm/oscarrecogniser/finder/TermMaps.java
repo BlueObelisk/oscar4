@@ -30,7 +30,7 @@ public final class TermMaps {
 
     private static final Logger LOG = LoggerFactory.getLogger(TermMaps.class);
 
-    private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter("/");
+    private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter(TermMaps.class.getClassLoader(),"/");
 
     private static final String NE_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/terms/neTerms.txt";
     private static final String POLY_NE_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/polyNeTerms.txt";

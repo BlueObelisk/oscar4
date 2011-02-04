@@ -10,9 +10,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.TermsFileReader;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -42,15 +45,18 @@ public final class TermMaps {
 
     /**Initialise the TermMaps singleton, deleting the old one if one already
      * exists.
+     * @throws ResourceInitialisationException 
      *
      * @throws Exception
      */
-    public static void reinitialise() {
+    //TODO this isn't called anywhere - do we need to keep it?
+    @Deprecated
+    public static void reinitialise() throws ResourceInitialisationException {
         defaultInstance = null;
         getInstance();
     }
 
-    public static TermMaps getInstance() {
+    public static TermMaps getInstance() throws ResourceInitialisationException {
         TermMaps instance = defaultInstance;
         if (instance == null) {
             instance = loadDefaultInstance();
@@ -58,13 +64,9 @@ public final class TermMaps {
         return instance;
     }
 
-    private static synchronized TermMaps loadDefaultInstance() {
+    private static synchronized TermMaps loadDefaultInstance() throws ResourceInitialisationException {
         if (defaultInstance == null) {
-            try {
-                defaultInstance = new TermMaps();
-            } catch (IOException e) {
-                throw new RuntimeException("Error loading term maps", e);
-            }
+            defaultInstance = new TermMaps();
         }
         return defaultInstance;
     }
@@ -84,17 +86,17 @@ public final class TermMaps {
         return suffixes;
     }
 
-    private Map<String, String> loadTerms(String path, boolean concatenateTypes) throws IOException {
+    private Map<String, String> loadTerms(String path, boolean concatenateTypes) throws IOException, DataFormatException {
         InputStream is = RESOURCE_GETTER.getStream(path);
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             return TermsFileReader.loadTermMap(in, concatenateTypes);
         } finally {
-            is.close();
+            IOUtils.closeQuietly(is);
         }
     }
 
-    private Map<String, NamedEntityType> getNeTermMap(String filename, boolean concatenateTypes) throws IOException {
+    private Map<String, NamedEntityType> getNeTermMap(String filename, boolean concatenateTypes) throws IOException, DataFormatException {
         Map<String,String> termMap = loadTerms(filename, concatenateTypes);
         Map<String,NamedEntityType> neTermMap = new HashMap<String, NamedEntityType>();
         for (Map.Entry<String,String> e : termMap.entrySet()) {
@@ -103,17 +105,24 @@ public final class TermMaps {
         return neTermMap;
     }
 
-    private TermMaps() throws IOException {
+    private TermMaps() throws ResourceInitialisationException {
         LOG.debug("Initialising term maps... ");
-        Map<String,NamedEntityType> neTerms = getNeTermMap(NE_TERMS_FILE, false);
-        //add additional neTerms for polymers if set to polymer mode
-        if (OscarProperties.getData().polymerMode) {
-            Map <String, NamedEntityType> polyNeTerms = getNeTermMap(POLY_NE_TERMS_FILE, false);
-            neTerms.putAll(polyNeTerms);
-        }
-        this.neTerms = Collections.unmodifiableMap(neTerms);
-        this.custEnt = Collections.unmodifiableMap(loadTerms(CUST_ENT_TERMS_FILE, true));
-        this.suffixes = Collections.unmodifiableSet(digestSuffixes(neTerms));
+        try {
+        	Map<String,NamedEntityType> neTerms = getNeTermMap(NE_TERMS_FILE, false);
+            //add additional neTerms for polymers if set to polymer mode
+            if (OscarProperties.getData().polymerMode) {
+                Map <String, NamedEntityType> polyNeTerms = getNeTermMap(POLY_NE_TERMS_FILE, false);
+                neTerms.putAll(polyNeTerms);
+            }
+            this.neTerms = Collections.unmodifiableMap(neTerms);
+            this.custEnt = Collections.unmodifiableMap(loadTerms(CUST_ENT_TERMS_FILE, true));
+            this.suffixes = Collections.unmodifiableSet(digestSuffixes(neTerms));	
+        } catch (IOException e) {
+        	throw new ResourceInitialisationException("failed to load TermMaps", e);
+        } catch (DataFormatException e) {
+        	throw new ResourceInitialisationException("failed to load TermMaps", e);
+		}
+        
         LOG.debug("term maps initialised");
     }
 

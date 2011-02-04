@@ -16,6 +16,7 @@ import org.junit.Test;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -27,7 +28,7 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 public class DFAFinderTest {
 
     @Test
-    public void testFindSimpleTermsLowerCase() {
+    public void testFindSimpleTermsLowerCase() throws ResourceInitialisationException {
         NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
         Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
         terms.put("fox", ANIMAL);
@@ -41,7 +42,7 @@ public class DFAFinderTest {
     }
 
     @Test
-    public void testFindSimpleTermsCapitalised() {
+    public void testFindSimpleTermsCapitalised() throws ResourceInitialisationException {
         // lower-case terms, upper-case in text
         NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
         Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
@@ -56,7 +57,7 @@ public class DFAFinderTest {
     }
 
     @Test
-    public void testFindSimpleTermsMixedCase() {
+    public void testFindSimpleTermsMixedCase() throws ResourceInitialisationException {
         NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
         Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
         terms.put("fox", ANIMAL);
@@ -71,7 +72,7 @@ public class DFAFinderTest {
 
 
     @Test
-    public void testFindSimpleTermsDifferentCase() {
+    public void testFindSimpleTermsDifferentCase() throws ResourceInitialisationException {
         // upper-case terms, lower-case in text
         NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
         Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
@@ -85,7 +86,7 @@ public class DFAFinderTest {
 
 
     @Test
-    public void testFindMultiTokenTerm() {
+    public void testFindMultiTokenTerm() throws ResourceInitialisationException {
         NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
         Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
         terms.put("brown fox", ANIMAL);
@@ -100,7 +101,7 @@ public class DFAFinderTest {
     }
 
     @Test
-    public void testFindHyphenatedTerm() {
+    public void testFindHyphenatedTerm() throws ResourceInitialisationException {
         NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
         Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
         terms.put("brown - fox", ANIMAL);
@@ -114,7 +115,7 @@ public class DFAFinderTest {
     @Test
     @Ignore
     // TODO - DFAFinder does not generate representations for term tokens in the same way that it does for input text
-    public void testFindHyphenatedTermMatchEndash() {
+    public void testFindHyphenatedTermMatchEndash() throws ResourceInitialisationException {
         NamedEntityType ANIMAL = NamedEntityType.valueOf("ANIMAL");
         Map<String,NamedEntityType> terms = new HashMap<String, NamedEntityType>();
         terms.put("brown - fox", ANIMAL);
@@ -127,7 +128,7 @@ public class DFAFinderTest {
 
     @Test
     @Ignore
-    public void testChebiTerms() {
+    public void testChebiTerms() throws Exception {
         Map<String,String> ontology = OntologyTerms.getDefaultInstance().getOntology();
         NamedEntityType ONT = NamedEntityType.valueOf("ONT");
         boolean fail = false;
@@ -151,19 +152,19 @@ public class DFAFinderTest {
 
         private Map<String, NamedEntityType> terms;
 
-        Finder(Map<String,NamedEntityType> terms) {
+        Finder(Map<String,NamedEntityType> terms) throws ResourceInitialisationException {
             this.terms = terms;
             init();
         }
 
         @Override
-        protected void loadTerms() {
+        protected void loadTerms() throws ResourceInitialisationException {
             for (Map.Entry<String, NamedEntityType> term : terms.entrySet()) {
                 addNamedEntity(term.getKey(), term.getValue(), true);
             }
         }
 
-        public List<NamedEntity> findNamedEntities(String s) {
+        public List<NamedEntity> findNamedEntities(String s) throws ResourceInitialisationException {
             ITokenSequence t = Tokeniser.getInstance().tokenise(s);
             NECollector nec = new NECollector();
             List<RepresentationList> repsList = generateTokenRepresentations(t);

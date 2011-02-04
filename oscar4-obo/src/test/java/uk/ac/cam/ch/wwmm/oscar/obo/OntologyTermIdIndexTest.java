@@ -9,18 +9,19 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 
 public class OntologyTermIdIndexTest {
 
 	@Test
-	public void testGetInstance() {
+	public void testGetInstance() throws ResourceInitialisationException {
 		OntologyTermIdIndex instance = OntologyTermIdIndex.getInstance();
 		assertNotNull(instance);
 	}
 
 	@Test
-	public void testContainsAcid() {
+	public void testContainsAcid() throws ResourceInitialisationException {
 		OntologyTermIdIndex instance = OntologyTermIdIndex.getInstance();
 		assertTrue(instance.containsTerm("acid"));
 		List<String> identifiers = instance.getIdsForTerm("acid");
@@ -33,7 +34,7 @@ public class OntologyTermIdIndexTest {
 	}
 
 	@Test
-	public void testGetAllTerms() {
+	public void testGetAllTerms() throws ResourceInitialisationException {
 		OntologyTermIdIndex instance = OntologyTermIdIndex.getInstance();
 		Set<String> allTerms = instance.getAllTerms();
 		assertNotSame(0, allTerms.size());
@@ -42,7 +43,7 @@ public class OntologyTermIdIndexTest {
 	
 	
 	@Test
-	public void testMakeHyphTokable() {
+	public void testMakeHyphTokable() throws ResourceInitialisationException {
 		Set <String> strings = new HashSet<String>();
 		strings.add("foobar");
 		strings.add("foo-bar");

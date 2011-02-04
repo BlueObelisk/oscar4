@@ -12,6 +12,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -51,7 +52,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 		return findNamedEntities(procDoc.getTokenSequences());
 	}
 
-	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) {
+	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) throws ResourceInitialisationException {
 	 	List<NamedEntity> stopNeList;
 
 		//String text = doc.getValue();

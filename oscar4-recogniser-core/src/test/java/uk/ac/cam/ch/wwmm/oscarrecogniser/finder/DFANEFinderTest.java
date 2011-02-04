@@ -14,6 +14,7 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.PolymerDictionary;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -27,14 +28,14 @@ public class DFANEFinderTest {
 	private static Tokeniser tokeniser;
 
 	@BeforeClass
-	public static void setup() {
+	public static void setup() throws ResourceInitialisationException {
 		long ms = System.currentTimeMillis();
 		finder = DFANEFinder.getInstance();
 		tokeniser = Tokeniser.getInstance();
 	}
 	
     @Test
-    public void testDFANEFinder() {
+    public void testDFANEFinder() throws ResourceInitialisationException {
         // Synthesis of 4-Pyridone-3-sulfate and an improved synthesis of 3-Hydroxy-4-Pyridone
         // Edward J Behrman
         // Chemistry Central Journal 2009, 3:1
@@ -61,7 +62,7 @@ public class DFANEFinderTest {
     }
 
     @Test
-    public void testSulfuricAcid() {
+    public void testSulfuricAcid() throws ResourceInitialisationException {
         // derived from testDFANEFinder()
     	StringBuffer paragraph = new StringBuffer();
     	for (int i=1; i<47; i++) paragraph.append("          ");

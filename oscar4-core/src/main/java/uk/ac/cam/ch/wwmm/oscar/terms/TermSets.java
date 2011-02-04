@@ -24,7 +24,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 public final class TermSets {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TermSets.class);
-    private static final ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/terms/");
+    private static final ResourceGetter rg = new ResourceGetter(TermSets.class.getClassLoader(), "uk/ac/cam/ch/wwmm/oscar/terms/");
 
     private static TermSets defaultInstance;
 

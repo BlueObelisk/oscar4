@@ -1,10 +1,10 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
-import dk.brics.automaton.RunAutomaton;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import dk.brics.automaton.RunAutomaton;
 
 /** A class to hold DFA state, used by DFANEFinder.
  * 

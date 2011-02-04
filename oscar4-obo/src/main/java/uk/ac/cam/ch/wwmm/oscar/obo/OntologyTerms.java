@@ -21,7 +21,7 @@ public class OntologyTerms {
 
     private static final Logger LOG = LoggerFactory.getLogger(OntologyTerm.class);
 
-    private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter("/");
+    private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter(OntologyTerm.class.getClassLoader(),"/");
 
     private static final String ONTOLOGY_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/ontology.txt";
     private static final String POLYMER_ONTOLOGY_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/polyOntology.txt";

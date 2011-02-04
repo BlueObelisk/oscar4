@@ -3,7 +3,6 @@ package uk.ac.cam.ch.wwmm.oscar.tools;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,6 +18,7 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
+
 import org.apache.commons.io.IOUtils;
 
 /**Gets resource files from packages. Useful for incuding data in JAR files.
@@ -34,8 +34,6 @@ public final class ResourceGetter {
 	
 	private ClassLoader classLoader;
 	
-	private boolean skipFiles; 
-
 	/**
 	 * Sets up a ResourceGetter to get resources from a particular path
 	 * using the given {@link ClassLoader}. This constructor can be used
@@ -60,21 +58,11 @@ public final class ResourceGetter {
 	 * @param resourcePath The /-separated resource path.
 	 */
 	public ResourceGetter(String resourcePath) {
-		this(resourcePath, false);
-	}
-	
-	/**Sets up a resourceGetter to get resources from a particular path.
-	 *  /-separated - e.g. uk.ac.ch.cam.wwmm.ptclib.files.resources should be
-	 *  /uk/ac/cam/ch/wwmm/ptclib/files/resources/
-	 * 
-	 * @param resourcePath The /-separated resource path.
-	 * @param skipFiles Whether or not to skip reading files from the oscar3 workspace
-	 */
-	public ResourceGetter(String resourcePath, boolean skipFiles) {
-		this.skipFiles = skipFiles;
 		if(resourcePath.startsWith("/")) resourcePath = resourcePath.substring(1);
 		this.resourcePath = resourcePath;
 	}
+	
+
 
 	/**Fetches a data file from resourcePath,
 	 * and parses it to an XML Document.
@@ -117,7 +105,7 @@ public final class ResourceGetter {
 	 */
     public InputStream getStream(String resourceName) {
 		InputStream inStream = getStream(resourceName, Thread.currentThread().getContextClassLoader());
-        if (inStream != null) {
+		if (inStream != null) {
             return inStream;
         }
         inStream = getStream(resourceName, classLoader);
@@ -128,6 +116,8 @@ public final class ResourceGetter {
         if (inStream != null) {
             return inStream;
         }
+
+
         // TODO - should we throw exception (e.g. FileNotFoundException) ?
         return null;
 	}

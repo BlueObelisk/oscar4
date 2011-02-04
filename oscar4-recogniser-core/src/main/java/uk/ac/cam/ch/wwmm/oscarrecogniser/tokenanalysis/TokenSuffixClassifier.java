@@ -2,8 +2,6 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
 
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
 /**

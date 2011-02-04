@@ -26,7 +26,7 @@ public class DefaultDictionary extends MutableChemNameDict {
 		super(DEFAULT_DICTIONARY_URL, Locale.ENGLISH);
 
 		ChemNameDictIO.readXML(
-					new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/chemnamedict/").getXMLDocument("defaultCompounds.xml"),
+					new ResourceGetter(DefaultDictionary.class.getClassLoader(),"uk/ac/cam/ch/wwmm/oscar/chemnamedict/").getXMLDocument("defaultCompounds.xml"),
 					this);
 	}
 }

@@ -2,17 +2,13 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
-import nu.xom.Serializer;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -15,7 +15,7 @@ public class Main {
 	public static void main (String[] args)
 	{
 		MEMMRecogniser MER = new MEMMRecogniser();
-		ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscarMEMM/input/");
+		ResourceGetter rg = new ResourceGetter(MER.getClass().getClassLoader(),"uk/ac/cam/ch/wwmm/oscarMEMM/input/");
 		String resourceName = "source.xml";
 		Document sourceDoc = rg.getXMLDocument(resourceName);
 		IProcessingDocument procDoc = null;

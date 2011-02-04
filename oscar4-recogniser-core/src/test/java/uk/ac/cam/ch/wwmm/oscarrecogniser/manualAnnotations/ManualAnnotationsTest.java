@@ -1,14 +1,14 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import nu.xom.Document;
 import nu.xom.Element;
 
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 
 public class ManualAnnotationsTest {
 

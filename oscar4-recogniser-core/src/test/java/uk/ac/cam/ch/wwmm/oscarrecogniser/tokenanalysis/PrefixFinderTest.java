@@ -1,8 +1,9 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.stub;
 
 import java.util.HashSet;
 import java.util.Set;

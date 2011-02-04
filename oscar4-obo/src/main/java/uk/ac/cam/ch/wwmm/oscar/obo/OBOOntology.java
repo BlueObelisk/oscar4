@@ -30,7 +30,7 @@ public class OBOOntology {
 
 	public Map<String,OntologyTerm> terms;
 	Map<String,Set<String>> indexByName;
-	static ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/obo/terms/");
+	static ResourceGetter rg = new ResourceGetter(OBOOntology.class.getClassLoader(),"uk/ac/cam/ch/wwmm/oscar/obo/terms/");
 	CacheMap<String,Set<String>> queryCache;
 	
 	private static OBOOntology myInstance;

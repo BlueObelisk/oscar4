@@ -66,7 +66,7 @@ public final class XMLStrings {
 	}
 	
 	private void loadStrings(String schemaName) {
-		ResourceGetter rg = new ResourceGetter("uk/ac/cam/ch/wwmm/oscar3Memm/scixml/");
+		ResourceGetter rg = new ResourceGetter(XMLStrings.class.getClassLoader(),"uk/ac/cam/ch/wwmm/oscar3Memm/scixml/");
 		try {
 			Document doc = rg.getXMLDocument(schemaName + ".xml");
 			Elements ee = doc.getRootElement().getChildElements();

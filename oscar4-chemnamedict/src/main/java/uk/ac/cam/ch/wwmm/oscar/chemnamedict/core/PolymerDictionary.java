@@ -41,7 +41,7 @@ implements IChemNameDict {
 		super(POLYMER_DICTIONARY_URL, Locale.ENGLISH);
 
 		ChemNameDictIO.readXML(
-					new ResourceGetter("uk/ac/cam/ch/wwmm/oscar/chemnamedict/").getXMLDocument("polymerCompounds.xml"),
+					new ResourceGetter(PolymerDictionary.class.getClassLoader(),"uk/ac/cam/ch/wwmm/oscar/chemnamedict/").getXMLDocument("polymerCompounds.xml"),
 					this);
 	}
 

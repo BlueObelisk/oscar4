@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscarMEMM.saf;
+package uk.ac.cam.ch.wwmm.oscarrecogniser.saf;
 
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 

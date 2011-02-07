@@ -13,17 +13,21 @@ import java.util.Map;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.google.common.collect.ListMultimap;
+
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
-import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
  * @author Sam Adams
+ * @author dmj30
  */
 public class DFAFinderTest {
 
@@ -127,22 +131,23 @@ public class DFAFinderTest {
     }
 
     @Test
-    @Ignore
     public void testChebiTerms() throws Exception {
-        Map<String,String> ontology = OntologyTerms.getDefaultInstance().getOntology();
+        ListMultimap<String,String> ontology = OntologyTerms.getDefaultInstance().getOntology();
         NamedEntityType ONT = NamedEntityType.valueOf("ONT");
         boolean fail = false;
         for (String term : ontology.keySet()) {
             Finder finder = new Finder(Collections.singletonMap(term, ONT));
             String s = "I know that "+term+" is a chemical entity!";
             List<NamedEntity> neList = finder.findNamedEntities(s);
-            if (neList.size() != 1) {
-                System.err.println(neList.size()+"\t"+term);
-                for (NamedEntity ne : neList) {
+            List<NamedEntity> resolved = StandoffResolver.resolveStandoffs(neList);
+            if (resolved.size() != 1) {
+                System.err.println(resolved.size()+"\t"+term);
+                for (NamedEntity ne : resolved) {
                     System.err.println("    "+ne.getStart()+"-"+ne.getEnd()+" "+ne.getSurface());
                 }
                 fail = true;
             }
+            assertEquals(term, resolved.get(0).getSurface());
         }
         assertFalse(fail);
     }

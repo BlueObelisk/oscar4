@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.obo;
+package uk.ac.cam.ch.wwmm.oscar.ont;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,8 +11,13 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimaps;
+
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
@@ -30,7 +35,7 @@ public class OntologyTerms {
 
     private static OntologyTerms defaultInstance;
 
-    private final Map<String, String> ontology;
+    private final ListMultimap<String, String> ontology;
 
 
     public static OntologyTerms getDefaultInstance() throws ResourceInitialisationException {
@@ -47,20 +52,20 @@ public class OntologyTerms {
         return defaultInstance;
     }
 
-    public OntologyTerms(Map<String,String> terms) {
-        Map<String,String> copy = new HashMap<String, String>(terms);
-        this.ontology = Collections.unmodifiableMap(copy);
+    public OntologyTerms(ListMultimap<String,String> terms) {
+        ListMultimap<String,String> copy = ArrayListMultimap.create(terms);
+        this.ontology = Multimaps.unmodifiableListMultimap(copy);
     }
 
     private OntologyTerms() throws ResourceInitialisationException {
 
         if (OscarProperties.getData().useONT) {
-        	Map<String,String> terms;
+        	ListMultimap<String,String> terms;
         	try {
         		 terms = loadTerms(ONTOLOGY_TERMS_FILE);
                 //add polymer ontology if set to polymer mode
                 if (OscarProperties.getData().polymerMode) {
-                    Map<String, String> polyOntology = loadTerms(POLYMER_ONTOLOGY_TERMS_FILE);
+                    ListMultimap<String,String> polyOntology = loadTerms(POLYMER_ONTOLOGY_TERMS_FILE);
                     terms.putAll(polyOntology);
                 }	
         	} catch (IOException e) {
@@ -68,19 +73,19 @@ public class OntologyTerms {
             } catch (DataFormatException e) {
             	throw new ResourceInitialisationException("failed to load OntologyTerms", e);
 			}
-            this.ontology = Collections.unmodifiableMap(terms);
+            this.ontology = Multimaps.unmodifiableListMultimap(terms);
         } else {
-            this.ontology = Collections.emptyMap(); 
+            this.ontology = ArrayListMultimap.create();
         }
 
     }
 
-    private Map<String, String> loadTerms(String path) throws IOException, DataFormatException {
+    private ListMultimap<String,String> loadTerms(String path) throws IOException, DataFormatException {
         LOG.info("Loading ontology terms: "+path);
         InputStream is = RESOURCE_GETTER.getStream(path);
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            return TermsFileReader.loadTermMap(in, true);
+            return TermsFileReader.loadConcatenatedTermMap(in);
         } finally {
             is.close();
         }
@@ -89,7 +94,7 @@ public class OntologyTerms {
     /**
      * @return a Map of ontology terms to space-separated ontology ids
      */
-    public Map<String, String> getOntology() {
+    public ListMultimap<String,String> getOntology() {
         return ontology;
     }
     

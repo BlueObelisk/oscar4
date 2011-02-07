@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.obo;
+package uk.ac.cam.ch.wwmm.oscar.ont;
 
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +11,9 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 
 import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
+import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
+import uk.ac.cam.ch.wwmm.oscar.obo.Synonym;
 import uk.ac.cam.ch.wwmm.oscar.obo.dso.DSOtoOBO;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 
@@ -18,6 +21,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
  * use during named entity recognition.
  * 
  * @author ptc24
+ * @author dmj30
  *
  */
 public final class OntologyTermIdIndex {
@@ -46,11 +50,7 @@ public final class OntologyTermIdIndex {
     }
 
     private OntologyTermIdIndex() throws ResourceInitialisationException {
-		termIdMap = ArrayListMultimap.create();
-        Map<String,String> ontology = OntologyTerms.getDefaultInstance().getOntology();
-		for (String term : ontology.keySet()) {
-			addTerm(term, ontology.get(term));
-		}
+		termIdMap = ArrayListMultimap.create(OntologyTerms.getDefaultInstance().getOntology());
 		if (OscarProperties.getData().useDSO) {
 			try {
 				OBOOntology dso = DSOtoOBO.readDSO();

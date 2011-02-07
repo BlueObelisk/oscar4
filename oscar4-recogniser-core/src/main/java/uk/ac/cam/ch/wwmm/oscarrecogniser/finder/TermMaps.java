@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
-import uk.ac.cam.ch.wwmm.oscar.obo.TermsFileReader;
+import uk.ac.cam.ch.wwmm.oscar.ont.TermsFileReader;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;

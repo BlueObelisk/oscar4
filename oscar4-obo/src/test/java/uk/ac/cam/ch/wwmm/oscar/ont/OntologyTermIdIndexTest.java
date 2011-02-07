@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.obo;
+package uk.ac.cam.ch.wwmm.oscar.ont;
 
 import static org.junit.Assert.*;
 
@@ -6,11 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 
 public class OntologyTermIdIndexTest {
 
@@ -25,12 +23,11 @@ public class OntologyTermIdIndexTest {
 		OntologyTermIdIndex instance = OntologyTermIdIndex.getInstance();
 		assertTrue(instance.containsTerm("acid"));
 		List<String> identifiers = instance.getIdsForTerm("acid");
-		assertNotSame(0, identifiers.size());
+		assertEquals(1, identifiers.size());
 		assertTrue(
 			"Missing ChEBI identifier: CHEBI:37527",
-			identifiers.contains("CHEBI:37527 CHEBI:37527")
+			identifiers.contains("CHEBI:37527")
 		);
-		// TODO: why is the index duplicated??
 	}
 
 	@Test

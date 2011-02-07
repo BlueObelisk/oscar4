@@ -17,8 +17,8 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
-import uk.ac.cam.ch.wwmm.oscarMEMM.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFAONTCPRFinder;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver;
 
 /**
  * Name recognition using the Maximum Entropy Markov Model

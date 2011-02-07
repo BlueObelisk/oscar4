@@ -1,20 +1,13 @@
 # comment
-this term is defined before any ids
 
-[DEFINE]
-$DEF = definition
 
 [TERMS]
 # another comment
 this is a term
 this is a duplicated term
-this term references a $DEF
 
 [MORETERMS]
 This term teSTS the      STRING     NorMALISATION.
 this is a duplicated term
 this term checks there's no problem with $UNDECLARED $declarations
 
-this is >>>
-a >>>
-multi-line term

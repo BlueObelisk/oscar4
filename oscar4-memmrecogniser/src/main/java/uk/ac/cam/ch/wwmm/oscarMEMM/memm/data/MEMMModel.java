@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm.data;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -52,9 +53,9 @@ public class MEMMModel {
      * Reads in an XML document containing a MEMM model.
      *
      * @param doc The XML document.
-     * @throws Exception
+     * @throws IOException
      */
-    public void readModel(Document doc) throws Exception {
+    public void readModel(Document doc) throws IOException {
         readModel(doc.getRootElement());
     }
 
@@ -62,9 +63,9 @@ public class MEMMModel {
      * Reads in a MEMM model from an XML element.
      *
      * @param modelRoot The XML element.
-     * @throws Exception
+     * @throws IOException
      */
-    public void readModel(Element modelRoot) throws Exception {
+    public void readModel(Element modelRoot) throws IOException {
 		Element memmElem = modelRoot.getFirstChildElement("memm");
         Elements maxents = memmElem.getChildElements("maxent");
         gmByPrev = new HashMap<BioType,GISModel>();

@@ -2,16 +2,27 @@ package uk.ac.cam.ch.wwmm.oscar.tools;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import nu.xom.Document;
+import nu.xom.ParsingException;
+import nu.xom.ValidityException;
 
 import org.junit.Ignore;
 import org.junit.Test;
 
+/**
+ * @author egonw
+ * @author Sam Adams
+ * @author dmj30
+ *
+ */
 public class ResourceGetterTest {
 
 	@Test
@@ -49,7 +60,7 @@ public class ResourceGetterTest {
     }
 
     @Test
-    public void testGetXMLDocument() {
+    public void testGetXMLDocument() throws Exception {
     	ResourceGetter rg = new ResourceGetter("/tools/");
     	Document doc = rg.getXMLDocument("simple.xml");
     	assertEquals("<foo><bar /></foo>", doc.getRootElement().toXML());
@@ -58,9 +69,40 @@ public class ResourceGetterTest {
     @Ignore
     //NYI
     @Test
-    public void testGetXMLDocumentWithDtd() {
+    public void testGetXMLDocumentWithDtd() throws Exception {
     	ResourceGetter rg = new ResourceGetter("/tools/");
     	Document doc = rg.getXMLDocument("docWithDtd.xml");
     	assertEquals("<foo><bar /></foo>", doc.getRootElement().toXML());
+    }
+    
+    @Test
+    public void testGetStringsDefaultEncoding() throws Exception {
+    	ResourceGetter rg = new ResourceGetter("/");
+    	List <String> lines = rg.getStrings("utf-8.txt");
+    	assertEquals(2, lines.size());
+    	assertEquals("line 1", lines.get(0));
+    	assertEquals("line β", lines.get(1));
+    }
+    
+    @Test
+    public void testGetStringsAsciiEncoding() throws Exception {
+    	ResourceGetter rg = new ResourceGetter("/");
+    	List <String> lines = rg.getStrings("utf-8.txt", "ASCII");
+    	assertEquals(2, lines.size());
+    	assertEquals("line 1", lines.get(0));
+    	assertFalse("line β".equals(lines.get(1)));
+    	assertTrue(lines.get(1).startsWith("line "));
+    }
+    
+    @Test (expected = UnsupportedEncodingException.class)
+    public void testGetStringsUnsupportedEncoding() throws Exception {
+    	ResourceGetter rg = new ResourceGetter("/");
+    	rg.getStrings("utf-8.txt", "sdfsgsodighsdoig");
+    }
+    
+    @Test (expected = FileNotFoundException.class)
+    public void testGetStringsMissingFile() throws Exception {
+    	ResourceGetter rg = new ResourceGetter("/");
+    	rg.getStrings("skdfgsg", "UTF-8");
     }
 }

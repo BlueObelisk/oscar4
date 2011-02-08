@@ -10,7 +10,6 @@ import java.util.Set;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -58,7 +57,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     }
 
 
-    public DFAONTCPRFinder getOntologyTermFinder() throws ResourceInitialisationException {
+    public DFAONTCPRFinder getOntologyTermFinder() {
         if (ontologyTermFinder == null) {
             ontologyTermFinder = DFAONTCPRFinder.getInstance();
         }
@@ -70,11 +69,11 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     }
     
 
-    public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) throws ResourceInitialisationException {
+    public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) {
         return findNamedEntities(procDoc.getTokenSequences());
     }
 
-    public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList) throws ResourceInitialisationException {
+    public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList) {
 
         // Generate named entity list
         List<NamedEntity> neList = generateNamedEntities(tokSeqList);
@@ -170,9 +169,8 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      * Detects named entities using ontology terms.
      * @param toxicList
      * @return
-     * @throws ResourceInitialisationException 
      */
-    private List<NamedEntity> generateOntologyTerms(List<ITokenSequence> toxicList) throws ResourceInitialisationException {
+    private List<NamedEntity> generateOntologyTerms(List<ITokenSequence> toxicList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
         DFAONTCPRFinder ontologyTermFinder = getOntologyTermFinder();
         for (ITokenSequence t : toxicList) {

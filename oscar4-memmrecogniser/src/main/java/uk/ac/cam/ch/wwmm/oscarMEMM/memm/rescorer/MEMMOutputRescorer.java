@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +53,7 @@ public final class MEMMOutputRescorer {
 	/**Adjust the confidence scores of a list of named entities.
 	 * 
 	 * @param entities The named entities to rescore.
+	 *  
 	 */
 	public void rescore(List<NamedEntity> entities) {
 
@@ -94,9 +96,9 @@ public final class MEMMOutputRescorer {
 	 * to use it.
 	 * 
 	 * @param elem The XML Element that contains the trained rescorer model.
-	 * @throws Exception
+	 * @throws IOException 
 	 */
-	public void readElement(Element elem) throws Exception {
+	public void readElement(Element elem) throws IOException  {
 		Elements maxents = elem.getChildElements("maxent");
 		modelsByNamedEntityType = new HashMap<NamedEntityType,GISModel>();
 		for (int i = 0; i < maxents.size(); i++) {

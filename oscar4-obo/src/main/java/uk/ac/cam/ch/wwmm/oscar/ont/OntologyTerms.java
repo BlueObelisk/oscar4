@@ -38,14 +38,14 @@ public class OntologyTerms {
     private final ListMultimap<String, String> ontology;
 
 
-    public static OntologyTerms getDefaultInstance() throws ResourceInitialisationException {
+    public static OntologyTerms getDefaultInstance() {
         if (defaultInstance == null) {
             defaultInstance = loadDefaultInstance();
         }
         return defaultInstance;
     }
 
-    private static synchronized OntologyTerms loadDefaultInstance() throws ResourceInitialisationException {
+    private static synchronized OntologyTerms loadDefaultInstance() {
         if (defaultInstance == null) {
             defaultInstance = new OntologyTerms();
         }
@@ -57,7 +57,7 @@ public class OntologyTerms {
         this.ontology = Multimaps.unmodifiableListMultimap(copy);
     }
 
-    private OntologyTerms() throws ResourceInitialisationException {
+    private OntologyTerms() {
 
         if (OscarProperties.getData().useONT) {
         	ListMultimap<String,String> terms;

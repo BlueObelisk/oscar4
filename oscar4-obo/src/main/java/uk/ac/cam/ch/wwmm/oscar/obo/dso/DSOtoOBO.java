@@ -1,5 +1,9 @@
 package uk.ac.cam.ch.wwmm.oscar.obo.dso;
 
+import java.io.IOException;
+import java.util.List;
+
+import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -12,7 +16,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  */
 public class DSOtoOBO {
 
-	public static OBOOntology readDSO() throws Exception {
+	public static OBOOntology readDSO() {
 		OBOOntology oo = new OBOOntology();
 
 		ResourceGetter rg = new ResourceGetter(
@@ -26,7 +30,13 @@ public class DSOtoOBO {
 		
 		
 		int id = 0;
-		for(String string : rg.getStrings("ptcontology.dso")) {
+		List <String> strings;
+		try {
+			strings = rg.getStrings("ptcontology.dso");
+		} catch (IOException e) {
+			throw new ResourceInitialisationException("failed to load custom ontology", e);
+		}
+		for(String string : strings) {
 			if(string.matches("\\[.*\\]")) {
 				id++;
 				String termID = "PTCO:" + padInt(id, 6);

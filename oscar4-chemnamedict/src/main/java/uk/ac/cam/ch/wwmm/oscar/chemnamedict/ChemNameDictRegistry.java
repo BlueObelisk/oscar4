@@ -49,6 +49,7 @@ public class ChemNameDictRegistry {
 		return instance;
 	}
 
+	//TODO this isn't the behaviour I'd expect - if the singleton is already initialised the argument doesn't affect the return value
 	public static ChemNameDictRegistry getInstance(Locale language) {
 		if (instance == null)
 			instance = new ChemNameDictRegistry(language);

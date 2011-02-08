@@ -15,7 +15,6 @@ import java.util.regex.Pattern;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTermIdIndex;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -62,9 +61,9 @@ public abstract class DFAFinder implements Serializable {
 
 	protected DFAFinder() {}
 
-	protected abstract void loadTerms() throws ResourceInitialisationException;
+	protected abstract void loadTerms();
 	
-	protected void init() throws ResourceInitialisationException {
+	protected void init() {
         initLiterals();
 		loadTerms();
 		finishInit();
@@ -124,7 +123,7 @@ public abstract class DFAFinder implements Serializable {
 		}
 	}
 	
-	protected void addNamedEntity(String namedEntity, NamedEntityType namedEntityType, boolean alwaysAdd) throws ResourceInitialisationException {
+	protected void addNamedEntity(String namedEntity, NamedEntityType namedEntityType, boolean alwaysAdd) {
 
 		ITokenSequence tokenSequence = Tokeniser.getInstance().tokenise(namedEntity);
 		List<String> tokens = tokenSequence.getTokenStringList();
@@ -188,11 +187,11 @@ public abstract class DFAFinder implements Serializable {
 		}
 	}
 
-    private boolean isCustomTerm(String namedEntity, NamedEntityType namedEntityType) throws ResourceInitialisationException {
+    private boolean isCustomTerm(String namedEntity, NamedEntityType namedEntityType) {
         return NamedEntityType.CUSTOM.isInstance(namedEntityType) && TermMaps.getInstance().getCustEnt().containsKey(namedEntity);
     }
 
-    private boolean isOntologyTerm(String namedEntity, NamedEntityType namedEntityType) throws ResourceInitialisationException {
+    private boolean isOntologyTerm(String namedEntity, NamedEntityType namedEntityType) {
         return NamedEntityType.ONTOLOGY.isInstance(namedEntityType) && OntologyTermIdIndex.getInstance().containsTerm(namedEntity);
     }
 
@@ -264,7 +263,7 @@ public abstract class DFAFinder implements Serializable {
 		return tagMap;
 	}
 	
-	protected void handleNamedEntity(AutomatonState a, int endToken, ITokenSequence t, NECollector collector) throws ResourceInitialisationException {
+	protected void handleNamedEntity(AutomatonState a, int endToken, ITokenSequence t, NECollector collector) {
 		String surface = t.getSubstring(a.getStartToken(), endToken);
         NamedEntityType type = a.getType();
         if (type.getParent() != null) {
@@ -314,11 +313,11 @@ public abstract class DFAFinder implements Serializable {
         }
 	}
 	
-	protected void findItems(ITokenSequence tokenSequence, List<RepresentationList> repsList, NECollector collector) throws ResourceInitialisationException {
+	protected void findItems(ITokenSequence tokenSequence, List<RepresentationList> repsList, NECollector collector) {
 		findItems(tokenSequence, repsList, 0, tokenSequence.getTokens().size()-1, collector);
 	}
 	
-	protected void findItems(ITokenSequence tokenSequence, List<RepresentationList> repsList, int startToken, int endToken, NECollector collector) throws ResourceInitialisationException {
+	protected void findItems(ITokenSequence tokenSequence, List<RepresentationList> repsList, int startToken, int endToken, NECollector collector) {
 		
 		List<AutomatonState> autStates = initAutomatonStates();
         List<AutomatonState> newAutStates = new ArrayList<AutomatonState>();

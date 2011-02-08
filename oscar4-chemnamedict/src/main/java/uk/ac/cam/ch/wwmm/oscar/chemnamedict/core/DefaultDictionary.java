@@ -1,16 +1,19 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
 
+import nu.xom.ParsingException;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictIO;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
 public class DefaultDictionary extends MutableChemNameDict {
 
-	private static final URI	DEFAULT_DICTIONARY_URL;
+	private static final URI DEFAULT_DICTIONARY_URL;
 
 	static {
 		try {
@@ -25,8 +28,13 @@ public class DefaultDictionary extends MutableChemNameDict {
 	public DefaultDictionary() {
 		super(DEFAULT_DICTIONARY_URL, Locale.ENGLISH);
 
-		ChemNameDictIO.readXML(
-					new ResourceGetter(DefaultDictionary.class.getClassLoader(),"uk/ac/cam/ch/wwmm/oscar/chemnamedict/").getXMLDocument("defaultCompounds.xml"),
-					this);
+		ResourceGetter rg = new ResourceGetter(getClass().getClassLoader(),"uk/ac/cam/ch/wwmm/oscar/chemnamedict/");
+		try {
+			ChemNameDictIO.readXML(rg.getXMLDocument("defaultCompounds.xml"),this);
+		} catch (ParsingException e) {
+			throw new ResourceInitialisationException("failed to load default dictionary", e);
+		} catch (IOException e) {
+			throw new ResourceInitialisationException("failed to load default dictionary", e);
+		}
 	}
 }

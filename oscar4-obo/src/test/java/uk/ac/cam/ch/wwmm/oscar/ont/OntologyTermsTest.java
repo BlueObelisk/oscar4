@@ -1,12 +1,8 @@
 package uk.ac.cam.ch.wwmm.oscar.ont;
 
+import static org.junit.Assert.*;
+
 import org.junit.Test;
-
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
-import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Sam Adams
@@ -15,20 +11,20 @@ import static org.junit.Assert.assertNotNull;
 public class OntologyTermsTest {
 
     @Test
-    public void testOntologyNotNull() throws ResourceInitialisationException {
+    public void testOntologyNotNull() {
         OntologyTerms ontologyTerms = OntologyTerms.getDefaultInstance();
         assertNotNull(ontologyTerms.getOntology());
     }
 
     @Test
-    public void testOntologyNotEmpty() throws ResourceInitialisationException {
+    public void testOntologyNotEmpty() {
         OntologyTerms ontologyTerms = OntologyTerms.getDefaultInstance();
         assertFalse(ontologyTerms.getOntology().isEmpty());
     }
 
     
     @Test (expected = UnsupportedOperationException.class)
-    public void testUnmodifiable() throws ResourceInitialisationException {
+    public void testUnmodifiable() {
     	OntologyTerms ontologyTerms = OntologyTerms.getDefaultInstance();
     	ontologyTerms.getOntology().put("foo", "bar");
     }

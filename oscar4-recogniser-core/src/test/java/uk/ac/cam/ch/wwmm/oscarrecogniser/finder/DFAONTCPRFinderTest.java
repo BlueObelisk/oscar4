@@ -13,7 +13,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
@@ -25,7 +24,7 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 public class DFAONTCPRFinderTest {
 
     @Test
-    public void testFindNumericalChemicalPrefixes() throws ResourceInitialisationException {
+    public void testFindNumericalChemicalPrefixes()  {
     	String text = "The 1- and 2-foo bar";
     	ITokenSequence tokenSequence = Tokeniser.getInstance().tokenise(text);
     	List <NamedEntity> nes = DFAONTCPRFinder.getInstance().findNamedEntities(tokenSequence);
@@ -35,7 +34,7 @@ public class DFAONTCPRFinderTest {
     }
     
     @Test
-    public void testFindComplexNumericalChemicalPrefixes() throws ResourceInitialisationException {
+    public void testFindComplexNumericalChemicalPrefixes() {
     	String text = "The 1,2- and 2,3-foo bar";
     	ITokenSequence tokenSequence = Tokeniser.getInstance().tokenise(text);
     	List <NamedEntity> nes = DFAONTCPRFinder.getInstance().findNamedEntities(tokenSequence);
@@ -45,7 +44,7 @@ public class DFAONTCPRFinderTest {
     }
     
     @Test
-    public void testFindWordyChemicalPrefixes() throws ResourceInitialisationException {
+    public void testFindWordyChemicalPrefixes() {
     	String text = "The cis- and trans-foo bar";
     	ITokenSequence tokenSequence = Tokeniser.getInstance().tokenise(text);
     	List <NamedEntity> nes = DFAONTCPRFinder.getInstance().findNamedEntities(tokenSequence);
@@ -55,7 +54,7 @@ public class DFAONTCPRFinderTest {
     }
     
     @Test
-    public void testDontFindNonChemicalPrefixes() throws ResourceInitialisationException {
+    public void testDontFindNonChemicalPrefixes() {
     	String text = "The foo- and bar-foobar";
     	ITokenSequence tokenSequence = Tokeniser.getInstance().tokenise(text);
     	List <NamedEntity> nes = DFAONTCPRFinder.getInstance().findNamedEntities(tokenSequence);
@@ -72,7 +71,7 @@ public class DFAONTCPRFinderTest {
 	
     
     @Test
-    public void testHandleTokenForNumericalPrefix() throws ResourceInitialisationException {
+    public void testHandleTokenForNumericalPrefix() {
     	NECollector collector = new NECollector();
     	assertEquals(0, collector.getNes().size());
     	
@@ -90,7 +89,7 @@ public class DFAONTCPRFinderTest {
     }
     
     @Test
-    public void testHandleTokenForEmbeddedNumericalPrefix() throws ResourceInitialisationException {
+    public void testHandleTokenForEmbeddedNumericalPrefix() {
     	NECollector collector = new NECollector();
     	assertEquals(0, collector.getNes().size());
     	
@@ -108,7 +107,7 @@ public class DFAONTCPRFinderTest {
     }
     
     @Test
-    public void testHandleTokenForTokenisedNumericalPrefix() throws ResourceInitialisationException {
+    public void testHandleTokenForTokenisedNumericalPrefix() {
     	NECollector collector = new NECollector();
     	assertEquals(0, collector.getNes().size());
     	
@@ -134,7 +133,7 @@ public class DFAONTCPRFinderTest {
     }
     
     @Test
-    public void testHandleTokenForWordyPrefix() throws ResourceInitialisationException {
+    public void testHandleTokenForWordyPrefix() {
     	NECollector collector = new NECollector();
     	assertEquals(0, collector.getNes().size());
     	
@@ -152,7 +151,7 @@ public class DFAONTCPRFinderTest {
     }
     
     @Test
-    public void testHandleTokenForEmbeddedWordyPrefix() throws ResourceInitialisationException {
+    public void testHandleTokenForEmbeddedWordyPrefix() {
     	NECollector collector = new NECollector();
     	assertEquals(0, collector.getNes().size());
     	
@@ -170,7 +169,7 @@ public class DFAONTCPRFinderTest {
     }
     
     @Test
-    public void testHandleTokenForTokenisedWordyPrefix() throws ResourceInitialisationException {
+    public void testHandleTokenForTokenisedWordyPrefix() {
     	NECollector collector = new NECollector();
     	assertEquals(0, collector.getNes().size());
     	

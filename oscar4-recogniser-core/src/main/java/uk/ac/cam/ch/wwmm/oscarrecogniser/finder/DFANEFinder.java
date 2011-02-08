@@ -12,7 +12,6 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTermIdIndex;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
@@ -63,9 +62,8 @@ public class DFANEFinder extends DFAFinder {
     /**Get the DFANEFinder singleton, initialising if necessary.
      *
      * @return The DFANEFinder singleton.
-     * @throws ResourceInitialisationException 
      */
-    public static DFANEFinder getInstance() throws ResourceInitialisationException {
+    public static DFANEFinder getInstance() {
         if (myInstance == null) {
             /* dictionaries are initialised by ChemNaneDictRegistry constructor
             try {
@@ -88,12 +86,11 @@ public class DFANEFinder extends DFAFinder {
     }
 
     /**Re-initialise the DFANEFinder singleton.
-     * @throws ResourceInitialisationException 
      *
      */
     @Deprecated
     //TODO - this isn't called - do we need it?
-    public static void reinitialise() throws ResourceInitialisationException {
+    public static void reinitialise() {
         myInstance = null;
         getInstance();
     }
@@ -116,14 +113,14 @@ public class DFANEFinder extends DFAFinder {
         if (ts.getTokens().size() > 1) myInstance = null;
     }
 
-    private DFANEFinder() throws ResourceInitialisationException {
+    private DFANEFinder() {
         logger.debug("Initialising DFA NE Finder...");
         super.init();
         logger.debug("Initialised DFA NE Finder");
     }
 
     @Override
-    protected void loadTerms() throws ResourceInitialisationException {
+    protected void loadTerms() {
         TermMaps termMaps = TermMaps.getInstance();
         logger.debug("Adding terms to DFA finder...");
         for(String s : termMaps.getNeTerms().keySet()){
@@ -157,16 +154,15 @@ public class DFANEFinder extends DFAFinder {
      *
      * @param t The token sequence
      * @return The NEs.
-     * @throws ResourceInitialisationException 
      */
-    public List<NamedEntity> findNamedEntities(ITokenSequence t, NGram nGram) throws ResourceInitialisationException {
+    public List<NamedEntity> findNamedEntities(ITokenSequence t, NGram nGram) {
         NECollector nec = new NECollector();
         List<RepresentationList> repsList = generateTokenRepresentations(t, nGram);
         findItems(t, repsList, nec);
         return nec.getNes();
     }
 
-    private List<RepresentationList> generateTokenRepresentations(ITokenSequence t, NGram nGram) throws ResourceInitialisationException {
+    private List<RepresentationList> generateTokenRepresentations(ITokenSequence t, NGram nGram) {
         List<RepresentationList> repsList = new ArrayList<RepresentationList>();
         for(IToken token : t.getTokens()) {
             repsList.add(generateTokenRepresentations(token, nGram));
@@ -174,7 +170,7 @@ public class DFANEFinder extends DFAFinder {
         return repsList;
     }
 
-    protected RepresentationList generateTokenRepresentations(IToken token, NGram nGram) throws ResourceInitialisationException {
+    protected RepresentationList generateTokenRepresentations(IToken token, NGram nGram) {
         RepresentationList tokenRepresentations = new RepresentationList();
         // Avoid complications with compound refs
         //SciXML dependent - removed 24/11/10 by dmj30

@@ -16,7 +16,6 @@ import java.util.zip.GZIPOutputStream;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTermIdIndex;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -89,18 +88,16 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 * Instantiates a DFAONTCPRFinder then serializes it
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
-	 * @throws ResourceInitialisationException 
 	 */
-	public static void buildAndSerializeDFAONTCPRFinder() throws FileNotFoundException, IOException, ResourceInitialisationException {
+	public static void buildAndSerializeDFAONTCPRFinder() throws FileNotFoundException, IOException {
 		writeToWorkspace(new DFAONTCPRFinder());
 	}
 	
 	/**Get the DFAONTCPRFinder singleton, initialising if necessary.
 	 * 
 	 * @return The DFAONTCPRFinder singleton.
-	 * @throws ResourceInitialisationException 
 	 */
-	public static DFAONTCPRFinder getInstance() throws ResourceInitialisationException {
+	public static DFAONTCPRFinder getInstance() {
 		if (myInstance == null) {
 //            try {
 //    			myInstance = readFromWorkspace();
@@ -113,10 +110,9 @@ public class DFAONTCPRFinder extends DFAFinder {
 	}
 	
 	/**Re-initialise the DFAONTCPRFinder singleton.
-	 * @throws ResourceInitialisationException 
 	 * 
 	 */
-	public static void reinitialise() throws ResourceInitialisationException {
+	public static void reinitialise() {
 		myInstance = null;
 		getInstance();
 	}
@@ -139,14 +135,14 @@ public class DFAONTCPRFinder extends DFAFinder {
 		if (ts.getTokens().size() > 1) myInstance = null;
 	}
 	
-	private DFAONTCPRFinder() throws ResourceInitialisationException {
+	private DFAONTCPRFinder() {
 //		logger.debug("Initialising DFA ONT Finder...");
 		super.init();
 //		logger.debug("Initialised DFA ONT Finder");
 	}
 	
 	@Override
-	protected void loadTerms() throws ResourceInitialisationException {
+	protected void loadTerms() {
 //		logger.debug("Adding ontology terms to DFA finder...");
 		for(String s : OntologyTermIdIndex.getInstance().getAllTerms()){
 			addNamedEntity(s, NamedEntityType.ONTOLOGY, false);
@@ -161,16 +157,15 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 * 
 	 * @param tokenSequence The token sequence
 	 * @return The NEs.
-	 * @throws ResourceInitialisationException 
 	 */
-	public List<NamedEntity> findNamedEntities(ITokenSequence tokenSequence) throws ResourceInitialisationException {
+	public List<NamedEntity> findNamedEntities(ITokenSequence tokenSequence) {
 		NECollector nec = new NECollector();
 		List<RepresentationList> repsList = generateTokenRepresentations(tokenSequence);
 		findItems(tokenSequence, repsList, nec);
 		return nec.getNes();
 	}
 	
-	private List<RepresentationList> generateTokenRepresentations(ITokenSequence tokenSequence) throws ResourceInitialisationException {
+	private List<RepresentationList> generateTokenRepresentations(ITokenSequence tokenSequence) {
 		List<RepresentationList> repsList = new ArrayList<RepresentationList>();
 		for(IToken token : tokenSequence.getTokens()) {
 			repsList.add(generateTokenRepresentations(token));
@@ -178,7 +173,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 		return repsList;
 	}
 	
-	protected RepresentationList generateTokenRepresentations(IToken token) throws ResourceInitialisationException {
+	protected RepresentationList generateTokenRepresentations(IToken token) {
 		RepresentationList representations = new RepresentationList();
 		String tokenValue = token.getValue();
 		representations.addRepresentation(tokenValue);

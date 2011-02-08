@@ -17,7 +17,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -127,10 +126,9 @@ public class Oscar {
      *
      * @param input String with input.
      * @return      the recognized chemical entities.
-     * @throws ResourceInitialisationException 
      * @throws Exception
      */
-    public List<NamedEntity> getNamedEntities(String input) throws ResourceInitialisationException {
+    public List<NamedEntity> getNamedEntities(String input) {
         input = normalize(input);
         List<ITokenSequence> tokens = tokenize(input);
         List<NamedEntity> entities = recognizeNamedEntities(tokens);
@@ -224,9 +222,8 @@ public class Oscar {
      *
      * @param  entities a {@link List} of {@link ITokenSequence}s.
      * @return          a {@link List} of {@link NamedEntity}s.
-     * @throws ResourceInitialisationException 
      */
-    public List<NamedEntity> recognizeNamedEntities(List<ITokenSequence> tokens) throws ResourceInitialisationException {
+    public List<NamedEntity> recognizeNamedEntities(List<ITokenSequence> tokens) {
         return recogniser.findNamedEntities(tokens);
     }
 

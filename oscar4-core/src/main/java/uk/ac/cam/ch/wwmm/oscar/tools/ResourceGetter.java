@@ -3,9 +3,11 @@ package uk.ac.cam.ch.wwmm.oscar.tools;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -21,10 +23,11 @@ import nu.xom.ValidityException;
 
 import org.apache.commons.io.IOUtils;
 
-/**Gets resource files from packages. Useful for incuding data in JAR files.
+/**Gets resource files from packages. Useful for including data in JAR files.
  * 
  * @author ptc24
  * @author egonw
+ * @author dmj30
  *
  * Modified from ptc's original version
  */
@@ -69,41 +72,29 @@ public final class ResourceGetter {
 	 *
 	 * @param resourceName The name of the file to parse.
 	 * @return The parsed document.
-	 * @throws Exception If the document can't be found, or can't parse, or is malformed/invalid.
+	 * 
+	 * @throws IOException if an I/O error occurs
+	 * @throws FileNotFoundException if the specified file cannot be found
+	 * @throws ParsingException if the document is not well-formed
+	 * @throws ValidityException if the document is invalid
 	 */
-	public Document getXMLDocument(String resourceName) {
-		InputStream inStream = null;
+	public Document getXMLDocument(String resourceName) throws ValidityException, ParsingException, FileNotFoundException, IOException {
+		InputStream is = getStream(resourceName);
 		try {
-			inStream = getStream(resourceName);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			return new Builder().build(is);
 		}
-		Document doc = null;
-		try {
-			doc = new Builder().build(inStream);
-		} catch (ValidityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParsingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		finally {
+			IOUtils.closeQuietly(is);
 		}
-		
-		return doc;
-		
 	}
 	
 	/**Fetches a data file from resourcePath as an InputStream.
 	 * 
-	 * @param resourceName The name of the file to get an InputStream of.
-	 * @return An InputStream corresponding to the file.
-	 * @throws Exception If the resouce file couldn't be found.
+	 * @param resourceName The name of the file to get an InputStream for
+	 * @return An InputStream corresponding to the file
+	 * @throws FileNotFoundException if the resource file couldn't be found 
 	 */
-    public InputStream getStream(String resourceName) {
+    public InputStream getStream(String resourceName) throws FileNotFoundException {
 		InputStream inStream = getStream(resourceName, Thread.currentThread().getContextClassLoader());
 		if (inStream != null) {
             return inStream;
@@ -116,10 +107,8 @@ public final class ResourceGetter {
         if (inStream != null) {
             return inStream;
         }
-
-
-        // TODO - should we throw exception (e.g. FileNotFoundException) ?
-        return null;
+        
+        throw new FileNotFoundException("failed to find resource: " + resourceName);
 	}
 
     private InputStream getStream(String resourceName, ClassLoader classLoader) {
@@ -131,17 +120,20 @@ public final class ResourceGetter {
     }
 
 
-	/**Fetches a data file from resourcePath as an InputStream, removes comments starting with \s#, and
+	/**Fetches a data file from resourcePath as an InputStream, reads the content
+	 * using the UTF-8 encoding, removes comments starting with \s#, and
 	 * returns each line in a list.
 	 * 
 	 * @param name The name of the file to get an InputStream of.
 	 * @return A List of Strings corresponding to the file.
-	 * @throws Exception If the resouce file couldn't be found.
+	 * @throws IOException if the resource file couldn't be found
 	 */	
-	public List<String> getStrings(String name) throws Exception {
-		return getStrings(name, true);
+	public List<String> getStrings(String name) throws IOException {
+		return getStrings(name, "UTF-8");
 	}
 
+	@Deprecated
+	//TODO this isn't called - do we need it?
     public List<String> getFilesFromClasspath() {
 		List<String> result = new ArrayList<String>();
 		String classPath = System.getProperty("java.class.path");
@@ -163,26 +155,27 @@ public final class ResourceGetter {
 	}
 	
 
-	/**Fetches a data file from resourcePath as an InputStream, removes comments starting with \s#, and
+	/**Fetches a data file from resourcePath as an InputStream, reads the content
+	 * using the specified encoding, removes comments starting with \s#, and
 	 * returns each line in a list.
 	 * 
-	 * @param name The name of the file to get an InputStream of.
-	 * @param UTF8 Whether to load the strings in UTF8
-	 * @return A List of Strings corresponding to the file.
-	 * @throws Exception If the resouce file couldn't be found.
+	 * @param name The name of the file to read
+	 * @param encoding the character encoding to be used
+	 * @return A List of Strings corresponding to the file
+	 * @throws UnsupportedEncodingException if the specified encoding is not supported
+	 * @throws FileNotFoundException if the specified resource could not be found
+	 * @throws IOException if an I/O error occurs
 	 */	
-	public List<String> getStrings(String name, boolean UTF8) throws Exception {
+	public List<String> getStrings(String name, String encoding) throws IOException {
 		InputStream is = getStream(name);
-        if (is != null) {
-            List<String> lines;
-            if (UTF8) {
-                lines = IOUtils.readLines(is, "UTF-8");
-            } else {
-                lines = IOUtils.readLines(is);
-            }
-            return removeComments(lines);
+        List<String> lines;
+        try {
+        	lines = IOUtils.readLines(is, encoding);
         }
-        return null;
+        finally {
+        	IOUtils.closeQuietly(is);
+        }
+        return removeComments(lines);
     }
 
     public static List<String> removeComments(List<String> lines) {
@@ -215,6 +208,8 @@ public final class ResourceGetter {
 	 * @return A Set of Strings corresponding to the file.
 	 * @throws Exception If the resouce file couldn't be found.
 	 */	
+    @Deprecated
+    //TODO this isn't called - do we need it?
 	public Set<String> getStringSet(String name) throws Exception {
 		Set<String> results = new HashSet<String>();
     	BufferedReader br = new BufferedReader(new InputStreamReader(getStream(name), "UTF-8"));
@@ -236,14 +231,16 @@ public final class ResourceGetter {
 	 * 
 	 * @param name The file to fetch.
 	 * @return The string.
-	 * @throws Exception
+	 * @throws IOException
 	 */
 	public String getString(String name) throws IOException {
         InputStream is = getStream(name);
-        if (is != null) {
-            return IOUtils.toString(is, "UTF-8");
+        try {
+        	return IOUtils.toString(is, "UTF-8");
         }
-        return null;
+        finally {
+        	IOUtils.closeQuietly(is);
+        }
 	}
 
 	private List<String> findResourceInFile(File resourceFile) throws IOException {

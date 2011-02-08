@@ -3,8 +3,14 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import nu.xom.Document;
 import nu.xom.Element;
+import nu.xom.ParsingException;
+import nu.xom.ValidityException;
 
 import org.junit.Test;
 
@@ -18,7 +24,7 @@ public class ManualAnnotationsTest {
 	}
 	
 	@Test
-	public void testReadXML() {
+	public void testReadXML() throws Exception {
 		ManualAnnotations manualAnnotations = new ManualAnnotations();
 		assertFalse(manualAnnotations.getChemicalWords().contains("ammonia"));
 		

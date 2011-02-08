@@ -271,6 +271,8 @@ public final class MEMMTrainer {
 		}*/
 	}
 
+	@Deprecated
+	//TODO this isn't called - do we need it?
 	public void trainOnSbFilesWithRescore(List<File> files, MEMM memm) throws Exception {
 		MEMMOutputRescorerTrainer rescorerTrainer =
 			new MEMMOutputRescorerTrainer(memm);

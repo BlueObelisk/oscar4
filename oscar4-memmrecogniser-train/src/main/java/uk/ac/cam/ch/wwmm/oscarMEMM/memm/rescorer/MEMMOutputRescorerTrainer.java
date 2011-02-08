@@ -110,6 +110,8 @@ public final class MEMMOutputRescorerTrainer {
 	 * @param f The file to train on.
 	 * @throws Exception
 	 */
+	@Deprecated
+	//TODO this isn't called - do we need it?
 	public void trainOnFile(File f) throws Exception {
 		trainOnFile(f, memm);
 	}

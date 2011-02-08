@@ -2,20 +2,18 @@ package uk.ac.cam.ch.wwmm.oscar.ont;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
 import uk.ac.cam.ch.wwmm.oscar.obo.Synonym;
 import uk.ac.cam.ch.wwmm.oscar.obo.dso.DSOtoOBO;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 
 /**Holds strings corresponding to ontology terms and their matching IDs, for
  * use during named entity recognition.
@@ -35,21 +33,21 @@ public final class OntologyTermIdIndex {
 	
 	private static OntologyTermIdIndex defaultInstance;
 	
-	public static OntologyTermIdIndex getInstance() throws ResourceInitialisationException {
+	public static OntologyTermIdIndex getInstance() {
 		if (defaultInstance == null) {
             return createInstance();
         }
 		return defaultInstance;
 	}
 
-    private static synchronized OntologyTermIdIndex createInstance() throws ResourceInitialisationException {
+    private static synchronized OntologyTermIdIndex createInstance() {
         if (defaultInstance == null) {
             defaultInstance = new OntologyTermIdIndex();
         }
         return defaultInstance;    
     }
 
-    private OntologyTermIdIndex() throws ResourceInitialisationException {
+    private OntologyTermIdIndex() {
 		termIdMap = ArrayListMultimap.create(OntologyTerms.getDefaultInstance().getOntology());
 		if (OscarProperties.getData().useDSO) {
 			try {

@@ -505,6 +505,10 @@ public class OBOOntology {
 	}
 	
 
+	/**
+	 * Reads and combines the chebi, fix and rex.obo files before writing
+	 * ontology.txt 
+	 */
 	public static void main(String[] args) throws Exception {
 		OBOOntology o = getInstance();
 

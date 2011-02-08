@@ -45,18 +45,15 @@ public final class TermMaps {
 
     /**Initialise the TermMaps singleton, deleting the old one if one already
      * exists.
-     * @throws ResourceInitialisationException 
-     *
-     * @throws Exception
-     */
+     * */
     //TODO this isn't called anywhere - do we need to keep it?
     @Deprecated
-    public static void reinitialise() throws ResourceInitialisationException {
+    public static void reinitialise() {
         defaultInstance = null;
         getInstance();
     }
 
-    public static TermMaps getInstance() throws ResourceInitialisationException {
+    public static TermMaps getInstance() {
         TermMaps instance = defaultInstance;
         if (instance == null) {
             instance = loadDefaultInstance();
@@ -64,7 +61,7 @@ public final class TermMaps {
         return instance;
     }
 
-    private static synchronized TermMaps loadDefaultInstance() throws ResourceInitialisationException {
+    private static synchronized TermMaps loadDefaultInstance() {
         if (defaultInstance == null) {
             defaultInstance = new TermMaps();
         }
@@ -105,7 +102,7 @@ public final class TermMaps {
         return neTermMap;
     }
 
-    private TermMaps() throws ResourceInitialisationException {
+    private TermMaps() {
         LOG.debug("Initialising term maps... ");
         try {
         	Map<String,NamedEntityType> neTerms = getNeTermMap(NE_TERMS_FILE, false);

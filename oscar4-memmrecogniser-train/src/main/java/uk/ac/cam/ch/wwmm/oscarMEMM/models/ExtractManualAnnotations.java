@@ -143,11 +143,7 @@ public final class ExtractManualAnnotations {
 		goodPn = new HashSet<String>();
 
 		initSets();
-		try {
-			HyphenTokeniser.reinitialise();
-		} catch (Exception e) {
-
-		}
+		HyphenTokeniser.reinitialise();
 		Bag<String> cwBag = new Bag<String>();
 		Bag<String> cnwBag = new Bag<String>();
 		Bag<String> ncwBag = new Bag<String>();
@@ -235,11 +231,7 @@ public final class ExtractManualAnnotations {
 		goodPn = new HashSet<String>();
 
 		initSets();
-		try {
-			HyphenTokeniser.reinitialise();
-		} catch (Exception e) {
-
-		}
+		HyphenTokeniser.reinitialise();
 		Bag<String> cwBag = new Bag<String>();
 		Bag<String> cnwBag = new Bag<String>();
 		Bag<String> ncwBag = new Bag<String>();

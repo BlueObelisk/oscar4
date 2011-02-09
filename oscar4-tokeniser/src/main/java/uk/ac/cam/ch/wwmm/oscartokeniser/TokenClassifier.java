@@ -39,7 +39,7 @@ public class TokenClassifier {
     private static final String REGEX_FILENAME = "tokenLevelRegularExpressions.xml";
 	private static final Logger LOG = LoggerFactory.getLogger(TokenClassifier.class);
 
-    private static ResourceGetter rg = new ResourceGetter("/uk/ac/cam/ch/wwmm/oscartokeniser/");
+    private static ResourceGetter rg = new ResourceGetter(TokenClassifier.class.getClassLoader(),"/uk/ac/cam/ch/wwmm/oscartokeniser/");
 
     // Singleton instance
     private static TokenClassifier defaultInstance = null;

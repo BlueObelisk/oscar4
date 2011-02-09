@@ -16,7 +16,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
 
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -69,9 +69,9 @@ public class OntologyTerms {
                     terms.putAll(polyOntology);
                 }	
         	} catch (IOException e) {
-            	throw new ResourceInitialisationException("failed to load OntologyTerms", e);
+            	throw new OscarInitialisationException("failed to load OntologyTerms", e);
             } catch (DataFormatException e) {
-            	throw new ResourceInitialisationException("failed to load OntologyTerms", e);
+            	throw new OscarInitialisationException("failed to load OntologyTerms", e);
 			}
             this.ontology = Multimaps.unmodifiableListMultimap(terms);
         } else {

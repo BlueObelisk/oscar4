@@ -8,14 +8,14 @@ package uk.ac.cam.ch.wwmm.oscar.exceptions;
  * @author dmj30
  *
  */
-public class ResourceInitialisationException extends RuntimeException {
+public class OscarInitialisationException extends RuntimeException {
 	
 	/**
 	 * Creates a new ResourceInitialisationException with the specified message
 	 * 
 	 * @param message
 	 */
-	public ResourceInitialisationException(String message) {
+	public OscarInitialisationException(String message) {
 		super(message);
 	}
 
@@ -26,7 +26,7 @@ public class ResourceInitialisationException extends RuntimeException {
 	 * @param message
 	 * @param cause
 	 */
-	public ResourceInitialisationException(String message, Exception cause) {
+	public OscarInitialisationException(String message, Exception cause) {
 		super(message, cause);
 	}
 

@@ -8,7 +8,7 @@ import java.util.Locale;
 import nu.xom.ParsingException;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictIO;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
 public class DefaultDictionary extends MutableChemNameDict {
@@ -32,9 +32,9 @@ public class DefaultDictionary extends MutableChemNameDict {
 		try {
 			ChemNameDictIO.readXML(rg.getXMLDocument("defaultCompounds.xml"),this);
 		} catch (ParsingException e) {
-			throw new ResourceInitialisationException("failed to load default dictionary", e);
+			throw new OscarInitialisationException("failed to load default dictionary", e);
 		} catch (IOException e) {
-			throw new ResourceInitialisationException("failed to load default dictionary", e);
+			throw new OscarInitialisationException("failed to load default dictionary", e);
 		}
 	}
 }

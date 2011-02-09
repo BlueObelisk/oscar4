@@ -159,10 +159,6 @@ public class XOMBasedProcessingDocumentFactory {
 		ITokenSequence ts = tokeniser.tokenise(text, procDoc, offset, annotations);
 
 		if (annotations != null && tokeniseForNEs) {
-            /**************
-             * @lh359 corrected modifyTokenisationForTraining to pass annotations instead of
-             *  'e'
-             */
             modifyTokenisationForTraining(tokeniser, text, procDoc, offset, annotations, mergeNEs, ts.getTokens());
 			if (procDoc.getTokensByStart() != null) {
 				procDoc.getTokensByStart().clear();
@@ -180,7 +176,6 @@ public class XOMBasedProcessingDocumentFactory {
 			boolean mergeNEs, List<IToken> tokens) {
 
 
-		try {
 			/*
 			 * @lh359: This function is called
 			 * when we know the tag of the word
@@ -188,11 +183,8 @@ public class XOMBasedProcessingDocumentFactory {
 			 * in oscarCRF
 			 * 
 			 ***************************/
+		tokeniseOnAnnotationBoundaries(tokeniser, s, procDoc, offset, annotations, tokens);
 
-			tokeniseOnAnnotationBoundaries(tokeniser, s, procDoc, offset, annotations, tokens);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		tidyHyphensAfterNEs(tokeniser, tokens);
 		if (mergeNEs) {
 			mergeNeTokens(tokens, s, offset);
@@ -200,7 +192,7 @@ public class XOMBasedProcessingDocumentFactory {
 	}
 	
 	void tokeniseOnAnnotationBoundaries(Tokeniser tokeniser, String sourceString, IProcessingDocument doc,
-			int offset, Element safOrInlineAnnotations, List<IToken> tokens) throws Exception {
+			int offset, Element safOrInlineAnnotations, List<IToken> tokens) {
 		Nodes annotationNodes;
 		int currentNodeId = 0;
 		Element currentElem = null;

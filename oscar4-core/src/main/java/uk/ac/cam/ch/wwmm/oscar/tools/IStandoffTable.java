@@ -31,7 +31,7 @@ public interface IStandoffTable {
 	 * @return The offset.
 	 * @throws Exception If the XPoint is bad.
 	 */
-	public abstract int getOffsetAtXPoint(String xPoint) throws Exception;
+	public abstract int getOffsetAtXPoint(String xPoint);
 
 	// FIXME: the below methods needs to be removed from the interface if we want XOM independence
 

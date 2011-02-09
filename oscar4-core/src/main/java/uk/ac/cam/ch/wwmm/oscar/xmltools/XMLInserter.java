@@ -14,6 +14,7 @@ import nu.xom.Text;
  * @author ptc24
  *
  */
+//TODO this class doesn't seem to be in use - is it still needed?
 public final class XMLInserter extends XMLSpanTagger {
 
 	private String extraTagPrefix;

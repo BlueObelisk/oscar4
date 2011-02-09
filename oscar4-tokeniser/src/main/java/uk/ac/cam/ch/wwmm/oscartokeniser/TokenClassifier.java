@@ -48,7 +48,7 @@ public class TokenClassifier {
 
     private Map<String,String> nodeDict;
 
-    private Document doc;
+    private Document tokenLevelRegexDoc;
 
     /**
      * Private constructor for singleton pattern
@@ -82,11 +82,11 @@ public class TokenClassifier {
      */
     private void readXML(Document document) throws Exception {
     	LOG.debug("Initialising tlrs... ");
-        doc = document;
+        tokenLevelRegexDoc = document;
         nodeDict = new HashMap<String,String>();
 
         tokenLevelRegexs = new LinkedHashMap<String, TokenClass>();
-        Elements tlrElems = doc.getRootElement().getFirstChildElement("tlrs").getChildElements("tlr");
+        Elements tlrElems = tokenLevelRegexDoc.getRootElement().getFirstChildElement("tlrs").getChildElements("tlr");
         for (int i = 0; i < tlrElems.size(); i++) {
             TokenClass tlr = new TokenClass(tlrElems.get(i), this);
             if(!OscarProperties.getData().useFormulaRegex &&
@@ -111,7 +111,7 @@ public class TokenClassifier {
 
     /** Find a node in doc with specified type and id */
     Node findNode(String targetType, String targetId) {
-        Nodes nodes = doc.query("//node");
+        Nodes nodes = tokenLevelRegexDoc.query("//node");
         for(int i=0; i<nodes.size(); i++) {
             String type = ((Element)nodes.get(i)).getAttributeValue("type");
             String id = ((Element)nodes.get(i)).getAttributeValue("id");
@@ -145,7 +145,7 @@ public class TokenClassifier {
             return nodeDict.get(idref);
         }
         Element defElem = null;
-        Nodes defNodes = doc.query("//def[@id=\"" + idref + "\"]");
+        Nodes defNodes = tokenLevelRegexDoc.query("//def[@id=\"" + idref + "\"]");
         if(defNodes.size() == 1) {
             defElem = (Element)defNodes.get(0);
         }
@@ -200,8 +200,11 @@ public class TokenClassifier {
         return tokenClass.isMatch(token);
     }
 
+    
+    @Deprecated
+    //TODO this isn't called anywhere - do we need it?
     public int makeHash() {
-        return XOMTools.documentHash(doc);
+        return XOMTools.documentHash(tokenLevelRegexDoc);
     }
 
     /** A regular expression used to classify individual Tokens.

@@ -69,7 +69,7 @@ public final class StandoffTable implements IStandoffTable {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable#getOffsetAtXPoint(java.lang.String)
 	 */
-	public int getOffsetAtXPoint(String xPoint) throws Exception {
+	public int getOffsetAtXPoint(String xPoint) {
 		String [] sa = xPoint.split("\\.");
 		int textOffset = Integer.parseInt(sa[1]);
 		String [] nodeNumbers = sa[0].substring(1).split("/");
@@ -77,7 +77,9 @@ public final class StandoffTable implements IStandoffTable {
 		for (int i = 1; i < nodeNumbers.length; i++) {
 			n = n.getChild(Integer.parseInt(nodeNumbers[i]) - 1);
 		}
-		if(!(n instanceof Text)) throw new Exception("Bad xpoint: " + xPoint);
+		if(!(n instanceof Text)) {
+			throw new IllegalArgumentException("Bad xpoint: " + xPoint);
+		}
 		int index = n.getParent().indexOf(n);
 		if(index == 0) {
 			return textOffset + Integer.parseInt(((Element)n.getParent()).getAttributeValue("xtspanstart"));

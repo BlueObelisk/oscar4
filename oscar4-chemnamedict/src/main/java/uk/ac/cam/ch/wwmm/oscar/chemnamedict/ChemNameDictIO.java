@@ -148,6 +148,9 @@ public final class ChemNameDictIO {
 		readXML(doc, dictionary);
 	}
 	
+	
+	@Deprecated
+	//TODO this isn't called - do we need it?
 	public static int makeHash(IChemNameDict dictionary) throws Exception {
 		return XOMTools.documentHash(toXML(dictionary));
 	}

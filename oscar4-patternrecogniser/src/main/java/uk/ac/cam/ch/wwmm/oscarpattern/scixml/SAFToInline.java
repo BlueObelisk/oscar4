@@ -16,6 +16,7 @@ import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
  * @author ptc24
  *
  */
+//TODO this class doesn't seem to be in use - is it still needed?
 public final class SAFToInline {
 
 	/**Produces an inline annotated document from a SAF and a SciXML.

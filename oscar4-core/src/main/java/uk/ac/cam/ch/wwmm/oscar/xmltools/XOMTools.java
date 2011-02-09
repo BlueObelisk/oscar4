@@ -235,6 +235,7 @@ public final class XOMTools {
 	 * @param doc The document to get a hash value for.
 	 * @return The hash value.
 	 */
+	//TODO this is only called from orphaned methods - do we need it?
 	public static int documentHash(Document doc) {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();

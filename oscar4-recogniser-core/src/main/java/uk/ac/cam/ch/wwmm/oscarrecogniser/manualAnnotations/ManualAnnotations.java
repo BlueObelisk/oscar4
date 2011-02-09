@@ -13,7 +13,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
@@ -123,9 +123,9 @@ public class ManualAnnotations {
 		try {
 			modelDoc = rg.getXMLDocument(modelName + ".xml");
 		} catch (ParsingException e) {
-			throw new ResourceInitialisationException("failed to load ManualAnnotations for model: " + modelName);
+			throw new OscarInitialisationException("failed to load ManualAnnotations for model: " + modelName);
 		} catch (IOException e) {
-			throw new ResourceInitialisationException("failed to load ManualAnnotations for model: " + modelName);		}
+			throw new OscarInitialisationException("failed to load ManualAnnotations for model: " + modelName);		}
         if (modelDoc == null) {
             return null;
         }

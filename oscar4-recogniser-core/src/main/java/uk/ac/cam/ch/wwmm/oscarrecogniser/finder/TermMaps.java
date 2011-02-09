@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.ont.TermsFileReader;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -115,9 +115,9 @@ public final class TermMaps {
             this.custEnt = Collections.unmodifiableMap(loadTerms(CUST_ENT_TERMS_FILE, true));
             this.suffixes = Collections.unmodifiableSet(digestSuffixes(neTerms));	
         } catch (IOException e) {
-        	throw new ResourceInitialisationException("failed to load TermMaps", e);
+        	throw new OscarInitialisationException("failed to load TermMaps", e);
         } catch (DataFormatException e) {
-        	throw new ResourceInitialisationException("failed to load TermMaps", e);
+        	throw new OscarInitialisationException("failed to load TermMaps", e);
 		}
         
         LOG.debug("term maps initialised");

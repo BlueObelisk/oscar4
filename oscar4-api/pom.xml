@@ -13,7 +13,27 @@
 
     <artifactId>oscar4-api</artifactId>
     <name>oscar4-api</name>
-
+<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>
+							jar-with-dependencies
+						</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>
+								uk.ac.cam.ch.wwmm.oscar.Oscar
+							</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
     <dependencies>
         <dependency>

@@ -19,6 +19,7 @@ import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
  * @author ptc24
  *
  */
+//TODO this class doesn't seem to be in use - is it still needed?
 public final class StringSource implements Iterable<String>, Iterator<String> {
 	
 	private List<File> files;

@@ -1,7 +1,5 @@
 package uk.ac.cam.ch.wwmm.oscar.document;
 
-import java.util.List;
-
 import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 
 public interface IXOMBasedProcessingDocument extends IProcessingDocument {
@@ -22,7 +20,7 @@ public interface IXOMBasedProcessingDocument extends IProcessingDocument {
 	 * @return The token, or null.
 	 * @throws Exception
 	 */
-	public abstract IToken getTokenByStart(String leftXPoint) throws Exception;
+	public abstract IToken getTokenByStart(String leftXPoint);
 
 	/**
 	 * Gets the token that ends at a given XPoint. Note that this should only be
@@ -33,6 +31,6 @@ public interface IXOMBasedProcessingDocument extends IProcessingDocument {
 	 * @return The token, or null.
 	 * @throws Exception
 	 */
-	public abstract IToken getTokenByEnd(String rightXPoint) throws Exception;
+	public abstract IToken getTokenByEnd(String rightXPoint);
 
 }

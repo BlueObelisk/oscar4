@@ -1,6 +1,8 @@
 package uk.ac.cam.ch.wwmm.oscar.terms;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.HashSet;
@@ -8,9 +10,11 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
@@ -49,11 +53,7 @@ public final class TermSets {
 
     private static synchronized TermSets loadTermSets() {
         if (defaultInstance == null) {
-            try {
-                defaultInstance = new TermSets();
-            } catch (Exception e) {
-                throw new Error(e);
-            }
+            defaultInstance = new TermSets();
         }
         return defaultInstance;
     }
@@ -155,19 +155,24 @@ public final class TermSets {
     }
 
 
-    private TermSets() throws Exception {
+    private TermSets() {
         LOG.debug("Initialising term sets... ");
 
-        stopWords = loadTerms("stopwords.txt");
-        usrDictWords = loadTerms("usrDictWords.txt", false);
-        noSplitPrefixes = loadTerms("noSplitPrefixes.txt");
-        splitSuffixes = loadTerms("splitSuffixes.txt");
-        closedClass = loadTerms("closedClass.txt");
-        chemAses = loadTerms("chemAses.txt");
-        nonChemAses = loadTerms("nonChemAses.txt");
-        elements = loadTerms("elements.txt");
-        ligands = loadTerms("ligands.txt");
-        reactWords = loadTerms("reactWords.txt");
+        try {
+	        stopWords = loadTerms("stopwords.txt");
+	        usrDictWords = loadTerms("usrDictWords.txt", false);
+	        noSplitPrefixes = loadTerms("noSplitPrefixes.txt");
+	        splitSuffixes = loadTerms("splitSuffixes.txt");
+	        closedClass = loadTerms("closedClass.txt");
+	        chemAses = loadTerms("chemAses.txt");
+	        nonChemAses = loadTerms("nonChemAses.txt");
+	        elements = loadTerms("elements.txt");
+	        ligands = loadTerms("ligands.txt");
+	        reactWords = loadTerms("reactWords.txt");
+        }
+        catch (IOException e) {
+        	throw new OscarInitialisationException("failed to load TermSets", e);
+        }
 
         endingInElementNamePattern = initEndingInElementNamePattern();
 
@@ -193,19 +198,26 @@ public final class TermSets {
     }
 
 
-    private static Set<String> loadTerms(String filename) throws Exception {
+    private static Set<String> loadTerms(String filename) throws IOException {
         return loadTerms(filename, true);
     }
 
-    private static Set<String> loadTerms(String filename, boolean normalise) throws Exception {
+    private static Set<String> loadTerms(String filename, boolean normalise) throws IOException {
         HashSet<String> dict = new HashSet<String>();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(rg.getStream(filename), "UTF-8"));
-        while (reader.ready()) {
-            String line = StringTools.normaliseName(reader.readLine());
-            if (line.length() > 0 && line.charAt(0) != '#') {
-                dict.add(line);
+        InputStream is = rg.getStream(filename);
+        try {
+        	BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        	while (reader.ready()) {
+                String line = StringTools.normaliseName(reader.readLine());
+                if (line.length() > 0 && line.charAt(0) != '#') {
+                    dict.add(line);
+                }
             }
         }
+        finally {
+    		IOUtils.closeQuietly(is);
+        }
+        
         return Collections.unmodifiableSet(dict);
     }
 

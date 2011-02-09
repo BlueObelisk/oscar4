@@ -91,7 +91,7 @@ public final class ResourceGetter {
 	/**Fetches a data file from resourcePath as an InputStream.
 	 * 
 	 * @param resourceName The name of the file to get an InputStream for
-	 * @return An InputStream corresponding to the file
+	 * @return An InputStream corresponding to the file, never null
 	 * @throws FileNotFoundException if the resource file couldn't be found 
 	 */
     public InputStream getStream(String resourceName) throws FileNotFoundException {

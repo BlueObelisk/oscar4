@@ -1,7 +1,12 @@
 package uk.ac.cam.ch.wwmm.oscar.tools;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import org.apache.commons.io.IOUtils;
+
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 
 /**
  * Sets up and maintains a properties file for Oscar. Unlike the Oscar3Props
@@ -43,11 +48,7 @@ public class OscarProperties {
 	}
 
 	private void initialise() {
-		try {
-			propsToVariables(getDefaults());
-		} catch (Exception e) {
-			throw new Error("Problem loading properties!", e);
-		}		
+		propsToVariables(getDefaults());
 	}
 
 	private Properties variablesToProps() {
@@ -189,10 +190,18 @@ public class OscarProperties {
 		return new Properties(variablesToProps());
 	}
 	
-	public Properties getDefaults() throws Exception {
+	public Properties getDefaults() {
 		Properties def = new Properties();
-		InputStream stream = rg.getStream("DefaultProperties.dat");
-		def.load(stream);
+		InputStream stream = null;
+		try {
+			stream = rg.getStream("DefaultProperties.dat");
+			def.load(stream);
+		} catch (IOException e) {
+			throw new OscarInitialisationException("failed to load default OSCAR properties", e);
+		} finally {
+			IOUtils.closeQuietly(stream);
+		}
+		
 		return def;
 	}
 		

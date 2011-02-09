@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,7 +18,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.apache.commons.io.IOUtils;
+
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.dso.DSOtoOBO;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -44,16 +50,17 @@ public class OBOOntology {
 	 */
 	public static OBOOntology getInstance() {
 		if(myInstance == null) {
-			try {
 			myInstance = new OBOOntology();
-			myInstance.read("chebi.obo");
-			myInstance.read("fix.obo");
-			myInstance.read("rex.obo");
+			try {
+				myInstance.read("chebi.obo");
+				myInstance.read("fix.obo");
+				myInstance.read("rex.obo");
+			}
+			catch (IOException e) {
+				throw new OscarInitialisationException("failed to load OBO Ontology", e);
+			}
 			if(OscarProperties.getData().useDSO)
 				myInstance.addOntology(DSOtoOBO.readDSO());
-			} catch (Exception e) {
-				throw new Error(e);
-			}
 		}
 		return myInstance;
 	}
@@ -68,8 +75,14 @@ public class OBOOntology {
 		isTypeOfIsBuilt = false;
 	}
 	
-	private void read(String s) throws Exception {
-		read(new BufferedReader(new InputStreamReader(rg.getStream(s), "UTF-8")));
+	private void read(String s) throws IOException {
+		InputStream is = rg.getStream(s);
+		try {
+			read(new BufferedReader(new InputStreamReader(is, "UTF-8")));	
+		}
+		finally {
+			IOUtils.closeQuietly(is);
+		}
 	}
 	
 	/**Read a .obo file
@@ -77,11 +90,19 @@ public class OBOOntology {
 	 * @param f The .obo file to read.
 	 * @throws Exception
 	 */
-	public void read(File f) throws Exception {
-		read(new BufferedReader(new InputStreamReader(new FileInputStream(f), "UTF-8")));
+	@Deprecated
+	//TODO this isn't called - do we need it?
+	public void read(File f) throws IOException {
+		FileInputStream fis = new FileInputStream(f);
+		try {
+			read(new BufferedReader(new InputStreamReader(fis, "UTF-8")));
+		}
+		finally {
+			IOUtils.closeQuietly(fis);
+		}
 	}
 	
-	private void read(BufferedReader br) throws Exception {
+	private void read(BufferedReader br) throws IOException {
 		List<String> lines = new ArrayList<String>();
 		boolean inTerm = false;
 		String line = br.readLine();

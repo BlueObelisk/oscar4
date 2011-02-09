@@ -20,7 +20,7 @@ public class OscarPropertiesTest {
 	}
 
 	@Test
-	public void testDefaultsAreImmutable() throws Exception {
+	public void testDefaultsAreImmutable() {
 		Properties props = OscarProperties.getInstance().getDefaults();
 		Assert.assertNotNull(props);
 		Assert.assertEquals("chempapers", props.getProperty("model"));

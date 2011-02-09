@@ -44,21 +44,19 @@ public final class HyphenTokeniser {
 	 * 
 	 * @throws Exception
 	 */
-	public static void reinitialise() throws Exception {
+	public static void reinitialise() {
 		myInstance = null;
 		getInstance();
 	}
 	
 	static HyphenTokeniser getInstance() {
-		try {
-			if(myInstance == null) myInstance = new HyphenTokeniser();
-		} catch (Exception e) {
-			throw new Error(e);
+		if (myInstance == null) {
+			myInstance = new HyphenTokeniser();
 		}
 		return myInstance;
 	}
 	
-	private HyphenTokeniser() throws Exception {
+	private HyphenTokeniser() {
 		LOG.debug("Initialising hyphen tokeniser... ");
 		splitSuffixes = new HashSet<String>();
 		splitSuffixes.addAll(TermSets.getDefaultInstance().getSplitSuffixes());
@@ -83,12 +81,7 @@ public final class HyphenTokeniser {
 	 * @return The index of the hyphen to split at, or -1
 	 */
 	public static int indexOfSplittableHyphen(String tokenValue) {
-		try {
-			return getInstance().indexOfSplittableHyphenInternal(tokenValue);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
+		return getInstance().indexOfSplittableHyphenInternal(tokenValue);
 	}
 	
 	private int indexOfSplittableHyphenInternal(String tokenValue) {

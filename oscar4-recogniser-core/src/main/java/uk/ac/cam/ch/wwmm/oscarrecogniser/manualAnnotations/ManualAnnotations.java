@@ -1,7 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Collection;
@@ -12,7 +11,6 @@ import java.util.Set;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.ParsingException;
-import nu.xom.ValidityException;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -118,7 +116,7 @@ public class ManualAnnotations {
     }
 
     static Element loadEtdElement(String modelName) {
-        ResourceGetter rg = new ResourceGetter("/uk/ac/cam/ch/wwmm/oscarrecogniser/models/");
+        ResourceGetter rg = new ResourceGetter(ManualAnnotations.class.getClassLoader(),"/uk/ac/cam/ch/wwmm/oscarrecogniser/models/");
         Document modelDoc;
 		try {
 			modelDoc = rg.getXMLDocument(modelName + ".xml");

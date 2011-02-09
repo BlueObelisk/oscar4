@@ -1,5 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscardata;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,8 +11,11 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Node;
+import nu.xom.ParsingException;
 import nu.xom.Text;
+import nu.xom.ValidityException;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
 /**
@@ -43,7 +48,9 @@ public final class RParser {
 	 * 
 	 * @throws Exception
 	 */
-	public static void reinitialise() throws Exception {
+	@Deprecated
+	//TODO this isn't called - do we need it?
+	public static void reinitialise() {
 		myInstance = null;
 		getInstance();
 	}
@@ -53,27 +60,31 @@ public final class RParser {
 	 * 
 	 * @throws Exception
 	 */
-	public static void init() throws Exception {
+	@Deprecated
+	//TODO this isn't called - do we need it?
+	public static void init() {
 		getInstance();
 	}
 
 	/**
 	 * Get an instance of the singleton.
 	 * 
-	 * @throws Exception
-	 *             If error parsing XML
 	 */
 	static RParser getInstance() {
-		try {
-			if (myInstance == null) {
-				myInstance = new RParser();
-				myInstance.readXML(rg.getXMLDocument("regexes.xml"));
+		if (myInstance == null) {
+			myInstance = new RParser();
+			Document doc;
+			try {
+				doc = rg.getXMLDocument("regexes.xml");
+			} catch (ParsingException e) {
+				throw new OscarInitialisationException("failed to load RParser regexes", e);
+			} catch (IOException e) {
+				throw new OscarInitialisationException("failed to load RParser regexes", e);
 			}
-
-			return myInstance;
-		} catch (Exception e) {
-			throw new Error("failed to load data regexes", e);
+			myInstance.readXML(doc);
 		}
+
+		return myInstance;
 	}
 
 	/**
@@ -82,7 +93,7 @@ public final class RParser {
 	 * @param document
 	 *            XOM Document containing regular expressions for parsing
 	 */
-	private void readXML(Document document) throws Exception {
+	private void readXML(Document document) {
 		LOG.debug("Initialising data parser... ");
 		doc = document;
 		// create top RPNode

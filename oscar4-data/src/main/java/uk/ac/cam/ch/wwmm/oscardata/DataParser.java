@@ -29,7 +29,7 @@ public final class DataParser {
 	 * experimental data is found.
 	 * @throws Exception
 	 */
-	public static void dataParse(Document doc) throws Exception {
+	public static void dataParse(Document doc) {
 		DataParser dp = new DataParser(doc);
 		dp.scrubFormatting();		
 		Nodes paras;
@@ -52,7 +52,7 @@ public final class DataParser {
 		this.doc = doc;
 	}
 	
-	private void scrubFormatting() throws Exception {
+	private void scrubFormatting() {
 		Nodes nodes = doc.query(XMLStrings.getInstance().FORMATTING_XPATH, XMLStrings.getInstance().getXpc());
 		for (int i = 0; i < nodes.size(); i++) {
 			XOMTools.removeElementPreservingText((Element)nodes.get(i));

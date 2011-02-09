@@ -1,9 +1,12 @@
 package uk.ac.cam.ch.wwmm.oscar.scixml;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
@@ -11,6 +14,8 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Nodes;
+import nu.xom.ParsingException;
+import nu.xom.ValidityException;
 import nu.xom.XPathContext;
 
 /** Strings and methods to specific to SciXML. 
@@ -56,7 +61,15 @@ public final class XMLStrings {
 	HashSet<String> specPropMarkup = new HashSet<String>();
 
 	protected XMLStrings(String s) {
-		if(s != null) loadStrings(s);
+		if (s != null){
+			try {
+				loadStrings(s);
+			} catch (ParsingException e) {
+				throw new OscarInitialisationException("failed to load XML strings schema: " + s, e);
+			} catch (IOException e) {
+				throw new OscarInitialisationException("failed to load XML strings schema: " + s, e);
+			}
+		}
 		String [] styleMarkupArray = STYLE_MARKUP.split("\\s+");
 		String [] blockMarkupArray = BLOCK_MARKUP.split("\\s+");
 		String [] specPropMarkupArray = SPEC_PROP_MARKUP.split("\\s+");
@@ -65,47 +78,43 @@ public final class XMLStrings {
 		for (int i = 0; i < specPropMarkupArray.length; i++) specPropMarkup.add(specPropMarkupArray[i]);
 	}
 	
-	private void loadStrings(String schemaName) {
+	private void loadStrings(String schemaName) throws ParsingException, IOException {
 		ResourceGetter rg = new ResourceGetter(XMLStrings.class.getClassLoader(),"uk/ac/cam/ch/wwmm/oscar3Memm/scixml/");
-		try {
-			Document doc = rg.getXMLDocument(schemaName + ".xml");
-			Elements ee = doc.getRootElement().getChildElements();
-			Map<String,String> varMap = new HashMap<String,String>();
-			for (int i = 0; i < ee.size(); i++) {
-				Element e = ee.get(i);
-				if(e.getLocalName().equals("xpc")) {
-					xpc.addNamespace(e.getAttributeValue("prefix"), e.getAttributeValue("uri"));
-				} else if(e.getLocalName().equals("string")) {
-					varMap.put(e.getAttributeValue("name"), e.getAttributeValue("value"));
-				}
+		Document doc = rg.getXMLDocument(schemaName + ".xml");
+		Elements ee = doc.getRootElement().getChildElements();
+		Map<String,String> varMap = new HashMap<String,String>();
+		for (int i = 0; i < ee.size(); i++) {
+			Element e = ee.get(i);
+			if(e.getLocalName().equals("xpc")) {
+				xpc.addNamespace(e.getAttributeValue("prefix"), e.getAttributeValue("uri"));
+			} else if(e.getLocalName().equals("string")) {
+				varMap.put(e.getAttributeValue("name"), e.getAttributeValue("value"));
 			}
-			if(varMap.containsKey("PAPER")) PAPER = varMap.get("PAPER");
-			if(varMap.containsKey("TITLE")) TITLE = varMap.get("TITLE");
-			if(varMap.containsKey("ABSTRACT")) ABSTRACT = varMap.get("ABSTRACT");
-			if(varMap.containsKey("BODY")) BODY = varMap.get("BODY");
-			if(varMap.containsKey("HEADER")) HEADER = varMap.get("HEADER");
-			if(varMap.containsKey("PARAGRAPH")) PARAGRAPH = varMap.get("PARAGRAPH");
-			if(varMap.containsKey("ITALICS")) ITALICS = varMap.get("ITALICS");
-			if(varMap.containsKey("DIV")) DIV = varMap.get("DIV");
-			if(varMap.containsKey("COMPOUNDREF_ID_ATTRIBUTE")) COMPOUNDREF_ID_ATTRIBUTE = varMap.get("COMPOUNDREF_ID_ATTRIBUTE");
-			if(varMap.containsKey("EQN")) EQN = varMap.get("EQN");
-			if(varMap.containsKey("FORMATTING_XPATH")) FORMATTING_XPATH = varMap.get("FORMATTING_XPATH");
-			if(varMap.containsKey("CHEMICAL_PLACES_XPATH")) CHEMICAL_PLACES_XPATH = varMap.get("CHEMICAL_PLACES_XPATH");
-			if(varMap.containsKey("CHEMICAL_EXCLUDE_XPATH")) CHEMICAL_EXCLUDE_XPATH = varMap.get("CHEMICAL_EXCLUDE_XPATH");
-			if(varMap.containsKey("CHEMICAL_EXCLUDE_XPATH")) CHEMICAL_EXCLUDE_XPATH = varMap.get("CHEMICAL_EXCLUDE_XPATH");
-			if(varMap.containsKey("SMALL_CHEMICAL_PLACES_XPATH")) SMALL_CHEMICAL_PLACES_XPATH = varMap.get("SMALL_CHEMICAL_PLACES_XPATH");
-			if(varMap.containsKey("EXPERIMENTAL_SECTION_XPATH")) EXPERIMENTAL_SECTION_XPATH = varMap.get("EXPERIMENTAL_SECTION_XPATH");
-			if(varMap.containsKey("EXPERIMENTAL_PARAS_XPATH")) EXPERIMENTAL_PARAS_XPATH = varMap.get("EXPERIMENTAL_PARAS_XPATH");
-			if(varMap.containsKey("ALL_PARAS_XPATH")) ALL_PARAS_XPATH = varMap.get("ALL_PARAS_XPATH");
-			if(varMap.containsKey("COMPOUNDREF_XPATH")) COMPOUNDREF_XPATH = varMap.get("COMPOUNDREF_XPATH");
-			if(varMap.containsKey("TITLE_XPATH")) TITLE_XPATH = varMap.get("TITLE_XPATH");
-			if(varMap.containsKey("JOURNAL_NAME_XPATH")) JOURNAL_NAME_XPATH = varMap.get("JOURNAL_NAME_XPATH");
-			if(varMap.containsKey("STYLE_MARKUP")) STYLE_MARKUP = varMap.get("STYLE_MARKUP");
-			if(varMap.containsKey("BLOCK_MARKUP")) BLOCK_MARKUP = varMap.get("BLOCK_MARKUP");
-			if(varMap.containsKey("SPEC_PROP_MARKUP")) SPEC_PROP_MARKUP = varMap.get("SPEC_PROP_MARKUP");
-		} catch (Exception e) {
-			throw new RuntimeException(e);
 		}
+		if(varMap.containsKey("PAPER")) PAPER = varMap.get("PAPER");
+		if(varMap.containsKey("TITLE")) TITLE = varMap.get("TITLE");
+		if(varMap.containsKey("ABSTRACT")) ABSTRACT = varMap.get("ABSTRACT");
+		if(varMap.containsKey("BODY")) BODY = varMap.get("BODY");
+		if(varMap.containsKey("HEADER")) HEADER = varMap.get("HEADER");
+		if(varMap.containsKey("PARAGRAPH")) PARAGRAPH = varMap.get("PARAGRAPH");
+		if(varMap.containsKey("ITALICS")) ITALICS = varMap.get("ITALICS");
+		if(varMap.containsKey("DIV")) DIV = varMap.get("DIV");
+		if(varMap.containsKey("COMPOUNDREF_ID_ATTRIBUTE")) COMPOUNDREF_ID_ATTRIBUTE = varMap.get("COMPOUNDREF_ID_ATTRIBUTE");
+		if(varMap.containsKey("EQN")) EQN = varMap.get("EQN");
+		if(varMap.containsKey("FORMATTING_XPATH")) FORMATTING_XPATH = varMap.get("FORMATTING_XPATH");
+		if(varMap.containsKey("CHEMICAL_PLACES_XPATH")) CHEMICAL_PLACES_XPATH = varMap.get("CHEMICAL_PLACES_XPATH");
+		if(varMap.containsKey("CHEMICAL_EXCLUDE_XPATH")) CHEMICAL_EXCLUDE_XPATH = varMap.get("CHEMICAL_EXCLUDE_XPATH");
+		if(varMap.containsKey("CHEMICAL_EXCLUDE_XPATH")) CHEMICAL_EXCLUDE_XPATH = varMap.get("CHEMICAL_EXCLUDE_XPATH");
+		if(varMap.containsKey("SMALL_CHEMICAL_PLACES_XPATH")) SMALL_CHEMICAL_PLACES_XPATH = varMap.get("SMALL_CHEMICAL_PLACES_XPATH");
+		if(varMap.containsKey("EXPERIMENTAL_SECTION_XPATH")) EXPERIMENTAL_SECTION_XPATH = varMap.get("EXPERIMENTAL_SECTION_XPATH");
+		if(varMap.containsKey("EXPERIMENTAL_PARAS_XPATH")) EXPERIMENTAL_PARAS_XPATH = varMap.get("EXPERIMENTAL_PARAS_XPATH");
+		if(varMap.containsKey("ALL_PARAS_XPATH")) ALL_PARAS_XPATH = varMap.get("ALL_PARAS_XPATH");
+		if(varMap.containsKey("COMPOUNDREF_XPATH")) COMPOUNDREF_XPATH = varMap.get("COMPOUNDREF_XPATH");
+		if(varMap.containsKey("TITLE_XPATH")) TITLE_XPATH = varMap.get("TITLE_XPATH");
+		if(varMap.containsKey("JOURNAL_NAME_XPATH")) JOURNAL_NAME_XPATH = varMap.get("JOURNAL_NAME_XPATH");
+		if(varMap.containsKey("STYLE_MARKUP")) STYLE_MARKUP = varMap.get("STYLE_MARKUP");
+		if(varMap.containsKey("BLOCK_MARKUP")) BLOCK_MARKUP = varMap.get("BLOCK_MARKUP");
+		if(varMap.containsKey("SPEC_PROP_MARKUP")) SPEC_PROP_MARKUP = varMap.get("SPEC_PROP_MARKUP");
 		
 	}
 	

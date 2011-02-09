@@ -3,7 +3,7 @@ package uk.ac.cam.ch.wwmm.oscar.obo.dso;
 import java.io.IOException;
 import java.util.List;
 
-import uk.ac.cam.ch.wwmm.oscar.exceptions.ResourceInitialisationException;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.OBOOntology;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -34,7 +34,7 @@ public class DSOtoOBO {
 		try {
 			strings = rg.getStrings("ptcontology.dso");
 		} catch (IOException e) {
-			throw new ResourceInitialisationException("failed to load custom ontology", e);
+			throw new OscarInitialisationException("failed to load custom ontology", e);
 		}
 		for(String string : strings) {
 			if(string.matches("\\[.*\\]")) {

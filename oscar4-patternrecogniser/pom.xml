@@ -14,6 +14,7 @@
     <artifactId>oscar4-patternrecogniser</artifactId>
     <name>oscar4-patternrecogniser</name>
 
+
     <dependencies>
 
         <dependency>

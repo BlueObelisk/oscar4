@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import java.util.List;
 import nu.xom.Element;
 import nu.xom.Elements;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +19,7 @@ import org.junit.runner.RunWith;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -27,7 +30,7 @@ import ch.unibe.jexample.JExample;
 public class MEMMTrainerTest {
 
 	@Test
-	public MEMMTrainer testConstructor() throws Exception {
+	public MEMMTrainer testConstructor() {
 		MEMMTrainer trainer = new MEMMTrainer();
 		Assert.assertNotNull(trainer);
 		return trainer;
@@ -132,7 +135,11 @@ public class MEMMTrainerTest {
 				.getClassLoader()
 				.getResourceAsStream(
 					"uk/ac/cam/ch/wwmm/oscarMEMM/memm/paper.xml");
-		trainer.trainOnStream(stream);
+		try {
+			trainer.trainOnStream(stream);
+		} finally {
+			IOUtils.closeQuietly(stream);
+		}
 		trainer.finishTraining();
 		return trainer.getModel();
 	}

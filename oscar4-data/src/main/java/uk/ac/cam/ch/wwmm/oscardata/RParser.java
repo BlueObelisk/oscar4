@@ -46,7 +46,6 @@ public final class RParser {
 	/**
 	 * Clear all existing RParser data and reinitialise.
 	 * 
-	 * @throws Exception
 	 */
 	@Deprecated
 	//TODO this isn't called - do we need it?
@@ -58,7 +57,6 @@ public final class RParser {
 	/**
 	 * Initialise the RParser singleton, if it hasn't been initialised already.
 	 * 
-	 * @throws Exception
 	 */
 	@Deprecated
 	//TODO this isn't called - do we need it?

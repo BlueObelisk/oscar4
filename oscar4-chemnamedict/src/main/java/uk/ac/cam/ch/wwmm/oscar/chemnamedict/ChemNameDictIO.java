@@ -151,7 +151,7 @@ public final class ChemNameDictIO {
 	
 	@Deprecated
 	//TODO this isn't called - do we need it?
-	public static int makeHash(IChemNameDict dictionary) throws Exception {
+	public static int makeHash(IChemNameDict dictionary) {
 		return XOMTools.documentHash(toXML(dictionary));
 	}
 

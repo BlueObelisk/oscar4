@@ -2,6 +2,8 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +17,11 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
+import nu.xom.ParsingException;
+import nu.xom.ValidityException;
 import opennlp.maxent.*;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
@@ -24,6 +29,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
@@ -78,7 +84,7 @@ public final class MEMMTrainer {
 	
 	private static double confidenceThreshold;
 
-	public MEMMTrainer() throws Exception {
+	public MEMMTrainer() {
 		model = new MutableMEMMModel();
 		evsByPrev = new HashMap<BioType, List<Event>>();
 		perniciousFeatures = null;
@@ -118,14 +124,24 @@ public final class MEMMTrainer {
 		}
 	}
 	
-	public void trainOnFile(File file) throws Exception {
+	public void trainOnFile(File file) throws DataFormatException, IOException {
 		logger.debug("Train on: " + file + "... ");
-		trainOnStream(new FileInputStream(file));
+		FileInputStream fis = new FileInputStream(file); 
+		try {
+			trainOnStream(fis);
+		} finally {
+			IOUtils.closeQuietly(fis);
+		}
 	}
 	
-	public void trainOnStream(InputStream stream) throws Exception {
+	public void trainOnStream(InputStream stream) throws DataFormatException, IOException {
 		long time = System.currentTimeMillis();
-		Document doc = new Builder().build(stream);
+		Document doc;
+		try {
+			doc = new Builder().build(stream);
+		} catch (ParsingException e) {
+			throw new DataFormatException("incorrect formatting of training resource");
+		}
 		Nodes n = doc.query("//cmlPile");
 		for (int i = 0; i < n.size(); i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");
@@ -171,7 +187,7 @@ public final class MEMMTrainer {
 		logger.debug(System.currentTimeMillis() - time);
 	}
 
-	public void trainOnSbFilesNosplit(List<File> files) throws Exception {
+	public void trainOnSbFilesNosplit(List<File> files) throws DataFormatException, IOException {
 		if(retrain) {
 			HyphenTokeniser.reinitialise();
 			ExtractManualAnnotations extractManualAnnotations = new ExtractManualAnnotations(files);
@@ -186,7 +202,7 @@ public final class MEMMTrainer {
 		finishTraining();
 	}
 	
-	public void trainOnSbFiles(List<File> files) throws Exception {
+	public void trainOnSbFiles(List<File> files) throws DataFormatException, IOException {
 		if(!splitTrain) {
 			trainOnSbFilesNosplit(files);
 			return;
@@ -232,7 +248,7 @@ public final class MEMMTrainer {
 		}
 	}
 
-	public void trainOnSbFilesWithCVFS(List<File> files) throws Exception {
+	public void trainOnSbFilesWithCVFS(List<File> files) throws DataFormatException, IOException {
 		List<List<File>> splitTrainFiles = new ArrayList<List<File>>();
 		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();
 		int splitNo = 3;
@@ -324,7 +340,7 @@ public final class MEMMTrainer {
 
 	
 	
-	public void finishTraining() throws Exception {
+	public void finishTraining() {
 		model.makeEntityTypesAndZeroProbs();
 		
 		if(useUber) {
@@ -414,10 +430,15 @@ public final class MEMMTrainer {
 		return neConfidences;
 	}
 	
-	private void cvFeatures(File file) throws Exception {
+	private void cvFeatures(File file) throws IOException, DataFormatException {
 		long time = System.currentTimeMillis();
 		logger.debug("Cross-Validate features on: " + file + "... ");
-		Document doc = new Builder().build(file);
+		Document doc;
+		try {
+			doc = new Builder().build(file);
+		} catch (ParsingException e) {
+			throw new DataFormatException("malformed scrapbook file: " + file.getName(), e);
+		}
 		Nodes n = doc.query("//cmlPile");
 		for (int i = 0; i < n.size(); i++) n.get(i).detach();
 		n = doc.query("//ne[@type='CPR']");

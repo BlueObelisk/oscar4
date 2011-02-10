@@ -103,9 +103,9 @@ public class MEMMModel {
      * Produces an XML element containing the current MEMM model.
      *
      * @return The XML element.
-     * @throws Exception
+     * @throws IOException
      */
-    public Element writeModel() throws Exception {
+    public Element writeModel() throws IOException {
     	Element modelRoot = new Element("model");
     	// append the rescorer bits
     	if (manualAnnotations != null)

@@ -180,11 +180,7 @@ public class NGramBuilder {
 	}
 
 	private void readChemNameDictTrainingData() {
-		try {
-			readCollection(ChemNameDictRegistry.getInstance().getAllNames(), true);			
-		} catch (Exception e) {
-			throw new Error();
-		}
+		readCollection(ChemNameDictRegistry.getInstance().getAllNames(), true);			
 	}	
 	
 	private void readElementsTrainingData() {

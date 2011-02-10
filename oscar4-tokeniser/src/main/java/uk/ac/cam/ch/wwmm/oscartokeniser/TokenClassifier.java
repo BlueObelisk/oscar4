@@ -6,6 +6,8 @@
 
 package uk.ac.cam.ch.wwmm.oscartokeniser;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,11 +22,14 @@ import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Node;
 import nu.xom.Nodes;
+import nu.xom.ParsingException;
 import nu.xom.Text;
+import nu.xom.ValidityException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -53,9 +58,21 @@ public class TokenClassifier {
     /**
      * Private constructor for singleton pattern
      */
-    private TokenClassifier() { }
+    private TokenClassifier() {
+    	Document sourceDoc;
+		try {
+			sourceDoc = rg.getXMLDocument(REGEX_FILENAME);
+		} catch (ParsingException e) {
+			throw new OscarInitialisationException("failed to load TokenClassifier", e);
+		} catch (IOException e) {
+			throw new OscarInitialisationException("failed to load TokenClassifier", e);
+		} 
+    	readXML(sourceDoc);
+    }
 
-    public static void reinitialise() throws Exception {
+    @Deprecated
+    //TODO this isn't called - do we need it?
+    public static void reinitialise() {
         defaultInstance = null;
         getInstance();
     }
@@ -64,15 +81,10 @@ public class TokenClassifier {
      * Get an instance of the singleton.
      */
     public static TokenClassifier getInstance()  {
-        try {
-            if (defaultInstance == null) {
-                defaultInstance = new TokenClassifier();
-                defaultInstance.readXML(rg.getXMLDocument(REGEX_FILENAME));
-            }
-            return defaultInstance;
-        } catch (Exception e) {
-            throw new Error(e);
+        if (defaultInstance == null) {
+            defaultInstance = new TokenClassifier();
         }
+        return defaultInstance;
     }
 
 
@@ -80,7 +92,7 @@ public class TokenClassifier {
      * Read in XML file, construct DOM and build RPNode tree
      * @param document XOM Document containing regular expressions for parsing
      */
-    private void readXML(Document document) throws Exception {
+    private void readXML(Document document) {
     	LOG.debug("Initialising tlrs... ");
         tokenLevelRegexDoc = document;
         nodeDict = new HashMap<String,String>();

@@ -47,10 +47,11 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 		nGram = NGramBuilder.buildOrDeserialiseModel(etd);
 	}
 
-	public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) throws Exception {
+	public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) {
 		return findNamedEntities(procDoc.getTokenSequences());
 	}
 
+	//TODO this method is enormous and needs refactoring
 	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) {
 	 	List<NamedEntity> stopNeList;
 

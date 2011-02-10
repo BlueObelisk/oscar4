@@ -65,21 +65,6 @@ public class DFANEFinder extends DFAFinder {
      */
     public static DFANEFinder getInstance() {
         if (myInstance == null) {
-            /* dictionaries are initialised by ChemNaneDictRegistry constructor
-            try {
-    			ChemNameDictRegistry.getInstance().register(
-    				new DefaultDictionary()
-    			);
-    			ChemNameDictRegistry.getInstance().register(
-        			new ChEBIDictionary()
-        		);
-    		} catch (Exception exception) {
-    			throw new Error(
-    				"Could not load default dictionary: " + exception,
-    				exception
-    			);
-    		}
-    		*/
             myInstance = new DFANEFinder();
         }
         return myInstance;
@@ -135,12 +120,8 @@ public class DFANEFinder extends DFAFinder {
             addNamedEntity(s, NamedEntityType.CUSTOM, true);
         }
         logger.debug("Adding names from ChemNameDict to DFA finder...");
-        try {
-            for(String s : ChemNameDictRegistry.getInstance().getAllNames()) {
-                addNamedEntity(s, NamedEntityType.COMPOUND, false);
-            }
-        } catch (Exception e) {
-            System.err.println("Couldn't add names from ChemNameDict!");
+        for(String s : ChemNameDictRegistry.getInstance().getAllNames()) {
+            addNamedEntity(s, NamedEntityType.COMPOUND, false);
         }
     }
 
@@ -170,6 +151,7 @@ public class DFANEFinder extends DFAFinder {
         return repsList;
     }
 
+    //TODO this method is huge and needs refactoring
     protected RepresentationList generateTokenRepresentations(IToken token, NGram nGram) {
         RepresentationList tokenRepresentations = new RepresentationList();
         // Avoid complications with compound refs
@@ -241,55 +223,51 @@ public class DFANEFinder extends DFAFinder {
             tokenRepresentations.addRepresentation(REP_ENDS_IN_ELEMENT);
         }
 
-        try {
-//			if (t.getValue().matches(".*[a-z][a-z].*") && !scoreAsStop && !ExtractTrainingData.getInstance().nonChemicalWords.contains(normValue)) {
-            if (!stopWord && value.length() > 3 && value.matches(".*[a-z][a-z].*") ) {
-                double score;
+//		if (t.getValue().matches(".*[a-z][a-z].*") && !scoreAsStop && !ExtractTrainingData.getInstance().nonChemicalWords.contains(normValue)) {
+        if (!stopWord && value.length() > 3 && value.matches(".*[a-z][a-z].*") ) {
+            double score;
 //				if (ExtractTrainingData.getInstance().chemicalWords.contains(normValue)) score = 100;
-                if (ChemNameDictRegistry.getInstance().hasName(value)) {
-                    score = 100;
+            if (ChemNameDictRegistry.getInstance().hasName(value)) {
+                score = 100;
+            }
+            else if (TermSets.getDefaultInstance().getUsrDictWords().contains(normalisedValue)
+                    || TermSets.getDefaultInstance().getUsrDictWords().contains(value)) {
+                score = -100;
+            }
+            else {
+                score = nGram.testWord(value);
+            }
+
+            if (score > OscarProperties.getData().ngramThreshold) {
+                tokenRepresentations.addRepresentation("$" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName());
+                if (value.startsWith("-")) {
+                    tokenRepresentations.addRepresentation("$-" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName());
                 }
-                else if (TermSets.getDefaultInstance().getUsrDictWords().contains(normalisedValue)
-                        || TermSets.getDefaultInstance().getUsrDictWords().contains(value)) {
-                    score = -100;
-                }
-                else {
-                    score = nGram.testWord(value);
+                if (value.endsWith("-")) {
+                    tokenRepresentations.addRepresentation("$" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName() + "-");
                 }
 
-                if (score > OscarProperties.getData().ngramThreshold) {
-                    tokenRepresentations.addRepresentation("$" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName());
-                    if (value.startsWith("-")) {
-                        tokenRepresentations.addRepresentation("$-" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName());
+                String withoutLastBracket = value;
+                while(withoutLastBracket.endsWith(")") || withoutLastBracket.endsWith("]")) {
+                    withoutLastBracket = withoutLastBracket.substring(0, withoutLastBracket.length()-1);
+                }
+                TermMaps termMaps = TermMaps.getInstance();
+                for (int i = 1; i < withoutLastBracket.length(); i++) {
+                    if (termMaps.getSuffixes().contains(withoutLastBracket.substring(i))) {
+                        tokenRepresentations.addRepresentation("$-" + withoutLastBracket.substring(i));
                     }
-                    if (value.endsWith("-")) {
-                        tokenRepresentations.addRepresentation("$" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName() + "-");
-                    }
+                }
 
-                    String withoutLastBracket = value;
-                    while(withoutLastBracket.endsWith(")") || withoutLastBracket.endsWith("]")) {
-                        withoutLastBracket = withoutLastBracket.substring(0, withoutLastBracket.length()-1);
-                    }
-                    TermMaps termMaps = TermMaps.getInstance();
-                    for (int i = 1; i < withoutLastBracket.length(); i++) {
-                        if (termMaps.getSuffixes().contains(withoutLastBracket.substring(i))) {
-                            tokenRepresentations.addRepresentation("$-" + withoutLastBracket.substring(i));
-                        }
-                    }
-
-                    if (value.contains("(") && !value.contains(")")) {
-                        tokenRepresentations.addRepresentation(REP_OPEN_BRACKET);
-                    }
-                    if (value.matches("[Pp]oly.+")) {
-                        tokenRepresentations.addRepresentation(REP_POLY_);
-                    }
-                    if (value.matches("[Pp]oly[\\(\\[\\{].+")) {
-                        tokenRepresentations.addRepresentation(REP_POLY_BRACKET_);
-                    }
+                if (value.contains("(") && !value.contains(")")) {
+                    tokenRepresentations.addRepresentation(REP_OPEN_BRACKET);
+                }
+                if (value.matches("[Pp]oly.+")) {
+                    tokenRepresentations.addRepresentation(REP_POLY_);
+                }
+                if (value.matches("[Pp]oly[\\(\\[\\{].+")) {
+                    tokenRepresentations.addRepresentation(REP_POLY_BRACKET_);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         if (ChemNameDictRegistry.getInstance().hasName(value)) {

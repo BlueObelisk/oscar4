@@ -76,9 +76,9 @@ public final class MEMMOutputRescorer {
 	/**Produce an XML Element that contains the trained rescorer model.
 	 * 
 	 * @return An XML Element that contains the trained rescorer model.
- 	 * @throws Exception
+ 	 * @throws IOException
 	 */
-	public Element writeElement() throws Exception {
+	public Element writeElement() throws IOException {
 		Element root = new Element("rescorer");
 		for(NamedEntityType namedEntityType : modelsByNamedEntityType.keySet()) {
 			Element maxent = new Element("maxent");

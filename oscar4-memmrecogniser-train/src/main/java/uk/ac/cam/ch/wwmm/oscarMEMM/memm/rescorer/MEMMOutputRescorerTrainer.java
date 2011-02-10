@@ -12,6 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import nu.xom.Attribute;
+import nu.xom.Builder;
+import nu.xom.Document;
+import nu.xom.Element;
+import nu.xom.Nodes;
+import nu.xom.ParsingException;
 import opennlp.maxent.DataIndexer;
 import opennlp.maxent.Event;
 import opennlp.maxent.EventCollectorAsStream;
@@ -22,16 +28,12 @@ import opennlp.maxent.TwoPassDataIndexer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nu.xom.Attribute;
-import nu.xom.Builder;
-import nu.xom.Document;
-import nu.xom.Element;
-import nu.xom.Nodes;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
@@ -64,6 +66,8 @@ public final class MEMMOutputRescorerTrainer {
 	
 	static String experName = "rescoreHalf";
 	
+	@Deprecated
+	//TODO this isn't called and has a hard-coded /home/ptc24 path - do we need it?
 	private static void recPrec(List<Double> goodProbs, List<Double> badProbs, int maxRecall, String name) throws Exception {
 		File f = new File("/home/ptc24/tmp/rpres/" + name + "_" + experName + ".csv");
 		PrintWriter pw = new PrintWriter(new FileWriter(f));
@@ -123,10 +127,16 @@ public final class MEMMOutputRescorerTrainer {
 	 * 
 	 * @param f The file to train on.
 	 * @param memm The MEMM to be used to to generate the input potential NEs.
-	 * @throws Exception
+	 * @throws IOException 
+	 * @throws DataFormatException 
 	 */
-	public void trainOnFile(File f, MEMM mexmm) throws Exception {
-		Document doc = new Builder().build(f);
+	public void trainOnFile(File f, MEMM mexmm) throws IOException, DataFormatException {
+		Document doc;
+		try {
+			doc = new Builder().build(f);
+		} catch (ParsingException e) {
+			throw new DataFormatException("incorrectly formatted training file: " + f.getName());
+		}
 		String name = f.getParentFile().getName();
 		LOG.debug(name);
 		Nodes n = doc.query("//cmlPile");
@@ -182,9 +192,8 @@ public final class MEMMOutputRescorerTrainer {
 	/**Generate a new rescoring model. This must be run after calling
 	 * trainOnFile several times.
 	 * 
-	 * @throws Exception
 	 */
-	public void finishTraining() throws Exception {
+	public void finishTraining() {
 		modelsByNamedEntityType = new HashMap<NamedEntityType,GISModel>();
 		for(NamedEntityType type : eventsByNamedEntityType.keySet()) {
 			DataIndexer di = null;

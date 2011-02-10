@@ -1,9 +1,15 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Locale;
+
+import nu.xom.Document;
+import nu.xom.ParsingException;
+import nu.xom.ValidityException;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -12,6 +18,7 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.NameOnlyChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
@@ -37,12 +44,19 @@ implements IChemNameDict {
 		}
 	}
 
-	public PolymerDictionary() throws Exception {
+	public PolymerDictionary() {
 		super(POLYMER_DICTIONARY_URL, Locale.ENGLISH);
 
-		ChemNameDictIO.readXML(
-					new ResourceGetter(PolymerDictionary.class.getClassLoader(),"uk/ac/cam/ch/wwmm/oscar/chemnamedict/").getXMLDocument("polymerCompounds.xml"),
-					this);
+		ResourceGetter rg = new ResourceGetter(PolymerDictionary.class.getClassLoader(),"uk/ac/cam/ch/wwmm/oscar/chemnamedict/");
+		Document sourceDoc;
+		try {
+			sourceDoc = rg.getXMLDocument("polymerCompounds.xml");
+		} catch (ParsingException e) {
+			throw new OscarInitialisationException("failed to load polymer dictionary");
+		} catch (IOException e) {
+			throw new OscarInitialisationException("failed to load polymer dictionary");
+		}
+		ChemNameDictIO.readXML(sourceDoc, this);
 	}
 
 	@Override

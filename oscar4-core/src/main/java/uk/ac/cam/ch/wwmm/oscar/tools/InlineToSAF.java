@@ -22,7 +22,6 @@ public final class InlineToSAF {
 	 * @param refDoc The unannotated source SciXML document.
 	 * @param name The document name.
 	 * @return The SAF document.
-	 * @throws Exception
 	 */
 	public static Document extractSAFs(Document neDoc, Document refDoc, String name) {
 		InlineToSAF nets = new InlineToSAF(neDoc, refDoc, name);

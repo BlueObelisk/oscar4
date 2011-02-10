@@ -70,7 +70,6 @@ public class XOMBasedProcessingDocumentFactory {
 	 * @param runGenia Whether to (attempt) to run the Genia tagger once
 	 * tokenisation has taken place.
 	 * @return The ProcessingDocument for the source document.
-	 * @throws Exception
 	 * 
 	 * 
 	 */
@@ -96,7 +95,6 @@ public class XOMBasedProcessingDocumentFactory {
 	 * @param safDoc A SAF document, containing named entity information.
 	 * 
 	 * @return The ProcessingDocument for the source document.
-	 * @throws Exception
 	 * 
 	 * 
 	 */

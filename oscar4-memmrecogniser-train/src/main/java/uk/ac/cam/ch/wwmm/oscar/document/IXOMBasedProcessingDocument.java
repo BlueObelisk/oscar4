@@ -18,7 +18,6 @@ public interface IXOMBasedProcessingDocument extends IProcessingDocument {
 	 * @param leftXPoint
 	 *            The XPoint of the start of the token.
 	 * @return The token, or null.
-	 * @throws Exception
 	 */
 	public abstract IToken getTokenByStart(String leftXPoint);
 
@@ -29,7 +28,6 @@ public interface IXOMBasedProcessingDocument extends IProcessingDocument {
 	 * @param rightXPoint
 	 *            The XPoint of the end of the token.
 	 * @return The token, or null.
-	 * @throws Exception
 	 */
 	public abstract IToken getTokenByEnd(String rightXPoint);
 

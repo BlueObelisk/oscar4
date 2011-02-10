@@ -9,14 +9,14 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
 public class PolymerDictionaryTest extends AbstractDictionaryTest {
 
 	@Test
-	public void testACompound() throws Exception {
+	public void testACompound() {
 		IChemNameDict dict = new PolymerDictionary();
 		Assert.assertNotNull(dict);
 		Assert.assertTrue(dict.hasName("HPEI25K"));
 	}
 	
 	@Test
-	public void testAcccessViaRegistry() throws Exception {
+	public void testAcccessViaRegistry() {
 		IChemNameDict dict = new PolymerDictionary();
 		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
 		registry.register(dict);
@@ -25,7 +25,7 @@ public class PolymerDictionaryTest extends AbstractDictionaryTest {
 	}
 
 	@Override
-	public IChemNameDict getDictionary() throws Exception {
+	public IChemNameDict getDictionary() {
 		return new PolymerDictionary();
 	}
 	

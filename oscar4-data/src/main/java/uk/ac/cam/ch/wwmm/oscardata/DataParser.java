@@ -27,7 +27,6 @@ public final class DataParser {
 	 * 
 	 * @param doc The SciXML document to parse. This will be modified if
 	 * experimental data is found.
-	 * @throws Exception
 	 */
 	public static void dataParse(Document doc) {
 		DataParser dp = new DataParser(doc);

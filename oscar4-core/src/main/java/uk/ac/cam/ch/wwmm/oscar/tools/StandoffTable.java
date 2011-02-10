@@ -24,9 +24,8 @@ public final class StandoffTable implements IStandoffTable {
 	/**Generates a StandoffTable.
 	 * 
 	 * @param docElem The root element of the document to analyse.
-	 * @throws Exception
 	 */
-	public StandoffTable(Element docElem) throws Exception {
+	public StandoffTable(Element docElem) {
 		rootElem = docElem;
 
 		int l = docElem.getValue().length();

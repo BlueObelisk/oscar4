@@ -50,16 +50,12 @@ public final class OntologyTermIdIndex {
     private OntologyTermIdIndex() {
 		termIdMap = ArrayListMultimap.create(OntologyTerms.getDefaultInstance().getOntology());
 		if (OscarProperties.getData().useDSO) {
-			try {
-				OBOOntology dso = DSOtoOBO.readDSO();
-				for(OntologyTerm term : dso.terms.values()) {
-					addTerm(term.getName(), term.getId());
-					for(Synonym s : term.getSynonyms()) {
-						addTerm(s.getSyn(), term.getId());
-					}
+			OBOOntology dso = DSOtoOBO.readDSO();
+			for(OntologyTerm term : dso.terms.values()) {
+				addTerm(term.getName(), term.getId());
+				for(Synonym s : term.getSynonyms()) {
+					addTerm(s.getSyn(), term.getId());
 				}
-			} catch (Exception e) {
-				throw new Error(e);
 			}
 		}
 	}

@@ -42,7 +42,6 @@ public final class HyphenTokeniser {
 	
 	/**Re-initialises the Hyphen tokeniser.
 	 * 
-	 * @throws Exception
 	 */
 	public static void reinitialise() {
 		myInstance = null;

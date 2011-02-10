@@ -2,7 +2,6 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,11 +17,11 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 import nu.xom.ParsingException;
-import nu.xom.Serializer;
 import nu.xom.ValidityException;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -155,14 +154,14 @@ public final class ExtractManualAnnotations {
 				Document doc = new Builder().build(file);
 				loadAnnotations(goodPn, cwBag, cnwBag, ncwBag, ncnwBag, doc);
 			} catch (FileNotFoundException e) {
-				throw new Error("File not found: " + file.getAbsolutePath(), e);
+				throw new OscarInitialisationException("File not found: " + file.getAbsolutePath(), e);
 			} catch (ValidityException e) {
-				throw new Error("Invalid XML: " + file.getAbsolutePath(), e);
+				throw new OscarInitialisationException("Invalid XML: " + file.getAbsolutePath(), e);
 			} catch (ParsingException e) {
-				throw new Error("Failed to parse XML: "
+				throw new OscarInitialisationException("Failed to parse XML: "
 						+ file.getAbsolutePath(), e);
 			} catch (IOException e) {
-				throw new Error("Failed to read file: "
+				throw new OscarInitialisationException("Failed to read file: "
 						+ file.getAbsolutePath(), e);
 			}
 			paperCount++;
@@ -219,11 +218,7 @@ public final class ExtractManualAnnotations {
 			}
 		}
 
-		try {
-			HyphenTokeniser.reinitialise();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		HyphenTokeniser.reinitialise();
 	}
 
 	private void init(Document doc) {
@@ -290,11 +285,7 @@ public final class ExtractManualAnnotations {
 			}
 		}
 
-		try {
-			HyphenTokeniser.reinitialise();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		HyphenTokeniser.reinitialise();
 	}
 
 	private void loadAnnotations(Set<String> goodPn, Bag<String> cwBag,

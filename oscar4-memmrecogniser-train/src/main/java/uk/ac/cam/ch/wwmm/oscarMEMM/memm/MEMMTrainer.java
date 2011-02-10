@@ -362,6 +362,8 @@ public final class MEMMTrainer {
 				}
 				DataIndexer di = null;
 				try {
+					//I don't understand what would cause an exception to throw,
+					//but this seems like a bad way to control the logic
 					di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), featureCutOff);
 					model.putGISModel(prevTagg, GIS.trainModel(trainingCycles, di));
 				} catch (Exception e) {

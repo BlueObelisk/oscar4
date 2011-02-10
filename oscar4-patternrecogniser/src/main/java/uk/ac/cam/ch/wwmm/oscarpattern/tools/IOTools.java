@@ -15,6 +15,8 @@ public class IOTools {
 	 * @return Whether the answer was "yes".
 	 * @throws Exception
 	 */
+	@Deprecated
+	//TODO this isn't called - do we need it?
 	public static boolean askYN() throws Exception {
 		BufferedReader stdinReader = new BufferedReader(new InputStreamReader(System.in));
 		

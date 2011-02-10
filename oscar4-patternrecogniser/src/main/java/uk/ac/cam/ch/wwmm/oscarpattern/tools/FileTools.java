@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
  * @author ptc24
  *
  */
+//TODO this class isn't used - do we need it?
 public final class FileTools {
 
 	/*public static File getCorrespondingFile(File f, File originalRootDir, File newRootDir) {

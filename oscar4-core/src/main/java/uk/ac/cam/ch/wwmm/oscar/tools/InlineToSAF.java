@@ -12,9 +12,6 @@ import uk.ac.cam.ch.wwmm.oscar.xmltools.XMLSpanTagger;
  * @author ptc24
  *
  */
-/*
- * Duplicated in oscarpattern.scixml, should be moved with ExtractedTrainingData
- */
 public final class InlineToSAF {
 
 	private Document safDoc;

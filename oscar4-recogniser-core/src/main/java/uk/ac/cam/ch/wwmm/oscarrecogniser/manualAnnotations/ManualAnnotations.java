@@ -76,16 +76,21 @@ public class ManualAnnotations {
      * are loaded from the given XML element.
      */
     public ManualAnnotations(Element xml) {
-        chemicalWords = readStringsFromElement(xml.getFirstChildElement("chemicalWords"));
-        nonChemicalWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalWords"));
-        chemicalNonWords = readStringsFromElement(xml.getFirstChildElement("chemicalNonWords"));
-        nonChemicalNonWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalNonWords"));
-        afterHyphen = readStringsFromElement(xml.getFirstChildElement("afterHyphen"));
-        notForPrefix = readStringsFromElement(xml.getFirstChildElement("notForPrefix"));
-        pnStops = readStringsFromElement(xml.getFirstChildElement("pnStops"));
-        polysemous = readStringsFromElement(xml.getFirstChildElement("polysemous"));
-        rnEnd = readStringsFromElement(xml.getFirstChildElement("rnEnd"));
-        rnMid = readStringsFromElement(xml.getFirstChildElement("rnMid"));
+        try {
+			chemicalWords = readStringsFromElement(xml.getFirstChildElement("chemicalWords"));
+		    nonChemicalWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalWords"));
+		    chemicalNonWords = readStringsFromElement(xml.getFirstChildElement("chemicalNonWords"));
+		    nonChemicalNonWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalNonWords"));
+		    afterHyphen = readStringsFromElement(xml.getFirstChildElement("afterHyphen"));
+		    notForPrefix = readStringsFromElement(xml.getFirstChildElement("notForPrefix"));
+		    pnStops = readStringsFromElement(xml.getFirstChildElement("pnStops"));
+		    polysemous = readStringsFromElement(xml.getFirstChildElement("polysemous"));
+		    rnEnd = readStringsFromElement(xml.getFirstChildElement("rnEnd"));
+		    rnMid = readStringsFromElement(xml.getFirstChildElement("rnMid"));
+        }
+        catch (IOException e) {
+        	throw new OscarInitialisationException("failed to load ManualAnnotations", e);
+        }
     }
 
 
@@ -177,19 +182,15 @@ public class ManualAnnotations {
     }
 
 
-    private Set<String> readStringsFromElement(Element elem) {
-        try {
-            Set<String> strings = new HashSet<String>();
-            BufferedReader br = new BufferedReader(new StringReader(elem.getValue()));
-            String line = br.readLine();
-            while(line != null) {
-                strings.add(line.trim());
-                line = br.readLine();
-            }
-            return Collections.unmodifiableSet(strings);
-        } catch (Exception e) {
-            throw new Error(e);
+    private Set<String> readStringsFromElement(Element elem) throws IOException {
+        Set<String> strings = new HashSet<String>();
+        BufferedReader br = new BufferedReader(new StringReader(elem.getValue()));
+        String line = br.readLine();
+        while(line != null) {
+            strings.add(line.trim());
+            line = br.readLine();
         }
+        return Collections.unmodifiableSet(strings);
     }
 
 

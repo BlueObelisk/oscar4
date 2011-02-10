@@ -9,6 +9,7 @@ import java.util.Set;
  * @author ptc24
  *
  */
+//TODO this class isn't used - do we need it?
 public class BiooligomerScorer {
 
 	private Set<String> bioTokens;

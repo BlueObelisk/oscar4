@@ -29,7 +29,6 @@ public interface IStandoffTable {
 	 * 
 	 * @param xPoint The XPoint.
 	 * @return The offset.
-	 * @throws Exception If the XPoint is bad.
 	 */
 	public abstract int getOffsetAtXPoint(String xPoint);
 

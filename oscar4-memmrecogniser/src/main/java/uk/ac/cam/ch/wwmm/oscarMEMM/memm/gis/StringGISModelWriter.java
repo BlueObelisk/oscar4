@@ -15,7 +15,7 @@ public final class StringGISModelWriter extends GISModelWriter {
 
 	private StringWriter stringWriter;
 	
-	public StringGISModelWriter(GISModel model) throws Exception {
+	public StringGISModelWriter(GISModel model) {
 		super(model);
 		
 		stringWriter = new StringWriter();

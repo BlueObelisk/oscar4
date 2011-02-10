@@ -46,9 +46,8 @@ public class XOMBasedProcessingDocumentFactory {
 	 * @param sourceDoc The source SciXML document. This document is not
 	 * modified, and is not stored; instead, a copy of the document is stored.
 	 * @return The processingDocument.
-	 * @throws Exception
 	 */
-	XOMBasedProcessingDocument makeDocument(Document sourceDoc) throws Exception {
+	XOMBasedProcessingDocument makeDocument(Document sourceDoc) {
 		XOMBasedProcessingDocument procDoc = new XOMBasedProcessingDocument();
 		
 		procDoc.doc = new Document((Element)XOMTools.safeCopy(sourceDoc.getRootElement()));
@@ -75,7 +74,7 @@ public class XOMBasedProcessingDocumentFactory {
 	 * 
 	 * 
 	 */
-	public IXOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) throws Exception {
+	public IXOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) {
 		/****************************
 		 * @lh359 Tokenisation Walkthrough:
 		 * This is the function used to call the tokeniser and tokensequence
@@ -101,7 +100,7 @@ public class XOMBasedProcessingDocumentFactory {
 	 * 
 	 * 
 	 */
-	public IXOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, Document safDoc) throws Exception {
+	public IXOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, Document safDoc) {
 		XOMBasedProcessingDocument procDoc = makeDocument(sourceDoc);
 		procDoc.tokensByStart = new HashMap<Integer,IToken>();
 		procDoc.tokensByEnd = new HashMap<Integer,IToken>();

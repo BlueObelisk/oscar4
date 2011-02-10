@@ -1,5 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.exceptions;
 
+import nu.xom.ParsingException;
+
 /**
  * 
  * Indicates that a resource file contained an unrecoverable
@@ -17,6 +19,10 @@ public class DataFormatException extends OscarException {
 	 */
 	public DataFormatException(String message) {
 		super(message);
+	}
+
+	public DataFormatException(String message, Exception e) {
+		super(message, e);
 	}
 
 }

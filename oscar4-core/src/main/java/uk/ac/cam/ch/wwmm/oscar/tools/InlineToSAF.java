@@ -27,12 +27,12 @@ public final class InlineToSAF {
 	 * @return The SAF document.
 	 * @throws Exception
 	 */
-	public static Document extractSAFs(Document neDoc, Document refDoc, String name) throws Exception {
+	public static Document extractSAFs(Document neDoc, Document refDoc, String name) {
 		InlineToSAF nets = new InlineToSAF(neDoc, refDoc, name);
 		return nets.getSAF();
 	}
 	
-	private InlineToSAF(Document neDoc, Document refDoc, String name) throws Exception {		
+	private InlineToSAF(Document neDoc, Document refDoc, String name) {		
 		IStandoffTable st = new StandoffTable(refDoc.getRootElement());
 		new XMLSpanTagger(neDoc.getRootElement(), "n");
 

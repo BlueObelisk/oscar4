@@ -300,102 +300,98 @@ public final class ExtractManualAnnotations {
 	private void loadAnnotations(Set<String> goodPn, Bag<String> cwBag,
 			Bag<String> cnwBag, Bag<String> ncwBag, Bag<String> ncnwBag,
 			Document doc) {
-		try {
-			Nodes n = doc.query("//cmlPile");
-			for (int i = 0; i < n.size(); i++) {
-				n.get(i).detach();
-			}
+		Nodes n = doc.query("//cmlPile");
+		for (int i = 0; i < n.size(); i++) {
+			n.get(i).detach();
+		}
 
-			Document copy = new Document((Element) XOMTools.safeCopy(doc
-					.getRootElement()));
-			n = copy.query("//ne");
-			for (int i = 0; i < n.size(); i++)
-				XOMTools.removeElementPreservingText((Element) n.get(i));
-			Document safDoc = InlineToSAF.extractSAFs(doc, copy, "foo");
+		Document copy = new Document((Element) XOMTools.safeCopy(doc
+				.getRootElement()));
+		n = copy.query("//ne");
+		for (int i = 0; i < n.size(); i++)
+			XOMTools.removeElementPreservingText((Element) n.get(i));
+		Document safDoc = InlineToSAF.extractSAFs(doc, copy, "foo");
 
-			doc = copy;
-			IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory
-					.getInstance().makeTokenisedDocument(
-							Tokeniser.getInstance(), doc, true, true, safDoc);
-			for (ITokenSequence tokSeq : procDoc.getTokenSequences()) {
-				afterHyphen.addAll(tokSeq.getAfterHyphens());
-				Map<NamedEntityType, List<List<String>>> neMap = tokSeq
-						.getNes();
-				List<List<String>> neList = new ArrayList<List<String>>();
-				if (neMap.containsKey(NamedEntityType.COMPOUND))
-					neList.addAll(neMap.get(NamedEntityType.COMPOUND));
-				if (neMap.containsKey(NamedEntityType.ADJECTIVE))
-					neList.addAll(neMap.get(NamedEntityType.ADJECTIVE));
-				if (neMap.containsKey(NamedEntityType.REACTION))
-					neList.addAll(neMap.get(NamedEntityType.REACTION));
-				if (neMap.containsKey(NamedEntityType.ASE))
-					neList.addAll(neMap.get(NamedEntityType.ASE));
+		doc = copy;
+		IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory
+				.getInstance().makeTokenisedDocument(
+						Tokeniser.getInstance(), doc, true, true, safDoc);
+		for (ITokenSequence tokSeq : procDoc.getTokenSequences()) {
+			afterHyphen.addAll(tokSeq.getAfterHyphens());
+			Map<NamedEntityType, List<List<String>>> neMap = tokSeq
+					.getNes();
+			List<List<String>> neList = new ArrayList<List<String>>();
+			if (neMap.containsKey(NamedEntityType.COMPOUND))
+				neList.addAll(neMap.get(NamedEntityType.COMPOUND));
+			if (neMap.containsKey(NamedEntityType.ADJECTIVE))
+				neList.addAll(neMap.get(NamedEntityType.ADJECTIVE));
+			if (neMap.containsKey(NamedEntityType.REACTION))
+				neList.addAll(neMap.get(NamedEntityType.REACTION));
+			if (neMap.containsKey(NamedEntityType.ASE))
+				neList.addAll(neMap.get(NamedEntityType.ASE));
 
-				// Don't include CPR here
+			// Don't include CPR here
 
-				for (List<String> ne : neList) {
+			for (List<String> ne : neList) {
 
-					if (ne.size() == 1) {
-						if (ne.get(0).matches(".*[a-z][a-z].*")) {
-							cwBag.add(ne.get(0));
-						} else if (ne.get(0).matches(".*[A-Z].*")) {
-							cnwBag.add(ne.get(0));
+				if (ne.size() == 1) {
+					if (ne.get(0).matches(".*[a-z][a-z].*")) {
+						cwBag.add(ne.get(0));
+					} else if (ne.get(0).matches(".*[A-Z].*")) {
+						cnwBag.add(ne.get(0));
+					}
+				} else {
+					if (ne.get(0).matches("[A-Z][a-z][a-z]+")) {
+						goodPn.add(ne.get(0));
+						while (ne.size() > 3
+								&& StringTools.isHyphen(ne.get(2))
+								&& ne.get(2).matches("[A-Z][a-z][a-z]+")) {
+							ne = ne.subList(2, ne.size());
+							goodPn.add(ne.get(0));
 						}
 					} else {
-						if (ne.get(0).matches("[A-Z][a-z][a-z]+")) {
-							goodPn.add(ne.get(0));
-							while (ne.size() > 3
-									&& StringTools.isHyphen(ne.get(2))
-									&& ne.get(2).matches("[A-Z][a-z][a-z]+")) {
-								ne = ne.subList(2, ne.size());
-								goodPn.add(ne.get(0));
-							}
-						} else {
-							for (String neStr : ne) {
-								if (neStr.matches(".*[a-z][a-z].*"))
-									cwBag.add(neStr);
-							}
+						for (String neStr : ne) {
+							if (neStr.matches(".*[a-z][a-z].*"))
+								cwBag.add(neStr);
 						}
-					}
-				}
-
-				if (neMap.containsKey(NamedEntityType.REACTION)) {
-					for (List<String> ne : neMap.get(NamedEntityType.REACTION)) {
-						if (ne.size() > 1) {
-							rnEnd.add(ne.get(ne.size() - 1));
-							for (int j = 1; j < ne.size() - 1; j++) {
-								String s = ne.get(j);
-								if (s.matches("[a-z].+"))
-									rnMid.add(s);
-							}
-						}
-					}
-				}
-
-				
-				for (String nonNe : tokSeq.getNonNes()) { 
-					if (nonNe.matches(".*[a-z][a-z].*")) {
-						
-						ncwBag.add(nonNe.toLowerCase());
-					}
-					if (nonNe.matches("[A-Z][a-z][a-z]+")) {
-						pnStops.add(nonNe);
-					}
-					Matcher m = notForPrefixPattern.matcher(nonNe);
-					if (m.matches()) {
-						notForPrefix.add(m.group(1));
-					}
-					if (nonNe.matches(".*[A-Z].*")
-							&& !nonNe.matches("[A-Z][a-z][a-z]+")) {// &&
-																	// !neStrs.contains(token))
-																	// {
-						ncnwBag.add(nonNe);
 					}
 				}
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			if (neMap.containsKey(NamedEntityType.REACTION)) {
+				for (List<String> ne : neMap.get(NamedEntityType.REACTION)) {
+					if (ne.size() > 1) {
+						rnEnd.add(ne.get(ne.size() - 1));
+						for (int j = 1; j < ne.size() - 1; j++) {
+							String s = ne.get(j);
+							if (s.matches("[a-z].+"))
+								rnMid.add(s);
+						}
+					}
+				}
+			}
+
+			
+			for (String nonNe : tokSeq.getNonNes()) { 
+				if (nonNe.matches(".*[a-z][a-z].*")) {
+					
+					ncwBag.add(nonNe.toLowerCase());
+				}
+				if (nonNe.matches("[A-Z][a-z][a-z]+")) {
+					pnStops.add(nonNe);
+				}
+				Matcher m = notForPrefixPattern.matcher(nonNe);
+				if (m.matches()) {
+					notForPrefix.add(m.group(1));
+				}
+				if (nonNe.matches(".*[A-Z].*")
+						&& !nonNe.matches("[A-Z][a-z][a-z]+")) {// &&
+																// !neStrs.contains(token))
+																// {
+					ncnwBag.add(nonNe);
+				}
+			}
 		}
 	}
+	
 }

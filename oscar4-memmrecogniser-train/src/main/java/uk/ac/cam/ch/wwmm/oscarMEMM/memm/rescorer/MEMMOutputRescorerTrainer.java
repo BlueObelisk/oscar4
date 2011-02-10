@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -276,9 +277,9 @@ public final class MEMMOutputRescorerTrainer {
 	/**Produce an XML Element that contains the trained rescorer model.
 	 * 
 	 * @return An XML Element that contains the trained rescorer model.
- 	 * @throws Exception
+ 	 * @throws IOException
 	 */
-	public Element writeElement() throws Exception {
+	public Element writeElement() throws IOException {
 		Element root = new Element("rescorer");
 		for(NamedEntityType namedEntityType : modelsByNamedEntityType.keySet()) {
 			Element maxent = new Element("maxent");

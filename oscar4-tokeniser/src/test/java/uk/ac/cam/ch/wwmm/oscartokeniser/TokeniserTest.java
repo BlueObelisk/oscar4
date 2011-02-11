@@ -40,15 +40,12 @@ public final class TokeniserTest {
 	}
 
 	@Test
-	/**
-	 * @dmj30: I'm not convinced that this test is mandating desired behaviour
-	 */
 	public void testHyphens() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "EA- or BA-modified HPEI";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
-		assertEquals(4, tokseq.getTokens().size());
-		checkTokens(tokseq.getTokens(), "EA- or BA-modified HPEI");
+		assertEquals(7, tokseq.getTokens().size());
+		checkTokens(tokseq.getTokens(), "EA - or BA - modified HPEI");
 	}
 	
 	@Test
@@ -117,7 +114,8 @@ public final class TokeniserTest {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "D-glucose";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
-		assertEquals(1, tokseq.getTokens().size());
+		assertEquals(3, tokseq.getTokens().size());
+		checkTokens(tokseq.getTokens(), "D - glucose");
 	}
 	
 	@Test
@@ -188,7 +186,8 @@ public final class TokeniserTest {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "1-methyl-2-methylidene-cyclohexane";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
-		assertEquals(1, tokseq.getTokens().size());
+		assertEquals(3, tokseq.getTokens().size());
+		checkTokens(tokseq.getTokens(), "1-methyl-2-methylidene - cyclohexane");
 	}
 
 	@Test

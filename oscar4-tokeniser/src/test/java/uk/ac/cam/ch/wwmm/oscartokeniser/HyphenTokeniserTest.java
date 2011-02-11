@@ -8,6 +8,11 @@ import org.junit.Test;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
+/**
+ * 
+ * @author dmj30
+ *
+ */
 public class HyphenTokeniserTest {
 
 	@Test

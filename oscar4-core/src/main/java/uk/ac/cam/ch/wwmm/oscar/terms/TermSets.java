@@ -42,6 +42,7 @@ public final class TermSets {
     private final Set<String> elements;
     private final Set<String> ligands;
     private final Set<String> reactWords;
+    private final Set<String> abbreviations;
     private final Pattern endingInElementNamePattern;
 
     public static TermSets getDefaultInstance() {
@@ -143,6 +144,15 @@ public final class TermSets {
     public Set<String> getReactWords() {
         return reactWords;
     }
+    
+    /**
+     * Gets the term set from abbreviations.txt
+     * 
+     * @return The term set
+     */
+    public Set<String> getAbbreviations() {
+    	return abbreviations;
+    }
 
     /**
      * Gets a regular expression that detects whether a word is ending in
@@ -169,6 +179,7 @@ public final class TermSets {
 	        elements = loadTerms("elements.txt");
 	        ligands = loadTerms("ligands.txt");
 	        reactWords = loadTerms("reactWords.txt");
+	        abbreviations = loadTerms("abbreviations.txt");
         }
         catch (IOException e) {
         	throw new OscarInitialisationException("failed to load TermSets", e);

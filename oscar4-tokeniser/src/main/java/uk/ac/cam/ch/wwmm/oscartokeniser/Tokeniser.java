@@ -13,6 +13,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
@@ -238,27 +239,11 @@ public final class Tokeniser implements ITokeniser {
 	 * @return Subtokenised List or null if no subtokenisation has occurred
 	 ***********************************/
 	private List<IToken> rawSplitToken(IToken token) {
-		/*
-		 * @lh359: Added temporarily by me
-		 *  so that it doesn't
-		 *  tokenise on abbreviations
-		 *  
-		 *  @dmj30: Using String.split for every token in the document, are we?
-		 */
-		//TODO optimise this operation if it gets left in
-		//TODO unit tests to check the extent of the tokenising on
-		//     abbreviations problem.
-		String abbreviations = "et. al. etc. e.g. i.e. vol. ca. wt. aq. ea-";
-		List<String> abvList = new ArrayList<String>();
-		for (String item : abbreviations.split(" ")) {
-			abvList.add(item);
+
+		if (TermSets.getDefaultInstance().getAbbreviations().contains(token.getValue().toLowerCase())) {
+			return null;
 		}
-		
-		if (abvList.contains(token.getValue().toLowerCase())) return null;
-		
-		/*
-		* End of lh359 code
-		*****************************************/			
+
 		String middleValue = "";
 		if (token.getValue().length() > 2)
 			middleValue = token.getValue().substring(0, token.getValue().length() - 1);
@@ -430,8 +415,8 @@ public final class Tokeniser implements ITokeniser {
 		 * has been disabled. In phrases like "alcohol-consuming bacteria",
 		 * this prevents OSCAR from recognising the ne "alcohol".
 		 */
-		int splittableHyphenIndex = -1;
-		//int splittableHyphenIndex = HyphenTokeniser.indexOfSplittableHyphen(token.getValue());
+//		int splittableHyphenIndex = -1;
+		int splittableHyphenIndex = HyphenTokeniser.indexOfSplittableHyphen(token.getValue());
 		
 		
 		/* Split on appropriate hyphens */

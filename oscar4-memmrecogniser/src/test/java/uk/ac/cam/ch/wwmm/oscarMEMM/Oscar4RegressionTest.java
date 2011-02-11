@@ -59,9 +59,9 @@ public class Oscar4RegressionTest {
 		ResourceGetter rg = new ResourceGetter(
 				"uk/ac/cam/ch/wwmm/oscar3/test/regressionTest/");
 		String sentence = rg.getString("Sentence2.txt");
-		List<String> expectedSurfaceList = Arrays.asList("N-_1","N-methylaniline_1","N,N-_1","N,N-dimethylaniline_1","silica_1");
-		List<Double> expectedProbList = Arrays.asList(0.00, 0.9964313404393998,0.00, 0.9995782016130931,0.8851147923587711);
-		List<String> expectedTypeList = Arrays.asList("CPR","CM","CPR","CM","CM");
+		List<String> expectedSurfaceList = Arrays.asList("N-_1","N-methylaniline_1","N,N-_1","N,N-dimethylaniline_1","calcium_1","calcium_2","silica_1");
+		List<Double> expectedProbList = Arrays.asList(0.00, 0.9964313404393998,0.00, 0.9995782016130931,0.9860357829790156,0.00,0.9603591420667275);
+		List<String> expectedTypeList = Arrays.asList("CPR","CM","CPR","CM","CM","ONT","CM");
 
 		evaluateNamedEntities(sentence, expectedSurfaceList, expectedTypeList,
 				expectedProbList);
@@ -73,7 +73,7 @@ public class Oscar4RegressionTest {
 				"uk/ac/cam/ch/wwmm/oscar3/test/regressionTest/");
 		String sentence = rg.getString("Sentence3.txt");
 		List<String> expectedSurfaceList = Arrays.asList("dNTPs_1","α-_1", "β-_1", "γ-_1","γ-phosphates_1","dUTP_1","ligand_1","groups_1","C5_1","uracil_1","γ-_2","dNTPs_2","AMV_1","size_1","γ-_3","γ-phosphonate_1");
-		List<Double> expectedProbList = Arrays.asList(0.3512814228967421, 0.00, 0.00, 0.00, 0.968218689388447,0.5126968674819777,0.00, 0.00, 0.46708681080060027,0.4541378222332686,0.00, 0.3237872882805317,0.29253811092128085,0.00, 0.00, 0.9917673063361496);
+		List<Double> expectedProbList = Arrays.asList(0.39248159697863777, 0.00, 0.00, 0.00, 0.968218689388447,0.5126968674819777,0.00, 0.00, 0.46708681080060027,0.4541378222332686,0.00, 0.40645323363275354,0.29253811092128085,0.00, 0.00, 0.9917673063361496);
 		List<String> expectedTypeList = Arrays.asList("CM","CPR","CPR","CPR","CM","CM","ONT","ONT","CM","CM","CPR","CM","CM","ONT","CPR","CM");
 		evaluateNamedEntities(sentence, expectedSurfaceList, expectedTypeList,
 				expectedProbList);

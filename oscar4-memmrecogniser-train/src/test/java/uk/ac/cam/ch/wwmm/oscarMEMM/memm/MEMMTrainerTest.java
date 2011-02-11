@@ -103,7 +103,7 @@ public class MEMMTrainerTest {
 		
 		memm.setModel(model);
 		Assert.assertEquals("Number of Chemical words in ExtractedManualAnnotations size",520, model.getManualAnnotations().getChemicalWords().size());
-		Assert.assertEquals("Number of Chemical words in ExtractedManualAnnotations size",1212, model.getManualAnnotations().getNonChemicalWords().size());
+		Assert.assertEquals("Number of non-chemical words in ExtractedManualAnnotations size",1194, model.getManualAnnotations().getNonChemicalWords().size());
 	}
 	
 	

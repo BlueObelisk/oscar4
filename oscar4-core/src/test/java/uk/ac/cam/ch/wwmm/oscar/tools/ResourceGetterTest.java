@@ -81,7 +81,7 @@ public class ResourceGetterTest {
     	List <String> lines = rg.getStrings("utf-8.txt");
     	assertEquals(2, lines.size());
     	assertEquals("line 1", lines.get(0));
-    	assertEquals("line β", lines.get(1));
+    	assertEquals("line \u03B2", lines.get(1));
     }
     
     @Test
@@ -90,7 +90,7 @@ public class ResourceGetterTest {
     	List <String> lines = rg.getStrings("utf-8.txt", "ASCII");
     	assertEquals(2, lines.size());
     	assertEquals("line 1", lines.get(0));
-    	assertFalse("line β".equals(lines.get(1)));
+    	assertFalse("line \u03B2".equals(lines.get(1)));
     	assertTrue(lines.get(1).startsWith("line "));
     }
     

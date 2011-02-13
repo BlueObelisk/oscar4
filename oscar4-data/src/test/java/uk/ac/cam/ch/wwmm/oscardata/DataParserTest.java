@@ -39,7 +39,7 @@ public class DataParserTest {
 	
 	@Test
 	public void testHnmrWithDelta() {
-		Document doc = TextToSciXML.textToSciXML("1H-NMR (CDCl3) δ 8.13 (d, 1H)," +
+		Document doc = TextToSciXML.textToSciXML("1H-NMR (CDCl3) \u03B4 8.13 (d, 1H)," +
 				" 7.59 (d, 1H), 7.50 (d, 2H), 7.30 (m, 2H), 6.97 (d, 2H), 6.68 (s, 1H)" +
 				", 4.08 (t, 2H), 2.72 (s, 3H), 2.4 (m, 6H), 1.63 (m, 6H), 1.45 (m, 2H)" +
 				", 2.35-2.10 (m, 3H), 1.7 (m, 1H)");

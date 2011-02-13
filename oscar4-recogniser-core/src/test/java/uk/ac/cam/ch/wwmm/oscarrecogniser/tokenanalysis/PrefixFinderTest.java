@@ -45,7 +45,7 @@ public class PrefixFinderTest {
 	
 	@Test
 	public void testFunnyHyphens() {
-		String text = "1‐hydroxybenzotriazole";
-		assertEquals("1‐", PrefixFinder.getPrefix(text));
+		String text = "1\u2010hydroxybenzotriazole";
+		assertEquals("1\u2010", PrefixFinder.getPrefix(text));
 	}
 }

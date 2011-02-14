@@ -186,8 +186,8 @@ public final class TokeniserTest {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "1-methyl-2-methylidene-cyclohexane";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
-		assertEquals(3, tokseq.getTokens().size());
-		checkTokens(tokseq.getTokens(), "1-methyl-2-methylidene - cyclohexane");
+		assertEquals(1, tokseq.getTokens().size());
+		checkTokens(tokseq.getTokens(), "1-methyl-2-methylidene-cyclohexane");
 	}
 
 	@Test

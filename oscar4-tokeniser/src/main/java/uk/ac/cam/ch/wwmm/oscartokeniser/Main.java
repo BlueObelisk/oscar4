@@ -39,7 +39,7 @@ public class Main {
 			
 			System.out.println("There are "+tokens.size()+" tokens in the string");
 			for (IToken token : tokens) {
-				System.out.println("Token:: "+token.getValue());
+				System.out.println("Token:: "+token.getSurface());
 			}
 			
 		}

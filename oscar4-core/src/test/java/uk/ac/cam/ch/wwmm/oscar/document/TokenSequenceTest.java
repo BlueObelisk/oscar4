@@ -62,8 +62,8 @@ public class TokenSequenceTest {
 		Assert.assertEquals(
 			6, tokens.size()
 		);
-		Assert.assertEquals("This", tokens.get(0).getValue());
-		Assert.assertEquals(".", tokens.get(5).getValue());
+		Assert.assertEquals("This", tokens.get(0).getSurface());
+		Assert.assertEquals(".", tokens.get(5).getSurface());
 	}
 
 	@SuppressWarnings("serial")
@@ -119,8 +119,8 @@ public class TokenSequenceTest {
 				add(new Token(".", 24, 25, null, null, null));
 			}}
 		);
-		Assert.assertEquals("is", seq.getToken(1).getValue());
-		Assert.assertEquals(".", seq.getToken(5).getValue());
+		Assert.assertEquals("is", seq.getToken(1).getSurface());
+		Assert.assertEquals(".", seq.getToken(5).getSurface());
 	}
 
 	@SuppressWarnings("serial")

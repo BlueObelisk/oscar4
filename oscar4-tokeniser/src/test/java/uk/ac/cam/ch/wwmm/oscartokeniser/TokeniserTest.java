@@ -205,7 +205,7 @@ public final class TokeniserTest {
 			expectedList.add(item);
 		}
 		for (int i = 0; i < expectedList.size(); i++) {
-			assertEquals(expectedList.get(i), tokens.get(i).getValue());
+			assertEquals(expectedList.get(i), tokens.get(i).getSurface());
 		}
 	}
 	
@@ -215,39 +215,39 @@ public final class TokeniserTest {
 		ITokenSequence ts = Tokeniser.getInstance().tokenise(source);
 		assertEquals(9, ts.getTokens().size());
 		
-		assertEquals("The", ts.getToken(0).getValue());
+		assertEquals("The", ts.getToken(0).getSurface());
 		assertEquals(0, ts.getToken(0).getStart());
 		assertEquals(3, ts.getToken(0).getEnd());
 		
-		assertEquals("quick", ts.getToken(1).getValue());
+		assertEquals("quick", ts.getToken(1).getSurface());
 		assertEquals(4, ts.getToken(1).getStart());
 		assertEquals(9, ts.getToken(1).getEnd());
 		
-		assertEquals("brown", ts.getToken(2).getValue());
+		assertEquals("brown", ts.getToken(2).getSurface());
 		assertEquals(10, ts.getToken(2).getStart());
 		assertEquals(15, ts.getToken(2).getEnd());
 		
-		assertEquals("fox", ts.getToken(3).getValue());
+		assertEquals("fox", ts.getToken(3).getSurface());
 		assertEquals(16, ts.getToken(3).getStart());
 		assertEquals(19, ts.getToken(3).getEnd());
 		
-		assertEquals("jumps", ts.getToken(4).getValue());
+		assertEquals("jumps", ts.getToken(4).getSurface());
 		assertEquals(20, ts.getToken(4).getStart());
 		assertEquals(25, ts.getToken(4).getEnd());
 		
-		assertEquals("over", ts.getToken(5).getValue());
+		assertEquals("over", ts.getToken(5).getSurface());
 		assertEquals(26, ts.getToken(5).getStart());
 		assertEquals(30, ts.getToken(5).getEnd());
 		
-		assertEquals("the", ts.getToken(6).getValue());
+		assertEquals("the", ts.getToken(6).getSurface());
 		assertEquals(31, ts.getToken(6).getStart());
 		assertEquals(34, ts.getToken(6).getEnd());
 		
-		assertEquals("lazy", ts.getToken(7).getValue());
+		assertEquals("lazy", ts.getToken(7).getSurface());
 		assertEquals(35, ts.getToken(7).getStart());
 		assertEquals(39, ts.getToken(7).getEnd());
 		
-		assertEquals("dog", ts.getToken(8).getValue());
+		assertEquals("dog", ts.getToken(8).getSurface());
 		assertEquals(40, ts.getToken(8).getStart());
 		assertEquals(43, ts.getToken(8).getEnd());
 	}

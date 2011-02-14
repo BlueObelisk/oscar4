@@ -200,7 +200,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 		IToken prevToken = tokens.get(0).getNAfter(-1);
 		while(prevToken != null) {
 			if(prevToken.getEnd() != tmpLeftOffset) break;
-            String v = prevToken.getValue();
+            String v = prevToken.getSurface();
 			if(v.length() != 1) break;
 			if(!("()[]{}.,;:?!'\"".contains(v) || StringTools.isQuoteMark(v))) break;
 			leftPunct = v + leftPunct;
@@ -212,7 +212,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 		IToken nextToken = tokens.get(tokens.size()-1).getNAfter(1);
 		while(nextToken != null) {
 			if(nextToken.getStart() != tmpRightOffset) break;
-            String v = nextToken.getValue();
+            String v = nextToken.getSurface();
             if(v.length() != 1) break;
 			if(!("()[]{}.,;:?!'\"".contains(v) || StringTools.isQuoteMark(v) || StringTools.isHyphen(v))) break;
 			rightPunct = rightPunct + v;

@@ -186,7 +186,7 @@ public class DFAFinderTest {
 
         protected RepresentationList generateTokenRepresentations(IToken token) {
             RepresentationList tokenRepresentations = new RepresentationList();
-            String value = token.getValue();
+            String value = token.getSurface();
             tokenRepresentations.addRepresentation(value);
             String normalisedValue = StringTools.normaliseName(value);
             if (!normalisedValue.equals(value)) {

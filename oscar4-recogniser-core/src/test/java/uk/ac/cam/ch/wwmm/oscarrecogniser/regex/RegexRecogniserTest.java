@@ -51,7 +51,7 @@ public class RegexRecogniserTest {
 		assertEquals(9, neList.get(0).getEnd());
 		
 		assertEquals(1, neList.get(0).getTokens().size());
-		assertEquals("NSC-23432", neList.get(0).getTokens().get(0).getValue());
+		assertEquals("NSC-23432", neList.get(0).getTokens().get(0).getSurface());
 		assertEquals(0, neList.get(0).getTokens().get(0).getStart());
 		assertEquals(9, neList.get(0).getTokens().get(0).getEnd());
 	}

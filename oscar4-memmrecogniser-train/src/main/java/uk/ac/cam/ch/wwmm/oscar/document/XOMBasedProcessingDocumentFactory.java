@@ -367,8 +367,8 @@ public class XOMBasedProcessingDocumentFactory {
 		while (i < tokens.size()) {
 			if (BioTag.O == prevTokType.getBio()
 					|| BioTag.O != tokens.get(i).getBioTag().getBio()
-					|| tokens.get(i).getValue().length() < 2
-					|| !StringTools.isHyphen(tokens.get(i).getValue()
+					|| tokens.get(i).getSurface().length() < 2
+					|| !StringTools.isHyphen(tokens.get(i).getSurface()
 							.substring(0, 1))
 					|| !(tokens.get(i).getStart() == tokens.get(i - 1).getEnd())) {
 				i++;
@@ -404,7 +404,7 @@ public class XOMBasedProcessingDocumentFactory {
 				// inside
 			} else {
 				currentToken.setEnd(t.getEnd());
-				currentToken.setValue(sourceString.substring(currentToken.getStart()
+				currentToken.setSurface(sourceString.substring(currentToken.getStart()
 						- offset, currentToken.getEnd() - offset));
 			}
 

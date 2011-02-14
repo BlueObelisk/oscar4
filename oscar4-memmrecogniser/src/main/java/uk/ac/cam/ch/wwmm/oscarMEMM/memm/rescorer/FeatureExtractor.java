@@ -70,11 +70,11 @@ final class FeatureExtractor {
 			IToken prev = ne.getFirstToken().getNAfter(-1);
 			IToken next = ne.getLastToken().getNAfter(1);
 
-			if(prev != null && next != null && prev.getValue().equals("(") && next.getValue().equals(")")) {
+			if(prev != null && next != null && prev.getSurface().equals("(") && next.getSurface().equals(")")) {
 				IToken prev2 = ne.getFirstToken().getNAfter(-2);
 				if(prev2 != null) {
 					String surf = ne.getSurface();
-					if(surf.matches(".*[A-Z]s") || prev2.getValue().endsWith("s")) surf = surf.substring(0, surf.length()-1);
+					if(surf.matches(".*[A-Z]s") || prev2.getSurface().endsWith("s")) surf = surf.substring(0, surf.length()-1);
 					List<String> featuresForAbbrev;
 					if(abbrevFeatures.containsKey(surf)) {
 						featuresForAbbrev = abbrevFeatures.get(surf);
@@ -106,7 +106,7 @@ final class FeatureExtractor {
 							if(length <= (tokID - 1)) {
 								isAcro = true;
 								for (int i = 0; i < length; i++) {
-									if(!tokSeq.getToken(tokID - length - 1 + i).getValue().toUpperCase().startsWith(surf.substring(i,i+1))) isAcro = false;
+									if(!tokSeq.getToken(tokID - length - 1 + i).getSurface().toUpperCase().startsWith(surf.substring(i,i+1))) isAcro = false;
 								}
 								if(isAcro) {
 									featuresForAbbrev.add("allUpperAbbrev");

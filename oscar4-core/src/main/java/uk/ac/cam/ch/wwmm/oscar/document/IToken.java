@@ -13,13 +13,13 @@ public interface IToken {
 	 */
 	public abstract IToken getNAfter(int n);
 
-	/**Gets the string value of the token.
+	/**Gets the surface string of the token.
 	 * 
 	 * @return The string value of the token.
 	 */
-	public abstract String getValue();
+	public abstract String getSurface();
 
-	public abstract void setValue(String value);
+	public abstract void setSurface(String surface);
 
 	/**Gets the index of the token in its TokenSequence.
 	 * 

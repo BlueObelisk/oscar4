@@ -296,11 +296,11 @@ public abstract class DFAFinder implements Serializable {
 	 * @param collector
 	 */
 	protected void handleTokenForPrefix(IToken t, NECollector collector) {
-		String prefix = PrefixFinder.getPrefix(t.getValue());
+		String prefix = PrefixFinder.getPrefix(t.getSurface());
         if (prefix != null) {
             collector.collect(NamedEntity.forPrefix(t, prefix));
         }
-        else if ("-".equals(t.getValue())) {
+        else if ("-".equals(t.getSurface())) {
         	IToken prev = t.getNAfter(-1);
         	if (prev != null) {
         		String combinedSurface = t.getTokenSequence().getSurface().substring(

@@ -208,11 +208,14 @@ public class Oscar {
      * Normalized the text. Text normalization involves, among others, converting
      * all hyphens into one character, simplifying the subsequent named entity
      * detection.
+     * 
+     * Not yet implemented.
      *
      * @param  input the unnormalized text.
      * @return       the normalized text.
      */
     public String normalize(String input) {
+    	//TODO implement this method?
         return input;
     }
 

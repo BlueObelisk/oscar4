@@ -161,7 +161,7 @@ public class DFANEFinder extends DFAFinder {
 //			return tokenReps;
 //		}
 //		if (TokenTypes.isRef(t)) tokenReps.add("$CITREF");
-        String value = token.getValue();
+        String value = token.getSurface();
         tokenRepresentations.addRepresentation(value);
         String normalisedValue = StringTools.normaliseName(value);
 

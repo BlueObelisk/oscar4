@@ -17,7 +17,7 @@ public final class Token implements IToken {
 	 * easily.
 	 */
 	
-	private String value;
+	private String surface;
 	/**The character offset at the start of the token */
 	private int start;
 	/**The character offset (caret position) at the end of the token */
@@ -34,7 +34,7 @@ public final class Token implements IToken {
 	public Token(String value, int start, int end, IProcessingDocument doc, BioType bioTag, Element neElem) {
 		this.start = start;
 		this.end = end;
-		this.value = value;
+		this.surface = value;
 		this.doc = doc;
 		this.bioTag = bioTag;
 		this.neElem = neElem;
@@ -58,15 +58,15 @@ public final class Token implements IToken {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getValue()
 	 */
-	public String getValue() {
-		return value;
+	public String getSurface() {
+		return surface;
 	}
 
     /* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#setValue(java.lang.String)
 	 */
-    public void setValue(String value) {
-        this.value = value;
+    public void setSurface(String surface) {
+        this.surface = surface;
     }
 
     /* (non-Javadoc)

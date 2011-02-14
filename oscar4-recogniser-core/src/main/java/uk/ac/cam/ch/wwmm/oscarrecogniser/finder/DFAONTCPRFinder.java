@@ -175,7 +175,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	
 	protected RepresentationList generateTokenRepresentations(IToken token) {
 		RepresentationList representations = new RepresentationList();
-		String tokenValue = token.getValue();
+		String tokenValue = token.getSurface();
 		representations.addRepresentation(tokenValue);
 		String normalisedValue = StringTools.normaliseName(tokenValue);
 		if (!normalisedValue.equals(tokenValue)) {

@@ -146,7 +146,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 					IToken prev = t.getNAfter(-1);
 					IToken next = t.getNAfter(1);
 					IToken prevPrev = t.getNAfter(-2);
-					if(prev.getValue().equals("(") && next.getValue().endsWith(")")) {
+					if(prev.getSurface().equals("(") && next.getSurface().endsWith(")")) {
 						//boolean matched = false;
 						if(endToNe.containsKey(prevPrev.getEnd())) {
 							NamedEntity acronymOf = endToNe.get(prevPrev.getEnd());

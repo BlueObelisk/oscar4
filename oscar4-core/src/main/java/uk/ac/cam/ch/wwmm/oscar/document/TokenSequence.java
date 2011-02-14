@@ -105,7 +105,7 @@ public final class TokenSequence implements ITokenSequence {
     public List<String> getTokenStringList() {
         List<String> tl = new ArrayList<String>();
         for(IToken t : tokens) {
-            tl.add(t.getValue());
+            tl.add(t.getSurface());
         }
         return tl;
     }
@@ -136,20 +136,20 @@ public final class TokenSequence implements ITokenSequence {
         Set<String> afterHyphens = new HashSet<String>();
         for (int i = 1; i < tokens.size(); i++) {
             if (i < tokens.size()-1
-                    && tokens.get(i).getValue().length() == 1
-                    && StringTools.isHyphen(tokens.get(i).getValue())
+                    && tokens.get(i).getSurface().length() == 1
+                    && StringTools.isHyphen(tokens.get(i).getSurface())
                     && BioTag.O == tokens.get(i).getBioTag().getBio()
                     && BioTag.O == tokens.get(i+1).getBioTag().getBio()
                     && BioTag.O != tokens.get(i-1).getBioTag().getBio()
                     && tokens.get(i).getStart() == tokens.get(i-1).getEnd()
                     && tokens.get(i).getEnd() == tokens.get(i+1).getStart()
                     ) {
-                afterHyphens.add(tokens.get(i+1).getValue());
+                afterHyphens.add(tokens.get(i+1).getSurface());
             } else if (BioTag.O == tokens.get(i).getBioTag().getBio()
                     && B_CPR == tokens.get(i-1).getBioTag()
                     && tokens.get(i).getStart() == tokens.get(i-1).getEnd()
                     ) {
-                afterHyphens.add(tokens.get(i).getValue());
+                afterHyphens.add(tokens.get(i).getSurface());
             }
         }
         return afterHyphens;
@@ -169,7 +169,7 @@ public final class TokenSequence implements ITokenSequence {
                     neTokens = new ArrayList<String>();
                     // Trim of the B- in the BIO tag
                     namedEntityType = t.getBioTag().getType();
-                    neTokens.add(t.getValue());
+                    neTokens.add(t.getSurface());
                     if (!neMap.containsKey(namedEntityType)) {
                         neMap.put(namedEntityType, new ArrayList<List<String>>());
                     }
@@ -183,14 +183,14 @@ public final class TokenSequence implements ITokenSequence {
                     neTokens = new ArrayList<String>();
                     // Trim of the B- in the BIO tag
                     namedEntityType = t.getBioTag().getType();
-                    neTokens.add(t.getValue());
+                    neTokens.add(t.getSurface());
                     if (!neMap.containsKey(namedEntityType)) {
                         neMap.put(namedEntityType, new ArrayList<List<String>>());
                     }
                     neMap.get(namedEntityType).add(neTokens);
                     // Must be I- something then
                 } else {
-                    neTokens.add(t.getValue());
+                    neTokens.add(t.getSurface());
                 }
             }
         }
@@ -204,7 +204,7 @@ public final class TokenSequence implements ITokenSequence {
         List<String> nonNes = new ArrayList<String>();
         for (IToken token : tokens) {
             if (BioTag.O == token.getBioTag().getBio()) {
-                nonNes.add(token.getValue());
+                nonNes.add(token.getSurface());
             }
         }
         return nonNes;

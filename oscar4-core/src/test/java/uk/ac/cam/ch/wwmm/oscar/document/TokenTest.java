@@ -25,9 +25,9 @@ public class TokenTest {
 		Token token = new Token(
 			"alsoAToken", 0, 0, null, null, null
 		);
-		Assert.assertEquals("alsoAToken", token.getValue());
-		token.setValue("token");
-		Assert.assertEquals("token", token.getValue());
+		Assert.assertEquals("alsoAToken", token.getSurface());
+		token.setSurface("token");
+		Assert.assertEquals("token", token.getSurface());
 	}
 
 	@Test

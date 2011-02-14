@@ -165,7 +165,7 @@ public final class FeatureExtractor {
 		FeatureList bigramable = tokenFeatureSets.get(position).getBigramableFeatures();
 
 		IToken token = tokSeq.getToken(position);
-		String word = token.getValue();
+		String word = token.getSurface();
 		contextable.addFeature(makeWordFeature(word));
 
 		String normWord = StringTools.normaliseName(word);
@@ -237,7 +237,7 @@ public final class FeatureExtractor {
 			FeatureList local, IToken token) {
 		double ngscore = ngram.testWord(word);
 		// Already seen
-		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getValue());
+		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getSurface());
 		ngscore = Math.max(ngscore, NGRAM_SCORE_LOWER_BOUND);
 		ngscore = Math.min(ngscore, NGRAM_SCORE_UPPER_BOUND);
 		for (int i = 0; i < ngscore; i++) {
@@ -268,7 +268,7 @@ public final class FeatureExtractor {
 			FeatureList bigramable, FeatureList contextable,
 			FeatureList local, IToken token) {
 		double suffixScore = ngram.testWordSuffix(word);
-		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getValue());
+		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getSurface());
 
 		suffixScore = Math.max(suffixScore, SUFFIX_SCORE_LOWER_BOUND);
 		suffixScore = Math.min(suffixScore, SUFFIX_SCORE_UPPER_BOUND);
@@ -426,7 +426,7 @@ public final class FeatureExtractor {
 			}
 		}
 
-		String word = tokSeq.getToken(position).getValue();
+		String word = tokSeq.getToken(position).getSurface();
 
 		if (pnPattern.matcher(word).matches()) {
 			boolean suspect = false;
@@ -440,9 +440,9 @@ public final class FeatureExtractor {
 			int patternPosition = position + 1;
 			while (patternPosition < (tokSeq.size() - 2)
 					&& StringTools.isHyphen(tokSeq.getToken(
-							patternPosition).getValue())
+							patternPosition).getSurface())
 					&& pnPattern.matcher(
-							tokSeq.getToken(patternPosition + 1).getValue())
+							tokSeq.getToken(patternPosition + 1).getSurface())
 							.matches()) {
 				patternPosition += 2;
 				suspect = false;

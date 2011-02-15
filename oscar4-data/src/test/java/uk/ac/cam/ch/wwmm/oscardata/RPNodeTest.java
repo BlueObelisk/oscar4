@@ -8,11 +8,9 @@ import java.util.List;
 import jregex.Matcher;
 
 import nu.xom.Builder;
-import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Text;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;

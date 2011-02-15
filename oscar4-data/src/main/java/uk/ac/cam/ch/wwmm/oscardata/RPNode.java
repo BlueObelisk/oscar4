@@ -151,7 +151,7 @@ final class RPNode {
     }
 
     List<DataAnnotation> parseXOMText(Text textNode) {
-    	return parseXOMText(textNode, new HashSet<RPNode>());
+    	return parseXOMText(textNode, new HashSet<RPNode>(), 0);
     }
     
     /**
@@ -161,9 +161,10 @@ final class RPNode {
      * @param textNode the nu.xom.Text to process
      * @param excludedChildren a set of RPNodes with the "unique" property that
      * already been found  
+     * @param offset the text offset within the TokenSequence
      * @return 
      */
-    List<DataAnnotation> parseXOMText(Text textNode, HashSet<RPNode> excludedChildren) {
+    List<DataAnnotation> parseXOMText(Text textNode, HashSet<RPNode> excludedChildren, int offset) {
     	List <DataAnnotation> annotations = new ArrayList<DataAnnotation>();
     	boolean foundSomethingFlag = true;
     	while(foundSomethingFlag) {
@@ -179,7 +180,7 @@ final class RPNode {
                 Pattern pat = child.getPattern();
                 Matcher m = pat.matcher(nodeText);
                 if(m.find()) {
-                	DataAnnotation annotation = new DataAnnotation(m.start(), m.end(), m.group(0));
+                	DataAnnotation annotation = new DataAnnotation(m.start() + offset, m.end() + offset, m.group(0));
                 	annotations.add(annotation);
                     String tokText;
                     int pg = child.getParseGroup();
@@ -219,7 +220,7 @@ final class RPNode {
                     if(m.end() < nodeText.length()) {
                     	Text endText = new Text(nodeText.substring(m.end()));
                     	XOMTools.insertAfter(currentNode, endText);
-                    	annotations.addAll(parseXOMText(endText, excludedChildren));
+                    	annotations.addAll(parseXOMText(endText, excludedChildren, m.end() + offset));
                     	// Do something about uniqueness here...
                     }
                     foundSomethingFlag = true;

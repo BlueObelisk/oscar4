@@ -328,6 +328,7 @@ public final class Tokeniser implements ITokeniser {
 			return splitAt(token, token.getEnd() - 1);
 		}
 //		/* Split oxidation state off the end */
+		//TODO disabled, was probably a mistake anyway. But might we want to tokenise non-chemical terms in brackets?
 //		if (oxidationStateEndPattern.matcher(token.getSurface()).matches()) {
 //			return splitAt(token, token.getStart() + token.getSurface().lastIndexOf('('));
 //		}

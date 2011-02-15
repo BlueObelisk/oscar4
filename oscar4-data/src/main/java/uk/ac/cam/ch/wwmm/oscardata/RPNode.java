@@ -166,69 +166,65 @@ final class RPNode {
      */
     List<DataAnnotation> parseXOMText(Text textNode, HashSet<RPNode> excludedChildren, int offset) {
     	List <DataAnnotation> annotations = new ArrayList<DataAnnotation>();
-    	boolean foundSomethingFlag = true;
-    	while(foundSomethingFlag) {
-    		//foundSomethingFlag allows the RPNode to continue looking for a matching group in the string after one has been found
-    		foundSomethingFlag = false;
-        	String nodeText = textNode.getValue();
-            for(ListIterator <RPNode> i=children.listIterator(); i.hasNext() && !foundSomethingFlag;) {
-                RPNode child = i.next();
-                if(excludedChildren.contains(child)) {
-                	continue;
+    	String nodeText = textNode.getValue();
+        for(ListIterator <RPNode> i=children.listIterator(); i.hasNext();) {
+            RPNode child = i.next();
+            if(excludedChildren.contains(child)) {
+            	continue;
+            }
+            	
+            Pattern pat = child.getPattern();
+            Matcher m = pat.matcher(nodeText);
+            if(m.find()) {
+            	DataAnnotation annotation = new DataAnnotation(m.start() + offset, m.end() + offset, m.group(0));
+                String tokText;
+                int pg = child.getParseGroup();
+                try {
+                    tokText = m.group(pg);
+                } catch(ArrayIndexOutOfBoundsException e) {
+                	pg = 0;
+                    tokText = m.group(0);
                 }
-                	
-                Pattern pat = child.getPattern();
-                Matcher m = pat.matcher(nodeText);
-                if(m.find()) {
-                	DataAnnotation annotation = new DataAnnotation(m.start() + offset, m.end() + offset, m.group(0));
-                	annotations.add(annotation);
-                    String tokText;
-                    int pg = child.getParseGroup();
-                    try {
-                        tokText = m.group(pg);
-                    } catch(ArrayIndexOutOfBoundsException e) {
-                    	pg = 0;
-                        tokText = m.group(0);
-                    }
-                    
-                    textNode.setValue(nodeText.substring(0, m.start()));
-                    Node currentNode = textNode;
-                    if(m.start(pg) > m.start()) {
-                    	Text invincibleText = new Text(nodeText.substring(m.start(), m.start(pg)));
-                    	XOMTools.insertAfter(currentNode, invincibleText);
-                    	currentNode = invincibleText;                    		
-                    }
-                	Element elem = new Element(child.getType());
-                	XOMTools.insertAfter(currentNode, elem);
-                	currentNode = elem;
-                	if(child.getValue() != null && child.getValue().length() > 0) {
-                		elem.addAttribute(new Attribute("type", child.getValue()));
-                	}
-                	if(child.saf) elem.addAttribute(new Attribute("saf", "yes"));
-                	Text childText = new Text(tokText);
-                	elem.appendChild(childText);
-                	child.parseXOMText(childText);
-                    if(m.end() > m.end(pg)) {
-                    	Text invincibleText = 
-                    		new Text(nodeText.substring(m.end(pg), m.end()));
-                    	XOMTools.insertAfter(currentNode, invincibleText);
-                    	currentNode = invincibleText;                    		
-                    }
-                	if(child.isUnique()) {
-                		excludedChildren.add(child);
-                	}
-                    if(m.end() < nodeText.length()) {
-                    	Text endText = new Text(nodeText.substring(m.end()));
-                    	XOMTools.insertAfter(currentNode, endText);
-                    	annotations.addAll(parseXOMText(endText, excludedChildren, m.end() + offset));
-                    	// Do something about uniqueness here...
-                    }
-                    foundSomethingFlag = true;
-                    annotation.setInternalMarkup(elem);
+                
+                textNode.setValue(nodeText.substring(0, m.start()));
+                Node currentNode = textNode;
+                if(m.start(pg) > m.start()) {
+                	Text invincibleText = new Text(nodeText.substring(m.start(), m.start(pg)));
+                	XOMTools.insertAfter(currentNode, invincibleText);
+                	currentNode = invincibleText;                    		
                 }
-            }    		
-    	}
-    	return annotations;
+            	Element elem = new Element(child.getType());
+            	XOMTools.insertAfter(currentNode, elem);
+            	currentNode = elem;
+            	if(child.getValue() != null && child.getValue().length() > 0) {
+            		elem.addAttribute(new Attribute("type", child.getValue()));
+            	}
+            	if(child.saf) elem.addAttribute(new Attribute("saf", "yes"));
+            	Text childText = new Text(tokText);
+            	elem.appendChild(childText);
+            	child.parseXOMText(childText);
+                if(m.end() > m.end(pg)) {
+                	Text invincibleText = 
+                		new Text(nodeText.substring(m.end(pg), m.end()));
+                	XOMTools.insertAfter(currentNode, invincibleText);
+                	currentNode = invincibleText;                    		
+                }
+            	if(child.isUnique()) {
+            		excludedChildren.add(child);
+            	}
+            	annotations.addAll(parseXOMText(textNode, excludedChildren, offset));//generate and add annotations from text previous to current annotation
+            	annotations.add(annotation);//add current annotation
+                if(m.end() < nodeText.length()) {
+                	Text endText = new Text(nodeText.substring(m.end()));
+                	XOMTools.insertAfter(currentNode, endText);
+                	annotations.addAll(parseXOMText(endText, excludedChildren, m.end() + offset));//generate and add annotations from text subsequent to current annotation
+                	// Do something about uniqueness here...
+                }
+                annotation.setInternalMarkup(elem);
+                break;
+            }
+        }
+        return annotations;
     }
         
     /**

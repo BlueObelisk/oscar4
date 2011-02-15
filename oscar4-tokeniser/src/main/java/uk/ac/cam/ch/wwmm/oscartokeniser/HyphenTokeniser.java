@@ -110,11 +110,6 @@ public final class HyphenTokeniser {
 					return currentIndex;				
 				}
 				
-				// Check against OntologyTerms content
-				if (termContainedInHyphTokable(tokenValue, currentIndex)) {
-					return currentIndex;
-				}
-				
 				// Suffixes?
 				if (suffixContainedInSplitSuffix(tokenValue, currentIndex)) {
 					return currentIndex;
@@ -136,6 +131,11 @@ public final class HyphenTokeniser {
 				// Prefixes
 				if (precededByNoSplitPrefix(tokenValue, currentIndex)) {
 					continue;
+				}
+				
+				// Check against OntologyTerms content
+				if (termContainedInHyphTokable(tokenValue, currentIndex)) {
+					return currentIndex;
 				}
 				
 				/* Check for lowercase either side of the token */

@@ -90,17 +90,46 @@ public final class TokeniserTest {
 	}
 
 	@Test
-	/**
-	 * TODO This appears to be incorrect behaviour according the annotation guidelines
-	 */
 	public void testIronIII() {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "Fe(III)";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
-		assertEquals(2, tokseq.getTokens().size());
-		checkTokens(tokseq.getTokens(), "Fe (III)");
+		assertEquals(1, tokseq.getTokens().size());
 	}
-
+	
+	@Test
+	public void testIronIIILowercase() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "Fe(iii)";
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		assertEquals(1, tokseq.getTokens().size());
+	}
+	
+	@Test
+	public void testIronThreePlus() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "Fe(3+)";
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		assertEquals(1, tokseq.getTokens().size());
+	}
+	
+	@Test
+	public void testIronNought() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "Fe(0)";
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		assertEquals(1, tokseq.getTokens().size());
+	}
+	
+	@Test
+	public void testWrappedInBrackets() {
+		Tokeniser tokeniser = new Tokeniser();
+		String s = "Tetrahydro furan (THF)";
+		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		assertEquals(5, tokseq.getTokens().size());
+		checkTokens(tokseq.getTokens(), "Tetrahydro furan ( THF )");
+	}
+	
 	@Test
 	public void testSAlanine() {
 		Tokeniser tokeniser = new Tokeniser();
@@ -114,8 +143,8 @@ public final class TokeniserTest {
 		Tokeniser tokeniser = new Tokeniser();
 		String s = "D-glucose";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
-		assertEquals(3, tokseq.getTokens().size());
-		checkTokens(tokseq.getTokens(), "D - glucose");
+		assertEquals(1, tokseq.getTokens().size());
+		checkTokens(tokseq.getTokens(), "D-glucose");
 	}
 	
 	@Test
@@ -198,7 +227,7 @@ public final class TokeniserTest {
 		assertEquals(4, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "CML ( TM )");
 	}
-
+	
 	private void checkTokens(List<IToken> tokens, String expectedTokens) {
 		List<String> expectedList = new ArrayList<String>();
 		for (String item : expectedTokens.split(" ")) {

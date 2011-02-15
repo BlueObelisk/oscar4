@@ -313,6 +313,7 @@ public final class Tokeniser implements ITokeniser {
 			return null;
 		}
 		/* Split unmatched brackets off the front */
+		// NB: this isn't just unmatched brackets - read the code!
 		//TODO unit tests for the various StringTools methods
 		if ("([{".indexOf(token.getSurface().codePointAt(0)) != -1
 				&& (StringTools.isBracketed(token.getSurface()) || StringTools
@@ -320,15 +321,16 @@ public final class Tokeniser implements ITokeniser {
 			return splitAt(token, token.getStart() + 1);
 		}
 		/* Split unmatched brackets off the end */
+		// NB: this isn't just unmatched brackets - read the code!
 		if (")]}".indexOf(token.getSurface().codePointAt(token.getSurface().length() - 1)) != -1
 				&& (StringTools.isBracketed(token.getSurface()) || StringTools
 						.isLackingOpenBracket(token.getSurface()))) {
 			return splitAt(token, token.getEnd() - 1);
 		}
-		/* Split oxidation state off the end */
-		if (oxidationStateEndPattern.matcher(token.getSurface()).matches()) {
-			return splitAt(token, token.getStart() + token.getSurface().lastIndexOf('('));
-		}
+//		/* Split oxidation state off the end */
+//		if (oxidationStateEndPattern.matcher(token.getSurface()).matches()) {
+//			return splitAt(token, token.getStart() + token.getSurface().lastIndexOf('('));
+//		}
 		/* Split some characters off the front of tokens */
 		if ((StringTools.relations + StringTools.quoteMarks)
 				.indexOf(token.getSurface().codePointAt(0)) != -1) {

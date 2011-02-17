@@ -12,10 +12,6 @@ import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 public final class Token implements IToken {	
 
     // TODO can we make this class immutable?
-
-	/* Many of these are package visibility so Tokeniser can work on them
-	 * easily.
-	 */
 	
 	private String surface;
 	/**The character offset at the start of the token */

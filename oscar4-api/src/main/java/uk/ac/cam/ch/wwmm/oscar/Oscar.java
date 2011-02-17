@@ -126,7 +126,6 @@ public class Oscar {
      *
      * @param input String with input.
      * @return      the recognized chemical entities.
-     * @throws Exception
      */
     public List<NamedEntity> getNamedEntities(String input) {
         input = normalize(input);
@@ -142,10 +141,9 @@ public class Oscar {
      * {@link #recognizeNamedEntities(List)}, and {@link #resolveNamedEntities(List)}.
      *
      * @param input String with input.
-     * @return      the recognized chemical entities.
-     * @throws Exception
+     * @return the recognized chemical entities as a Map of NamedEntities to InChI strings
      */
-    public Map<NamedEntity,String> getResolvedEntities(String input) throws Exception {
+    public Map<NamedEntity,String> getResolvedEntities(String input) {
         List<NamedEntity> entities = getNamedEntities(input);
         Map<NamedEntity,String> molecules = resolveNamedEntities(entities);
         return molecules;
@@ -191,18 +189,11 @@ public class Oscar {
      * @return       a {@link List} of {@link ITokenSequence}s.
      */
     public List<ITokenSequence> tokenize(String input) {
-        Document doc = createInputDocument(input);
         IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance()
-                .makeTokenisedDocument(tokenizer, doc);
+                .makeTokenisedDocument(tokenizer, input);
         return procDoc.getTokenSequences();
     }
 
-    private Document createInputDocument(String input) {
-        Element paragraph = new Element("P");
-        paragraph.appendChild(input);
-        Document doc = new Document(paragraph);
-        return doc;
-    }
 
     /**
      * Normalized the text. Text normalization involves, among others, converting

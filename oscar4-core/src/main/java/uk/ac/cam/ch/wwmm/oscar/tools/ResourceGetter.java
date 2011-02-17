@@ -108,7 +108,7 @@ public final class ResourceGetter {
             return inStream;
         }
         
-        throw new FileNotFoundException("failed to find resource: " + resourceName);
+        throw new FileNotFoundException("failed to find resource: " + resourcePath + "/" + resourceName);
 	}
 
     private InputStream getStream(String resourceName, ClassLoader classLoader) {

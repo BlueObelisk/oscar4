@@ -7,6 +7,7 @@ import java.io.InputStream;
 import nu.xom.Builder;
 import nu.xom.Document;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -43,6 +44,13 @@ public class AdditionalTokenSequenceTest {
 		assertEquals(10, para2.getTokens().size());
 		assertEquals(44, para1.getSurface().length());
 		assertEquals(52, para2.getSurface().length());
+	}
+	
+	@AfterClass
+	public static void cleanUp() {
+		header = null;
+		para1 = null;
+		para2 = null;
 	}
 	
 	@Test

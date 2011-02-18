@@ -21,9 +21,6 @@ public class OscarPropertiesData {
 	public boolean polymerMode;
 		
 	public double ngramThreshold;
-	public double ontProb;
-	public double cprProb;
-	public double custProb;
 	public double neThreshold;
 
 	public String model;

@@ -90,7 +90,7 @@ public class BioType {
     	if (neType != null) return new BioType(neType);
 
     	throw new IllegalArgumentException(
-    		"Unrecognized BioType: " + string
+    		"Unrecognised BioType: " + string
     	);
     }
 

@@ -5,10 +5,16 @@ import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Map;
 
+import nu.xom.Element;
+import opennlp.tools.tokenize.Tokenizer;
+import opennlp.tools.util.Span;
+
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
@@ -120,5 +126,31 @@ public class OscarTest {
 		assertEquals("with", tokSeq.getTokens().get(4).getSurface());
 		assertEquals("toluene", tokSeq.getTokens().get(5).getSurface());
 		assertEquals(".", tokSeq.getTokens().get(6).getSurface());
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testSetTokeniserRejectsNull() {
+		Oscar oscar = new Oscar();
+		oscar.setTokenizer(null);
+	}
+	
+	@Test
+	public void testSetTokeniser() {
+		Oscar oscar = new Oscar();
+		assertTrue(oscar.getTokenizer() == Tokeniser.getInstance());
+		ITokeniser tokeniser = new TokeniserImpl();
+		oscar.setTokenizer(tokeniser);
+		assertTrue(oscar.getTokenizer() == tokeniser);
+	}
+	
+	
+	class TokeniserImpl implements ITokeniser {
+
+		public ITokenSequence tokenise(String text,
+				IProcessingDocument procDoc, int offset, Element element) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
 	}
 }

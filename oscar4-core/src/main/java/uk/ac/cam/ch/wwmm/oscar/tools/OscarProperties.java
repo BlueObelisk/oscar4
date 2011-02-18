@@ -63,9 +63,6 @@ public class OscarProperties {
 		
 		props.setProperty("ngramThreshold", "" + oscarProperties.ngramThreshold);
 		props.setProperty("neThreshold", "" + oscarProperties.neThreshold);
-		props.setProperty("ontProb", "" + oscarProperties.ontProb);
-		props.setProperty("cprProb", "" + oscarProperties.cprProb);
-		props.setProperty("custProb", "" + oscarProperties.custProb);
 
 		props.setProperty("model", oscarProperties.model);
 		props.setProperty("xmlStrings", oscarProperties.xmlStrings);
@@ -83,9 +80,6 @@ public class OscarProperties {
 		
 		oscarProperties.ngramThreshold = Double.parseDouble(myProperties.getProperty("ngramThreshold"));
 		oscarProperties.neThreshold = Double.parseDouble(myProperties.getProperty("neThreshold"));
-		oscarProperties.ontProb = Double.parseDouble(myProperties.getProperty("ontProb"));
-		oscarProperties.cprProb = Double.parseDouble(myProperties.getProperty("cprProb"));
-		oscarProperties.custProb = Double.parseDouble(myProperties.getProperty("custProb"));
 
 		oscarProperties.model = getPropertyOrNone(myProperties, "model");
 		oscarProperties.xmlStrings = getPropertyOrNone(myProperties, "xmlStrings");

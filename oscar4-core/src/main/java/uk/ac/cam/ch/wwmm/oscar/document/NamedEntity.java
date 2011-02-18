@@ -339,6 +339,13 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 		this.confidence = confidence;
 	}
 	
+	/**
+	 * Gets the pseudoConfidence score (from 1.0 to 0.0, or NaN) for the named entity.
+	 */
+	public double getPseudoConfidence() {
+		return pseudoConfidence;
+	}
+	
 	/**Sets a "pseudo-confidence" score, to allow this token to be compared
 	 * to other named entities for the purposes of working out which one to
 	 * discard if they overlap.

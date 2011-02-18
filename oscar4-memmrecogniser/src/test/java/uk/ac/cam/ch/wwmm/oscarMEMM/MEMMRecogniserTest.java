@@ -6,6 +6,7 @@ import java.util.List;
 
 import nu.xom.Document;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -31,6 +32,10 @@ public class MEMMRecogniserTest {
 		recogniser = new MEMMRecogniser();
 	}
 	
+	@AfterClass
+	public static void cleanUp() {
+		recogniser = null;
+	}
 	
 	@Test public void testConstructor() {
 		assertNotNull(recogniser);

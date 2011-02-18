@@ -29,6 +29,9 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 public class PatternRecogniser implements ChemicalEntityRecogniser {
 
 	private NGram nGram;
+	private double ontPseudoConfidence = 0.2;
+	private double custPseudoConfidence = 0.2;
+	private double cprPseudoConfidence = 0.2;
 	
 	/**
 	 * Create a PatternRecogniser that employs an NGram model customised
@@ -229,17 +232,66 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 		return neList;
 	}//findNamedEntities
 
-	public void setPseudoConfidences(List<NamedEntity> neList) {
+	void setPseudoConfidences(List<NamedEntity> neList) {
 		for(NamedEntity ne : neList) {
 			double pseudoConf = Double.NaN;
 			NamedEntityType type = ne.getType();
-			if(type.equals(NamedEntityType.ONTOLOGY)) pseudoConf = OscarProperties.getData().ontProb;
-			if(type.equals(NamedEntityType.LOCANTPREFIX)) pseudoConf = OscarProperties.getData().cprProb;
-			if(type.equals(NamedEntityType.CUSTOM)) pseudoConf = OscarProperties.getData().custProb;
+			if(type.equals(NamedEntityType.ONTOLOGY)) {
+				pseudoConf = ontPseudoConfidence;
+			}
+			if(type.equals(NamedEntityType.LOCANTPREFIX)) {
+				pseudoConf = cprPseudoConfidence;
+			}
+			if(type.equals(NamedEntityType.CUSTOM)) {
+				pseudoConf = custPseudoConfidence;
+			}
 			ne.setPseudoConfidence(pseudoConf);
 			ne.setDeprioritiseOnt(OscarProperties.getData().deprioritiseONT);
 		}
 	}//setPseudoConfidences
+
+	
+	public double getOntPseudoConfidence() {
+		return ontPseudoConfidence;
+	}
+
+	/**
+	 * Sets the pseudoconfidence score to be assigned to name entities
+	 * of type ONT
+	 * 
+	 * @param ontPseudoConfidence
+	 */
+	public void setOntPseudoConfidence(double ontPseudoConfidence) {
+		this.ontPseudoConfidence = ontPseudoConfidence;
+	}
+
+	public double getCustPseudoConfidence() {
+		return custPseudoConfidence;
+	}
+
+	/**
+	 * Sets the pseudoconfidence score to be assigned to name entities
+	 * of type CUST
+	 * 
+	 * @param custPseudoConfidence
+	 */
+	public void setCustPseudoConfidence(double custPseudoConfidence) {
+		this.custPseudoConfidence = custPseudoConfidence;
+	}
+
+	public double getCprPseudoConfidence() {
+		return cprPseudoConfidence;
+	}
+
+	/**
+	 * Sets the pseudoconfidence score to be assigned to name entities
+	 * of type CPR
+	 * 
+	 * @param cprPseudoConfidence
+	 */
+	public void setCprPseudoConfidence(double cprPseudoConfidence) {
+		this.cprPseudoConfidence = cprPseudoConfidence;
+	}
 
 	
 

@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscarpattern;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nu.xom.Document;
@@ -12,11 +13,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
@@ -26,10 +29,12 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 public class PatternRecogniserTest {
 
 	private static PatternRecogniser recogniser;
+	private static PatternRecogniser recogniserForCustomisation;
 
 	@BeforeClass
 	public static void setUp() {
 		recogniser = new PatternRecogniser();
+		recogniserForCustomisation = new PatternRecogniser();
 	}
 	
 	@AfterClass
@@ -96,5 +101,48 @@ public class PatternRecogniserTest {
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
 		assertEquals("1,2-difluoro-1-chloro-2-methyl-ethyl acetate", neList.get(0).getSurface());
+	}
+	
+	
+	@Test
+	public void testSetOntPseudoConfidence() {
+		assertEquals(0.2, recogniserForCustomisation.getOntPseudoConfidence(), 0.00001);
+		recogniserForCustomisation.setOntPseudoConfidence(0.3);
+		assertEquals(0.3, recogniserForCustomisation.getOntPseudoConfidence(), 0.00001);
+	}
+	
+	@Test
+	public void testSetCustPseudoConfidence() {
+		assertEquals(0.2, recogniserForCustomisation.getCustPseudoConfidence(), 0.00001);
+		recogniserForCustomisation.setCustPseudoConfidence(0.3);
+		assertEquals(0.3, recogniserForCustomisation.getCustPseudoConfidence(), 0.00001);
+	}
+	
+	@Test
+	public void testSetCprPseudoConfidence() {
+		assertEquals(0.2, recogniserForCustomisation.getCprPseudoConfidence(), 0.00001);
+		recogniserForCustomisation.setCprPseudoConfidence(0.3);
+		assertEquals(0.3, recogniserForCustomisation.getCprPseudoConfidence(), 0.00001);
+	}
+	
+	@Test
+	public void testSetPseudoConfidences() {
+		List <NamedEntity> nes = new ArrayList<NamedEntity>();
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument
+				(Tokeniser.getInstance(), "foo");
+		List <IToken> tokens = procDoc.getTokenSequences().get(0).getTokens();
+		nes.add(new NamedEntity(tokens, "", NamedEntityType.COMPOUND));
+		nes.add(new NamedEntity(tokens, "", NamedEntityType.ONTOLOGY));
+		nes.add(new NamedEntity(tokens, "", NamedEntityType.CUSTOM));
+		nes.add(new NamedEntity(tokens, "", NamedEntityType.LOCANTPREFIX));
+		
+		recogniserForCustomisation.setOntPseudoConfidence(0.4);
+		recogniserForCustomisation.setCustPseudoConfidence(0.5);
+		recogniserForCustomisation.setCprPseudoConfidence(0.6);
+		recogniserForCustomisation.setPseudoConfidences(nes);
+		assertEquals(Double.NaN, nes.get(0).getPseudoConfidence(), 0.00001);
+		assertEquals(0.4, nes.get(1).getPseudoConfidence(), 0.00001);
+		assertEquals(0.5, nes.get(2).getPseudoConfidence(), 0.00001);
+		assertEquals(0.6, nes.get(3).getPseudoConfidence(), 0.00001);
 	}
 }

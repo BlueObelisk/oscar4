@@ -48,7 +48,7 @@ public class MEMMRecogniserTest {
 		assertTrue(procDoc != null);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neList != null);
-		assertEquals("Only acetone should be recognized", 1, neList.size());
+		assertEquals("Only acetone should be recognised", 1, neList.size());
 		assertEquals("acetone", neList.get(0).getSurface());
 	}
 	

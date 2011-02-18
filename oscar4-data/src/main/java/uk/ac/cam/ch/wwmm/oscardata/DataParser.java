@@ -27,12 +27,14 @@ public final class DataParser {
 	 * 
 	 * @param doc The SciXML document to parse. This will be modified if
 	 * experimental data is found.
+	 * @param dataOnlyInExperimental Whether to limit the locations in which data is
+	 * to be annotated to experimental sections
 	 */
-	public static void dataParse(Document doc) {
+	public static void dataParse(Document doc, boolean dataOnlyInExperimental) {
 		DataParser dp = new DataParser(doc);
 		dp.scrubFormatting();		
 		Nodes paras;
-		if(OscarProperties.getData().dataOnlyInExperimental) {
+		if(dataOnlyInExperimental) {
 			paras = doc.query(XMLStrings.getInstance().EXPERIMENTAL_PARAS_XPATH, XMLStrings.getInstance().getXpc());
 		} else {
 			paras = doc.query(XMLStrings.getInstance().ALL_PARAS_XPATH, XMLStrings.getInstance().getXpc());
@@ -45,6 +47,16 @@ public final class DataParser {
 					RParser.getInstance().parse((Text) n);
 			}
 		}		
+	}
+	
+	/**This puts experimental data markup on a document. Locations in which data will
+	 * be annotated are not limited to experimental sections.
+	 * 
+	 * @param doc The SciXML document to parse. This will be modified if
+	 * experimental data is found.
+	 */
+	public static void dataParse(Document doc) {
+		dataParse(doc, false);
 	}
 	
 	private DataParser(Document doc) {

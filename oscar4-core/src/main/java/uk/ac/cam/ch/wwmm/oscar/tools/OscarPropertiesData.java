@@ -18,7 +18,6 @@ public class OscarPropertiesData {
 	public boolean deprioritiseONT;
 	public boolean useFormulaRegex;
 	public boolean useWordShapeHeuristic;
-	public boolean dataOnlyInExperimental;
 	public boolean polymerMode;
 		
 	public double ngramThreshold;

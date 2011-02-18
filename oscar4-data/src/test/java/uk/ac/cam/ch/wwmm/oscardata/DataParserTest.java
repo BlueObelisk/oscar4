@@ -18,11 +18,6 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 public class DataParserTest {
 
-	@Before
-	public void setDataOnlyInExperimental() {
-		OscarProperties.setProperty("dataOnlyInExperimental", "no");
-	}
-	
 	@Test
 	public void testHnmr() { 
 		Document doc = TextToSciXML.textToSciXML("H NMR (d6-DMSO, 400 MHz): 9.25" +
@@ -34,7 +29,32 @@ public class DataParserTest {
 		assertEquals(0, doc.query("//spectrum").size());
 		DataParser.dataParse(doc);
 		assertEquals(1, doc.query("//spectrum").size());
+	}
+	
+	@Test
+	public void testHnmrWithDataOnlyInExperimental() {
+		Document doc = TextToSciXML.textToSciXML("H NMR (d6-DMSO, 400 MHz): 9.25" +
+				" (t, J=6.4, 1H), 9.16 (d, J=8.4, 1H), 8.56 (d, J=8.4, 1H), 7.86" +
+				" (dd, J=8.4, 4.1, 1H), 7.41 (dd, J=8.4, 5.7, 2H), 7.16, t," +
+				" J=8.8, 2H), 4.60 (d, 6.3, 2H), 4.00-3.70 (m, 2H), 3.65-3.45 (m, 2H)" +
+				", 2.35-2.10 (m, 3H), 1.7 (m, 1H)");
 		
+		assertEquals(0, doc.query("//spectrum").size());
+		DataParser.dataParse(doc, true);
+		assertEquals(0, doc.query("//spectrum").size());
+	}
+	
+	@Test
+	public void testHnmrWithDataNotOnlyInExperimental() {
+		Document doc = TextToSciXML.textToSciXML("H NMR (d6-DMSO, 400 MHz): 9.25" +
+				" (t, J=6.4, 1H), 9.16 (d, J=8.4, 1H), 8.56 (d, J=8.4, 1H), 7.86" +
+				" (dd, J=8.4, 4.1, 1H), 7.41 (dd, J=8.4, 5.7, 2H), 7.16, t," +
+				" J=8.8, 2H), 4.60 (d, 6.3, 2H), 4.00-3.70 (m, 2H), 3.65-3.45 (m, 2H)" +
+				", 2.35-2.10 (m, 3H), 1.7 (m, 1H)");
+		
+		assertEquals(0, doc.query("//spectrum").size());
+		DataParser.dataParse(doc, false);
+		assertEquals(1, doc.query("//spectrum").size());
 	}
 	
 	@Test

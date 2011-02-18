@@ -9,7 +9,6 @@ ontProb=0.2
 cprProb=0.2
 custProb=0.2
 model=chempapers
-dataOnlyInExperimental=yes
 polymerMode=no
 useDSO=no
 xmlStrings=none

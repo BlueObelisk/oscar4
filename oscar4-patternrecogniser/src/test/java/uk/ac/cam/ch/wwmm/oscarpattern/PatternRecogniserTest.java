@@ -6,14 +6,15 @@ import java.util.List;
 
 import nu.xom.Document;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -24,8 +25,20 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  */
 public class PatternRecogniserTest {
 
+	private static PatternRecogniser recogniser;
+
+	@BeforeClass
+	public static void setUp() {
+		recogniser = new PatternRecogniser();
+	}
+	
+	@AfterClass
+	public static void cleanUp() {
+		recogniser = null;
+	}
+	
 	@Test public void testConstructor() {
-		Assert.assertNotNull(new PatternRecogniser());
+		Assert.assertNotNull(recogniser);
 	}
 
 	@Test
@@ -40,8 +53,7 @@ public class PatternRecogniserTest {
 			Tokeniser.getInstance(), doc);
 		assertTrue(procDoc != null);
 		List<NamedEntity> neList;
-		ChemicalEntityRecogniser cei = new PatternRecogniser();
-		neList = cei.findNamedEntities(procDoc.getTokenSequences());
+		neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neList != null);
 		assertTrue(neList.size() > 0);
 	}
@@ -51,7 +63,7 @@ public class PatternRecogniserTest {
 		String text = "Hello acetone world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
-		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
+		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
 		assertEquals("acetone", neList.get(0).getSurface());
 	}
@@ -61,7 +73,7 @@ public class PatternRecogniserTest {
 		String text = "Hello ethyl acetate world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
-		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
+		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
 		assertEquals("ethyl acetate", neList.get(0).getSurface());
 	}
@@ -71,7 +83,7 @@ public class PatternRecogniserTest {
 		String text = "Hello 1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
-		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
+		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
 		assertEquals("1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene", neList.get(0).getSurface());
 	}
@@ -81,7 +93,7 @@ public class PatternRecogniserTest {
 		String text = "Hello 1,2-difluoro-1-chloro-2-methyl-ethyl acetate world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
-		List<NamedEntity> neList = new PatternRecogniser().findNamedEntities(procDoc.getTokenSequences());
+		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
 		assertEquals("1,2-difluoro-1-chloro-2-methyl-ethyl acetate", neList.get(0).getSurface());
 	}

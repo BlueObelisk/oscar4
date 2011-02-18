@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import nu.xom.Document;
-import nu.xom.Element;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -32,7 +29,7 @@ public class Oscar {
 
     private ChemNameDictRegistry dictionaryRegistry = ChemNameDictRegistry.getInstance();
 
-    private ITokeniser tokenizer;
+    private ITokeniser tokeniser;
     private ChemicalEntityRecogniser recogniser;
 
     /**
@@ -41,7 +38,7 @@ public class Oscar {
      * silently fail though. The defaults are: {@value}.
      */
     public Oscar() {
-        tokenizer = newDefaultTokeniser();
+        tokeniser = newDefaultTokeniser();
         recogniser = newDefaultRecogniser();
     }
 
@@ -56,31 +53,31 @@ public class Oscar {
     }
 
     /**
-     * Returns the tokenizer used in this text analyzer for splitting
+     * Returns the tokeniser used in this text analyzer for splitting
      * sentences up in tokens.
      *
      * @return the active {@link ITokeniser}.
-     * @see    #setTokenizer(ITokeniser)
+     * @see    #setTokeniser(ITokeniser)
      */
-    public ITokeniser getTokenizer() {
-        if (tokenizer == null) {
-            tokenizer = newDefaultTokeniser();
+    public ITokeniser getTokeniser() {
+        if (tokeniser == null) {
+            tokeniser = newDefaultTokeniser();
         }
-        return tokenizer;
+        return tokeniser;
     }
 
     /**
      * Sets the {@link ITokeniser} implementation to be used for sentence
      * splitting.
      *
-     * @param tokenizer and {@link ITokeniser} implementation.
-     * @see   #getTokenizer()
+     * @param tokeniser and {@link ITokeniser} implementation.
+     * @see   #getTokeniser()
      */
-    public void setTokenizer(ITokeniser tokenizer) {
-        if (tokenizer == null) {
-            throw new IllegalArgumentException("Null tokenizer");
+    public void setTokeniser(ITokeniser tokeniser) {
+        if (tokeniser == null) {
+            throw new IllegalArgumentException("Null tokeniser");
         }
-        this.tokenizer = tokenizer;
+        this.tokeniser = tokeniser;
     }
 
     private ITokeniser newDefaultTokeniser() {
@@ -88,7 +85,7 @@ public class Oscar {
     }
 
     /**
-     * Returns the chemical entity recognizer used by this Oscar to
+     * Returns the chemical entity recogniser used by this Oscar to
      * convert named entities into chemical structures.
      *
      * @return an {@link ChemicalEntityRecogniser}.
@@ -121,27 +118,27 @@ public class Oscar {
     /**
      * Wrapper methods that runs the full Oscar workflow, except for resolving detected
      * entities to their chemical structures. It calls the methods
-     * {@link #normalize(String)}, {@link #tokenize(String)}, and
-     * {@link #recognizeNamedEntities(List)}.
+     * {@link #normalize(String)}, {@link #tokenise(String)}, and
+     * {@link #recogniseNamedEntities(List)}.
      *
      * @param input String with input.
-     * @return      the recognized chemical entities.
+     * @return      the recognised chemical entities.
      */
     public List<NamedEntity> getNamedEntities(String input) {
         input = normalize(input);
-        List<ITokenSequence> tokens = tokenize(input);
-        List<NamedEntity> entities = recognizeNamedEntities(tokens);
+        List<ITokenSequence> tokens = tokenise(input);
+        List<NamedEntity> entities = recogniseNamedEntities(tokens);
         return entities;
     }
 
     /**
      * Wrapper methods that runs the full Oscar workflow, including resolving detected
      * entities to their chemical structures. It calls the methods
-     * {@link #normalize(String)}, {@link #tokenize(String)},
-     * {@link #recognizeNamedEntities(List)}, and {@link #resolveNamedEntities(List)}.
+     * {@link #normalize(String)}, {@link #tokenise(String)},
+     * {@link #recogniseNamedEntities(List)}, and {@link #resolveNamedEntities(List)}.
      *
      * @param input String with input.
-     * @return the recognized chemical entities as a Map of NamedEntities to InChI strings
+     * @return the recognised chemical entities as a Map of NamedEntities to InChI strings
      */
     public Map<NamedEntity,String> getResolvedEntities(String input) {
         List<NamedEntity> entities = getNamedEntities(input);
@@ -188,9 +185,9 @@ public class Oscar {
      * @param  input a text to analyze.
      * @return       a {@link List} of {@link ITokenSequence}s.
      */
-    public List<ITokenSequence> tokenize(String input) {
+    public List<ITokenSequence> tokenise(String input) {
         IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance()
-                .makeTokenisedDocument(tokenizer, input);
+                .makeTokenisedDocument(tokeniser, input);
         return procDoc.getTokenSequences();
     }
 
@@ -217,7 +214,7 @@ public class Oscar {
      * @param  entities a {@link List} of {@link ITokenSequence}s.
      * @return          a {@link List} of {@link NamedEntity}s.
      */
-    public List<NamedEntity> recognizeNamedEntities(List<ITokenSequence> tokens) {
+    public List<NamedEntity> recogniseNamedEntities(List<ITokenSequence> tokens) {
         return recogniser.findNamedEntities(tokens);
     }
 

@@ -19,6 +19,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.PrefixFinder;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier;
 import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
@@ -106,7 +107,7 @@ public class DFANEFinder extends DFAFinder {
 
     @Override
     protected void loadTerms() {
-        TermMaps termMaps = TermMaps.getInstance();
+    	TermMaps termMaps = TermMaps.getInstance();
         logger.debug("Adding terms to DFA finder...");
         for(String s : termMaps.getNeTerms().keySet()){
             addNamedEntity(s, termMaps.getNeTerms().get(s), true);
@@ -134,25 +135,27 @@ public class DFANEFinder extends DFAFinder {
     /**Finds the NEs from a token sequence.
      *
      * @param t The token sequence
+     * @param nGram the ngram model to be used for chemical word recognition
+     * @param ngramThreshold the ngram threshold to be used for chemical word recognition
      * @return The NEs.
      */
-    public List<NamedEntity> findNamedEntities(ITokenSequence t, NGram nGram) {
+    public List<NamedEntity> findNamedEntities(ITokenSequence t, NGram nGram, double ngramThreshold) {
         NECollector nec = new NECollector();
-        List<RepresentationList> repsList = generateTokenRepresentations(t, nGram);
+        List<RepresentationList> repsList = generateTokenRepresentations(t, nGram, ngramThreshold);
         findItems(t, repsList, nec);
         return nec.getNes();
     }
 
-    private List<RepresentationList> generateTokenRepresentations(ITokenSequence t, NGram nGram) {
+    List<RepresentationList> generateTokenRepresentations(ITokenSequence t, NGram nGram, double ngramThreshold) {
         List<RepresentationList> repsList = new ArrayList<RepresentationList>();
         for(IToken token : t.getTokens()) {
-            repsList.add(generateTokenRepresentations(token, nGram));
+            repsList.add(generateTokenRepresentations(token, nGram, ngramThreshold));
         }
         return repsList;
     }
 
     //TODO this method is huge and needs refactoring
-    protected RepresentationList generateTokenRepresentations(IToken token, NGram nGram) {
+    protected RepresentationList generateTokenRepresentations(IToken token, NGram nGram, double ngramThreshold) {
         RepresentationList tokenRepresentations = new RepresentationList();
         // Avoid complications with compound refs
         //SciXML dependent - removed 24/11/10 by dmj30
@@ -238,13 +241,13 @@ public class DFANEFinder extends DFAFinder {
                 score = nGram.testWord(value);
             }
 
-            if (score > OscarProperties.getData().ngramThreshold) {
-                tokenRepresentations.addRepresentation("$" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName());
+            if (score > ngramThreshold) {
+                tokenRepresentations.addRepresentation("$" + TokenSuffixClassifier.classifyBySuffix(value).getName());
                 if (value.startsWith("-")) {
-                    tokenRepresentations.addRepresentation("$-" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName());
+                    tokenRepresentations.addRepresentation("$-" + TokenSuffixClassifier.classifyBySuffix(value).getName());
                 }
                 if (value.endsWith("-")) {
-                    tokenRepresentations.addRepresentation("$" + uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(value).getName() + "-");
+                    tokenRepresentations.addRepresentation("$" + TokenSuffixClassifier.classifyBySuffix(value).getName() + "-");
                 }
 
                 String withoutLastBracket = value;

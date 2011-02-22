@@ -20,7 +20,6 @@ public class OscarPropertiesData {
 	public boolean useWordShapeHeuristic;
 	public boolean polymerMode;
 		
-	public double ngramThreshold;
 	public double neThreshold;
 
 	public String model;

@@ -145,4 +145,12 @@ public class PatternRecogniserTest {
 		assertEquals(0.5, nes.get(2).getPseudoConfidence(), 0.00001);
 		assertEquals(0.6, nes.get(3).getPseudoConfidence(), 0.00001);
 	}
+	
+	@Test
+	public void testSetNgramThreshold() {
+		assertEquals(-2, recogniserForCustomisation.getNgramThreshold(), 0.00001);
+		recogniserForCustomisation.setNgramThreshold(42);
+		assertEquals(42, recogniserForCustomisation.getNgramThreshold(), 0.00001);
+	}
+
 }

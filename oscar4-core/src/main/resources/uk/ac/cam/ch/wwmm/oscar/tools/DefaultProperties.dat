@@ -1,6 +1,5 @@
 useFormulaRegex=yes
 useWordShapeHeuristic=no
-ngramThreshold=-2.0
 splitOnEnDash=yes
 deprioritiseONT=no
 useONT=yes

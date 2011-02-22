@@ -32,6 +32,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	private double ontPseudoConfidence = 0.2;
 	private double custPseudoConfidence = 0.2;
 	private double cprPseudoConfidence = 0.2;
+	private double ngramThreshold = -2;
 	
 	/**
 	 * Create a PatternRecogniser that employs an NGram model customised
@@ -66,7 +67,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 	Map<Integer,Token> tokensByEnd = new HashMap<Integer,Token>();
 
 	 	for(ITokenSequence t : tokenSequences) {
-			neList.addAll(DFANEFinder.getInstance().findNamedEntities(t, nGram));
+			neList.addAll(DFANEFinder.getInstance().findNamedEntities(t, nGram, ngramThreshold));
 		}
 
 		// Make sure all NEs at a position share their ontIds
@@ -291,6 +292,24 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 */
 	public void setCprPseudoConfidence(double cprPseudoConfidence) {
 		this.cprPseudoConfidence = cprPseudoConfidence;
+	}
+
+	/**
+	 * Sets the ngram threshold for the recogniser. The ngram threshold is the value
+	 * of ln(p(chemical|word)) - ln(p(nonchemical|word)) which must be exceeded for
+	 * the token to be considered chemical.
+	 * 
+	 * @param ngramThreshold
+	 */
+	public void setNgramThreshold(double ngramThreshold) {
+		this.ngramThreshold = ngramThreshold;
+	}
+
+	/**
+	 * @return the current ngram threshold for the recogniser
+	 */
+	public double getNgramThreshold() {
+		return ngramThreshold;
 	}
 
 	

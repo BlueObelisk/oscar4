@@ -61,7 +61,6 @@ public class OscarProperties {
 		props.setProperty("useWordShapeHeuristic", oscarProperties.useWordShapeHeuristic ? "yes" : "no");
 		props.setProperty("polymerMode", oscarProperties.polymerMode ? "yes" : "no");
 		
-		props.setProperty("ngramThreshold", "" + oscarProperties.ngramThreshold);
 		props.setProperty("neThreshold", "" + oscarProperties.neThreshold);
 
 		props.setProperty("model", oscarProperties.model);
@@ -78,7 +77,6 @@ public class OscarProperties {
 		oscarProperties.useWordShapeHeuristic = "yes".equals(myProperties.getProperty("useWordShapeHeuristic"));
 		oscarProperties.polymerMode = "yes".equals(myProperties.getProperty("polymerMode"));
 		
-		oscarProperties.ngramThreshold = Double.parseDouble(myProperties.getProperty("ngramThreshold"));
 		oscarProperties.neThreshold = Double.parseDouble(myProperties.getProperty("neThreshold"));
 
 		oscarProperties.model = getPropertyOrNone(myProperties, "model");

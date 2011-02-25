@@ -63,7 +63,6 @@ public class OscarProperties {
 		
 		props.setProperty("neThreshold", "" + oscarProperties.neThreshold);
 
-		props.setProperty("model", oscarProperties.model);
 		props.setProperty("xmlStrings", oscarProperties.xmlStrings);
 		return props;
 	}
@@ -79,7 +78,6 @@ public class OscarProperties {
 		
 		oscarProperties.neThreshold = Double.parseDouble(myProperties.getProperty("neThreshold"));
 
-		oscarProperties.model = getPropertyOrNone(myProperties, "model");
 		oscarProperties.xmlStrings = getPropertyOrNone(myProperties, "xmlStrings");
 	}
 

@@ -22,7 +22,6 @@ public class OscarPropertiesData {
 		
 	public double neThreshold;
 
-	public String model;
 	public String xmlStrings;
 
 }

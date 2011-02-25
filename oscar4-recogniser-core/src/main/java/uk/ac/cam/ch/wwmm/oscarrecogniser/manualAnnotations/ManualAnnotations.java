@@ -106,8 +106,7 @@ public class ManualAnnotations {
     }
 
     private static ManualAnnotations loadDefaultManualAnnotations() {
-        String modelName = OscarProperties.getData().model;
-        return loadManualAnnotations(modelName);
+        return loadManualAnnotations("chempapers");
     }
 
     /**

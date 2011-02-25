@@ -81,7 +81,7 @@ public class NGramBuilderTest {
 		NGram vanillaNGram2 = NGramBuilder.buildModel();
 		assertFalse(vanillaNGram == vanillaNGram2);
 		
-		ManualAnnotations etd = ManualAnnotations.loadManualAnnotations(OscarProperties.getData().model);
+		ManualAnnotations etd = ManualAnnotations.loadManualAnnotations("chempapers");
 		NGram customisedNGram = NGramBuilder.buildModel(etd);
 		
 		short [] data1 = vanillaNGram.getData();
@@ -97,6 +97,7 @@ public class NGramBuilderTest {
 			assertEquals(data1[i], data2[i]);
 			if (data1[i] != data3[i]) {
 				identicalData3 = false;
+				break;
 			}
 		}
 		assertFalse(identicalData3);

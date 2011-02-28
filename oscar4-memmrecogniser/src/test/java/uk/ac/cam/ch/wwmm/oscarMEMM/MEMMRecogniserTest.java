@@ -80,13 +80,7 @@ public class MEMMRecogniserTest {
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		
 		//the memmRecogniser finds blocked named entities as well as the one we're expecting, so...
-		boolean foundCorrectNE = false;
-		for (NamedEntity namedEntity : neList) {
-			if ("ethyl acetate".equals(namedEntity.getSurface())) {
-				foundCorrectNE = true;
-			}
-		}
-		assertTrue(foundCorrectNE);
+		assertTrue(neListContainsCorrectNe(neList, "ethyl acetate"));
 	}
 	
 	@Test
@@ -95,13 +89,7 @@ public class MEMMRecogniserTest {
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
-		boolean foundCorrectNE = false;
-		for (NamedEntity namedEntity : neList) {
-			if ("1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene".equals(namedEntity.getSurface())) {
-				foundCorrectNE = true;
-			}
-		}
-		assertTrue(foundCorrectNE);
+		assertTrue(neListContainsCorrectNe(neList, "1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene"));
 	}
 	
 	@Test
@@ -110,13 +98,7 @@ public class MEMMRecogniserTest {
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
-		boolean foundCorrectNE = false;
-		for (NamedEntity namedEntity : neList) {
-			if ("1,2-difluoro-1-chloro-2-methyl-ethyl acetate".equals(namedEntity.getSurface())) {
-				foundCorrectNE = true;
-			}
-		}
-		assertTrue(foundCorrectNE);
+		assertTrue(neListContainsCorrectNe(neList, "1,2-difluoro-1-chloro-2-methyl-ethyl acetate"));
 	}
 	
 	
@@ -296,5 +278,25 @@ public class MEMMRecogniserTest {
 		assertEquals(0.4, nes.get(1).getPseudoConfidence(), 0.00001);
 		assertEquals(0.5, nes.get(2).getPseudoConfidence(), 0.00001);
 		assertEquals(0.6, nes.get(3).getPseudoConfidence(), 0.00001);
+	}
+	
+	
+	@Test
+	public void testDeprioritiseOnts() {
+		String text = "Acetone, ethyl acetate and other solvents...";
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument
+				(Tokeniser.getInstance(), text);
+		List <NamedEntity> nes = recogniserForCustomisation.findNamedEntities(procDoc);
+		assertEquals(4, nes.size());
+		for (NamedEntity ne : nes) {
+			assertFalse(ne.getDeprioritiseOnt());
+		}
+		
+		recogniserForCustomisation.setDeprioritiseOnts(true);
+		nes = recogniserForCustomisation.findNamedEntities(procDoc);
+		assertEquals(4, nes.size());
+		for (NamedEntity ne : nes) {
+			assertTrue(ne.getDeprioritiseOnt());
+		}
 	}
 }

@@ -33,6 +33,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	private double custPseudoConfidence = 0.2;
 	private double cprPseudoConfidence = 0.2;
 	private double ngramThreshold = -2;
+	private boolean deprioritiseOnts = false;
 	
 	/**
 	 * Create a PatternRecogniser that employs an NGram model customised
@@ -247,7 +248,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 				pseudoConf = custPseudoConfidence;
 			}
 			ne.setPseudoConfidence(pseudoConf);
-			ne.setDeprioritiseOnt(OscarProperties.getData().deprioritiseONT);
+			ne.setDeprioritiseOnt(deprioritiseOnts);
 		}
 	}//setPseudoConfidences
 
@@ -310,6 +311,10 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 */
 	public double getNgramThreshold() {
 		return ngramThreshold;
+	}
+
+	public void setDeprioritiseOnts(boolean deprioritiseOnts) {
+		this.deprioritiseOnts  = deprioritiseOnts;
 	}
 
 	

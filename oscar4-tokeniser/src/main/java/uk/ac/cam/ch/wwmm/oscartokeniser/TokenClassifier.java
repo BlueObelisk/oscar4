@@ -187,7 +187,8 @@ public class TokenClassifier {
      * @return The named entity type found, or an empty set.
      */
     public Set<NamedEntityType> classifyToken(String token) {
-        Set<NamedEntityType> results = Collections.emptySet();
+        //TODO this isn't terribly legible - why are we doing it like this?
+    	Set<NamedEntityType> results = Collections.emptySet();
         for (TokenClass tokenLevelRegex : tokenLevelRegexs.values()) {
             if (tokenLevelRegex.isMatch(token)) {
                 if (results.isEmpty()) {

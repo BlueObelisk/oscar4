@@ -367,6 +367,10 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 		this.deprioritiseOnt = deprioritiseOnt;
 	}
 	
+	public boolean getDeprioritiseOnt() {
+		return deprioritiseOnt;
+	}
+	
 	/**Gets whether this entity is known to be "blocked" by overlapping with
 	 * a conflicting higher-confidence entity.
 	 * 

@@ -33,6 +33,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 	private double ontPseudoConfidence = 0.2;
 	private double custPseudoConfidence = 0.2;
 	private double cprPseudoConfidence = 0.2;
+	private boolean deprioritiseOnts = false;
 
     public MEMMRecogniser() {
         this.memmThreshold = OscarProperties.getData().neThreshold;
@@ -197,7 +198,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
                 pseudoConf = custPseudoConfidence;
             }
             ne.setPseudoConfidence(pseudoConf);
-            ne.setDeprioritiseOnt(OscarProperties.getData().deprioritiseONT);
+            ne.setDeprioritiseOnt(deprioritiseOnts);
         }
     }
 
@@ -242,6 +243,11 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 	 */
 	public void setCprPseudoConfidence(double cprPseudoConfidence) {
 		this.cprPseudoConfidence = cprPseudoConfidence;
+	}
+
+
+	public void setDeprioritiseOnts(boolean deprioritiseOnts) {
+		this.deprioritiseOnts  = deprioritiseOnts;
 	}
     
 }

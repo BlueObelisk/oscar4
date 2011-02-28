@@ -56,7 +56,6 @@ public class OscarProperties {
 		props.setProperty("splitOnEnDash", oscarProperties.splitOnEnDash ? "yes" : "no");
 		props.setProperty("useONT", oscarProperties.useONT ? "yes" : "no");
 		props.setProperty("useDSO", oscarProperties.useDSO ? "yes" : "no");
-		props.setProperty("deprioritiseONT", oscarProperties.deprioritiseONT ? "yes" : "no");
 		props.setProperty("useFormulaRegex", oscarProperties.useFormulaRegex ? "yes" : "no");
 		props.setProperty("useWordShapeHeuristic", oscarProperties.useWordShapeHeuristic ? "yes" : "no");
 		props.setProperty("polymerMode", oscarProperties.polymerMode ? "yes" : "no");
@@ -71,7 +70,6 @@ public class OscarProperties {
 		oscarProperties.splitOnEnDash = "yes".equals(myProperties.getProperty("splitOnEnDash"));
 		oscarProperties.useONT = "yes".equals(myProperties.getProperty("useONT"));
 		oscarProperties.useDSO = "yes".equals(myProperties.getProperty("useDSO"));
-		oscarProperties.deprioritiseONT = "yes".equals(myProperties.getProperty("deprioritiseONT"));
 		oscarProperties.useFormulaRegex = "yes".equals(myProperties.getProperty("useFormulaRegex"));
 		oscarProperties.useWordShapeHeuristic = "yes".equals(myProperties.getProperty("useWordShapeHeuristic"));
 		oscarProperties.polymerMode = "yes".equals(myProperties.getProperty("polymerMode"));

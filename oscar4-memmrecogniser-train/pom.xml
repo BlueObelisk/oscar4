@@ -30,6 +30,12 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
+	<dependency>
+		<groupId>ch.unibe.jexample</groupId>
+		<artifactId>jexample</artifactId>
+		<version>4.4-378</version>
+		<scope>test</scope>
+	</dependency>
     <dependency>
     	<groupId>xom</groupId>
     	<artifactId>xom</artifactId>

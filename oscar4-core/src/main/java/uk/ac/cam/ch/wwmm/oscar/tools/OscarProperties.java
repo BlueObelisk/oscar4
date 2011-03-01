@@ -60,8 +60,6 @@ public class OscarProperties {
 		props.setProperty("useWordShapeHeuristic", oscarProperties.useWordShapeHeuristic ? "yes" : "no");
 		props.setProperty("polymerMode", oscarProperties.polymerMode ? "yes" : "no");
 		
-		props.setProperty("neThreshold", "" + oscarProperties.neThreshold);
-
 		props.setProperty("xmlStrings", oscarProperties.xmlStrings);
 		return props;
 	}
@@ -74,8 +72,6 @@ public class OscarProperties {
 		oscarProperties.useWordShapeHeuristic = "yes".equals(myProperties.getProperty("useWordShapeHeuristic"));
 		oscarProperties.polymerMode = "yes".equals(myProperties.getProperty("polymerMode"));
 		
-		oscarProperties.neThreshold = Double.parseDouble(myProperties.getProperty("neThreshold"));
-
 		oscarProperties.xmlStrings = getPropertyOrNone(myProperties, "xmlStrings");
 	}
 

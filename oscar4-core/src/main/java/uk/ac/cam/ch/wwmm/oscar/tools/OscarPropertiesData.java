@@ -19,8 +19,6 @@ public class OscarPropertiesData {
 	public boolean useWordShapeHeuristic;
 	public boolean polymerMode;
 		
-	public double neThreshold;
-
 	public String xmlStrings;
 
 }

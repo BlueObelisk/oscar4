@@ -3,7 +3,6 @@ useWordShapeHeuristic=no
 splitOnEnDash=yes
 deprioritiseONT=no
 useONT=yes
-neThreshold=0.2
 polymerMode=no
 useDSO=no
 xmlStrings=none

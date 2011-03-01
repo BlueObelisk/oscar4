@@ -28,17 +28,18 @@ public final class MEMM {
 
     private MEMMModel model;
 
+    //TODO something about these manual code switches
     private boolean useUber = false;
     private boolean removeBlocked = false;
     private boolean filtering=true;
 
-    private static double confidenceThreshold;
+    private double confidenceThreshold;
 
     private static final Logger LOG = LoggerFactory.getLogger(MEMM.class);
 
-    public MEMM(MEMMModel model) {
+    public MEMM(MEMMModel model, double confidenceThreshold) {
     	this.model = model;
-        confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;
+        this.confidenceThreshold = confidenceThreshold;
     }
 
     Set<BioType> getTagSet() {
@@ -125,9 +126,12 @@ public final class MEMM {
      * @param entities The entities to rescore.
      */
     public void rescore(List<NamedEntity> entities) {
-    	if (model.getRescorer()!=null)
-        model.getRescorer().rescore(entities);
-    	else LOG.info("Model does not contain a rescorer");
+    	if (model.getRescorer() != null) {
+    		model.getRescorer().rescore(entities);	
+    	} 
+    	else {
+    		LOG.info("Model does not contain a rescorer");
+    	}
     }
 
     public MEMMModel getModel() {

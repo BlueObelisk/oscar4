@@ -2,7 +2,6 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -18,8 +17,12 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 import nu.xom.ParsingException;
-import nu.xom.ValidityException;
-import opennlp.maxent.*;
+import opennlp.maxent.DataIndexer;
+import opennlp.maxent.Event;
+import opennlp.maxent.EventCollectorAsStream;
+import opennlp.maxent.GIS;
+import opennlp.maxent.MaxentModel;
+import opennlp.maxent.TwoPassDataIndexer;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -30,7 +33,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
@@ -70,19 +72,16 @@ public final class MEMMTrainer {
 	private int featureCutOff;
 
 	private boolean useUber = false;
-	private boolean removeBlocked = false;
 	private boolean retrain=true;
 	private boolean splitTrain=true;
 	private boolean featureSel=true;
 	private boolean simpleRescore=true;
-	private boolean filtering=true;
 	private boolean nameTypes=false;
 		
 	private Map<BioType,Map<String,Double>> featureCVScores;
 	
 	private Map<BioType,Set<String>> perniciousFeatures;
 	
-	private static double confidenceThreshold;
 
 	public MEMMTrainer() {
 		model = new MutableMEMMModel();
@@ -91,7 +90,6 @@ public final class MEMMTrainer {
 		
 		trainingCycles = 100;
 		featureCutOff = 1;
-		confidenceThreshold = OscarProperties.getData().neThreshold / 5.0;
 	}
 
 	private void train(FeatureList features, BioType thisTag, BioType prevTag) {
@@ -134,6 +132,7 @@ public final class MEMMTrainer {
 		}
 	}
 	
+	//all the trainOn methods eventually end up here...
 	public void trainOnStream(InputStream stream) throws DataFormatException, IOException {
 		long time = System.currentTimeMillis();
 		Document doc;
@@ -152,7 +151,7 @@ public final class MEMMTrainer {
 		}
 
 		
-		
+		//FIXME probably a mistake - this method is called per file by trainOnSbFiles
 		ExtractManualAnnotations extractManualAnnotations = new ExtractManualAnnotations(doc);
 		model.setExtractedTrainingData(
 			new ManualAnnotations(extractManualAnnotations.toXML())
@@ -404,33 +403,6 @@ public final class MEMMTrainer {
 		return results;
 	}
 	
-	/**Finds the named entities in a token sequence.
-	 * 
-	 * @param tokSeq The token sequence.
-	 * @return Named entities, with confidences.
-	 */
-	public List<NamedEntity> findNEs(ITokenSequence tokSeq) {
-		List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram());
-		List<IToken> tokens = tokSeq.getTokens();
-		if(tokens.size() == 0) return new ArrayList<NamedEntity>();
-
-		List<Map<BioType,Map<BioType,Double>>> classifierResults = new ArrayList<Map<BioType,Map<BioType,Double>>>();	
-		for (int i = 0; i < tokens.size(); i++) {
-			classifierResults.add(calcResults(featureLists.get(i)));
-		}
-		
-		EntityTokeniser lattice = new EntityTokeniser(
-			model, tokSeq, classifierResults
-		);
-		List<NamedEntity> neConfidences = lattice.getEntities(confidenceThreshold);
-		PostProcessor pp = new PostProcessor(tokSeq, neConfidences, new ManualAnnotations());
-		if(filtering) pp.filterEntities();
-		pp.getBlocked();
-		if(removeBlocked) pp.removeBlocked();
-		neConfidences = pp.getEntities();
-		
-		return neConfidences;
-	}
 	
 	private void cvFeatures(File file) throws IOException, DataFormatException {
 		long time = System.currentTimeMillis();

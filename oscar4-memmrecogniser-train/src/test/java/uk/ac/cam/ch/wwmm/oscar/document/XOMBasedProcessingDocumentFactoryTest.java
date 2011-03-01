@@ -58,6 +58,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		assertEquals("dog", tokens.get(9).getSurface());
 	}
 	
+
 	@Test
 	public void testMergeNeTokens() {
 		String source = "foo ethyl acetate bar";
@@ -82,6 +83,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		assertEquals("foo", tokens.get(0).getSurface());
 		assertEquals("ethyl acetate", tokens.get(1).getSurface());
 		assertEquals("bar", tokens.get(2).getSurface());
+		
 	}
 	
 	@Test
@@ -191,6 +193,64 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		assertEquals("the", tokSeq.getTokens().get(7).getSurface());
 		assertEquals("chlorinated", tokSeq.getTokens().get(8).getSurface());
 		assertEquals("dog", tokSeq.getTokens().get(9).getSurface());
+	}
+	
+	@Test
+	public void testSettingBioTagsTokenSequences() throws Exception {
+		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/learningSpecificTokenisation.xml");
+		Document sourceDoc = new Builder().build(in);
+		Tokeniser tokeniser = Tokeniser.getInstance();
+		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeDocument(sourceDoc);
+		Element e = (Element) procDoc.getDoc().getRootElement();
+		Element para = (Element) procDoc.getDoc().query("//P").get(0); 
+		String text = para.getValue();
+		int offset = Integer.parseInt(para.getAttributeValue("xtspanstart"));
+		
+		ITokenSequence tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, true, null, procDoc, e, text, offset);
+		assertEquals(10, tokSeq.getTokens().size());
+		assertEquals("the", tokSeq.getTokens().get(0).getSurface());
+		assertEquals("quick", tokSeq.getTokens().get(1).getSurface());
+		assertEquals("methyl", tokSeq.getTokens().get(2).getSurface());
+		assertEquals("brown", tokSeq.getTokens().get(3).getSurface());
+		assertEquals("ethyl acetate", tokSeq.getTokens().get(4).getSurface());
+		assertEquals("jumps", tokSeq.getTokens().get(5).getSurface());
+		assertEquals("over", tokSeq.getTokens().get(6).getSurface());
+		assertEquals("the", tokSeq.getTokens().get(7).getSurface());
+		assertEquals("chlorinated", tokSeq.getTokens().get(8).getSurface());
+		assertEquals("dog", tokSeq.getTokens().get(9).getSurface());
+			
+	
+		assertEquals(NamedEntityType.COMPOUND, tokSeq.getTokens().get(2).getBioTag().getType());
+		assertEquals(NamedEntityType.COMPOUND, tokSeq.getTokens().get(4).getBioTag().getType());
+		assertEquals(NamedEntityType.REACTION, tokSeq.getTokens().get(8).getBioTag().getType());
+	}
+	
+	@Test
+	public void testSettingBioTagsXOMDoc() throws Exception {
+		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/learningSpecificTokenisation.xml");
+		Document sourceDoc = new Builder().build(in);
+		Tokeniser tokeniser = Tokeniser.getInstance();
+
+		IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, true, true, false);
+		ITokenSequence tokSeq = procDoc.getTokenSequences().get(1);
+
+		
+		assertEquals(10, tokSeq.getTokens().size());
+		assertEquals("the", tokSeq.getTokens().get(0).getSurface());
+		assertEquals("quick", tokSeq.getTokens().get(1).getSurface());
+		assertEquals("methyl", tokSeq.getTokens().get(2).getSurface());
+		assertEquals("brown", tokSeq.getTokens().get(3).getSurface());
+		assertEquals("ethyl acetate", tokSeq.getTokens().get(4).getSurface());
+		assertEquals("jumps", tokSeq.getTokens().get(5).getSurface());
+		assertEquals("over", tokSeq.getTokens().get(6).getSurface());
+		assertEquals("the", tokSeq.getTokens().get(7).getSurface());
+		assertEquals("chlorinated", tokSeq.getTokens().get(8).getSurface());
+		assertEquals("dog", tokSeq.getTokens().get(9).getSurface());
+			
+	
+		assertEquals(NamedEntityType.COMPOUND, tokSeq.getTokens().get(2).getBioTag().getType());
+		assertEquals(NamedEntityType.COMPOUND, tokSeq.getTokens().get(4).getBioTag().getType());
+		assertEquals(NamedEntityType.REACTION, tokSeq.getTokens().get(8).getBioTag().getType());
 	}
 	
 	

@@ -179,7 +179,7 @@ public class DFANEFinder extends DFAFinder {
                 tokenRepresentations.addRepresentation(REP_DOTS);
             }
         }
-        for (NamedEntityType namedEntityType : TokenClassifier.getInstance().classifyToken(value)) {
+        for (NamedEntityType namedEntityType : TokenClassifier.getDefaultInstance().classifyToken(value)) {
             if (!NamedEntityType.PROPERNOUN.equals(namedEntityType)
                     || !(value.matches("[A-Z][a-z]+") && TermSets.getDefaultInstance().getUsrDictWords().contains(value.toLowerCase()) && !TermSets.getDefaultInstance().getUsrDictWords().contains(value))) {
                 tokenRepresentations.addRepresentation("$"+ namedEntityType.getName());
@@ -318,7 +318,7 @@ public class DFANEFinder extends DFAFinder {
     }
 
     private boolean isChemicalFormula(String lastGroup) {
-        return TokenClassifier.getInstance().isTokenLevelRegexMatch(lastGroup, "formulaRegex");
+        return TokenClassifier.getDefaultInstance().isTokenLevelRegexMatch(lastGroup, "formulaRegex");
     }
 
     private boolean hasCapitalLetter(String value) {

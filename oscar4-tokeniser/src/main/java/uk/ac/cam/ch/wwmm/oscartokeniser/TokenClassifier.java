@@ -6,7 +6,6 @@
 
 package uk.ac.cam.ch.wwmm.oscartokeniser;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,65 +23,62 @@ import nu.xom.Node;
 import nu.xom.Nodes;
 import nu.xom.ParsingException;
 import nu.xom.Text;
-import nu.xom.ValidityException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 
 /** A regex-based parser, finds chemical formulae etcetera.
  *
  * @author  caw47, annexed by ptc24
+ * @author dmj30
  */
 public class TokenClassifier {
 
     private static final String REGEX_FILENAME = "tokenLevelRegularExpressions.xml";
 	private static final Logger LOG = LoggerFactory.getLogger(TokenClassifier.class);
-
     private static ResourceGetter rg = new ResourceGetter(TokenClassifier.class.getClassLoader(),"/uk/ac/cam/ch/wwmm/oscartokeniser/");
+    private static TokenClassifier defaultInstance;
 
-    // Singleton instance
-    private static TokenClassifier defaultInstance = null;
+    private final Map<String,TokenClass> tokenLevelRegexs;
 
-    private Map<String,TokenClass> tokenLevelRegexs;
 
-    private Map<String,String> nodeDict;
-
-    private Document tokenLevelRegexDoc;
-
-    /**
-     * Private constructor for singleton pattern
-     */
-    private TokenClassifier() {
-    	Document sourceDoc;
-		try {
-			sourceDoc = rg.getXMLDocument(REGEX_FILENAME);
-		} catch (ParsingException e) {
-			throw new OscarInitialisationException("failed to load TokenClassifier", e);
-		} catch (IOException e) {
-			throw new OscarInitialisationException("failed to load TokenClassifier", e);
-		} 
-    	readXML(sourceDoc);
+    public TokenClassifier(Map <String, TokenClass> tokenLevelRegexes) {
+    	Map <String, TokenClass> copy = new HashMap<String, TokenClassifier.TokenClass>(tokenLevelRegexes);
+    	this.tokenLevelRegexs = Collections.unmodifiableMap(copy);
     }
 
     @Deprecated
     //TODO this isn't called - do we need it?
     public static void reinitialise() {
         defaultInstance = null;
-        getInstance();
+        getDefaultInstance();
     }
 
     /**
-     * Get an instance of the singleton.
+     * Get the default TokenClassifier
      */
-    public static TokenClassifier getInstance()  {
+    public static synchronized TokenClassifier getDefaultInstance()  {
         if (defaultInstance == null) {
-            defaultInstance = new TokenClassifier();
+        	Document sourceDoc;
+    		try {
+    			sourceDoc = rg.getXMLDocument(REGEX_FILENAME);
+    		} catch (ParsingException e) {
+    			throw new OscarInitialisationException("failed to load TokenClassifier", e);
+    		} catch (IOException e) {
+    			throw new OscarInitialisationException("failed to load TokenClassifier", e);
+    		} 
+            Map<String, TokenClass> tokenLevelRegexes;
+			try {
+				tokenLevelRegexes = readXML(sourceDoc);
+			} catch (DataFormatException e) {
+				throw new OscarInitialisationException("failed to load TokenClassifier", e);
+			} 
+    		defaultInstance = new TokenClassifier(tokenLevelRegexes);
         }
         return defaultInstance;
     }
@@ -91,50 +87,36 @@ public class TokenClassifier {
     /**
      * Read in XML file, construct DOM and build RPNode tree
      * @param document XOM Document containing regular expressions for parsing
+     * @throws DataFormatException 
      */
-    private void readXML(Document document) {
+    public static Map <String, TokenClass> readXML(Document document) throws DataFormatException {
     	LOG.debug("Initialising tlrs... ");
-        tokenLevelRegexDoc = document;
-        nodeDict = new HashMap<String,String>();
+    	Map<String, TokenClass> tokenLevelRegexes = new HashMap<String, TokenClass>();
+        Map<String, String> nodeDict = new HashMap<String,String>();
 
-        tokenLevelRegexs = new LinkedHashMap<String, TokenClass>();
-        Elements tlrElems = tokenLevelRegexDoc.getRootElement().getFirstChildElement("tlrs").getChildElements("tlr");
+        tokenLevelRegexes = new LinkedHashMap<String, TokenClass>();
+        Elements tlrElems = document.getRootElement().getFirstChildElement("tlrs").getChildElements("tlr");
         for (int i = 0; i < tlrElems.size(); i++) {
-            TokenClass tlr = new TokenClass(tlrElems.get(i), this);
-            if(!OscarProperties.getData().useFormulaRegex &&
-                    ("formulaRegex".equals(tlr.getName()) ||
-                            "groupFormulaRegex".equals(tlr.getName()))) continue;
-            if(OscarProperties.getData().useWordShapeHeuristic &&
-                    ("potentialAcronymRegex".equals(tlr.getName()))) continue;
-            if (tokenLevelRegexs.containsKey(tlr.getName())) {
+            
+        	Element elem = tlrElems.get(i);
+        	NamedEntityType type = NamedEntityType.valueOf(elem.getAttributeValue("type"));
+        	String regex = getDefText(elem.getAttributeValue("idref"), nodeDict, document);
+        	String name = elem.getAttributeValue("name");
+        	TokenClass tlr = new TokenClass(type, regex, name);
+        	
+            if (tokenLevelRegexes.containsKey(tlr.getName())) {
             	LOG.warn("Duplicate TokenLevelRegex defined: "+tlr.getName());
             } else {
-                tokenLevelRegexs.put(tlr.getName(), tlr);
+                tokenLevelRegexes.put(tlr.getName(), tlr);
             }
         }
 
-        nodeDict = null;
-
-        System.gc();
         LOG.debug("tlrs initialised");
+        return tokenLevelRegexes;
     }
 
-    // Methods to find and parse nodes
 
-    /** Find a node in doc with specified type and id */
-    Node findNode(String targetType, String targetId) {
-        Nodes nodes = tokenLevelRegexDoc.query("//node");
-        for(int i=0; i<nodes.size(); i++) {
-            String type = ((Element)nodes.get(i)).getAttributeValue("type");
-            String id = ((Element)nodes.get(i)).getAttributeValue("id");
-            if((type.equals(targetType)) & (id.equals(targetId))) {
-                return nodes.get(i);
-            }
-        }
-        return null;
-    }
-
-    String getNodeText(Element node) {
+    private static String getNodeText(Element node, Map<String, String> nodeDict, Document tlrDoc) throws DataFormatException {
         StringBuffer txt = new StringBuffer();
         for (int i = 0; i < node.getChildCount(); i++) {
             Node child = node.getChild(i);
@@ -144,7 +126,7 @@ public class TokenClassifier {
                 Element childElem = (Element)child;
                 if(childElem.getLocalName().equals("insert")) {
                     String tag = childElem.getAttributeValue("idref");
-                    txt.append(getDefText(tag));
+                    txt.append(getDefText(tag, nodeDict, tlrDoc));
                 }
             }
         }
@@ -152,18 +134,21 @@ public class TokenClassifier {
         return txt.toString();
     }
 
-    String getDefText(String idref) {
+    
+    private static String getDefText(String idref, Map<String, String> nodeDict, Document tlrDoc) throws DataFormatException {
         if(nodeDict.containsKey(idref)) {
             return nodeDict.get(idref);
         }
-        Element defElem = null;
-        Nodes defNodes = tokenLevelRegexDoc.query("//def[@id=\"" + idref + "\"]");
+        Element defElem;
+        Nodes defNodes = tlrDoc.query("//def[@id=\"" + idref + "\"]");
         if(defNodes.size() == 1) {
             defElem = (Element)defNodes.get(0);
+        } else {
+        	throw new DataFormatException("too many definitions for " + idref);
         }
         StringBuffer retval = new StringBuffer("");
         if(defElem.getAttributeValue("type").equals("const")) {
-            retval.append(getNodeText(defElem));
+            retval.append(getNodeText(defElem, nodeDict, tlrDoc));
         } else if(defElem.getAttributeValue("type").equals("list")) {
             retval.append("(");
             int i = 0;
@@ -172,7 +157,7 @@ public class TokenClassifier {
                 if(i>0) {
                     retval.append("|");
                 }
-                retval.append(getNodeText(items.get(j)));
+                retval.append(getNodeText(items.get(j), nodeDict, tlrDoc));
                 i++;
             }
             retval.append(")");
@@ -180,14 +165,23 @@ public class TokenClassifier {
         nodeDict.put(idref, retval.toString());
         return retval.toString();
     }
+    
+    
+    Map<String, TokenClass> getTokenLevelRegexes() {
+    	return tokenLevelRegexs;
+    }
 
+    
     /**Sees if the token matches one of the tlrs.
      *
      * @param token
-     * @return The named entity type found, or an empty set.
+     * @return The named entity types found, or an empty set.
      */
     public Set<NamedEntityType> classifyToken(String token) {
-        //TODO this isn't terribly legible - why are we doing it like this?
+        /* 
+         * use of Collections.emptySet() and Collections.singleton() avoids creating
+         * unnecessary construction of HashSets and improves performance
+         */
     	Set<NamedEntityType> results = Collections.emptySet();
         for (TokenClass tokenLevelRegex : tokenLevelRegexs.values()) {
             if (tokenLevelRegex.isMatch(token)) {
@@ -204,22 +198,19 @@ public class TokenClassifier {
         return results;
     }
 
-    // FIXME optimality
-    public boolean isTokenLevelRegexMatch(String token, String tlrName) {
+    /**
+     * Checks if the given text is a match to the specified token-level regex
+     *  
+     */
+    public boolean isTokenLevelRegexMatch(String surface, String tlrName) {
         TokenClass tokenClass = tokenLevelRegexs.get(tlrName);
         if (tokenClass == null) {
-            return false;
+            throw new IllegalArgumentException("unknown token-level regex: " + tlrName);
         }
-        return tokenClass.isMatch(token);
+        return tokenClass.isMatch(surface);
     }
 
     
-    @Deprecated
-    //TODO this isn't called anywhere - do we need it?
-    public int makeHash() {
-        return XOMTools.documentHash(tokenLevelRegexDoc);
-    }
-
     /** A regular expression used to classify individual Tokens.
      *
      * @author ptc24
@@ -228,17 +219,14 @@ public class TokenClassifier {
 
     static class TokenClass {
 
-        private String regex;
-        private NamedEntityType type;
-        private Pattern pattern;
-        private String name;
+        private final NamedEntityType type;
+        private final Pattern pattern;
+        private final String name;
 
-        public TokenClass(Element elem, TokenClassifier tlrHolder) {
-            type = NamedEntityType.valueOf(elem.getAttributeValue("type"));
-            String idRef = elem.getAttributeValue("idref");
-            regex = tlrHolder.getDefText(idRef);
-            name = elem.getAttributeValue("name");
-            pattern = Pattern.compile(regex, Pattern.COMMENTS);
+        public TokenClass (NamedEntityType type, String regex, String name) {
+        	this.type = type;
+        	this.pattern = Pattern.compile(regex, Pattern.COMMENTS);
+        	this.name = name;
         }
 
         public boolean isMatch(String s) {

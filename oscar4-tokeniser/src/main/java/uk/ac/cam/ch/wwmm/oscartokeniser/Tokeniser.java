@@ -427,7 +427,7 @@ public final class Tokeniser implements ITokeniser {
 				&& !token.getSurface().matches(".*[a-z][a-z].*")
 				&& token.getSurface().matches(".*[A-Z].*")) {
 			//FIXME dmj30 I don't see the point of the two String.matches calls above
-			if (TokenClassifier.getInstance().isTokenLevelRegexMatch(token.getSurface(), "bondRegex")) {
+			if (TokenClassifier.getDefaultInstance().isTokenLevelRegexMatch(token.getSurface(), "bondRegex")) {
 				splittableHyphenIndex = -1;
 			}
 		}

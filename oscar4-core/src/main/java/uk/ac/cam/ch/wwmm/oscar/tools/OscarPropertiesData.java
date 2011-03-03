@@ -15,7 +15,6 @@ public class OscarPropertiesData {
 	public boolean splitOnEnDash;
 	public boolean useONT;
 	public boolean useDSO;
-	public boolean useFormulaRegex;
 	public boolean useWordShapeHeuristic;
 	public boolean polymerMode;
 		

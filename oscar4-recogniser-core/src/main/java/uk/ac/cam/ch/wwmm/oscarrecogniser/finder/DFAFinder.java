@@ -125,7 +125,7 @@ public abstract class DFAFinder implements Serializable {
 	
 	protected void addNamedEntity(String namedEntity, NamedEntityType namedEntityType, boolean alwaysAdd) {
 
-		ITokenSequence tokenSequence = Tokeniser.getInstance().tokenise(namedEntity);
+		ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(namedEntity);
 		List<String> tokens = tokenSequence.getTokenStringList();
 
 		if (!alwaysAdd && tokens.size() == 1 && !namedEntity.contains("$")) {

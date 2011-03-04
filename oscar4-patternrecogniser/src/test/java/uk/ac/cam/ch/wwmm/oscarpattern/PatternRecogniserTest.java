@@ -55,7 +55,7 @@ public class PatternRecogniserTest {
 		Document doc = TextToSciXML.textToSciXML(s);
 
 		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-			Tokeniser.getInstance(), doc);
+			Tokeniser.getDefaultInstance(), doc);
 		assertTrue(procDoc != null);
 		List<NamedEntity> neList;
 		neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
@@ -67,7 +67,7 @@ public class PatternRecogniserTest {
 	public void testFindNamedEntitiesFromString() throws Exception {
 		String text = "Hello acetone world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
 		assertEquals("acetone", neList.get(0).getSurface());
@@ -77,7 +77,7 @@ public class PatternRecogniserTest {
 	public void testFindMultipleTokenEntity() throws Exception {
 		String text = "Hello ethyl acetate world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
 		assertEquals("ethyl acetate", neList.get(0).getSurface());
@@ -87,7 +87,7 @@ public class PatternRecogniserTest {
 	public void testFindNonDictionaryEntity() throws Exception {
 		String text = "Hello 1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
 		assertEquals("1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene", neList.get(0).getSurface());
@@ -97,7 +97,7 @@ public class PatternRecogniserTest {
 	public void testFindNonDictionaryMultipleTokenEntity() throws Exception {
 		String text = "Hello 1,2-difluoro-1-chloro-2-methyl-ethyl acetate world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
 		assertEquals("1,2-difluoro-1-chloro-2-methyl-ethyl acetate", neList.get(0).getSurface());
@@ -129,7 +129,7 @@ public class PatternRecogniserTest {
 	public void testSetPseudoConfidences() {
 		List <NamedEntity> nes = new ArrayList<NamedEntity>();
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument
-				(Tokeniser.getInstance(), "foo");
+				(Tokeniser.getDefaultInstance(), "foo");
 		List <IToken> tokens = procDoc.getTokenSequences().get(0).getTokens();
 		nes.add(new NamedEntity(tokens, "", NamedEntityType.COMPOUND));
 		nes.add(new NamedEntity(tokens, "", NamedEntityType.ONTOLOGY));

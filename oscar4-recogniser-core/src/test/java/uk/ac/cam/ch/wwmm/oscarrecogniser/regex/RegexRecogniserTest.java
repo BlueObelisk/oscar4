@@ -42,7 +42,7 @@ public class RegexRecogniserTest {
 	public void testFindNamedEntitiesSimple() {
 		RegexRecogniser recogniser = new RegexRecogniser("NSC-\\d+");
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().
-				makeTokenisedDocument(Tokeniser.getInstance(), "NSC-23432");
+				makeTokenisedDocument(Tokeniser.getDefaultInstance(), "NSC-23432");
 		List <NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 
 		assertEquals(1, neList.size());
@@ -60,7 +60,7 @@ public class RegexRecogniserTest {
 	public void testFindNamedEntitiesInSentence() {
 		RegexRecogniser recogniser = new RegexRecogniser("NSC-\\d+");
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().
-				makeTokenisedDocument(Tokeniser.getInstance(), "foo NSC-23432 bar");
+				makeTokenisedDocument(Tokeniser.getDefaultInstance(), "foo NSC-23432 bar");
 		List <NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
 		assertEquals("NSC-23432", neList.get(0).getSurface());
@@ -70,7 +70,7 @@ public class RegexRecogniserTest {
 	public void testFindNamedEntitiesMultipleEntities() {
 		RegexRecogniser recogniser = new RegexRecogniser("NSC-\\d+");
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().
-				makeTokenisedDocument(Tokeniser.getInstance(), "foo NSC-23432 NSC-123 bar");
+				makeTokenisedDocument(Tokeniser.getDefaultInstance(), "foo NSC-23432 NSC-123 bar");
 		List <NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(2, neList.size());
 		assertEquals("NSC-23432", neList.get(0).getSurface());
@@ -82,12 +82,12 @@ public class RegexRecogniserTest {
 		RegexRecogniser recogniser = new RegexRecogniser("NSC-\\d+");
 		
 		ProcessingDocument procDoc1 = ProcessingDocumentFactory.getInstance().
-				makeTokenisedDocument(Tokeniser.getInstance(), "foo NSC-23432bar");
+				makeTokenisedDocument(Tokeniser.getDefaultInstance(), "foo NSC-23432bar");
 		List <NamedEntity> neList1 = recogniser.findNamedEntities(procDoc1.getTokenSequences());
 		assertEquals(0, neList1.size());
 		
 		ProcessingDocument procDoc2 = ProcessingDocumentFactory.getInstance().
-		makeTokenisedDocument(Tokeniser.getInstance(), "fooNSC-23432 bar");
+		makeTokenisedDocument(Tokeniser.getDefaultInstance(), "fooNSC-23432 bar");
 		List <NamedEntity> neList2 = recogniser.findNamedEntities(procDoc2.getTokenSequences());
 		assertEquals(0, neList2.size());
 	}
@@ -96,7 +96,7 @@ public class RegexRecogniserTest {
 	public void testFindNamedEntitiesAcrossMultipleTokens() {
 		RegexRecogniser recogniser = new RegexRecogniser("NSC\\s\\d+");
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().
-		makeTokenisedDocument(Tokeniser.getInstance(), "foo NSC 23432 bar");
+		makeTokenisedDocument(Tokeniser.getDefaultInstance(), "foo NSC 23432 bar");
 		List <NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertEquals(1, neList.size());
 		assertEquals("NSC 23432", neList.get(0).getSurface());
@@ -107,13 +107,13 @@ public class RegexRecogniserTest {
 	public void testNamedEntityTypes() {
 		RegexRecogniser recogniser = new RegexRecogniser("NSC-\\d+");
 		ProcessingDocument procDoc1 = ProcessingDocumentFactory.getInstance().
-				makeTokenisedDocument(Tokeniser.getInstance(), "NSC-23432");
+				makeTokenisedDocument(Tokeniser.getDefaultInstance(), "NSC-23432");
 		List <NamedEntity> neList1 = recogniser.findNamedEntities(procDoc1.getTokenSequences());
 		assertTrue(NamedEntityType.COMPOUND == neList1.get(0).getType());
 		
 		recogniser.setNamedEntityType(NamedEntityType.REACTION);
 		ProcessingDocument procDoc2 = ProcessingDocumentFactory.getInstance().
-				makeTokenisedDocument(Tokeniser.getInstance(), "NSC-23432");
+				makeTokenisedDocument(Tokeniser.getDefaultInstance(), "NSC-23432");
 		List <NamedEntity> neList2 = recogniser.findNamedEntities(procDoc2.getTokenSequences());
 		assertTrue(NamedEntityType.REACTION == neList2.get(0).getType());
 	}

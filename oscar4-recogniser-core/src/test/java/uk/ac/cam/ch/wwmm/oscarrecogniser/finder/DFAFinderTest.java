@@ -169,7 +169,7 @@ public class DFAFinderTest {
         }
 
         public List<NamedEntity> findNamedEntities(String s) {
-            ITokenSequence t = Tokeniser.getInstance().tokenise(s);
+            ITokenSequence t = Tokeniser.getDefaultInstance().tokenise(s);
             NECollector nec = new NECollector();
             List<RepresentationList> repsList = generateTokenRepresentations(t);
             findItems(t, repsList, nec);

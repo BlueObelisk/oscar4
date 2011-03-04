@@ -44,7 +44,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 */
 	public PatternRecogniser() {
 		this.nGram = NGramBuilder.buildOrDeserialiseModel(ManualAnnotations.getDefaultInstance());
-		this.finder = DFANEFinder.getInstance();
+		this.finder = DFANEFinder.getDefaultInstance();
 	}
 	
 	/**

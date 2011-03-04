@@ -55,7 +55,7 @@ public class MEMMRecogniserTest {
 		Document doc = TextToSciXML.textToSciXML(s);
 		
 		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().
-			makeTokenisedDocument(Tokeniser.getInstance(), doc);
+			makeTokenisedDocument(Tokeniser.getDefaultInstance(), doc);
 		assertTrue(procDoc != null);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neList != null);
@@ -66,7 +66,7 @@ public class MEMMRecogniserTest {
 	@Test
 	public void testFindNamedEntitiesFromString() {
 		String source = "Hello acetone world!";
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(Tokeniser.getInstance(), source);
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(Tokeniser.getDefaultInstance(), source);
 		List <NamedEntity> neList = recogniser.findNamedEntities(procDoc);
 		assertEquals(1, neList.size());
 		assertEquals("acetone", neList.get(0).getSurface());
@@ -76,7 +76,7 @@ public class MEMMRecogniserTest {
 	public void testFindMultipleTokenEntity() throws Exception {
 		String text = "Hello ethyl acetate world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		
 		//the memmRecogniser finds blocked named entities as well as the one we're expecting, so...
@@ -87,7 +87,7 @@ public class MEMMRecogniserTest {
 	public void testFindNonDictionaryEntity() throws Exception {
 		String text = "Hello 1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "1-methyl-2-ethyl-3-propyl-4-butyl-5-pentyl-6-hexylbenzene"));
 	}
@@ -96,7 +96,7 @@ public class MEMMRecogniserTest {
 	public void testFindNonDictionaryMultipleTokenEntity() throws Exception {
 		String text = "Hello 1,2-difluoro-1-chloro-2-methyl-ethyl acetate world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "1,2-difluoro-1-chloro-2-methyl-ethyl acetate"));
 	}
@@ -106,7 +106,7 @@ public class MEMMRecogniserTest {
 	public void testFindFeThree() {
 		String text = "The quick brown Fe(III) jumps over the lazy ligands";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Fe(III)"));
 	}
@@ -124,7 +124,7 @@ public class MEMMRecogniserTest {
 	public void testFindFeThreeLowercase() {
 		String text = "The quick brown Fe(iii) jumps over the lazy ligands";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Fe(iii)"));
 	}
@@ -133,7 +133,7 @@ public class MEMMRecogniserTest {
 	public void testFindFeThreePlus() {
 		String text = "The quick brown Fe(3+) jumps over the lazy ligands";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Fe(3+)"));
 	}
@@ -142,7 +142,7 @@ public class MEMMRecogniserTest {
 	public void testFindFeNought() {
 		String text = "The quick brown Fe(0) jumps over the lazy ligands";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Fe(0)"));
 	}
@@ -151,7 +151,7 @@ public class MEMMRecogniserTest {
 	public void testFindIronThree() {
 		String text = "The quick brown Iron(III) jumps over the lazy ligands";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Iron(III)"));
 	}
@@ -160,7 +160,7 @@ public class MEMMRecogniserTest {
 	public void testFindIronThreeLowercase() {
 		String text = "The quick brown Iron(iii) jumps over the lazy ligands";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Iron(iii)"));
 	}
@@ -169,7 +169,7 @@ public class MEMMRecogniserTest {
 	public void testFindIronThreePlus() {
 		String text = "The quick brown Iron(3+) jumps over the lazy ligands";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Iron(3+)"));
 	}
@@ -178,7 +178,7 @@ public class MEMMRecogniserTest {
 	public void testFindIronNought() {
 		String text = "The quick brown Iron(0) jumps over the lazy ligands";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Iron(0)"));
 	}
@@ -187,7 +187,7 @@ public class MEMMRecogniserTest {
 	public void testCuTwoCompound() {
 		String text = "The resultant mixture was added dropwise to Cu(II) nitrate hexahydrate (1.00 mmol ) .";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Cu(II) nitrate hexahydrate"));
 	}
@@ -196,7 +196,7 @@ public class MEMMRecogniserTest {
 	public void testCuLowercaseTwoCompound() {
 		String text = "The resultant mixture was added dropwise to Cu(ii) hydroxide (1.00 mmol ) .";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Cu(ii) hydroxide"));
 	}
@@ -205,7 +205,7 @@ public class MEMMRecogniserTest {
 	public void testCuTwoPlusCompound() {
 		String text = "The resultant mixture was added dropwise to Cu(2+) chloride (1.00 mmol ) .";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Cu(2+) chloride"));
 	}
@@ -214,7 +214,7 @@ public class MEMMRecogniserTest {
 	public void testCopperTwoCompound() {
 		String text = "The resultant mixture was added dropwise to Copper(II) acetate (1.00 mmol ) .";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Copper(II) acetate"));
 	}
@@ -223,7 +223,7 @@ public class MEMMRecogniserTest {
 	public void testCopperTwoLowercaseCompound() {
 		String text = "The resultant mixture was added dropwise to Copper(ii) sulfate pentahydrate (1.00 mmol ) .";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Copper(ii) sulfate pentahydrate"));
 	}
@@ -232,7 +232,7 @@ public class MEMMRecogniserTest {
 	public void testCopperTwoPlusCompound() {
 		String text = "The resultant mixture was added dropwise to Copper(2+) triflate (1.00 mmol ) .";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), text);
+				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
 		assertTrue(neListContainsCorrectNe(neList, "Copper(2+) triflate"));
 	}
@@ -263,7 +263,7 @@ public class MEMMRecogniserTest {
 	public void testSetPseudoConfidences() {
 		List <NamedEntity> nes = new ArrayList<NamedEntity>();
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument
-				(Tokeniser.getInstance(), "foo");
+				(Tokeniser.getDefaultInstance(), "foo");
 		List <IToken> tokens = procDoc.getTokenSequences().get(0).getTokens();
 		nes.add(new NamedEntity(tokens, "", NamedEntityType.COMPOUND));
 		nes.add(new NamedEntity(tokens, "", NamedEntityType.ONTOLOGY));
@@ -285,7 +285,7 @@ public class MEMMRecogniserTest {
 	public void testDeprioritiseOnts() {
 		String text = "Acetone, ethyl acetate and other solvents...";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument
-				(Tokeniser.getInstance(), text);
+				(Tokeniser.getDefaultInstance(), text);
 		List <NamedEntity> nes = recogniserForCustomisation.findNamedEntities(procDoc);
 		assertEquals(4, nes.size());
 		for (NamedEntity ne : nes) {

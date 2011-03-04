@@ -134,7 +134,7 @@ public class OscarTest {
 	@Test
 	public void testSetTokeniser() {
 		Oscar oscar = new Oscar();
-		assertTrue(oscar.getTokeniser() == Tokeniser.getInstance());
+		assertTrue(oscar.getTokeniser() == Tokeniser.getDefaultInstance());
 		ITokeniser tokeniser = new TokeniserImpl();
 		oscar.setTokeniser(tokeniser);
 		assertTrue(oscar.getTokeniser() == tokeniser);

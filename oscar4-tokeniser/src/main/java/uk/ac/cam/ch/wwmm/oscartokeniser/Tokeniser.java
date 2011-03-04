@@ -56,21 +56,27 @@ public final class Tokeniser implements ITokeniser {
 
 	private static Pattern prefixPattern = Pattern.compile(prefixRe + "["
 			+ StringTools.hyphens + "](\\S*)");
-	private static Tokeniser myInstance;
+	private static Tokeniser defaultInstance;
 
+	private TokenClassifier tokenClassifier;
+	
 	/**
-	 * Gets the Tokeniser singleton.
+	 * Gets the default instance of the OSCAR4 Tokeniser
 	 * 
-	 * @return The Tokeniser singleton.
 	 */
-	public static Tokeniser getInstance() {
-		if (myInstance == null)
-			myInstance = new Tokeniser();
-		return myInstance;
+	public static synchronized Tokeniser getInstance() {
+		if (defaultInstance == null)
+			defaultInstance = new Tokeniser(TokenClassifier.getDefaultInstance());
+		return defaultInstance;
 	}
 
-	Tokeniser() {
-
+	/**
+	 * Constructs a new Tokeniser using the given TokenClassifier to identify
+	 * chemical bonds (e.g. C-H)
+	 * @param tokenClassifier
+	 */
+	public Tokeniser(TokenClassifier tokenClassifier) {
+		this.tokenClassifier = tokenClassifier;
 	}
 
 	/**
@@ -427,7 +433,7 @@ public final class Tokeniser implements ITokeniser {
 				&& !token.getSurface().matches(".*[a-z][a-z].*")
 				&& token.getSurface().matches(".*[A-Z].*")) {
 			//FIXME dmj30 I don't see the point of the two String.matches calls above
-			if (TokenClassifier.getDefaultInstance().isTokenLevelRegexMatch(token.getSurface(), "bondRegex")) {
+			if (tokenClassifier.isTokenLevelRegexMatch(token.getSurface(), "bondRegex")) {
 				splittableHyphenIndex = -1;
 			}
 		}

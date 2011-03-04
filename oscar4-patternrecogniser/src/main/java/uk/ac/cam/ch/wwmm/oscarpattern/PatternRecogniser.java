@@ -13,7 +13,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarpattern.saf.StandoffResolver;
@@ -29,27 +28,37 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 public class PatternRecogniser implements ChemicalEntityRecogniser {
 
 	private NGram nGram;
+	private DFANEFinder finder;
+	
 	private double ontPseudoConfidence = 0.2;
 	private double custPseudoConfidence = 0.2;
 	private double cprPseudoConfidence = 0.2;
 	private double ngramThreshold = -2;
 	private boolean deprioritiseOnts = false;
 	
+	
 	/**
-	 * Create a PatternRecogniser that employs an NGram model customised
-	 * according to the default model, as set in OscarProperties.
+	 * Create a default PatternRecogniser that employs an NGram model customised
+	 * according to the default (chempapers) model and the default instance of
+	 * the DFANEFinder.
 	 */
 	public PatternRecogniser() {
-		nGram = NGramBuilder.buildOrDeserialiseModel(ManualAnnotations.getDefaultInstance());
+		this.nGram = NGramBuilder.buildOrDeserialiseModel(ManualAnnotations.getDefaultInstance());
+		this.finder = DFANEFinder.getInstance();
 	}
 	
 	/**
-	 * Create a PatternRecogniser that employs an NGram model customised
-	 * according to the given extracted training data. Pass null as an
-	 * argument to create an un-customised NGram model.
+	 * Create a customised PatternRecogniser that employs an NGram model customised
+	 * according to the given extracted training data and that uses the specified
+	 * DFAFinder.
+	 *  
+	 * @param etd the ManualAnnotations object to be used for NGram customisation. Pass
+	 * null to create an un-customised model.
+	 * @param finder the DFANEFinder object to be used to identify named entities.
 	 */
-	public PatternRecogniser(ManualAnnotations etd) {
-		nGram = NGramBuilder.buildOrDeserialiseModel(etd);
+	public PatternRecogniser(ManualAnnotations etd, DFANEFinder finder) {
+		this.nGram = NGramBuilder.buildOrDeserialiseModel(etd);
+		this.finder = finder;
 	}
 
 	public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) {
@@ -65,10 +74,9 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 	List<NamedEntity> neList = new ArrayList<NamedEntity>();
 
 	 	Map<Integer,Token> tokensByStart = new HashMap<Integer,Token>();
-	 	Map<Integer,Token> tokensByEnd = new HashMap<Integer,Token>();
 
 	 	for(ITokenSequence t : tokenSequences) {
-			neList.addAll(DFANEFinder.getInstance().findNamedEntities(t, nGram, ngramThreshold));
+			neList.addAll(finder.findNamedEntities(t, nGram, ngramThreshold));
 		}
 
 		// Make sure all NEs at a position share their ontIds

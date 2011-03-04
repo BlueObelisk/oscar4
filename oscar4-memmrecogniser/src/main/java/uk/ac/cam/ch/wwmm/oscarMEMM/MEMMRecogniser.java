@@ -150,13 +150,13 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
     /**
      * Detects named entities using MEMM.
-     * @param toxicList
+     * @param tokSeqList
      * @return
      */
-    private List<NamedEntity> generateNamedEntities(List<ITokenSequence> toxicList) {
+    private List<NamedEntity> generateNamedEntities(List<ITokenSequence> tokSeqList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
         MEMM memm = new MEMM(getModel(), memmThreshold/5);
-        for (ITokenSequence tokseq : toxicList) {
+        for (ITokenSequence tokseq : tokSeqList) {
             for (NamedEntity ne : memm.findNEs(tokseq)) {
                 if (ne.getConfidence() > memmThreshold) {
                     neList.add(ne);
@@ -170,13 +170,13 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
     /**
      * Detects named entities using ontology terms.
-     * @param toxicList
+     * @param tokSeqList
      * @return
      */
-    private List<NamedEntity> generateOntologyTerms(List<ITokenSequence> toxicList) {
+    private List<NamedEntity> generateOntologyTerms(List<ITokenSequence> tokSeqList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
         DFAONTCPRFinder ontologyTermFinder = getOntologyTermFinder();
-        for (ITokenSequence t : toxicList) {
+        for (ITokenSequence t : tokSeqList) {
             neList.addAll(ontologyTermFinder.findNamedEntities(t));
         }
         return neList;

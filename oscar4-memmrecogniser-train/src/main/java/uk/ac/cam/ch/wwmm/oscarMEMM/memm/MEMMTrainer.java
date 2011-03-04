@@ -178,7 +178,7 @@ public final class MEMMTrainer {
 		}
 		
 		IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-			Tokeniser.getInstance(), doc, true, false, false);
+			Tokeniser.getDefaultInstance(), doc, true, false, false);
 
 		for(ITokenSequence ts : procDoc.getTokenSequences()) {
 			trainOnSentence(ts);
@@ -420,7 +420,7 @@ public final class MEMMTrainer {
 		
 		
 		IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-			Tokeniser.getInstance(), doc, true, false, false);
+			Tokeniser.getDefaultInstance(), doc, true, false, false);
 		//NameRecogniser nr = new NameRecogniser();
 		//nr.halfProcess(doc);
 		//if(patternFeatures) {

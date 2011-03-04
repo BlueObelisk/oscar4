@@ -26,7 +26,7 @@ public class DFAONTCPRFinderTest {
     @Test
     public void testFindNumericalChemicalPrefixes()  {
     	String text = "The 1- and 2-foo bar";
-    	ITokenSequence tokenSequence = Tokeniser.getInstance().tokenise(text);
+    	ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
     	List <NamedEntity> nes = DFAONTCPRFinder.getInstance().findNamedEntities(tokenSequence);
     	assertTrue(toSurfaceList(nes).contains("2-"));
     	assertTrue(toSurfaceList(nes).contains("1-"));
@@ -36,7 +36,7 @@ public class DFAONTCPRFinderTest {
     @Test
     public void testFindComplexNumericalChemicalPrefixes() {
     	String text = "The 1,2- and 2,3-foo bar";
-    	ITokenSequence tokenSequence = Tokeniser.getInstance().tokenise(text);
+    	ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
     	List <NamedEntity> nes = DFAONTCPRFinder.getInstance().findNamedEntities(tokenSequence);
     	assertTrue(toSurfaceList(nes).contains("2,3-"));
     	assertTrue(toSurfaceList(nes).contains("1,2-"));
@@ -46,7 +46,7 @@ public class DFAONTCPRFinderTest {
     @Test
     public void testFindWordyChemicalPrefixes() {
     	String text = "The cis- and trans-foo bar";
-    	ITokenSequence tokenSequence = Tokeniser.getInstance().tokenise(text);
+    	ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
     	List <NamedEntity> nes = DFAONTCPRFinder.getInstance().findNamedEntities(tokenSequence);
     	assertTrue(toSurfaceList(nes).contains("trans-"));
     	assertTrue(toSurfaceList(nes).contains("cis-"));
@@ -56,7 +56,7 @@ public class DFAONTCPRFinderTest {
     @Test
     public void testDontFindNonChemicalPrefixes() {
     	String text = "The foo- and bar-foobar";
-    	ITokenSequence tokenSequence = Tokeniser.getInstance().tokenise(text);
+    	ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
     	List <NamedEntity> nes = DFAONTCPRFinder.getInstance().findNamedEntities(tokenSequence);
     	assertEquals(0, nes.size());
     }

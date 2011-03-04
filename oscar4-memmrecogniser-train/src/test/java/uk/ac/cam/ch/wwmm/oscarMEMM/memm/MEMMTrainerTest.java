@@ -83,7 +83,7 @@ public class MEMMTrainerTest {
 		MEMMRecogniser memm = new MEMMRecogniser();
 		memm.setModel(trainModel());
 		ProcessingDocument procdoc = ProcessingDocumentFactory.getInstance()
-				.makeTokenisedDocument(Tokeniser.getInstance(), sentence);
+				.makeTokenisedDocument(Tokeniser.getDefaultInstance(), sentence);
 		List<NamedEntity> neList = memm.findNamedEntities(procdoc);
 		System.out.println(neList);
 		Assert.assertEquals("Number of recognised entities: ",26, neList.size());

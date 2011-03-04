@@ -131,7 +131,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 */
 	public static void destroyInstanceIfWordTokenises(String word) {
 		if (myInstance == null) return;
-		ITokenSequence ts = Tokeniser.getInstance().tokenise(word);
+		ITokenSequence ts = Tokeniser.getDefaultInstance().tokenise(word);
 		if (ts.getTokens().size() > 1) myInstance = null;
 	}
 	

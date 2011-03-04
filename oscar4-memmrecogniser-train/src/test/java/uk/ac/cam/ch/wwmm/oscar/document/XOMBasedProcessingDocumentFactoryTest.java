@@ -27,7 +27,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/sciXmlPaper.xml");
 		Document sourceDoc = new Builder().build(in);
 //		"the quick methylbrown fox jumps over thechlorinated dog"
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		XOMBasedProcessingDocument procDoc = (XOMBasedProcessingDocument) XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, false, false, false);
 		//empty tokenSequence for the empty HEADER in the sourceDoc
 		assertEquals(2, procDoc.getTokenSequences().size());
@@ -62,7 +62,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 	@Test
 	public void testMergeNeTokens() {
 		String source = "foo ethyl acetate bar";
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, source);
 		List <IToken> tokens = procDoc.getTokenSequences().get(0).getTokens();
 		assertEquals(4, tokens.size());
@@ -90,7 +90,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 	public void testTidyHyphensAfterNE() throws Exception{
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/sciXmlPaper.xml");
 		Document sourceDoc = new Builder().build(in);
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		XOMBasedProcessingDocument procDoc = (XOMBasedProcessingDocument) XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, false, false, false);
 		List <IToken> tokens = procDoc.getTokenSequences().get(1).getTokens(); 
 		assertEquals(8, tokens.size());
@@ -124,7 +124,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 	public void testMakeTokenSequenceStandard() throws Exception {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/learningSpecificTokenisation.xml");
 		Document sourceDoc = new Builder().build(in);
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeDocument(sourceDoc);
 		Element para = (Element) procDoc.getDoc().query("//P").get(0);
 //		String text = "the quick methylbrown ethyl acetate jumps over thechlorinated dog";
@@ -148,7 +148,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 	public void testMakeTokenSequenceTokeniseForNes() throws Exception {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/learningSpecificTokenisation.xml");
 		Document sourceDoc = new Builder().build(in);
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeDocument(sourceDoc);
 		Element e = (Element) procDoc.getDoc().getRootElement();
 		Element para = (Element) procDoc.getDoc().query("//P").get(0); 
@@ -174,7 +174,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 	public void testMakeTokenSequenceTokeniseForAndMergeNes() throws Exception {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/learningSpecificTokenisation.xml");
 		Document sourceDoc = new Builder().build(in);
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeDocument(sourceDoc);
 		Element e = (Element) procDoc.getDoc().getRootElement();
 		Element para = (Element) procDoc.getDoc().query("//P").get(0); 
@@ -199,7 +199,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 	public void testSettingBioTagsTokenSequences() throws Exception {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/learningSpecificTokenisation.xml");
 		Document sourceDoc = new Builder().build(in);
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeDocument(sourceDoc);
 		Element e = (Element) procDoc.getDoc().getRootElement();
 		Element para = (Element) procDoc.getDoc().query("//P").get(0); 
@@ -229,7 +229,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 	public void testSettingBioTagsXOMDoc() throws Exception {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/learningSpecificTokenisation.xml");
 		Document sourceDoc = new Builder().build(in);
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 
 		IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, true, true, false);
 		ITokenSequence tokSeq = procDoc.getTokenSequences().get(1);
@@ -258,7 +258,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 	public void testTokenIds() throws Exception {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/learningSpecificTokenisation.xml");
 		Document sourceDoc = new Builder().build(in);
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeDocument(sourceDoc);
 		Element e = (Element) procDoc.getDoc().getRootElement();
 		Element para = (Element) procDoc.getDoc().query("//P").get(0); 
@@ -288,7 +288,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 	public void testTokenIndex() throws Exception {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/learningSpecificTokenisation.xml");
 		Document sourceDoc = new Builder().build(in);
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeDocument(sourceDoc);
 		//fields aren't initialised by above call
 		procDoc.tokensByStart = new HashMap<Integer,IToken>();
@@ -330,7 +330,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 	public void testTokenSequenceAssignments() throws Exception {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/learningSpecificTokenisation.xml");
 		Document sourceDoc = new Builder().build(in);
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeDocument(sourceDoc);
 		//FIXME fields aren't initialised by above call... yet
 		procDoc.tokensByStart = new HashMap<Integer,IToken>();

@@ -252,7 +252,7 @@ public final class TokeniserTest {
 	@Test
 	public void testSimpleTokenSetup() {
 		String source = "The quick brown fox jumps over the lazy dog";
-		ITokenSequence ts = Tokeniser.getInstance().tokenise(source);
+		ITokenSequence ts = Tokeniser.getDefaultInstance().tokenise(source);
 		assertEquals(9, ts.getTokens().size());
 		
 		assertEquals("The", ts.getToken(0).getSurface());
@@ -295,7 +295,7 @@ public final class TokeniserTest {
 	@Test
 	public void testTokenSequenceSurface() {
 		String source = "The quick brown fox jumps over the lazy dog";
-		ITokenSequence ts = Tokeniser.getInstance().tokenise(source);
+		ITokenSequence ts = Tokeniser.getDefaultInstance().tokenise(source);
 		assertEquals(source, ts.getSurface());
 	}
 }

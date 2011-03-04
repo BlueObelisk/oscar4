@@ -76,7 +76,7 @@ public final class TokenSequenceSource implements Iterable<ITokenSequence>, Iter
 				
 				if(simple) {
 					Nodes placesForChemicals = XMLStrings.getInstance().getChemicalPlaces(doc);
-					Tokeniser tokeniser = Tokeniser.getInstance();
+					Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 					for (int i = 0; i < placesForChemicals.size(); i++) {
 						Element e = (Element)placesForChemicals.get(i);
 						String text = e.getValue();
@@ -87,7 +87,7 @@ public final class TokenSequenceSource implements Iterable<ITokenSequence>, Iter
 					Document safDoc = null;
 					if(!files.get(filePointer).getName().endsWith("source.xml")) safDoc = new Builder().build(new File(f, "saf.xml"));
 					IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-							Tokeniser.getInstance(), doc, true, true, false, safDoc);
+							Tokeniser.getDefaultInstance(), doc, true, true, false, safDoc);
 					if(safDoc != null) {
 						tokSeqs.addAll(procDoc.getTokenSequences());
 					} else {

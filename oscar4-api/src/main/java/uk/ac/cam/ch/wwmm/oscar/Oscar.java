@@ -81,7 +81,7 @@ public class Oscar {
     }
 
     private ITokeniser newDefaultTokeniser() {
-        return Tokeniser.getInstance();
+        return Tokeniser.getDefaultInstance();
     }
 
     /**

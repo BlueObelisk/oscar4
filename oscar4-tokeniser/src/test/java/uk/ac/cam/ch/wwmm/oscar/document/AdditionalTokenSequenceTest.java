@@ -34,7 +34,7 @@ public class AdditionalTokenSequenceTest {
 	public static void setUp() throws Exception {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/testDoc.xml");
 		Document doc = new Builder().build(in);
-		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(Tokeniser.getInstance(), doc);
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(Tokeniser.getDefaultInstance(), doc);
 		header = procDoc.getTokenSequences().get(0);
 		para1 = procDoc.getTokenSequences().get(1);
 		para2 = procDoc.getTokenSequences().get(2);

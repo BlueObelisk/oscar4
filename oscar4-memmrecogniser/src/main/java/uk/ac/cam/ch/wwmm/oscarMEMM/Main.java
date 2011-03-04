@@ -27,7 +27,7 @@ public class Main {
 		try 
 		{
 			procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), sourceDoc);
+				Tokeniser.getDefaultInstance(), sourceDoc);
 		    
 		 } 
 		catch (Exception e) 

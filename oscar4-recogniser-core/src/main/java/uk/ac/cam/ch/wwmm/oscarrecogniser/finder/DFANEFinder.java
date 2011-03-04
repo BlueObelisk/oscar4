@@ -66,7 +66,7 @@ public class DFANEFinder extends DFAFinder {
      * Get the default instance of the DFANEFinder, initialising if necessary.
      *
      */
-    public static synchronized DFANEFinder getInstance() {
+    public static synchronized DFANEFinder getDefaultInstance() {
         if (defaultInstance == null) {
             defaultInstance = new DFANEFinder(TokenClassifier.getDefaultInstance());
         }
@@ -80,7 +80,7 @@ public class DFANEFinder extends DFAFinder {
     //TODO this isn't called - do we need it?
     public static void reinitialise() {
         defaultInstance = null;
-        getInstance();
+        getDefaultInstance();
     }
 
     /**Destroy the DFANEFinder singleton.
@@ -99,7 +99,7 @@ public class DFANEFinder extends DFAFinder {
      */
     public static void destroyInstanceIfWordTokenises(String word) {
         if (defaultInstance == null) return;
-        ITokenSequence ts = Tokeniser.getInstance().tokenise(word);
+        ITokenSequence ts = Tokeniser.getDefaultInstance().tokenise(word);
         if (ts.getTokens().size() > 1) defaultInstance = null;
     }
 

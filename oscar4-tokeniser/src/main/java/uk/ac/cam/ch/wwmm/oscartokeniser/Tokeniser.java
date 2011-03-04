@@ -64,7 +64,7 @@ public final class Tokeniser implements ITokeniser {
 	 * Gets the default instance of the OSCAR4 Tokeniser
 	 * 
 	 */
-	public static synchronized Tokeniser getInstance() {
+	public static synchronized Tokeniser getDefaultInstance() {
 		if (defaultInstance == null)
 			defaultInstance = new Tokeniser(TokenClassifier.getDefaultInstance());
 		return defaultInstance;

@@ -136,7 +136,7 @@ public class Oscar4RegressionTest {
 
 		Document doc = TextToSciXML.textToSciXML(sentence);
 		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance()
-				.makeTokenisedDocument(Tokeniser.getInstance(), doc);
+				.makeTokenisedDocument(Tokeniser.getDefaultInstance(), doc);
 		// Check that ProcDoc is not empty
 		Assert.assertTrue(procDoc != null);
 

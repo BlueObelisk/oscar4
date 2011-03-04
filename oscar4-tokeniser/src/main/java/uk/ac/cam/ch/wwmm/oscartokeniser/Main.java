@@ -25,7 +25,7 @@ public class Main {
 
 		try {
 			procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getInstance(), sourceDoc);
+				Tokeniser.getDefaultInstance(), sourceDoc);
 		} catch (Exception e) {
             System.err.println("Can't find file, please check your path");
 			e.printStackTrace();

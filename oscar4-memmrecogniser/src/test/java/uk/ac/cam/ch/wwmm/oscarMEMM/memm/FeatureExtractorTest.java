@@ -21,7 +21,7 @@ public class FeatureExtractorTest {
     public void testFeatureExtractor() {
         // Regression test introduced pre-refactoring
         String s = "We have also described that benzoxasilepines can be condensed with benzaldehydes.";
-        Tokeniser tokeniser = Tokeniser.getInstance();
+        Tokeniser tokeniser = Tokeniser.getDefaultInstance();
         ITokenSequence tokSeq = tokeniser.tokenise(s);
         
         List<FeatureList> features = FeatureExtractor.extractFeatures(tokSeq, NGram.getInstance(), ManualAnnotations.loadManualAnnotations("chempapers"));

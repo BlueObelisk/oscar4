@@ -95,7 +95,7 @@ public class DataParserTest {
 				" elit, sed 1H NMR (d6-DMSO, 400 MHz): 9.25 (t, J=6.4, 1H)," +
 				" 9.16 (d, J=8.4, 1H) do eiusmod tempor incididunt ut labore" +
 				" et dolore magna aliqua.";
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, source);
 		
 		List <DataAnnotation> annotations = DataParser.findData(procDoc);
@@ -178,7 +178,7 @@ public class DataParserTest {
 				" elit, sed 1H NMR (d6-DMSO, 400 MHz): 9.25 (t, J=6.4, 1H)," +
 				" 9.16 (d, J=8.4, 1H) do eiusmod tempor MS (ESI) m/z 413 (MH+)" +
 				" incididunt ut labore et dolore magna aliqua.";
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, source);
 		assertEquals(1, procDoc.getTokenSequences().size());
 		
@@ -213,7 +213,7 @@ public class DataParserTest {
 				" according to General Procedure 2 and was purified by flash chromatography (Isco CombiFlash, 0-60% EtOAc/heptane)" +
 				" to afford 3-cyclopropyl-4H-furo[3,2-b]pyrrole-5-carboxylic acid 31 (34 mg, 35%). 1H NMR (400 MHz, CD3OD) \u03B4" +
 				" ppm 0.67-0.72 (m, 2H), 0.86-0.92 (m, 2H), 1.75-1.84 (m, 1H), 6.64 (s, 1H), 7.34 (d, J=0.83 Hz, 1H); LCMS-MS (ESI\u2212) 189.8 (M\u2212H); HPLC (UV=95.9%), (ELSD=100%). ";
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, source);
 		assertEquals(1, procDoc.getTokenSequences().size());
 		
@@ -233,7 +233,7 @@ public class DataParserTest {
 		" elit, sed 1H NMR (d6-DMSO, 400 MHz): 9.25 (t, J=6.4, 1H)," +
 		" 9.16 (d, J=8.4, 1H) do eiusmod tempor incididunt ut labore" +
 		" et dolore magna aliqua.";
-		Tokeniser tokeniser = Tokeniser.getInstance();
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, source1);
 		assertEquals(1, procDoc.getTokenSequences().size());
 		assertEquals(1, DataParser.findData(procDoc).size());

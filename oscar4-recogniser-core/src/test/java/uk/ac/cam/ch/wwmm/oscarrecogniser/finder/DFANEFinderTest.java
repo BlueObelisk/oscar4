@@ -30,8 +30,8 @@ public class DFANEFinderTest {
 
 	@BeforeClass
 	public static void setup() {
-		finder = DFANEFinder.getInstance();
-		tokeniser = Tokeniser.getInstance();
+		finder = DFANEFinder.getDefaultInstance();
+		tokeniser = Tokeniser.getDefaultInstance();
 	}
 	
     @Test

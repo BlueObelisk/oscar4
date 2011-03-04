@@ -39,8 +39,10 @@ public class DFANEFinder extends DFAFinder {
 
     private final Logger logger = LoggerFactory.getLogger(DFANEFinder.class);
 
+	private TokenClassifier tokenClassifier;
+
     private static final long serialVersionUID = -3307600610608772402L;
-    private static DFANEFinder myInstance;
+    private static DFANEFinder defaultInstance;
 
     public static Pattern P_TWO_ADJACENT_LOWERCASE = Pattern.compile("[a-z][a-z]");
     public static Pattern P_UPPERCASE_LETTER = Pattern.compile("[A-Z]");
@@ -60,32 +62,34 @@ public class DFANEFinder extends DFAFinder {
     private static final String REP_CPR_FORMULA = "$CPR_FORMULA";
 
 
-    /**Get the DFANEFinder singleton, initialising if necessary.
+    /**
+     * Get the default instance of the DFANEFinder, initialising if necessary.
      *
-     * @return The DFANEFinder singleton.
      */
-    public static DFANEFinder getInstance() {
-        if (myInstance == null) {
-            myInstance = new DFANEFinder();
+    public static synchronized DFANEFinder getInstance() {
+        if (defaultInstance == null) {
+            defaultInstance = new DFANEFinder(TokenClassifier.getDefaultInstance());
         }
-        return myInstance;
+        return defaultInstance;
     }
 
     /**Re-initialise the DFANEFinder singleton.
      *
      */
     @Deprecated
-    //TODO - this isn't called - do we need it?
+    //TODO this isn't called - do we need it?
     public static void reinitialise() {
-        myInstance = null;
+        defaultInstance = null;
         getInstance();
     }
 
     /**Destroy the DFANEFinder singleton.
      *
      */
+    @Deprecated
+    //TODO this isn't called - do we need it?
     public static void destroyInstance() {
-        myInstance = null;
+        defaultInstance = null;
     }
 
     /**Checks to see if a string can be tokenised into multiple tokens; if
@@ -94,14 +98,15 @@ public class DFANEFinder extends DFAFinder {
      * @param word The string to test.
      */
     public static void destroyInstanceIfWordTokenises(String word) {
-        if (myInstance == null) return;
+        if (defaultInstance == null) return;
         ITokenSequence ts = Tokeniser.getInstance().tokenise(word);
-        if (ts.getTokens().size() > 1) myInstance = null;
+        if (ts.getTokens().size() > 1) defaultInstance = null;
     }
 
-    private DFANEFinder() {
+    private DFANEFinder(TokenClassifier tokenClassifier) {
         logger.debug("Initialising DFA NE Finder...");
         super.init();
+        this.tokenClassifier = tokenClassifier;
         logger.debug("Initialised DFA NE Finder");
     }
 
@@ -179,7 +184,7 @@ public class DFANEFinder extends DFAFinder {
                 tokenRepresentations.addRepresentation(REP_DOTS);
             }
         }
-        for (NamedEntityType namedEntityType : TokenClassifier.getDefaultInstance().classifyToken(value)) {
+        for (NamedEntityType namedEntityType : tokenClassifier.classifyToken(value)) {
             if (!NamedEntityType.PROPERNOUN.equals(namedEntityType)
                     || !(value.matches("[A-Z][a-z]+") && TermSets.getDefaultInstance().getUsrDictWords().contains(value.toLowerCase()) && !TermSets.getDefaultInstance().getUsrDictWords().contains(value))) {
                 tokenRepresentations.addRepresentation("$"+ namedEntityType.getName());
@@ -318,7 +323,7 @@ public class DFANEFinder extends DFAFinder {
     }
 
     private boolean isChemicalFormula(String lastGroup) {
-        return TokenClassifier.getDefaultInstance().isTokenLevelRegexMatch(lastGroup, "formulaRegex");
+        return tokenClassifier.isTokenLevelRegexMatch(lastGroup, "formulaRegex");
     }
 
     private boolean hasCapitalLetter(String value) {

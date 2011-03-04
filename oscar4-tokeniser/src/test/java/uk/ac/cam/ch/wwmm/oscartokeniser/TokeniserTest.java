@@ -1,16 +1,18 @@
 package uk.ac.cam.ch.wwmm.oscartokeniser;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier.TokenClass;
 
 /**
  * @author egonw
@@ -20,19 +22,28 @@ public final class TokeniserTest {
 
 	@Test
 	public void testConstructor() {
-		assertNotNull(new Tokeniser());
+		assertNotNull(new Tokeniser(TokenClassifier.getDefaultInstance()));
 	}
-
+	
+	@Ignore
 	@Test
-	public void testGettingInstance() throws InstantiationException,
-			IllegalAccessException, ClassNotFoundException {
-		assertNotNull(getClass().getClassLoader().loadClass(
-				"uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser").newInstance());
+	//TODO I can't actually think of any strings that would cause this pass to test
+	//     If there are none, then the Tokeniser doesn't need to check terms against
+	//     TokenClassifier - dmj30
+	public void testCustomisation() {
+		String bond = "TMS-boc";
+		Tokeniser defaultTokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
+		assertEquals(1, defaultTokeniser.tokenise(bond).getTokens().size());
+		
+		Map<String, TokenClass> tlrs = new HashMap<String, TokenClassifier.TokenClass>();
+		tlrs.put("bondRegex", new TokenClass(null, "foo", null));
+		Tokeniser customTokeniser = new Tokeniser(new TokenClassifier(tlrs));
+		assertEquals(3, customTokeniser.tokenise(bond).getTokens().size());
 	}
 
 	@Test
 	public void testAbbreviations() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "(ca. 30 mL)";
 		ITokenSequence tokseq = tokeniser.tokenise(s);
 		assertEquals(5, tokseq.getTokens().size());
@@ -41,7 +52,7 @@ public final class TokeniserTest {
 
 	@Test
 	public void testHyphens() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "EA- or BA-modified HPEI";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(7, tokseq.getTokens().size());
@@ -50,7 +61,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testSlashes() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "methanol/water";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(3, tokseq.getTokens().size());
@@ -59,7 +70,7 @@ public final class TokeniserTest {
 
 	@Test
 	public void test1Butanol() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "1-butanol";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -67,7 +78,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testButan1ol() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "butan-1-ol";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -75,7 +86,7 @@ public final class TokeniserTest {
 
 	@Test
 	public void testTransButene() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "trans-but-2-ene";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -83,7 +94,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testPhosphinin2One() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "phosphinin-2(1H)-one";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -91,7 +102,7 @@ public final class TokeniserTest {
 
 	@Test
 	public void testIronIII() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "Fe(III)";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -99,7 +110,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testIronIIILowercase() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "Fe(iii)";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -107,7 +118,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testIronThreePlus() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "Fe(3+)";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -115,7 +126,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testIronNought() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "Fe(0)";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -123,7 +134,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testWrappedInBrackets() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "Tetrahydro furan (THF)";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(5, tokseq.getTokens().size());
@@ -132,7 +143,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testSAlanine() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "(S)-alanine";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -140,7 +151,7 @@ public final class TokeniserTest {
 
 	@Test
 	public void testDGlucose() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "D-glucose";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -149,7 +160,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testSpiroSystem() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "spiro[4.5]decane";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -157,14 +168,14 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testLambdaConvention1() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "lambda5-phosphane";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	@Test
 	public void testLambdaConvention2() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "\u03BB5-phosphane";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -172,7 +183,7 @@ public final class TokeniserTest {
 
 	@Ignore
 	public void testRingAssembly() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "2,2':6',2\"-Terphenyl-1,1',1\"-triol";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -180,7 +191,7 @@ public final class TokeniserTest {
 
 	@Test
 	public void testBetaDGlucose() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "\u03b2-D-Glucose";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -188,7 +199,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testPeptide() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "L-alanyl-L-glutaminyl-L-arginyl-O-phosphono-L-seryl-L-alanyl-L-proline";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -196,7 +207,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testChargedAluminium() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "aluminium(3+)";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -204,7 +215,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testPolymer() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "poly(2,2'-diamino-5-hexadecylbiphenyl-3,3'-diyl)";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -212,7 +223,7 @@ public final class TokeniserTest {
 	
 	@Test
 	public void testMethylideneCyclohexane() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "1-methyl-2-methylidene-cyclohexane";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
@@ -221,7 +232,7 @@ public final class TokeniserTest {
 
 	@Test
 	public void testTrademark() {
-		Tokeniser tokeniser = new Tokeniser();
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "CML(TM)";
 		ITokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(4, tokseq.getTokens().size());

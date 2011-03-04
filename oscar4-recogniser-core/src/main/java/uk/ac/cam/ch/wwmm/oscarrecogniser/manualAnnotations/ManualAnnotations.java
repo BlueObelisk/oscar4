@@ -96,17 +96,13 @@ public class ManualAnnotations {
 
     /**
      * Creates a ManualAnnotations object in which the term sets
-     * are loaded from the default model file.
+     * are loaded from the default (chempapers) model file.
      */
     public static ManualAnnotations getDefaultInstance() {
         if (defaultInstance == null) {
-            defaultInstance = loadDefaultManualAnnotations();
+            defaultInstance = loadManualAnnotations("chempapers");
         }
         return defaultInstance;
-    }
-
-    private static ManualAnnotations loadDefaultManualAnnotations() {
-        return loadManualAnnotations("chempapers");
     }
 
     /**

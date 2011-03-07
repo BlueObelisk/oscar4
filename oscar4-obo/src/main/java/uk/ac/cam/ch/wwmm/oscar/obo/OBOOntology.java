@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,7 +22,6 @@ import org.apache.commons.io.IOUtils;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.dso.DSOtoOBO;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.util.CacheMap;
 
@@ -48,7 +46,7 @@ public class OBOOntology {
 	 * 
 	 * @return The OBOOntology singleton
 	 */
-	public static OBOOntology getInstance() {
+	public static OBOOntology getInstance(boolean useDSO) {
 		if(myInstance == null) {
 			myInstance = new OBOOntology();
 			try {
@@ -59,7 +57,7 @@ public class OBOOntology {
 			catch (IOException e) {
 				throw new OscarInitialisationException("failed to load OBO Ontology", e);
 			}
-			if(OscarProperties.getData().useDSO)
+			if(useDSO)
 				myInstance.addOntology(DSOtoOBO.readDSO());
 		}
 		return myInstance;
@@ -531,7 +529,7 @@ public class OBOOntology {
 	 * ontology.txt 
 	 */
 	public static void main(String[] args) throws Exception {
-		OBOOntology o = getInstance();
+		OBOOntology o = getInstance(false);
 
 		FileOutputStream fso = new FileOutputStream(new File("ontology.txt"));
 		o.writeOntTxt(new PrintWriter(fso));

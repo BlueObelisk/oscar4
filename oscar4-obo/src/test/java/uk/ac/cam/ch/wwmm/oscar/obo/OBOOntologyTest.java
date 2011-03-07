@@ -7,7 +7,7 @@ public class OBOOntologyTest {
 
 	@Test
 	public void testGetInstance() {
-		OBOOntology obo = OBOOntology.getInstance();
+		OBOOntology obo = OBOOntology.getInstance(false);
 		Assert.assertNotNull(obo);
 		Assert.assertNotSame(0, obo.getTerms().size());
 	}

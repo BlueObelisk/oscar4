@@ -2,5 +2,4 @@ useWordShapeHeuristic=no
 splitOnEnDash=yes
 useONT=yes
 polymerMode=no
-useDSO=no
 xmlStrings=none

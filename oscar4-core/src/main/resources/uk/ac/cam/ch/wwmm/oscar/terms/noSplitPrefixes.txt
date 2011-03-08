@@ -1,5 +1,6 @@
 # If these strings occur before a hyphen, then the hyphen does not indicate
 # a word boundary.
+# nido and closo are handled by ido and oso respectively
 tert
 sec
 iso
@@ -49,7 +50,6 @@ meta
 para
 bis
 semi
-nido
 arachno
 ent
 catena
@@ -70,8 +70,38 @@ muco
 allo
 triangulo
 homo
-closo
 yl
 co
 graft
+hypho
+conjuncto
+io
+ato
+ido
 ylidene
+ylidyne
+yliden
+ylidyn
+ylene
+ylen
+ano
+ono
+ino
+eno
+oso
+bromo
+chloro
+fluoro
+iodo
+seleno
+telluro
+azo
+mercapto
+oxalo
+nitro
+phospho
+oxo
+fmoc
+tms
+cbz
+t-boc

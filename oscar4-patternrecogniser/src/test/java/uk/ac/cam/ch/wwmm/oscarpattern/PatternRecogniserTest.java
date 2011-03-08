@@ -2,8 +2,12 @@ package uk.ac.cam.ch.wwmm.oscarpattern;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nu.xom.Document;
 
@@ -17,9 +21,14 @@ import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.TermMaps;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClass;
+import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
@@ -153,4 +162,23 @@ public class PatternRecogniserTest {
 		assertEquals(42, recogniserForCustomisation.getNgramThreshold(), 0.00001);
 	}
 
+	
+	@Test
+	public void customiseNeTerms() throws DataFormatException, IOException {
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				Tokeniser.getDefaultInstance(), "benzene furanyl");
+		List<NamedEntity> nes = recogniser.findNamedEntities(procDoc);
+		assertEquals(2, nes.size());
+		assertEquals("benzene", nes.get(0).getSurface());
+		assertEquals("furanyl", nes.get(1).getSurface());
+		
+		Map<String, NamedEntityType> neTerms = new HashMap<String, NamedEntityType>();
+		neTerms.put("$-ene $-yl", NamedEntityType.COMPOUND);
+		PatternRecogniser customRecogniser = new PatternRecogniser(
+				ManualAnnotations.getDefaultInstance(), neTerms, TokenClassifier.getDefaultInstance());
+		List<NamedEntity> nes2 = customRecogniser.findNamedEntities(procDoc);
+		assertEquals(1, nes2.size());
+		assertEquals("benzene furanyl", nes2.get(0).getSurface());
+	}
+	
 }

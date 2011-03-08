@@ -1,0 +1,7 @@
+[CM]
+$CM
+$-ene $-yl
+
+
+[RN]
+foo bar

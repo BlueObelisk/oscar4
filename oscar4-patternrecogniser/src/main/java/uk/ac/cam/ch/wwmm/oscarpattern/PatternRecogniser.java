@@ -20,10 +20,13 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFANEFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
+import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
 
 /**
  * Name recognition using patterns
+ * @author ptc
  * @author j_robinson
+ * @author dmj30
  */
 public class PatternRecogniser implements ChemicalEntityRecogniser {
 
@@ -55,11 +58,14 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 * @param etd the ManualAnnotations object to be used for NGram customisation. Pass
 	 * null to create an un-customised model.
 	 * @param finder the DFANEFinder object to be used to identify named entities.
+	 * @param neTerms the set of patterns to be used for multi-token named entity recognition
 	 */
-	public PatternRecogniser(ManualAnnotations etd, DFANEFinder finder) {
-		this.nGram = NGramBuilder.buildOrDeserialiseModel(etd);
-		this.finder = finder;
+	public PatternRecogniser(ManualAnnotations etd, Map<String, NamedEntityType> neTerms,
+			TokenClassifier classifier) {
+		this.nGram = NGramBuilder.buildModel(etd);
+		this.finder = new DFANEFinder(neTerms, classifier);
 	}
+	
 
 	public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) {
 		return findNamedEntities(procDoc.getTokenSequences());

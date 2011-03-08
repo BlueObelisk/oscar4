@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
-import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier.TokenClass;
 
 /**
  * @author egonw
@@ -35,7 +34,7 @@ public final class TokeniserTest {
 		Tokeniser defaultTokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		assertEquals(1, defaultTokeniser.tokenise(bond).getTokens().size());
 		
-		Map<String, TokenClass> tlrs = new HashMap<String, TokenClassifier.TokenClass>();
+		Map<String, TokenClass> tlrs = new HashMap<String, TokenClass>();
 		tlrs.put("bondRegex", new TokenClass(null, "foo", null));
 		Tokeniser customTokeniser = new Tokeniser(new TokenClassifier(tlrs));
 		assertEquals(3, customTokeniser.tokenise(bond).getTokens().size());

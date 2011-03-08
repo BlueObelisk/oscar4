@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,6 +41,7 @@ public class DFANEFinder extends DFAFinder {
     private final Logger logger = LoggerFactory.getLogger(DFANEFinder.class);
 
 	private TokenClassifier tokenClassifier;
+	private Map<String, NamedEntityType> neTerms;
 
     private static final long serialVersionUID = -3307600610608772402L;
     private static DFANEFinder defaultInstance;
@@ -68,7 +70,8 @@ public class DFANEFinder extends DFAFinder {
      */
     public static synchronized DFANEFinder getDefaultInstance() {
         if (defaultInstance == null) {
-            defaultInstance = new DFANEFinder(TokenClassifier.getDefaultInstance());
+            defaultInstance = new DFANEFinder(TermMaps.getInstance().getNeTerms(),
+            		TokenClassifier.getDefaultInstance());
         }
         return defaultInstance;
     }
@@ -103,10 +106,11 @@ public class DFANEFinder extends DFAFinder {
         if (ts.getTokens().size() > 1) defaultInstance = null;
     }
 
-    private DFANEFinder(TokenClassifier tokenClassifier) {
+    public DFANEFinder(Map<String, NamedEntityType> neTerms, TokenClassifier tokenClassifier) {
         logger.debug("Initialising DFA NE Finder...");
-        super.init();
+        this.neTerms = neTerms;
         this.tokenClassifier = tokenClassifier;
+        super.init();
         logger.debug("Initialised DFA NE Finder");
     }
 
@@ -114,8 +118,8 @@ public class DFANEFinder extends DFAFinder {
     protected void loadTerms() {
     	TermMaps termMaps = TermMaps.getInstance();
         logger.debug("Adding terms to DFA finder...");
-        for(String s : termMaps.getNeTerms().keySet()){
-            addNamedEntity(s, termMaps.getNeTerms().get(s), true);
+        for(String s : neTerms.keySet()){
+            addNamedEntity(s, neTerms.get(s), true);
         }
         logger.debug("Adding ontology terms to DFA finder...");
         for(String s : OntologyTermIdIndex.getInstance().getAllTerms()){

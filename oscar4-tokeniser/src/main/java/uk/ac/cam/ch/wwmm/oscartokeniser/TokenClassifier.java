@@ -48,7 +48,7 @@ public class TokenClassifier {
 
 
     public TokenClassifier(Map <String, TokenClass> tokenLevelRegexes) {
-    	Map <String, TokenClass> copy = new HashMap<String, TokenClassifier.TokenClass>(tokenLevelRegexes);
+    	Map <String, TokenClass> copy = new HashMap<String, TokenClass>(tokenLevelRegexes);
     	this.tokenLevelRegexs = Collections.unmodifiableMap(copy);
     }
 
@@ -211,36 +211,4 @@ public class TokenClassifier {
     }
 
     
-    /** A regular expression used to classify individual Tokens.
-     *
-     * @author ptc24
-     *
-     */
-
-    static class TokenClass {
-
-        private final NamedEntityType type;
-        private final Pattern pattern;
-        private final String name;
-
-        public TokenClass (NamedEntityType type, String regex, String name) {
-        	this.type = type;
-        	this.pattern = Pattern.compile(regex, Pattern.COMMENTS);
-        	this.name = name;
-        }
-
-        public boolean isMatch(String s) {
-            Matcher m = pattern.matcher(s);
-            return m.matches();
-        }
-
-        public NamedEntityType getType() {
-            return type;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-    }
 }

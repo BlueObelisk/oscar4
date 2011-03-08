@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -83,36 +84,39 @@ public final class TermMaps {
         return suffixes;
     }
 
-    private Map<String, String> loadTerms(String path, boolean concatenateTypes) throws IOException, DataFormatException {
-        InputStream is = RESOURCE_GETTER.getStream(path);
+    private static InputStream getStream(String path) throws FileNotFoundException {
+    	return RESOURCE_GETTER.getStream(path);
+    }
+    
+    private static Map<String, String> loadTerms(InputStream is, String encoding, boolean concatenateTypes) throws IOException, DataFormatException {
         try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            BufferedReader in = new BufferedReader(new InputStreamReader(is, encoding));
             return TermsFileReader.loadTermMap(in, concatenateTypes);
         } finally {
             IOUtils.closeQuietly(is);
         }
     }
 
-    private Map<String, NamedEntityType> getNeTermMap(String filename, boolean concatenateTypes) throws IOException, DataFormatException {
-        Map<String,String> termMap = loadTerms(filename, concatenateTypes);
+    public static Map<String, NamedEntityType> loadNeTermMap(InputStream in, String encoding) throws IOException, DataFormatException {
+        Map<String,String> termMap = loadTerms(in, encoding, false);
         Map<String,NamedEntityType> neTermMap = new HashMap<String, NamedEntityType>();
         for (Map.Entry<String,String> e : termMap.entrySet()) {
             neTermMap.put(e.getKey(), NamedEntityType.valueOf(e.getValue()));
         }
-        return neTermMap;
+        return Collections.unmodifiableMap(neTermMap);
     }
 
     private TermMaps() {
         LOG.debug("Initialising term maps... ");
         try {
-        	Map<String,NamedEntityType> neTerms = getNeTermMap(NE_TERMS_FILE, false);
+        	Map<String,NamedEntityType> neTerms = loadNeTermMap(getStream(NE_TERMS_FILE), "UTF-8");
             //add additional neTerms for polymers if set to polymer mode
             if (OscarProperties.getData().polymerMode) {
-                Map <String, NamedEntityType> polyNeTerms = getNeTermMap(POLY_NE_TERMS_FILE, false);
+                Map <String, NamedEntityType> polyNeTerms = loadNeTermMap(getStream(POLY_NE_TERMS_FILE), "UTF-8");
                 neTerms.putAll(polyNeTerms);
             }
             this.neTerms = Collections.unmodifiableMap(neTerms);
-            this.custEnt = Collections.unmodifiableMap(loadTerms(CUST_ENT_TERMS_FILE, true));
+            this.custEnt = Collections.unmodifiableMap(loadTerms(getStream(CUST_ENT_TERMS_FILE), "UTF-8", true));
             this.suffixes = Collections.unmodifiableSet(digestSuffixes(neTerms));	
         } catch (IOException e) {
         	throw new OscarInitialisationException("failed to load TermMaps", e);

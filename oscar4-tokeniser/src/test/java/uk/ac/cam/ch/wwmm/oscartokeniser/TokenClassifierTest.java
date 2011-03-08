@@ -14,7 +14,6 @@ import nu.xom.Document;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier.TokenClass;
 
 
 public class TokenClassifierTest {

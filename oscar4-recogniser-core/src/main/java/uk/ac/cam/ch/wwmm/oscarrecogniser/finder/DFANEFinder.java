@@ -13,7 +13,7 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTermIdIndex;
+import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -122,7 +122,7 @@ public class DFANEFinder extends DFAFinder {
             addNamedEntity(s, neTerms.get(s), true);
         }
         logger.debug("Adding ontology terms to DFA finder...");
-        for(String s : OntologyTermIdIndex.getInstance().getAllTerms()){
+        for(String s : OntologyTerms.getDefaultInstance().getAllTerms()){
             addNamedEntity(s, NamedEntityType.ONTOLOGY, false);
         }
         logger.debug("Adding custom NEs ...");
@@ -285,7 +285,7 @@ public class DFANEFinder extends DFAFinder {
         if (ChemNameDictRegistry.getInstance().hasName(value)) {
             tokenRepresentations.addRepresentation(REP_IN_CND);
         }
-        if (OntologyTermIdIndex.getInstance().containsTerm(normalisedValue)) {
+        if (OntologyTerms.getDefaultInstance().containsTerm(normalisedValue)) {
             tokenRepresentations.addRepresentation(REP_ONT_WORD);
         }
 //        if(!TokenTypes.twoLowerPattern.matcher(t.getValue()).find() && TokenTypes.oneCapitalPattern.matcher(t.getValue()).find()) {

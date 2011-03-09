@@ -83,6 +83,15 @@ public final class OntologyTerms {
 	}
 	
 	
+    /**
+     * Constructor for using custom ontologies
+     * 
+     * @param terms a ListMultimap of ontology terms to corresponding ids
+     */
+	public OntologyTerms(ListMultimap<String, String> terms) {
+		this.termIdMap = Multimaps.unmodifiableListMultimap(terms);
+	}
+
 	/**Whether the ontology set contains a given term name or synonym.
 	 * 
 	 * @param term The term name to query.

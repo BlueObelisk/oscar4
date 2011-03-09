@@ -8,18 +8,22 @@ import java.util.Set;
 
 import org.junit.Test;
 
-
+/**
+ * 
+ * @author dmj30
+ *
+ */
 public class OntologyTermIdIndexTest {
 
 	@Test
 	public void testGetInstance() {
-		OntologyTermIdIndex instance = OntologyTermIdIndex.getInstance();
+		OntologyTerms instance = OntologyTerms.getDefaultInstance();
 		assertNotNull(instance);
 	}
 
 	@Test
 	public void testContainsAcid() {
-		OntologyTermIdIndex instance = OntologyTermIdIndex.getInstance();
+		OntologyTerms instance = OntologyTerms.getDefaultInstance();
 		assertTrue(instance.containsTerm("acid"));
 		List<String> identifiers = instance.getIdsForTerm("acid");
 		assertEquals(1, identifiers.size());
@@ -31,7 +35,7 @@ public class OntologyTermIdIndexTest {
 
 	@Test
 	public void testGetAllTerms() {
-		OntologyTermIdIndex instance = OntologyTermIdIndex.getInstance();
+		OntologyTerms instance = OntologyTerms.getDefaultInstance();
 		Set<String> allTerms = instance.getAllTerms();
 		assertNotSame(0, allTerms.size());
 		assertTrue(allTerms.contains("acid"));
@@ -45,10 +49,28 @@ public class OntologyTermIdIndexTest {
 		strings.add("foo-bar");
 		strings.add("gay bar");
 		
-		Set <String> hyphTokable = OntologyTermIdIndex.getInstance().makeHyphTokable(strings);
+		Set <String> hyphTokable = OntologyTerms.getDefaultInstance().makeHyphTokable(strings);
 		assertEquals(2, hyphTokable.size());
 		assertTrue(hyphTokable.contains("foo bar"));
 		assertTrue(hyphTokable.contains("gay bar"));
 	}
-	
+
+	@Test
+    public void testOntologyNotNull() {
+        OntologyTerms ontologyTerms = OntologyTerms.getDefaultInstance();
+        assertNotNull(ontologyTerms.getOntology());
+    }
+
+    @Test
+    public void testOntologyNotEmpty() {
+    	OntologyTerms ontologyTerms = OntologyTerms.getDefaultInstance();
+        assertFalse(ontologyTerms.getOntology().isEmpty());
+    }
+
+    
+    @Test (expected = UnsupportedOperationException.class)
+    public void testUnmodifiable() {
+    	OntologyTerms ontologyTerms = OntologyTerms.getDefaultInstance();
+    	ontologyTerms.getOntology().put("foo", "bar");
+    }
 }

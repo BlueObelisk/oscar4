@@ -4,16 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimaps;
 
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
@@ -21,45 +19,50 @@ import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
-/**
- * @author Sam Adams
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimaps;
+
+/**Holds strings corresponding to ontology terms and their matching IDs, for
+ * use during named entity recognition.
+ * 
+ * @author ptc24
+ * @author dmj30
+ *
  */
-public class OntologyTerms {
+public final class OntologyTerms {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OntologyTerm.class);
-
+	private static final Logger LOG = LoggerFactory.getLogger(OntologyTerm.class);
     private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter(OntologyTerm.class.getClassLoader(),"/");
-
-    private static final String ONTOLOGY_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/ontology.txt";
+	
+	private static final String ONTOLOGY_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/ontology.txt";
     private static final String POLYMER_ONTOLOGY_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/polyOntology.txt";
-
-    private static OntologyTerms defaultInstance;
-
-    private final ListMultimap<String, String> ontology;
-
-
-    public static OntologyTerms getDefaultInstance() {
-        if (defaultInstance == null) {
-            defaultInstance = loadDefaultInstance();
+	
+	private ListMultimap<String,String> termIdMap;
+	private Set<String> hyphTokable;
+	
+//	private static Pattern maybeHyphPattern = Pattern.compile("(\\S+)\\s+\\$\\(\\s+\\$HYPH\\s+\\$\\)\\s+\\$\\?\\s+(\\S+)");
+//																foo $( $HYPH $) $? bar
+	private static Pattern maybeHyphPattern = Pattern.compile("(\\S+)(?:\\s+|-)(\\S+)");
+	
+	private static OntologyTerms defaultInstance;
+	
+	public static OntologyTerms getDefaultInstance() {
+		if (defaultInstance == null) {
+            return createInstance();
         }
-        return defaultInstance;
-    }
+		return defaultInstance;
+	}
 
-    private static synchronized OntologyTerms loadDefaultInstance() {
+    private static synchronized OntologyTerms createInstance() {
         if (defaultInstance == null) {
             defaultInstance = new OntologyTerms();
         }
-        return defaultInstance;
-    }
-
-    public OntologyTerms(ListMultimap<String,String> terms) {
-        ListMultimap<String,String> copy = ArrayListMultimap.create(terms);
-        this.ontology = Multimaps.unmodifiableListMultimap(copy);
+        return defaultInstance;    
     }
 
     private OntologyTerms() {
-
-        if (OscarProperties.getData().useONT) {
+    	if (OscarProperties.getData().useONT) {
         	ListMultimap<String,String> terms;
         	try {
         		 terms = loadTerms(ONTOLOGY_TERMS_FILE);
@@ -73,14 +76,68 @@ public class OntologyTerms {
             } catch (DataFormatException e) {
             	throw new OscarInitialisationException("failed to load OntologyTerms", e);
 			}
-            this.ontology = Multimaps.unmodifiableListMultimap(terms);
+            this.termIdMap = Multimaps.unmodifiableListMultimap(terms);
         } else {
-            this.ontology = ArrayListMultimap.create();
+            this.termIdMap = ArrayListMultimap.create();
         }
+	}
+	
+	
+	/**Whether the ontology set contains a given term name or synonym.
+	 * 
+	 * @param term The term name to query.
+	 * @return Whether the term exists.
+	 */
+	public boolean containsTerm(String term) {
+		return termIdMap.containsKey(term);
+	}
+	
+	/**Gets all IDs that apply to the term name or synonym , as a
+	 * space-separated list.
+	 * 
+	 * @param term The term name or synonym to query.
+	 * @return The IDs, or null.
+	 */
+	public List<String> getIdsForTerm(String term) {
+		return termIdMap.get(term);
+	}
+	
+	/**Gets all of the term names and synonyms.
+	 * 
+	 * @return The term names an synonyms.
+	 */
+	public Set<String> getAllTerms() {
+		return termIdMap.keySet();
+	}
+	
+	public ListMultimap<String, String> getOntology() {
+		return termIdMap;
+	}
+	
+	/**Produces some data for the HyphenTokeniser.
+	 * 
+	 * @return Some data for the HyphenTokeniser.
+	 */
+	public Set<String> getHyphTokable() {
+		if (hyphTokable == null) {
+			Set<String> ht = makeHyphTokable(termIdMap.keySet());
+            hyphTokable = ht;
+		}
+		return hyphTokable;
+	}
 
-    }
+	Set<String> makeHyphTokable(Set<String> ontologyTerms) {
+		Set<String> ht = new HashSet<String>();
+		for (String term : ontologyTerms) {
+			Matcher m = maybeHyphPattern.matcher(term);
+			while(m.find()) {
+				ht.add(m.group(1) + " " + m.group(2));
+			}
+		}
+		return ht;
+	}
 
-    private ListMultimap<String,String> loadTerms(String path) throws IOException, DataFormatException {
+	private ListMultimap<String,String> loadTerms(String path) throws IOException, DataFormatException {
         LOG.info("Loading ontology terms: "+path);
         InputStream is = RESOURCE_GETTER.getStream(path);
         try {
@@ -90,12 +147,4 @@ public class OntologyTerms {
             is.close();
         }
     }
-
-    /**
-     * @return a Map of ontology terms to space-separated ontology ids
-     */
-    public ListMultimap<String,String> getOntology() {
-        return ontology;
-    }
-    
 }

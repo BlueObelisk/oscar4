@@ -13,7 +13,7 @@ import org.junit.Test;
  * @author dmj30
  *
  */
-public class OntologyTermIdIndexTest {
+public class OntologyTermsTest {
 
 	@Test
 	public void testGetInstance() {

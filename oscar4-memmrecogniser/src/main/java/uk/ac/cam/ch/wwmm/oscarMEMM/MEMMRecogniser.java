@@ -62,7 +62,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
     public DFAONTCPRFinder getOntologyTermFinder() {
         if (ontologyTermFinder == null) {
-            ontologyTermFinder = DFAONTCPRFinder.getInstance();
+            ontologyTermFinder = DFAONTCPRFinder.getDefaultInstance();
         }
         return ontologyTermFinder;
     }

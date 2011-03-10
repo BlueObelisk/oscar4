@@ -71,7 +71,7 @@ public class DFANEFinder extends DFAFinder {
     public static synchronized DFANEFinder getDefaultInstance() {
         if (defaultInstance == null) {
             defaultInstance = new DFANEFinder(TermMaps.getInstance().getNeTerms(),
-            		TokenClassifier.getDefaultInstance());
+            		TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance());
         }
         return defaultInstance;
     }
@@ -106,10 +106,11 @@ public class DFANEFinder extends DFAFinder {
         if (ts.getTokens().size() > 1) defaultInstance = null;
     }
 
-    public DFANEFinder(Map<String, NamedEntityType> neTerms, TokenClassifier tokenClassifier) {
+    public DFANEFinder(Map<String, NamedEntityType> neTerms, TokenClassifier tokenClassifier, OntologyTerms ontologyTerms) {
         logger.debug("Initialising DFA NE Finder...");
         this.neTerms = neTerms;
         this.tokenClassifier = tokenClassifier;
+        this.ontologyTerms = ontologyTerms;
         super.init();
         logger.debug("Initialised DFA NE Finder");
     }
@@ -122,7 +123,7 @@ public class DFANEFinder extends DFAFinder {
             addNamedEntity(s, neTerms.get(s), true);
         }
         logger.debug("Adding ontology terms to DFA finder...");
-        for(String s : OntologyTerms.getDefaultInstance().getAllTerms()){
+        for(String s : ontologyTerms.getAllTerms()){
             addNamedEntity(s, NamedEntityType.ONTOLOGY, false);
         }
         logger.debug("Adding custom NEs ...");
@@ -285,7 +286,7 @@ public class DFANEFinder extends DFAFinder {
         if (ChemNameDictRegistry.getInstance().hasName(value)) {
             tokenRepresentations.addRepresentation(REP_IN_CND);
         }
-        if (OntologyTerms.getDefaultInstance().containsTerm(normalisedValue)) {
+        if (ontologyTerms.containsTerm(normalisedValue)) {
             tokenRepresentations.addRepresentation(REP_ONT_WORD);
         }
 //        if(!TokenTypes.twoLowerPattern.matcher(t.getValue()).find() && TokenTypes.oneCapitalPattern.matcher(t.getValue()).find()) {

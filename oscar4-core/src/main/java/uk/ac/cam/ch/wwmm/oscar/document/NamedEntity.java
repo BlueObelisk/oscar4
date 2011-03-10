@@ -130,7 +130,9 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 		return surface;
 	}
 	
-	/**Gets the ontology identifiers (if any) for the named entity.
+	/**Gets the ontology identifiers for the named entity. Will be null if
+	 * the named entity has no ontology ids, thought the named entity need
+	 * not be of type ONT to have ontology ids.
 	 * 
 	 * @return The ontology identifiers (if any) for the named entity.
 	 */
@@ -150,7 +152,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * 
 	 * @param newOntIds The ontology identifiers to add.
 	 */
-	public void addOntIds(Set<String> newOntIds) {
+	public synchronized void addOntIds(Set<String> newOntIds) {
 		if (newOntIds == null || newOntIds.isEmpty()) {
             return;
         }

@@ -13,6 +13,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
+import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarpattern.saf.StandoffResolver;
@@ -61,9 +62,9 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 * @param neTerms the set of patterns to be used for multi-token named entity recognition
 	 */
 	public PatternRecogniser(ManualAnnotations etd, Map<String, NamedEntityType> neTerms,
-			TokenClassifier classifier) {
+			TokenClassifier classifier, OntologyTerms ontologyTerms) {
 		this.nGram = NGramBuilder.buildModel(etd);
-		this.finder = new DFANEFinder(neTerms, classifier);
+		this.finder = new DFANEFinder(neTerms, classifier, ontologyTerms);
 	}
 	
 

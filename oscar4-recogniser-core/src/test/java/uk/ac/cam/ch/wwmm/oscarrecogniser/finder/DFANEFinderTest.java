@@ -10,12 +10,20 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.PolymerDictionary;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
+import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
@@ -143,5 +151,52 @@ public class DFANEFinderTest {
         Assert.assertTrue(
         	"Oscar did not find HEPEI25K", foundHEPEI25K
         );
+    }
+    
+    @Test
+    public void testFindOntIds() {
+    	String source = "noble gas";
+    	ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+    			Tokeniser.getDefaultInstance(), source);
+    	
+    	List<NamedEntity> nes = finder.findNamedEntities(
+    			procDoc.getTokenSequences().get(0), NGram.getInstance(), DEFAULT_NGRAM_THRESHOLD);
+    	assertEquals(1, nes.size());
+    	assertTrue(NamedEntityType.ONTOLOGY.isInstance(nes.get(0).getType()));
+    	assertEquals(1, nes.get(0).getOntIds().size());
+    	assertTrue(nes.get(0).getOntIds().contains("CHEBI:33309"));
+    }
+    
+    @Test
+    public void testFindCustomOntTerms() {
+    	ListMultimap<String, String> terms = ArrayListMultimap.create();
+    	terms.put("jumps", "foo:001");
+    	terms.put("jumps", "foo:002");
+    	OntologyTerms ontologyTerms = new OntologyTerms(terms);
+    	DFANEFinder finder = new DFANEFinder(
+    			TermMaps.getInstance().getNeTerms(), TokenClassifier.getDefaultInstance(), ontologyTerms);
+    	String source = "The quick brown ethyl acetate jumps over the lazy acetone";
+    	ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+    			Tokeniser.getDefaultInstance(), source);
+    	
+    	List<NamedEntity> nes = finder.findNamedEntities(
+    			procDoc.getTokenSequences().get(0), NGram.getInstance(), DEFAULT_NGRAM_THRESHOLD);
+    	boolean foundJumps = false;
+    	for (NamedEntity ne : nes) {
+			if ("jumps".equals(ne.getSurface())) {
+				assertTrue(NamedEntityType.ONTOLOGY.isInstance(ne.getType()));
+				assertEquals(2, ne.getOntIds().size());
+				assertTrue(ne.getOntIds().contains("foo:001"));
+				assertTrue(ne.getOntIds().contains("foo:002"));
+				foundJumps = true;
+			}
+			else {
+				assertNull(ne.getOntIds());
+			}
+			if (NamedEntityType.ONTOLOGY.isInstance(ne.getType())) {
+				assertEquals("jumps", ne.getSurface());
+			}
+		}
+    	assertTrue(foundJumps);
     }
 }

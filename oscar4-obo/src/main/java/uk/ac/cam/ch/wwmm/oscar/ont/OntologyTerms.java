@@ -38,7 +38,7 @@ public final class OntologyTerms {
 	private static final String ONTOLOGY_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/ontology.txt";
     private static final String POLYMER_ONTOLOGY_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/polyOntology.txt";
 	
-	private ListMultimap<String,String> termIdMap;
+	private ListMultimap<String,String> terms;
 	private Set<String> hyphTokable;
 	
 //	private static Pattern maybeHyphPattern = Pattern.compile("(\\S+)\\s+\\$\\(\\s+\\$HYPH\\s+\\$\\)\\s+\\$\\?\\s+(\\S+)");
@@ -76,9 +76,9 @@ public final class OntologyTerms {
             } catch (DataFormatException e) {
             	throw new OscarInitialisationException("failed to load OntologyTerms", e);
 			}
-            this.termIdMap = Multimaps.unmodifiableListMultimap(terms);
+            this.terms = Multimaps.unmodifiableListMultimap(terms);
         } else {
-            this.termIdMap = ArrayListMultimap.create();
+            this.terms = ArrayListMultimap.create();
         }
 	}
 	
@@ -89,7 +89,7 @@ public final class OntologyTerms {
      * @param terms a ListMultimap of ontology terms to corresponding ids
      */
 	public OntologyTerms(ListMultimap<String, String> terms) {
-		this.termIdMap = Multimaps.unmodifiableListMultimap(terms);
+		this.terms = Multimaps.unmodifiableListMultimap(terms);
 	}
 
 	/**Whether the ontology set contains a given term name or synonym.
@@ -98,7 +98,7 @@ public final class OntologyTerms {
 	 * @return Whether the term exists.
 	 */
 	public boolean containsTerm(String term) {
-		return termIdMap.containsKey(term);
+		return terms.containsKey(term);
 	}
 	
 	/**Gets all IDs that apply to the term name or synonym , as a
@@ -108,7 +108,7 @@ public final class OntologyTerms {
 	 * @return The IDs, or null.
 	 */
 	public List<String> getIdsForTerm(String term) {
-		return termIdMap.get(term);
+		return terms.get(term);
 	}
 	
 	/**Gets all of the term names and synonyms.
@@ -116,11 +116,11 @@ public final class OntologyTerms {
 	 * @return The term names an synonyms.
 	 */
 	public Set<String> getAllTerms() {
-		return termIdMap.keySet();
+		return terms.keySet();
 	}
 	
 	public ListMultimap<String, String> getOntology() {
-		return termIdMap;
+		return terms;
 	}
 	
 	/**Produces some data for the HyphenTokeniser.
@@ -129,7 +129,7 @@ public final class OntologyTerms {
 	 */
 	public Set<String> getHyphTokable() {
 		if (hyphTokable == null) {
-			Set<String> ht = makeHyphTokable(termIdMap.keySet());
+			Set<String> ht = makeHyphTokable(terms.keySet());
             hyphTokable = ht;
 		}
 		return hyphTokable;

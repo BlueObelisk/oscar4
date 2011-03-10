@@ -11,6 +11,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
+import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
@@ -35,7 +36,12 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 	private boolean deprioritiseOnts = false;
 
     public MEMMRecogniser() {
-        
+        this (new ChemPapersModel(), OntologyTerms.getDefaultInstance());
+    }
+    
+    public MEMMRecogniser(MEMMModel model, OntologyTerms ontTerms) {
+    	this.model = model;
+    	this.ontologyTermFinder = new DFAONTCPRFinder(ontTerms);
     }
 
 
@@ -46,9 +52,9 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         return model;
     }
 
-    public void setModel(MEMMModel model) {
-        this.model = model;
-    }
+//    public void setModel(MEMMModel model) {
+//        this.model = model;
+//    }
 
 
     public double getMemmThreshold() {
@@ -67,9 +73,9 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         return ontologyTermFinder;
     }
 
-    public void setOntologyTermFinder(DFAONTCPRFinder ontologyTermFinder) {
-        this.ontologyTermFinder = ontologyTermFinder;
-    }
+//    public void setOntologyTermFinder(DFAONTCPRFinder ontologyTermFinder) {
+//        this.ontologyTermFinder = ontologyTermFinder;
+//    }
     
 
     public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) {

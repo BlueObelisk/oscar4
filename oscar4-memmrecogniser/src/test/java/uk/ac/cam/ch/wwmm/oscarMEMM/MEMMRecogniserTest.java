@@ -16,10 +16,15 @@ import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 
 /**
  * @author egonw
@@ -297,6 +302,60 @@ public class MEMMRecogniserTest {
 		assertEquals(4, nes.size());
 		for (NamedEntity ne : nes) {
 			assertTrue(ne.getDeprioritiseOnt());
+		}
+	}
+	
+	
+	@Test
+	public void testFindsOntologyTerms() {
+		String source = "The quick brown ethyl acetate jumps over the lazy acetone";
+    	ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+    			Tokeniser.getDefaultInstance(), source);
+//    	List <NamedEntity> nes = recogniser.findNamedEntities(procDoc);
+//    	for (NamedEntity namedEntity : nes) {
+//			System.out.println(namedEntity);
+//		}
+//    	assertEquals(2, nes.size());
+//    	assertEquals("ethyl acetate", nes.get(0).getSurface());
+//    	assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(0).getType()));
+//    	assertNull(nes.get(0).getOntIds());
+//    	assertEquals("acetone", nes.get(1).getSurface());
+//    	assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(1).getType()));
+//    	assertNull(nes.get(1).getOntIds());
+
+    	ListMultimap<String, String> ontTerms = ArrayListMultimap.create();
+    	ontTerms.put("jumps", "foo:001");
+    	ontTerms.put("jumps", "foo:002");
+    	MEMMRecogniser customRecogniser = new MEMMRecogniser(
+    			new ChemPapersModel(), new OntologyTerms(ontTerms));
+    	List <NamedEntity> customNes = customRecogniser.findNamedEntities(procDoc);
+    	assertEquals(3, customNes.size());
+    	assertEquals("ethyl acetate", customNes.get(0).getSurface());
+    	assertTrue(NamedEntityType.COMPOUND.isInstance(customNes.get(0).getType()));
+    	assertNull(customNes.get(0).getOntIds());
+    	assertEquals("jumps", customNes.get(1).getSurface());
+    	assertTrue(NamedEntityType.ONTOLOGY.isInstance(customNes.get(1).getType()));
+    	assertEquals(2, customNes.get(1).getOntIds().size());
+    	assertTrue(customNes.get(1).getOntIds().contains("foo:001"));
+    	assertTrue(customNes.get(1).getOntIds().contains("foo:002"));
+    	assertEquals("acetone", customNes.get(2).getSurface());
+    	assertTrue(NamedEntityType.COMPOUND.isInstance(customNes.get(2).getType()));
+    	assertNull(customNes.get(2).getOntIds());
+	}
+	
+	@Test
+	public void testCmCanHaveOntIds() {
+		String text = "isoporphyrin";
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				Tokeniser.getDefaultInstance(), text);
+		List <NamedEntity> nes = recogniser.findNamedEntities(procDoc);
+//		assertEquals(1, nes.size());
+//		assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(0).getType()));
+//		assertEquals(1, nes.get(0).getOntIds().size());
+//		assertTrue(nes.get(0).getOntIds().contains("CHEBI:52538"));
+		for (NamedEntity ne : nes) {
+			assertEquals(1, ne.getOntIds().size());
+			assertTrue(ne.getOntIds().contains("CHEBI:52538"));
 		}
 	}
 }

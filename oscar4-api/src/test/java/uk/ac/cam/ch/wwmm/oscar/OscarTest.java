@@ -14,6 +14,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.PubMedModel;
@@ -98,13 +99,11 @@ public class OscarTest {
 	@Test
 	public void testSetRecogniserModel() {
 		Oscar oscar = new Oscar();
-		MEMMRecogniser chempapersRecogniser = new MEMMRecogniser();
-		chempapersRecogniser.setModel(new ChemPapersModel());
+		MEMMRecogniser chempapersRecogniser = new MEMMRecogniser(new ChemPapersModel(), OntologyTerms.getDefaultInstance());
 		oscar.setRecogniser(chempapersRecogniser);
 		assertTrue(((MEMMRecogniser)oscar.getRecogniser()).getModel() instanceof ChemPapersModel);
 
-		MEMMRecogniser pubmedRecogniser = new MEMMRecogniser();
-		pubmedRecogniser.setModel(new PubMedModel());
+		MEMMRecogniser pubmedRecogniser = new MEMMRecogniser(new PubMedModel(), OntologyTerms.getDefaultInstance());
 		oscar.setRecogniser(pubmedRecogniser);
 		assertTrue(((MEMMRecogniser)oscar.getRecogniser()).getModel() instanceof PubMedModel);
 	}

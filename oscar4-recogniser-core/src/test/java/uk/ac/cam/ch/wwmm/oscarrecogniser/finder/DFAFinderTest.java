@@ -156,6 +156,7 @@ public class DFAFinderTest {
 
         Finder(Map<String,NamedEntityType> terms) {
             this.terms = terms;
+            this.ontologyTerms = OntologyTerms.getDefaultInstance();
             init();
         }
 

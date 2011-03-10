@@ -16,13 +16,18 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
+import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
+import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.TermMaps;
@@ -175,10 +180,59 @@ public class PatternRecogniserTest {
 		Map<String, NamedEntityType> neTerms = new HashMap<String, NamedEntityType>();
 		neTerms.put("$-ene $-yl", NamedEntityType.COMPOUND);
 		PatternRecogniser customRecogniser = new PatternRecogniser(
-				ManualAnnotations.getDefaultInstance(), neTerms, TokenClassifier.getDefaultInstance());
+				ManualAnnotations.getDefaultInstance(), neTerms,
+				TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance());
 		List<NamedEntity> nes2 = customRecogniser.findNamedEntities(procDoc);
 		assertEquals(1, nes2.size());
 		assertEquals("benzene furanyl", nes2.get(0).getSurface());
 	}
 	
+	
+	@Test
+	public void testCustomOntologyTerms() {
+		String source = "The quick brown ethyl acetate jumps over the lazy acetone";
+    	ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+    			Tokeniser.getDefaultInstance(), source);
+    	List <NamedEntity> nes = recogniser.findNamedEntities(procDoc);
+    	assertEquals(2, nes.size());
+    	assertEquals("ethyl acetate", nes.get(0).getSurface());
+    	assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(0).getType()));
+    	assertNull(nes.get(0).getOntIds());
+    	assertEquals("acetone", nes.get(1).getSurface());
+    	assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(1).getType()));
+    	assertNull(nes.get(1).getOntIds());
+    	
+    	ListMultimap<String, String> ontTerms = ArrayListMultimap.create();
+    	ontTerms.put("jumps", "foo:001");
+    	ontTerms.put("jumps", "foo:002");
+    	PatternRecogniser customRecogniser = new PatternRecogniser(
+    			ManualAnnotations.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
+    			TokenClassifier.getDefaultInstance(), new OntologyTerms(ontTerms));
+    	List <NamedEntity> customNes = customRecogniser.findNamedEntities(procDoc);
+    	assertEquals(3, customNes.size());
+    	assertEquals("ethyl acetate", customNes.get(0).getSurface());
+    	assertTrue(NamedEntityType.COMPOUND.isInstance(customNes.get(0).getType()));
+    	assertNull(customNes.get(0).getOntIds());
+    	assertEquals("jumps", customNes.get(1).getSurface());
+    	assertTrue(NamedEntityType.ONTOLOGY.isInstance(customNes.get(1).getType()));
+    	assertEquals(2, customNes.get(1).getOntIds().size());
+    	assertTrue(customNes.get(1).getOntIds().contains("foo:001"));
+    	assertTrue(customNes.get(1).getOntIds().contains("foo:002"));
+    	assertEquals("acetone", customNes.get(2).getSurface());
+    	assertTrue(NamedEntityType.COMPOUND.isInstance(customNes.get(2).getType()));
+    	assertNull(customNes.get(2).getOntIds());
+	}
+	
+	@Test
+	public void testCmCanHaveOntIds() {
+		String text = "isoporphyrin";
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				Tokeniser.getDefaultInstance(), text);
+		List <NamedEntity> nes = recogniser.findNamedEntities(procDoc);
+		assertEquals(1, nes.size());
+		assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(0).getType()));
+		assertEquals(1, nes.get(0).getOntIds().size());
+		assertTrue(nes.get(0).getOntIds().contains("CHEBI:52538"));
+	}
 }
+

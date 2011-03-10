@@ -89,22 +89,22 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	public static void buildAndSerializeDFAONTCPRFinder() throws FileNotFoundException, IOException {
-		writeToWorkspace(new DFAONTCPRFinder());
+	public static void buildAndSerializeDFAONTCPRFinder(OntologyTerms ontologyTerms) throws FileNotFoundException, IOException {
+		writeToWorkspace(new DFAONTCPRFinder(ontologyTerms));
 	}
 	
 	/**Get the DFAONTCPRFinder singleton, initialising if necessary.
 	 * 
 	 * @return The DFAONTCPRFinder singleton.
 	 */
-	public static DFAONTCPRFinder getInstance() {
+	public static DFAONTCPRFinder getDefaultInstance() {
 		if (myInstance == null) {
 //            try {
 //    			myInstance = readFromWorkspace();
 //            } catch (IOException e) {
 //                throw new RuntimeException("Error loading DFAONTCPRFinder data", e);
 //            }
-            myInstance = new DFAONTCPRFinder();
+            myInstance = new DFAONTCPRFinder(OntologyTerms.getDefaultInstance());
 		}
 		return myInstance;
 	}
@@ -114,7 +114,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 */
 	public static void reinitialise() {
 		myInstance = null;
-		getInstance();
+		getDefaultInstance();
 	}
 	
 	/**Destroy the DFAONTCPRFinder singleton.
@@ -135,8 +135,9 @@ public class DFAONTCPRFinder extends DFAFinder {
 		if (ts.getTokens().size() > 1) myInstance = null;
 	}
 	
-	private DFAONTCPRFinder() {
+	public DFAONTCPRFinder(OntologyTerms ontologyTerms) {
 //		logger.debug("Initialising DFA ONT Finder...");
+		this.ontologyTerms = ontologyTerms;
 		super.init();
 //		logger.debug("Initialised DFA ONT Finder");
 	}
@@ -144,7 +145,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	@Override
 	protected void loadTerms() {
 //		logger.debug("Adding ontology terms to DFA finder...");
-		for(String s : OntologyTerms.getDefaultInstance().getAllTerms()){
+		for(String s : ontologyTerms.getAllTerms()){
 			addNamedEntity(s, NamedEntityType.ONTOLOGY, false);
 		}
         for(String s : TermMaps.getInstance().getCustEnt().keySet()){
@@ -181,7 +182,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 		if (!normalisedValue.equals(tokenValue)) {
             representations.addRepresentation(normalisedValue);
         }
-		if (OntologyTerms.getDefaultInstance().containsTerm(normalisedValue)) {
+		if (ontologyTerms.containsTerm(normalisedValue)) {
             representations.addRepresentation(REP_ONTWORD);
         }
 		if (tokenValue.length() == 1) {
@@ -196,6 +197,6 @@ public class DFAONTCPRFinder extends DFAFinder {
 	}
 
 	public static void main(String[] args) throws Exception {
-		buildAndSerializeDFAONTCPRFinder();
+		buildAndSerializeDFAONTCPRFinder(OntologyTerms.getDefaultInstance());
 	}
 }

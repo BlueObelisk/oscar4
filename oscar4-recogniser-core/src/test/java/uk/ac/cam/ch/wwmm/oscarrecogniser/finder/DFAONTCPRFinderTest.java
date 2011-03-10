@@ -8,12 +8,20 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
+import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
@@ -27,7 +35,7 @@ public class DFAONTCPRFinderTest {
     public void testFindNumericalChemicalPrefixes()  {
     	String text = "The 1- and 2-foo bar";
     	ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
-    	List <NamedEntity> nes = DFAONTCPRFinder.getInstance().findNamedEntities(tokenSequence);
+    	List <NamedEntity> nes = DFAONTCPRFinder.getDefaultInstance().findNamedEntities(tokenSequence);
     	assertTrue(toSurfaceList(nes).contains("2-"));
     	assertTrue(toSurfaceList(nes).contains("1-"));
     	assertEquals(2, nes.size());
@@ -37,7 +45,7 @@ public class DFAONTCPRFinderTest {
     public void testFindComplexNumericalChemicalPrefixes() {
     	String text = "The 1,2- and 2,3-foo bar";
     	ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
-    	List <NamedEntity> nes = DFAONTCPRFinder.getInstance().findNamedEntities(tokenSequence);
+    	List <NamedEntity> nes = DFAONTCPRFinder.getDefaultInstance().findNamedEntities(tokenSequence);
     	assertTrue(toSurfaceList(nes).contains("2,3-"));
     	assertTrue(toSurfaceList(nes).contains("1,2-"));
     	assertEquals(2, nes.size());
@@ -47,7 +55,7 @@ public class DFAONTCPRFinderTest {
     public void testFindWordyChemicalPrefixes() {
     	String text = "The cis- and trans-foo bar";
     	ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
-    	List <NamedEntity> nes = DFAONTCPRFinder.getInstance().findNamedEntities(tokenSequence);
+    	List <NamedEntity> nes = DFAONTCPRFinder.getDefaultInstance().findNamedEntities(tokenSequence);
     	assertTrue(toSurfaceList(nes).contains("trans-"));
     	assertTrue(toSurfaceList(nes).contains("cis-"));
     	assertEquals(2, nes.size());
@@ -57,7 +65,7 @@ public class DFAONTCPRFinderTest {
     public void testDontFindNonChemicalPrefixes() {
     	String text = "The foo- and bar-foobar";
     	ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
-    	List <NamedEntity> nes = DFAONTCPRFinder.getInstance().findNamedEntities(tokenSequence);
+    	List <NamedEntity> nes = DFAONTCPRFinder.getDefaultInstance().findNamedEntities(tokenSequence);
     	assertEquals(0, nes.size());
     }
     
@@ -81,7 +89,7 @@ public class DFAONTCPRFinderTest {
     	TokenSequence tokSeq = new TokenSequence("1,2-", 0, null, tokens);
     	t.setTokenSequence(tokSeq);
     	
-    	DFAONTCPRFinder.getInstance().handleTokenForPrefix(t, collector);
+    	DFAONTCPRFinder.getDefaultInstance().handleTokenForPrefix(t, collector);
     	List <NamedEntity> nes = collector.getNes(); 
     	assertEquals(1, nes.size());
     	assertEquals("1,2-", nes.get(0).getSurface());
@@ -99,7 +107,7 @@ public class DFAONTCPRFinderTest {
     	TokenSequence tokSeq = new TokenSequence("2,3-substituted", 0, null, tokens);
     	t.setTokenSequence(tokSeq);
     	
-    	DFAONTCPRFinder.getInstance().handleTokenForPrefix(t, collector);
+    	DFAONTCPRFinder.getDefaultInstance().handleTokenForPrefix(t, collector);
     	List <NamedEntity> nes = collector.getNes(); 
     	assertEquals(1, nes.size());
     	assertEquals("2,3-", nes.get(0).getSurface());
@@ -122,10 +130,10 @@ public class DFAONTCPRFinderTest {
     	t1.setTokenSequence(tokSeq);
     	t2.setTokenSequence(tokSeq);
     	
-    	DFAONTCPRFinder.getInstance().handleTokenForPrefix(t1, collector);
+    	DFAONTCPRFinder.getDefaultInstance().handleTokenForPrefix(t1, collector);
     	assertEquals(0, collector.getNes().size());
     	
-    	DFAONTCPRFinder.getInstance().handleTokenForPrefix(t2, collector);
+    	DFAONTCPRFinder.getDefaultInstance().handleTokenForPrefix(t2, collector);
     	List <NamedEntity> nes = collector.getNes(); 
     	assertEquals(1, nes.size());
     	assertEquals("2,3-", nes.get(0).getSurface());
@@ -143,7 +151,7 @@ public class DFAONTCPRFinderTest {
     	TokenSequence tokSeq = new TokenSequence("endo-", 0, null, tokens);
     	t.setTokenSequence(tokSeq);
     	
-    	DFAONTCPRFinder.getInstance().handleTokenForPrefix(t, collector);
+    	DFAONTCPRFinder.getDefaultInstance().handleTokenForPrefix(t, collector);
     	List <NamedEntity> nes = collector.getNes(); 
     	assertEquals(1, nes.size());
     	assertEquals("endo-", nes.get(0).getSurface());
@@ -161,7 +169,7 @@ public class DFAONTCPRFinderTest {
     	TokenSequence tokSeq = new TokenSequence("trans-isomer", 0, null, tokens);
     	t.setTokenSequence(tokSeq);
     	
-    	DFAONTCPRFinder.getInstance().handleTokenForPrefix(t, collector);
+    	DFAONTCPRFinder.getDefaultInstance().handleTokenForPrefix(t, collector);
     	List <NamedEntity> nes = collector.getNes(); 
     	assertEquals(1, nes.size());
     	assertEquals("trans-", nes.get(0).getSurface());
@@ -184,13 +192,48 @@ public class DFAONTCPRFinderTest {
     	t1.setTokenSequence(tokSeq);
     	t2.setTokenSequence(tokSeq);
     	
-    	DFAONTCPRFinder.getInstance().handleTokenForPrefix(t1, collector);
+    	DFAONTCPRFinder.getDefaultInstance().handleTokenForPrefix(t1, collector);
     	assertEquals(0, collector.getNes().size());
     	
-    	DFAONTCPRFinder.getInstance().handleTokenForPrefix(t2, collector);
+    	DFAONTCPRFinder.getDefaultInstance().handleTokenForPrefix(t2, collector);
     	List <NamedEntity> nes = collector.getNes(); 
     	assertEquals(1, nes.size());
     	assertEquals("exo-", nes.get(0).getSurface());
     	assertTrue(NamedEntityType.LOCANTPREFIX == nes.get(0).getType());
+    }
+    
+    
+    @Test
+    public void testFindOntIds() {
+    	String source = "noble gas";
+    	ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+    			Tokeniser.getDefaultInstance(), source);
+    	
+    	List<NamedEntity> nes = DFAONTCPRFinder.getDefaultInstance().findNamedEntities(
+    			procDoc.getTokenSequences().get(0));
+    	assertEquals(1, nes.size());
+    	assertTrue(NamedEntityType.ONTOLOGY.isInstance(nes.get(0).getType()));
+    	assertEquals(1, nes.get(0).getOntIds().size());
+    	assertTrue(nes.get(0).getOntIds().contains("CHEBI:33309"));
+    }
+    
+    @Test
+    public void testFindCustomOntTerms() {
+    	ListMultimap<String, String> terms = ArrayListMultimap.create();
+    	terms.put("jumps", "foo:001");
+    	terms.put("jumps", "foo:002");
+    	OntologyTerms ontologyTerms = new OntologyTerms(terms);
+    	DFAONTCPRFinder finder = new DFAONTCPRFinder(ontologyTerms);
+    	String source = "The quick brown ethyl acetate jumps over the lazy acetone";
+    	ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+    			Tokeniser.getDefaultInstance(), source);
+    	
+    	List<NamedEntity> nes = finder.findNamedEntities(
+    			procDoc.getTokenSequences().get(0));
+    	assertEquals(1, nes.size());
+    	assertTrue(NamedEntityType.ONTOLOGY.isInstance(nes.get(0).getType()));
+		assertEquals(2, nes.get(0).getOntIds().size());
+		assertTrue(nes.get(0).getOntIds().contains("foo:001"));
+		assertTrue(nes.get(0).getOntIds().contains("foo:002"));
     }
 }

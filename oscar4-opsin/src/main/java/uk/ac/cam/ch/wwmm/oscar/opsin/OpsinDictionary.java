@@ -53,10 +53,10 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 	public Set<String> getInChI(String queryName) {
 		try {
 			NameToStructure nameToStructure = NameToStructure.getInstance();
-			OpsinResult result = nameToStructure.parseChemicalName(queryName, false);
+			OpsinResult result = nameToStructure.parseChemicalName(queryName);
 			if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
 				Set<String> inchis = new HashSet<String>();
-				String inchi = NameToInchi.convertResultToInChI(result, false);
+				String inchi = NameToInchi.convertResultToInChI(result);
 				inchis.add(inchi);
 				return inchis;
 			}
@@ -90,7 +90,7 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 	public Set<Element> getCML(String queryName) {
 		try {
 			NameToStructure nameToStructure = NameToStructure.getInstance();
-			OpsinResult result = nameToStructure.parseChemicalName(queryName, false);
+			OpsinResult result = nameToStructure.parseChemicalName(queryName);
 			if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
 				Set<Element> cmls = new HashSet<Element>();
 				Element cml = result.getCml();
@@ -110,7 +110,7 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 	public Set<String> getSMILES(String queryName) {
 		try {
 			NameToStructure nameToStructure = NameToStructure.getInstance();
-			OpsinResult result = nameToStructure.parseChemicalName(queryName, false);
+			OpsinResult result = nameToStructure.parseChemicalName(queryName);
 			if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
 				Set<String> smiles = new HashSet<String>();
 				smiles.add(result.getSmiles());

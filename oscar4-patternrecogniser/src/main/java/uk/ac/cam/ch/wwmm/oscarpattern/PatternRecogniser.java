@@ -7,10 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
+
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
@@ -22,6 +27,7 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
+import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
  * Name recognition using patterns
@@ -74,92 +80,95 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 
 	//TODO this method is enormous and needs refactoring
 	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) {
-	 	List<NamedEntity> stopNeList;
 
-		//String text = doc.getValue();
-
-	 	List<NamedEntity> neList = new ArrayList<NamedEntity>();
-
-	 	Map<Integer,Token> tokensByStart = new HashMap<Integer,Token>();
-
+	 	//run the DFANEFinder
+		List<NamedEntity> neList = new ArrayList<NamedEntity>();
 	 	for(ITokenSequence t : tokenSequences) {
 			neList.addAll(finder.findNamedEntities(t, nGram, ngramThreshold));
 		}
-
-		// Make sure all NEs at a position share their ontIds
-		Map<String,Set<String>> ontIdsForNePos = new HashMap<String,Set<String>>();
-		Map<String,Set<String>> custTypesForNePos = new HashMap<String,Set<String>>();
-		for(NamedEntity ne : neList) {
-			String posStr = ne.getStart() + ":" + ne.getEnd();
-			Set<String> ontIds = ne.getOntIds();
-			if(ontIds != null) {
-				if(ontIdsForNePos.containsKey(posStr)) {
-					ontIdsForNePos.get(posStr).addAll(ontIds);
-				} else {
-					ontIdsForNePos.put(posStr, new HashSet<String>(ontIds));
-				}
-			}
-			Set<String> custTypes = ne.getCustTypes();
-			if(custTypes != null) {
-				if(custTypesForNePos.containsKey(posStr)) {
-					custTypesForNePos.get(posStr).addAll(custTypes);
-				} else {
-					custTypesForNePos.put(posStr, new HashSet<String>(custTypes));
-				}
-			}
-		}
-
+	 	
+		//make a list of ONT, CUST and CPR nes
 		List<NamedEntity> preserveNes = new ArrayList<NamedEntity>();
-
-		for(NamedEntity ne : neList) {
+		for (NamedEntity ne : preserveNes) {
 			if(NamedEntityType.ONTOLOGY.equals(ne.getType()) || NamedEntityType.LOCANTPREFIX.equals(ne.getType()) || NamedEntityType.CUSTOM.equals(ne.getType())) {
 				preserveNes.add(ne);
 			}
-			String posStr = ne.getStart() + ":" + ne.getEnd();
-			Set<String> ontIds = ontIdsForNePos.get(posStr);
-			if(ontIds != null) ne.setOntIds(ontIds);
-			Set<String> custTypes = custTypesForNePos.get(posStr);
-			if(custTypes != null) ne.setCustTypes(custTypes);
 		}
+	 	
 
-		List<NamedEntity> rsList = StandoffResolver.resolveStandoffs(neList);
-		neList.clear();
-		for(NamedEntity rs : rsList) {
-			neList.add(rs);
-		}
+		mergeOntIdsAndCustTypes(neList);
 
-		/*
-		Collections.sort(neList, new NEComparator());
+		//identify and remove blocked named entities
+		neList = StandoffResolver.resolveStandoffs(neList);
 
-		// Filter NEs
-		if(neList.size() > 0) {
-			NamedEntity activeNe = neList.get(0);
-			int j = 1;
-			while(j < neList.size()) {
-				if(activeNe.overlapsWith(neList.get(j))) {
-					neList.remove(j);
-				} else {
-					activeNe = neList.get(j);
-					j++;
-				}
+		handlePotentialAcronyms(tokenSequences, neList);
+		
+		
+		
+		// remove stopwords
+		int i = 0;
+		while(i < neList.size()) {
+			NamedEntity ne = neList.get(i);
+			if(NamedEntityType.STOP.equals(ne.getType())) {
+				neList.remove(i);
+			} else {
+				i++;
 			}
-		}*/
+		}
 
-		Map<String,NamedEntityType> acroMap = new HashMap<String,NamedEntityType>();
+		
+		// Some CPRs and ONTs will have been lost in the stopwording process
+		// dmj30 really? why?
+		//TODO investigate whether this step is necessary
+		// Re-introduce them, and do the resolution process again
+		neList.addAll(preserveNes);
+		setPseudoConfidences(neList);
+		neList = StandoffResolver.resolveStandoffs(neList);
 
+		
+		return neList;
+	}//findNamedEntities
+
+	static void handlePotentialAcronyms(List<ITokenSequence> tokenSequences, List<NamedEntity> neList) {
+		
 		Map<Integer,NamedEntity> endToNe = new HashMap<Integer,NamedEntity>();
-		Map<Integer,NamedEntity> startToNe = new HashMap<Integer,NamedEntity>();
-
 		for(NamedEntity ne : neList) {
 			endToNe.put(ne.getEnd(), ne);
-			startToNe.put(ne.getStart(), ne);
 		}
+		
+	 	Map<Integer,IToken> tokensByStart = new HashMap<Integer,IToken>();
+	 	for (ITokenSequence tokSeq : tokenSequences) {
+	 		for (IToken token : tokSeq.getTokens()) {
+				tokensByStart.put(token.getStart(), token);
+			}
+		}
+		
+		Map<String, NamedEntityType> acroMap = identifyAcronyms(neList, endToNe, tokensByStart);
 
-		// Potential acronyms
+		//set named entity types for the detected acronyms & remove other POTENTIALACRONYM entities 
+		int j = 0;
+		while(j < neList.size()) {
+			NamedEntity ne = neList.get(j);
+			if(NamedEntityType.POTENTIALACRONYM.equals(ne.getType())) {
+				if(acroMap.containsKey(ne.getSurface())) {
+					ne.setType(acroMap.get(ne.getSurface()));
+					j++;
+				} else {
+					neList.remove(j);
+				}
+			} else {
+				j++;
+			}
+		}
+	}
+
+	static Map<String, NamedEntityType> identifyAcronyms(List<NamedEntity> neList,
+			Map<Integer, NamedEntity> endToNe, Map<Integer, IToken> tokensByStart) {
+
+		Map<String,NamedEntityType> acroMap = new HashMap<String,NamedEntityType>();
 		for(NamedEntity ne : neList) {
 			if(NamedEntityType.POTENTIALACRONYM.equals(ne.getType())) {
 				int start = ne.getStart();
-				//int end = ne.getEnd();
 				
 				IToken t = tokensByStart.get(start);
 				if(t != null && t.getNAfter(-2) != null && t.getNAfter(1) != null) {
@@ -167,14 +176,12 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 					IToken next = t.getNAfter(1);
 					IToken prevPrev = t.getNAfter(-2);
 					if(prev.getSurface().equals("(") && next.getSurface().endsWith(")")) {
-						//boolean matched = false;
 						if(endToNe.containsKey(prevPrev.getEnd())) {
 							NamedEntity acronymOf = endToNe.get(prevPrev.getEnd());
 							if(StringTools.testForAcronym(ne.getSurface(), acronymOf.getSurface())) {
 								if(NamedEntityType.ASE.equals(acronymOf.getType()) || NamedEntityType.ASES.equals(acronymOf.getType())) {
 									//System.out.println("Skip ASE acronym");
 								} else {
-									//matched = true;
 									if (acroMap.containsKey(ne.getSurface())) {
 										NamedEntityType newValue = ne.getType();
 										NamedEntityType oldValue = acroMap.get(ne.getSurface());
@@ -189,65 +196,46 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 						}
 					}
 				}
+			}
+		}
+		return acroMap;
+	}
 
-				/*int index = neList.indexOf(ne);
-				if(index == 0) continue;
-				NamedEntity previous = neList.get(index-1);
-				int prevEnd = previous.getEnd();
-				String inBetween = text.substring(prevEnd, start);
-				try {
-					String afterWards = text.substring(end);
-					if(afterWards != null && afterWards.length() > 0 &&
-							inBetween.matches("\\s*\\(\\s*") &&
-							afterWards.startsWith(")") &&
-							StringTools.testForAcronym(ne.getSurface(), previous.getSurface())) {
-						System.out.println(ne.getSurface() + " is " + previous.getSurface());
-						if(previous.getType(this).equals(NETypes.ASE) || previous.getType(this).equals(NETypes.ASES)) {
-							System.out.println("Skip ASE acronym");
-						} else {
-							acroMap.put(ne.getSurface(), previous.getType(this));
-						}
-					}
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}*/
-
+	
+	/**
+	 * Make sure all NEs at a position share their ontIds and custTypes
+	 * @param neList
+	 */
+	static void mergeOntIdsAndCustTypes(List<NamedEntity> neList) {
+	 	// populate the ...ForNePos indexes
+		SetMultimap<String, String> ontIdsForNePos = HashMultimap.create();
+		SetMultimap<String, String> custTypesForNePos = HashMultimap.create();
+		for(NamedEntity ne : neList) {
+			String posStr = ne.getStart() + ":" + ne.getEnd();
+			Set<String> ontIds = ne.getOntIds();
+			if(ontIds != null) {
+				ontIdsForNePos.putAll(posStr, ontIds);
+			}
+			Set<String> custTypes = ne.getCustTypes();
+			if(custTypes != null) {
+				custTypesForNePos.putAll(posStr, custTypes);
 			}
 		}
 
-		stopNeList = new ArrayList<NamedEntity>();
-
-		int i = 0;
-		while(i < neList.size()) {
-			NamedEntity ne = neList.get(i);
-			if(NamedEntityType.POTENTIALACRONYM.equals(ne.getType())) {
-				if(acroMap.containsKey(ne.getSurface())) {
-					ne.setType(acroMap.get(ne.getSurface()));
-					i++;
-				} else {
-					neList.remove(i);
-				}
-			} else if(NamedEntityType.STOP.equals(ne.getType())) {
-				neList.remove(i);
-				stopNeList.add(ne);
-			} else {
-				i++;
+		//set the ontIds and custIds
+		for(NamedEntity ne : neList) {
+			String posStr = ne.getStart() + ":" + ne.getEnd();
+			Set<String> ontIds = ontIdsForNePos.get(posStr);
+			if(ontIds.size() > 0) {
+				ne.setOntIds(ontIds);
+			}
+			Set<String> custTypes = custTypesForNePos.get(posStr);
+			if(custTypes.size() > 0) {
+				ne.setCustTypes(custTypes);
 			}
 		}
-
-		// Some CPRs and ONTs will have been lost in the stopwording process
-		// Re-introduce them, and do the resolution process again
-		neList.addAll(preserveNes);
-		setPseudoConfidences(neList);
-		rsList = StandoffResolver.resolveStandoffs(neList);
-		neList.clear();
-		for(NamedEntity rs : rsList) {
-			neList.add(rs);
-		}
-
-		
-		return neList;
-	}//findNamedEntities
+	}
+	
 
 	void setPseudoConfidences(List<NamedEntity> neList) {
 		for(NamedEntity ne : neList) {
@@ -331,7 +319,5 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	public void setDeprioritiseOnts(boolean deprioritiseOnts) {
 		this.deprioritiseOnts  = deprioritiseOnts;
 	}
-
-	
 
 }

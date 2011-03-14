@@ -5,11 +5,15 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import nu.xom.Document;
+
+import opennlp.tools.ngram.Token;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -21,9 +25,11 @@ import com.google.common.collect.ListMultimap;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
+import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
@@ -169,7 +175,7 @@ public class PatternRecogniserTest {
 
 	
 	@Test
-	public void customiseNeTerms() throws DataFormatException, IOException {
+	public void testWithCustomNeTerms() throws DataFormatException, IOException {
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), "benzene furanyl");
 		List<NamedEntity> nes = recogniser.findNamedEntities(procDoc);
@@ -234,5 +240,134 @@ public class PatternRecogniserTest {
 		assertEquals(1, nes.get(0).getOntIds().size());
 		assertTrue(nes.get(0).getOntIds().contains("CHEBI:52538"));
 	}
+	
+	
+	@Test
+	public void testFindNamedEntitiesIncludesAdHocAcronyms() {
+		String defined = "the quick polystyrene (PY) fox jumps over the PY dog.";
+		String unDefined = "the quick PY fox jumps over the PY dog.";
+		ProcessingDocument definedDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				Tokeniser.getDefaultInstance(), defined);
+		ProcessingDocument unDefinedDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				Tokeniser.getDefaultInstance(), unDefined);
+		
+		assertEquals(0, recogniser.findNamedEntities(unDefinedDoc).size());
+		List <NamedEntity> nes = recogniser.findNamedEntities(definedDoc);
+		assertEquals(3, nes.size());
+		
+		assertEquals("polystyrene", nes.get(0).getSurface());
+		assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(0).getType()));
+		assertEquals(10, nes.get(0).getStart());
+		
+		assertEquals("PY", nes.get(1).getSurface());
+		assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(1).getType()));
+		assertEquals(23, nes.get(1).getStart());
+		
+		assertEquals("PY", nes.get(2).getSurface());
+		assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(2).getType()));
+		assertEquals(46, nes.get(2).getStart());
+	}
+	
+	
+	@Test
+	public void testMergeOntIdsAndCustTypes() {
+		List<NamedEntity> nes = new ArrayList<NamedEntity>();
+		NamedEntity ne1 = new NamedEntity("foo", 2, 4, NamedEntityType.COMPOUND);
+		NamedEntity ne2 = new NamedEntity("foo", 2, 4, NamedEntityType.ONTOLOGY);
+		ne2.setOntIds(new HashSet<String>(Arrays.asList(new String [] {"foo:001", "foo:002"})));
+		NamedEntity ne3 = new NamedEntity("foo", 2, 4, NamedEntityType.ONTOLOGY);
+		ne3.setOntIds(new HashSet<String>(Arrays.asList(new String [] {"foo:001", "foo:003"})));
+		NamedEntity ne4 = new NamedEntity("food", 2, 5, NamedEntityType.COMPOUND);
+		
+		NamedEntity ne5 = new NamedEntity("bar", 6, 8, NamedEntityType.COMPOUND);
+		NamedEntity ne6 = new NamedEntity("bar", 6, 8, NamedEntityType.CUSTOM);
+		ne6.setCustTypes(new HashSet<String>(Arrays.asList(new String[] {"FOO"})));
+		NamedEntity ne7 = new NamedEntity("bar", 6, 8, NamedEntityType.CUSTOM);
+		ne7.setCustTypes(new HashSet<String>(Arrays.asList(new String[] {"BAR"})));
+		NamedEntity ne8 = new NamedEntity("baritone", 6, 13, NamedEntityType.COMPOUND);
+		
+		nes.add(ne1);
+		nes.add(ne2);
+		nes.add(ne3);
+		nes.add(ne4);
+		nes.add(ne5);
+		nes.add(ne6);
+		nes.add(ne7);
+		nes.add(ne8);
+		
+		PatternRecogniser.mergeOntIdsAndCustTypes(nes);
+		
+		assertEquals(3, nes.get(0).getOntIds().size());
+		assertTrue(nes.get(0).getOntIds().contains("foo:001"));
+		assertTrue(nes.get(0).getOntIds().contains("foo:002"));
+		assertTrue(nes.get(0).getOntIds().contains("foo:003"));
+		assertNull(nes.get(0).getCustTypes());
+		
+		assertEquals(3, nes.get(1).getOntIds().size());
+		assertTrue(nes.get(1).getOntIds().contains("foo:001"));
+		assertTrue(nes.get(1).getOntIds().contains("foo:002"));
+		assertTrue(nes.get(1).getOntIds().contains("foo:003"));
+		assertNull(nes.get(1).getCustTypes());
+		
+		assertEquals(3, nes.get(2).getOntIds().size());
+		assertTrue(nes.get(2).getOntIds().contains("foo:001"));
+		assertTrue(nes.get(2).getOntIds().contains("foo:002"));
+		assertTrue(nes.get(2).getOntIds().contains("foo:003"));
+		assertNull(nes.get(2).getCustTypes());
+		
+		assertNull(nes.get(3).getOntIds());
+		assertNull(nes.get(3).getCustTypes());
+		
+		assertEquals(2, nes.get(4).getCustTypes().size());
+		assertTrue(nes.get(4).getCustTypes().contains("FOO"));
+		assertTrue(nes.get(4).getCustTypes().contains("BAR"));
+		assertNull(nes.get(4).getOntIds());
+		
+		assertEquals(2, nes.get(5).getCustTypes().size());
+		assertTrue(nes.get(5).getCustTypes().contains("FOO"));
+		assertTrue(nes.get(5).getCustTypes().contains("BAR"));
+		assertNull(nes.get(5).getOntIds());
+
+		assertEquals(2, nes.get(6).getCustTypes().size());
+		assertTrue(nes.get(6).getCustTypes().contains("FOO"));
+		assertTrue(nes.get(6).getCustTypes().contains("BAR"));
+		assertNull(nes.get(6).getOntIds());
+		
+		assertNull(nes.get(7).getCustTypes());
+		assertNull(nes.get(7).getOntIds());
+	}
+	
+	
+	@Test
+	public void testIdentifyAcronyms() {
+		String source = "foo polystyrene (FOOBAR), more FOOBAR, ethylene diamine tetra acetate (EDTA) and more EDTA";
+		List <ITokenSequence> tokSeqList = new ArrayList<ITokenSequence>();
+		tokSeqList.add(Tokeniser.getDefaultInstance().tokenise(source));
+		List <NamedEntity> nes = new ArrayList<NamedEntity>();
+		nes.add(new NamedEntity("polystyrene", 4, 15, NamedEntityType.COMPOUND));
+		nes.add(new NamedEntity("FOOBAR", 17, 23, NamedEntityType.POTENTIALACRONYM));
+		nes.add(new NamedEntity("FOOBAR", 31, 37, NamedEntityType.POTENTIALACRONYM));
+		nes.add(new NamedEntity("ethylene diamine tetra acetate", 39, 69, NamedEntityType.COMPOUND));
+		nes.add(new NamedEntity("EDTA", 71, 75, NamedEntityType.POTENTIALACRONYM));
+		nes.add(new NamedEntity("EDTA", 86, 90, NamedEntityType.POTENTIALACRONYM));		
+		
+		PatternRecogniser.handlePotentialAcronyms(tokSeqList, nes);
+		assertEquals(4, nes.size());
+		assertEquals("polystyrene", nes.get(0).getSurface());
+		assertTrue(NamedEntityType.COMPOUND.equals(nes.get(0).getType()));
+		
+		assertEquals("ethylene diamine tetra acetate", nes.get(1).getSurface());
+		assertTrue(NamedEntityType.COMPOUND.equals(nes.get(1).getType()));
+		
+		assertEquals("EDTA", nes.get(2).getSurface());
+		assertTrue(NamedEntityType.COMPOUND.equals(nes.get(2).getType()));
+		assertEquals(71, nes.get(2).getStart());
+		
+		assertEquals("EDTA", nes.get(3).getSurface());
+		assertTrue(NamedEntityType.COMPOUND.equals(nes.get(3).getType()));
+		assertEquals(86, nes.get(3).getStart());
+	}
 }
+
+
 

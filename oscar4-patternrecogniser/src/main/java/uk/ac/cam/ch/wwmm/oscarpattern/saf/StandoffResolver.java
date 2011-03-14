@@ -65,7 +65,7 @@ public class StandoffResolver {
 						// Drop this one, move onto the next
 						addToBuffer = false;
 						break;
-					// Confidence, but can be either calculate or pseudo confidence(as specified in OSCARprops)
+					// Confidence, but can be either calculate or pseudo confidence(as set in the ChemicalNameRecogniser)
 					} else if(rs.comparePseudoOrCalculatedConfidenceTo(prs) == 1) {
 						// Remove the other
 						standoffBuffer.remove(i);

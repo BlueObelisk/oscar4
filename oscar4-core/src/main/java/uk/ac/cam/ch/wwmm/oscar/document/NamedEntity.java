@@ -55,6 +55,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	}
 
     public NamedEntity(String surface, int start, int end, NamedEntityType type) {
+    	//TODO do we want to initialise confidence & pseudoconf to Double.NaN as above?
         this.surface = surface;
         this.startOffset = start;
         this.endOffset = end;

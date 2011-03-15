@@ -78,7 +78,8 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 		return findNamedEntities(procDoc.getTokenSequences());
 	}
 
-	//TODO this method is enormous and needs refactoring
+	
+	
 	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) {
 
 	 	//run the DFANEFinder
@@ -94,29 +95,14 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 				preserveNes.add(ne);
 			}
 		}
-	 	
 
 		mergeOntIdsAndCustTypes(neList);
-
 		//identify and remove blocked named entities
 		neList = StandoffResolver.resolveStandoffs(neList);
 
 		handlePotentialAcronyms(tokenSequences, neList);
-		
-		
-		
-		// remove stopwords
-		int i = 0;
-		while(i < neList.size()) {
-			NamedEntity ne = neList.get(i);
-			if(NamedEntityType.STOP.equals(ne.getType())) {
-				neList.remove(i);
-			} else {
-				i++;
-			}
-		}
+		removeStopwords(neList);
 
-		
 		// Some CPRs and ONTs will have been lost in the stopwording process
 		// dmj30 really? why?
 		//TODO investigate whether this step is necessary
@@ -129,6 +115,34 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 		return neList;
 	}//findNamedEntities
 
+	
+	/**
+	 * Removes from the neList all named entities that are of type STOP
+	 * @param neList
+	 */
+	static void removeStopwords(List<NamedEntity> neList) {
+		int i = 0;
+		while(i < neList.size()) {
+			NamedEntity ne = neList.get(i);
+			if(NamedEntityType.STOP.equals(ne.getType())) {
+				neList.remove(i);
+			} else {
+				i++;
+			}
+		}
+	}
+
+	/**
+	 * Finds acronyms (technically, abbreviations) that fit the pattern "$NE ($AHA)" where "$NE"
+	 * is a named entity and "($AHA)" is an acronym wrapped in round brackets. The acronym
+	 * must be composed of letters that occur in that order in the $NE surface text, e.g.
+	 * "PS" and "PY" are acceptable acronyms for polystyrene but "PZ" is not. Those potential
+	 * acronyms, and further occurences of that string, that fit this requirement are converted
+	 * to the named entity type of $NE, while those that do not are removed from the neList.
+	 *
+	 * @param tokenSequences
+	 * @param neList
+	 */
 	static void handlePotentialAcronyms(List<ITokenSequence> tokenSequences, List<NamedEntity> neList) {
 		
 		Map<Integer,NamedEntity> endToNe = new HashMap<Integer,NamedEntity>();
@@ -162,15 +176,22 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 		}
 	}
 
+	
+	/**
+	 * Determines which potential acronyms fit the acronym requirement. 
+	 * 
+	 * @param neList
+	 * @param endToNe
+	 * @param tokensByStart
+	 * @return a Map of surface strings to appropriate named entity type
+	 */
 	static Map<String, NamedEntityType> identifyAcronyms(List<NamedEntity> neList,
 			Map<Integer, NamedEntity> endToNe, Map<Integer, IToken> tokensByStart) {
 
 		Map<String,NamedEntityType> acroMap = new HashMap<String,NamedEntityType>();
 		for(NamedEntity ne : neList) {
 			if(NamedEntityType.POTENTIALACRONYM.equals(ne.getType())) {
-				int start = ne.getStart();
-				
-				IToken t = tokensByStart.get(start);
+				IToken t = tokensByStart.get(ne.getStart());
 				if(t != null && t.getNAfter(-2) != null && t.getNAfter(1) != null) {
 					IToken prev = t.getNAfter(-1);
 					IToken next = t.getNAfter(1);

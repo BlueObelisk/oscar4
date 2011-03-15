@@ -367,6 +367,23 @@ public class PatternRecogniserTest {
 		assertTrue(NamedEntityType.COMPOUND.equals(nes.get(3).getType()));
 		assertEquals(86, nes.get(3).getStart());
 	}
+	
+	
+	@Test
+	public void testRemoveStopwords() {
+		List<NamedEntity> nes = new ArrayList<NamedEntity>();
+		nes.add(new NamedEntity("", 0, 0, NamedEntityType.COMPOUND));
+		nes.add(new NamedEntity("", 0, 0, NamedEntityType.REACTION));
+		nes.add(new NamedEntity("", 0, 0, NamedEntityType.STOP));
+		nes.add(new NamedEntity("", 0, 0, NamedEntityType.ONTOLOGY));
+		nes.add(new NamedEntity("", 0, 0, NamedEntityType.ONTOLOGY));
+		nes.add(new NamedEntity("", 0, 0, NamedEntityType.STOP));
+		PatternRecogniser.removeStopwords(nes);
+		assertEquals(4, nes.size());
+		for (NamedEntity ne : nes) {
+			assertFalse(NamedEntityType.STOP.equals(ne.getType()));
+		}
+	}
 }
 
 

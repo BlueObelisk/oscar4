@@ -25,7 +25,6 @@ public class Bag<X> {
 	
 	private class BagItemComparator implements Comparator<X> {
 		public int compare(X o1, X o2) {
-			// TODO Auto-generated method stub
 			return counts.get(o1).compareTo(counts.get(o2));
 		}
 	}

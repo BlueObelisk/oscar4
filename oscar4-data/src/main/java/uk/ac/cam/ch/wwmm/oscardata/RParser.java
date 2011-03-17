@@ -68,7 +68,7 @@ public final class RParser {
 	 * Get an instance of the singleton.
 	 * 
 	 */
-	static RParser getInstance() {
+	static synchronized RParser getInstance() {
 		if (myInstance == null) {
 			myInstance = new RParser();
 			Document doc;

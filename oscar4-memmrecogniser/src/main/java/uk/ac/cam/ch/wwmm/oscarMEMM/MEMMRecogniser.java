@@ -29,7 +29,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 	private MEMMModel model;
 //    private MEMM memm;
     private double memmThreshold = 0.2;
-    private DFAONTCPRFinder ontologyTermFinder;
+    private DFAONTCPRFinder ontologyAndPrefixTermFinder;
 	private double ontPseudoConfidence = 0.2;
 	private double custPseudoConfidence = 0.2;
 	private double cprPseudoConfidence = 0.2;
@@ -41,21 +41,13 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     
     public MEMMRecogniser(MEMMModel model, OntologyTerms ontTerms) {
     	this.model = model;
-    	this.ontologyTermFinder = new DFAONTCPRFinder(ontTerms);
+    	this.ontologyAndPrefixTermFinder = new DFAONTCPRFinder(ontTerms);
     }
 
 
     public MEMMModel getModel() {
-        if (model == null) {
-            model = new ChemPapersModel();
-        }
         return model;
     }
-
-//    public void setModel(MEMMModel model) {
-//        this.model = model;
-//    }
-
 
     public double getMemmThreshold() {
         return memmThreshold;
@@ -66,17 +58,10 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     }
 
 
-    public DFAONTCPRFinder getOntologyTermFinder() {
-        if (ontologyTermFinder == null) {
-            ontologyTermFinder = DFAONTCPRFinder.getDefaultInstance();
-        }
-        return ontologyTermFinder;
+    public DFAONTCPRFinder getOntologyAndPrefixTermFinder() {
+        return ontologyAndPrefixTermFinder;
     }
 
-//    public void setOntologyTermFinder(DFAONTCPRFinder ontologyTermFinder) {
-//        this.ontologyTermFinder = ontologyTermFinder;
-//    }
-    
 
     public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) {
         return findNamedEntities(procDoc.getTokenSequences());
@@ -88,7 +73,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         List<NamedEntity> neList = generateNamedEntities(tokSeqList);
 
         // Add ontology terms
-        neList.addAll(generateOntologyTerms(tokSeqList));
+        neList.addAll(generateOntologyAndPrefixTerms(tokSeqList));
 
         // Merge named entity ontIds/custTypes
         mergeNamedEntities(neList);
@@ -161,7 +146,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      */
     private List<NamedEntity> generateNamedEntities(List<ITokenSequence> tokSeqList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
-        MEMM memm = new MEMM(getModel(), memmThreshold/5);
+        MEMM memm = new MEMM(model, memmThreshold/5);
         for (ITokenSequence tokseq : tokSeqList) {
             for (NamedEntity ne : memm.findNEs(tokseq)) {
                 if (ne.getConfidence() > memmThreshold) {
@@ -179,11 +164,10 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      * @param tokSeqList
      * @return
      */
-    private List<NamedEntity> generateOntologyTerms(List<ITokenSequence> tokSeqList) {
+    private List<NamedEntity> generateOntologyAndPrefixTerms(List<ITokenSequence> tokSeqList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
-        DFAONTCPRFinder ontologyTermFinder = getOntologyTermFinder();
         for (ITokenSequence t : tokSeqList) {
-            neList.addAll(ontologyTermFinder.findNamedEntities(t));
+            neList.addAll(ontologyAndPrefixTermFinder.findNamedEntities(t));
         }
         return neList;
     }

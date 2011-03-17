@@ -152,13 +152,7 @@ public final class FeatureExtractor {
 				word).toString();
 	}
 
-	/**
-	 * 
-	 * TODO This method is performance critical, taking 34% of the overall
-	 * operation of OSCAR in processing documents.
-	 * 
-	 * TODO check whether this is ever called redundantly
-	 */
+    
 	private void makeFeatures(int position) {
 		FeatureList local = tokenFeatureSets.get(position).getFeatures();
 		FeatureList contextable = tokenFeatureSets.get(position).getContextableFeatures();

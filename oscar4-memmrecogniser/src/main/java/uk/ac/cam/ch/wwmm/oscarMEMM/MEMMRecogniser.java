@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -64,10 +65,14 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
 
     public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) {
-        return findNamedEntities(procDoc.getTokenSequences());
+        return findNamedEntities(procDoc.getTokenSequences(), false);
     }
 
     public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList) {
+    	return findNamedEntities(tokSeqList, false);
+    }
+    
+    public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList, boolean removeBlocked) {
 
         // Generate named entity list
         List<NamedEntity> neList = generateNamedEntities(tokSeqList);
@@ -79,13 +84,14 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         mergeNamedEntities(neList);
 
         setPseudoConfidences(neList);
+        
+        Collections.sort(neList);
 
-        List<NamedEntity> rsList = StandoffResolver.resolveStandoffs(neList);
-        for (NamedEntity ne : neList) {
-            ne.setBlocked(true);
+        if (removeBlocked) {
+        	StandoffResolver.resolveStandoffs(neList);
         }
-        for (NamedEntity rs : rsList) {
-            rs.setBlocked(false);
+        else {
+        	StandoffResolver.markBlockedStandoffs(neList);
         }
 
         return neList;

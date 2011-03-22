@@ -136,15 +136,15 @@ public class DFAFinderTest {
             Finder finder = new Finder(Collections.singletonMap(term, ONT));
             String s = "I know that "+term+" is a chemical entity!";
             List<NamedEntity> neList = finder.findNamedEntities(s);
-            List<NamedEntity> resolved = StandoffResolver.resolveStandoffs(neList);
-            if (resolved.size() != 1) {
-                System.err.println(resolved.size()+"\t"+term);
-                for (NamedEntity ne : resolved) {
+            StandoffResolver.resolveStandoffs(neList);
+            if (neList.size() != 1) {
+                System.err.println(neList.size()+"\t"+term);
+                for (NamedEntity ne : neList) {
                     System.err.println("    "+ne.getStart()+"-"+ne.getEnd()+" "+ne.getSurface());
                 }
                 fail = true;
             }
-            assertEquals(term, resolved.get(0).getSurface());
+            assertEquals(term, neList.get(0).getSurface());
         }
         assertFalse(fail);
     }

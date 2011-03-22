@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.saf;
 
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,20 +14,29 @@ import java.util.List;
  */
 public class StandoffResolver {
 
-	@SuppressWarnings("unchecked")
-	public static List<NamedEntity> resolveStandoffs(List<? extends NamedEntity> standoffs) {
-		Collections.sort(standoffs);
+	public static void markBlockedStandoffs(List <NamedEntity> standoffs) {
+		List <NamedEntity> resolved = new ArrayList<NamedEntity>(standoffs); 
+		resolveStandoffs(resolved);
+		for (NamedEntity ne : standoffs) {
+			if (!resolved.contains(ne)) {
+				ne.setBlocked(true);
+			}
+		}
+	}
+	
+	public static void resolveStandoffs(List<NamedEntity> standoffs) {
+		List<? extends NamedEntity> unresolved = new ArrayList<NamedEntity>(standoffs);
+		Collections.sort(unresolved);
 		List<NamedEntity> standoffBuffer = new ArrayList<NamedEntity>();
 		List<NamedEntity> resolved = new ArrayList<NamedEntity>();
-		for(NamedEntity rs : standoffs) {
+		for(NamedEntity rs : unresolved) {
 			int i = 0;
 			boolean addToBuffer = true;
 			// Scan through previously checked standoffs
 			while(i < standoffBuffer.size()) {
 				NamedEntity prs = standoffBuffer.get(i);
-				// First, shift standoffs in buffer than end before this one starts into the
+				// First, shift standoffs in buffer that end before this one starts into the
 				// resolved list
-				//if(prs.endOffset.compareTo(rs.startOffset) != 1) {
 				if(prs.compareEndToStart(rs) != 1) {
 					standoffBuffer.remove(i);
 					resolved.add(prs);
@@ -95,9 +105,9 @@ public class StandoffResolver {
 			}
 			if(addToBuffer) standoffBuffer.add(rs);
 		}
+		standoffs.clear();
 		resolved.addAll(standoffBuffer);
-		
-		return resolved;
+		standoffs.addAll(resolved);
 	}
-	
+
 }

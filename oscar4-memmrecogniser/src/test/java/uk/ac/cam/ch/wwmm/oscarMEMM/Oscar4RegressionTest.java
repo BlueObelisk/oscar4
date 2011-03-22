@@ -1,18 +1,20 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import nu.xom.Document;
 
-import org.junit.Assert;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -27,9 +29,21 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  */
 public class Oscar4RegressionTest {
 
+	private static MEMMRecogniser recogniser;
+	
+	@BeforeClass
+	public static void setUp() {
+		recogniser = new MEMMRecogniser();
+	}
+	
+	@AfterClass
+	public static void cleanUp() {
+		recogniser = null;
+	}
+	
 	@Test
 	public void testConstructor() {
-		Assert.assertNotNull(new MEMMRecogniser());
+		assertNotNull(recogniser);
 	}
 
 	@Test
@@ -131,20 +145,18 @@ public class Oscar4RegressionTest {
         }
 
 		// Check that Sentence is not empty
-		Assert.assertTrue("Extracting String: ",
+		assertTrue("Extracting String: ",
 				sentence != null && sentence.length() > 0);
 
 		Document doc = TextToSciXML.textToSciXML(sentence);
 		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance()
 				.makeTokenisedDocument(Tokeniser.getDefaultInstance(), doc);
 		// Check that ProcDoc is not empty
-		Assert.assertTrue(procDoc != null);
+		assertTrue(procDoc != null);
 
-		List<NamedEntity> neList;
-		ChemicalEntityRecogniser cei = new MEMMRecogniser();
-		neList = cei.findNamedEntities(procDoc.getTokenSequences());
+		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc);
 		// Check that neList is not empty
-		Assert.assertTrue(neList != null);
+		assertTrue(neList != null);
 
 		List<String> actualSurfaceList = new ArrayList<String>();
 		List<Object> actualProbList = new ArrayList<Object>();
@@ -163,16 +175,16 @@ public class Oscar4RegressionTest {
 			actualProbList.add(namedEntity.getConfidence());
 
 			// Check if NamedEntity Surface is in the expectedSurfaceList
-			Assert.assertTrue(surface + " is a false positive ",
+			assertTrue(surface + " is a false positive ",
 					expectedSurfaceList.contains(surface));
 
 			if (expectedSurfaceList.contains(surface)) {
 				int index = expectedSurfaceList.indexOf(surface);
-				Assert.assertEquals("Type for " + namedEntity.getSurface(),
+				assertEquals("Type for " + namedEntity.getSurface(),
 						expectedTypeList.get(index), namedEntity.getType());
 				if (!NamedEntityType.ONTOLOGY.isInstance(namedEntity.getType())
                         && !NamedEntityType.LOCANTPREFIX.isInstance(namedEntity.getType())) {
-					Assert.assertEquals(
+					assertEquals(
 							"Probability for " + namedEntity.getSurface(),
 							expectedProbList.get(index),
 							(Double) namedEntity.getConfidence());
@@ -182,7 +194,7 @@ public class Oscar4RegressionTest {
 
 		}
 		for (String string : expectedSurfaceList) {
-			Assert.assertTrue(string + " is a false negative ",
+			assertTrue(string + " is a false negative ",
 					actualSurfaceList.contains(string));
 		}
 

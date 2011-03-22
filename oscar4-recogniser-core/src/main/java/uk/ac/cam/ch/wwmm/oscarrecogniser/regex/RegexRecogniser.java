@@ -10,6 +10,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver;
 
 
 /**
@@ -33,8 +34,11 @@ public class RegexRecogniser implements ChemicalEntityRecogniser {
 	}
 
 	
-	public List<NamedEntity> findNamedEntities(
-			List<ITokenSequence> tokenSequences) {
+	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) {
+		return findNamedEntities(tokenSequences, true);
+	}
+	
+	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences, boolean removeBlockedEntities) {
 		
 		List <NamedEntity> nes = new ArrayList<NamedEntity>();
 		for (ITokenSequence tokSeq : tokenSequences) {
@@ -55,6 +59,13 @@ public class RegexRecogniser implements ChemicalEntityRecogniser {
 					nes.add(ne);
 				}
 			}
+		}
+		
+		if (removeBlockedEntities) {
+			StandoffResolver.resolveStandoffs(nes);
+		}
+		else {
+			StandoffResolver.markBlockedStandoffs(nes);
 		}
 		
 		return nes;

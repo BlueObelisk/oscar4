@@ -21,9 +21,9 @@ import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscarpattern.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFANEFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
@@ -79,8 +79,12 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	}
 
 	
-	
 	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) {
+		return findNamedEntities(tokenSequences, true);
+	}
+	
+	
+	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences, boolean removeBlockedEntities) {
 
 	 	//run the DFANEFinder
 		List<NamedEntity> neList = new ArrayList<NamedEntity>();
@@ -98,7 +102,13 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 
 		mergeOntIdsAndCustTypes(neList);
 		//identify and remove blocked named entities
-		neList = StandoffResolver.resolveStandoffs(neList);
+		if (removeBlockedEntities) {
+			StandoffResolver.resolveStandoffs(neList);	
+		}
+		else {
+			StandoffResolver.markBlockedStandoffs(neList);
+		}
+		
 
 		handlePotentialAcronyms(tokenSequences, neList);
 		removeStopwords(neList);
@@ -107,9 +117,9 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 		// dmj30 really? why?
 		//TODO investigate whether this step is necessary
 		// Re-introduce them, and do the resolution process again
-		neList.addAll(preserveNes);
-		setPseudoConfidences(neList);
-		neList = StandoffResolver.resolveStandoffs(neList);
+//		neList.addAll(preserveNes);
+//		setPseudoConfidences(neList);
+//		neList = StandoffResolver.resolveStandoffs(neList);
 
 		
 		return neList;

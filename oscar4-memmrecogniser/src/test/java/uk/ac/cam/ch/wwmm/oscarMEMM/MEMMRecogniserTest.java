@@ -21,6 +21,7 @@ import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -330,14 +331,14 @@ public class MEMMRecogniserTest {
 		String text = "Acetone, ethyl acetate and other solvents...";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument
 				(Tokeniser.getDefaultInstance(), text);
-		List <NamedEntity> nes = recogniserForCustomisation.findNamedEntities(procDoc.getTokenSequences(), false);
+		List <NamedEntity> nes = recogniserForCustomisation.findNamedEntities(procDoc.getTokenSequences(), ResolutionMode.MARK_BLOCKED);
 		assertEquals(4, nes.size());
 		for (NamedEntity ne : nes) {
 			assertFalse(ne.getDeprioritiseOnt());
 		}
 		
 		recogniserForCustomisation.setDeprioritiseOnts(true);
-		nes = recogniserForCustomisation.findNamedEntities(procDoc.getTokenSequences(), false);
+		nes = recogniserForCustomisation.findNamedEntities(procDoc.getTokenSequences(), ResolutionMode.MARK_BLOCKED);
 		assertEquals(4, nes.size());
 		for (NamedEntity ne : nes) {
 			assertTrue(ne.getDeprioritiseOnt());
@@ -397,7 +398,7 @@ public class MEMMRecogniserTest {
 		String text = "Hello 2-methyl butan-1-ol hydrolysis in ethyl acetate world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), text);
-		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences(), false);
+		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences(), ResolutionMode.MARK_BLOCKED);
 		
 		//the memmRecogniser finds blocked named entities as well as the one we're expecting, so...
 		assertEquals(7, neList.size());
@@ -415,7 +416,7 @@ public class MEMMRecogniserTest {
 		String text = "Hello 2-methyl butan-1-ol hydrolysis in ethyl acetate world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), text);
-		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences(), true);
+		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences(), ResolutionMode.REMOVE_BLOCKED);
 		
 		assertEquals(3, neList.size());
 		assertEquals("2-methyl butan-1-ol", neList.get(0).getSurface());

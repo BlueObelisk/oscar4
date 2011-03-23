@@ -22,6 +22,7 @@
         <dependency>
             <groupId>uk.ac.cam.ch.opsin</groupId>
             <artifactId>opsin-inchi</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

@@ -84,9 +84,9 @@ public class MEMMTrainerTest {
 		MEMMRecogniser memm = new MEMMRecogniser(trainModel(), OntologyTerms.getDefaultInstance());
 		ProcessingDocument procdoc = ProcessingDocumentFactory.getInstance()
 				.makeTokenisedDocument(Tokeniser.getDefaultInstance(), sentence);
-		List<NamedEntity> neList = memm.findNamedEntities(procdoc);
+		List<NamedEntity> neList = memm.findNamedEntities(procdoc.getTokenSequences(), false);
 		System.out.println(neList);
-		Assert.assertEquals("Number of recognised entities: ",26, neList.size());
+		Assert.assertEquals("Number of recognised entities: ", 26, neList.size());
 		for (NamedEntity namedEntity : neList) {
 			actualSurfaceList.add(namedEntity.getSurface());
 			actualTypeList.add(namedEntity.getType().getName());

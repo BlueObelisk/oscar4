@@ -13,7 +13,22 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
  */
 public interface ChemicalEntityRecogniser {
 
+	/**
+	 * Identifies named entities with the given TokenSequences, removing overlapping
+	 * named entities of lower priority, using the heuristics defined by the
+	 * StandoffResolver.
+	 * 
+	 * @param tokenSequences
+	 */
 	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences);
 
+	
+	/**
+	 * Identifies named entities with the given TokenSequences.
+	 * 
+	 * @param tokenSequences
+	 * @param removeBlockedEntities whether to remove overlapping named entities of
+	 * lower priority, using the heuristics defined by the StandoffResolver. 
+	 */
 	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences, boolean removeBlockedEntities);
 }

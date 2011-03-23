@@ -3,7 +3,6 @@ package uk.ac.cam.ch.wwmm.oscarpattern;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,15 +12,10 @@ import java.util.Map;
 
 import nu.xom.Document;
 
-import opennlp.tools.ngram.Token;
-
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
@@ -29,18 +23,18 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
-import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
-import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClass;
 import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 
 /**
  * @author egonw
@@ -383,6 +377,63 @@ public class PatternRecogniserTest {
 		for (NamedEntity ne : nes) {
 			assertFalse(NamedEntityType.STOP.equals(ne.getType()));
 		}
+	}
+	
+	
+	@Test
+	public void testFindEntitiesMarkBlocked() throws Exception {
+		String text = "Hello 2-chloroethyl ethyl ether hydrolysis in dimethyl sulfoxide world!";
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				Tokeniser.getDefaultInstance(), text);
+		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences(), false);
+		
+		//this call finds blocked named entities as well as the ones we're expecting, so...
+		assertTrue(neListContainsCorrectNe(neList, "2-", NamedEntityType.LOCANTPREFIX, true));
+		assertTrue(neListContainsCorrectNe(neList, "2-chloroethyl", NamedEntityType.COMPOUND, true));
+		assertTrue(neListContainsCorrectNe(neList, "ethyl ether", NamedEntityType.COMPOUND, true));
+		assertTrue(neListContainsCorrectNe(neList, "2-chloroethyl ethyl ether", NamedEntityType.COMPOUND, false));
+		
+		assertTrue(neListContainsCorrectNe(neList, "hydrolysis", NamedEntityType.ONTOLOGY, false ));
+		
+		assertTrue(neListContainsCorrectNe(neList, "dimethyl", NamedEntityType.COMPOUND, true));
+		assertTrue(neListContainsCorrectNe(neList, "sulfoxide", NamedEntityType.ONTOLOGY, true));
+		assertTrue(neListContainsCorrectNe(neList, "sulfoxide", NamedEntityType.COMPOUND, true));
+		assertTrue(neListContainsCorrectNe(neList, "dimethyl sulfoxide", NamedEntityType.COMPOUND, false));
+	}
+	
+	@Test
+	public void testFindEntitiesRemoveBlocked() throws Exception {
+		String text = "Hello 2-chloroethyl ethyl ether hydrolysis in dimethyl sulfoxide world!";
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				Tokeniser.getDefaultInstance(), text);
+		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences(), true);
+		
+		assertEquals(3, neList.size());
+		assertEquals("2-chloroethyl ethyl ether", neList.get(0).getSurface());
+		assertTrue(NamedEntityType.COMPOUND.isInstance(neList.get(0).getType()));
+		assertFalse(neList.get(0).isBlocked());
+		
+		assertEquals("hydrolysis", neList.get(1).getSurface());
+		assertTrue(NamedEntityType.ONTOLOGY.isInstance(neList.get(1).getType()));
+		assertFalse(neList.get(1).isBlocked());
+		
+		assertEquals("dimethyl sulfoxide", neList.get(2).getSurface());
+		assertTrue(NamedEntityType.COMPOUND.isInstance(neList.get(2).getType()));
+		assertFalse(neList.get(2).isBlocked());
+	}
+	
+	private boolean neListContainsCorrectNe(List<NamedEntity> neList, String desiredNe,
+			NamedEntityType desiredType, boolean blocked) {
+		for (NamedEntity namedEntity : neList) {
+			if (desiredNe.equals(namedEntity.getSurface())) {
+				if (namedEntity.getType().isInstance(desiredType)) {
+					if (namedEntity.isBlocked() == blocked) {
+						return true;		
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
 

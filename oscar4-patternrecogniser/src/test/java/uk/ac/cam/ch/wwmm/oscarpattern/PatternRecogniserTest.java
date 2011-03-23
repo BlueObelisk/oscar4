@@ -30,6 +30,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
 import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
@@ -385,7 +386,7 @@ public class PatternRecogniserTest {
 		String text = "Hello 2-chloroethyl ethyl ether hydrolysis in dimethyl sulfoxide world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), text);
-		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences(), false);
+		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences(), ResolutionMode.MARK_BLOCKED);
 		
 		//this call finds blocked named entities as well as the ones we're expecting, so...
 		assertTrue(neListContainsCorrectNe(neList, "2-", NamedEntityType.LOCANTPREFIX, true));
@@ -406,7 +407,7 @@ public class PatternRecogniserTest {
 		String text = "Hello 2-chloroethyl ethyl ether hydrolysis in dimethyl sulfoxide world!";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), text);
-		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences(), true);
+		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences(), ResolutionMode.REMOVE_BLOCKED);
 		
 		assertEquals(3, neList.size());
 		assertEquals("2-chloroethyl ethyl ether", neList.get(0).getSurface());

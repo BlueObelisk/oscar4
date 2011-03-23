@@ -11,6 +11,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
 
 
 /**
@@ -35,10 +36,10 @@ public class RegexRecogniser implements ChemicalEntityRecogniser {
 
 	
 	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) {
-		return findNamedEntities(tokenSequences, true);
+		return findNamedEntities(tokenSequences, ResolutionMode.REMOVE_BLOCKED);
 	}
 	
-	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences, boolean removeBlockedEntities) {
+	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences, ResolutionMode resolutionMode) {
 		
 		List <NamedEntity> nes = new ArrayList<NamedEntity>();
 		for (ITokenSequence tokSeq : tokenSequences) {
@@ -61,11 +62,14 @@ public class RegexRecogniser implements ChemicalEntityRecogniser {
 			}
 		}
 		
-		if (removeBlockedEntities) {
+		if (resolutionMode == ResolutionMode.REMOVE_BLOCKED) {
 			StandoffResolver.resolveStandoffs(nes);
 		}
-		else {
+		else if (resolutionMode == ResolutionMode.MARK_BLOCKED) {
 			StandoffResolver.markBlockedStandoffs(nes);
+		}
+		else {
+			throw new RuntimeException(resolutionMode + " not yet implemented");
 		}
 		
 		return nes;

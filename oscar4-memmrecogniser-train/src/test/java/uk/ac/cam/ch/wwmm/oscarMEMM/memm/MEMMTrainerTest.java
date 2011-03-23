@@ -23,6 +23,7 @@ import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 import ch.unibe.jexample.Given;
 import ch.unibe.jexample.JExample;
@@ -84,7 +85,7 @@ public class MEMMTrainerTest {
 		MEMMRecogniser memm = new MEMMRecogniser(trainModel(), OntologyTerms.getDefaultInstance());
 		ProcessingDocument procdoc = ProcessingDocumentFactory.getInstance()
 				.makeTokenisedDocument(Tokeniser.getDefaultInstance(), sentence);
-		List<NamedEntity> neList = memm.findNamedEntities(procdoc.getTokenSequences(), false);
+		List<NamedEntity> neList = memm.findNamedEntities(procdoc.getTokenSequences(), ResolutionMode.MARK_BLOCKED);
 		System.out.println(neList);
 		Assert.assertEquals("Number of recognised entities: ", 26, neList.size());
 		for (NamedEntity namedEntity : neList) {

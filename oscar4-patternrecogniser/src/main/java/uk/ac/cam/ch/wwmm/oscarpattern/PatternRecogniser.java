@@ -17,6 +17,7 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFANEFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
@@ -75,11 +76,11 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 
 	
 	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) {
-		return findNamedEntities(tokenSequences, true);
+		return findNamedEntities(tokenSequences, ResolutionMode.REMOVE_BLOCKED);
 	}
 	
 	
-	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences, boolean removeBlockedEntities) {
+	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences, ResolutionMode resolutionMode) {
 
 	 	//run the DFANEFinder
 		List<NamedEntity> neList = new ArrayList<NamedEntity>();
@@ -97,11 +98,14 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 
 		mergeOntIdsAndCustTypes(neList);
 		//identify and remove blocked named entities
-		if (removeBlockedEntities) {
+		if (resolutionMode == ResolutionMode.REMOVE_BLOCKED) {
 			StandoffResolver.resolveStandoffs(neList);	
 		}
-		else {
+		else if (resolutionMode == ResolutionMode.MARK_BLOCKED) {
 			StandoffResolver.markBlockedStandoffs(neList);
+		}
+		else {
+			throw new RuntimeException(resolutionMode + " not yet implemented");
 		}
 		
 

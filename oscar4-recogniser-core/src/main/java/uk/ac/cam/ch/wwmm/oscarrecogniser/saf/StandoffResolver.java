@@ -1,19 +1,32 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.saf;
 
-import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**Removes low-priority standoffs from a list, to produce a list of non-overlapping standoffs.
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+
+/**
+ * A class to handle the treatment of overlapping named entities
  * 
  * @author ptc24
- *
+ * @author dmj30
  */
 public class StandoffResolver {
 
+	/**
+	 *  The strategies for dealing with overlapping named entities;
+	 * 
+	 *  MARK_BLOCKED - retain all named entities but set the "blocked" flag
+	 *  of those overlapping named entities with lower priority to "true".
+	 *  
+	 *  REMOVE_BLOCKED - remove those overlapping named entities with lower
+	 *  priority from the NamedEntity list.
+	 */
+	public static enum ResolutionMode {
+		MARK_BLOCKED, REMOVE_BLOCKED
+	}
+	
 	public static void markBlockedStandoffs(List <NamedEntity> standoffs) {
 		List <NamedEntity> resolved = new ArrayList<NamedEntity>(standoffs); 
 		resolveStandoffs(resolved);

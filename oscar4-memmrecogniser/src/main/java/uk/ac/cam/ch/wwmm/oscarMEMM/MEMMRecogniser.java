@@ -19,6 +19,7 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFAONTCPRFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
 
 /**
  * Name recognition using the Maximum Entropy Markov Model
@@ -69,10 +70,10 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
     }
 
     public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList) {
-    	return findNamedEntities(tokSeqList, true);
+    	return findNamedEntities(tokSeqList, ResolutionMode.REMOVE_BLOCKED);
     }
     
-    public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList, boolean removeBlocked) {
+    public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList, ResolutionMode resolutionMode) {
 
         // Generate named entity list
         List<NamedEntity> neList = generateNamedEntities(tokSeqList);
@@ -87,12 +88,15 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         
         Collections.sort(neList);
 
-        if (removeBlocked) {
+        if (resolutionMode == ResolutionMode.REMOVE_BLOCKED) {
         	StandoffResolver.resolveStandoffs(neList);
         }
-        else {
+        else if (resolutionMode == ResolutionMode.MARK_BLOCKED) {
         	StandoffResolver.markBlockedStandoffs(neList);
         }
+        else {
+			throw new RuntimeException(resolutionMode + " not yet implemented");
+		}
 
         return neList;
     }

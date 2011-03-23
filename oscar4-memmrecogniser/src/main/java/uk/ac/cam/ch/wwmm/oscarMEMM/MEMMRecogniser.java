@@ -65,11 +65,11 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
 
     public List<NamedEntity> findNamedEntities(IProcessingDocument procDoc) {
-        return findNamedEntities(procDoc.getTokenSequences(), false);
+        return findNamedEntities(procDoc.getTokenSequences());
     }
 
     public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList) {
-    	return findNamedEntities(tokSeqList, false);
+    	return findNamedEntities(tokSeqList, true);
     }
     
     public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList, boolean removeBlocked) {

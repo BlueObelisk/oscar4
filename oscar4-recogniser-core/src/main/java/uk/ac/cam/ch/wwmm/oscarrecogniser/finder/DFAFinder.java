@@ -80,6 +80,11 @@ public abstract class DFAFinder implements Serializable {
         literals.add("$?");
         literals.add("$^");
     }
+    
+    public OntologyTerms getOntologyTerms() {
+    	return ontologyTerms;
+    }
+    
 
     private String generateTokenRepresentation(String token) {
 		//TODO canonicalise token

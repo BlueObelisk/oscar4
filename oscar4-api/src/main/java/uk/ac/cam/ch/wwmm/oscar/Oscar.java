@@ -15,13 +15,17 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.interfaces.ChemicalEntityRecogniser;
+import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
  * Helper class with a simple API to access Oscar functionality.
  *
  * @author egonw
+ * @author dmj30
  */
 public class Oscar {
 
@@ -31,6 +35,20 @@ public class Oscar {
 
     private ITokeniser tokeniser;
     private ChemicalEntityRecogniser recogniser;
+    private OntologyTerms ontologyTerms;
+    private MEMMModel memmModel;
+    /*
+     * TokenClassifier -> Tokeniser
+     * 
+     * MEMMModel -> MEMMRecogniser
+     * OntologyTerms -> MEMMRecogniser
+     * 
+     * ManualAnnotations -> PatternRecogniser
+     * neTerms -> PatternRecogniser
+     * TokenClassifier -> PatternRecogniser
+     * OntologyTerms -> PatternRecogniser
+     * 
+     */
 
     /**
      * The dictionaries that are loading upon instantiation of this
@@ -38,8 +56,8 @@ public class Oscar {
      * silently fail though. The defaults are: {@value}.
      */
     public Oscar() {
-        tokeniser = newDefaultTokeniser();
-        recogniser = newDefaultRecogniser();
+//        tokeniser = newDefaultTokeniser();
+//        recogniser = newDefaultRecogniser();
     }
 
     /**
@@ -59,9 +77,9 @@ public class Oscar {
      * @return the active {@link ITokeniser}.
      * @see    #setTokeniser(ITokeniser)
      */
-    public ITokeniser getTokeniser() {
+    public synchronized ITokeniser getTokeniser() {
         if (tokeniser == null) {
-            tokeniser = newDefaultTokeniser();
+            tokeniser = Tokeniser.getDefaultInstance();
         }
         return tokeniser;
     }
@@ -80,9 +98,6 @@ public class Oscar {
         this.tokeniser = tokeniser;
     }
 
-    private ITokeniser newDefaultTokeniser() {
-        return Tokeniser.getDefaultInstance();
-    }
 
     /**
      * Returns the chemical entity recogniser used by this Oscar to
@@ -93,7 +108,7 @@ public class Oscar {
      */
     public ChemicalEntityRecogniser getRecogniser() {
         if (recogniser == null) {
-            recogniser = newDefaultRecogniser();
+            recogniser = new MEMMRecogniser(getMemmModel(), getOntologyTerms());
         }
         return recogniser;
     }
@@ -187,7 +202,7 @@ public class Oscar {
      */
     public List<ITokenSequence> tokenise(String input) {
         IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance()
-                .makeTokenisedDocument(tokeniser, input);
+                .makeTokenisedDocument(getTokeniser(), input);
         return procDoc.getTokenSequences();
     }
 
@@ -215,7 +230,29 @@ public class Oscar {
      * @return          a {@link List} of {@link NamedEntity}s.
      */
     public List<NamedEntity> recogniseNamedEntities(List<ITokenSequence> tokens) {
-        return recogniser.findNamedEntities(tokens);
+        return getRecogniser().findNamedEntities(tokens);
     }
+
+	public synchronized OntologyTerms getOntologyTerms() {
+		if (ontologyTerms == null) {
+			ontologyTerms = OntologyTerms.getDefaultInstance();
+		}
+		return ontologyTerms;
+	}
+
+	public void setOntologyTerms(OntologyTerms ontologyTerms) {
+		this.ontologyTerms = ontologyTerms;
+	}
+
+	public synchronized MEMMModel getMemmModel() {
+		if (memmModel == null) {
+			memmModel = new ChemPapersModel();
+		}
+		return memmModel;
+	}
+
+	public void setMemmModel(MEMMModel memmModel) {
+		this.memmModel = memmModel;
+	}
 
 }

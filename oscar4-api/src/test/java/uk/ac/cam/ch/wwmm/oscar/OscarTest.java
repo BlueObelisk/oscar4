@@ -2,12 +2,20 @@ package uk.ac.cam.ch.wwmm.oscar;
 
 import static org.junit.Assert.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import nu.xom.Element;
 
 import org.junit.Test;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multiset;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
@@ -16,6 +24,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.PubMedModel;
 import uk.ac.cam.ch.wwmm.oscarpattern.PatternRecogniser;
@@ -138,6 +147,42 @@ public class OscarTest {
 		oscar.setTokeniser(tokeniser);
 		assertTrue(oscar.getTokeniser() == tokeniser);
 	}
+	
+	
+	@Test
+	public void setOntologyTerms() {
+		Oscar oscar = new Oscar();
+		assertTrue(oscar.getOntologyTerms() == OntologyTerms.getDefaultInstance());
+		ListMultimap<String, String> terms = ArrayListMultimap.create();
+		OntologyTerms ontologyTerms = new OntologyTerms(terms);
+		oscar.setOntologyTerms(ontologyTerms);
+		assertTrue(oscar.getOntologyTerms() == ontologyTerms);
+	}
+	
+	
+	@Test
+	public void testSetMemmModel() {
+		Oscar oscar = new Oscar();
+		assertTrue(oscar.getMemmModel() instanceof ChemPapersModel);
+		oscar.setMemmModel(new PubMedModel());
+		assertTrue(oscar.getMemmModel() instanceof PubMedModel);
+	}
+	
+	
+	@Test
+	public void testMemmModelSetup() {
+		ListMultimap<String, String> terms = ArrayListMultimap.create();
+		OntologyTerms ontologyTerms = new OntologyTerms(terms);
+		MEMMModel model = new MEMMModel();
+		
+		Oscar oscar = new Oscar();
+		oscar.setOntologyTerms(ontologyTerms);
+		oscar.setMemmModel(model);
+		MEMMRecogniser recogniser = (MEMMRecogniser) oscar.getRecogniser();
+		assertTrue(recogniser.getModel() == model);
+		assertTrue(recogniser.getOntologyAndPrefixTermFinder().getOntologyTerms() == ontologyTerms);
+	}
+	
 	
 	
 	class TokeniserImpl implements ITokeniser {

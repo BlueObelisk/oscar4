@@ -134,6 +134,24 @@ public class StringToolsTest {
 	}
 
 	@Test
+	public void testNormaliseName() {
+		assertEquals("foobar", StringTools.normaliseName("foo\u00adbar"));
+		assertEquals("foo bar", StringTools.normaliseName("foo   bar"));
+		assertEquals("foo bar", StringTools.normaliseName("foo	bar"));
+		assertEquals("fish", StringTools.normaliseName("fish"));
+		assertEquals("fish", StringTools.normaliseName("Fish"));
+		assertEquals("FISH", StringTools.normaliseName("FISH"));
+		assertEquals("FiSH", StringTools.normaliseName("FiSH"));
+		assertEquals("n3mm", StringTools.normaliseName("N3mm"));
+		assertEquals("fish(andchips)", StringTools.normaliseName("FiSH(andchips)"));
+		assertEquals("n-demethylation", StringTools.normaliseName("N-Demethylation"));
+		assertEquals("n-demethylation", StringTools.normaliseName("N-demethylation"));
+		assertEquals("se-demethylation", StringTools.normaliseName("Se-Demethylation"));
+		assertEquals("camelcase", StringTools.normaliseName("CamelCase"));
+		assertEquals("camelcase", StringTools.normaliseName("camelCase"));
+	}
+	
+	@Test
 	public void testNormaliseName2() {
 		assertEquals("fish", StringTools.normaliseName2("fish"));
 		assertEquals("fish", StringTools.normaliseName2("Fish"));

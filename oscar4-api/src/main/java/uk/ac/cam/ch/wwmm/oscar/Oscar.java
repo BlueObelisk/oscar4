@@ -22,7 +22,9 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
- * Helper class with a simple API to access Oscar functionality.
+ * Helper class with a simple API to access OSCAR functionality. Setter methods
+ * are provided to override default components of the OSCAR workflow using
+ * dependency injection. 
  *
  * @author egonw
  * @author dmj30
@@ -43,22 +45,13 @@ public class Oscar {
      * MEMMModel -> MEMMRecogniser
      * OntologyTerms -> MEMMRecogniser
      * 
-     * ManualAnnotations -> PatternRecogniser
+     * (MEMMModel) ManualAnnotations -> PatternRecogniser
      * neTerms -> PatternRecogniser
      * TokenClassifier -> PatternRecogniser
      * OntologyTerms -> PatternRecogniser
      * 
      */
 
-    /**
-     * The dictionaries that are loading upon instantiation of this
-     * class. If they are not available from the classpath, it will
-     * silently fail though. The defaults are: {@value}.
-     */
-    public Oscar() {
-//        tokeniser = newDefaultTokeniser();
-//        recogniser = newDefaultRecogniser();
-    }
 
     /**
      * Returns the {@link ChemNameDictRegistry} used in this {@link Oscar}
@@ -71,8 +64,8 @@ public class Oscar {
     }
 
     /**
-     * Returns the tokeniser used in this text analyzer for splitting
-     * sentences up in tokens.
+     * Returns the tokeniser used by this {@link Oscar} instance for splitting
+     * sentences up into tokens. Defaults to the inbuilt Oscar {@link Tokeniser}.
      *
      * @return the active {@link ITokeniser}.
      * @see    #setTokeniser(ITokeniser)
@@ -101,12 +94,18 @@ public class Oscar {
 
     /**
      * Returns the chemical entity recogniser used by this Oscar to
-     * convert named entities into chemical structures.
+     * identify chemical named entities. Defaults to the {@link MEMMRecogniser}
+     * using the default {@link MEMMModel} and {@link OntologyTerms} objects,
+     * unless overridden using {@link #setMemmModel(MEMMModel)} and
+     * {@link #setOntologyTerms(OntologyTerms)} respectively.
+     * 
      *
-     * @return an {@link ChemicalEntityRecogniser}.
-     * @see    #setRecogniser(ChemicalEntityRecogniser)
+     * @return a {@link ChemicalEntityRecogniser}.
+     * @see #setRecogniser(ChemicalEntityRecogniser)
+     * @see #setMemmModel(MEMMModel)
+     * @see #setOntologyTerms(OntologyTerms)
      */
-    public ChemicalEntityRecogniser getRecogniser() {
+    public synchronized ChemicalEntityRecogniser getRecogniser() {
         if (recogniser == null) {
             recogniser = new MEMMRecogniser(getMemmModel(), getOntologyTerms());
         }
@@ -114,7 +113,8 @@ public class Oscar {
     }
 
     /**
-     * Sets a new chemical name recogniser.
+     * Sets the chemical name recogniser to be used for
+     * named entity recognition.
      *
      * @param recogniser the new {@link ChemicalEntityRecogniser}.
      * @see Oscar#getRecogniser()
@@ -126,37 +126,88 @@ public class Oscar {
         this.recogniser = recogniser;
     }
 
-    private ChemicalEntityRecogniser newDefaultRecogniser() {
-        return new MEMMRecogniser();
-    }
+    /**
+     * Returns the {@link OntologyTerms} to be recognised by this
+     * {@link Oscar} instance. Defaults to the inbuilt {@link OntologyTerms}
+     * derived from ChEBI, FIX and REX.
+     *
+     * @return the active {@link OntologyTerms}.
+     * @see    #setOntologyTerms(OntologyTerms)
+     */
+	public synchronized OntologyTerms getOntologyTerms() {
+		if (ontologyTerms == null) {
+			ontologyTerms = OntologyTerms.getDefaultInstance();
+		}
+		return ontologyTerms;
+	}
+
+	/**
+	 * Sets the ({@link OntologyTerms} to be used by the default {@link MEMMRecogniser}
+	 * during named entity recognition. Will not override the behaviour of a
+	 * {@link ChemicalEntityRecogniser} injected using the
+	 * {@link #setRecogniser(ChemicalEntityRecogniser) method.
+	 * 
+	 * @param ontologyTerms
+	 * @see Oscar#getOntologyTerms()
+	 */
+	public void setOntologyTerms(OntologyTerms ontologyTerms) {
+		this.ontologyTerms = ontologyTerms;
+	}
+
+	/**
+	 * Gets the {@link MEMMModel} to be used by the {@link MEMMRecogniser}
+	 * during named entity recognition. Defaults to the {@link ChemPapersModel}.
+	 *  
+	 * @return
+	 * @see Oscar#setMemmModel(MEMMModel)
+	 */
+	public synchronized MEMMModel getMemmModel() {
+		if (memmModel == null) {
+			memmModel = new ChemPapersModel();
+		}
+		return memmModel;
+	}
+
+	/**
+	 * Sets the {@link MEMMModel} to be used by the default {@link MEMMRecogniser}
+	 * during named entity recognition. Will not override the behaviour of a
+	 * {@link ChemicalEntityRecogniser} injected using the
+	 * {@link #setRecogniser(ChemicalEntityRecogniser)} method.
+	 * 
+	 * @param memmModel
+	 * @see Oscar#getMemmModel()
+	 */
+	public void setMemmModel(MEMMModel memmModel) {
+		this.memmModel = memmModel;
+	}
+    
 
     /**
-     * Wrapper methods that runs the full Oscar workflow, except for resolving detected
-     * entities to their chemical structures. It calls the methods
-     * {@link #normalize(String)}, {@link #tokenise(String)}, and
+     * Wrapper method for identification of named entities. It calls the methods
+     * {@link #normalise(String)}, {@link #tokenise(String)}, and
      * {@link #recogniseNamedEntities(List)}.
      *
-     * @param input String with input.
-     * @return      the recognised chemical entities.
+     * @param input the input text.
+     * @return the recognised chemical entities.
      */
-    public List<NamedEntity> getNamedEntities(String input) {
-        input = normalize(input);
+    public List<NamedEntity> findNamedEntities(String input) {
+        input = normalise(input);
         List<ITokenSequence> tokens = tokenise(input);
         List<NamedEntity> entities = recogniseNamedEntities(tokens);
         return entities;
     }
 
     /**
-     * Wrapper methods that runs the full Oscar workflow, including resolving detected
-     * entities to their chemical structures. It calls the methods
-     * {@link #normalize(String)}, {@link #tokenise(String)},
+     * Wrapper method for the identification of chemical named entities
+     * and their resolution to connection tables. It calls the methods
+     * {@link #normalise(String)}, {@link #tokenise(String)},
      * {@link #recogniseNamedEntities(List)}, and {@link #resolveNamedEntities(List)}.
      *
      * @param input String with input.
      * @return the recognised chemical entities as a Map of NamedEntities to InChI strings
      */
-    public Map<NamedEntity,String> getResolvedEntities(String input) {
-        List<NamedEntity> entities = getNamedEntities(input);
+    public Map<NamedEntity,String> findResolvedEntities(String input) {
+        List<NamedEntity> entities = findNamedEntities(input);
         Map<NamedEntity,String> molecules = resolveNamedEntities(entities);
         return molecules;
     }
@@ -197,7 +248,7 @@ public class Oscar {
     /**
      * Converts a text into token sequences, one for each sentence.
      *
-     * @param  input a text to analyze.
+     * @param  input a text to analyse.
      * @return       a {@link List} of {@link ITokenSequence}s.
      */
     public List<ITokenSequence> tokenise(String input) {
@@ -208,16 +259,16 @@ public class Oscar {
 
 
     /**
-     * Normalized the text. Text normalization involves, among others, converting
+     * Normalise the text. Text normalisation involves, among others, converting
      * all hyphens into one character, simplifying the subsequent named entity
      * detection.
      * 
      * Not yet implemented.
      *
-     * @param  input the unnormalized text.
-     * @return       the normalized text.
+     * @param  input the unnormalised text.
+     * @return       the normalised text.
      */
-    public String normalize(String input) {
+    private String normalise(String input) {
     	//TODO implement this method?
         return input;
     }
@@ -233,26 +284,6 @@ public class Oscar {
         return getRecogniser().findNamedEntities(tokens);
     }
 
-	public synchronized OntologyTerms getOntologyTerms() {
-		if (ontologyTerms == null) {
-			ontologyTerms = OntologyTerms.getDefaultInstance();
-		}
-		return ontologyTerms;
-	}
-
-	public void setOntologyTerms(OntologyTerms ontologyTerms) {
-		this.ontologyTerms = ontologyTerms;
-	}
-
-	public synchronized MEMMModel getMemmModel() {
-		if (memmModel == null) {
-			memmModel = new ChemPapersModel();
-		}
-		return memmModel;
-	}
-
-	public void setMemmModel(MEMMModel memmModel) {
-		this.memmModel = memmModel;
-	}
+    
 
 }

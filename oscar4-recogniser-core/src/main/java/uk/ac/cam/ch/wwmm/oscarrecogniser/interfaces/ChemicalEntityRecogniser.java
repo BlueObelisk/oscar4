@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.interfaces;
+package uk.ac.cam.ch.wwmm.oscarrecogniser.interfaces;
 
 import java.util.List;
 

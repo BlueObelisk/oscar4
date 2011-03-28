@@ -12,7 +12,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.ParsingException;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
 /** Extracts and holds useful data from hand-annotated text.
@@ -22,8 +21,6 @@ import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
  */
 public class ManualAnnotations {
 
-	//FIXME dmj30 remove currentInstance and singleton-ish methods entirely
-    private static ManualAnnotations currentInstance;
     private static ManualAnnotations defaultInstance;
 
     /**Words only found in chemical named entities.*/
@@ -131,21 +128,6 @@ public class ManualAnnotations {
     }
 
 
-    /**Re-initialise the current singleton, given an XML serialization
-     * produced by toXML.
-     *
-     * @param elem The XML serialized data.
-     */
-    public static ManualAnnotations reinitialise(Element elem) {
-        currentInstance = new ManualAnnotations(elem);
-        return currentInstance;
-    }
-    /**Destroy the current singleton.
-	 * 
-	 */
-    public static void clear() {
-		currentInstance = new ManualAnnotations();		
-	}
     private Element stringsToElement(Collection<String> strings, String elemName) {
         Element elem = new Element(elemName);
         StringBuffer sb = new StringBuffer();

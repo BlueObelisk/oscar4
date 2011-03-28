@@ -92,7 +92,7 @@ public class MEMMModel {
         }
         Element etdElem = modelRoot.getFirstChildElement("etd");
 		if (etdElem != null) {
-			this.manualAnnotations = ManualAnnotations.reinitialise(etdElem);
+			this.manualAnnotations = new ManualAnnotations(etdElem);
 		} else {
             this.manualAnnotations = null;
 		}

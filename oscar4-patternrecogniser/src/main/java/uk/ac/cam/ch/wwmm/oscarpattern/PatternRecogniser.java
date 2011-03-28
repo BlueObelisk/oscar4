@@ -90,7 +90,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 	
 		//make a list of ONT, CUST and CPR nes
 		List<NamedEntity> preserveNes = new ArrayList<NamedEntity>();
-		for (NamedEntity ne : preserveNes) {
+		for (NamedEntity ne : neList) {
 			if(NamedEntityType.ONTOLOGY.equals(ne.getType()) || NamedEntityType.LOCANTPREFIX.equals(ne.getType()) || NamedEntityType.CUSTOM.equals(ne.getType())) {
 				preserveNes.add(ne);
 			}

@@ -184,7 +184,7 @@ public final class HyphenTokeniser {
 			suffix = suffix.substring(m.end());
 		}
 
-		while(suffix.length() >= 3) {
+		while(suffix.length() >= 3) {//TODO shouldn't split -formyl
 			if(splitSuffixes.contains(suffix)) {
 				return true;
 			}

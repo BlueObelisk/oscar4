@@ -46,8 +46,12 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 		return Collections.emptySet();
 	}
 
+	/***
+	 * Always returns false, the set of names resolvable by OPSIN is not finite
+	 * To check whether a name is interpretable by OPSIN use getCML().size()!=0
+	 */
 	public boolean hasName(String queryName) {
-		return getCML(queryName).size() != 0;
+		return false;
 	}
 
 	public Set<String> getInChI(String queryName) {
@@ -70,6 +74,9 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 		return Collections.emptySet();
 	}
 
+	/**
+	 * Returns an emptySet, the set of names resolvable by OPSIN is not finite
+	 */
 	public Set<String> getNames() {
 		return Collections.emptySet();
 	}

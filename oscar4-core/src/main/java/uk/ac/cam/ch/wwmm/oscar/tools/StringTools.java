@@ -35,6 +35,8 @@ public final class StringTools {
     public static final String enDash = "\u2013";
     /** The em dash */
     public static final String emDash = "\u2014";
+    /** The soft hyphen */
+    public static final String SOFT_HYPHEN = "\u00ad";
     /** Three dots at mid level. Commmonly used for hydrogen bonds. */
     public static final String midElipsis = "\u22ef";
     /** Less than, greater than, equals, and other related characters. */
@@ -258,8 +260,6 @@ public final class StringTools {
      *            The name to convert.
      * @return The normalised name.
      *
-     *         TODO this method gets called a lot. Regexes should be
-     *         precompiled.
      */
     public static String normaliseName(String name) {
         String [] subStrings = splitOnWhitespace(name);
@@ -267,7 +267,7 @@ public final class StringTools {
             if (twoLowerPattern.matcher(subStrings[i]).find()) {
                 subStrings[i] = subStrings[i].toLowerCase();
             }
-            subStrings[i] = subStrings[i].replace("\u00ad", "");
+            subStrings[i] = subStrings[i].replace(SOFT_HYPHEN, "");
         }
         if (subStrings.length == 0) {
             return "";
@@ -287,7 +287,7 @@ public final class StringTools {
     public static String normaliseName2(String name) {
         String[] subStrings = splitOnWhitespace(name);
         for (int i = 0; i < subStrings.length; i++) {
-            subStrings[i] = subStrings[i].replace("\u00ad", "");
+            subStrings[i] = subStrings[i].replace(SOFT_HYPHEN, "");
             Matcher m = firstLowerCaseable.matcher(subStrings[i]);
             if(m.find()) {
                 subStrings[i] = subStrings[i].substring(0,m.start())

@@ -2,20 +2,12 @@ package uk.ac.cam.ch.wwmm.oscar;
 
 import static org.junit.Assert.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
 import nu.xom.Element;
 
 import org.junit.Test;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multiset;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
@@ -29,6 +21,9 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.PubMedModel;
 import uk.ac.cam.ch.wwmm.oscarpattern.PatternRecogniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 
 public class OscarTest {
 
@@ -64,7 +59,7 @@ public class OscarTest {
 	public void testGetNamedEntities() {
 		Oscar oscar = new Oscar();
 		List<NamedEntity> entities =
-			oscar.getNamedEntities("Then we mix benzene with toluene.");
+			oscar.findNamedEntities("Then we mix benzene with toluene.");
 		assertEquals(2, entities.size());
 		assertEquals("benzene", entities.get(0).getSurface());
 		assertEquals("toluene", entities.get(1).getSurface());
@@ -74,7 +69,7 @@ public class OscarTest {
 	public void testGetResolvedEntities() {
 		Oscar oscar = new Oscar();
 		Map<NamedEntity,String> entities =
-			oscar.getResolvedEntities("Then we mix benzene with toluene.");
+			oscar.findResolvedEntities("Then we mix benzene with toluene.");
 		assertNotNull(entities);
 		assertEquals(2, entities.size());
 		for (NamedEntity ne : entities.keySet()) {
@@ -189,7 +184,6 @@ public class OscarTest {
 
 		public ITokenSequence tokenise(String text,
 				IProcessingDocument procDoc, int offset, Element element) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 		

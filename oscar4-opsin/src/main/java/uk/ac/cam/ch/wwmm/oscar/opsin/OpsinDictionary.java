@@ -66,6 +66,10 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 		return false;
 	}
 
+	/**
+	 * Performs name to structure conversion on the given name
+	 * A set containing 1 or 0 InChIs is returned depending on whether or not the name was interpretable
+	 */
 	public Set<String> getInChI(String queryName) {
 		NameToStructure nts;
 		try {
@@ -125,18 +129,24 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 		return false;
 	}
 
+	/**
+	 * Performs name to structure conversion on the given name
+	 * A set containing 1 or 0 CML elements is returned depending on whether or not the name was interpretable
+	 */
 	public Set<Element> getCML(String queryName) {
+		NameToStructure nts;
 		try {
-			NameToStructure nameToStructure = NameToStructure.getInstance();
-			OpsinResult result = nameToStructure.parseChemicalName(queryName);
-			if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
-				Set<Element> cmls = new HashSet<Element>();
-				Element cml = result.getCml();
-				cmls.add(cml);
-				return cmls;
-			}
+			nts = NameToStructure.getInstance();
 		} catch (NameToStructureException e) {
-			e.printStackTrace();			
+			e.printStackTrace();
+			return Collections.emptySet();
+		}
+		OpsinResult result = nts.parseChemicalName(queryName);
+		if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
+			Set<Element> cmls = new HashSet<Element>();
+			Element cml = result.getCml();
+			cmls.add(cml);
+			return cmls;
 		}
 		return Collections.emptySet();
 	}
@@ -145,21 +155,31 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 		return Locale.ENGLISH;
 	}
 
+	/**
+	 * Performs name to structure conversion on the given name
+	 * A set containing 1 or 0 SMILES strings is returned depending on whether or not the name was interpretable
+	 */
 	public Set<String> getSMILES(String queryName) {
+		NameToStructure nts;
 		try {
-			NameToStructure nameToStructure = NameToStructure.getInstance();
-			OpsinResult result = nameToStructure.parseChemicalName(queryName);
-			if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
-				Set<String> smiles = new HashSet<String>();
-				smiles.add(result.getSmiles());
-				return smiles;
-			}
+			nts = NameToStructure.getInstance();
 		} catch (NameToStructureException e) {
-			e.printStackTrace();			
+			e.printStackTrace();
+			return Collections.emptySet();
+		}
+		OpsinResult result = nts.parseChemicalName(queryName);
+		if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
+			Set<String> smiles = new HashSet<String>();
+			smiles.add(result.getSmiles());
+			return smiles;
 		}
 		return Collections.emptySet();
 	}
 
+	/**
+	 * Performs name to structure conversion on the given name
+	 * A SMILES string or null is returned depending on whether or not the name was interpretable
+	 */
 	public String getShortestSMILES(String queryName) {
 		Set<String> smiles = getSMILES(queryName);
 		if (smiles.size()>0){

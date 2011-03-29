@@ -20,6 +20,11 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IInChIProvider;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ISMILESProvider;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IChemRecord;
 
+/**
+ * A class to interface OSCAR name resolution with the Open Parser for
+ * Systematic IUPAC Nomenclature (OPSIN). 
+ *
+ */
 public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvider, ISMILESProvider {
 
 	private URI uri;
@@ -38,59 +43,85 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 		return uri;
 	}
 
+	/**
+	 * Returns false. 
+	 */
 	public boolean hasStopWord(String queryWord) {
 		return false;
 	}
 
+	/**
+	 * Returns {@link Collections#emptySet()}, since the OPSIN dictionary
+	 * does not store stopwords.
+	 */
 	public Set<String> getStopWords() {
 		return Collections.emptySet();
 	}
 
 	/***
-	 * Always returns false, the set of names resolvable by OPSIN is not finite
-	 * To check whether a name is interpretable by OPSIN use getCML().size()!=0
+	 * Returns false for performance reasons. To check whether a name is
+	 * interpretable by OPSIN use getCML().size()!=0
 	 */
 	public boolean hasName(String queryName) {
 		return false;
 	}
 
 	public Set<String> getInChI(String queryName) {
+		NameToStructure nts;
 		try {
-			NameToStructure nameToStructure = NameToStructure.getInstance();
-			OpsinResult result = nameToStructure.parseChemicalName(queryName);
-			if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
-				Set<String> inchis = new HashSet<String>();
-				String inchi = NameToInchi.convertResultToInChI(result);
-				inchis.add(inchi);
-				return inchis;
-			}
+			nts = NameToStructure.getInstance();
 		} catch (NameToStructureException e) {
-			e.printStackTrace();			
+			e.printStackTrace();
+			return Collections.emptySet();
+		}
+		OpsinResult result = nts.parseChemicalName(queryName);
+		if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
+			Set<String> inchis = new HashSet<String>();
+			String inchi = NameToInchi.convertResultToInChI(result);
+			inchis.add(inchi);
+			return inchis;
 		}
 		return Collections.emptySet();
 	}
 
+	
+	/**
+	 * Returns {@link Collections#emptySet()}, since OPSIN does not support
+	 * InChI-to-name conversion.
+	 */
 	public Set<String> getNames(String inchi) {
 		return Collections.emptySet();
 	}
 
 	/**
-	 * Returns an emptySet, the set of names resolvable by OPSIN is not finite
+	 * Returns {@link Collections#emptySet()}, since the OPSIN dictionary
+	 * interprets rather than stores names.
 	 */
 	public Set<String> getNames() {
 		return Collections.emptySet();
 	}
 
+	/**
+	 * Returns {@link Collections#emptySet()}, since the OPSIN dictionary
+	 * does not store names. 
+	 */
 	public Set<String> getOrphanNames() {
 		return Collections.emptySet();
 	}
 
+	/**
+	 * Returns {@link Collections#emptySet()}, since the OPSIN dictionary
+	 * does not store names. 
+	 */
 	public Set<IChemRecord> getChemRecords() {
 		return Collections.emptySet();
 	}
 
+	/**
+	 * Returns false, since the OPSIN dictionary does not store ontology
+	 * ids.
+	 */
 	public boolean hasOntologyIdentifier(String identifier) {
-		// this ontology does not use ontology identifiers
 		return false;
 	}
 

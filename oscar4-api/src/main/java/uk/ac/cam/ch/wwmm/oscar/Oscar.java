@@ -33,8 +33,7 @@ public class Oscar {
 
     private static final Log LOG = LogFactory.getLog(Oscar.class);
 
-    private ChemNameDictRegistry dictionaryRegistry = ChemNameDictRegistry.getInstance();
-
+    private ChemNameDictRegistry dictionaryRegistry;
     private ITokeniser tokeniser;
     private ChemicalEntityRecogniser recogniser;
     private OntologyTerms ontologyTerms;
@@ -45,10 +44,11 @@ public class Oscar {
      * MEMMModel -> MEMMRecogniser
      * OntologyTerms -> MEMMRecogniser
      * 
-     * (MEMMModel) ManualAnnotations -> PatternRecogniser
+     * MEMMModel embeds ManualAnnotations -> PatternRecogniser
      * neTerms -> PatternRecogniser
      * TokenClassifier -> PatternRecogniser
      * OntologyTerms -> PatternRecogniser
+     * ChemNameDictRegistry -> PatternRecogniser
      * 
      */
 
@@ -57,12 +57,21 @@ public class Oscar {
      * Returns the {@link ChemNameDictRegistry} used in this {@link Oscar}
      * instance.
      *
-     * @return The current chemical name dictionary.
+     * @return The current chemical name dictionary registry.
      */
-    public ChemNameDictRegistry getDictionaryRegistry() {
-        return dictionaryRegistry;
+    public synchronized ChemNameDictRegistry getDictionaryRegistry() {
+        if (dictionaryRegistry == null) {
+        	dictionaryRegistry = new ChemNameDictRegistry();
+        }
+    	return dictionaryRegistry;
     }
 
+    public void setDictionaryRegistry(ChemNameDictRegistry dictionaryRegistry) {
+		this.dictionaryRegistry = dictionaryRegistry;
+		
+	}
+
+    
     /**
      * Returns the tokeniser used by this {@link Oscar} instance for splitting
      * sentences up into tokens. Defaults to the inbuilt Oscar {@link Tokeniser}.
@@ -181,7 +190,10 @@ public class Oscar {
 		this.memmModel = memmModel;
 	}
     
-
+	
+	
+	
+	
     /**
      * Wrapper method for identification of named entities. It calls the methods
      * {@link #normalise(String)}, {@link #tokenise(String)}, and
@@ -234,7 +246,7 @@ public class Oscar {
     }
 
     private String resolveNamedEntity(String name) {
-        Set<String> inchis = dictionaryRegistry.getInChI(name);
+        Set<String> inchis = getDictionaryRegistry().getInChI(name);
         if (inchis.size() == 0) {
             return null;
         }
@@ -284,6 +296,7 @@ public class Oscar {
         return getRecogniser().findNamedEntities(tokens);
     }
 
+	
     
 
 }

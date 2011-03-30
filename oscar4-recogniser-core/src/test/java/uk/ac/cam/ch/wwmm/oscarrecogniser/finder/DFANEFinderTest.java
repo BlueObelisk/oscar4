@@ -2,35 +2,44 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
 import static org.junit.Assert.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
-import org.junit.Assert;
+import org.apache.commons.collections.set.UnmodifiableSet;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.PolymerDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
-import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+
 /**
  * @author sea36
+ * @author dmj30
  */
 public class DFANEFinderTest {
 
+	private static UnmodifiableSet defaultRegistryNames;
 	private static DFANEFinder finder;
 	private static Tokeniser tokeniser;
 	
@@ -38,8 +47,16 @@ public class DFANEFinderTest {
 
 	@BeforeClass
 	public static void setup() {
+		defaultRegistryNames = (UnmodifiableSet) UnmodifiableSet.decorate(ChemNameDictRegistry.getDefaultInstance().getAllNames());
 		finder = DFANEFinder.getDefaultInstance();
 		tokeniser = Tokeniser.getDefaultInstance();
+	}
+	
+	@AfterClass
+	public static void cleanUp() {
+		defaultRegistryNames = null;
+		finder = null;
+		tokeniser = null;
 	}
 	
     @Test
@@ -135,22 +152,14 @@ public class DFANEFinderTest {
         // derived from ChemicalTagger's ChemistryPOSTaggerTest.sentence1()
     	String paragraph = 
         	"The synthetic procedure for partially EA- or BA-modified HPEI is exemplified for HPEI25K.";
-    	ChemNameDictRegistry.getInstance().register(
-    		new PolymerDictionary()
-    	);
         ITokenSequence ts = tokeniser.tokenise(paragraph);
-        List<NamedEntity> namedEntityList = finder.findNamedEntities(ts, NGram.getInstance(), DEFAULT_NGRAM_THRESHOLD);
-        boolean foundHEPEI25K = false;
-        for (NamedEntity ne : namedEntityList) {
-        	String neStr = ne.toString();
-        	if (neStr.contains("HPEI25K")) {
-        		foundHEPEI25K = true;
-        		Assert.assertTrue(neStr.contains("NE:CM"));
-        	}
-        }
-        Assert.assertTrue(
-        	"Oscar did not find HEPEI25K", foundHEPEI25K
-        );
+        ChemNameDictRegistry registry = new ChemNameDictRegistry();
+        registry.register(new PolymerDictionary());
+        DFANEFinder finder = new DFANEFinder(TermMaps.getInstance().getNeTerms(),
+        		TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance(),
+        		(UnmodifiableSet) UnmodifiableSet.decorate(registry.getAllNames()));
+        List<NamedEntity> neList = finder.findNamedEntities(ts, NGram.getInstance(), DEFAULT_NGRAM_THRESHOLD);
+        assertTrue(namedEntityListContainsNamedEntity(neList, NamedEntityType.COMPOUND, "HPEI25K", 81, 88));
     }
     
     @Test
@@ -174,7 +183,8 @@ public class DFANEFinderTest {
     	terms.put("jumps", "foo:002");
     	OntologyTerms ontologyTerms = new OntologyTerms(terms);
     	DFANEFinder finder = new DFANEFinder(
-    			TermMaps.getInstance().getNeTerms(), TokenClassifier.getDefaultInstance(), ontologyTerms);
+    			TermMaps.getInstance().getNeTerms(), TokenClassifier.getDefaultInstance(),
+    			ontologyTerms, defaultRegistryNames);
     	String source = "The quick brown ethyl acetate jumps over the lazy acetone";
     	ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
     			Tokeniser.getDefaultInstance(), source);
@@ -198,5 +208,35 @@ public class DFANEFinderTest {
 			}
 		}
     	assertTrue(foundJumps);
+    }
+    
+    @Test
+    public void testFindCustomChemNameDictEntries() throws URISyntaxException {
+    	Set <String> registryNames = new HashSet<String>();
+    	registryNames.add("foobar");
+    	DFANEFinder finder = new DFANEFinder(
+    			TermMaps.getInstance().getNeTerms(), TokenClassifier.getDefaultInstance(),
+    			OntologyTerms.getDefaultInstance(),	(UnmodifiableSet) UnmodifiableSet.decorate(registryNames));
+    	String text = "The word 'foobar' in some English text";
+    	ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+    			tokeniser, text);
+    	ITokenSequence tokSeq = procDoc.getTokenSequences().get(0);
+    	List <NamedEntity> neList = finder.findNamedEntities(tokSeq, NGram.getInstance(), DEFAULT_NGRAM_THRESHOLD);
+    	assertTrue(namedEntityListContainsNamedEntity(neList, NamedEntityType.COMPOUND, "foobar", 10, 16));
+    }
+    
+    private boolean namedEntityListContainsNamedEntity(List <NamedEntity> nes, NamedEntityType type, String surface, int start, int end) {
+    	for (NamedEntity ne : nes) {
+			if (type.isInstance(ne.getType())) {
+				if (surface.equals(ne.getSurface())) {
+					if (start == ne.getStart()) {
+						if (end == ne.getEnd()) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+    	return false;
     }
 }

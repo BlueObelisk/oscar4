@@ -9,13 +9,20 @@ import static org.mockito.Mockito.stub;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 
@@ -27,19 +34,28 @@ public class NGramBuilderTest {
 	/** the NGram models are used repeatedly in the tests, so to 
 	 *  save on set up time we share one copy of each across the tests 
 	 */
+	private static UnmodifiableSet defaultRegistryNames;
 	private static NGram vanillaNGram;
 	private static NGram pubmedNGram;
 	private static NGram chempapersNGram;
+
 	
 	@BeforeClass
 	public static void buildSharedNGrams() {
+		defaultRegistryNames = (UnmodifiableSet) UnmodifiableSet.decorate(
+				ChemNameDictRegistry.getDefaultInstance().getAllNames());
 		vanillaNGram = NGramBuilder.buildModel();
-		pubmedNGram = NGramBuilder.buildModel(ManualAnnotations.loadManualAnnotations("pubmed"));
-		chempapersNGram = NGramBuilder.buildModel(ManualAnnotations.loadManualAnnotations("chempapers"));
+		pubmedNGram = NGramBuilder.buildModel(
+				ManualAnnotations.loadManualAnnotations("pubmed"),
+				defaultRegistryNames);
+		chempapersNGram = NGramBuilder.buildModel(
+				ManualAnnotations.loadManualAnnotations("chempapers"),
+				defaultRegistryNames);
 	}
 	
 	@AfterClass
 	public static void releaseMemory() {
+		defaultRegistryNames = null;
 		vanillaNGram = null;
 		pubmedNGram = null;
 		chempapersNGram = null;
@@ -57,7 +73,7 @@ public class NGramBuilderTest {
 	}
 	
 	@Test
-	public void testConstructorWithAnnotations() {
+	public void testCustomConstructor() throws URISyntaxException {
 		ManualAnnotations annotations = mock(ManualAnnotations.class);
 		Set <String> english = new HashSet<String>();
 		Set <String> chemical = new HashSet<String>();
@@ -66,13 +82,21 @@ public class NGramBuilderTest {
 		stub(annotations.getNonChemicalWords()).toReturn(english);
 		stub(annotations.getChemicalWords()).toReturn(chemical);
 		
-		NGramBuilder builder = new NGramBuilder(annotations);
+		Set <String> registryNames = new HashSet<String>();
+		registryNames.add("registryname");
+//		MutableChemNameDict dictionary = new MutableChemNameDict(
+//				new URI("http://www.example.org"), Locale.ENGLISH);
+//		dictionary.addChemical("registryname", "", "");
+//		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
+//		registry.register(dictionary);
+		
+		NGramBuilder builder = new NGramBuilder(
+				annotations, (UnmodifiableSet) UnmodifiableSet.decorate(registryNames));
 		assertNotNull(builder.getEnglishWords());
 		assertNotNull(builder.getChemicalWords());
 		assertTrue(builder.getEnglishWords().contains("cactus"));
 		assertTrue(builder.getEnglishWords().contains("foo"));
-		assertTrue(builder.getChemicalWords().contains("pyridine"));
-		assertTrue(builder.getChemicalWords().contains("bar"));
+		assertTrue(builder.getChemicalWords().contains("registryname"));
 	}
 	
 	
@@ -82,7 +106,8 @@ public class NGramBuilderTest {
 		assertFalse(vanillaNGram == vanillaNGram2);
 		
 		ManualAnnotations etd = ManualAnnotations.loadManualAnnotations("chempapers");
-		NGram customisedNGram = NGramBuilder.buildModel(etd);
+		NGram customisedNGram = NGramBuilder.buildModel(
+				etd, defaultRegistryNames);
 		
 		short [] data1 = vanillaNGram.getData();
 		short [] data2 = vanillaNGram2.getData();
@@ -113,15 +138,25 @@ public class NGramBuilderTest {
 	@Test
 	public void testCalculateChempapersSourceDataFingerprint() {
 		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("chempapers");
-		NGramBuilder builder = new NGramBuilder(annotations);
+		NGramBuilder builder = new NGramBuilder(
+				annotations, defaultRegistryNames);
 		assertEquals("1662272140_-167370350", builder.calculateSourceDataFingerprint());
 	}
 	
 	@Test
 	public void testCalculatePubmedSourceDataFingerprint() {
 		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("pubmed");
-		NGramBuilder builder = new NGramBuilder(annotations);
+		NGramBuilder builder = new NGramBuilder(
+				annotations, defaultRegistryNames);
 		assertEquals("-412073498_-1815304182", builder.calculateSourceDataFingerprint());
+	}
+	
+	@Test
+	public void testCalculatePubmedEmptyChemnamedictFingerprint() {
+		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("pubmed");
+		NGramBuilder builder = new NGramBuilder(annotations,
+				(UnmodifiableSet) UnmodifiableSet.decorate(Collections.emptySet()));
+		assertFalse("-412073498_-1815304182".equals(builder.calculateSourceDataFingerprint()));
 	}
 	
 	
@@ -197,7 +232,8 @@ public class NGramBuilderTest {
 	@Test
 	public void testBuildOrDeserialisePubmedModel() {
 		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("pubmed");
-		NGram pubmedModel = NGramBuilder.buildOrDeserialiseModel(annotations);
+		NGram pubmedModel = NGramBuilder.buildOrDeserialiseModel(
+				annotations, defaultRegistryNames);
 		assertNotNull(pubmedModel);
 		assertEquals(EXPECTED_DATA_LENTH, pubmedModel.getData().length);
 		for (int i = 0; i < EXPECTED_DATA_LENTH; i++) {
@@ -208,7 +244,8 @@ public class NGramBuilderTest {
 	@Test
 	public void testBuildOrDeserialiseChempapersModel() {
 		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("chempapers");
-		NGram chempapersModel = NGramBuilder.buildOrDeserialiseModel(annotations);
+		NGram chempapersModel = NGramBuilder.buildOrDeserialiseModel(
+				annotations, defaultRegistryNames);
 		assertNotNull(chempapersModel);
 		assertEquals(EXPECTED_DATA_LENTH, chempapersModel.getData().length);
 		for (int i = 0; i < EXPECTED_DATA_LENTH; i++) {

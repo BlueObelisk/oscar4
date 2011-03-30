@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
+
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
@@ -103,14 +105,21 @@ public final class FeatureExtractor {
 	private boolean newSuffixes = false;
 	private NGram ngram;
 	private ManualAnnotations manualAnnotations;
+	private UnmodifiableSet chemNameDictNames;
 	
 	
-	public static List<FeatureList> extractFeatures(ITokenSequence tokSeq, NGram ngram) {
-		return extractFeatures(tokSeq, ngram, new ManualAnnotations());
+	public static List<FeatureList> extractFeatures(ITokenSequence tokSeq, MEMMModel model) {
+		return extractFeatures(tokSeq, model.getNGram(), model.getManualAnnotations(), model.getChemNameDictNames());
 	}
 	
-    public static List<FeatureList> extractFeatures(ITokenSequence tokSeq, NGram ngram, ManualAnnotations annotations) {
-        FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq, ngram, annotations);
+	public static List<FeatureList> extractFeatures(ITokenSequence tokSeq,
+			NGram ngram, UnmodifiableSet chemNameDictNames) {
+		return extractFeatures(tokSeq, ngram, new ManualAnnotations(), chemNameDictNames);
+	}
+	
+    static List<FeatureList> extractFeatures(ITokenSequence tokSeq, NGram ngram,
+    		ManualAnnotations annotations, UnmodifiableSet chemNameDictNames) {
+        FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq, ngram, annotations, chemNameDictNames);
         return featureExtractor.getFeatureLists();
     }
 
@@ -122,10 +131,11 @@ public final class FeatureExtractor {
         return features;
     }
 
-    private FeatureExtractor(ITokenSequence tokSeq, NGram ngram, ManualAnnotations annotations) {
+    private FeatureExtractor(ITokenSequence tokSeq, NGram ngram, ManualAnnotations annotations, UnmodifiableSet chemNameDictNames) {
 		this.tokSeq = tokSeq;
 		this.ngram = ngram;
 		this.manualAnnotations = annotations;
+		this.chemNameDictNames = chemNameDictNames;
 		makeFeatures();
 	}
 
@@ -187,7 +197,7 @@ public final class FeatureExtractor {
 			}
 		}
 
-		if (ChemNameDictRegistry.getInstance().hasName(word)) {
+		if (chemNameDictNames.contains(word)) {
 			local.addFeature(IN_NAMEDICT_FEATURE);
 		}
 
@@ -220,7 +230,7 @@ public final class FeatureExtractor {
 			local.addFeature(STOPWORD_NONCHEMICALNONWORD_FEATURE);
 		}
 		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
-				&& !(ChemNameDictRegistry.getInstance().hasName(normWord) || 
+				&& !(chemNameDictNames.contains(normWord) || 
 						manualAnnotations.getChemicalWords().contains(normWord))) {
 			local.addFeature(STOPWORD_USER_DEFINED_FEATURE);
 		}
@@ -248,7 +258,7 @@ public final class FeatureExtractor {
 		if (manualAnnotations.getChemicalWords().contains(normWord)) {
 			ngscore = 100;
 		}
-		if (ChemNameDictRegistry.getInstance().hasName(word)) {
+		if (chemNameDictNames.contains(word)) {
 			ngscore = 100;
 		}
 
@@ -280,7 +290,7 @@ public final class FeatureExtractor {
 		if (manualAnnotations.getChemicalWords().contains(normWord)) {
 			suffixScore = SUFFIX_HI_SCORE;
 		}
-		if (ChemNameDictRegistry.getInstance().hasName(word)) {
+		if (chemNameDictNames.contains(word)) {
 			suffixScore = SUFFIX_HI_SCORE;
 		}
 		double ngscore = ngram.testWord(word);

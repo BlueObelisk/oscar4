@@ -1,6 +1,9 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm.data;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
+
 import opennlp.maxent.GISModel;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
@@ -8,8 +11,9 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 
 public class MutableMEMMModel extends MEMMModel {
 
-	public MutableMEMMModel() {
-		nGram = NGramBuilder.buildOrDeserialiseModel();
+	public MutableMEMMModel(UnmodifiableSet chemNameDictNames) {
+		super.nGram = NGramBuilder.buildOrDeserialiseModel();
+		super.chemNameDictNames = chemNameDictNames;
 	}
 	
 	public void setRescorer(MEMMOutputRescorer rescorer) {

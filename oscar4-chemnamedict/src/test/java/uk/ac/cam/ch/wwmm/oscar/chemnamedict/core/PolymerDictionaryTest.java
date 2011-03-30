@@ -1,6 +1,9 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
+
+import java.util.Locale;
+
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
@@ -11,17 +14,16 @@ public class PolymerDictionaryTest extends AbstractDictionaryTest {
 	@Test
 	public void testACompound() {
 		IChemNameDict dict = new PolymerDictionary();
-		Assert.assertNotNull(dict);
-		Assert.assertTrue(dict.hasName("HPEI25K"));
+		assertNotNull(dict);
+		assertTrue(dict.hasName("HPEI25K"));
 	}
 	
 	@Test
 	public void testAcccessViaRegistry() {
 		IChemNameDict dict = new PolymerDictionary();
-		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		registry.register(dict);
-		Assert.assertNotNull(registry);
-		Assert.assertTrue(registry.hasName("HPEI25K"));
+		assertTrue(registry.hasName("HPEI25K"));
 	}
 
 	@Override

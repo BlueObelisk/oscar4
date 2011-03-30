@@ -182,7 +182,7 @@ public final class MEMMOutputRescorerTrainer {
 			} else {
 				isEntity = "F";
 			}
-			List<String> features = fe.getFeatures(entity);
+			List<String> features = fe.getFeatures(entity, memm.getModel().getChemNameDictNames());
 			NamedEntityType namedEntityType = entity.getType();
 			if(!eventsByNamedEntityType.containsKey(namedEntityType)) eventsByNamedEntityType.put(namedEntityType, new ArrayList<Event>());
 			eventsByNamedEntityType.get(namedEntityType).add(new Event(isEntity, features.toArray(new String[0])));
@@ -250,7 +250,7 @@ public final class MEMMOutputRescorerTrainer {
 		FeatureExtractor fe = new FeatureExtractor(entities);
 		
 		for(NamedEntity entity : entities) {
-			List<String> features = fe.getFeatures(entity);
+			List<String> features = fe.getFeatures(entity, memm.getModel().getChemNameDictNames());
 			NamedEntityType namedEntityType = entity.getType();
 			if(modelsByNamedEntityType.containsKey(namedEntityType)) {
 				GISModel model = modelsByNamedEntityType.get(namedEntityType);

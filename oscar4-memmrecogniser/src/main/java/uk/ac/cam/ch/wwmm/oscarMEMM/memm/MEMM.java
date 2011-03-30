@@ -72,7 +72,7 @@ public final class MEMM {
      * @return Named entities, with confidences.
      */
     public List<NamedEntity> findNEs(ITokenSequence tokSeq) {
-        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram(), model.getManualAnnotations());
+        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model);
         List<IToken> tokens = tokSeq.getTokens();
         if (tokens.isEmpty()) {
             return Collections.emptyList();
@@ -127,7 +127,7 @@ public final class MEMM {
      */
     public void rescore(List<NamedEntity> entities) {
     	if (model.getRescorer() != null) {
-    		model.getRescorer().rescore(entities);	
+    		model.getRescorer().rescore(entities, model.getChemNameDictNames());	
     	} 
     	else {
     		LOG.info("Model does not contain a rescorer");

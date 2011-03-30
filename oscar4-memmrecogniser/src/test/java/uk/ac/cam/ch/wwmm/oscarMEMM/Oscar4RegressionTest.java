@@ -76,8 +76,8 @@ public class Oscar4RegressionTest {
 		String sentence = rg.getString("Sentence2.txt");
 		List<String> expectedSurfaceList = Arrays.asList("N-methylaniline_1",
 				"N,N-dimethylaniline_1", "calcium_1", "silica_1");
-		List<Double> expectedProbList = Arrays.asList(0.9964313404393998,
-				0.9995782016130931, 0.9860357829790156, 0.9603591420667275);
+		List<Double> expectedProbList = Arrays.asList(0.9951601406578985,
+				0.999381881162883, 0.9860357829790156, 0.9603591420667275);
 		List<String> expectedTypeList = Arrays.asList("CM", "CM", "CM", "CM");
 
 		evaluateNamedEntities(sentence, ResolutionMode.REMOVE_BLOCKED,
@@ -182,7 +182,7 @@ public class Oscar4RegressionTest {
 				"uk/ac/cam/ch/wwmm/oscar3/test/regressionTest/");
 		String sentence = rg.getString("Sentence2.txt");
 		List<String> expectedSurfaceList = Arrays.asList("N-_1","N-methylaniline_1","N,N-_1","N,N-dimethylaniline_1","calcium_1","calcium_2","silica_1");
-		List<Double> expectedProbList = Arrays.asList(0.00, 0.9964313404393998,0.00, 0.9995782016130931,0.9860357829790156,0.00,0.9603591420667275);
+		List<Double> expectedProbList = Arrays.asList(0.00, 0.9951601406578985,0.00, 0.999381881162883,0.9860357829790156,0.00,0.9603591420667275);
 		List<String> expectedTypeList = Arrays.asList("CPR","CM","CPR","CM","CM","ONT","CM");
 
 		evaluateNamedEntities(sentence, ResolutionMode.MARK_BLOCKED,
@@ -264,6 +264,9 @@ public class Oscar4RegressionTest {
 
 		List<NamedEntity> neList = recogniser.findNamedEntities(
 				procDoc.getTokenSequences(), resolutionMode);
+		for (NamedEntity namedEntity : neList) {
+			System.out.println(namedEntity + ": " + namedEntity.getConfidence());
+		}
 		// Check that neList is not empty
 		assertTrue(neList != null);
 

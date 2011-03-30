@@ -3,9 +3,11 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +44,7 @@ public class DFANEFinder extends DFAFinder {
 
 	private TokenClassifier tokenClassifier;
 	private Map<String, NamedEntityType> neTerms;
+	private UnmodifiableSet registryNames;
 
     private static final long serialVersionUID = -3307600610608772402L;
     private static DFANEFinder defaultInstance;
@@ -70,8 +73,10 @@ public class DFANEFinder extends DFAFinder {
      */
     public static synchronized DFANEFinder getDefaultInstance() {
         if (defaultInstance == null) {
+        	Set <String> registryNames = ChemNameDictRegistry.getDefaultInstance().getAllNames();
             defaultInstance = new DFANEFinder(TermMaps.getInstance().getNeTerms(),
-            		TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance());
+            		TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance(),
+            		(UnmodifiableSet) UnmodifiableSet.decorate(registryNames));
         }
         return defaultInstance;
     }
@@ -106,11 +111,12 @@ public class DFANEFinder extends DFAFinder {
         if (ts.getTokens().size() > 1) defaultInstance = null;
     }
 
-    public DFANEFinder(Map<String, NamedEntityType> neTerms, TokenClassifier tokenClassifier, OntologyTerms ontologyTerms) {
+    public DFANEFinder(Map<String, NamedEntityType> neTerms, TokenClassifier tokenClassifier, OntologyTerms ontologyTerms, UnmodifiableSet registryNames) {
         logger.debug("Initialising DFA NE Finder...");
         this.neTerms = neTerms;
         this.tokenClassifier = tokenClassifier;
         this.ontologyTerms = ontologyTerms;
+        this.registryNames = registryNames;
         super.init();
         logger.debug("Initialised DFA NE Finder");
     }
@@ -131,8 +137,10 @@ public class DFANEFinder extends DFAFinder {
             addNamedEntity(s, NamedEntityType.CUSTOM, true);
         }
         logger.debug("Adding names from ChemNameDict to DFA finder...");
-        for(String s : ChemNameDictRegistry.getInstance().getAllNames()) {
-            addNamedEntity(s, NamedEntityType.COMPOUND, false);
+        for(Object o : registryNames) {
+            if (o instanceof String) {
+            	addNamedEntity((String) o, NamedEntityType.COMPOUND, false);	
+            }
         }
     }
 
@@ -240,7 +248,7 @@ public class DFANEFinder extends DFAFinder {
         if (!stopWord && value.length() > 3 && value.matches(".*[a-z][a-z].*") ) {
             double score;
 //				if (ExtractTrainingData.getInstance().chemicalWords.contains(normValue)) score = 100;
-            if (ChemNameDictRegistry.getInstance().hasName(value)) {
+            if (registryNames.contains(value)) {
                 score = 100;
             }
             else if (TermSets.getDefaultInstance().getUsrDictWords().contains(normalisedValue)
@@ -283,7 +291,7 @@ public class DFANEFinder extends DFAFinder {
             }
         }
 
-        if (ChemNameDictRegistry.getInstance().hasName(value)) {
+        if (registryNames.contains(value)) {
             tokenRepresentations.addRepresentation(REP_IN_CND);
         }
         if (ontologyTerms.containsTerm(normalisedValue)) {

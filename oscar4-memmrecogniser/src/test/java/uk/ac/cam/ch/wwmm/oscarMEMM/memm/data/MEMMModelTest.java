@@ -1,16 +1,12 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm.data;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.Set;
 
 import nu.xom.Document;
 import nu.xom.Element;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -23,7 +19,7 @@ public class MEMMModelTest {
 	public void testConstructor() {
 		MEMMModel model = new MEMMModel();
 		// this test ensures that no Exceptions and Errors are thrown
-		Assert.assertNotNull(model);
+		assertNotNull(model);
 		// and that the fields are initialised correctly
 		assertNotNull(model.getZeroProbs());
 		assertNull(model.getUberModel());
@@ -38,17 +34,17 @@ public class MEMMModelTest {
 	@Test
 	public void testGetTagSet() {
 		Set<BioType> set = new MEMMModel().getTagSet();
-		Assert.assertNotNull(set);
+		assertNotNull(set);
 		// a new instance should have no data
-		Assert.assertEquals(0, set.size());
+		assertEquals(0, set.size());
 	}
 
 	@Test
 	public void testGetNamedEntityTypes() {
 		Set<NamedEntityType> set = new MEMMModel().getNamedEntityTypes();
-		Assert.assertNotNull(set);
+		assertNotNull(set);
 		// a new instance should have no data
-		Assert.assertEquals(0, set.size());
+		assertEquals(0, set.size());
 	}
 
 	@Test
@@ -58,11 +54,11 @@ public class MEMMModelTest {
 			"uk/ac/cam/ch/wwmm/oscarMEMM/models/"
 		).getXMLDocument("chempapers.xml");
 		Element modelRoot = modelDoc.getRootElement();
-		Assert.assertNotNull(modelRoot);
+		assertNotNull(modelRoot);
 		MEMMModel model = new MEMMModel();
 		model.readModel(modelRoot);
-		Assert.assertNotSame(0, model.getNamedEntityTypes().size());
-		Assert.assertNotNull(model.getRescorer());
+		assertNotSame(0, model.getNamedEntityTypes().size());
+		assertNotNull(model.getRescorer());
 		assertTrue(
 			model.getManualAnnotations().getNonChemicalWords().contains(
 				"elongate"
@@ -85,8 +81,8 @@ public class MEMMModelTest {
 		model.readModel(modelDoc.getRootElement());
 
 		Element writtenModel = model.writeModel();
-		Assert.assertEquals("model", writtenModel.getLocalName());
-		Assert.assertEquals(1, writtenModel.getChildElements("memm").size());
-		Assert.assertEquals(1, writtenModel.getChildElements("etd").size());
+		assertEquals("model", writtenModel.getLocalName());
+		assertEquals(1, writtenModel.getChildElements("memm").size());
+		assertEquals(1, writtenModel.getChildElements("etd").size());
 	}
 }

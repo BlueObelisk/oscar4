@@ -3,6 +3,7 @@ package uk.ac.cam.ch.wwmm.oscar;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import nu.xom.Element;
@@ -163,6 +164,19 @@ public class OscarTest {
 		assertTrue(oscar.getMemmModel() instanceof PubMedModel);
 	}
 	
+	
+	@Test
+	public void testSetDictionaryRegistry() {
+		Oscar oscar = new Oscar();
+		ChemNameDictRegistry registry1 = oscar.getDictionaryRegistry();
+		assertNotNull(registry1);
+		
+		ChemNameDictRegistry registry2 = new ChemNameDictRegistry(Locale.FRENCH);
+		assertFalse(registry1 == registry2);
+		
+		oscar.setDictionaryRegistry(registry2);
+		assertTrue(oscar.getDictionaryRegistry() == registry2);
+	}
 	
 	@Test
 	public void testMemmModelSetup() {

@@ -2,8 +2,11 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 
 import java.io.IOException;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
+
 import nu.xom.Document;
 import nu.xom.ParsingException;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
@@ -25,6 +28,8 @@ public class PubMedModel extends MEMMModel {
 		} catch (ParsingException e) {
 			throw new OscarInitialisationException("failed to load the PubMed model", e);
 		}
-		nGram = NGramBuilder.buildOrDeserialiseModel(manualAnnotations);
+		chemNameDictNames = (UnmodifiableSet) UnmodifiableSet.decorate(
+				ChemNameDictRegistry.getDefaultInstance().getAllNames());
+		nGram = NGramBuilder.buildOrDeserialiseModel(manualAnnotations, chemNameDictNames);
 	}
 }

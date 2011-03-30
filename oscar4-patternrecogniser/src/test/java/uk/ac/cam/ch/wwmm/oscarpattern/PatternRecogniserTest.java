@@ -3,20 +3,26 @@ package uk.ac.cam.ch.wwmm.oscarpattern;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import nu.xom.Document;
 
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
@@ -58,7 +64,7 @@ public class PatternRecogniserTest {
 	}
 	
 	@Test public void testConstructor() {
-		Assert.assertNotNull(recogniser);
+		assertNotNull(recogniser);
 	}
 
 	@Test
@@ -170,6 +176,30 @@ public class PatternRecogniserTest {
 
 	
 	@Test
+	public void testWithCustomChemNameDictRegistry() throws URISyntaxException {
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
+		MutableChemNameDict dictionary = new MutableChemNameDict(new URI("http://www.example.org"), Locale.ENGLISH);
+		dictionary.addChemical("registryName", "", "");
+		registry.register(dictionary);
+		PatternRecogniser recogniser = new PatternRecogniser(
+				ManualAnnotations.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
+				TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance(),
+				registry);
+		assertEquals(1, recogniser.getRegistryNames().size());
+		assertTrue(recogniser.getRegistryNames().contains("registryname"));
+	}
+	
+	@Test (expected = UnsupportedOperationException.class)
+	public void testImmutableChemNameDictRegistryNames() {
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
+		PatternRecogniser recogniser = new PatternRecogniser(
+				ManualAnnotations.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
+				TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance(),
+				registry);
+		recogniser.getRegistryNames().clear();
+	}
+	
+	@Test
 	public void testWithCustomNeTerms() throws DataFormatException, IOException {
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), "benzene furanyl");
@@ -182,7 +212,8 @@ public class PatternRecogniserTest {
 		neTerms.put("$-ene $-yl", NamedEntityType.COMPOUND);
 		PatternRecogniser customRecogniser = new PatternRecogniser(
 				ManualAnnotations.getDefaultInstance(), neTerms,
-				TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance());
+				TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance(),
+				ChemNameDictRegistry.getDefaultInstance());
 		List<NamedEntity> nes2 = customRecogniser.findNamedEntities(procDoc);
 		assertEquals(1, nes2.size());
 		assertEquals("benzene furanyl", nes2.get(0).getSurface());
@@ -190,7 +221,7 @@ public class PatternRecogniserTest {
 	
 	
 	@Test
-	public void testCustomOntologyTerms() {
+	public void testWithCustomOntologyTerms() {
 		String source = "The quick brown ethyl acetate jumps over the lazy acetone";
     	ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
     			Tokeniser.getDefaultInstance(), source);
@@ -208,7 +239,8 @@ public class PatternRecogniserTest {
     	ontTerms.put("jumps", "foo:002");
     	PatternRecogniser customRecogniser = new PatternRecogniser(
     			ManualAnnotations.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
-    			TokenClassifier.getDefaultInstance(), new OntologyTerms(ontTerms));
+    			TokenClassifier.getDefaultInstance(), new OntologyTerms(ontTerms),
+    			ChemNameDictRegistry.getDefaultInstance());
     	List <NamedEntity> customNes = customRecogniser.findNamedEntities(procDoc);
     	assertEquals(3, customNes.size());
     	assertEquals("ethyl acetate", customNes.get(0).getSurface());

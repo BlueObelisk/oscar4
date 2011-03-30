@@ -68,12 +68,16 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>commons-math</groupId>
 			<artifactId>commons-math</artifactId>
 			<version>20040218.045431</version>
 		</dependency>
+		<dependency>
+        	<groupId>commons-collections</groupId>
+        	<artifactId>commons-collections</artifactId>
+        	<version>3.2.1</version>
+        </dependency>
 	</dependencies>
 
 </project>

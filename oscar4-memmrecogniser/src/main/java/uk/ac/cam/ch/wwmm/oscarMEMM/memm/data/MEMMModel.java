@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
+
 import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -39,6 +41,7 @@ public class MEMMModel {
     protected Set<NamedEntityType> namedEntityTypes;
     protected ManualAnnotations manualAnnotations;
     protected NGram nGram;
+    protected UnmodifiableSet chemNameDictNames;
     
 
     public MEMMModel() {
@@ -176,5 +179,9 @@ public class MEMMModel {
 	
 	public NGram getNGram() {
 		return nGram;
+	}
+
+	public UnmodifiableSet getChemNameDictNames() {
+		return chemNameDictNames;
 	}
 }

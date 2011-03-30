@@ -1,18 +1,29 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 
 public class ChemPapersModelTest {
 
+	private static MEMMModel model;
+	
+	@BeforeClass
+	public static void setUp() {
+		model = new ChemPapersModel();
+	}
+	
+	@AfterClass
+	public static void cleanUp() {
+		model = null;
+	}
+	
 	@Test
 	public void testConstructor() {
-		ChemPapersModel model = new ChemPapersModel();
 		assertNotNull(model.getZeroProbs());
 		assertNull(model.getUberModel());
 		assertNotNull(model.getRescorer());
@@ -26,7 +37,6 @@ public class ChemPapersModelTest {
 	
 	@Test
 	public void testLoadChemPapers() {
-		MEMMModel model = new ChemPapersModel();
 		assertTrue(
 			model.getManualAnnotations().getNonChemicalWords().contains(
 				"elongate"
@@ -39,4 +49,9 @@ public class ChemPapersModelTest {
 		);
 	}
 
+	@Test
+	public void testLoadChemNameDictNames() {
+		assertTrue(model.getChemNameDictNames().contains("3-(methylthio)propionate"));
+		assertFalse(model.getChemNameDictNames().contains("cricket"));
+	}
 }

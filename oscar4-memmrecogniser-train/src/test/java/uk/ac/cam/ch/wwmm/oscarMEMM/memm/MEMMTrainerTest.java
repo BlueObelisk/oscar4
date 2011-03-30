@@ -16,6 +16,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
@@ -33,7 +34,7 @@ public class MEMMTrainerTest {
 
 	@Test
 	public MEMMTrainer testConstructor() {
-		MEMMTrainer trainer = new MEMMTrainer();
+		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());
 		Assert.assertNotNull(trainer);
 		return trainer;
 	}
@@ -129,7 +130,7 @@ public class MEMMTrainerTest {
 	}
 
 	private MEMMModel trainModel() throws Exception {
-		MEMMTrainer trainer = new MEMMTrainer();
+		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());
 		InputStream stream = this
 				.getClass()
 				.getClassLoader()

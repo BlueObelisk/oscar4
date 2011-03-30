@@ -11,6 +11,10 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
+/**
+ * A dictionary of chemical names derived from ChEBI. 
+ *
+ */
 public class ChEBIDictionary extends MutableChemNameDict {
 
 	private static final URI	CHEBI_DICTIONARY_URL;

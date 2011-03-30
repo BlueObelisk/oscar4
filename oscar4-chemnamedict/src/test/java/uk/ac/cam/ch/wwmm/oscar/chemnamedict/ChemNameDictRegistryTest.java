@@ -8,19 +8,28 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 
 public class ChemNameDictRegistryTest {
 
 	@Test
 	public void testConstructor() {
-		assertNotNull(ChemNameDictRegistry.getInstance());
+		ChemNameDictRegistry registry = new ChemNameDictRegistry();
+		assertEquals(Locale.ENGLISH, registry.getLanguage());
+		assertEquals(2, registry.listDictionaries().size());
+	}
+	
+	@Test
+	public void testOtherConstructor() {
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.CHINESE);
+		assertEquals(Locale.CHINESE, registry.getLanguage());
+		assertEquals(0, registry.listDictionaries().size());
 	}
 
 	@Test
 	public void testRegister() throws Exception {
-		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
-		registry.clear();
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		assertEquals(0, registry.listDictionaries().size());
 		IMutableChemNameDict dict = new MutableChemNameDict(
 			new URI("http://www.example.org/"),
@@ -32,8 +41,7 @@ public class ChemNameDictRegistryTest {
 
 	@Test
 	public void testListDictionaries() throws Exception {
-		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
-		registry.clear();
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		assertEquals(0, registry.listDictionaries().size());
 		URI uri = new URI("http://www.example.org/");
 		assertFalse(registry.listDictionaries().contains(uri));
@@ -45,8 +53,7 @@ public class ChemNameDictRegistryTest {
 
 	@Test
 	public void testGetDictionary() throws Exception {
-		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
-		registry.clear();
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		URI uri = new URI("http://www.example.org/");
 		IMutableChemNameDict dict = new MutableChemNameDict(uri, Locale.ENGLISH);
 		registry.register(dict);
@@ -55,8 +62,7 @@ public class ChemNameDictRegistryTest {
 
 	@Test
 	public void testHasName() throws Exception {
-		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
-		registry.clear();
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		assertFalse(registry.hasName("propanol"));
 		IMutableChemNameDict dict = new MutableChemNameDict(
 			new URI("http://www.example.org/"),
@@ -69,8 +75,7 @@ public class ChemNameDictRegistryTest {
 
 	@Test
 	public void testGetSMILES() throws Exception {
-		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
-		registry.clear();
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		IMutableChemNameDict dict = new MutableChemNameDict(
 			new URI("http://www.example.org/1/"),
 			Locale.ENGLISH
@@ -95,8 +100,7 @@ public class ChemNameDictRegistryTest {
 
 	@Test
 	public void testGetShortestSMILES() throws Exception {
-		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
-		registry.clear();
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		IMutableChemNameDict dict = new MutableChemNameDict(
 			new URI("http://www.example.org/1/"),
 			Locale.ENGLISH
@@ -118,8 +122,7 @@ public class ChemNameDictRegistryTest {
 
 	@Test
 	public void testGetInChI() throws Exception {
-		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
-		registry.clear();
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		IMutableChemNameDict dict = new MutableChemNameDict(
 			new URI("http://www.example.org/1/"),
 			Locale.ENGLISH
@@ -137,8 +140,7 @@ public class ChemNameDictRegistryTest {
 
 	@Test
 	public void testGetNames_InChI() throws Exception {
-		ChemNameDictRegistry registry = ChemNameDictRegistry.getInstance();
-		registry.clear();
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		IMutableChemNameDict dict = new MutableChemNameDict(
 			new URI("http://www.example.org/1/"),
 			Locale.ENGLISH
@@ -157,4 +159,21 @@ public class ChemNameDictRegistryTest {
 		assertTrue(names.contains("methaan"));
 		assertTrue(names.contains("methane"));
 	}
+	
+	@Test
+	public void testGetDefaultInstance() {
+		ChemNameDictRegistry registry = ChemNameDictRegistry.getDefaultInstance();
+		assertEquals(2, registry.listDictionaries().size());
+	}
+	
+	@Test (expected = UnsupportedOperationException.class)
+	public void testDefaultInstanceIsImmutable() {
+		ChemNameDictRegistry.getDefaultInstance().clear();
+	}
+	
+	@Test (expected = UnsupportedOperationException.class)
+	public void testDefaultInstanceIsImmutable2() {
+		ChemNameDictRegistry.getDefaultInstance().register(new DefaultDictionary());
+	}
+	
 }

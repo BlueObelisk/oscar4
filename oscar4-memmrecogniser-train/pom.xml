@@ -56,5 +56,10 @@
     	<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
     	<artifactId>oscar4-recogniser-core</artifactId>
     </dependency>
+    <dependency>
+		<groupId>commons-collections</groupId>
+		<artifactId>commons-collections</artifactId>
+		<version>3.2.1</version>
+     </dependency>
   </dependencies>
 </project>

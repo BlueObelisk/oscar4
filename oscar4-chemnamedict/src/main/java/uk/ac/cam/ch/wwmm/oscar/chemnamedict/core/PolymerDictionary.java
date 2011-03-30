@@ -1,6 +1,5 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -9,7 +8,6 @@ import java.util.Locale;
 
 import nu.xom.Document;
 import nu.xom.ParsingException;
-import nu.xom.ValidityException;
 
 import org.apache.commons.lang.StringUtils;
 

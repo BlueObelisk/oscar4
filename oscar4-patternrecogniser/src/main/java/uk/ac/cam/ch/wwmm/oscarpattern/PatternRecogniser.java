@@ -1,11 +1,15 @@
 package uk.ac.cam.ch.wwmm.oscarpattern;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
+
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
@@ -13,7 +17,9 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFAFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFANEFinder;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver;
@@ -41,32 +47,37 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	private double cprPseudoConfidence = 0.2;
 	private double ngramThreshold = -2;
 	private boolean deprioritiseOnts = false;
-	
-	
+	private UnmodifiableSet registryNames;
+
+
 	/**
-	 * Create a default PatternRecogniser that employs an NGram model customised
+	 * Create a default PatternRecogniser that employs an {@link NGram} model customised
 	 * according to the default (chempapers) model and the default instance of
-	 * the DFANEFinder.
+	 * the {@link DFANEFinder}.
 	 */
 	public PatternRecogniser() {
-		this.nGram = NGramBuilder.buildOrDeserialiseModel(ManualAnnotations.getDefaultInstance());
-		this.finder = DFANEFinder.getDefaultInstance();
+		this(ManualAnnotations.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
+				TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance(),
+				ChemNameDictRegistry.getDefaultInstance());
 	}
 	
 	/**
-	 * Create a customised PatternRecogniser that employs an NGram model customised
-	 * according to the given extracted training data and that uses the specified
-	 * DFAFinder.
+	 * Create a customised PatternRecogniser that employs an {@link NGram} model customised
+	 * according to the given {@link ManualAnnotations} and {@link ChemNameDictRegistry}
+	 * and that uses the specified {@link DFAFinder}.
 	 *  
-	 * @param etd the ManualAnnotations object to be used for NGram customisation. Pass
+	 * @param etd the {@link ManualAnnotations} object to be used for NGram customisation. Pass
 	 * null to create an un-customised model.
-	 * @param finder the DFANEFinder object to be used to identify named entities.
+	 * @param finder the {@link DFANEFinder} object to be used to identify named entities.
 	 * @param neTerms the set of patterns to be used for multi-token named entity recognition
+	 * @param registry the {@link ChemNameDictRegistry} for containing the dictionaries to use.
+	 * A copy of the chemical names will be created and used internally.
 	 */
 	public PatternRecogniser(ManualAnnotations etd, Map<String, NamedEntityType> neTerms,
-			TokenClassifier classifier, OntologyTerms ontologyTerms) {
-		this.nGram = NGramBuilder.buildModel(etd);
-		this.finder = new DFANEFinder(neTerms, classifier, ontologyTerms);
+			TokenClassifier classifier, OntologyTerms ontologyTerms, ChemNameDictRegistry registry) {
+		this.registryNames = (UnmodifiableSet) UnmodifiableSet.decorate(registry.getAllNames());
+		this.nGram = NGramBuilder.buildOrDeserialiseModel(etd, registryNames);
+		this.finder = new DFANEFinder(neTerms, classifier, ontologyTerms, registryNames);
 	}
 	
 
@@ -348,6 +359,10 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 
 	public void setDeprioritiseOnts(boolean deprioritiseOnts) {
 		this.deprioritiseOnts  = deprioritiseOnts;
+	}
+
+	public UnmodifiableSet getRegistryNames() {
+		return registryNames;
 	}
 
 }

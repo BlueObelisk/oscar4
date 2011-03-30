@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,43 +20,38 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
  * Central point of access to query dictionaries.
  *
  * @author egonw
+ * @author dmj30
  */
 public class ChemNameDictRegistry {
 
-	private Logger log = LoggerFactory.getLogger(ChemNameDictRegistry.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ChemNameDictRegistry.class);
 
-	private static ChemNameDictRegistry instance = null;
+	private static ChemNameDictRegistry defaultInstance;
 
 	private Locale language;
-	Map<URI,IChemNameDict> dictionaries = null;
+	private Map<URI,IChemNameDict> dictionaries = new HashMap<URI,IChemNameDict>();
 
-	private ChemNameDictRegistry(Locale language) {
-		this.language = language;
-		dictionaries = new HashMap<URI,IChemNameDict>();
+	/**
+	 * Creates a new ChemNameDictRegistry for the English language.
+	 * The {@link ChEBIDictionary} and {@link DefaultDictionary} are
+	 * registered by default.
+	 * 
+	 */
+	public ChemNameDictRegistry() {
+		this.language = Locale.ENGLISH;
 		register(new DefaultDictionary());
         register(new ChEBIDictionary());
 	}
-
+	
 	/**
-	 * Returns an instance of the {@link ChemNameDict} registry.
-	 * The ChEBIDictionary and the DefaultDictionary are 
-	 * registered by default.
-	 *
-	 * @return a {@link ChemNameDictRegistry}.
+	 * Creates a new ChemNameDictRegistry for the specified
+	 * language.
 	 */
-	public static ChemNameDictRegistry getInstance() {
-		if (instance == null)
-			instance = new ChemNameDictRegistry(Locale.ENGLISH);
-		return instance;
+	public ChemNameDictRegistry(Locale locale) {
+		this.language = locale;
 	}
-
-	//TODO this isn't the behaviour I'd expect - if the singleton is already initialised the argument doesn't affect the return value
-	public static ChemNameDictRegistry getInstance(Locale language) {
-		if (instance == null)
-			instance = new ChemNameDictRegistry(language);
-		return instance;
-	}
-
+	
+	
 	/**
 	 * Registers a new dictionary, uniquely identified by its {@link URI}.
 	 *
@@ -63,7 +59,7 @@ public class ChemNameDictRegistry {
 	 */
 	public void register(IChemNameDict dictionary) {
 		if (!language.getLanguage().equals(dictionary.getLanguage().getLanguage())){
-			log.warn("Registry has different language than dictionary");
+			LOG.warn("Registry has different language than dictionary");
 		}
 		dictionaries.put(dictionary.getURI(), dictionary);
 	}
@@ -170,5 +166,28 @@ public class ChemNameDictRegistry {
 			allNames.addAll(dict.getNames());
 		}
 		return allNames;
+	}
+
+	public Locale getLanguage() {
+		return language;
+	}
+
+	/**
+	 * Returns an immutable ChemNameDictRegistry with the
+	 * {@link ChEBIDictionary} and {@link DefaultDictionary}
+	 * registered. 
+	 */
+	public static synchronized ChemNameDictRegistry getDefaultInstance() {
+		if (defaultInstance == null) {
+			defaultInstance = new ChemNameDictRegistry(Locale.ENGLISH);
+			//having the ChEBI & default dictionaries and only these dictionaries
+			//registered is a requirement in order pre-generated models are supplied
+			//with the correct data - DO NOT CHANGE THIS.
+			defaultInstance.register(new ChEBIDictionary());
+			defaultInstance.register(new DefaultDictionary());
+			Map<URI, IChemNameDict> dictionaries = defaultInstance.dictionaries;
+			defaultInstance.dictionaries = Collections.unmodifiableMap(dictionaries);
+		}
+		return defaultInstance;
 	}
 }

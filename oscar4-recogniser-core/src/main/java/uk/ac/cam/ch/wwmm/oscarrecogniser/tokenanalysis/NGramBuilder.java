@@ -4,13 +4,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +60,6 @@ public class NGramBuilder {
 	
 	private boolean extraOnly;
 	
-	
 	private List<String> chemWords;
 	private List<String> englishWords;
 	private Set<String> chemSet;
@@ -67,18 +69,20 @@ public class NGramBuilder {
 	private static final Pattern matchTwoOrMoreAdjacentLetters = Pattern.compile(".*[a-z][a-z].*");
 
 	private ManualAnnotations etd;
+	private UnmodifiableSet registryNames;
 	
 	
 	/** Creates a new instance of nGram */
-	NGramBuilder(ManualAnnotations etd) {
+	NGramBuilder(ManualAnnotations etd, UnmodifiableSet registryNames) {
 		this.etd = etd;
-		chemWords = new ArrayList<String>();
-		englishWords = new ArrayList<String>();
+		this.registryNames = registryNames;
+		this.chemWords = new ArrayList<String>();
+		this.englishWords = new ArrayList<String>();
 		readTrainingData();
 	}
 	
     NGramBuilder() {
-		this(null);
+		this(null, (UnmodifiableSet) UnmodifiableSet.decorate(ChemNameDictRegistry.getDefaultInstance().getAllNames()));
 	}
 
 
@@ -180,7 +184,7 @@ public class NGramBuilder {
 	}
 
 	private void readChemNameDictTrainingData() {
-		readCollection(ChemNameDictRegistry.getInstance().getAllNames(), true);			
+		readCollection(registryNames, true);			
 	}	
 	
 	private void readElementsTrainingData() {
@@ -190,7 +194,7 @@ public class NGramBuilder {
 	private void readUdwTrainingData() {
 		Set<String> goodUDW = new HashSet<String>();
 		for(String word : TermSets.getDefaultInstance().getUsrDictWords()) {
-			if(!(ChemNameDictRegistry.getInstance().hasName(word) ||
+			if(!(registryNames.contains(word) ||
 					(etd != null && etd.getChemicalWords().contains(word)))) {
 				goodUDW.add(word);
 			}
@@ -575,32 +579,34 @@ public class NGramBuilder {
 	 * 
 	 * Builds a new NGram model for chemical name recognition, using
 	 * 
-	 * a) The stopwords list from TermSets
-	 * b) The elements list from TermSets
-	 * c) The chemAse and nonChemAse lists from TermSets
-	 * d) Chemical names from the dictionaries currently registered in ChemNameDictRegistry
-	 * e) English words from TermSets
+	 * a) The stopwords list from {@link TermSets}
+	 * b) The elements list from {@link TermSets}
+	 * c) The chemAse and nonChemAse lists from {@link TermSets}
+	 * d) Chemical names from the dictionaries registered in the
+	 * {@link ChemNameDictRegistry} default instance.
+	 * e) English words from {@link TermSets}
 	 * 
 	 */
 	public static NGram buildModel() {
-		return buildModel(null);
+		return buildModel(null, (UnmodifiableSet) UnmodifiableSet.decorate(ChemNameDictRegistry.getDefaultInstance().getAllNames()));
 	}
 
 	/**
 	 * 
 	 * Builds a new NGram model for chemical name recognition, using
 	 * 
-	 * a) The stopwords list from TermSets
-	 * b) The elements list from TermSets
-	 * c) The chemAse and nonChemAse lists from TermSets
-	 * d) Chemical names from the dictionaries currently registered in ChemNameDictRegistry
-	 * e) English words from TermSets
-	 * f) The chemical word and nonChemical word lists from the given ExtractedTrainingData
+	 * a) The stopwords list from {@link TermSets}
+	 * b) The elements list from {@link TermSets}
+	 * c) The chemAse and nonChemAse lists from {@link TermSets}
+	 * d) Chemical names from the dictionaries currently registered in the
+	 * given {@link ChemNameDictRegistry}
+	 * e) English words from {@link TermSets}
+	 * f) The chemical word and nonChemical word lists from the given {@link ManualAnnotations}
 	 * 
 	 * @param etd (additional) extracted training data from a MEMM model file
 	 */
-	public static NGram buildModel(ManualAnnotations etd) {
-		NGramBuilder builder = new NGramBuilder(etd);
+	public static NGram buildModel(ManualAnnotations etd, UnmodifiableSet registryNames) {
+		NGramBuilder builder = new NGramBuilder(etd, registryNames);
 		builder.train();
 		return builder.toNGram();
 	}
@@ -677,32 +683,34 @@ public class NGramBuilder {
 	 * 
 	 * Builds or, if possible, deserialises a new NGram model for chemical name recognition, using
 	 * 
-	 * a) The stopwords list from TermSets
-	 * b) The elements list from TermSets
-	 * c) The chemAse and nonChemAse lists from TermSets
-	 * d) Chemical names from the dictionaries currently registered in ChemNameDictRegistry
+	 * a) The stopwords list from {@link TermSets}
+	 * b) The elements list from {@link TermSets}
+	 * c) The chemAse and nonChemAse lists from {@link TermSets}
+	 * d) Chemical names from the dictionaries currently registered in
+	 * the default {@link ChemNameDictRegistry} instance.
 	 * e) English words from TermSets
 	 * 
 	 */
 	public static NGram buildOrDeserialiseModel() {
-		return buildOrDeserialiseModel(null);
+		return buildOrDeserialiseModel(null, (UnmodifiableSet) UnmodifiableSet.decorate(ChemNameDictRegistry.getDefaultInstance().getAllNames()));
 	}
 
 	/**
 	 * 
 	 * Builds or, if possible, deserialises a new NGram model for chemical name recognition, using
 	 * 
-	 * a) The stopwords list from TermSets
-	 * b) The elements list from TermSets
-	 * c) The chemAse and nonChemAse lists from TermSets
-	 * d) Chemical names from the dictionaries currently registered in ChemNameDictRegistry
-	 * e) English words from TermSets
-	 * f) The chemical word and nonChemical word lists from the given ExtractedTrainingData
+	 * a) The stopwords list from {@link TermSets}
+	 * b) The elements list from {@link TermSets}
+	 * c) The chemAse and nonChemAse lists from {@link TermSets}
+	 * d) Chemical names from the dictionaries currently registered in
+	 * the given {@link ChemNameDictRegistry}
+	 * e) English words from {@link TermSets}
+	 * f) The chemical word and nonChemical word lists from the given {@link ManualAnnotations}
 	 * 
 	 * @param etd (additional) extracted training data from a MEMM model file
 	 */
-	public static NGram buildOrDeserialiseModel(ManualAnnotations annotations) {
-		NGramBuilder builder = new NGramBuilder(annotations);
+	public static NGram buildOrDeserialiseModel(ManualAnnotations annotations, UnmodifiableSet registryNames) {
+		NGramBuilder builder = new NGramBuilder(annotations, registryNames);
 		try {
 			return deserialiseModel(builder.calculateSourceDataFingerprint());
 		}
@@ -720,11 +728,13 @@ public class NGramBuilder {
 	 */
 	public static void main(String[] args) throws IOException {
 		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("chempapers");
-		// pass manual annotations to NGramBuilder constructor to produce a customised NGram model
+		ChemNameDictRegistry registry = ChemNameDictRegistry.getDefaultInstance();
+		// pass annotations and registry to NGramBuilder constructor to produce a customised NGram model
 		// or pass no arguments to produce a vanilla NGram model
 		System.out.println("building ngrams...");
 //		NGramBuilder builder = new NGramBuilder();
-		NGramBuilder builder = new NGramBuilder(annotations);
+		UnmodifiableSet registryNames = (UnmodifiableSet) UnmodifiableSet.decorate(registry.getAllNames());
+		NGramBuilder builder = new NGramBuilder(annotations, registryNames);
 		builder.train();
 		NGram nGram = builder.toNGram();
 		

@@ -24,9 +24,11 @@ import opennlp.maxent.GIS;
 import opennlp.maxent.MaxentModel;
 import opennlp.maxent.TwoPassDataIndexer;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
@@ -83,8 +85,9 @@ public final class MEMMTrainer {
 	private Map<BioType,Set<String>> perniciousFeatures;
 	
 
-	public MEMMTrainer() {
-		model = new MutableMEMMModel();
+	public MEMMTrainer(ChemNameDictRegistry registry) {
+		Set <String> chemNameDictNames = registry.getAllNames();
+		model = new MutableMEMMModel((UnmodifiableSet) UnmodifiableSet.decorate(chemNameDictNames));
 		evsByPrev = new HashMap<BioType, List<Event>>();
 		perniciousFeatures = null;
 		
@@ -112,7 +115,7 @@ public final class MEMMTrainer {
 	}
 	
 	private void trainOnSentence(ITokenSequence tokSeq) {
-        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram());
+        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram(), model.getChemNameDictNames());
 		//extractor.printFeatures();
 		List<IToken> tokens = tokSeq.getTokens();
 		BioType prevTag = new BioType(BioTag.O);
@@ -443,7 +446,7 @@ public final class MEMMTrainer {
 		if(featureCVScores == null) {
 			featureCVScores = new HashMap<BioType,Map<String,Double>>();
 		}
-		List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram());
+		List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram(), model.getChemNameDictNames());
 		List<IToken> tokens = tokSeq.getTokens();
 		BioType prevTag = new BioType(BioTag.O);
 		for (int i = 0; i < tokens.size(); i++) {
@@ -501,7 +504,7 @@ public final class MEMMTrainer {
 	 * @param entities The entities to rescore.
 	 */
 	public void rescore(List<NamedEntity> entities) {
-		model.getRescorer().rescore(entities);
+		model.getRescorer().rescore(entities, model.getChemNameDictNames());
 	}
 
 	public MEMMModel getModel() {

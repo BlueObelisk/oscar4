@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
@@ -11,8 +12,8 @@ public class ChEBIDictionaryTest extends AbstractDictionaryTest {
 	@Test
 	public void testACompound() throws Exception {
 		IInChIProvider dict = new ChEBIDictionary();
-		Assert.assertNotNull(dict);
-		Assert.assertEquals(
+		assertNotNull(dict);
+		assertEquals(
 			"InChI=1/CH4/h1H4",
 			dict.getInChI("methane").iterator().next()
 		);
@@ -23,8 +24,8 @@ public class ChEBIDictionaryTest extends AbstractDictionaryTest {
 	public void testCompoundFromSecondFile() throws Exception {
 		// from chemnamedict.xml
 		IInChIProvider dict = new ChEBIDictionary();
-		Assert.assertNotNull(dict);
-		Assert.assertEquals(
+		assertNotNull(dict);
+		assertEquals(
 			"InChI=1/H2O4S/c1-5(2,3)4/h(H2,1,2,3,4)/f/h1-2H",
 			dict.getInChI("sulfuric acid").iterator().next()
 		);

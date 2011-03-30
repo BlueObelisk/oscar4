@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -20,6 +21,8 @@ import java.util.Stack;
 import org.apache.commons.io.IOUtils;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.dso.DSOtoOBO;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -40,6 +43,7 @@ public class OBOOntology {
 	private static OBOOntology myInstance;
 	
 	boolean isTypeOfIsBuilt;
+	private ChemNameDictRegistry registry;
 	
 	/**Gets the OBOOntology singleton, initialising (by loading ChEBI, FIX and REX) if
 	 * necessary.
@@ -71,6 +75,9 @@ public class OBOOntology {
 		indexByName = new HashMap<String,Set<String>>();
 		queryCache = new CacheMap<String,Set<String>>(10000);
 		isTypeOfIsBuilt = false;
+		registry = new ChemNameDictRegistry(Locale.ENGLISH);
+		registry.register(new ChEBIDictionary());
+		registry.register(new DefaultDictionary());
 	}
 	
 	private void read(String s) throws IOException {
@@ -195,7 +202,7 @@ public class OBOOntology {
 			}
 			boolean inCND = false;
 			for(String syn : synSet) {
-				if(ChemNameDictRegistry.getInstance().hasName(syn)) {
+				if(registry.hasName(syn)) {
 					inCND = true;
 					break;
 				}
@@ -486,7 +493,7 @@ public class OBOOntology {
 		if(term.getIsTypeOf().size() == 0) {
 			return false;
 		}
-		if(ChemNameDictRegistry.getInstance().hasOntologyIdentifier(id)) {
+		if(registry.hasOntologyIdentifier(id)) {
 			return false;
 		}
 		for(Synonym synonym : term.getSynonyms()) {

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
+
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -55,12 +57,12 @@ public final class MEMMOutputRescorer {
 	 * @param entities The named entities to rescore.
 	 *  
 	 */
-	public void rescore(List<NamedEntity> entities) {
+	public void rescore(List<NamedEntity> entities, UnmodifiableSet chemNameDictNames) {
 
 		FeatureExtractor fe = new FeatureExtractor(entities);
 
 		for(NamedEntity entity : entities) {
-			List<String> features = fe.getFeatures(entity);
+			List<String> features = fe.getFeatures(entity, chemNameDictNames);
 			NamedEntityType namedEntityType = entity.getType();
 			if(modelsByNamedEntityType.containsKey(namedEntityType)) {
 				GISModel model = modelsByNamedEntityType.get(namedEntityType);

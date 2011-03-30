@@ -118,9 +118,10 @@ public class ManualAnnotations {
 		try {
 			modelDoc = rg.getXMLDocument(modelName + ".xml");
 		} catch (ParsingException e) {
-			throw new OscarInitialisationException("failed to load ManualAnnotations for model: " + modelName);
+			throw new OscarInitialisationException("failed to load ManualAnnotations for model: " + modelName, e);
 		} catch (IOException e) {
-			throw new OscarInitialisationException("failed to load ManualAnnotations for model: " + modelName);		}
+			throw new OscarInitialisationException("failed to load ManualAnnotations for model: " + modelName, e);
+		}
         if (modelDoc == null) {
             return null;
         }

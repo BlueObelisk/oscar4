@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
 import org.apache.commons.math.stat.DescriptiveStatistics;
 import org.apache.commons.math.stat.DescriptiveStatisticsImpl;
 
@@ -122,7 +123,7 @@ final class FeatureExtractor {
 		}
 	}
 	
-	public List<String> getFeatures(NamedEntity ne) {
+	public List<String> getFeatures(NamedEntity ne, UnmodifiableSet chemNameDictNames) {
 		double conf = ne.getConfidence();
 		double confLog = Math.log(conf) - Math.log(1 - conf);
 
@@ -134,7 +135,9 @@ final class FeatureExtractor {
 		int endID = startID + entityLength - 1;
 		String surf = ne.getSurface();
 		
-		if(entityLength > 0 && ChemNameDictRegistry.getInstance().hasName(surf)) features.add("LongInCND");
+		if(entityLength > 0 && chemNameDictNames.contains(surf)) {
+			features.add("LongInCND");
+		}
 		
 		//int filterCode = PostProcessor.filterEntity(surf, ne.getType(null));
 		//features.add("filter=" + filterCode);

@@ -102,8 +102,7 @@ public class MEMMTrainerTest {
 	
 	@Given("testLearning")
 	public void testExtractManualAnnotations(Element trainedModel) throws Exception{
-		MEMMModel model = new MEMMModel();
-		model.readModel(trainedModel);
+		MEMMModel model = new MEMMModel(trainedModel);
 		
 		MEMMRecogniser memm = new MEMMRecogniser(
 				model, OntologyTerms.getDefaultInstance(),
@@ -122,11 +121,10 @@ public class MEMMTrainerTest {
 		Element model2 = trainModel().writeModel();
 		assertTrue(model1.toXML().equals(model2.toXML()));
 		
-		MEMMModel model = new MEMMModel();
+		MEMMModel model = new MEMMModel(model1);
 		//previously, reading a model has triggered a change in the
 		//ManualAnnotations/ExtractedTrainingData causing a different
 		//model to be produced
-		model.readModel(model1);
 
 		Element model3 = trainModel().writeModel();
 		

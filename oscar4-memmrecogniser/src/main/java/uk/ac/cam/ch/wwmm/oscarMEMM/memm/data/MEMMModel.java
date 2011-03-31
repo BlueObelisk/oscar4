@@ -15,6 +15,8 @@ import nu.xom.Element;
 import nu.xom.Elements;
 import opennlp.maxent.GISModel;
 import opennlp.maxent.MaxentModel;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarException;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -52,13 +54,22 @@ public class MEMMModel {
         rescorer = null;
 	}
 
-    /**
+    public MEMMModel(Element trainedModel) {
+		this();
+		try {
+			readModel(trainedModel);
+		} catch (IOException e) {
+			throw new OscarInitialisationException("failed to load MEMM model", e);
+		}
+	}
+
+	/**
      * Reads in an XML document containing a MEMM model.
      *
      * @param doc The XML document.
      * @throws IOException
      */
-    public void readModel(Document doc) throws IOException {
+    protected void readModel(Document doc) throws IOException {
         readModel(doc.getRootElement());
     }
 
@@ -68,7 +79,7 @@ public class MEMMModel {
      * @param modelRoot The XML element.
      * @throws IOException
      */
-    public void readModel(Element modelRoot) throws IOException {
+    protected void readModel(Element modelRoot) throws IOException {
 		Element memmElem = modelRoot.getFirstChildElement("memm");
         Elements maxents = memmElem.getChildElements("maxent");
         gmByPrev = new HashMap<BioType,GISModel>();
@@ -146,15 +157,15 @@ public class MEMMModel {
     }
 
     public Set<BioType> getTagSet() {
-        return tagSet;
+        return Collections.unmodifiableSet(tagSet);
     }
 
     public Set<NamedEntityType> getNamedEntityTypes() {
-        return namedEntityTypes;
+        return Collections.unmodifiableSet(namedEntityTypes);
     }
 
     public Map<BioType, Double> getZeroProbs() {
-    	return zeroProbs;
+    	return Collections.unmodifiableMap(zeroProbs);
     }
 
 	public MaxentModel getMaxentModelByPrev(BioType tag) {

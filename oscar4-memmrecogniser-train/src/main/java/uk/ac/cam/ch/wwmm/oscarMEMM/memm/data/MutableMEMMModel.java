@@ -1,5 +1,8 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm.data;
 
+import java.util.Collections;
+import java.util.Set;
+
 import org.apache.commons.collections.set.UnmodifiableSet;
 
 import opennlp.maxent.GISModel;
@@ -39,5 +42,10 @@ public class MutableMEMMModel extends MEMMModel {
 	public void setExtractedTrainingData(ManualAnnotations manualAnnotations) {
 		super.manualAnnotations = manualAnnotations;
 	}
-
+	
+	@Override
+	public Set<BioType> getTagSet() {
+		return tagSet;
+	}
+	 
 }

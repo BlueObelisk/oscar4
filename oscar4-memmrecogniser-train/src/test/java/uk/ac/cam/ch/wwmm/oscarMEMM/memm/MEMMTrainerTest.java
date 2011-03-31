@@ -101,14 +101,14 @@ public class MEMMTrainerTest {
 	}
 	
 	@Given("testLearning")
-	public void testExtractManualAnnotations(Element trainedModel) throws Exception{
+	public void testExtractTrainingData(Element trainedModel) throws Exception{
 		MEMMModel model = new MEMMModel(trainedModel);
 		
 		MEMMRecogniser memm = new MEMMRecogniser(
 				model, OntologyTerms.getDefaultInstance(),
 				new ChemNameDictRegistry(Locale.ENGLISH));		
-		Assert.assertEquals("Number of Chemical words in ExtractedManualAnnotations size",520, model.getManualAnnotations().getChemicalWords().size());
-		Assert.assertEquals("Number of non-chemical words in ExtractedManualAnnotations size",1194, model.getManualAnnotations().getNonChemicalWords().size());
+		Assert.assertEquals("Number of Chemical words in ExtractedTrainingData size",520, model.getExtractedTrainingData().getChemicalWords().size());
+		Assert.assertEquals("Number of non-chemical words in ExtractedTrainingData size",1194, model.getExtractedTrainingData().getNonChemicalWords().size());
 	}
 	
 	
@@ -123,8 +123,7 @@ public class MEMMTrainerTest {
 		
 		MEMMModel model = new MEMMModel(model1);
 		//previously, reading a model has triggered a change in the
-		//ManualAnnotations/ExtractedTrainingData causing a different
-		//model to be produced
+		//ExtractedTrainingData causing a different model to be produced
 
 		Element model3 = trainModel().writeModel();
 		

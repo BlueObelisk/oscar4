@@ -10,7 +10,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 
 /**
  * 
@@ -33,7 +33,7 @@ public class PrefixFinderTest {
 	
 	@Test
 	public void testDontGetEtdNotForPrefix() {
-		ManualAnnotations mockAnnotations = mock(ManualAnnotations.class);
+		ExtractedTrainingData mockAnnotations = mock(ExtractedTrainingData.class);
 		Set <String> notForPrefix = new HashSet<String>();
 		stub(mockAnnotations.getNotForPrefix()).toReturn(notForPrefix);
 		

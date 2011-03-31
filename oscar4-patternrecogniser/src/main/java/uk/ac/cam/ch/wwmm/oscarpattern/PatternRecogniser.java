@@ -17,11 +17,11 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFAFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFANEFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.TermMaps;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.interfaces.ChemicalEntityRecogniser;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
@@ -56,24 +56,24 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 * the {@link DFANEFinder}.
 	 */
 	public PatternRecogniser() {
-		this(ManualAnnotations.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
+		this(ExtractedTrainingData.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
 				TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance(),
 				ChemNameDictRegistry.getDefaultInstance());
 	}
 	
 	/**
 	 * Create a customised PatternRecogniser that employs an {@link NGram} model customised
-	 * according to the given {@link ManualAnnotations} and {@link ChemNameDictRegistry}
+	 * according to the given {@link ExtractedTrainingData} and {@link ChemNameDictRegistry}
 	 * and that uses the specified {@link DFAFinder}.
 	 *  
-	 * @param etd the {@link ManualAnnotations} object to be used for NGram customisation. Pass
+	 * @param etd the {@link ExtractedTrainingData} object to be used for NGram customisation. Pass
 	 * null to create an un-customised model.
 	 * @param finder the {@link DFANEFinder} object to be used to identify named entities.
 	 * @param neTerms the set of patterns to be used for multi-token named entity recognition
 	 * @param registry the {@link ChemNameDictRegistry} for containing the dictionaries to use.
 	 * A copy of the chemical names will be created and used internally.
 	 */
-	public PatternRecogniser(ManualAnnotations etd, Map<String, NamedEntityType> neTerms,
+	public PatternRecogniser(ExtractedTrainingData etd, Map<String, NamedEntityType> neTerms,
 			TokenClassifier classifier, OntologyTerms ontologyTerms, ChemNameDictRegistry registry) {
 		this.registryNames = (UnmodifiableSet) UnmodifiableSet.decorate(registry.getAllNames());
 		this.nGram = NGramBuilder.buildOrDeserialiseModel(etd, registryNames);

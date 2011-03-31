@@ -45,8 +45,8 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MutableMEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorerTrainer;
-import uk.ac.cam.ch.wwmm.oscarMEMM.models.ExtractManualAnnotations;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarMEMM.models.TrainingDataExtractor;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
@@ -155,9 +155,9 @@ public final class MEMMTrainer {
 
 		
 		//FIXME probably a mistake - this method is called per file by trainOnSbFiles
-		ExtractManualAnnotations extractManualAnnotations = new ExtractManualAnnotations(doc);
+		TrainingDataExtractor extractor = new TrainingDataExtractor(doc);
 		model.setExtractedTrainingData(
-			new ManualAnnotations(extractManualAnnotations.toXML())
+			new ExtractedTrainingData(extractor.toXML())
 		);
 
 
@@ -192,9 +192,9 @@ public final class MEMMTrainer {
 	public void trainOnSbFilesNosplit(List<File> files) throws DataFormatException, IOException {
 		if(retrain) {
 			HyphenTokeniser.reinitialise();
-			ExtractManualAnnotations extractManualAnnotations = new ExtractManualAnnotations(files);
+			TrainingDataExtractor extractor = new TrainingDataExtractor(files);
 			model.setExtractedTrainingData(
-				new ManualAnnotations(extractManualAnnotations.toXML())
+				new ExtractedTrainingData(extractor.toXML())
 			);
 			HyphenTokeniser.reinitialise();					
 		}
@@ -231,7 +231,7 @@ public final class MEMMTrainer {
 		for (int split = 0; split < splitNo; split++) {
 			if(retrain) {
 				HyphenTokeniser.reinitialise();
-				new ExtractManualAnnotations(splitTrainAntiFiles.get(split));
+				new TrainingDataExtractor(splitTrainAntiFiles.get(split));
 				HyphenTokeniser.reinitialise();					
 			}
 			
@@ -245,7 +245,7 @@ public final class MEMMTrainer {
 		finishTraining();
 		if(retrain) {
 			HyphenTokeniser.reinitialise();
-			new ExtractManualAnnotations(files);
+			new TrainingDataExtractor(files);
 			HyphenTokeniser.reinitialise();				
 		}
 	}

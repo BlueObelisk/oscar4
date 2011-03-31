@@ -45,7 +45,7 @@ public class Oscar {
      * MEMMModel -> MEMMRecogniser
      * OntologyTerms -> MEMMRecogniser
      * 
-     * MEMMModel embeds ManualAnnotations -> PatternRecogniser
+     * MEMMModel embeds ExtractedTrainingData -> PatternRecogniser
      * neTerms -> PatternRecogniser
      * TokenClassifier -> PatternRecogniser
      * OntologyTerms -> PatternRecogniser

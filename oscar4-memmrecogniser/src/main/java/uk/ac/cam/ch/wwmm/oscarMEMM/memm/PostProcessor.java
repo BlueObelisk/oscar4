@@ -16,7 +16,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 
 /**
  * Handles postprocessing of MEMM results.
@@ -31,7 +31,7 @@ final class PostProcessor {
 	private List<NamedEntity> entities;
 	private Set<NamedEntity> blocked;
 	private ITokenSequence tokSeq;
-	private ManualAnnotations annotations;
+	private ExtractedTrainingData annotations;
 
 	private static Pattern cjPattern = Pattern.compile("\\S+(ic|al|ous)");
 	private static Pattern asePattern = Pattern.compile("\\S+[Aa]ses?");
@@ -43,7 +43,7 @@ final class PostProcessor {
 
 	private static boolean noPC = false;
 
-	public PostProcessor(ITokenSequence tokSeq, List<NamedEntity> entities, ManualAnnotations annotations) {
+	public PostProcessor(ITokenSequence tokSeq, List<NamedEntity> entities, ExtractedTrainingData annotations) {
 		this.tokSeq = tokSeq;
 		this.entities = entities;
 		this.annotations = annotations;

@@ -2,8 +2,11 @@ package uk.ac.cam.ch.wwmm.oscarMEMM;
 
 import static org.junit.Assert.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import nu.xom.Document;
 
@@ -11,6 +14,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -364,7 +369,8 @@ public class MEMMRecogniserTest {
     	ontTerms.put("jumps", "foo:001");
     	ontTerms.put("jumps", "foo:002");
     	MEMMRecogniser customRecogniser = new MEMMRecogniser(
-    			new ChemPapersModel(), new OntologyTerms(ontTerms));
+    			new ChemPapersModel(), new OntologyTerms(ontTerms),
+    			new ChemNameDictRegistry(Locale.ENGLISH));
     	List <NamedEntity> customNes = customRecogniser.findNamedEntities(procDoc);
     	assertEquals(3, customNes.size());
     	assertEquals("ethyl acetate", customNes.get(0).getSurface());
@@ -427,5 +433,29 @@ public class MEMMRecogniserTest {
 		
 		assertEquals("ethyl acetate", neList.get(2).getSurface());
 		assertTrue(NamedEntityType.COMPOUND.isInstance(neList.get(2).getType()));
+	}
+	
+	
+	@Test
+	public void testFindAdditionalNamedEntities() throws URISyntaxException {
+		MutableChemNameDict dictionary = new MutableChemNameDict(new URI("http://www.example.org"), Locale.ENGLISH);
+		dictionary.addName("additionalchemname");
+		dictionary.addName("additional chemical name");
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
+		registry.register(dictionary);
+		MEMMRecogniser recogniser = new MEMMRecogniser(
+				new ChemPapersModel(), OntologyTerms.getDefaultInstance(), registry);
+		
+		ProcessingDocument procDoc1 = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				Tokeniser.getDefaultInstance(), "benzene and an additionalchemname");
+		List <NamedEntity> nes1 = recogniser.findNamedEntities(procDoc1);
+		assertTrue(neListContainsCorrectNe(nes1, "benzene", NamedEntityType.COMPOUND, false));
+		assertTrue(neListContainsCorrectNe(nes1, "additionalchemname", NamedEntityType.COMPOUND, false));
+		
+		ProcessingDocument procDoc2 = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				Tokeniser.getDefaultInstance(), "benzene and an additional chemical name");
+		List <NamedEntity> nes2 = recogniser.findNamedEntities(procDoc2);
+		assertTrue(neListContainsCorrectNe(nes2, "benzene", NamedEntityType.COMPOUND, false));
+		assertTrue(neListContainsCorrectNe(nes2, "additional chemical name", NamedEntityType.COMPOUND, false));
 	}
 }

@@ -1,13 +1,22 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimaps;
+
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -16,10 +25,13 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFANEFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFAONTCPRFinder;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFASupplementaryTermFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
+import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
 
 /**
  * Name recognition using the Maximum Entropy Markov Model
@@ -36,14 +48,20 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 	private double custPseudoConfidence = 0.2;
 	private double cprPseudoConfidence = 0.2;
 	private boolean deprioritiseOnts = false;
+	private DFASupplementaryTermFinder supplementaryTermFinder;
 
     public MEMMRecogniser() {
-        this (new ChemPapersModel(), OntologyTerms.getDefaultInstance());
+        this (new ChemPapersModel(), OntologyTerms.getDefaultInstance(), new ChemNameDictRegistry(Locale.ENGLISH));
     }
     
-    public MEMMRecogniser(MEMMModel model, OntologyTerms ontTerms) {
+    public MEMMRecogniser(MEMMModel model, OntologyTerms ontTerms, ChemNameDictRegistry supplementaryNameRegistry) {
     	this.model = model;
     	this.ontologyAndPrefixTermFinder = new DFAONTCPRFinder(ontTerms);
+    	Set <String> supplementaryNames = supplementaryNameRegistry.getAllNames();
+    	if (supplementaryNames.size() > 0) {
+    		this.supplementaryTermFinder = new DFASupplementaryTermFinder(supplementaryNameRegistry);	
+    	}
+    	
     }
 
 
@@ -77,6 +95,11 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
         // Generate named entity list
         List<NamedEntity> neList = generateNamedEntities(tokSeqList);
+        
+        // Add supplementary named entities
+        if (supplementaryTermFinder != null) {
+        	neList.addAll(generateSupplementaryNameTerms(tokSeqList));
+        }
 
         // Add ontology terms
         neList.addAll(generateOntologyAndPrefixTerms(tokSeqList));
@@ -101,7 +124,8 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         return neList;
     }
 
-    /**
+    
+	/**
      * Make sure all NEs at a position share their ontIds and custTypes
      * @param neList
      */
@@ -181,6 +205,15 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         }
         return neList;
     }
+    
+    private List<NamedEntity> generateSupplementaryNameTerms(List<ITokenSequence> tokSeqList) {
+		List<NamedEntity> neList = new ArrayList<NamedEntity>();
+		for (ITokenSequence t : tokSeqList) {
+			neList.addAll(supplementaryTermFinder.findNamedEntities(t));
+		}
+		return neList;
+	}
+
 
 
     void setPseudoConfidences(List<NamedEntity> neList) {

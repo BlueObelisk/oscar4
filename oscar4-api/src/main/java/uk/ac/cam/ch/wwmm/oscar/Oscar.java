@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscar;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -116,7 +117,9 @@ public class Oscar {
      */
     public synchronized ChemicalEntityRecogniser getRecogniser() {
         if (recogniser == null) {
-            recogniser = new MEMMRecogniser(getMemmModel(), getOntologyTerms());
+            recogniser = new MEMMRecogniser(
+            		getMemmModel(), getOntologyTerms(),
+            		new ChemNameDictRegistry(Locale.ENGLISH));
         }
         return recogniser;
     }

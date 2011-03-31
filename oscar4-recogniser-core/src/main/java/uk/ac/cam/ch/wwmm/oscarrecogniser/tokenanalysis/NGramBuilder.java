@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 
 /**
  * Encapsulates nGram parsing.
@@ -68,12 +68,12 @@ public class NGramBuilder {
 	private static final Pattern matchWhiteSpace = Pattern.compile("\\s+");
 	private static final Pattern matchTwoOrMoreAdjacentLetters = Pattern.compile(".*[a-z][a-z].*");
 
-	private ManualAnnotations etd;
+	private ExtractedTrainingData etd;
 	private UnmodifiableSet registryNames;
 	
 	
 	/** Creates a new instance of nGram */
-	NGramBuilder(ManualAnnotations etd, UnmodifiableSet registryNames) {
+	NGramBuilder(ExtractedTrainingData etd, UnmodifiableSet registryNames) {
 		this.etd = etd;
 		this.registryNames = registryNames;
 		this.chemWords = new ArrayList<String>();
@@ -601,11 +601,11 @@ public class NGramBuilder {
 	 * d) Chemical names from the dictionaries currently registered in the
 	 * given {@link ChemNameDictRegistry}
 	 * e) English words from {@link TermSets}
-	 * f) The chemical word and nonChemical word lists from the given {@link ManualAnnotations}
+	 * f) The chemical word and nonChemical word lists from the given {@link ExtractedTrainingData}
 	 * 
 	 * @param etd (additional) extracted training data from a MEMM model file
 	 */
-	public static NGram buildModel(ManualAnnotations etd, UnmodifiableSet registryNames) {
+	public static NGram buildModel(ExtractedTrainingData etd, UnmodifiableSet registryNames) {
 		NGramBuilder builder = new NGramBuilder(etd, registryNames);
 		builder.train();
 		return builder.toNGram();
@@ -705,11 +705,11 @@ public class NGramBuilder {
 	 * d) Chemical names from the dictionaries currently registered in
 	 * the given {@link ChemNameDictRegistry}
 	 * e) English words from {@link TermSets}
-	 * f) The chemical word and nonChemical word lists from the given {@link ManualAnnotations}
+	 * f) The chemical word and nonChemical word lists from the given {@link ExtractedTrainingData}
 	 * 
 	 * @param etd (additional) extracted training data from a MEMM model file
 	 */
-	public static NGram buildOrDeserialiseModel(ManualAnnotations annotations, UnmodifiableSet registryNames) {
+	public static NGram buildOrDeserialiseModel(ExtractedTrainingData annotations, UnmodifiableSet registryNames) {
 		NGramBuilder builder = new NGramBuilder(annotations, registryNames);
 		try {
 			return deserialiseModel(builder.calculateSourceDataFingerprint());
@@ -727,7 +727,7 @@ public class NGramBuilder {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("chempapers");
+		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("chempapers");
 		ChemNameDictRegistry registry = ChemNameDictRegistry.getDefaultInstance();
 		// pass annotations and registry to NGramBuilder constructor to produce a customised NGram model
 		// or pass no arguments to produce a vanilla NGram model

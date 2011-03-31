@@ -15,7 +15,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.FeatureSet;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 
 /**
@@ -104,21 +104,21 @@ public final class FeatureExtractor {
 
 	private boolean newSuffixes = false;
 	private NGram ngram;
-	private ManualAnnotations manualAnnotations;
+	private ExtractedTrainingData etd;
 	private UnmodifiableSet chemNameDictNames;
 	
 	
 	public static List<FeatureList> extractFeatures(ITokenSequence tokSeq, MEMMModel model) {
-		return extractFeatures(tokSeq, model.getNGram(), model.getManualAnnotations(), model.getChemNameDictNames());
+		return extractFeatures(tokSeq, model.getNGram(), model.getExtractedTrainingData(), model.getChemNameDictNames());
 	}
 	
 	public static List<FeatureList> extractFeatures(ITokenSequence tokSeq,
 			NGram ngram, UnmodifiableSet chemNameDictNames) {
-		return extractFeatures(tokSeq, ngram, new ManualAnnotations(), chemNameDictNames);
+		return extractFeatures(tokSeq, ngram, new ExtractedTrainingData(), chemNameDictNames);
 	}
 	
     static List<FeatureList> extractFeatures(ITokenSequence tokSeq, NGram ngram,
-    		ManualAnnotations annotations, UnmodifiableSet chemNameDictNames) {
+    		ExtractedTrainingData annotations, UnmodifiableSet chemNameDictNames) {
         FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq, ngram, annotations, chemNameDictNames);
         return featureExtractor.getFeatureLists();
     }
@@ -131,10 +131,10 @@ public final class FeatureExtractor {
         return features;
     }
 
-    private FeatureExtractor(ITokenSequence tokSeq, NGram ngram, ManualAnnotations annotations, UnmodifiableSet chemNameDictNames) {
+    private FeatureExtractor(ITokenSequence tokSeq, NGram ngram, ExtractedTrainingData annotations, UnmodifiableSet chemNameDictNames) {
 		this.tokSeq = tokSeq;
 		this.ngram = ngram;
-		this.manualAnnotations = annotations;
+		this.etd = annotations;
 		this.chemNameDictNames = chemNameDictNames;
 		makeFeatures();
 	}
@@ -177,8 +177,8 @@ public final class FeatureExtractor {
 			contextable.addFeature(makeWordFeature(normWord));
 		}
 
-		makeWordFeatures(word, normWord, bigramable, manualAnnotations);
-		makeReactionFeatures(word, bigramable, contextable, manualAnnotations);
+		makeWordFeatures(word, normWord, bigramable, etd);
+		makeReactionFeatures(word, bigramable, contextable, etd);
 
 		String wts = StringTools.withoutTerminalS(normWord);
 		contextable.addFeature(WITHOUT_TERMINAL_S_FEATURE + wts);
@@ -220,18 +220,18 @@ public final class FeatureExtractor {
 		if (TermSets.getDefaultInstance().getClosedClass().contains(normWord)) {
 			local.addFeature(STOPWORD_CLOSED_CLASS_FEATURE);
 		}
-		if (manualAnnotations.getNonChemicalWords()
+		if (etd.getNonChemicalWords()
 				.contains(normWord)) {
 			local.addFeature(STOPWORD_NON_CHEMICAL_WORD_FEATURE);
 		}
-		if (manualAnnotations.getNonChemicalNonWords()
+		if (etd.getNonChemicalNonWords()
 				.contains(normWord)
 				&& !TermSets.getDefaultInstance().getElements().contains(normWord)) {
 			local.addFeature(STOPWORD_NONCHEMICALNONWORD_FEATURE);
 		}
 		if (TermSets.getDefaultInstance().getUsrDictWords().contains(normWord)
 				&& !(chemNameDictNames.contains(normWord) || 
-						manualAnnotations.getChemicalWords().contains(normWord))) {
+						etd.getChemicalWords().contains(normWord))) {
 			local.addFeature(STOPWORD_USER_DEFINED_FEATURE);
 		}
 	}
@@ -255,7 +255,7 @@ public final class FeatureExtractor {
 				|| TermSets.getDefaultInstance().getUsrDictWords().contains(word)) {
 			ngscore = SUFFIX_LO_SCORE;
 		}
-		if (manualAnnotations.getChemicalWords().contains(normWord)) {
+		if (etd.getChemicalWords().contains(normWord)) {
 			ngscore = 100;
 		}
 		if (chemNameDictNames.contains(word)) {
@@ -287,7 +287,7 @@ public final class FeatureExtractor {
 				|| TermSets.getDefaultInstance().getUsrDictWords().contains(word)) {
 			suffixScore = SUFFIX_LO_SCORE;
 		}
-		if (manualAnnotations.getChemicalWords().contains(normWord)) {
+		if (etd.getChemicalWords().contains(normWord)) {
 			suffixScore = SUFFIX_HI_SCORE;
 		}
 		if (chemNameDictNames.contains(word)) {
@@ -375,21 +375,21 @@ public final class FeatureExtractor {
 	}
 
 	private void makeReactionFeatures(String word,
-			FeatureList bigramable, FeatureList contextable, ManualAnnotations manualAnnotations) {
-		if (manualAnnotations.getRnEnd().contains(word)) {
+			FeatureList bigramable, FeatureList contextable, ExtractedTrainingData etd) {
+		if (etd.getRnEnd().contains(word)) {
 			bigramable.addFeature(RNEND_FEATURE);
 			contextable.addFeature(RNEND_FEATURE);
 		}
-		if (manualAnnotations.getRnMid().contains(word)) {
+		if (etd.getRnMid().contains(word)) {
 			bigramable.addFeature(RNMID_FEATURE);
 			contextable.addFeature(RNMID_FEATURE);
 		}
 	}
 
 	private void makeWordFeatures(String word, String normWord,
-			FeatureList bigramable, ManualAnnotations manualAnnotations) {
-		if (word.length() < 4 || manualAnnotations.getPolysemous().contains(word)
-				|| manualAnnotations.getRnEnd().contains(word) || manualAnnotations.getRnMid().contains(word)) {
+			FeatureList bigramable, ExtractedTrainingData etd) {
+		if (word.length() < 4 || etd.getPolysemous().contains(word)
+				|| etd.getRnEnd().contains(word) || etd.getRnMid().contains(word)) {
 			bigramable.addFeature(makeWordFeature(word));
 			if (!word.equals(normWord)) {
 				bigramable.addFeature(makeWordFeature(normWord));
@@ -439,7 +439,7 @@ public final class FeatureExtractor {
 					&& !TermSets.getDefaultInstance().getUsrDictWords().contains(word))
 				suspect = true;
 			if (!noPC
-					&& manualAnnotations.getPnStops().contains(word))
+					&& etd.getPnStops().contains(word))
 				suspect = true;
 			int patternPosition = position + 1;
 			while (patternPosition < (tokSeq.size() - 2)

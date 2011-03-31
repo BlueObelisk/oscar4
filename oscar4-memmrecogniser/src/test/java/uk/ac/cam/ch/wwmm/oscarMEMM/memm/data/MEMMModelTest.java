@@ -26,7 +26,7 @@ public class MEMMModelTest {
 		assertNull(model.getRescorer());
 		assertNotNull(model.getTagSet());
 		assertNotNull(model.getNamedEntityTypes());
-		assertNull(model.getManualAnnotations());
+		assertNull(model.getExtractedTrainingData());
 		assertNotNull(model.getGISModelPrevs());
 		assertNull(model.getNGram());
 	}
@@ -60,12 +60,12 @@ public class MEMMModelTest {
 		assertNotSame(0, model.getNamedEntityTypes().size());
 		assertNotNull(model.getRescorer());
 		assertTrue(
-			model.getManualAnnotations().getNonChemicalWords().contains(
+			model.getExtractedTrainingData().getNonChemicalWords().contains(
 				"elongate"
 			)
 		);
 		assertFalse(
-			model.getManualAnnotations().getNonChemicalWords().contains(
+			model.getExtractedTrainingData().getNonChemicalWords().contains(
 				"leukaemic"
 			)
 		);

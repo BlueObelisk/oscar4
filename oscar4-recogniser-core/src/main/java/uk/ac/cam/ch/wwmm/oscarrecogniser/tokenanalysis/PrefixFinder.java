@@ -3,7 +3,7 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
 import java.util.regex.Pattern;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 
 /**
  * 
@@ -33,16 +33,16 @@ public class PrefixFinder {
 	 * Determines the chemical prefix at the start of the specified word
 	 * 
 	 * @param s the word to be checked for a prefix
-	 * @param manualAnnotations
+	 * @param etd
 	 * @return the String corresponding to the chemical prefix or null
 	 * if none was found
 	 */
-	public static String getPrefix(String s, ManualAnnotations manualAnnotations) {
+	public static String getPrefix(String s, ExtractedTrainingData etd) {
 		if(prefixPattern.matcher(s).matches()) {
 			int idx = findIndexOfHyphen(s);
 			// Check if it's a not-splitting word
-			if (manualAnnotations != null) {
-				if(manualAnnotations.getNotForPrefix().contains(s.substring(idx+1))) {
+			if (etd != null) {
+				if(etd.getNotForPrefix().contains(s.substring(idx+1))) {
 					return null;
 				}
 			}
@@ -64,7 +64,7 @@ public class PrefixFinder {
 		return -1;
 	}
 
-	//TODO redirect callers to getPrefix(String, ManualAnnotations)
+	//TODO redirect callers to getPrefix(String, ExtractedTrainingData)
 	public static String getPrefix(String string) {
 		return getPrefix(string, null);
 	}

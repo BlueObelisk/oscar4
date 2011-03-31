@@ -29,7 +29,7 @@ private static MEMMModel model;
 		assertNotNull(model.getRescorer());
 		assertNotNull(model.getTagSet());
 		assertNotNull(model.getNamedEntityTypes());
-		assertNotNull(model.getManualAnnotations());
+		assertNotNull(model.getExtractedTrainingData());
 		assertNotNull(model.getGISModelPrevs());
 		assertNotNull(model.getNGram());
 	}
@@ -38,12 +38,12 @@ private static MEMMModel model;
 	@Test
 	public void testLoadChemPapers() {
 		assertFalse(
-			model.getManualAnnotations().getNonChemicalWords().contains(
+			model.getExtractedTrainingData().getNonChemicalWords().contains(
 				"elongate"
 			)
 		);
 		assertTrue(
-			model.getManualAnnotations().getNonChemicalWords().contains(
+			model.getExtractedTrainingData().getNonChemicalWords().contains(
 				"leukaemic"
 			)
 		);

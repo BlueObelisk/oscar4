@@ -86,7 +86,7 @@ public final class MEMM {
 
         EntityTokeniser lattice = new EntityTokeniser(model, tokSeq, classifierResults);
         List<NamedEntity> namedEntities = lattice.getEntities(confidenceThreshold);
-        PostProcessor pp = new PostProcessor(tokSeq, namedEntities, model.getManualAnnotations());
+        PostProcessor pp = new PostProcessor(tokSeq, namedEntities, model.getExtractedTrainingData());
         if (filtering) {
             pp.filterEntities();
         }

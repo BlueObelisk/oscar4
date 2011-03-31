@@ -24,7 +24,7 @@ import org.junit.Test;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 
 
 public class NGramBuilderTest {
@@ -46,10 +46,10 @@ public class NGramBuilderTest {
 				ChemNameDictRegistry.getDefaultInstance().getAllNames());
 		vanillaNGram = NGramBuilder.buildModel();
 		pubmedNGram = NGramBuilder.buildModel(
-				ManualAnnotations.loadManualAnnotations("pubmed"),
+				ExtractedTrainingData.loadExtractedTrainingData("pubmed"),
 				defaultRegistryNames);
 		chempapersNGram = NGramBuilder.buildModel(
-				ManualAnnotations.loadManualAnnotations("chempapers"),
+				ExtractedTrainingData.loadExtractedTrainingData("chempapers"),
 				defaultRegistryNames);
 	}
 	
@@ -74,7 +74,7 @@ public class NGramBuilderTest {
 	
 	@Test
 	public void testCustomConstructor() throws URISyntaxException {
-		ManualAnnotations annotations = mock(ManualAnnotations.class);
+		ExtractedTrainingData annotations = mock(ExtractedTrainingData.class);
 		Set <String> english = new HashSet<String>();
 		Set <String> chemical = new HashSet<String>();
 		english.add("foo");
@@ -105,7 +105,7 @@ public class NGramBuilderTest {
 		NGram vanillaNGram2 = NGramBuilder.buildModel();
 		assertFalse(vanillaNGram == vanillaNGram2);
 		
-		ManualAnnotations etd = ManualAnnotations.loadManualAnnotations("chempapers");
+		ExtractedTrainingData etd = ExtractedTrainingData.loadExtractedTrainingData("chempapers");
 		NGram customisedNGram = NGramBuilder.buildModel(
 				etd, defaultRegistryNames);
 		
@@ -137,7 +137,7 @@ public class NGramBuilderTest {
 	
 	@Test
 	public void testCalculateChempapersSourceDataFingerprint() {
-		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("chempapers");
+		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("chempapers");
 		NGramBuilder builder = new NGramBuilder(
 				annotations, defaultRegistryNames);
 		assertEquals("1662272140_-167370350", builder.calculateSourceDataFingerprint());
@@ -145,7 +145,7 @@ public class NGramBuilderTest {
 	
 	@Test
 	public void testCalculatePubmedSourceDataFingerprint() {
-		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("pubmed");
+		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("pubmed");
 		NGramBuilder builder = new NGramBuilder(
 				annotations, defaultRegistryNames);
 		assertEquals("-412073498_-1815304182", builder.calculateSourceDataFingerprint());
@@ -153,7 +153,7 @@ public class NGramBuilderTest {
 	
 	@Test
 	public void testCalculatePubmedEmptyChemnamedictFingerprint() {
-		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("pubmed");
+		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("pubmed");
 		NGramBuilder builder = new NGramBuilder(annotations,
 				(UnmodifiableSet) UnmodifiableSet.decorate(Collections.emptySet()));
 		assertFalse("-412073498_-1815304182".equals(builder.calculateSourceDataFingerprint()));
@@ -231,7 +231,7 @@ public class NGramBuilderTest {
 	
 	@Test
 	public void testBuildOrDeserialisePubmedModel() {
-		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("pubmed");
+		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("pubmed");
 		NGram pubmedModel = NGramBuilder.buildOrDeserialiseModel(
 				annotations, defaultRegistryNames);
 		assertNotNull(pubmedModel);
@@ -243,7 +243,7 @@ public class NGramBuilderTest {
 	
 	@Test
 	public void testBuildOrDeserialiseChempapersModel() {
-		ManualAnnotations annotations = ManualAnnotations.loadManualAnnotations("chempapers");
+		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("chempapers");
 		NGram chempapersModel = NGramBuilder.buildOrDeserialiseModel(
 				annotations, defaultRegistryNames);
 		assertNotNull(chempapersModel);

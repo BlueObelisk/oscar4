@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations;
+package uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,9 +19,9 @@ import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
  * @author ptc24
  * @author dmj30
  */
-public class ManualAnnotations {
+public class ExtractedTrainingData {
 
-    private static ManualAnnotations defaultInstance;
+    private static ExtractedTrainingData defaultInstance;
 
     /**Words only found in chemical named entities.*/
     private final Set<String> chemicalWords;
@@ -50,10 +50,10 @@ public class ManualAnnotations {
 
 
     /**
-     * Creates a ManualAnnotations object in which all the term sets
+     * Creates an ExtractedTrainingData object in which all the term sets
      * are initialised but empty.
      */
-    public ManualAnnotations() {
+    public ExtractedTrainingData() {
         chemicalWords = Collections.emptySet();
         nonChemicalWords = Collections.emptySet();
         afterHyphen = Collections.emptySet();
@@ -69,10 +69,10 @@ public class ManualAnnotations {
 
     /**
      * 
-     * Creates a ManualAnnotations object in which the term sets
+     * Creates a ExtractedTrainingData object in which the term sets
      * are loaded from the given XML element.
      */
-    public ManualAnnotations(Element xml) {
+    public ExtractedTrainingData(Element xml) {
         try {
 			chemicalWords = readStringsFromElement(xml.getFirstChildElement("chemicalWords"));
 		    nonChemicalWords = readStringsFromElement(xml.getFirstChildElement("nonChemicalWords"));
@@ -86,41 +86,41 @@ public class ManualAnnotations {
 		    rnMid = readStringsFromElement(xml.getFirstChildElement("rnMid"));
         }
         catch (IOException e) {
-        	throw new OscarInitialisationException("failed to load ManualAnnotations", e);
+        	throw new OscarInitialisationException("failed to load ExtractedTrainingData", e);
         }
     }
 
 
     /**
-     * Creates a ManualAnnotations object in which the term sets
+     * Creates a ExtractedTrainingData object in which the term sets
      * are loaded from the default (chempapers) model file.
      */
-    public static ManualAnnotations getDefaultInstance() {
+    public static ExtractedTrainingData getDefaultInstance() {
         if (defaultInstance == null) {
-            defaultInstance = loadManualAnnotations("chempapers");
+            defaultInstance = loadExtractedTrainingData("chempapers");
         }
         return defaultInstance;
     }
 
     /**
-     * Creates a ManualAnnotations object in which the term sets
+     * Creates a ExtractedTrainingData object in which the term sets
      * are loaded from the specified model file.
      * @param modelName the name of the model file, excluding ".xml" 
      */
-    public static ManualAnnotations loadManualAnnotations(String modelName) {
+    public static ExtractedTrainingData loadExtractedTrainingData(String modelName) {
     	Element etdElement = loadEtdElement(modelName);
-        return new ManualAnnotations(etdElement);
+        return new ExtractedTrainingData(etdElement);
     }
 
     static Element loadEtdElement(String modelName) {
-        ResourceGetter rg = new ResourceGetter(ManualAnnotations.class.getClassLoader(),"/uk/ac/cam/ch/wwmm/oscarrecogniser/models/");
+        ResourceGetter rg = new ResourceGetter(ExtractedTrainingData.class.getClassLoader(),"/uk/ac/cam/ch/wwmm/oscarrecogniser/models/");
         Document modelDoc;
 		try {
 			modelDoc = rg.getXMLDocument(modelName + ".xml");
 		} catch (ParsingException e) {
-			throw new OscarInitialisationException("failed to load ManualAnnotations for model: " + modelName, e);
+			throw new OscarInitialisationException("failed to load ExtractedTrainingData for model: " + modelName, e);
 		} catch (IOException e) {
-			throw new OscarInitialisationException("failed to load ManualAnnotations for model: " + modelName, e);
+			throw new OscarInitialisationException("failed to load ExtractedTrainingData for model: " + modelName, e);
 		}
         if (modelDoc == null) {
             return null;

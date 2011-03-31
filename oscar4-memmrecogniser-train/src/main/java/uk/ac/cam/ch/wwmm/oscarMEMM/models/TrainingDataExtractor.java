@@ -26,17 +26,19 @@ import uk.ac.cam.ch.wwmm.oscar.tools.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.ptcDataStruct.Bag;
 import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 /**
- * Extracts and holds useful data from hand-annotated text.
+ * Extracts and holds useful data from hand-annotated text,
+ * allowing the creation of {@link ExtractedTrainingData} objects.
  * 
  * @author ptc24
  * @author egonw
  */
-public final class ExtractManualAnnotations {
+public final class TrainingDataExtractor {
 
 	/** Words only found in chemical named entities. */
 	public Collection<String> chemicalWords;
@@ -116,11 +118,11 @@ public final class ExtractManualAnnotations {
 	 * @param files
 	 *            The files.
 	 */
-	public ExtractManualAnnotations(Collection<File> files) {
+	public TrainingDataExtractor(Collection<File> files) {
 		init(files);
 	}
 
-	public ExtractManualAnnotations(Document doc) {
+	public TrainingDataExtractor(Document doc) {
 		init(doc);
 	}
 

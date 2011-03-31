@@ -29,7 +29,7 @@ public class ChemPapersModelTest {
 		assertNotNull(model.getRescorer());
 		assertNotNull(model.getTagSet());
 		assertNotNull(model.getNamedEntityTypes());
-		assertNotNull(model.getManualAnnotations());
+		assertNotNull(model.getExtractedTrainingData());
 		assertNotNull(model.getGISModelPrevs());
 		assertNotNull(model.getNGram());
 	}
@@ -38,12 +38,12 @@ public class ChemPapersModelTest {
 	@Test
 	public void testLoadChemPapers() {
 		assertTrue(
-			model.getManualAnnotations().getNonChemicalWords().contains(
+			model.getExtractedTrainingData().getNonChemicalWords().contains(
 				"elongate"
 			)
 		);
 		assertFalse(
-			model.getManualAnnotations().getNonChemicalWords().contains(
+			model.getExtractedTrainingData().getNonChemicalWords().contains(
 				"leukaemic"
 			)
 		);

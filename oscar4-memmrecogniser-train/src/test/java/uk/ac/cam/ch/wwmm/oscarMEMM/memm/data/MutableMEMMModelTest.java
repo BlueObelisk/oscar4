@@ -18,7 +18,7 @@ public class MutableMEMMModelTest {
 		assertNull(model.getRescorer());
 		assertNotNull(model.getTagSet());
 		assertNotNull(model.getNamedEntityTypes());
-		assertNull(model.getManualAnnotations());
+		assertNull(model.getExtractedTrainingData());
 		assertNotNull(model.getGISModelPrevs());
 		assertNotNull(model.getNGram());
 		assertNotNull(model.getChemNameDictNames());

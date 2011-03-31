@@ -34,8 +34,8 @@ import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.TermMaps;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
 import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -182,7 +182,7 @@ public class PatternRecogniserTest {
 		dictionary.addChemical("registryName", "", "");
 		registry.register(dictionary);
 		PatternRecogniser recogniser = new PatternRecogniser(
-				ManualAnnotations.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
+				ExtractedTrainingData.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
 				TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance(),
 				registry);
 		assertEquals(1, recogniser.getRegistryNames().size());
@@ -193,7 +193,7 @@ public class PatternRecogniserTest {
 	public void testImmutableChemNameDictRegistryNames() {
 		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		PatternRecogniser recogniser = new PatternRecogniser(
-				ManualAnnotations.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
+				ExtractedTrainingData.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
 				TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance(),
 				registry);
 		recogniser.getRegistryNames().clear();
@@ -211,7 +211,7 @@ public class PatternRecogniserTest {
 		Map<String, NamedEntityType> neTerms = new HashMap<String, NamedEntityType>();
 		neTerms.put("$-ene $-yl", NamedEntityType.COMPOUND);
 		PatternRecogniser customRecogniser = new PatternRecogniser(
-				ManualAnnotations.getDefaultInstance(), neTerms,
+				ExtractedTrainingData.getDefaultInstance(), neTerms,
 				TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance(),
 				ChemNameDictRegistry.getDefaultInstance());
 		List<NamedEntity> nes2 = customRecogniser.findNamedEntities(procDoc);
@@ -238,7 +238,7 @@ public class PatternRecogniserTest {
     	ontTerms.put("jumps", "foo:001");
     	ontTerms.put("jumps", "foo:002");
     	PatternRecogniser customRecogniser = new PatternRecogniser(
-    			ManualAnnotations.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
+    			ExtractedTrainingData.getDefaultInstance(), TermMaps.getInstance().getNeTerms(),
     			TokenClassifier.getDefaultInstance(), new OntologyTerms(ontTerms),
     			ChemNameDictRegistry.getDefaultInstance());
     	List <NamedEntity> customNes = customRecogniser.findNamedEntities(procDoc);

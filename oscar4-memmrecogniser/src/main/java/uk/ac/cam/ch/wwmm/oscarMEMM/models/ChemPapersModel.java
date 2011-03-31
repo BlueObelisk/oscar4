@@ -30,6 +30,6 @@ public class ChemPapersModel extends MEMMModel {
 		}
 		chemNameDictNames = (UnmodifiableSet) UnmodifiableSet.decorate(
 				ChemNameDictRegistry.getDefaultInstance().getAllNames());
-		nGram = NGramBuilder.buildOrDeserialiseModel(manualAnnotations, chemNameDictNames);
+		nGram = NGramBuilder.buildOrDeserialiseModel(etd, chemNameDictNames);
 	}
 }

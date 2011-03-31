@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.manualAnnotations.ManualAnnotations;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
@@ -29,7 +29,7 @@ public class FeatureExtractorTest {
         Set <String> defaultChemNames = ChemNameDictRegistry.getDefaultInstance().getAllNames();
         
         List<FeatureList> features = FeatureExtractor.extractFeatures(
-        		tokSeq, NGram.getInstance(), ManualAnnotations.loadManualAnnotations("chempapers"),
+        		tokSeq, NGram.getInstance(), ExtractedTrainingData.loadExtractedTrainingData("chempapers"),
         		(UnmodifiableSet) UnmodifiableSet.decorate(defaultChemNames));
 
         /*

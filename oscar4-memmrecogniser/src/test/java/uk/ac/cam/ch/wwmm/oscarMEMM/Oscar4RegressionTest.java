@@ -264,9 +264,6 @@ public class Oscar4RegressionTest {
 
 		List<NamedEntity> neList = recogniser.findNamedEntities(
 				procDoc.getTokenSequences(), resolutionMode);
-		for (NamedEntity namedEntity : neList) {
-			System.out.println(namedEntity + ": " + namedEntity.getConfidence());
-		}
 		// Check that neList is not empty
 		assertTrue(neList != null);
 

@@ -104,11 +104,15 @@ public class OscarTest {
 	@Test
 	public void testSetRecogniserModel() {
 		Oscar oscar = new Oscar();
-		MEMMRecogniser chempapersRecogniser = new MEMMRecogniser(new ChemPapersModel(), OntologyTerms.getDefaultInstance());
+		MEMMRecogniser chempapersRecogniser = new MEMMRecogniser(
+				new ChemPapersModel(), OntologyTerms.getDefaultInstance(),
+				new ChemNameDictRegistry(Locale.ENGLISH));
 		oscar.setRecogniser(chempapersRecogniser);
 		assertTrue(((MEMMRecogniser)oscar.getRecogniser()).getModel() instanceof ChemPapersModel);
 
-		MEMMRecogniser pubmedRecogniser = new MEMMRecogniser(new PubMedModel(), OntologyTerms.getDefaultInstance());
+		MEMMRecogniser pubmedRecogniser = new MEMMRecogniser(
+				new PubMedModel(), OntologyTerms.getDefaultInstance(),
+				new ChemNameDictRegistry(Locale.ENGLISH));
 		oscar.setRecogniser(pubmedRecogniser);
 		assertTrue(((MEMMRecogniser)oscar.getRecogniser()).getModel() instanceof PubMedModel);
 	}

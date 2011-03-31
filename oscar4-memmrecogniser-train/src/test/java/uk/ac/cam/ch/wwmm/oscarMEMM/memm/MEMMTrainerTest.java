@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -83,7 +84,9 @@ public class MEMMTrainerTest {
 		String sentence = "Preparation of Sulfonated Poly(phthalazinone ether ether ketone) 7a. To a 25 mL three-necked round-bottomed flask fitted with a Dean-stark trap, a condenser, a nitrogen inlet/outlet, and magnetic stirrer was added bisphthalazinone monomer 4 (0.6267 g, 1 mmol), sulfonated difluoride ketone 5 (0.4223 g, 1 mmol), anhydrous potassium carbonate (0.1935 g, 1.4 mmol), 5 mL of DMSO, and 6 mL of toluene. Nitrogen was purged through the reaction mixture with stirring for 10 min, and then the mixture was slowly heated to 140 \u00B0C and kept stirring for 2 h. After water generated was azoetroped off with toluene. The temperature was slowly increased to 175 \u00B0C. The temperature was maintained for 20 h, and the viscous solution was cooled to 100 \u00B0C followed by diluting with 2 mL of DMSO and, thereafter, precipitated into 100 mL of 1:  1 (v/v) methanol/water. The precipitates were filtered and washed with water for three times. The fibrous residues were collected and dried at 110 \u00B0C under vacuum for 24 h. A total of 0.9423 g of polymer 7a was obtained in high yield of 93%.";
 		List<String> actualSurfaceList = new ArrayList<String>();
 		List<String> actualTypeList = new ArrayList<String>();
-		MEMMRecogniser memm = new MEMMRecogniser(trainModel(), OntologyTerms.getDefaultInstance());
+		MEMMRecogniser memm = new MEMMRecogniser(
+				trainModel(), OntologyTerms.getDefaultInstance(),
+				new ChemNameDictRegistry(Locale.ENGLISH));
 		ProcessingDocument procdoc = ProcessingDocumentFactory.getInstance()
 				.makeTokenisedDocument(Tokeniser.getDefaultInstance(), sentence);
 		List<NamedEntity> neList = memm.findNamedEntities(procdoc.getTokenSequences(), ResolutionMode.MARK_BLOCKED);
@@ -102,7 +105,9 @@ public class MEMMTrainerTest {
 		MEMMModel model = new MEMMModel();
 		model.readModel(trainedModel);
 		
-		MEMMRecogniser memm = new MEMMRecogniser(model, OntologyTerms.getDefaultInstance());		
+		MEMMRecogniser memm = new MEMMRecogniser(
+				model, OntologyTerms.getDefaultInstance(),
+				new ChemNameDictRegistry(Locale.ENGLISH));		
 		Assert.assertEquals("Number of Chemical words in ExtractedManualAnnotations size",520, model.getManualAnnotations().getChemicalWords().size());
 		Assert.assertEquals("Number of non-chemical words in ExtractedManualAnnotations size",1194, model.getManualAnnotations().getNonChemicalWords().size());
 	}

@@ -26,7 +26,7 @@ import dk.brics.automaton.RunAutomaton;
 
 /** A DFA-based method for finding multi-token items in text.
  * 
- * Note that there are several sub-classes of this class; however, Oscar3 users
+ * Note that there are several sub-classes of this class; however, OSCAR users
  * should not subclass this.
  * 
  * @author ptc24
@@ -135,6 +135,8 @@ public abstract class DFAFinder implements Serializable {
 		List<String> tokens = tokenSequence.getTokenStringList();
 
 		if (!alwaysAdd && tokens.size() == 1 && !namedEntity.contains("$")) {
+			//seems to be a too-clever way of boosting performance, as single-token
+			//named entities will be caught by the chemNameDict.contains(word) call
             return;
         }
 		StringBuffer sb = new StringBuffer();

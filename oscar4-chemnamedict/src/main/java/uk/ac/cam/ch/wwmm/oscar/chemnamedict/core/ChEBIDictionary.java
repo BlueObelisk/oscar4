@@ -1,13 +1,12 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
 
-import nu.xom.ParsingException;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictIO;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ImmutableChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
@@ -15,10 +14,14 @@ import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
  * A dictionary of chemical names derived from ChEBI. 
  *
  */
-public class ChEBIDictionary extends MutableChemNameDict {
+public class ChEBIDictionary extends ImmutableChemNameDict {
 
-	private static final URI	CHEBI_DICTIONARY_URL;
-
+	private static final URI CHEBI_DICTIONARY_URL;
+	private static final ResourceGetter rg = new ResourceGetter(
+			ChEBIDictionary.class.getClassLoader(),"uk/ac/cam/ch/wwmm/oscar/chemnamedict/");
+	
+	private static ChEBIDictionary instance;
+	
 	static {
 		try {
 			CHEBI_DICTIONARY_URL = new URI("http://wwmm.ch.cam.ac.uk/dictionary/chebi/");
@@ -29,16 +32,21 @@ public class ChEBIDictionary extends MutableChemNameDict {
 		}
 	}
 
-	public ChEBIDictionary() {
-		super(CHEBI_DICTIONARY_URL, Locale.ENGLISH);
-
-		ResourceGetter rg = new ResourceGetter(getClass().getClassLoader(),"uk/ac/cam/ch/wwmm/oscar/chemnamedict/");
-		try {
-			ChemNameDictIO.readXML(rg.getXMLDocument("chemnamedict.xml"), this);
-		} catch (ParsingException e) {
-			throw new OscarInitialisationException("failed to load ChebiDictionary", e);
-		} catch (IOException e) {
-			throw new OscarInitialisationException("failed to load ChebiDictionary", e);
+	public static synchronized ChEBIDictionary getInstance() {
+		if (instance == null) {
+			try {
+				instance = new ChEBIDictionary();
+			} catch (DataFormatException e) {
+				throw new OscarInitialisationException("failed to load ChEBI dictionary", e);
+			} catch (FileNotFoundException e) {
+				throw new OscarInitialisationException("failed to load ChEBI dictionary", e);
+			}
 		}
+		return instance;
+	}
+	
+	
+	private ChEBIDictionary() throws DataFormatException, FileNotFoundException {
+		super(CHEBI_DICTIONARY_URL, Locale.ENGLISH, rg.getStream("chemnamedict.xml"));
 	}
 }

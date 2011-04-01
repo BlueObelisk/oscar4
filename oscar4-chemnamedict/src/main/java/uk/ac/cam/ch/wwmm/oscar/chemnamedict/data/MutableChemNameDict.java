@@ -19,8 +19,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  * @author egonw
  * @author ptc
  */
-public class MutableChemNameDict extends ImmutableChemNameDict
-implements IMutableChemNameDict, IInChIProvider, ISMILESProvider {
+public class MutableChemNameDict extends ImmutableChemNameDict implements IMutableChemNameDict {
 
 	public MutableChemNameDict(URI uri, Locale language) {
 		super(uri, language);

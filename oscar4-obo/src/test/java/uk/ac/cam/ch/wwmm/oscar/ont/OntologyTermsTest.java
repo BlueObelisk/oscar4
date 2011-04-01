@@ -95,4 +95,22 @@ public class OntologyTermsTest {
     	OntologyTerms ontologyTerms = new OntologyTerms(ontology);
     	ontologyTerms.getOntology().put("foo", "bar");
     }
+    
+    @Test (expected = UnsupportedOperationException.class)
+    public void testUnmodifiableIdsForTerm() {
+    	OntologyTerms ontologyTerms = OntologyTerms.getDefaultInstance();
+    	ontologyTerms.getIdsForTerm("acid").clear();
+    }
+    
+    @Test (expected = UnsupportedOperationException.class)
+    public void testUnmodifiableHyphTokable() {
+    	OntologyTerms ontologyTerms = OntologyTerms.getDefaultInstance();
+    	ontologyTerms.getHyphTokable().clear();
+    }
+    
+    @Test (expected = UnsupportedOperationException.class)
+    public void testGetUnmodifiableGetAllTerms() {
+    	OntologyTerms ontologyTerms = OntologyTerms.getDefaultInstance();
+    	ontologyTerms.getAllTerms().clear();
+    }
 }

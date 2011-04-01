@@ -123,8 +123,8 @@ final class PostProcessor {
 		Set<Integer> occupied = new HashSet<Integer>();
 		for (NamedEntity ne : getSorted()) {
 			boolean isblocked = false;
-			for (int i = ne.getTokens().get(0).getId(); i <= ne.getTokens()
-					.get(ne.getTokens().size() - 1).getId(); i++) {
+			for (int i = ne.getTokens().get(0).getIndex(); i <= ne.getTokens()
+					.get(ne.getTokens().size() - 1).getIndex(); i++) {
 				if (occupied.contains(i)) {
 					isblocked = true;
 				}
@@ -133,8 +133,8 @@ final class PostProcessor {
 				blocked.add(ne);
 				ne.setBlocked(true);
 			} else {
-				for (int i = ne.getTokens().get(0).getId(); i <= ne.getTokens()
-						.get(ne.getTokens().size() - 1).getId(); i++) {
+				for (int i = ne.getTokens().get(0).getIndex(); i <= ne.getTokens()
+						.get(ne.getTokens().size() - 1).getIndex(); i++) {
 					occupied.add(i);
 				}
 			}

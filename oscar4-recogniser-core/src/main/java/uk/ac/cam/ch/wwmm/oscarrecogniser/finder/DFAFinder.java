@@ -332,7 +332,7 @@ public abstract class DFAFinder implements Serializable {
         for (int i = startToken; i <= endToken; i++) {
             IToken token = tokenSequence.getToken(i);
 			handleTokenForPrefix(token, collector);
-			RepresentationList tokenRepresentations = repsList.get(token.getId());
+			RepresentationList tokenRepresentations = repsList.get(token.getIndex());
 			if (tokenRepresentations.isEmpty()) {
 				autStates.clear();
 				continue;

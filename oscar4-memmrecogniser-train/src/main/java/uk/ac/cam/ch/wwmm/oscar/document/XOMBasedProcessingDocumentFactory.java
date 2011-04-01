@@ -23,7 +23,7 @@ import nu.xom.Nodes;
  * 
  * @author ptc24
  */
-public class XOMBasedProcessingDocumentFactory {
+public class XOMBasedProcessingDocumentFactory  {
 
 	private static XOMBasedProcessingDocumentFactory myInstance;
 	
@@ -73,7 +73,7 @@ public class XOMBasedProcessingDocumentFactory {
 	 * 
 	 * 
 	 */
-	public IXOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) {
+	public XOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) {
 		/****************************
 		 * @lh359 Tokenisation Walkthrough:
 		 * This is the function used to call the tokeniser and tokensequence
@@ -98,7 +98,7 @@ public class XOMBasedProcessingDocumentFactory {
 	 * 
 	 * 
 	 */
-	public IXOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, Document safDoc) {
+	public XOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, Document safDoc) {
 		XOMBasedProcessingDocument procDoc = makeDocument(sourceDoc);
 		procDoc.tokensByStart = new HashMap<Integer,IToken>();
 		procDoc.tokensByEnd = new HashMap<Integer,IToken>();
@@ -286,7 +286,7 @@ public class XOMBasedProcessingDocumentFactory {
 				else if (tokens.get(i).getStart() >= elemStart
 						&& tokens.get(i).getEnd() <= elemEnd) {
 					//token is fully contained within annotation
-					tokens.get(i).setBioTag(new BioType(
+					tokens.get(i).setBioType(new BioType(
 						BioTag.B,
 						NamedEntityType.valueOf(neType)
 					));
@@ -343,7 +343,7 @@ public class XOMBasedProcessingDocumentFactory {
 				}
 				else if (tokens.get(i).getEnd() <= elemEnd) {
 					//token is contained in the annotation
-					tokens.get(i).setBioTag(new BioType(
+					tokens.get(i).setBioType(new BioType(
 						BioTag.I,
 						NamedEntityType.valueOf(neType)
 					));
@@ -366,13 +366,13 @@ public class XOMBasedProcessingDocumentFactory {
 		BioType prevTokType = new BioType(BioTag.O);
 		while (i < tokens.size()) {
 			if (BioTag.O == prevTokType.getBio()
-					|| BioTag.O != tokens.get(i).getBioTag().getBio()
+					|| BioTag.O != tokens.get(i).getBioType().getBio()
 					|| tokens.get(i).getSurface().length() < 2
 					|| !StringTools.isHyphen(tokens.get(i).getSurface()
 							.substring(0, 1))
 					|| !(tokens.get(i).getStart() == tokens.get(i - 1).getEnd())) {
 				i++;
-				prevTokType = tokens.get(i - 1).getBioTag();
+				prevTokType = tokens.get(i - 1).getBioType();
 			} else {
 				List<IToken> splitResults = tokeniser.splitAt(tokens.get(i),
 						tokens.get(i).getStart() + 1);
@@ -392,14 +392,14 @@ public class XOMBasedProcessingDocumentFactory {
 		NamedEntityType neClass = null;
 		for (IToken t : tokens) {
 			if (currentToken == null || neClass == null
-					|| BioTag.O == t.getBioTag().getBio()
-					|| BioTag.B == t.getBioTag().getBio()) {
+					|| BioTag.O == t.getBioType().getBio()
+					|| BioTag.B == t.getBioType().getBio()) {
 				currentToken = t;
 				newTokens.add(t);
-				if (BioTag.O == currentToken.getBioTag().getBio()) {
+				if (BioTag.O == currentToken.getBioType().getBio()) {
 					neClass = null;
 				} else {
-					neClass = currentToken.getBioTag().getType();
+					neClass = currentToken.getBioType().getType();
 				}
 				// inside
 			} else {

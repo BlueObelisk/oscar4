@@ -29,7 +29,7 @@ public final class InlineToSAF {
 	}
 	
 	private InlineToSAF(Document neDoc, Document refDoc, String name) {		
-		IStandoffTable st = new StandoffTable(refDoc.getRootElement());
+		StandoffTable st = new StandoffTable(refDoc.getRootElement());
 		new XMLSpanTagger(neDoc.getRootElement(), "n");
 
 		Element saf = new Element("saf");

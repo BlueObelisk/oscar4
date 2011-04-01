@@ -6,7 +6,6 @@ import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Nodes;
 import uk.ac.cam.ch.wwmm.oscar.document.SafTools;
-import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XMLInserter;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XMLSpanTagger;
@@ -48,7 +47,7 @@ public final class SAFToInline {
 		Document resultsDoc = new Document((Element)XOMTools.safeCopy(ontoDoc.getRootElement()));
 		plainDoc = new Document((Element)XOMTools.safeCopy(plainDoc.getRootElement()));
 		
-		IStandoffTable st = new StandoffTable(plainDoc.getRootElement());
+		StandoffTable st = new StandoffTable(plainDoc.getRootElement());
 		XMLInserter xi = new XMLInserter(resultsDoc.getRootElement(), "a", "c");
 		new XMLSpanTagger(plainDoc.getRootElement(), "b");
 		

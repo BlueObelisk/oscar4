@@ -19,7 +19,7 @@ import nu.xom.Nodes;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
-import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.InlineToSAF;
@@ -306,7 +306,7 @@ public final class TrainingDataExtractor {
 		Document safDoc = InlineToSAF.extractSAFs(doc, copy, "foo");
 
 		doc = copy;
-		IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory
+		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory
 				.getInstance().makeTokenisedDocument(
 						Tokeniser.getDefaultInstance(), doc, true, true, safDoc);
 		for (ITokenSequence tokSeq : procDoc.getTokenSequences()) {

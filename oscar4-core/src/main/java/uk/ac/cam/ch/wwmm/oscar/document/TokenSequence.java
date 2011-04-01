@@ -14,8 +14,9 @@ import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
-/**A tokenised representation of a piece of text, as made by the Tokeniser
- * class.
+/**
+ * A tokenised representation of a piece of text, as produced
+ * by {@link ITokeniser#tokenise(String, IProcessingDocument, int, Element)}.
  *
  * @author ptc24
  *
@@ -37,44 +38,62 @@ public final class TokenSequence implements ITokenSequence {
         this.tokens = tokens;
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getSourceString()
-      */
+    /**
+     * Gets the string that was tokenised to make this TokenSequence.
+	 * 
+	 * @return The string that was tokenised to make this TokenSequence.
+	 */
     public String getSurface() {
         return surface;
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getDoc()
-      */
+	/**
+	 * Gets the {@link IProcessingDocument} (or null) that this TokenSequence was made
+	 * from.
+	 * 
+	 * @return The IProcessingDocument (or null) that this TokenSequence was made
+	 * from.
+	 */
     public IProcessingDocument getDoc() {
         return doc;
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getOffset()
-      */
+	/**
+	 * Gets the start offset of this TokenSequence. If this information was
+	 * not supplied during tokenisation, this will be 0.
+	 * 
+	 * @return The start offset of this TokenSequence.
+	 */
     public int getOffset() {
         return offset;
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getTokens()
-      */
+	/**
+	 * Gets the list of tokens that comprise this TokenSequence.
+	 * 
+	 * @return The list of tokens that comprise this TokenSequence.
+	 */
     public List<IToken> getTokens() {
         return tokens;
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getTokens(int, int)
-      */
+	/**
+	 * Gets a the sublist of tokens that occur between the given indices.
+	 * 
+	 * @param from The first token in the sublist (inclusive).
+	 * @param to The last token in the sublist (inclusive).
+	 * @return The sublist of tokens.
+	 */
     public List<IToken> getTokens(int from, int to) {
         return tokens.subList(from, to+1);
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getToken(int)
-      */
+	/**
+	 * Gets a single token.
+	 * 
+	 * @param i The index of the token to get.
+	 * @return The token.
+	 */
     public IToken getToken(int i) {
         return tokens.get(i);
     }
@@ -92,16 +111,20 @@ public final class TokenSequence implements ITokenSequence {
         return elem;
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#size()
-      */
-    public int size() {
+	/**
+	 * Gets the number of tokens in the TokenSequence.
+	 * 
+	 * @return the number of tokens in the TokenSequence.
+	 */
+    public int getSize() {
         return tokens.size();
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getTokenStringList()
-      */
+	/**
+	 * Gets a list of strings corresponding to the tokens.
+	 * 
+	 * @return The list of strings corresponding to the tokens.
+	 */
     public List<String> getTokenStringList() {
         List<String> tl = new ArrayList<String>();
         for(IToken t : tokens) {
@@ -110,43 +133,53 @@ public final class TokenSequence implements ITokenSequence {
         return tl;
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getSubstring(int, int)
-      */
+	/**
+	 * Gets a substring of the source string that runs between two tokens 
+	 * (inclusive). Note that token indices run from 0 to n.
+	 * 
+	 * @param startToken The first token (inclusive).
+	 * @param endToken The last token (inclusive).
+	 * @return The substring.
+	 */
     public String getSubstring(int startToken, int endToken) {
-        if (endToken >= size()) {
-            endToken = size() - 1;
+        if (endToken >= getSize()) {
+            endToken = getSize() - 1;
         }
         int startOffset = tokens.get(startToken).getStart();
         int endOffset = tokens.get(endToken).getEnd();
         return surface.substring(startOffset - offset, endOffset - offset);
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getStringAtOffsets(int, int)
-      */
+    /**
+     * Returns the substring of the tokenSequence surface between
+     * the specified offsets, which need not correspond to token
+     * boundaries.
+     */
     public String getStringAtOffsets(int start, int end) {
         return surface.substring(start - offset, end - offset);
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getAfterHyphens()
-      */
+	/**
+	 * Gets all of the token values of tokens that are hyphenated with 
+	 * named entities. For example, this would get "based" in "acetone-based".
+	 * 
+	 * @return The token values.
+	 */
     public Set<String> getAfterHyphens() {
         Set<String> afterHyphens = new HashSet<String>();
         for (int i = 1; i < tokens.size(); i++) {
             if (i < tokens.size()-1
                     && tokens.get(i).getSurface().length() == 1
                     && StringTools.isHyphen(tokens.get(i).getSurface())
-                    && BioTag.O == tokens.get(i).getBioTag().getBio()
-                    && BioTag.O == tokens.get(i+1).getBioTag().getBio()
-                    && BioTag.O != tokens.get(i-1).getBioTag().getBio()
+                    && BioTag.O == tokens.get(i).getBioType().getBio()
+                    && BioTag.O == tokens.get(i+1).getBioType().getBio()
+                    && BioTag.O != tokens.get(i-1).getBioType().getBio()
                     && tokens.get(i).getStart() == tokens.get(i-1).getEnd()
                     && tokens.get(i).getEnd() == tokens.get(i+1).getStart()
                     ) {
                 afterHyphens.add(tokens.get(i+1).getSurface());
-            } else if (BioTag.O == tokens.get(i).getBioTag().getBio()
-                    && B_CPR == tokens.get(i-1).getBioTag()
+            } else if (BioTag.O == tokens.get(i).getBioType().getBio()
+                    && B_CPR == tokens.get(i-1).getBioType()
                     && tokens.get(i).getStart() == tokens.get(i-1).getEnd()
                     ) {
                 afterHyphens.add(tokens.get(i).getSurface());
@@ -155,9 +188,14 @@ public final class TokenSequence implements ITokenSequence {
         return afterHyphens;
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getNes()
-      */
+	/**
+	 * Gets all of the named entities in the TokenSequence. This produces a
+	 * map, where the keys are the named entity types. The values are a list
+	 * of all NEs of the corresponding type, which are represented as lists
+	 * of strings.
+	 * 
+	 * @return The named entities.
+	 */
     public Map<NamedEntityType,List<List<String>>> getNes() {
     	
         Map<NamedEntityType,List<List<String>>> neMap = new HashMap<NamedEntityType,List<List<String>>>();
@@ -165,10 +203,10 @@ public final class TokenSequence implements ITokenSequence {
         List<String> neTokens = null;
         for (IToken t : tokens) {
             if (namedEntityType == null) {
-                if (BioTag.O != t.getBioTag().getBio()) {
+                if (BioTag.O != t.getBioType().getBio()) {
                     neTokens = new ArrayList<String>();
                     // Trim of the B- in the BIO tag
-                    namedEntityType = t.getBioTag().getType();
+                    namedEntityType = t.getBioType().getType();
                     neTokens.add(t.getSurface());
                     if (!neMap.containsKey(namedEntityType)) {
                         neMap.put(namedEntityType, new ArrayList<List<String>>());
@@ -176,13 +214,13 @@ public final class TokenSequence implements ITokenSequence {
                     neMap.get(namedEntityType).add(neTokens);
                 }
             } else {
-                if (BioTag.O == t.getBioTag().getBio()) {
+                if (BioTag.O == t.getBioType().getBio()) {
                     namedEntityType = null;
                     neTokens = null;
-                } else if (t.getBioTag().getBio() == BioTag.B) {
+                } else if (t.getBioType().getBio() == BioTag.B) {
                     neTokens = new ArrayList<String>();
                     // Trim of the B- in the BIO tag
-                    namedEntityType = t.getBioTag().getType();
+                    namedEntityType = t.getBioType().getType();
                     neTokens.add(t.getSurface());
                     if (!neMap.containsKey(namedEntityType)) {
                         neMap.put(namedEntityType, new ArrayList<List<String>>());
@@ -197,19 +235,25 @@ public final class TokenSequence implements ITokenSequence {
         return neMap;
     }
 
-    /* (non-Javadoc)
-      * @see uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence#getNonNes()
-      */
+	/**
+	 * Gets the string values of all of the non-NE tokens.
+	 * 
+	 * @return The string values.
+	 */
     public List<String> getNonNes() {
         List<String> nonNes = new ArrayList<String>();
         for (IToken token : tokens) {
-            if (BioTag.O == token.getBioTag().getBio()) {
+            if (BioTag.O == token.getBioType().getBio()) {
                 nonNes.add(token.getSurface());
             }
         }
         return nonNes;
     }
 
+	/**
+	 * Returns the token that starts at the given index, or null if no such
+	 * token exists. 
+	 */
 	public IToken getTokenByStartIndex(int index) {
 		checkIndex(index);
 		for (IToken token : tokens) {
@@ -229,6 +273,10 @@ public final class TokenSequence implements ITokenSequence {
 		}
 	}
 
+	/**
+	 * Returns the token that ends at the given index, or null if no such
+	 * token exists. 
+	 */
 	public IToken getTokenByEndIndex(int index) {
 		checkIndex(index);
 		for (IToken token : tokens) {

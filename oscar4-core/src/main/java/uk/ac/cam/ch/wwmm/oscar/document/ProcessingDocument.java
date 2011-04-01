@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
+import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 
 
 public class ProcessingDocument implements IProcessingDocument {
@@ -31,7 +31,7 @@ public class ProcessingDocument implements IProcessingDocument {
 	//getStandOffTable can be called by the tokeniser if Genia is running, but we're
 	//dumping that functionality.
 	@Deprecated
-	public IStandoffTable getStandoffTable() {
+	public StandoffTable getStandoffTable() {
 		throw new UnsupportedOperationException("shouldn't have been called");
 	}
 

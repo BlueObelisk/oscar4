@@ -99,7 +99,7 @@ final class FeatureExtractor {
 							}							
 						}
 					} else {
-						int tokID = ne.getFirstToken().getId();
+						int tokID = ne.getFirstToken().getIndex();
 						ITokenSequence tokSeq = ne.getFirstToken().getTokenSequence();
 						int length = surf.length();
 						boolean isAcro = false;
@@ -131,7 +131,7 @@ final class FeatureExtractor {
 		
 		ITokenSequence t = ne.getTokens().get(0).getTokenSequence();
 		int entityLength = ne.getTokens().size();
-		int startID = ne.getTokens().get(0).getId();
+		int startID = ne.getTokens().get(0).getIndex();
 		int endID = startID + entityLength - 1;
 		String surf = ne.getSurface();
 		

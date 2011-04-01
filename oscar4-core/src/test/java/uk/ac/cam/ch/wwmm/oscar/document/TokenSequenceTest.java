@@ -102,7 +102,7 @@ public class TokenSequenceTest {
 				add(new Token(".", 24, 25, null, null, null));
 			}}
 		);
-		Assert.assertEquals(6, seq.size());
+		Assert.assertEquals(6, seq.getSize());
 	}
 
 	@SuppressWarnings("serial")

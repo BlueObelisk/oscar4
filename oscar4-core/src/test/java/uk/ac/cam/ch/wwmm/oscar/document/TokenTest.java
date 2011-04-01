@@ -35,8 +35,8 @@ public class TokenTest {
 		Token token = new Token(
 			null, 0, 0, null, null, null
 		);
-		token.setId(777);
-		Assert.assertEquals(777, token.getId());
+		token.setIndex(777);
+		Assert.assertEquals(777, token.getIndex());
 	}
 
 	@Test
@@ -62,19 +62,19 @@ public class TokenTest {
 		Token token = new Token(
 			null, 0, 77, null, null, null
 		);
-		token.setBioTag(new BioType(BioTag.B, NamedEntityType.COMPOUND));
+		token.setBioType(new BioType(BioTag.B, NamedEntityType.COMPOUND));
 		Assert.assertEquals(
 			new BioType(BioTag.B, NamedEntityType.COMPOUND),
-			token.getBioTag()
+			token.getBioType()
 		);
 	}
 	
 	@Test
 	public void testGetNAfter() {
 		Token t1 = new Token("foo", 0, 3, null, null, null);
-		t1.setId(0);
+		t1.setIndex(0);
 		Token t2 = new Token("bar", 4, 7, null, null, null);
-		t2.setId(1);
+		t2.setIndex(1);
 		
 		List <IToken> tokens = new ArrayList<IToken>();
 		tokens.add(t1);

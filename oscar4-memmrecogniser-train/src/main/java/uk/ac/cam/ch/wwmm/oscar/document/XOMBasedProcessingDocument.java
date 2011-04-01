@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import nu.xom.Document;
-import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
 import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 
 /**
@@ -15,10 +14,10 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
  * @author ptc24
  * @author egonw
  */
-public final class XOMBasedProcessingDocument implements IXOMBasedProcessingDocument {
+public final class XOMBasedProcessingDocument implements IProcessingDocument {
 
 	public Document doc;
-	public IStandoffTable standoffTable;
+	public StandoffTable standoffTable;
 	public List<ITokenSequence> tokenSequences;
 	public Map<Integer,IToken> tokensByStart;
 	public Map<Integer,IToken> tokensByEnd;
@@ -30,7 +29,7 @@ public final class XOMBasedProcessingDocument implements IXOMBasedProcessingDocu
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getStandoffTable()
 	 */
-	public IStandoffTable getStandoffTable() {
+	public StandoffTable getStandoffTable() {
 		return standoffTable;
 	}
 
@@ -50,8 +49,13 @@ public final class XOMBasedProcessingDocument implements IXOMBasedProcessingDocu
 		return doc;
 	}
 
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getTokenByStart(java.lang.String)
+	/**
+	 * Gets the token that starts at a given XPoint. Note that this should only
+	 * be called after the document has been tokenised.
+	 * 
+	 * @param leftXPoint
+	 *            The XPoint of the start of the token.
+	 * @return The token, or null.
 	 */
 	@Deprecated
 	//TODO this isn't called - do we need it?
@@ -62,8 +66,13 @@ public final class XOMBasedProcessingDocument implements IXOMBasedProcessingDocu
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getTokenByEnd(java.lang.String)
+	/**
+	 * Gets the token that ends at a given XPoint. Note that this should only be
+	 * called after the document has been tokenised.
+	 * 
+	 * @param rightXPoint
+	 *            The XPoint of the end of the token.
+	 * @return The token, or null.
 	 */
 	@Deprecated
 	//TODO this isn't called - do we need it?
@@ -83,7 +92,12 @@ public final class XOMBasedProcessingDocument implements IXOMBasedProcessingDocu
 		return tokensByEnd;
 	}
 
-	public void setStandoffTable(IStandoffTable sot) {
+	/**
+	 * Sets the StandoffTable associated with the document.
+	 * 
+	 * @param sot The StandoffTable for the document.
+	 */
+	public void setStandoffTable(StandoffTable sot) {
 		standoffTable = sot;
 		
 	}

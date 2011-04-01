@@ -10,8 +10,8 @@ import java.util.Map;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 
 /**
  * @author egonw
@@ -44,7 +44,7 @@ public final class TokeniserTest {
 	public void testAbbreviations() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "(ca. 30 mL)";
-		ITokenSequence tokseq = tokeniser.tokenise(s);
+		TokenSequence tokseq = tokeniser.tokenise(s);
 		assertEquals(5, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "( ca. 30 mL )");
 	}
@@ -53,7 +53,7 @@ public final class TokeniserTest {
 	public void testHyphens() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "EA- or BA-modified HPEI";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(7, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "EA - or BA - modified HPEI");
 	}
@@ -62,7 +62,7 @@ public final class TokeniserTest {
 	public void testSlashes() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "methanol/water";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(3, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "methanol / water");
 	}
@@ -71,7 +71,7 @@ public final class TokeniserTest {
 	public void test1Butanol() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "1-butanol";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -79,7 +79,7 @@ public final class TokeniserTest {
 	public void testButan1ol() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "butan-1-ol";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -87,7 +87,7 @@ public final class TokeniserTest {
 	public void testTransButene() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "trans-but-2-ene";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -95,7 +95,7 @@ public final class TokeniserTest {
 	public void testPhosphinin2One() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "phosphinin-2(1H)-one";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -103,7 +103,7 @@ public final class TokeniserTest {
 	public void testIronIII() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "Fe(III)";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -111,7 +111,7 @@ public final class TokeniserTest {
 	public void testIronIIILowercase() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "Fe(iii)";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -119,7 +119,7 @@ public final class TokeniserTest {
 	public void testIronThreePlus() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "Fe(3+)";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -127,7 +127,7 @@ public final class TokeniserTest {
 	public void testIronNought() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "Fe(0)";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -135,7 +135,7 @@ public final class TokeniserTest {
 	public void testWrappedInBrackets() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "Tetrahydro furan (THF)";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(5, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "Tetrahydro furan ( THF )");
 	}
@@ -144,7 +144,7 @@ public final class TokeniserTest {
 	public void testSAlanine() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "(S)-alanine";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -152,7 +152,7 @@ public final class TokeniserTest {
 	public void testDGlucose() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "D-glucose";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "D-glucose");
 	}
@@ -161,7 +161,7 @@ public final class TokeniserTest {
 	public void testSpiroSystem() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "spiro[4.5]decane";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -169,14 +169,14 @@ public final class TokeniserTest {
 	public void testLambdaConvention1() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "lambda5-phosphane";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	@Test
 	public void testLambdaConvention2() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "\u03BB5-phosphane";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -184,7 +184,7 @@ public final class TokeniserTest {
 	public void testRingAssembly() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "2,2':6',2\"-Terphenyl-1,1',1\"-triol";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 
@@ -192,7 +192,7 @@ public final class TokeniserTest {
 	public void testBetaDGlucose() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "\u03b2-D-Glucose";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -200,7 +200,7 @@ public final class TokeniserTest {
 	public void testPeptide() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "L-alanyl-L-glutaminyl-L-arginyl-O-phosphono-L-seryl-L-alanyl-L-proline";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -208,7 +208,7 @@ public final class TokeniserTest {
 	public void testChargedAluminium() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "aluminium(3+)";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -216,7 +216,7 @@ public final class TokeniserTest {
 	public void testPolymer() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "poly(2,2'-diamino-5-hexadecylbiphenyl-3,3'-diyl)";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
 	
@@ -224,7 +224,7 @@ public final class TokeniserTest {
 	public void testMethylideneCyclohexane() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "1-methyl-2-methylidene-cyclohexane";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "1-methyl-2-methylidene-cyclohexane");
 	}
@@ -233,12 +233,12 @@ public final class TokeniserTest {
 	public void testTrademark() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "CML(TM)";
-		ITokenSequence  tokseq = tokeniser.tokenise(s);
+		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(4, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "CML ( TM )");
 	}
 	
-	private void checkTokens(List<IToken> tokens, String expectedTokens) {
+	private void checkTokens(List<Token> tokens, String expectedTokens) {
 		List<String> expectedList = new ArrayList<String>();
 		for (String item : expectedTokens.split(" ")) {
 			expectedList.add(item);
@@ -251,7 +251,7 @@ public final class TokeniserTest {
 	@Test
 	public void testSimpleTokenSetup() {
 		String source = "The quick brown fox jumps over the lazy dog";
-		ITokenSequence ts = Tokeniser.getDefaultInstance().tokenise(source);
+		TokenSequence ts = Tokeniser.getDefaultInstance().tokenise(source);
 		assertEquals(9, ts.getTokens().size());
 		
 		assertEquals("The", ts.getToken(0).getSurface());
@@ -294,7 +294,7 @@ public final class TokeniserTest {
 	@Test
 	public void testTokenSequenceSurface() {
 		String source = "The quick brown fox jumps over the lazy dog";
-		ITokenSequence ts = Tokeniser.getDefaultInstance().tokenise(source);
+		TokenSequence ts = Tokeniser.getDefaultInstance().tokenise(source);
 		assertEquals(source, ts.getSurface());
 	}
 }

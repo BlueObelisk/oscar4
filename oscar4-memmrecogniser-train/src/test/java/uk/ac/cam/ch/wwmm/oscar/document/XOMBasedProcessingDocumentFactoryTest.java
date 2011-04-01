@@ -31,7 +31,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		XOMBasedProcessingDocument procDoc = (XOMBasedProcessingDocument) XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, false, false, false);
 		//empty tokenSequence for the empty HEADER in the sourceDoc
 		assertEquals(2, procDoc.getTokenSequences().size());
-		List <IToken> tokens = procDoc.getTokenSequences().get(1).getTokens(); 
+		List <Token> tokens = procDoc.getTokenSequences().get(1).getTokens(); 
 		assertEquals(8, tokens.size());
 		assertEquals("the", tokens.get(0).getSurface());
 		assertEquals("quick", tokens.get(1).getSurface());
@@ -64,7 +64,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		String source = "foo ethyl acetate bar";
 		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, source);
-		List <IToken> tokens = procDoc.getTokenSequences().get(0).getTokens();
+		List <Token> tokens = procDoc.getTokenSequences().get(0).getTokens();
 		assertEquals(4, tokens.size());
 		assertEquals("foo", tokens.get(0).getSurface());
 		assertEquals("ethyl", tokens.get(1).getSurface());
@@ -92,7 +92,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		Document sourceDoc = new Builder().build(in);
 		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		XOMBasedProcessingDocument procDoc = (XOMBasedProcessingDocument) XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, false, false, false);
-		List <IToken> tokens = procDoc.getTokenSequences().get(1).getTokens(); 
+		List <Token> tokens = procDoc.getTokenSequences().get(1).getTokens(); 
 		assertEquals(8, tokens.size());
 		
 		String sourceString = "the quick methylbrown fox jumps over thechlorinated dog";
@@ -131,7 +131,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		String text = para.getValue();
 		int offset = Integer.parseInt(para.getAttributeValue("xtspanstart"));
 		
-		ITokenSequence tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, false, false, null, procDoc, para, text, offset);
+		TokenSequence tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, false, false, null, procDoc, para, text, offset);
 		assertEquals(9, tokSeq.getTokens().size());
 		assertEquals("the", tokSeq.getTokens().get(0).getSurface());
 		assertEquals("quick", tokSeq.getTokens().get(1).getSurface());
@@ -155,7 +155,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		String text = para.getValue();
 		int offset = Integer.parseInt(para.getAttributeValue("xtspanstart"));
 		
-		ITokenSequence tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, false, null, procDoc, e, text, offset);
+		TokenSequence tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, false, null, procDoc, e, text, offset);
 		assertEquals(11, tokSeq.getTokens().size());
 		assertEquals("the", tokSeq.getTokens().get(0).getSurface());
 		assertEquals("quick", tokSeq.getTokens().get(1).getSurface());
@@ -181,7 +181,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		String text = para.getValue();
 		int offset = Integer.parseInt(para.getAttributeValue("xtspanstart"));
 		
-		ITokenSequence tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, true, null, procDoc, e, text, offset);
+		TokenSequence tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, true, null, procDoc, e, text, offset);
 		assertEquals(10, tokSeq.getTokens().size());
 		assertEquals("the", tokSeq.getTokens().get(0).getSurface());
 		assertEquals("quick", tokSeq.getTokens().get(1).getSurface());
@@ -206,7 +206,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		String text = para.getValue();
 		int offset = Integer.parseInt(para.getAttributeValue("xtspanstart"));
 		
-		ITokenSequence tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, true, null, procDoc, e, text, offset);
+		TokenSequence tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, true, null, procDoc, e, text, offset);
 		assertEquals(10, tokSeq.getTokens().size());
 		assertEquals("the", tokSeq.getTokens().get(0).getSurface());
 		assertEquals("quick", tokSeq.getTokens().get(1).getSurface());
@@ -232,7 +232,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, true, true, false);
-		ITokenSequence tokSeq = procDoc.getTokenSequences().get(1);
+		TokenSequence tokSeq = procDoc.getTokenSequences().get(1);
 
 		
 		assertEquals(10, tokSeq.getTokens().size());
@@ -265,7 +265,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		String text = para.getValue();
 		int offset = Integer.parseInt(para.getAttributeValue("xtspanstart"));
 		
-		ITokenSequence tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, false, false, null, procDoc, e, text, offset);
+		TokenSequence tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, false, false, null, procDoc, e, text, offset);
 		assertEquals(9, tokSeq.getTokens().size());
 		for (int i = 0; i < tokSeq.getSize(); i++) {
 			assertEquals(i, tokSeq.getTokens().get(i).getIndex());
@@ -291,17 +291,17 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeDocument(sourceDoc);
 		//fields aren't initialised by above call
-		procDoc.tokensByStart = new HashMap<Integer,IToken>();
-		procDoc.tokensByEnd = new HashMap<Integer,IToken>();
+		procDoc.tokensByStart = new HashMap<Integer,Token>();
+		procDoc.tokensByEnd = new HashMap<Integer,Token>();
 		Element e = (Element) procDoc.getDoc().getRootElement();
 		Element para = (Element) procDoc.getDoc().query("//P").get(0); 
 		String text = para.getValue();
 		int offset = Integer.parseInt(para.getAttributeValue("xtspanstart"));
 		
-		List <IToken> tokens = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, false, false, null, procDoc, e, text, offset).getTokens();
+		List <Token> tokens = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, false, false, null, procDoc, e, text, offset).getTokens();
 		assertEquals(9, procDoc.getTokensByStart().size());
 		assertEquals(9, procDoc.getTokensByEnd().size());
-		for (IToken iToken : tokens) {
+		for (Token iToken : tokens) {
 			assertNotNull(iToken);
 			assertTrue(iToken == procDoc.getTokensByStart().get(iToken.getStart()));
 			assertTrue(iToken == procDoc.getTokensByEnd().get(iToken.getEnd()));
@@ -310,7 +310,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		tokens = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, false, null, procDoc, e, text, offset).getTokens();
 		assertEquals(11, procDoc.getTokensByStart().size());
 		assertEquals(11, procDoc.getTokensByEnd().size());
-		for (IToken iToken : tokens) {
+		for (Token iToken : tokens) {
 			assertNotNull(iToken);
 			assertTrue(iToken == procDoc.getTokensByStart().get(iToken.getStart()));
 			assertTrue(iToken == procDoc.getTokensByEnd().get(iToken.getEnd()));
@@ -319,7 +319,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		tokens = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, true, null, procDoc, e, text, offset).getTokens();
 		assertEquals(10, procDoc.getTokensByStart().size());
 		assertEquals(10, procDoc.getTokensByEnd().size());
-		for (IToken iToken : tokens) {
+		for (Token iToken : tokens) {
 			assertNotNull(iToken);
 			assertTrue(iToken == procDoc.getTokensByStart().get(iToken.getStart()));
 			assertTrue(iToken == procDoc.getTokensByEnd().get(iToken.getEnd()));
@@ -333,30 +333,30 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeDocument(sourceDoc);
 		//FIXME fields aren't initialised by above call... yet
-		procDoc.tokensByStart = new HashMap<Integer,IToken>();
-		procDoc.tokensByEnd = new HashMap<Integer,IToken>();
+		procDoc.tokensByStart = new HashMap<Integer,Token>();
+		procDoc.tokensByEnd = new HashMap<Integer,Token>();
 		Element e = (Element) procDoc.getDoc().getRootElement();
 		Element para = (Element) procDoc.getDoc().query("//P").get(0); 
 		String text = para.getValue();
 		int offset = Integer.parseInt(para.getAttributeValue("xtspanstart"));
 		
-		ITokenSequence ts1 = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, false, false, null, procDoc, e, text, offset);
-		for (IToken token : ts1.getTokens()) {
+		TokenSequence ts1 = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, false, false, null, procDoc, e, text, offset);
+		for (Token token : ts1.getTokens()) {
 			assertTrue(ts1 == token.getTokenSequence());
 		}
 		assertTrue(e == ((TokenSequence)ts1).getElem());
 		
-		ITokenSequence ts2 = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, false, null, procDoc, e, text, offset);
+		TokenSequence ts2 = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, false, null, procDoc, e, text, offset);
 		assertNotSame(ts2, ts1);
-		for (IToken token : ts2.getTokens()) {
+		for (Token token : ts2.getTokens()) {
 			assertTrue(ts2 == token.getTokenSequence());
 		}
 		assertTrue(e == ((TokenSequence)ts2).getElem());
 		
-		ITokenSequence ts3 = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, true, null, procDoc, e, text, offset);
+		TokenSequence ts3 = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, true, null, procDoc, e, text, offset);
 		assertNotSame(ts3, ts2);
 		assertNotSame(ts3, ts1);
-		for (IToken token : ts3.getTokens()) {
+		for (Token token : ts3.getTokens()) {
 			assertTrue(ts3 == token.getTokenSequence());
 		}
 		assertTrue(e == ((TokenSequence)ts3).getElem());

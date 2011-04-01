@@ -29,10 +29,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
-import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -114,10 +114,10 @@ public final class MEMMTrainer {
 		evs.add(ev);
 	}
 	
-	private void trainOnSentence(ITokenSequence tokSeq) {
+	private void trainOnSentence(TokenSequence tokSeq) {
         List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram(), model.getChemNameDictNames());
 		//extractor.printFeatures();
-		List<IToken> tokens = tokSeq.getTokens();
+		List<Token> tokens = tokSeq.getTokens();
 		BioType prevTag = new BioType(BioTag.O);
 		for (int i = 0; i < tokens.size(); i++) {
 			train(featureLists.get(i), tokens.get(i).getBioType(), prevTag);
@@ -183,7 +183,7 @@ public final class MEMMTrainer {
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getDefaultInstance(), doc, true, false, false);
 
-		for(ITokenSequence ts : procDoc.getTokenSequences()) {
+		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			trainOnSentence(ts);
 		}
 		logger.debug(System.currentTimeMillis() - time);
@@ -431,7 +431,7 @@ public final class MEMMTrainer {
 		//} else {
 			//nr.makeTokenisers(true);
 		//}
-		for(ITokenSequence ts : procDoc.getTokenSequences()) {
+		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			cvFeatures(ts);
 		}
 		logger.debug(System.currentTimeMillis() - time);
@@ -442,12 +442,12 @@ public final class MEMMTrainer {
 		return -Math.log(probs[index])/Math.log(2);
 	}
 	
-	private void cvFeatures(ITokenSequence tokSeq) {
+	private void cvFeatures(TokenSequence tokSeq) {
 		if(featureCVScores == null) {
 			featureCVScores = new HashMap<BioType,Map<String,Double>>();
 		}
 		List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram(), model.getChemNameDictNames());
-		List<IToken> tokens = tokSeq.getTokens();
+		List<Token> tokens = tokSeq.getTokens();
 		BioType prevTag = new BioType(BioTag.O);
 		for (int i = 0; i < tokens.size(); i++) {
 			BioType tag = tokens.get(i).getBioType();

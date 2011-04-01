@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -131,7 +131,7 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 */
 	public static void destroyInstanceIfWordTokenises(String word) {
 		if (myInstance == null) return;
-		ITokenSequence ts = Tokeniser.getDefaultInstance().tokenise(word);
+		TokenSequence ts = Tokeniser.getDefaultInstance().tokenise(word);
 		if (ts.getTokens().size() > 1) myInstance = null;
 	}
 	
@@ -159,22 +159,22 @@ public class DFAONTCPRFinder extends DFAFinder {
 	 * @param tokenSequence The token sequence
 	 * @return The NEs.
 	 */
-	public List<NamedEntity> findNamedEntities(ITokenSequence tokenSequence) {
+	public List<NamedEntity> findNamedEntities(TokenSequence tokenSequence) {
 		NECollector nec = new NECollector();
 		List<RepresentationList> repsList = generateTokenRepresentations(tokenSequence);
 		findItems(tokenSequence, repsList, nec);
 		return nec.getNes();
 	}
 	
-	private List<RepresentationList> generateTokenRepresentations(ITokenSequence tokenSequence) {
+	private List<RepresentationList> generateTokenRepresentations(TokenSequence tokenSequence) {
 		List<RepresentationList> repsList = new ArrayList<RepresentationList>();
-		for(IToken token : tokenSequence.getTokens()) {
+		for(Token token : tokenSequence.getTokens()) {
 			repsList.add(generateTokenRepresentations(token));
 		}
 		return repsList;
 	}
 	
-	protected RepresentationList generateTokenRepresentations(IToken token) {
+	protected RepresentationList generateTokenRepresentations(Token token) {
 		RepresentationList representations = new RepresentationList();
 		String tokenValue = token.getSurface();
 		representations.addRepresentation(tokenValue);

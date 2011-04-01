@@ -100,10 +100,10 @@ public class XOMBasedProcessingDocumentFactory  {
 	 */
 	public XOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, Document safDoc) {
 		XOMBasedProcessingDocument procDoc = makeDocument(sourceDoc);
-		procDoc.tokensByStart = new HashMap<Integer,IToken>();
-		procDoc.tokensByEnd = new HashMap<Integer,IToken>();
+		procDoc.tokensByStart = new HashMap<Integer,Token>();
+		procDoc.tokensByEnd = new HashMap<Integer,Token>();
 		
-		procDoc.tokenSequences = new ArrayList<ITokenSequence>();
+		procDoc.tokenSequences = new ArrayList<TokenSequence>();
 		/******************************************* 
 		 *  @lh359: This is the function that zones 
 		 *  in on the sections that contain 
@@ -134,7 +134,7 @@ public class XOMBasedProcessingDocumentFactory  {
 			 * @lh359: This calls the tokeniser and
 			 * returns a TokenSequence
 			 */
-			ITokenSequence ts = makeTokenSequence(tokeniser, tokeniseForNEs,
+			TokenSequence ts = makeTokenSequence(tokeniser, tokeniseForNEs,
 					mergeNEs, safDoc, procDoc, e, text, offset);
 			/********************************************
 			 * @lh359: Once it's done it adds the tokensequence
@@ -146,14 +146,14 @@ public class XOMBasedProcessingDocumentFactory  {
 		return procDoc;
 	}
 
-	ITokenSequence makeTokenSequence(Tokeniser tokeniser,
+	TokenSequence makeTokenSequence(Tokeniser tokeniser,
 			boolean tokeniseForNEs, boolean mergeNEs, Document safDoc,
 			XOMBasedProcessingDocument procDoc, Element e, String text,
 			int offset) {
 		
 		Element annotations = safDoc != null ? safDoc.getRootElement() : e;
 
-		ITokenSequence ts = tokeniser.tokenise(text, procDoc, offset, annotations);
+		TokenSequence ts = tokeniser.tokenise(text, procDoc, offset, annotations);
 
 		if (annotations != null && tokeniseForNEs) {
             modifyTokenisationForTraining(tokeniser, text, procDoc, offset, annotations, mergeNEs, ts.getTokens());
@@ -170,7 +170,7 @@ public class XOMBasedProcessingDocumentFactory  {
 	
 	private void modifyTokenisationForTraining(Tokeniser tokeniser, String s,
 			IProcessingDocument procDoc, int offset, Element annotations,
-			boolean mergeNEs, List<IToken> tokens) {
+			boolean mergeNEs, List<Token> tokens) {
 
 
 			/*
@@ -189,7 +189,7 @@ public class XOMBasedProcessingDocumentFactory  {
 	}
 	
 	void tokeniseOnAnnotationBoundaries(Tokeniser tokeniser, String sourceString, IProcessingDocument doc,
-			int offset, Element safOrInlineAnnotations, List<IToken> tokens) {
+			int offset, Element safOrInlineAnnotations, List<Token> tokens) {
 		Nodes annotationNodes;
 		int currentNodeId = 0;
 		Element currentElem = null;
@@ -297,14 +297,14 @@ public class XOMBasedProcessingDocumentFactory  {
 				else if (tokens.get(i).getStart() < elemStart) {
 					//token straddles beginning of annotation
 					splits++;
-					List<IToken> splitResults = tokeniser.splitAt(tokens.get(i), elemStart);
+					List<Token> splitResults = tokeniser.splitAt(tokens.get(i), elemStart);
 					tokens.remove(i);
 					tokens.addAll(i, splitResults);
 				}
 				else if (tokens.get(i).getEnd() > elemEnd) {
 					//token straddles end of annotation
 					splits++;
-					List<IToken> splitResults = tokeniser.splitAt(tokens.get(i), elemEnd);
+					List<Token> splitResults = tokeniser.splitAt(tokens.get(i), elemEnd);
 					tokens.remove(i);
 					tokens.addAll(i, splitResults);
 				}
@@ -352,7 +352,7 @@ public class XOMBasedProcessingDocumentFactory  {
 				} else {
 					//token straddles the end of the annotation
 					splits++;
-					List<IToken> splitResults = tokeniser.splitAt(tokens.get(i), elemEnd);
+					List<Token> splitResults = tokeniser.splitAt(tokens.get(i), elemEnd);
 					tokens.remove(i);
 					tokens.addAll(i, splitResults);
 				}
@@ -361,7 +361,7 @@ public class XOMBasedProcessingDocumentFactory  {
 	}
 	
 	
-	void tidyHyphensAfterNEs(Tokeniser tokeniser, List<IToken> tokens) {
+	void tidyHyphensAfterNEs(Tokeniser tokeniser, List<Token> tokens) {
 		int i = 0;
 		BioType prevTokType = new BioType(BioTag.O);
 		while (i < tokens.size()) {
@@ -374,7 +374,7 @@ public class XOMBasedProcessingDocumentFactory  {
 				i++;
 				prevTokType = tokens.get(i - 1).getBioType();
 			} else {
-				List<IToken> splitResults = tokeniser.splitAt(tokens.get(i),
+				List<Token> splitResults = tokeniser.splitAt(tokens.get(i),
 						tokens.get(i).getStart() + 1);
 				tokens.remove(i);
 				tokens.addAll(i, splitResults);
@@ -385,12 +385,12 @@ public class XOMBasedProcessingDocumentFactory  {
 	
 	
 	//FIXME I'm not sure that this method does what one would expect...
-	void mergeNeTokens(List<IToken> tokens, String sourceString,
+	void mergeNeTokens(List<Token> tokens, String sourceString,
 			int offset) {
-		List<IToken> newTokens = new ArrayList<IToken>();
-		IToken currentToken = null;
+		List<Token> newTokens = new ArrayList<Token>();
+		Token currentToken = null;
 		NamedEntityType neClass = null;
-		for (IToken t : tokens) {
+		for (Token t : tokens) {
 			if (currentToken == null || neClass == null
 					|| BioTag.O == t.getBioType().getBio()
 					|| BioTag.B == t.getBioType().getBio()) {

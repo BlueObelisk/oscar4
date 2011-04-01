@@ -12,9 +12,9 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -131,7 +131,7 @@ public abstract class DFAFinder implements Serializable {
 	
 	protected void addNamedEntity(String namedEntity, NamedEntityType namedEntityType, boolean alwaysAdd) {
 
-		ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(namedEntity);
+		TokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(namedEntity);
 		List<String> tokens = tokenSequence.getTokenStringList();
 
 		if (!alwaysAdd && tokens.size() == 1 && !namedEntity.contains("$")) {
@@ -271,7 +271,7 @@ public abstract class DFAFinder implements Serializable {
 		return tagMap;
 	}
 	
-	protected void handleNamedEntity(AutomatonState a, int endToken, ITokenSequence t, NECollector collector) {
+	protected void handleNamedEntity(AutomatonState a, int endToken, TokenSequence t, NECollector collector) {
 		String surface = t.getSubstring(a.getStartToken(), endToken);
         NamedEntityType type = a.getType();
         if (type.getParent() != null) {
@@ -303,13 +303,13 @@ public abstract class DFAFinder implements Serializable {
 	 * @param t
 	 * @param collector
 	 */
-	protected void handleTokenForPrefix(IToken t, NECollector collector) {
+	protected void handleTokenForPrefix(Token t, NECollector collector) {
 		String prefix = PrefixFinder.getPrefix(t.getSurface());
         if (prefix != null) {
             collector.collect(NamedEntity.forPrefix(t, prefix));
         }
         else if ("-".equals(t.getSurface())) {
-        	IToken prev = t.getNAfter(-1);
+        	Token prev = t.getNAfter(-1);
         	if (prev != null) {
         		String combinedSurface = t.getTokenSequence().getSurface().substring(
             			prev.getStart(), t.getEnd());
@@ -321,16 +321,16 @@ public abstract class DFAFinder implements Serializable {
         }
 	}
 	
-	protected void findItems(ITokenSequence tokenSequence, List<RepresentationList> repsList, NECollector collector) {
+	protected void findItems(TokenSequence tokenSequence, List<RepresentationList> repsList, NECollector collector) {
 		findItems(tokenSequence, repsList, 0, tokenSequence.getTokens().size()-1, collector);
 	}
 	
-	protected void findItems(ITokenSequence tokenSequence, List<RepresentationList> repsList, int startToken, int endToken, NECollector collector) {
+	protected void findItems(TokenSequence tokenSequence, List<RepresentationList> repsList, int startToken, int endToken, NECollector collector) {
 		
 		List<AutomatonState> autStates = initAutomatonStates();
         List<AutomatonState> newAutStates = new ArrayList<AutomatonState>();
         for (int i = startToken; i <= endToken; i++) {
-            IToken token = tokenSequence.getToken(i);
+            Token token = tokenSequence.getToken(i);
 			handleTokenForPrefix(token, collector);
 			RepresentationList tokenRepresentations = repsList.get(token.getIndex());
 			if (tokenRepresentations.isEmpty()) {

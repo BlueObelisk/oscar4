@@ -17,12 +17,12 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 public interface IProcessingDocument {
 
 	/**
-	 * Gets the list of ITokenSequences for the document. Note that this should
+	 * Gets the list of TokenSequences for the document. Note that this should
 	 * only be called after the document has been tokenised.
 	 * 
 	 * @return The list of TokenSequences for the document.
 	 */
-	List <ITokenSequence> getTokenSequences();
+	List <TokenSequence> getTokenSequences();
 
 	/**
 	 * Gets the {@link StandoffTable} associated with the document.
@@ -31,8 +31,8 @@ public interface IProcessingDocument {
 	 */
 	StandoffTable getStandoffTable();
 
-	Map<Integer,IToken> getTokensByStart();
+	Map<Integer,Token> getTokensByStart();
 
-	Map<Integer,IToken> getTokensByEnd();
+	Map<Integer,Token> getTokensByEnd();
 
 }

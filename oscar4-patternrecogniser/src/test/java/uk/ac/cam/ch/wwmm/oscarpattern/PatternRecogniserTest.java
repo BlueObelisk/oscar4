@@ -20,15 +20,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
@@ -151,7 +149,7 @@ public class PatternRecogniserTest {
 		List <NamedEntity> nes = new ArrayList<NamedEntity>();
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument
 				(Tokeniser.getDefaultInstance(), "foo");
-		List <IToken> tokens = procDoc.getTokenSequences().get(0).getTokens();
+		List <Token> tokens = procDoc.getTokenSequences().get(0).getTokens();
 		nes.add(new NamedEntity(tokens, "", NamedEntityType.COMPOUND));
 		nes.add(new NamedEntity(tokens, "", NamedEntityType.ONTOLOGY));
 		nes.add(new NamedEntity(tokens, "", NamedEntityType.CUSTOM));
@@ -368,7 +366,7 @@ public class PatternRecogniserTest {
 	@Test
 	public void testIdentifyAcronyms() {
 		String source = "foo polystyrene (FOOBAR), more FOOBAR, ethylene diamine tetra acetate (EDTA) and more EDTA";
-		List <ITokenSequence> tokSeqList = new ArrayList<ITokenSequence>();
+		List <TokenSequence> tokSeqList = new ArrayList<TokenSequence>();
 		tokSeqList.add(Tokeniser.getDefaultInstance().tokenise(source));
 		List <NamedEntity> nes = new ArrayList<NamedEntity>();
 		nes.add(new NamedEntity("polystyrene", 4, 15, NamedEntityType.COMPOUND));

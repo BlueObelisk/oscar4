@@ -29,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
@@ -163,7 +162,7 @@ public final class MEMMOutputRescorerTrainer {
 
 		Set<String> testNEs = new HashSet<String>();
 		
-		for(ITokenSequence tokSeq : procDoc.getTokenSequences()) {
+		for(TokenSequence tokSeq : procDoc.getTokenSequences()) {
 			Nodes neNodes = ((TokenSequence)tokSeq).getElem().query(".//ne");
 			for (int k = 0; k < neNodes.size(); k++) {
 				Element neElem = (Element)neNodes.get(k);
@@ -234,7 +233,7 @@ public final class MEMMOutputRescorerTrainer {
 
 		Set<String> testNEs = new HashSet<String>();
 		
-		for(ITokenSequence tokSeq : procDoc.getTokenSequences()) {
+		for(TokenSequence tokSeq : procDoc.getTokenSequences()) {
 			Nodes neNodes = ((TokenSequence)tokSeq).getElem().query(".//ne");
 			for (int k = 0; k < neNodes.size(); k++) {
 				Element neElem = (Element)neNodes.get(k);

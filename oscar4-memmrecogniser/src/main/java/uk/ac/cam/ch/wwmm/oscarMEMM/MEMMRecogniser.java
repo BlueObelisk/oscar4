@@ -1,7 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,28 +9,20 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimaps;
-
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFANEFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFAONTCPRFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFASupplementaryTermFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
-import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
 
 /**
  * Name recognition using the Maximum Entropy Markov Model
@@ -87,11 +78,11 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
         return findNamedEntities(procDoc.getTokenSequences());
     }
 
-    public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList) {
+    public List<NamedEntity> findNamedEntities(List<TokenSequence> tokSeqList) {
     	return findNamedEntities(tokSeqList, ResolutionMode.REMOVE_BLOCKED);
     }
     
-    public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokSeqList, ResolutionMode resolutionMode) {
+    public List<NamedEntity> findNamedEntities(List<TokenSequence> tokSeqList, ResolutionMode resolutionMode) {
 
         // Generate named entity list
         List<NamedEntity> neList = generateNamedEntities(tokSeqList);
@@ -178,10 +169,10 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      * @param tokSeqList
      * @return
      */
-    private List<NamedEntity> generateNamedEntities(List<ITokenSequence> tokSeqList) {
+    private List<NamedEntity> generateNamedEntities(List<TokenSequence> tokSeqList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
         MEMM memm = new MEMM(model, memmThreshold/5);
-        for (ITokenSequence tokseq : tokSeqList) {
+        for (TokenSequence tokseq : tokSeqList) {
             for (NamedEntity ne : memm.findNEs(tokseq)) {
                 if (ne.getConfidence() > memmThreshold) {
                     neList.add(ne);
@@ -198,17 +189,17 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      * @param tokSeqList
      * @return
      */
-    private List<NamedEntity> generateOntologyAndPrefixTerms(List<ITokenSequence> tokSeqList) {
+    private List<NamedEntity> generateOntologyAndPrefixTerms(List<TokenSequence> tokSeqList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
-        for (ITokenSequence t : tokSeqList) {
+        for (TokenSequence t : tokSeqList) {
             neList.addAll(ontologyAndPrefixTermFinder.findNamedEntities(t));
         }
         return neList;
     }
     
-    private List<NamedEntity> generateSupplementaryNameTerms(List<ITokenSequence> tokSeqList) {
+    private List<NamedEntity> generateSupplementaryNameTerms(List<TokenSequence> tokSeqList) {
 		List<NamedEntity> neList = new ArrayList<NamedEntity>();
-		for (ITokenSequence t : tokSeqList) {
+		for (TokenSequence t : tokSeqList) {
 			neList.addAll(supplementaryTermFinder.findNamedEntities(t));
 		}
 		return neList;

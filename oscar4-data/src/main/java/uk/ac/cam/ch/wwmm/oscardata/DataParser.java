@@ -8,7 +8,7 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
 import nu.xom.Text;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
@@ -72,7 +72,7 @@ public final class DataParser {
 
 	public static List<DataAnnotation> findData(ProcessingDocument procDoc) {
 		List <DataAnnotation> annotations = new ArrayList<DataAnnotation>();
-		for (ITokenSequence tokSeq : procDoc.getTokenSequences()) {
+		for (TokenSequence tokSeq : procDoc.getTokenSequences()) {
 			annotations.addAll(RParser.getInstance().findData(tokSeq));
 		}
 		return annotations;

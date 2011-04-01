@@ -6,14 +6,12 @@ import java.util.List;
 
 import nu.xom.Document;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 public class DataParserTest {
@@ -241,7 +239,7 @@ public class DataParserTest {
 		String source2 = "Lorem ipsum dolor sit amet, consectetur adipisicing" +
 		" elit, sed MS (ESI) m/z 413 (MH+) do eiusmod tempor incididunt ut " +
 		"labore et dolore magna aliqua.";
-		ITokenSequence tokenSequence = tokeniser.tokenise(source2, procDoc, 0, null);
+		TokenSequence tokenSequence = tokeniser.tokenise(source2, procDoc, 0, null);
 		procDoc.addTokenSequence(tokenSequence);
 		assertEquals(2, procDoc.getTokenSequences().size());
 		assertEquals(2, DataParser.findData(procDoc).size());

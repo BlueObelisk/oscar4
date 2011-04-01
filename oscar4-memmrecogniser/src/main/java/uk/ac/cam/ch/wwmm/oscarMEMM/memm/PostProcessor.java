@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -30,7 +30,7 @@ final class PostProcessor {
 	
 	private List<NamedEntity> entities;
 	private Set<NamedEntity> blocked;
-	private ITokenSequence tokSeq;
+	private TokenSequence tokSeq;
 	private ExtractedTrainingData annotations;
 
 	private static Pattern cjPattern = Pattern.compile("\\S+(ic|al|ous)");
@@ -43,7 +43,7 @@ final class PostProcessor {
 
 	private static boolean noPC = false;
 
-	public PostProcessor(ITokenSequence tokSeq, List<NamedEntity> entities, ExtractedTrainingData annotations) {
+	public PostProcessor(TokenSequence tokSeq, List<NamedEntity> entities, ExtractedTrainingData annotations) {
 		this.tokSeq = tokSeq;
 		this.entities = entities;
 		this.annotations = annotations;

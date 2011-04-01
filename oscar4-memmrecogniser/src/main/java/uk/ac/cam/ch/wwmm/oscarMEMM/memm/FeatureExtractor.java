@@ -7,9 +7,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.collections.set.UnmodifiableSet;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -86,7 +85,7 @@ public final class FeatureExtractor {
 	private static final String WORD_FEATURE = "w=";
 	private static final int WORD_FEATURE_LENGTH = WORD_FEATURE.length();
 
-	private ITokenSequence tokSeq;
+	private TokenSequence tokSeq;
 	private List<FeatureSet> tokenFeatureSets;
 
 	private static final Pattern suffixPattern = Pattern
@@ -108,16 +107,16 @@ public final class FeatureExtractor {
 	private UnmodifiableSet chemNameDictNames;
 	
 	
-	public static List<FeatureList> extractFeatures(ITokenSequence tokSeq, MEMMModel model) {
+	public static List<FeatureList> extractFeatures(TokenSequence tokSeq, MEMMModel model) {
 		return extractFeatures(tokSeq, model.getNGram(), model.getExtractedTrainingData(), model.getChemNameDictNames());
 	}
 	
-	public static List<FeatureList> extractFeatures(ITokenSequence tokSeq,
+	public static List<FeatureList> extractFeatures(TokenSequence tokSeq,
 			NGram ngram, UnmodifiableSet chemNameDictNames) {
 		return extractFeatures(tokSeq, ngram, new ExtractedTrainingData(), chemNameDictNames);
 	}
 	
-    static List<FeatureList> extractFeatures(ITokenSequence tokSeq, NGram ngram,
+    static List<FeatureList> extractFeatures(TokenSequence tokSeq, NGram ngram,
     		ExtractedTrainingData annotations, UnmodifiableSet chemNameDictNames) {
         FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq, ngram, annotations, chemNameDictNames);
         return featureExtractor.getFeatureLists();
@@ -131,7 +130,7 @@ public final class FeatureExtractor {
         return features;
     }
 
-    private FeatureExtractor(ITokenSequence tokSeq, NGram ngram, ExtractedTrainingData annotations, UnmodifiableSet chemNameDictNames) {
+    private FeatureExtractor(TokenSequence tokSeq, NGram ngram, ExtractedTrainingData annotations, UnmodifiableSet chemNameDictNames) {
 		this.tokSeq = tokSeq;
 		this.ngram = ngram;
 		this.etd = annotations;
@@ -168,7 +167,7 @@ public final class FeatureExtractor {
 		FeatureList contextable = tokenFeatureSets.get(position).getContextableFeatures();
 		FeatureList bigramable = tokenFeatureSets.get(position).getBigramableFeatures();
 
-		IToken token = tokSeq.getToken(position);
+		Token token = tokSeq.getToken(position);
 		String word = token.getSurface();
 		contextable.addFeature(makeWordFeature(word));
 
@@ -238,7 +237,7 @@ public final class FeatureExtractor {
 
 	private void handleNoNewSuffices(String word, String normWord,
 			FeatureList bigramable, FeatureList contextable,
-			FeatureList local, IToken token) {
+			FeatureList local, Token token) {
 		double ngscore = ngram.testWord(word);
 		// Already seen
 		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getSurface());
@@ -270,7 +269,7 @@ public final class FeatureExtractor {
 
 	private void handleNewSuffices(String word, String normWord,
 			FeatureList bigramable, FeatureList contextable,
-			FeatureList local, IToken token) {
+			FeatureList local, Token token) {
 		double suffixScore = ngram.testWordSuffix(word);
 		NamedEntityType namedEntityType = uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.TokenSuffixClassifier.classifyBySuffix(token.getSurface());
 

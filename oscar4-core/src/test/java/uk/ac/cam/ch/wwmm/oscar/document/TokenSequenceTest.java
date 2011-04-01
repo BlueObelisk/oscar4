@@ -10,7 +10,6 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TokenSequenceTest {
@@ -18,7 +17,7 @@ public class TokenSequenceTest {
 	@Test
 	public void testConstructor() {
 		TokenSequence seq = new TokenSequence(
-			"This is a token sequence.", 0, null, new ArrayList<IToken>()
+			"This is a token sequence.", 0, null, new ArrayList<Token>()
 		);
 		Assert.assertNotNull(seq);
 	}
@@ -26,7 +25,7 @@ public class TokenSequenceTest {
 	@Test
 	public void testGetSurface() {
 		TokenSequence seq = new TokenSequence(
-			"This is a token sequence.", 0, null, new ArrayList<IToken>()
+			"This is a token sequence.", 0, null, new ArrayList<Token>()
 		);
 		Assert.assertEquals(
 			"This is a token sequence.", 
@@ -37,7 +36,7 @@ public class TokenSequenceTest {
 	@Test
 	public void testGetOffset() {
 		TokenSequence seq = new TokenSequence(
-			"This is a token sequence.", 5, null, new ArrayList<IToken>()
+			"This is a token sequence.", 5, null, new ArrayList<Token>()
 		);
 		Assert.assertEquals(
 			5, seq.getOffset()
@@ -49,7 +48,7 @@ public class TokenSequenceTest {
 	public void testGetTokens() {
 		TokenSequence seq = new TokenSequence(
 			"This is a token sequence.", 0, null,
-			new ArrayList<IToken>() {{
+			new ArrayList<Token>() {{
 				add(new Token("This", 0, 4, null, null, null));
 				add(new Token("is", 5, 7, null, null, null));
 				add(new Token("a", 8, 9, null, null, null));
@@ -58,7 +57,7 @@ public class TokenSequenceTest {
 				add(new Token(".", 24, 25, null, null, null));
 			}}
 		);
-		List<IToken> tokens = seq.getTokens();
+		List<Token> tokens = seq.getTokens();
 		Assert.assertEquals(
 			6, tokens.size()
 		);
@@ -71,7 +70,7 @@ public class TokenSequenceTest {
 	public void testGetTokensStringList() {
 		TokenSequence seq = new TokenSequence(
 			"This is a token sequence.", 0, null,
-			new ArrayList<IToken>() {{
+			new ArrayList<Token>() {{
 				add(new Token("This", 0, 4, null, null, null));
 				add(new Token("is", 5, 7, null, null, null));
 				add(new Token("a", 8, 9, null, null, null));
@@ -93,7 +92,7 @@ public class TokenSequenceTest {
 	public void testSize() {
 		TokenSequence seq = new TokenSequence(
 			"This is a token sequence.", 0, null,
-			new ArrayList<IToken>() {{
+			new ArrayList<Token>() {{
 				add(new Token("This", 0, 4, null, null, null));
 				add(new Token("is", 5, 7, null, null, null));
 				add(new Token("a", 8, 9, null, null, null));
@@ -110,7 +109,7 @@ public class TokenSequenceTest {
 	public void testToken_int() {
 		TokenSequence seq = new TokenSequence(
 			"This is a token sequence.", 0, null,
-			new ArrayList<IToken>() {{
+			new ArrayList<Token>() {{
 				add(new Token("This", 0, 4, null, null, null));
 				add(new Token("is", 5, 7, null, null, null));
 				add(new Token("a", 8, 9, null, null, null));
@@ -128,7 +127,7 @@ public class TokenSequenceTest {
 	public void testSubstring() {
 		TokenSequence seq = new TokenSequence(
 			"This is a token sequence.", 0, null,
-			new ArrayList<IToken>() {{
+			new ArrayList<Token>() {{
 				add(new Token("This", 0, 4, null, null, null));
 				add(new Token("is", 5, 7, null, null, null));
 				add(new Token("a", 8, 9, null, null, null));
@@ -147,7 +146,7 @@ public class TokenSequenceTest {
 	public void testSubstringWithOffset() {
 		TokenSequence seq = new TokenSequence(
 			"This is a token sequence.", 5, null,
-			new ArrayList<IToken>() {{
+			new ArrayList<Token>() {{
 				add(new Token("This", 5, 9, null, null, null));
 				add(new Token("is", 10, 12, null, null, null));
 				add(new Token("a", 13, 14, null, null, null));

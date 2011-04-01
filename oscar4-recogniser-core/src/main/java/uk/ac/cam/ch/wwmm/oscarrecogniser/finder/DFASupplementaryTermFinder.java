@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
@@ -68,22 +68,22 @@ public class DFASupplementaryTermFinder extends DFAFinder {
 		}
 	}
 
-	public List<NamedEntity> findNamedEntities(ITokenSequence tokenSequence) {
+	public List<NamedEntity> findNamedEntities(TokenSequence tokenSequence) {
 		NECollector nec = new NECollector();
 		List<RepresentationList> repsList = generateTokenRepresentations(tokenSequence);
 		findItems(tokenSequence, repsList, nec);
 		return nec.getNes();
 	}
 	
-	private List<RepresentationList> generateTokenRepresentations(ITokenSequence tokenSequence) {
+	private List<RepresentationList> generateTokenRepresentations(TokenSequence tokenSequence) {
 		List<RepresentationList> repsList = new ArrayList<RepresentationList>();
-		for(IToken token : tokenSequence.getTokens()) {
+		for(Token token : tokenSequence.getTokens()) {
 			repsList.add(generateTokenRepresentations(token));
 		}
 		return repsList;
 	}
 	
-	protected RepresentationList generateTokenRepresentations(IToken token) {
+	protected RepresentationList generateTokenRepresentations(Token token) {
 		RepresentationList representations = new RepresentationList();
 		String tokenValue = token.getSurface();
 		representations.addRepresentation(tokenValue);

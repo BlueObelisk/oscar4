@@ -8,9 +8,9 @@ import nu.xom.Document;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
 
@@ -30,15 +30,15 @@ public class Main {
             System.err.println("Can't find file, please check your path");
 			e.printStackTrace();
 		}
-		List<ITokenSequence> tokenSequences = procDoc.getTokenSequences();
+		List<TokenSequence> tokenSequences = procDoc.getTokenSequences();
 		for (int j = 0; j < tokenSequences.size(); j++) 
 		{
-			ITokenSequence tokenSequence = tokenSequences.get(j);
+			TokenSequence tokenSequence = tokenSequences.get(j);
             				
-			List<IToken> tokens = tokenSequence.getTokens();
+			List<Token> tokens = tokenSequence.getTokens();
 			
 			System.out.println("There are "+tokens.size()+" tokens in the string");
-			for (IToken token : tokens) {
+			for (Token token : tokens) {
 				System.out.println("Token:: "+token.getSurface());
 			}
 			

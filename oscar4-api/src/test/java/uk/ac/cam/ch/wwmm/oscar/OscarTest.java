@@ -12,9 +12,9 @@ import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
@@ -120,9 +120,9 @@ public class OscarTest {
 	@Test
 	public void testTokenise() {
 		Oscar oscar = new Oscar();
-		List <ITokenSequence> tokSeqs = oscar.tokenise("Then we mix benzene with toluene.");
+		List <TokenSequence> tokSeqs = oscar.tokenise("Then we mix benzene with toluene.");
 		assertEquals(1, tokSeqs.size());
-		ITokenSequence tokSeq = tokSeqs.get(0);
+		TokenSequence tokSeq = tokSeqs.get(0);
 		assertEquals(7, tokSeq.getTokens().size());
 		assertEquals("Then", tokSeq.getTokens().get(0).getSurface());
 		assertEquals("we", tokSeq.getTokens().get(1).getSurface());
@@ -200,7 +200,7 @@ public class OscarTest {
 	
 	class TokeniserImpl implements ITokeniser {
 
-		public ITokenSequence tokenise(String text,
+		public TokenSequence tokenise(String text,
 				IProcessingDocument procDoc, int offset, Element element) {
 			return null;
 		}

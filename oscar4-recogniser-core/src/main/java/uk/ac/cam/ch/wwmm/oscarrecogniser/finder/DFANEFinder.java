@@ -12,9 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
 import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
@@ -107,7 +107,7 @@ public class DFANEFinder extends DFAFinder {
      */
     public static void destroyInstanceIfWordTokenises(String word) {
         if (defaultInstance == null) return;
-        ITokenSequence ts = Tokeniser.getDefaultInstance().tokenise(word);
+        TokenSequence ts = Tokeniser.getDefaultInstance().tokenise(word);
         if (ts.getTokens().size() > 1) defaultInstance = null;
     }
 
@@ -157,23 +157,23 @@ public class DFANEFinder extends DFAFinder {
      * @param ngramThreshold the ngram threshold to be used for chemical word recognition
      * @return The NEs.
      */
-    public List<NamedEntity> findNamedEntities(ITokenSequence t, NGram nGram, double ngramThreshold) {
+    public List<NamedEntity> findNamedEntities(TokenSequence t, NGram nGram, double ngramThreshold) {
         NECollector nec = new NECollector();
         List<RepresentationList> repsList = generateTokenRepresentations(t, nGram, ngramThreshold);
         findItems(t, repsList, nec);
         return nec.getNes();
     }
 
-    List<RepresentationList> generateTokenRepresentations(ITokenSequence t, NGram nGram, double ngramThreshold) {
+    List<RepresentationList> generateTokenRepresentations(TokenSequence t, NGram nGram, double ngramThreshold) {
         List<RepresentationList> repsList = new ArrayList<RepresentationList>();
-        for(IToken token : t.getTokens()) {
+        for(Token token : t.getTokens()) {
             repsList.add(generateTokenRepresentations(token, nGram, ngramThreshold));
         }
         return repsList;
     }
 
     //TODO this method is huge and needs refactoring
-    protected RepresentationList generateTokenRepresentations(IToken token, NGram nGram, double ngramThreshold) {
+    protected RepresentationList generateTokenRepresentations(Token token, NGram nGram, double ngramThreshold) {
         RepresentationList tokenRepresentations = new RepresentationList();
         // Avoid complications with compound refs
         //SciXML dependent - removed 24/11/10 by dmj30

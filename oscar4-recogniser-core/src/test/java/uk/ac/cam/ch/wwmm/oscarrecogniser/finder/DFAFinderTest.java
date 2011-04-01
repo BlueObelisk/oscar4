@@ -11,9 +11,9 @@ import java.util.Map;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -168,22 +168,22 @@ public class DFAFinderTest {
         }
 
         public List<NamedEntity> findNamedEntities(String s) {
-            ITokenSequence t = Tokeniser.getDefaultInstance().tokenise(s);
+            TokenSequence t = Tokeniser.getDefaultInstance().tokenise(s);
             NECollector nec = new NECollector();
             List<RepresentationList> repsList = generateTokenRepresentations(t);
             findItems(t, repsList, nec);
             return nec.getNes();
         }
 
-        private List<RepresentationList> generateTokenRepresentations(ITokenSequence t) {
+        private List<RepresentationList> generateTokenRepresentations(TokenSequence t) {
             List<RepresentationList> repsList = new ArrayList<RepresentationList>();
-            for(IToken token : t.getTokens()) {
+            for(Token token : t.getTokens()) {
                 repsList.add(generateTokenRepresentations(token));
             }
             return repsList;
         }
 
-        protected RepresentationList generateTokenRepresentations(IToken token) {
+        protected RepresentationList generateTokenRepresentations(Token token) {
             RepresentationList tokenRepresentations = new RepresentationList();
             String value = token.getSurface();
             tokenRepresentations.addRepresentation(value);

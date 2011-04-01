@@ -24,11 +24,11 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 public class AdditionalTokenSequenceTest {
 
 	//empty
-	private static ITokenSequence header;
+	private static TokenSequence header;
 	//The quick brown fox jumps over the lazy dog.
-	private static ITokenSequence para1;
+	private static TokenSequence para1;
 	//The slow green turtle sneaks under the watchful cat.
-	private static ITokenSequence para2;
+	private static TokenSequence para2;
 	
 	@BeforeClass 
 	public static void setUp() throws Exception {

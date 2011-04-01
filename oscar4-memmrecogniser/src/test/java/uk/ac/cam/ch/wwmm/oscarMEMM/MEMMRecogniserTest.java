@@ -17,10 +17,10 @@ import org.junit.Test;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
@@ -314,7 +314,7 @@ public class MEMMRecogniserTest {
 		List <NamedEntity> nes = new ArrayList<NamedEntity>();
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument
 				(Tokeniser.getDefaultInstance(), "foo");
-		List <IToken> tokens = procDoc.getTokenSequences().get(0).getTokens();
+		List <Token> tokens = procDoc.getTokenSequences().get(0).getTokens();
 		nes.add(new NamedEntity(tokens, "", NamedEntityType.COMPOUND));
 		nes.add(new NamedEntity(tokens, "", NamedEntityType.ONTOLOGY));
 		nes.add(new NamedEntity(tokens, "", NamedEntityType.CUSTOM));

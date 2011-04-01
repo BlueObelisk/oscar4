@@ -20,8 +20,8 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	private int endOffset;
 	private String surface;
 	private NamedEntityType type;
-	private IToken endToken;
-	private List<IToken> tokens;
+	private Token endToken;
+	private List<Token> tokens;
 	private Set<String> ontIds;
 	private Set<String> custTypes;
 	private String leftPunct;
@@ -38,7 +38,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * @param surface The text string of the named entity.
 	 * @param type The type of the named entity.
 	 */
-	public NamedEntity(List<IToken> tokens, String surface, NamedEntityType type) {
+	public NamedEntity(List<Token> tokens, String surface, NamedEntityType type) {
 		confidence = Double.NaN;
 		pseudoConfidence = Double.NaN;
 		deprioritiseOnt = false;
@@ -69,9 +69,9 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * @param prefix The string of the prefix.
 	 * @return The named entity corresponding to the prefix.
 	 */
-	public static NamedEntity forPrefix(IToken t, String prefix) {
+	public static NamedEntity forPrefix(Token t, String prefix) {
 		NamedEntity ne = new NamedEntity(); 
-	    ne.tokens = new ArrayList<IToken>();
+	    ne.tokens = new ArrayList<Token>();
 		ne.tokens.add(t);
 		ne.endToken = t;
 		ne.startOffset = t.getStart();
@@ -200,7 +200,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	public void addPunctuation() {
 		leftPunct = "";
 		int tmpLeftOffset = startOffset;
-		IToken prevToken = tokens.get(0).getNAfter(-1);
+		Token prevToken = tokens.get(0).getNAfter(-1);
 		while(prevToken != null) {
 			if(prevToken.getEnd() != tmpLeftOffset) break;
             String v = prevToken.getSurface();
@@ -212,7 +212,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 		}
 		rightPunct = "";
 		int tmpRightOffset = endOffset;
-		IToken nextToken = tokens.get(tokens.size()-1).getNAfter(1);
+		Token nextToken = tokens.get(tokens.size()-1).getNAfter(1);
 		while(nextToken != null) {
 			if(nextToken.getStart() != tmpRightOffset) break;
             String v = nextToken.getSurface();
@@ -319,9 +319,9 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	
 	/**Gets the list of tokens that constitute the named entity.
 	 * 
-	 * @return The list of tokens that consititute the named entity.
+	 * @return The list of tokens that constitute the named entity.
 	 */
-	public List<IToken> getTokens() {
+	public List<Token> getTokens() {
 		return tokens;
 	}
 	
@@ -396,7 +396,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * 
 	 * @return The first token of the named entity.
 	 */
-	public IToken getFirstToken() {
+	public Token getFirstToken() {
 		return tokens.get(0);
 	}
 	
@@ -404,7 +404,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * 
 	 * @return The last token of the named entity.
 	 */
-	public IToken getLastToken() {
+	public Token getLastToken() {
 		return tokens.get(tokens.size() -1);
 	}
 	

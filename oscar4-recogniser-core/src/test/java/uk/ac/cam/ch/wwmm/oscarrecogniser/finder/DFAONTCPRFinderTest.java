@@ -1,18 +1,12 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
@@ -20,9 +14,10 @@ import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
-import uk.ac.cam.ch.wwmm.oscartokeniser.TokenClassifier;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 
 /**
  * 
@@ -34,7 +29,7 @@ public class DFAONTCPRFinderTest {
     @Test
     public void testFindNumericalChemicalPrefixes()  {
     	String text = "The 1- and 2-foo bar";
-    	ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
+    	TokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
     	List <NamedEntity> nes = DFAONTCPRFinder.getDefaultInstance().findNamedEntities(tokenSequence);
     	assertTrue(toSurfaceList(nes).contains("2-"));
     	assertTrue(toSurfaceList(nes).contains("1-"));
@@ -44,7 +39,7 @@ public class DFAONTCPRFinderTest {
     @Test
     public void testFindComplexNumericalChemicalPrefixes() {
     	String text = "The 1,2- and 2,3-foo bar";
-    	ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
+    	TokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
     	List <NamedEntity> nes = DFAONTCPRFinder.getDefaultInstance().findNamedEntities(tokenSequence);
     	assertTrue(toSurfaceList(nes).contains("2,3-"));
     	assertTrue(toSurfaceList(nes).contains("1,2-"));
@@ -54,7 +49,7 @@ public class DFAONTCPRFinderTest {
     @Test
     public void testFindWordyChemicalPrefixes() {
     	String text = "The cis- and trans-foo bar";
-    	ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
+    	TokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
     	List <NamedEntity> nes = DFAONTCPRFinder.getDefaultInstance().findNamedEntities(tokenSequence);
     	assertTrue(toSurfaceList(nes).contains("trans-"));
     	assertTrue(toSurfaceList(nes).contains("cis-"));
@@ -64,7 +59,7 @@ public class DFAONTCPRFinderTest {
     @Test
     public void testDontFindNonChemicalPrefixes() {
     	String text = "The foo- and bar-foobar";
-    	ITokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
+    	TokenSequence tokenSequence = Tokeniser.getDefaultInstance().tokenise(text);
     	List <NamedEntity> nes = DFAONTCPRFinder.getDefaultInstance().findNamedEntities(tokenSequence);
     	assertEquals(0, nes.size());
     }
@@ -84,7 +79,7 @@ public class DFAONTCPRFinderTest {
     	assertEquals(0, collector.getNes().size());
     	
     	Token t = new Token("1,2-", 0, 4, null, null, null);
-    	List <IToken> tokens = new ArrayList<IToken>();
+    	List <Token> tokens = new ArrayList<Token>();
     	tokens.add(t);
     	TokenSequence tokSeq = new TokenSequence("1,2-", 0, null, tokens);
     	t.setTokenSequence(tokSeq);
@@ -102,7 +97,7 @@ public class DFAONTCPRFinderTest {
     	assertEquals(0, collector.getNes().size());
     	
     	Token t = new Token("2,3-substituted", 0, 15, null, null, null);
-    	List <IToken> tokens = new ArrayList<IToken>();
+    	List <Token> tokens = new ArrayList<Token>();
     	tokens.add(t);
     	TokenSequence tokSeq = new TokenSequence("2,3-substituted", 0, null, tokens);
     	t.setTokenSequence(tokSeq);
@@ -123,7 +118,7 @@ public class DFAONTCPRFinderTest {
     	t1.setIndex(0);
     	Token t2 = new Token("-", 3, 4, null, null, null);
     	t2.setIndex(1);
-    	List <IToken> tokens = new ArrayList<IToken>();
+    	List <Token> tokens = new ArrayList<Token>();
     	tokens.add(t1);
     	tokens.add(t2);
     	TokenSequence tokSeq = new TokenSequence("2,3-", 0, null, tokens);
@@ -146,7 +141,7 @@ public class DFAONTCPRFinderTest {
     	assertEquals(0, collector.getNes().size());
     	
     	Token t = new Token("endo-", 0, 5, null, null, null);
-    	List <IToken> tokens = new ArrayList<IToken>();
+    	List <Token> tokens = new ArrayList<Token>();
     	tokens.add(t);
     	TokenSequence tokSeq = new TokenSequence("endo-", 0, null, tokens);
     	t.setTokenSequence(tokSeq);
@@ -164,7 +159,7 @@ public class DFAONTCPRFinderTest {
     	assertEquals(0, collector.getNes().size());
     	
     	Token t = new Token("trans-isomer", 0, 12, null, null, null);
-    	List <IToken> tokens = new ArrayList<IToken>();
+    	List <Token> tokens = new ArrayList<Token>();
     	tokens.add(t);
     	TokenSequence tokSeq = new TokenSequence("trans-isomer", 0, null, tokens);
     	t.setTokenSequence(tokSeq);
@@ -185,7 +180,7 @@ public class DFAONTCPRFinderTest {
     	t1.setIndex(0);
     	Token t2 = new Token("-", 3, 4, null, null, null);
     	t2.setIndex(1);
-    	List <IToken> tokens = new ArrayList<IToken>();
+    	List <Token> tokens = new ArrayList<Token>();
     	tokens.add(t1);
     	tokens.add(t2);
     	TokenSequence tokSeq = new TokenSequence("exo-", 0, null, tokens);

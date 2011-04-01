@@ -9,7 +9,7 @@ import uk.ac.cam.ch.wwmm.oscar.types.BioType;
  * @author ptc24
  *
  */
-public final class Token implements IToken {	
+public final class Token {	
 
     // TODO can we make this class immutable?
 	
@@ -20,7 +20,7 @@ public final class Token implements IToken {
 	private int end;
 	private int index;
 	private IProcessingDocument doc;
-	private ITokenSequence tokenSequence;
+	private TokenSequence tokenSequence;
 	
 	private Element neElem;
 	
@@ -45,7 +45,7 @@ public final class Token implements IToken {
 	 * @param n The offset (in tokens) from the current token.
 	 * @return The token.
 	 */
-	public IToken getNAfter(int n) {
+	public Token getNAfter(int n) {
 		int pos = n + index;
 		if (tokenSequence == null){
 			throw new RuntimeException();
@@ -146,15 +146,15 @@ public final class Token implements IToken {
 	 * 
 	 * @return The TokenSequence that contains this token.
 	 */
-	public ITokenSequence getTokenSequence() {
+	public TokenSequence getTokenSequence() {
 		return tokenSequence;
 	}
 
     /**
-     * Sets the internal reference to the {@link TokenSequence} tha
+     * Sets the internal reference to the {@link TokenSequence} that
      * contains this token.
      */
-    public void setTokenSequence(ITokenSequence tokenSequence) {
+    public void setTokenSequence(TokenSequence tokenSequence) {
         this.tokenSequence = tokenSequence;
     }
 

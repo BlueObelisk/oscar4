@@ -1,11 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscardata;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nu.xom.Document;
 import nu.xom.Element;
@@ -13,8 +9,11 @@ import nu.xom.Elements;
 import nu.xom.Node;
 import nu.xom.ParsingException;
 import nu.xom.Text;
-import nu.xom.ValidityException;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
@@ -206,7 +205,7 @@ public final class RParser {
 		topNode.parseXOMText(textNode);
 	}
 	
-	List <DataAnnotation> findData(ITokenSequence tokSeq) {
+	List <DataAnnotation> findData(TokenSequence tokSeq) {
 		return topNode.annotateData(tokSeq);
 	}
 	

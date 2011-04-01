@@ -51,7 +51,7 @@ public class ProcessingDocumentFactory {
 			Element e = (Element) placesForChemicals.get(i);
 			String source = e.getValue();
 			int offset = Integer.parseInt(e.getAttributeValue("xtspanstart"));
-			ITokenSequence ts = tokeniser.tokenise(source, procDoc, offset, null);
+			TokenSequence ts = tokeniser.tokenise(source, procDoc, offset, null);
 			procDoc.addTokenSequence(ts);
 		}
 		
@@ -66,7 +66,7 @@ public class ProcessingDocumentFactory {
 			String source) {
 
 		ProcessingDocument procDoc = new ProcessingDocument();
-		ITokenSequence ts = tokeniser.tokenise(source, procDoc, 0, null);
+		TokenSequence ts = tokeniser.tokenise(source, procDoc, 0, null);
 		procDoc.addTokenSequence(ts);
 		return procDoc;
 	}

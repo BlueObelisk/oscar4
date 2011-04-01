@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.interfaces.ChemicalEntityRecogniser;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver;
@@ -35,21 +35,21 @@ public class RegexRecogniser implements ChemicalEntityRecogniser {
 	}
 
 	
-	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) {
+	public List<NamedEntity> findNamedEntities(List<TokenSequence> tokenSequences) {
 		return findNamedEntities(tokenSequences, ResolutionMode.REMOVE_BLOCKED);
 	}
 	
-	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences, ResolutionMode resolutionMode) {
+	public List<NamedEntity> findNamedEntities(List<TokenSequence> tokenSequences, ResolutionMode resolutionMode) {
 		
 		List <NamedEntity> nes = new ArrayList<NamedEntity>();
-		for (ITokenSequence tokSeq : tokenSequences) {
+		for (TokenSequence tokSeq : tokenSequences) {
 			Matcher matcher = pattern.matcher(tokSeq.getSurface());
 			while(matcher.find()) {
-				IToken startToken = tokSeq.getTokenByStartIndex(matcher.start());
-				IToken endToken = tokSeq.getTokenByEndIndex(matcher.end());
+				Token startToken = tokSeq.getTokenByStartIndex(matcher.start());
+				Token endToken = tokSeq.getTokenByEndIndex(matcher.end());
 				if (startToken != null && endToken != null) {
-					List <IToken> tokens = new ArrayList<IToken>(tokSeq.getTokens());
-					IToken token;
+					List <Token> tokens = new ArrayList<Token>(tokSeq.getTokens());
+					Token token;
 					while ((token = tokens.get(0)) != startToken) {
 						tokens.remove(token);
 					}

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -125,12 +126,13 @@ public final class OntologyTerms {
 	
 	/**Produces some data for the HyphenTokeniser.
 	 * 
-	 * @return Some data for the HyphenTokeniser.
+	 * @return Some data for the HyphenTokeniser, as
+	 * an unmodifiable Set.
 	 */
 	public Set<String> getHyphTokable() {
 		if (hyphTokable == null) {
 			Set<String> ht = makeHyphTokable(terms.keySet());
-            hyphTokable = ht;
+            hyphTokable = Collections.unmodifiableSet(ht);
 		}
 		return hyphTokable;
 	}

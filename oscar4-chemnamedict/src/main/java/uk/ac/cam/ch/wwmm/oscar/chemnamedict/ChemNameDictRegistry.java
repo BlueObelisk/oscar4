@@ -40,7 +40,7 @@ public class ChemNameDictRegistry {
 	public ChemNameDictRegistry() {
 		this.language = Locale.ENGLISH;
 		register(new DefaultDictionary());
-        register(new ChEBIDictionary());
+        register(ChEBIDictionary.getInstance());
 	}
 	
 	/**
@@ -183,7 +183,7 @@ public class ChemNameDictRegistry {
 			//having the ChEBI & default dictionaries and only these dictionaries
 			//registered is a requirement in order pre-generated models are supplied
 			//with the correct data - DO NOT CHANGE THIS.
-			defaultInstance.register(new ChEBIDictionary());
+			defaultInstance.register(ChEBIDictionary.getInstance());
 			defaultInstance.register(new DefaultDictionary());
 			Map<URI, IChemNameDict> dictionaries = defaultInstance.dictionaries;
 			defaultInstance.dictionaries = Collections.unmodifiableMap(dictionaries);

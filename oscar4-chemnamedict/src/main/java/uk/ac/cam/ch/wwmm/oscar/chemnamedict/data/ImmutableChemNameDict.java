@@ -1,5 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict.data;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,7 +9,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import nu.xom.Builder;
+import nu.xom.Document;
+import nu.xom.ParsingException;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictIO;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IInChIProvider;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ISMILESProvider;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /**
@@ -30,7 +40,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  * @author ptc24
  * @author egonw
  */
-public class ImmutableChemNameDict implements IChemNameDict {
+public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISMILESProvider {
 
 	protected Set<IChemRecord> chemRecords;
 	protected Map<String,IChemRecord> indexByInchi;
@@ -53,6 +63,28 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		stopWords = new HashSet<String>();
 	}
 
+	public ImmutableChemNameDict(URI uri, Locale language, InputStream in) throws DataFormatException {
+		MutableChemNameDict mutableDict = new MutableChemNameDict(uri, language);
+		Document doc;
+		try {
+			doc = new Builder().build(in);
+		} catch (ParsingException e) {
+			throw new DataFormatException("unreadable formatting in source dictionary", e);
+		} catch (IOException e) {
+			throw new OscarInitialisationException("failed to load chemical name dictionary", e);
+		}
+		ChemNameDictIO.readXML(doc, mutableDict);
+		
+		this.uri = uri;
+		this.language = language;
+		chemRecords = mutableDict.chemRecords;
+		indexByInchi = mutableDict.indexByInchi;
+		indexByName = mutableDict.indexByName;
+		indexByOntID = mutableDict.indexByOntID;
+		orphanNames = mutableDict.orphanNames;
+		stopWords = mutableDict.stopWords;
+	}
+
 	public Locale getLanguage() {
 		return language;
 	}
@@ -66,6 +98,8 @@ public class ImmutableChemNameDict implements IChemNameDict {
 		return stopWords.contains(queryWord);
 	}
 
+	
+	//TODO would this not be better as Collections.unmodifiable?
 	public Set<String> getStopWords() {
 		return new HashSet<String>(stopWords);
 	}

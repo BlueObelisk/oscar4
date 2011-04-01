@@ -11,7 +11,7 @@ public class ChEBIDictionaryTest extends AbstractDictionaryTest {
 
 	@Test
 	public void testACompound() throws Exception {
-		IInChIProvider dict = new ChEBIDictionary();
+		IInChIProvider dict = ChEBIDictionary.getInstance();
 		assertNotNull(dict);
 		assertEquals(
 			"InChI=1/CH4/h1H4",
@@ -23,7 +23,7 @@ public class ChEBIDictionaryTest extends AbstractDictionaryTest {
 	@Test
 	public void testCompoundFromSecondFile() throws Exception {
 		// from chemnamedict.xml
-		IInChIProvider dict = new ChEBIDictionary();
+		IInChIProvider dict = ChEBIDictionary.getInstance();
 		assertNotNull(dict);
 		assertEquals(
 			"InChI=1/H2O4S/c1-5(2,3)4/h(H2,1,2,3,4)/f/h1-2H",
@@ -33,6 +33,6 @@ public class ChEBIDictionaryTest extends AbstractDictionaryTest {
 
 	@Override
 	public IChemNameDict getDictionary() {
-		return new ChEBIDictionary();
+		return ChEBIDictionary.getInstance();
 	}
 }

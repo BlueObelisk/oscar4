@@ -54,7 +54,6 @@ public class OscarProperties {
 	private Properties variablesToProps() {
 		Properties props = new Properties();
 		props.setProperty("splitOnEnDash", oscarProperties.splitOnEnDash ? "yes" : "no");
-		props.setProperty("useONT", oscarProperties.useONT ? "yes" : "no");
 		props.setProperty("useWordShapeHeuristic", oscarProperties.useWordShapeHeuristic ? "yes" : "no");
 		props.setProperty("polymerMode", oscarProperties.polymerMode ? "yes" : "no");
 		
@@ -64,7 +63,6 @@ public class OscarProperties {
 
 	private void propsToVariables(Properties myProperties) {
 		oscarProperties.splitOnEnDash = "yes".equals(myProperties.getProperty("splitOnEnDash"));
-		oscarProperties.useONT = "yes".equals(myProperties.getProperty("useONT"));
 		oscarProperties.useWordShapeHeuristic = "yes".equals(myProperties.getProperty("useWordShapeHeuristic"));
 		oscarProperties.polymerMode = "yes".equals(myProperties.getProperty("polymerMode"));
 		

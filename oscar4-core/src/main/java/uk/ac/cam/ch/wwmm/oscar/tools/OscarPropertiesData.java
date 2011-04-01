@@ -13,7 +13,6 @@ package uk.ac.cam.ch.wwmm.oscar.tools;
 public class OscarPropertiesData {
 
 	public boolean splitOnEnDash;
-	public boolean useONT;
 	public boolean useWordShapeHeuristic;
 	public boolean polymerMode;
 		

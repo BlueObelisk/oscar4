@@ -63,24 +63,20 @@ public final class OntologyTerms {
     }
 
     private OntologyTerms() {
-    	if (OscarProperties.getData().useONT) {
-        	ListMultimap<String,String> terms;
-        	try {
-        		 terms = loadTerms(ONTOLOGY_TERMS_FILE);
-                //add polymer ontology if set to polymer mode
-                if (OscarProperties.getData().polymerMode) {
-                    ListMultimap<String,String> polyOntology = loadTerms(POLYMER_ONTOLOGY_TERMS_FILE);
-                    terms.putAll(polyOntology);
-                }	
-        	} catch (IOException e) {
-            	throw new OscarInitialisationException("failed to load OntologyTerms", e);
-            } catch (DataFormatException e) {
-            	throw new OscarInitialisationException("failed to load OntologyTerms", e);
-			}
-            this.terms = Multimaps.unmodifiableListMultimap(terms);
-        } else {
-            this.terms = ArrayListMultimap.create();
-        }
+    	ListMultimap<String,String> terms;
+    	try {
+    		 terms = loadTerms(ONTOLOGY_TERMS_FILE);
+            //add polymer ontology if set to polymer mode
+            if (OscarProperties.getData().polymerMode) {
+                ListMultimap<String,String> polyOntology = loadTerms(POLYMER_ONTOLOGY_TERMS_FILE);
+                terms.putAll(polyOntology);
+            }	
+    	} catch (IOException e) {
+        	throw new OscarInitialisationException("failed to load OntologyTerms", e);
+        } catch (DataFormatException e) {
+        	throw new OscarInitialisationException("failed to load OntologyTerms", e);
+		}
+        this.terms = Multimaps.unmodifiableListMultimap(terms);
 	}
 	
 	

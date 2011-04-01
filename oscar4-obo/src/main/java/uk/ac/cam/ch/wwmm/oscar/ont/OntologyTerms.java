@@ -17,10 +17,8 @@ import org.slf4j.LoggerFactory;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
 
@@ -37,7 +35,6 @@ public final class OntologyTerms {
     private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter(OntologyTerm.class.getClassLoader(),"/");
 	
 	private static final String ONTOLOGY_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/ontology.txt";
-    private static final String POLYMER_ONTOLOGY_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/polyOntology.txt";
 	
 	private ListMultimap<String,String> terms;
 	private Set<String> hyphTokable;
@@ -66,11 +63,6 @@ public final class OntologyTerms {
     	ListMultimap<String,String> terms;
     	try {
     		 terms = loadTerms(ONTOLOGY_TERMS_FILE);
-            //add polymer ontology if set to polymer mode
-            if (OscarProperties.getData().polymerMode) {
-                ListMultimap<String,String> polyOntology = loadTerms(POLYMER_ONTOLOGY_TERMS_FILE);
-                terms.putAll(polyOntology);
-            }	
     	} catch (IOException e) {
         	throw new OscarInitialisationException("failed to load OntologyTerms", e);
         } catch (DataFormatException e) {

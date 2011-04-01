@@ -14,7 +14,6 @@ public class OscarPropertiesData {
 
 	public boolean splitOnEnDash;
 	public boolean useWordShapeHeuristic;
-	public boolean polymerMode;
 		
 	public String xmlStrings;
 

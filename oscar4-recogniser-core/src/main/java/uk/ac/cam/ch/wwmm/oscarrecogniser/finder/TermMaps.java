@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.ont.TermsFileReader;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
@@ -34,7 +33,6 @@ public final class TermMaps {
     private static final ResourceGetter RESOURCE_GETTER = new ResourceGetter(TermMaps.class.getClassLoader(),"/");
 
     private static final String NE_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/terms/neTerms.txt";
-    private static final String POLY_NE_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscar/obo/terms/polyNeTerms.txt";
     private static final String CUST_ENT_TERMS_FILE = "uk/ac/cam/ch/wwmm/oscarrecogniser/finder/terms/custEnt.txt";
 
     private final Map<String, NamedEntityType> neTerms;
@@ -109,13 +107,7 @@ public final class TermMaps {
     private TermMaps() {
         LOG.debug("Initialising term maps... ");
         try {
-        	Map<String,NamedEntityType> neTerms = loadNeTermMap(getStream(NE_TERMS_FILE), "UTF-8");
-            //add additional neTerms for polymers if set to polymer mode
-            if (OscarProperties.getData().polymerMode) {
-                Map <String, NamedEntityType> polyNeTerms = loadNeTermMap(getStream(POLY_NE_TERMS_FILE), "UTF-8");
-                neTerms.putAll(polyNeTerms);
-            }
-            this.neTerms = Collections.unmodifiableMap(neTerms);
+            this.neTerms = Collections.unmodifiableMap(loadNeTermMap(getStream(NE_TERMS_FILE), "UTF-8"));
             this.custEnt = Collections.unmodifiableMap(loadTerms(getStream(CUST_ENT_TERMS_FILE), "UTF-8", true));
             this.suffixes = Collections.unmodifiableSet(digestSuffixes(neTerms));	
         } catch (IOException e) {

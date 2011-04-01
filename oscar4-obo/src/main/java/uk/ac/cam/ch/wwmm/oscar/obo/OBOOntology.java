@@ -76,7 +76,7 @@ public class OBOOntology {
 		queryCache = new CacheMap<String,Set<String>>(10000);
 		isTypeOfIsBuilt = false;
 		registry = new ChemNameDictRegistry(Locale.ENGLISH);
-		registry.register(new ChEBIDictionary());
+		registry.register(ChEBIDictionary.getInstance());
 		registry.register(new DefaultDictionary());
 	}
 	

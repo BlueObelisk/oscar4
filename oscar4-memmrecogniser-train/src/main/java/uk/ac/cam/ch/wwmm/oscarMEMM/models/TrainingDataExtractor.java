@@ -18,7 +18,7 @@ import nu.xom.Element;
 import nu.xom.Nodes;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
@@ -309,7 +309,7 @@ public final class TrainingDataExtractor {
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory
 				.getInstance().makeTokenisedDocument(
 						Tokeniser.getDefaultInstance(), doc, true, true, safDoc);
-		for (ITokenSequence tokSeq : procDoc.getTokenSequences()) {
+		for (TokenSequence tokSeq : procDoc.getTokenSequences()) {
 			afterHyphen.addAll(tokSeq.getAfterHyphens());
 			Map<NamedEntityType, List<List<String>>> neMap = tokSeq
 					.getNes();

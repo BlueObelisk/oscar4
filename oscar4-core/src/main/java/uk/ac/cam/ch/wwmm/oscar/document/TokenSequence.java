@@ -21,17 +21,17 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
  * @author ptc24
  *
  */
-public final class TokenSequence implements ITokenSequence {
+public final class TokenSequence {
 
 	private final BioType B_CPR = new BioType(BioTag.B, NamedEntityType.LOCANTPREFIX);
 
     private String surface;
     private int offset;
     private IProcessingDocument doc;
-    private List<IToken> tokens;
+    private List<Token> tokens;
     private Element elem;
 
-    public TokenSequence(String sourceString, int offset, IProcessingDocument doc, List<IToken> tokens) {
+    public TokenSequence(String sourceString, int offset, IProcessingDocument doc, List<Token> tokens) {
         this.surface = sourceString;
         this.offset = offset;
         this.doc = doc;
@@ -73,7 +73,7 @@ public final class TokenSequence implements ITokenSequence {
 	 * 
 	 * @return The list of tokens that comprise this TokenSequence.
 	 */
-    public List<IToken> getTokens() {
+    public List<Token> getTokens() {
         return tokens;
     }
 
@@ -84,7 +84,7 @@ public final class TokenSequence implements ITokenSequence {
 	 * @param to The last token in the sublist (inclusive).
 	 * @return The sublist of tokens.
 	 */
-    public List<IToken> getTokens(int from, int to) {
+    public List<Token> getTokens(int from, int to) {
         return tokens.subList(from, to+1);
     }
 
@@ -94,7 +94,7 @@ public final class TokenSequence implements ITokenSequence {
 	 * @param i The index of the token to get.
 	 * @return The token.
 	 */
-    public IToken getToken(int i) {
+    public Token getToken(int i) {
         return tokens.get(i);
     }
 
@@ -127,7 +127,7 @@ public final class TokenSequence implements ITokenSequence {
 	 */
     public List<String> getTokenStringList() {
         List<String> tl = new ArrayList<String>();
-        for(IToken t : tokens) {
+        for(Token t : tokens) {
             tl.add(t.getSurface());
         }
         return tl;
@@ -201,7 +201,7 @@ public final class TokenSequence implements ITokenSequence {
         Map<NamedEntityType,List<List<String>>> neMap = new HashMap<NamedEntityType,List<List<String>>>();
         NamedEntityType namedEntityType = null;
         List<String> neTokens = null;
-        for (IToken t : tokens) {
+        for (Token t : tokens) {
             if (namedEntityType == null) {
                 if (BioTag.O != t.getBioType().getBio()) {
                     neTokens = new ArrayList<String>();
@@ -242,7 +242,7 @@ public final class TokenSequence implements ITokenSequence {
 	 */
     public List<String> getNonNes() {
         List<String> nonNes = new ArrayList<String>();
-        for (IToken token : tokens) {
+        for (Token token : tokens) {
             if (BioTag.O == token.getBioType().getBio()) {
                 nonNes.add(token.getSurface());
             }
@@ -254,9 +254,9 @@ public final class TokenSequence implements ITokenSequence {
 	 * Returns the token that starts at the given index, or null if no such
 	 * token exists. 
 	 */
-	public IToken getTokenByStartIndex(int index) {
+	public Token getTokenByStartIndex(int index) {
 		checkIndex(index);
-		for (IToken token : tokens) {
+		for (Token token : tokens) {
 			if (token.getStart() == index) {
 				return token;
 			}
@@ -277,9 +277,9 @@ public final class TokenSequence implements ITokenSequence {
 	 * Returns the token that ends at the given index, or null if no such
 	 * token exists. 
 	 */
-	public IToken getTokenByEndIndex(int index) {
+	public Token getTokenByEndIndex(int index) {
 		checkIndex(index);
-		for (IToken token : tokens) {
+		for (Token token : tokens) {
 			if (token.getEnd() == index) {
 				return token;
 			}

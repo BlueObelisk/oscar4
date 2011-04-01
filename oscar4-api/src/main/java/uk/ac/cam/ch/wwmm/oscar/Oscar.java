@@ -11,10 +11,10 @@ import org.apache.commons.logging.LogFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
@@ -207,7 +207,7 @@ public class Oscar {
      */
     public List<NamedEntity> findNamedEntities(String input) {
         input = normalise(input);
-        List<ITokenSequence> tokens = tokenise(input);
+        List<TokenSequence> tokens = tokenise(input);
         List<NamedEntity> entities = recogniseNamedEntities(tokens);
         return entities;
     }
@@ -264,9 +264,9 @@ public class Oscar {
      * Converts a text into token sequences, one for each sentence.
      *
      * @param  input a text to analyse.
-     * @return       a {@link List} of {@link ITokenSequence}s.
+     * @return       a {@link List} of {@link TokenSequence}s.
      */
-    public List<ITokenSequence> tokenise(String input) {
+    public List<TokenSequence> tokenise(String input) {
         IProcessingDocument procDoc = ProcessingDocumentFactory.getInstance()
                 .makeTokenisedDocument(getTokeniser(), input);
         return procDoc.getTokenSequences();
@@ -290,12 +290,12 @@ public class Oscar {
 
     /**
      * Extracts named entities from a text represented as a {@link List}
-     * of {@link ITokenSequence}s.
+     * of {@link TokenSequence}s.
      *
-     * @param  entities a {@link List} of {@link ITokenSequence}s.
+     * @param  entities a {@link List} of {@link TokenSequence}s.
      * @return          a {@link List} of {@link NamedEntity}s.
      */
-    public List<NamedEntity> recogniseNamedEntities(List<ITokenSequence> tokens) {
+    public List<NamedEntity> recogniseNamedEntities(List<TokenSequence> tokens) {
         return getRecogniser().findNamedEntities(tokens);
     }
 

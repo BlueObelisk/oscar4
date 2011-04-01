@@ -10,7 +10,7 @@ import org.apache.commons.collections.set.UnmodifiableSet;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -25,7 +25,7 @@ public class FeatureExtractorTest {
         // Regression test introduced pre-refactoring
         String s = "We have also described that benzoxasilepines can be condensed with benzaldehydes.";
         Tokeniser tokeniser = Tokeniser.getDefaultInstance();
-        ITokenSequence tokSeq = tokeniser.tokenise(s);
+        TokenSequence tokSeq = tokeniser.tokenise(s);
         Set <String> defaultChemNames = ChemNameDictRegistry.getDefaultInstance().getAllNames();
         
         List<FeatureList> features = FeatureExtractor.extractFeatures(

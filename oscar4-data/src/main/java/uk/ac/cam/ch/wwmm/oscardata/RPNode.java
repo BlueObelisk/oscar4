@@ -13,7 +13,7 @@ import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Node;
 import nu.xom.Text;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 
 /** A node in RParser's Regex heirarchy.
@@ -244,7 +244,7 @@ final class RPNode {
     }
     
     
-    List <DataAnnotation> annotateData(ITokenSequence tokSeq) {
+    List <DataAnnotation> annotateData(TokenSequence tokSeq) {
     	Text textNode = new Text(tokSeq.getSurface());
     	//a parent element is needed in parseXOMText()
     	new Element("dummy").appendChild(textNode);

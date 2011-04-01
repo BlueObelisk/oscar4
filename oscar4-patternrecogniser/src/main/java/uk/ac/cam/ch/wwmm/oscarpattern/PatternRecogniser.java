@@ -1,7 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarpattern;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +10,9 @@ import org.apache.commons.collections.set.UnmodifiableSet;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -86,16 +85,16 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	}
 
 	
-	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences) {
+	public List<NamedEntity> findNamedEntities(List<TokenSequence> tokenSequences) {
 		return findNamedEntities(tokenSequences, ResolutionMode.REMOVE_BLOCKED);
 	}
 	
 	
-	public List<NamedEntity> findNamedEntities(List<ITokenSequence> tokenSequences, ResolutionMode resolutionMode) {
+	public List<NamedEntity> findNamedEntities(List<TokenSequence> tokenSequences, ResolutionMode resolutionMode) {
 
 	 	//run the DFANEFinder
 		List<NamedEntity> neList = new ArrayList<NamedEntity>();
-	 	for(ITokenSequence t : tokenSequences) {
+	 	for(TokenSequence t : tokenSequences) {
 			neList.addAll(finder.findNamedEntities(t, nGram, ngramThreshold));
 		}
 	 	
@@ -163,16 +162,16 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 * @param tokenSequences
 	 * @param neList
 	 */
-	static void handlePotentialAcronyms(List<ITokenSequence> tokenSequences, List<NamedEntity> neList) {
+	static void handlePotentialAcronyms(List<TokenSequence> tokenSequences, List<NamedEntity> neList) {
 		
 		Map<Integer,NamedEntity> endToNe = new HashMap<Integer,NamedEntity>();
 		for(NamedEntity ne : neList) {
 			endToNe.put(ne.getEnd(), ne);
 		}
 		
-	 	Map<Integer,IToken> tokensByStart = new HashMap<Integer,IToken>();
-	 	for (ITokenSequence tokSeq : tokenSequences) {
-	 		for (IToken token : tokSeq.getTokens()) {
+	 	Map<Integer,Token> tokensByStart = new HashMap<Integer,Token>();
+	 	for (TokenSequence tokSeq : tokenSequences) {
+	 		for (Token token : tokSeq.getTokens()) {
 				tokensByStart.put(token.getStart(), token);
 			}
 		}
@@ -206,16 +205,16 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 * @return a Map of surface strings to appropriate named entity type
 	 */
 	static Map<String, NamedEntityType> identifyAcronyms(List<NamedEntity> neList,
-			Map<Integer, NamedEntity> endToNe, Map<Integer, IToken> tokensByStart) {
+			Map<Integer, NamedEntity> endToNe, Map<Integer, Token> tokensByStart) {
 
 		Map<String,NamedEntityType> acroMap = new HashMap<String,NamedEntityType>();
 		for(NamedEntity ne : neList) {
 			if(NamedEntityType.POTENTIALACRONYM.equals(ne.getType())) {
-				IToken t = tokensByStart.get(ne.getStart());
+				Token t = tokensByStart.get(ne.getStart());
 				if(t != null && t.getNAfter(-2) != null && t.getNAfter(1) != null) {
-					IToken prev = t.getNAfter(-1);
-					IToken next = t.getNAfter(1);
-					IToken prevPrev = t.getNAfter(-2);
+					Token prev = t.getNAfter(-1);
+					Token next = t.getNAfter(1);
+					Token prevPrev = t.getNAfter(-2);
 					if(prev.getSurface().equals("(") && next.getSurface().endsWith(")")) {
 						if(endToNe.containsKey(prevPrev.getEnd())) {
 							NamedEntity acronymOf = endToNe.get(prevPrev.getEnd());

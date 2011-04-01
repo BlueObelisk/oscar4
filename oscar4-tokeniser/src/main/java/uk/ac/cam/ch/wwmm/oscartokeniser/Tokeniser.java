@@ -8,8 +8,6 @@ import java.util.regex.Pattern;
 
 import nu.xom.Element;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -86,7 +84,7 @@ public final class Tokeniser implements ITokeniser {
 	 *            The string to tokenise.
 	 * @return The TokenSequence for the string.
 	 */
-	public ITokenSequence tokenise(String s) {
+	public TokenSequence tokenise(String s) {
 		return tokenise(s, null, 0, null);
 	}
 
@@ -111,9 +109,9 @@ public final class Tokeniser implements ITokeniser {
 	 *            become single-token NEs.
 	 * @return The TokenSequence for the string.
 	 */
-	public ITokenSequence tokenise(String s, IProcessingDocument doc, int offset,
+	public TokenSequence tokenise(String s, IProcessingDocument doc, int offset,
 			Element annotations) {
-		List<IToken> tokens = new LinkedList<IToken>();
+		List<Token> tokens = new LinkedList<Token>();
 		Matcher m = tokenPattern.matcher(s);
 		/* Initial tokenisation */
 		
@@ -145,7 +143,7 @@ public final class Tokeniser implements ITokeniser {
 		 * Newly created tokens are recursively subtokenised.
 		 */
 		while (i < tokens.size()) {
-			List<IToken> results = splitToken(tokens.get(i));
+			List<Token> results = splitToken(tokens.get(i));
 
 			
 			/* Returns null if no splitting occurs */
@@ -167,8 +165,8 @@ public final class Tokeniser implements ITokeniser {
 		/*
 		 * @lh359: Remove empty tokens
 		 */
-		List<IToken> tmpTokens = new ArrayList<IToken>();
-		for (IToken t : tokens) {
+		List<Token> tmpTokens = new ArrayList<Token>();
+		for (Token t : tokens) {
 			if (t.getSurface() != null && !"".equals(t.getSurface())) {
 				tmpTokens.add(t);
 			}
@@ -185,18 +183,18 @@ public final class Tokeniser implements ITokeniser {
 
 	public TokenSequence indexTokensAndMakeTokenSequence(String s,
 			IProcessingDocument doc, int offset, Element annotations,
-			List<IToken> tokens) {
+			List<Token> tokens) {
 		
 		/* Number tokens */
 		int id = 0;
-		for (IToken t : tokens) {
+		for (Token t : tokens) {
 			t.setIndex(id);
 			id++;
 		}
 		
 		/* Make an index of the tokens in the ProcessingDocument */
 		if (doc != null && doc.getTokensByStart() != null) {
-			for (IToken t : tokens) {
+			for (Token t : tokens) {
 				doc.getTokensByStart().put((Integer) t.getStart(), t);
 				doc.getTokensByEnd().put(t.getEnd(), t);
 			}
@@ -204,7 +202,7 @@ public final class Tokeniser implements ITokeniser {
 		
 		/* Create a TokenSequence from the tokens */
 		TokenSequence tokenSequence = new TokenSequence(s, offset, doc, tokens);
-		for (IToken t : tokens) {
+		for (Token t : tokens) {
 			t.setTokenSequence(tokenSequence);
 		}
 		tokenSequence.setElem(annotations);
@@ -219,12 +217,12 @@ public final class Tokeniser implements ITokeniser {
 	 * @param token
 	 * @return Subtokenised List or null if no subtokenisation has occurred
 	 */
-	private List<IToken> splitToken(IToken token) {
-		List<IToken> tokenList = rawSplitToken(token);
+	private List<Token> splitToken(Token token) {
+		List<Token> tokenList = rawSplitToken(token);
 		if (tokenList == null)
 			return null;
 		int goodTokens = 0;
-		for (IToken t : tokenList) {
+		for (Token t : tokenList) {
 			if (t.getEnd() - t.getStart() > 0)
 				goodTokens++;
 		}
@@ -244,7 +242,7 @@ public final class Tokeniser implements ITokeniser {
 	 * 
 	 * @return Subtokenised List or null if no subtokenisation has occurred
 	 ***********************************/
-	private List<IToken> rawSplitToken(IToken token) {
+	private List<Token> rawSplitToken(Token token) {
 
 		if (TermSets.getDefaultInstance().getAbbreviations().contains(token.getSurface().toLowerCase())) {
 			return null;
@@ -454,9 +452,9 @@ public final class Tokeniser implements ITokeniser {
 		}
 	}
 
-	public List<IToken> splitAt(IToken token, int splitOffset) {
+	public List<Token> splitAt(Token token, int splitOffset) {
 		int internalOffset = splitOffset - token.getStart();
-		List<IToken> tokens = new LinkedList<IToken>();
+		List<Token> tokens = new LinkedList<Token>();
 		tokens
 				.add(new Token(token.getSurface().substring(0, internalOffset),
 						token.getStart(), splitOffset, token.getDoc(), token.getBioType(),
@@ -467,10 +465,10 @@ public final class Tokeniser implements ITokeniser {
 		return tokens;
 	}
 
-	private List<IToken> splitAt(IToken token, int splitOffset0, int splitOffset1) {
+	private List<Token> splitAt(Token token, int splitOffset0, int splitOffset1) {
 		int internalOffset0 = splitOffset0 - token.getStart();
 		int internalOffset1 = splitOffset1 - token.getStart();
-		List<IToken> tokens = new LinkedList<IToken>();
+		List<Token> tokens = new LinkedList<Token>();
 		tokens.add(new Token(token.getSurface().substring(0, internalOffset0),
 					token.getStart(), splitOffset0, token.getDoc(), token.getBioType(),
 					((Token)token).getNeElem()));

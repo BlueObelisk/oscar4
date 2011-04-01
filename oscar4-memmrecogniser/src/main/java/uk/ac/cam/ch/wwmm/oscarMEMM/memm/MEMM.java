@@ -8,13 +8,13 @@ import java.util.Map;
 import java.util.Set;
 
 import opennlp.maxent.MaxentModel;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
@@ -71,9 +71,9 @@ public final class MEMM {
      * @param tokSeq The token sequence.
      * @return Named entities, with confidences.
      */
-    public List<NamedEntity> findNEs(ITokenSequence tokSeq) {
+    public List<NamedEntity> findNEs(TokenSequence tokSeq) {
         List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model);
-        List<IToken> tokens = tokSeq.getTokens();
+        List<Token> tokens = tokSeq.getTokens();
         if (tokens.isEmpty()) {
             return Collections.emptyList();
         }

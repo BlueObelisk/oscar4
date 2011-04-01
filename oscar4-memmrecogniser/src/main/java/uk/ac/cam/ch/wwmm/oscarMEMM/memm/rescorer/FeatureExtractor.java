@@ -10,10 +10,9 @@ import org.apache.commons.collections.set.UnmodifiableSet;
 import org.apache.commons.math.stat.DescriptiveStatistics;
 import org.apache.commons.math.stat.DescriptiveStatisticsImpl;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.document.IToken;
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /**Converts a set of named entities into a set of features for the rescorer.
@@ -59,7 +58,7 @@ final class FeatureExtractor {
 			averageScores.put(surf, descStats.getMean());
 		}
 		
-		Map<IToken,NamedEntity> neByLastToken = new HashMap<IToken,NamedEntity>();
+		Map<Token,NamedEntity> neByLastToken = new HashMap<Token,NamedEntity>();
 		for(NamedEntity ne : entities) {
 			if(!ne.isBlocked()) {
 				neByLastToken.put(ne.getLastToken(), ne);
@@ -68,11 +67,11 @@ final class FeatureExtractor {
 
 		for(NamedEntity ne : entities) {
 
-			IToken prev = ne.getFirstToken().getNAfter(-1);
-			IToken next = ne.getLastToken().getNAfter(1);
+			Token prev = ne.getFirstToken().getNAfter(-1);
+			Token next = ne.getLastToken().getNAfter(1);
 
 			if(prev != null && next != null && prev.getSurface().equals("(") && next.getSurface().equals(")")) {
-				IToken prev2 = ne.getFirstToken().getNAfter(-2);
+				Token prev2 = ne.getFirstToken().getNAfter(-2);
 				if(prev2 != null) {
 					String surf = ne.getSurface();
 					if(surf.matches(".*[A-Z]s") || prev2.getSurface().endsWith("s")) surf = surf.substring(0, surf.length()-1);
@@ -100,7 +99,7 @@ final class FeatureExtractor {
 						}
 					} else {
 						int tokID = ne.getFirstToken().getIndex();
-						ITokenSequence tokSeq = ne.getFirstToken().getTokenSequence();
+						TokenSequence tokSeq = ne.getFirstToken().getTokenSequence();
 						int length = surf.length();
 						boolean isAcro = false;
 						if(allCaps.matcher(surf).matches()) {
@@ -129,7 +128,7 @@ final class FeatureExtractor {
 
 		List<String> features = new ArrayList<String>();
 		
-		ITokenSequence t = ne.getTokens().get(0).getTokenSequence();
+		TokenSequence t = ne.getTokens().get(0).getTokenSequence();
 		int entityLength = ne.getTokens().size();
 		int startID = ne.getTokens().get(0).getIndex();
 		int endID = startID + entityLength - 1;

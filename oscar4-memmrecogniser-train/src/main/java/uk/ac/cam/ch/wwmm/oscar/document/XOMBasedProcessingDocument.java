@@ -18,9 +18,9 @@ public final class XOMBasedProcessingDocument implements IProcessingDocument {
 
 	public Document doc;
 	public StandoffTable standoffTable;
-	public List<ITokenSequence> tokenSequences;
-	public Map<Integer,IToken> tokensByStart;
-	public Map<Integer,IToken> tokensByEnd;
+	public List<TokenSequence> tokenSequences;
+	public Map<Integer,Token> tokensByStart;
+	public Map<Integer,Token> tokensByEnd;
 
 	public XOMBasedProcessingDocument() {
 
@@ -36,7 +36,7 @@ public final class XOMBasedProcessingDocument implements IProcessingDocument {
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getTokenSequences()
 	 */
-	public List<ITokenSequence> getTokenSequences() {
+	public List<TokenSequence> getTokenSequences() {
 		return tokenSequences;
 	}
 
@@ -59,7 +59,7 @@ public final class XOMBasedProcessingDocument implements IProcessingDocument {
 	 */
 	@Deprecated
 	//TODO this isn't called - do we need it?
-	public IToken getTokenByStart(String leftXPoint) {
+	public Token getTokenByStart(String leftXPoint) {
 		int offset = standoffTable.getOffsetAtXPoint(leftXPoint);
 		if (tokensByStart.containsKey(offset))
 			return tokensByStart.get(offset);
@@ -76,7 +76,7 @@ public final class XOMBasedProcessingDocument implements IProcessingDocument {
 	 */
 	@Deprecated
 	//TODO this isn't called - do we need it?
-	public IToken getTokenByEnd(String rightXPoint) {
+	public Token getTokenByEnd(String rightXPoint) {
 		int offset = standoffTable.getOffsetAtXPoint(rightXPoint);
 		if (tokensByEnd.containsKey(offset))
 			return tokensByEnd.get(offset);
@@ -84,11 +84,11 @@ public final class XOMBasedProcessingDocument implements IProcessingDocument {
 	}
 
 
-	public Map<Integer,IToken> getTokensByStart() {
+	public Map<Integer,Token> getTokensByStart() {
 		return tokensByStart;
 	}
 
-	public Map<Integer,IToken> getTokensByEnd() {
+	public Map<Integer,Token> getTokensByEnd() {
 		return tokensByEnd;
 	}
 

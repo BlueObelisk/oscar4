@@ -76,7 +76,7 @@ public class TokenTest {
 		Token t2 = new Token("bar", 4, 7, null, null, null);
 		t2.setIndex(1);
 		
-		List <IToken> tokens = new ArrayList<IToken>();
+		List <Token> tokens = new ArrayList<Token>();
 		tokens.add(t1);
 		tokens.add(t2);
 		TokenSequence tokSeq = new TokenSequence("foo bar", 0, null, tokens);

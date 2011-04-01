@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
@@ -23,9 +23,9 @@ final class EntityTokeniser {
 	private List<Map<BioType,Double>> alphas;
 	private int length;
 	private MEMMModel memm;
-	private ITokenSequence tokSeq;
+	private TokenSequence tokSeq;
 	
-	public EntityTokeniser(MEMMModel memm, ITokenSequence tokSeq, List<Map<BioType,Map<BioType,Double>>> classifierResults) {
+	public EntityTokeniser(MEMMModel memm, TokenSequence tokSeq, List<Map<BioType,Map<BioType,Double>>> classifierResults) {
 		this.tokSeq = tokSeq;
 		this.classifierResults = classifierResults;
 		this.memm = memm;

@@ -10,14 +10,14 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 
 public class ProcessingDocument implements IProcessingDocument {
 
-	private List<ITokenSequence> tokenSequences = new ArrayList<ITokenSequence>();
+	private List<TokenSequence> tokenSequences = new ArrayList<TokenSequence>();
 
 	
-	public List<ITokenSequence> getTokenSequences() {
+	public List<TokenSequence> getTokenSequences() {
 		return Collections.unmodifiableList(tokenSequences);
 	}
 
-	public void addTokenSequence(ITokenSequence ts) {
+	public void addTokenSequence(TokenSequence ts) {
 		tokenSequences.add(ts);
 	}
 
@@ -41,12 +41,12 @@ public class ProcessingDocument implements IProcessingDocument {
 	 * means that the map doesn't get populated. This isn't ideal.
 	 */
 	@Deprecated
-	public Map<Integer,IToken> getTokensByStart() {
+	public Map<Integer,Token> getTokensByStart() {
 		return null;
 	}
 
 	@Deprecated
-	public Map<Integer,IToken> getTokensByEnd() {
+	public Map<Integer,Token> getTokensByEnd() {
 		throw new UnsupportedOperationException("shouldn't have been called");
 	}
 	

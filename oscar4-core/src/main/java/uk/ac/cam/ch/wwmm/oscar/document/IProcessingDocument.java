@@ -3,7 +3,7 @@ package uk.ac.cam.ch.wwmm.oscar.document;
 import java.util.List;
 import java.util.Map;
 
-import uk.ac.cam.ch.wwmm.oscar.tools.IStandoffTable;
+import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
 
 /**
  * A document, with data structures to store information such as tokens. This
@@ -25,11 +25,11 @@ public interface IProcessingDocument {
 	List <ITokenSequence> getTokenSequences();
 
 	/**
-	 * Gets the {@link IStandoffTable} associated with the document.
+	 * Gets the {@link StandoffTable} associated with the document.
 	 * 
-	 * @return The {@link IStandoffTable} for the document.
+	 * @return The {@link StandoffTable} for the document.
 	 */
-	IStandoffTable getStandoffTable();
+	StandoffTable getStandoffTable();
 
 	Map<Integer,IToken> getTokensByStart();
 

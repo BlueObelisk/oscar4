@@ -190,7 +190,7 @@ public final class Tokeniser implements ITokeniser {
 		/* Number tokens */
 		int id = 0;
 		for (IToken t : tokens) {
-			t.setId(id);
+			t.setIndex(id);
 			id++;
 		}
 		
@@ -459,10 +459,10 @@ public final class Tokeniser implements ITokeniser {
 		List<IToken> tokens = new LinkedList<IToken>();
 		tokens
 				.add(new Token(token.getSurface().substring(0, internalOffset),
-						token.getStart(), splitOffset, token.getDoc(), token.getBioTag(),
+						token.getStart(), splitOffset, token.getDoc(), token.getBioType(),
 						((Token)token).getNeElem()));
 		tokens.add(new Token(token.getSurface().substring(internalOffset),
-				splitOffset, token.getEnd(), token.getDoc(), token.getBioTag(),
+				splitOffset, token.getEnd(), token.getDoc(), token.getBioType(),
 				((Token)token).getNeElem()));
 		return tokens;
 	}
@@ -472,13 +472,13 @@ public final class Tokeniser implements ITokeniser {
 		int internalOffset1 = splitOffset1 - token.getStart();
 		List<IToken> tokens = new LinkedList<IToken>();
 		tokens.add(new Token(token.getSurface().substring(0, internalOffset0),
-					token.getStart(), splitOffset0, token.getDoc(), token.getBioTag(),
+					token.getStart(), splitOffset0, token.getDoc(), token.getBioType(),
 					((Token)token).getNeElem()));
 		tokens.add(new Token(token.getSurface().substring(internalOffset0,
 					internalOffset1), splitOffset0, splitOffset1, token.getDoc(),
-					token.getBioTag(), ((Token)token).getNeElem()));
+					token.getBioType(), ((Token)token).getNeElem()));
 		tokens.add(new Token(token.getSurface().substring(internalOffset1),
-					splitOffset1, token.getEnd(), token.getDoc(), token.getBioTag(),
+					splitOffset1, token.getEnd(), token.getDoc(), token.getBioType(),
 					((Token)token).getNeElem()));
 
 		return tokens;

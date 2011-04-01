@@ -27,7 +27,7 @@ public class ProcessingDocumentFactoryTest {
 		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, source);
 		assertEquals(1, procDoc.getTokenSequences().size());
-		assertEquals(9, procDoc.getTokenSequences().get(0).size());
+		assertEquals(9, procDoc.getTokenSequences().get(0).getSize());
 	}
 	
 	@Test
@@ -38,14 +38,14 @@ public class ProcessingDocumentFactoryTest {
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, doc);
 		assertEquals(3, procDoc.getTokenSequences().size());
 		
-		assertEquals(0, procDoc.getTokenSequences().get(0).size());
+		assertEquals(0, procDoc.getTokenSequences().get(0).getSize());
 		
-		assertEquals(10, procDoc.getTokenSequences().get(1).size());
+		assertEquals(10, procDoc.getTokenSequences().get(1).getSize());
 		assertEquals("The quick brown fox jumps over the lazy dog.", procDoc.getTokenSequences().get(1).getSurface());
 		assertEquals(4, procDoc.getTokenSequences().get(1).getToken(1).getStart());
 		assertEquals(0, procDoc.getTokenSequences().get(1).getOffset());
 		
-		assertEquals(10, procDoc.getTokenSequences().get(2).size());
+		assertEquals(10, procDoc.getTokenSequences().get(2).getSize());
 		assertEquals("The slow green turtle sneaks under the watchful cat.", procDoc.getTokenSequences().get(2).getSurface());
 		assertEquals(48, procDoc.getTokenSequences().get(2).getToken(1).getStart());
 		assertEquals(44, procDoc.getTokenSequences().get(2).getOffset());

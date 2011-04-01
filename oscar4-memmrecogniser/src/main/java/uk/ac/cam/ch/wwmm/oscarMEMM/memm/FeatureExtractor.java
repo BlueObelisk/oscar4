@@ -141,17 +141,17 @@ public final class FeatureExtractor {
 
 	private void makeFeatures() {
         initFeatureSets();
-		for (int i = 0; i < tokSeq.size(); i++) {
+		for (int i = 0; i < tokSeq.getSize(); i++) {
 			makeFeatures(i);
 		}
-		for (int i = 0; i < tokSeq.size(); i++) {
+		for (int i = 0; i < tokSeq.getSize(); i++) {
 			mergeFeatures(i);
 		}
 	}
 
     private void initFeatureSets() {
-        tokenFeatureSets = new ArrayList<FeatureSet>(tokSeq.size());
-        for (int i = 0; i < tokSeq.size(); i++) {
+        tokenFeatureSets = new ArrayList<FeatureSet>(tokSeq.getSize());
+        for (int i = 0; i < tokSeq.getSize(); i++) {
             tokenFeatureSets.add(new FeatureSet());
         }
     }
@@ -401,7 +401,7 @@ public final class FeatureExtractor {
 		FeatureList mergedFeatures = tokenFeatureSets.get(position).getFeatures();
 
 		int backwards = Math.min(1, position);
-		int forwards = Math.min(1, tokSeq.size() - position - 1);
+		int forwards = Math.min(1, tokSeq.getSize() - position - 1);
 
 		if (!noC) {
 			for (int i = -backwards; i <= forwards; i++) {
@@ -442,7 +442,7 @@ public final class FeatureExtractor {
 					&& etd.getPnStops().contains(word))
 				suspect = true;
 			int patternPosition = position + 1;
-			while (patternPosition < (tokSeq.size() - 2)
+			while (patternPosition < (tokSeq.getSize() - 2)
 					&& StringTools.isHyphen(tokSeq.getToken(
 							patternPosition).getSurface())
 					&& pnPattern.matcher(
@@ -451,7 +451,7 @@ public final class FeatureExtractor {
 				patternPosition += 2;
 				suspect = false;
 			}
-			if (patternPosition < tokSeq.size()) {
+			if (patternPosition < tokSeq.getSize()) {
 				for (String feature : tokenFeatureSets.get(patternPosition).getBigramableFeatures()) {
 					if (suspect) {
 						mergedFeatures.addFeature(("suspectpn->bg:" + feature).intern());

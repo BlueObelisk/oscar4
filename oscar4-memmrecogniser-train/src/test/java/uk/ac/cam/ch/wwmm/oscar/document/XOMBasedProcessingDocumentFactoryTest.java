@@ -73,10 +73,10 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		
 		//FIXME manually setting the biotag is necessary as this is done by
 		//XOMBasedProcessingDocumentFactory.tokeniseOnAnnotationBoundaries
-		tokens.get(0).setBioTag(new BioType(BioTag.O));
-		tokens.get(1).setBioTag(new BioType(BioTag.B, NamedEntityType.COMPOUND));
-		tokens.get(2).setBioTag(new BioType(BioTag.I, NamedEntityType.COMPOUND));
-		tokens.get(3).setBioTag(new BioType(BioTag.O));
+		tokens.get(0).setBioType(new BioType(BioTag.O));
+		tokens.get(1).setBioType(new BioType(BioTag.B, NamedEntityType.COMPOUND));
+		tokens.get(2).setBioType(new BioType(BioTag.I, NamedEntityType.COMPOUND));
+		tokens.get(3).setBioType(new BioType(BioTag.O));
 		XOMBasedProcessingDocumentFactory.getInstance().mergeNeTokens(tokens, source, 0);
 		
 		assertEquals(3, tokens.size());
@@ -101,7 +101,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		
 		//produces "the" "quick" "methyl" "brown" "fox" "jumps" "over" "the" "chlorinated" "dog"
 		tokens.get(3).setSurface("-brown");
-		tokens.get(2).setBioTag(new BioType(BioTag.B, NamedEntityType.COMPOUND));
+		tokens.get(2).setBioType(new BioType(BioTag.B, NamedEntityType.COMPOUND));
 		//produces "the" "quick" "methyl" "-brown" "fox" "jumps" "over" "the" "chlorinated" "dog"
 		
 		XOMBasedProcessingDocumentFactory.getInstance().tidyHyphensAfterNEs(tokeniser, tokens);
@@ -220,9 +220,9 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		assertEquals("dog", tokSeq.getTokens().get(9).getSurface());
 			
 	
-		assertEquals(NamedEntityType.COMPOUND, tokSeq.getTokens().get(2).getBioTag().getType());
-		assertEquals(NamedEntityType.COMPOUND, tokSeq.getTokens().get(4).getBioTag().getType());
-		assertEquals(NamedEntityType.REACTION, tokSeq.getTokens().get(8).getBioTag().getType());
+		assertEquals(NamedEntityType.COMPOUND, tokSeq.getTokens().get(2).getBioType().getType());
+		assertEquals(NamedEntityType.COMPOUND, tokSeq.getTokens().get(4).getBioType().getType());
+		assertEquals(NamedEntityType.REACTION, tokSeq.getTokens().get(8).getBioType().getType());
 	}
 	
 	@Test
@@ -231,7 +231,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		Document sourceDoc = new Builder().build(in);
 		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 
-		IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, true, true, false);
+		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, true, true, false);
 		ITokenSequence tokSeq = procDoc.getTokenSequences().get(1);
 
 		
@@ -248,9 +248,9 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		assertEquals("dog", tokSeq.getTokens().get(9).getSurface());
 			
 	
-		assertEquals(NamedEntityType.COMPOUND, tokSeq.getTokens().get(2).getBioTag().getType());
-		assertEquals(NamedEntityType.COMPOUND, tokSeq.getTokens().get(4).getBioTag().getType());
-		assertEquals(NamedEntityType.REACTION, tokSeq.getTokens().get(8).getBioTag().getType());
+		assertEquals(NamedEntityType.COMPOUND, tokSeq.getTokens().get(2).getBioType().getType());
+		assertEquals(NamedEntityType.COMPOUND, tokSeq.getTokens().get(4).getBioType().getType());
+		assertEquals(NamedEntityType.REACTION, tokSeq.getTokens().get(8).getBioType().getType());
 	}
 	
 	
@@ -267,20 +267,20 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		
 		ITokenSequence tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, false, false, null, procDoc, e, text, offset);
 		assertEquals(9, tokSeq.getTokens().size());
-		for (int i = 0; i < tokSeq.size(); i++) {
-			assertEquals(i, tokSeq.getTokens().get(i).getId());
+		for (int i = 0; i < tokSeq.getSize(); i++) {
+			assertEquals(i, tokSeq.getTokens().get(i).getIndex());
 		}
 		
 		tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, false, null, procDoc, e, text, offset);
 		assertEquals(11, tokSeq.getTokens().size());
-		for (int i = 0; i < tokSeq.size(); i++) {
-			assertEquals(i, tokSeq.getTokens().get(i).getId());
+		for (int i = 0; i < tokSeq.getSize(); i++) {
+			assertEquals(i, tokSeq.getTokens().get(i).getIndex());
 		}
 		
 		tokSeq = XOMBasedProcessingDocumentFactory.getInstance().makeTokenSequence(tokeniser, true, true, null, procDoc, e, text, offset);
 		assertEquals(10, tokSeq.getTokens().size());
-		for (int i = 0; i < tokSeq.size(); i++) {
-			assertEquals(i, tokSeq.getTokens().get(i).getId());
+		for (int i = 0; i < tokSeq.getSize(); i++) {
+			assertEquals(i, tokSeq.getTokens().get(i).getIndex());
 		}
 	}
 	

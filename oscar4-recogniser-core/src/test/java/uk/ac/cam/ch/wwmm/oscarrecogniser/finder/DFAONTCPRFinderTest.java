@@ -120,9 +120,9 @@ public class DFAONTCPRFinderTest {
     	assertEquals(0, collector.getNes().size());
     	
     	Token t1 = new Token("2,3", 0, 3, null, null, null);
-    	t1.setId(0);
+    	t1.setIndex(0);
     	Token t2 = new Token("-", 3, 4, null, null, null);
-    	t2.setId(1);
+    	t2.setIndex(1);
     	List <IToken> tokens = new ArrayList<IToken>();
     	tokens.add(t1);
     	tokens.add(t2);
@@ -182,9 +182,9 @@ public class DFAONTCPRFinderTest {
     	assertEquals(0, collector.getNes().size());
     	
     	Token t1 = new Token("exo", 0, 3, null, null, null);
-    	t1.setId(0);
+    	t1.setIndex(0);
     	Token t2 = new Token("-", 3, 4, null, null, null);
-    	t2.setId(1);
+    	t2.setIndex(1);
     	List <IToken> tokens = new ArrayList<IToken>();
     	tokens.add(t1);
     	tokens.add(t2);

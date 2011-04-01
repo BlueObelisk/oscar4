@@ -18,30 +18,35 @@ public final class Token implements IToken {
 	private int start;
 	/**The character offset (caret position) at the end of the token */
 	private int end;
-	private int id;
+	private int index;
 	private IProcessingDocument doc;
 	private ITokenSequence tokenSequence;
 	
 	private Element neElem;
 	
 	/** The B/I/O tag, when inline annotation is digested */
-	private BioType bioTag;
+	private BioType bioType;
 
-	public Token(String value, int start, int end, IProcessingDocument doc, BioType bioTag, Element neElem) {
+	public Token(String surface, int start, int end, IProcessingDocument doc, BioType bioType, Element neElem) {
 		this.start = start;
 		this.end = end;
-		this.surface = value;
+		this.surface = surface;
 		this.doc = doc;
-		this.bioTag = bioTag;
+		this.bioType = bioType;
 		this.neElem = neElem;
 	}
 	
 
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getNAfter(int)
+	/**
+	 * Gets the <i>n</i>th token after this one, or null. For example, 
+	 * getNAfter(1) would get the next token, and getNAfter(-1) would get the
+	 * previous one. 
+	 * 
+	 * @param n The offset (in tokens) from the current token.
+	 * @return The token.
 	 */
 	public IToken getNAfter(int n) {
-		int pos = n + id;
+		int pos = n + index;
 		if (tokenSequence == null){
 			throw new RuntimeException();
 		}
@@ -51,90 +56,104 @@ public final class Token implements IToken {
 		return tokenSequence.getTokens().get(pos);
 	}
 
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getValue()
+	/**
+	 * Gets the surface string (i.e. text content) of the token.
+	 * 
+	 * @return The string value of the token.
 	 */
 	public String getSurface() {
 		return surface;
 	}
 
-    /* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#setValue(java.lang.String)
+	/**
+	 * Sets the surface string (i.e. text content) of the token.
 	 */
     public void setSurface(String surface) {
         this.surface = surface;
     }
 
-    /* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getId()
+    /**
+     * Gets the index of the token in its TokenSequence.
+	 * 
+	 * @return The index of the token in its TokenSequence.
 	 */
-	public int getId() {
-		return id;
+	public int getIndex() {
+		return index;
 	}
 
-    /* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#setId(int)
-	 */
-    public void setId(int id) {
-        this.id = id;
+    /**
+     * Sets the index of the token in its TokenSequence.
+     * 
+     */
+    public void setIndex(int index) {
+        this.index = index;
     }
 
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getDoc()
+    /**
+     * Gets this token's ProcessingDocument.
+	 * 
+	 * @return This token's ProcessingDocument.
 	 */
 	public IProcessingDocument getDoc() {
 		return doc;
 	}
 	
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getStart()
+	/**
+	 * Gets the start offset of this token.
+	 * 
+	 * @return The start offset of this token.
 	 */
 	public int getStart() {
 		return start;
 	}
 
     
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getEnd()
+	/**
+	 * Gets the end offset of this token.
+	 * 
+	 * @return The end offset of this token.
 	 */
 	public int getEnd() {
 		return end;
 	}
 
-    /* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#setEnd(int)
-	 */
+    /**
+     * Sets the end offset of the token.
+     */
     public void setEnd(int end) {
         this.end = end;
     }
 
 
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getBioTag()
+    /**
+     * Gets the {@link BioType} of this token.
+	 * 
+	 * @return The BIO type of this token.
 	 */
-	public BioType getBioTag() {
-		return bioTag;
+	public BioType getBioType() {
+		return bioType;
 	}
 	
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#setBioTag(java.lang.String)
+	/**
+	 * Sets the {@link BioType} of the token.
 	 */
-	public void setBioTag(BioType bioTag) {
-		this.bioTag = bioTag;
+	public void setBioType(BioType bioType) {
+		this.bioType = bioType;
 	}
 	
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#getTokenSequence()
-	 */
-
 	
+	/**Gets the {@link TokenSequence} that contains this token.
+	 * 
+	 * @return The TokenSequence that contains this token.
+	 */
 	public ITokenSequence getTokenSequence() {
 		return tokenSequence;
 	}
 
-    /* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IToken#setTokenSequence(uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence)
-	 */
+    /**
+     * Sets the internal reference to the {@link TokenSequence} tha
+     * contains this token.
+     */
     public void setTokenSequence(ITokenSequence tokenSequence) {
         this.tokenSequence = tokenSequence;
     }

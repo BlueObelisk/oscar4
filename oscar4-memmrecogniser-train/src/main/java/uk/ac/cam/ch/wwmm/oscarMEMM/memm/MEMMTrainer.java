@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IToken;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokenSequence;
-import uk.ac.cam.ch.wwmm.oscar.document.IXOMBasedProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
@@ -120,8 +120,8 @@ public final class MEMMTrainer {
 		List<IToken> tokens = tokSeq.getTokens();
 		BioType prevTag = new BioType(BioTag.O);
 		for (int i = 0; i < tokens.size(); i++) {
-			train(featureLists.get(i), tokens.get(i).getBioTag(), prevTag);
-			prevTag = tokens.get(i).getBioTag();
+			train(featureLists.get(i), tokens.get(i).getBioType(), prevTag);
+			prevTag = tokens.get(i).getBioType();
 		}
 	}
 	
@@ -180,7 +180,7 @@ public final class MEMMTrainer {
 			}
 		}
 		
-		IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getDefaultInstance(), doc, true, false, false);
 
 		for(ITokenSequence ts : procDoc.getTokenSequences()) {
@@ -422,7 +422,7 @@ public final class MEMMTrainer {
 		for (int i = 0; i < n.size(); i++) XOMTools.removeElementPreservingText((Element)n.get(i));
 		
 		
-		IXOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getDefaultInstance(), doc, true, false, false);
 		//NameRecogniser nr = new NameRecogniser();
 		//nr.halfProcess(doc);
@@ -450,7 +450,7 @@ public final class MEMMTrainer {
 		List<IToken> tokens = tokSeq.getTokens();
 		BioType prevTag = new BioType(BioTag.O);
 		for (int i = 0; i < tokens.size(); i++) {
-			BioType tag = tokens.get(i).getBioTag();
+			BioType tag = tokens.get(i).getBioType();
 			MaxentModel gm = model.getMaxentModelByPrev(prevTag);
 			if(gm == null) continue;
 			Map<String,Double> scoresForPrev = featureCVScores.get(prevTag);

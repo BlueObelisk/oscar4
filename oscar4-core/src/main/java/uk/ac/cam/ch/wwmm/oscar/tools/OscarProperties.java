@@ -53,15 +53,11 @@ public class OscarProperties {
 
 	private Properties variablesToProps() {
 		Properties props = new Properties();
-		props.setProperty("useWordShapeHeuristic", oscarProperties.useWordShapeHeuristic ? "yes" : "no");
-		
 		props.setProperty("xmlStrings", oscarProperties.xmlStrings);
 		return props;
 	}
 
 	private void propsToVariables(Properties myProperties) {
-		oscarProperties.useWordShapeHeuristic = "yes".equals(myProperties.getProperty("useWordShapeHeuristic"));
-		
 		oscarProperties.xmlStrings = getPropertyOrNone(myProperties, "xmlStrings");
 	}
 

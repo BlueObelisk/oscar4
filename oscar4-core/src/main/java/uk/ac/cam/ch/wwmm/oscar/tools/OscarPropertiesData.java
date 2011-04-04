@@ -12,7 +12,6 @@ package uk.ac.cam.ch.wwmm.oscar.tools;
  */
 public class OscarPropertiesData {
 
-	public boolean splitOnEnDash;
 	public boolean useWordShapeHeuristic;
 		
 	public String xmlStrings;

@@ -306,11 +306,7 @@ public class DFANEFinder extends DFAFinder {
 //        if (ExtractedTrainingData.getInstance().chemicalNonWords.contains(value)) {
 //            tokenRepresentations.add("$CMNONWORD");
 //        } else
-        if (OscarProperties.getData().useWordShapeHeuristic) {
-            if (!hasTwoAdjacentLowerCaseLetters(value) && hasCapitalLetter(value)) {
-                tokenRepresentations.addRepresentation(REP_CM_NON_WORD);
-            }
-        }
+
         //SciXML dependent - removed 24/11/10 by dmj30
 //		if (t.getDoc() != null) {
 //			if (XMLStrings.getInstance().isCompoundReferenceUnderStyle(t.getDoc().getStandoffTable().getElemAtOffset(t.getEnd()-1)) 

@@ -77,7 +77,6 @@ $CARBONYL = $( carbonyl $| $-carbonyl $| carbonyls $| $-carbonyls $)
 [CM]
 $CM
 $CMS
-$CMNONWORD
 $MODIFIEDCOMPREF
 $EM
 $INCND

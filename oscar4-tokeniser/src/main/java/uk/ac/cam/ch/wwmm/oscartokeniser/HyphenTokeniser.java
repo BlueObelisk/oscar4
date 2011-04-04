@@ -35,7 +35,6 @@ public final class HyphenTokeniser {
 	private int minPrefixLength;
 	private int maxPrefixLength;
 	//splitOnEnDash will become redundant with the normalisation of hyphens
-	private boolean splitOnEnDash;
 	private static Pattern suffixPrefixPattern = Pattern.compile("mono|di|tri|tetra|penta|hexa|hepta|un|de|re|pre");
 	static Pattern propernounHyphenPattern = Pattern.compile("((Mc|Mac)?[A-Z]\\p{Ll}\\p{Ll}\\p{Ll}+(s'|'s)?" + StringTools.hyphensRegex + ")+(Mc|Mac)?[A-Z]\\p{Ll}\\p{Ll}\\p{Ll}+(s'|'s)?");
 	private static Pattern lowercaseEitherSidePattern = Pattern.compile("[a-z][a-z]["+StringTools.hyphens+"][a-z]+");
@@ -68,8 +67,6 @@ public final class HyphenTokeniser {
 			maxPrefixLength = Math.max(maxPrefixLength, p.length());
 		}
 
-
-		splitOnEnDash = OscarProperties.getData().splitOnEnDash;
 		LOG.debug("hyphen tokeniser initialised");
 	}
 	
@@ -99,10 +96,8 @@ public final class HyphenTokeniser {
 				//the en-dash and em-dash rules will become redundant with string normalisation
 				
 				//split on en-dash
-				if (splitOnEnDash) {
-					if(checkEnDash(tokenValue, currentIndex)) { 
-						return currentIndex;
-					}
+				if(checkEnDash(tokenValue, currentIndex)) { 
+					return currentIndex;
 				}
 				
 				// Always split on em-dashes

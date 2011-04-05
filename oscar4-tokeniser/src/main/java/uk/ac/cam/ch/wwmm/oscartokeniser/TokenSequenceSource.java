@@ -22,6 +22,7 @@ import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
  * @author ptc24
  *
  */
+//TODO this class doesn't seem to be in use - is it still needed?
 public final class TokenSequenceSource implements Iterable<TokenSequence>, Iterator<TokenSequence> {
 	
 	private List<File> files;
@@ -35,11 +36,7 @@ public final class TokenSequenceSource implements Iterable<TokenSequence>, Itera
 	 * @param files The files to use.
 	 */
 	public TokenSequenceSource(Collection<File> files) {
-		this.simple = false;
-		this.files = new ArrayList<File>(files);
-		filePointer = 0;
-		tokSeqs = new LinkedList<TokenSequence>();
-		nextTokeniser = null;
+		this(files, false);
 	}
 	
 	/**Make a TokenSequenceSource from the list of files.

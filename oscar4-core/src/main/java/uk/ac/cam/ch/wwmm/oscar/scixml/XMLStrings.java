@@ -12,7 +12,6 @@ import nu.xom.Nodes;
 import nu.xom.ParsingException;
 import nu.xom.XPathContext;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
 /** Strings and methods to specific to SciXML. 
@@ -57,7 +56,7 @@ public final class XMLStrings {
 	HashSet<String> blockMarkup = new HashSet<String>();
 	HashSet<String> specPropMarkup = new HashSet<String>();
 
-	protected XMLStrings(String s) {
+	public XMLStrings(String s) {
 		if (s != null){
 			try {
 				loadStrings(s);
@@ -115,14 +114,9 @@ public final class XMLStrings {
 		
 	}
 	
-	public static XMLStrings getInstance() {
+	public static synchronized XMLStrings getDefaultInstance() {
 		if(myInstance == null) {
-			String xmlStringsProp = OscarProperties.getData().xmlStrings;
-			if(!"none".equals(xmlStringsProp)) {
-				myInstance = new XMLStrings(xmlStringsProp);
-			} else {
-				myInstance = new XMLStrings(null);				
-			}
+			myInstance = new XMLStrings(null);				
 		}
 		return myInstance;
 	}
@@ -131,7 +125,7 @@ public final class XMLStrings {
 	 */
 	//TODO this isn't called - do we need it? 
 	public static void init() {
-		getInstance();
+		getDefaultInstance();
 	}
 	
 	/**Given an element, find the ancestor element that is not a style markup

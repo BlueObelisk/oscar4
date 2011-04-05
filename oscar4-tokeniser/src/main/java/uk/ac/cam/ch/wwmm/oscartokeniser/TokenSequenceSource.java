@@ -72,7 +72,7 @@ public final class TokenSequenceSource implements Iterable<TokenSequence>, Itera
 				Document doc = new Builder().build(new File(f, "source.xml"));
 				
 				if(simple) {
-					Nodes placesForChemicals = XMLStrings.getInstance().getChemicalPlaces(doc);
+					Nodes placesForChemicals = XMLStrings.getDefaultInstance().getChemicalPlaces(doc);
 					Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 					for (int i = 0; i < placesForChemicals.size(); i++) {
 						Element e = (Element)placesForChemicals.get(i);

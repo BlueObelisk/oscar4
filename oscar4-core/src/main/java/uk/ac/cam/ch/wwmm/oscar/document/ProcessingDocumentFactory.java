@@ -39,14 +39,29 @@ public class ProcessingDocumentFactory {
 
 	/**
 	 * Creates a tokenised ProcessingDocument from a SciXML document, using the supplied tokeniser
+	 * 
+	 * @param tokeniser the tokeniser to be used
+	 * @param sciXmlDoc the document to be tokenised
 	 */
 	public ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser,
 			Document sciXmlDoc) {
+		return makeTokenisedDocument(tokeniser, sciXmlDoc, XMLStrings.getDefaultInstance());
+	}
+	
+	/**
+	 * Creates a tokenised ProcessingDocument from a SciXML document, using the supplied tokeniser
+	 * 
+	 * @param tokeniser the tokeniser to be used
+	 * @param sciXmlDoc the document to be tokenised
+	 * @param xmlStrings the {@link XMLStrings} for the sciXmlDoc's schema
+	 */
+	public ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser,
+			Document sciXmlDoc, XMLStrings xmlStrings) {
 
 		ProcessingDocument procDoc = new ProcessingDocument();
 		Document taggedDoc = (Document) sciXmlDoc.copy();
 		XMLSpanTagger.tagUpDocument(taggedDoc.getRootElement(), "a"); //"a" was used in OSCAR3, but the prefix seems pretty unnecessary 
-		Nodes placesForChemicals = XMLStrings.getInstance().getChemicalPlaces(taggedDoc);
+		Nodes placesForChemicals = xmlStrings.getChemicalPlaces(taggedDoc);
 		for (int i = 0; i < placesForChemicals.size(); i++) {
 			Element e = (Element) placesForChemicals.get(i);
 			String source = e.getValue();

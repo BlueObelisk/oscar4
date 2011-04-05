@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /** Looks for places where tokens can be split on hyphens. Needs to be a separate class

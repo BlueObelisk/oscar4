@@ -17,7 +17,6 @@ import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.terms.TermSets;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;

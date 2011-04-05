@@ -73,13 +73,17 @@ public class XOMBasedProcessingDocumentFactory  {
 	 * 
 	 * 
 	 */
-	public XOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, boolean runGenia) {
+	public XOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser,
+			Document sourceDoc, boolean tokeniseForNEs,
+			boolean mergeNEs, boolean runGenia) {
 		/****************************
 		 * @lh359 Tokenisation Walkthrough:
 		 * This is the function used to call the tokeniser and tokensequence
 		 * and it calls makeTokenisedDocument with a null safdoc.
 		 */
-		return makeTokenisedDocument(tokeniser, sourceDoc, tokeniseForNEs, mergeNEs, null);
+		return makeTokenisedDocument(tokeniser, sourceDoc,
+				XMLStrings.getDefaultInstance(), tokeniseForNEs,
+				mergeNEs, null);
 	}
 	
 	/**Makes a ProcessingDocument from a source SciXML document. The SciXML
@@ -98,7 +102,36 @@ public class XOMBasedProcessingDocumentFactory  {
 	 * 
 	 * 
 	 */
-	public XOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser, Document sourceDoc, boolean tokeniseForNEs, boolean mergeNEs, Document safDoc) {
+	public XOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser,
+			Document sourceDoc, boolean tokeniseForNEs,
+			boolean mergeNEs, Document safDoc) {
+		
+		return makeTokenisedDocument(tokeniser, sourceDoc,
+				XMLStrings.getDefaultInstance(), tokeniseForNEs,
+				mergeNEs, safDoc);
+		
+	}
+	
+	/**Makes a ProcessingDocument from a source SciXML document. The SciXML
+	 * document is not stored by the ProcessingDocument - instead, a copy is
+	 * made. A SAF XML document, containing named entity information, may be
+	 * included.
+	 * @param sourceDoc The source SciXML document.
+	 * @param xmlStrings the {@link XMLStrings} for the sourceDoc's schema
+	 * @param tokeniseForNEs Whether named entity boundaries should always
+	 * result in token boundaries.
+	 * @param mergeNEs Whether to merge the tokens of named entities, to create
+	 * a state where all named entities are single-token. If this is set to
+	 * true, tokeniseForNEs should be true too.
+	 * @param safDoc A SAF document, containing named entity information.
+	 * 
+	 * @return The ProcessingDocument for the source document.
+	 * 
+	 * 
+	 */
+	public XOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser,
+			Document sourceDoc, XMLStrings xmlStrings, boolean tokeniseForNEs,
+			boolean mergeNEs, Document safDoc) {
 		XOMBasedProcessingDocument procDoc = makeDocument(sourceDoc);
 		procDoc.tokensByStart = new HashMap<Integer,Token>();
 		procDoc.tokensByEnd = new HashMap<Integer,Token>();
@@ -111,7 +144,7 @@ public class XOMBasedProcessingDocumentFactory  {
 		 *  should be replaced
 		 */
 		   
-		Nodes placesForChemicals = XMLStrings.getInstance().getChemicalPlaces(procDoc.doc);
+		Nodes placesForChemicals = xmlStrings.getChemicalPlaces(procDoc.doc);
 		/***************************
 		 * @lh359: Iterates through 
 		 * the chemical sections

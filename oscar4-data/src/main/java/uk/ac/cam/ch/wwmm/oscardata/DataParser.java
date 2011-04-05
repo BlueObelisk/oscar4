@@ -8,10 +8,9 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
 import nu.xom.Text;
-import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 
 /**A top-level class to run the RParser over a SciXML document.
@@ -22,6 +21,7 @@ import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 public final class DataParser {
 
 	private Document doc;
+	private XMLStrings xmlStrings;
 	
 	/**This puts experimental data markup on a document.
 	 * 
@@ -29,15 +29,16 @@ public final class DataParser {
 	 * experimental data is found.
 	 * @param dataOnlyInExperimental Whether to limit the locations in which data is
 	 * to be annotated to experimental sections
+	 * @param xmlStrings the XMLStrings appropriate for the document's schema
 	 */
-	public static void dataParse(Document doc, boolean dataOnlyInExperimental) {
-		DataParser dp = new DataParser(doc);
+	public static void dataParse(Document doc, boolean dataOnlyInExperimental, XMLStrings xmlStrings) {
+		DataParser dp = new DataParser(doc, xmlStrings);
 		dp.scrubFormatting();		
 		Nodes paras;
 		if(dataOnlyInExperimental) {
-			paras = doc.query(XMLStrings.getInstance().EXPERIMENTAL_PARAS_XPATH, XMLStrings.getInstance().getXpc());
+			paras = doc.query(xmlStrings.EXPERIMENTAL_PARAS_XPATH, xmlStrings.getXpc());
 		} else {
-			paras = doc.query(XMLStrings.getInstance().ALL_PARAS_XPATH, XMLStrings.getInstance().getXpc());
+			paras = doc.query(xmlStrings.ALL_PARAS_XPATH, xmlStrings.getXpc());
 		}
 		
 		for (int i = 0; i < paras.size(); i++) {
@@ -56,15 +57,16 @@ public final class DataParser {
 	 * experimental data is found.
 	 */
 	public static void dataParse(Document doc) {
-		dataParse(doc, false);
+		dataParse(doc, false, XMLStrings.getDefaultInstance());
 	}
 	
-	private DataParser(Document doc) {
+	private DataParser(Document doc, XMLStrings xmlStrings) {
 		this.doc = doc;
+		this.xmlStrings = xmlStrings;
 	}
 	
 	private void scrubFormatting() {
-		Nodes nodes = doc.query(XMLStrings.getInstance().FORMATTING_XPATH, XMLStrings.getInstance().getXpc());
+		Nodes nodes = doc.query(xmlStrings.FORMATTING_XPATH, xmlStrings.getXpc());
 		for (int i = 0; i < nodes.size(); i++) {
 			XOMTools.removeElementPreservingText((Element)nodes.get(i));
 		}

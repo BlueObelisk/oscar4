@@ -12,6 +12,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.scixml.TextToSciXML;
+import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 public class DataParserTest {
@@ -38,7 +39,7 @@ public class DataParserTest {
 				", 2.35-2.10 (m, 3H), 1.7 (m, 1H)");
 		
 		assertEquals(0, doc.query("//spectrum").size());
-		DataParser.dataParse(doc, true);
+		DataParser.dataParse(doc, true, XMLStrings.getDefaultInstance());
 		assertEquals(0, doc.query("//spectrum").size());
 	}
 	
@@ -51,7 +52,7 @@ public class DataParserTest {
 				", 2.35-2.10 (m, 3H), 1.7 (m, 1H)");
 		
 		assertEquals(0, doc.query("//spectrum").size());
-		DataParser.dataParse(doc, false);
+		DataParser.dataParse(doc, false, XMLStrings.getDefaultInstance());
 		assertEquals(1, doc.query("//spectrum").size());
 	}
 	

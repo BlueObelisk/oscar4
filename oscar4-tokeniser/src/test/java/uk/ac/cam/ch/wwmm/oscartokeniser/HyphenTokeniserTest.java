@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /**
@@ -84,8 +83,6 @@ public class HyphenTokeniserTest {
 		String splitSuffix = "foo" + StringTools.enDash + "poisoned";
 		String noSplitPrefixSplitSuffix = "tert" + StringTools.enDash + "posioned";
 		String withCaps = "FOO" + StringTools.enDash + "bar";
-		
-		OscarProperties.setProperty("splitOnEnDash", "yes");
 		
 		assertEquals(3, HyphenTokeniser.indexOfSplittableHyphen(simple));
 		assertEquals(4, HyphenTokeniser.indexOfSplittableHyphen(noSplitPrefix));

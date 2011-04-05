@@ -3,7 +3,6 @@ package uk.ac.cam.ch.wwmm.oscar.tools;
 import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -11,8 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import nu.xom.Document;
-import nu.xom.ParsingException;
-import nu.xom.ValidityException;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -28,8 +25,8 @@ public class ResourceGetterTest {
 	@Test
 	public void testLoadFromResourceGetterClasspath() throws Exception {
 		InputStream stream = new ResourceGetter(
-				"uk/ac/cam/ch/wwmm/oscar/tools/"
-			).getStream("DefaultProperties.dat");
+				"uk/ac/cam/ch/wwmm/oscar/terms/"
+			).getStream("abbreviations.txt");
 		assertNotNull(stream);
 	}
 

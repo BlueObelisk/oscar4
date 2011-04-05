@@ -1,12 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.scixml;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.cam.ch.wwmm.oscar.scixml.SciXMLDocument;
-import uk.ac.cam.ch.wwmm.oscar.scixml.XMLStrings;
-
-import nu.xom.Document;
 import nu.xom.Element;
 
 /**
@@ -28,13 +23,24 @@ public final class TextToSciXML {
 	 * @return The resulting SciXML document.
 	 */
 	public static SciXMLDocument textToSciXML(String s) {
-		Element paper = new Element(XMLStrings.getInstance().PAPER);
+		return textToSciXML(s, XMLStrings.getDefaultInstance());
+	}
+			
+	
+	/**Builds a new SciXML document from the given text string.
+	 * 
+	 * @param s The string.
+	 * @param the {@link XMLStrings} for the output document's schema
+	 * @return The resulting SciXML document.
+	 */
+	public static SciXMLDocument textToSciXML(String s, XMLStrings xmlStrings) {
+		Element paper = new Element(xmlStrings.PAPER);
 		SciXMLDocument doc = new SciXMLDocument(paper);
-		Element body = new Element(XMLStrings.getInstance().BODY);
+		Element body = new Element(xmlStrings.BODY);
 		paper.appendChild(body);
-		Element div = new Element(XMLStrings.getInstance().DIV);
+		Element div = new Element(xmlStrings.DIV);
 		body.appendChild(div);
-		Element header = new Element(XMLStrings.getInstance().HEADER);
+		Element header = new Element(xmlStrings.HEADER);
 		div.appendChild(header);
 		
 		String[] paragraphs = s.split("\n\\s*");

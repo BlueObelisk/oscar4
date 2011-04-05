@@ -16,11 +16,11 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StandoffTable;
  */
 public final class XOMBasedProcessingDocument implements IProcessingDocument {
 
-	public Document doc;
-	public StandoffTable standoffTable;
-	public List<TokenSequence> tokenSequences;
-	public Map<Integer,Token> tokensByStart;
-	public Map<Integer,Token> tokensByEnd;
+	Document doc;
+	StandoffTable standoffTable;
+	List<TokenSequence> tokenSequences;
+	Map<Integer,Token> tokensByStart;
+	Map<Integer,Token> tokensByEnd;
 
 	public XOMBasedProcessingDocument() {
 
@@ -42,9 +42,6 @@ public final class XOMBasedProcessingDocument implements IProcessingDocument {
 
 
 
-	/* (non-Javadoc)
-	 * @see uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument#getDoc()
-	 */
 	public Document getDoc() {
 		return doc;
 	}

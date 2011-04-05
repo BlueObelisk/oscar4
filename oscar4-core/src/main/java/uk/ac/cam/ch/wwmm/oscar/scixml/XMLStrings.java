@@ -1,22 +1,19 @@
 package uk.ac.cam.ch.wwmm.oscar.scixml;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-
-import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
-import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
-import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Nodes;
 import nu.xom.ParsingException;
-import nu.xom.ValidityException;
 import nu.xom.XPathContext;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
+import uk.ac.cam.ch.wwmm.oscar.tools.OscarProperties;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 
 /** Strings and methods to specific to SciXML. 
  * 
@@ -132,6 +129,7 @@ public final class XMLStrings {
 	
 	/** Initialises the singleton associated with this class. For convenience at startup.
 	 */
+	//TODO this isn't called - do we need it? 
 	public static void init() {
 		getInstance();
 	}

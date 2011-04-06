@@ -1,15 +1,12 @@
 package uk.ac.cam.ch.wwmm.oscar;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ResolvedNamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -31,8 +28,6 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  * @author dmj30
  */
 public class Oscar {
-
-    private static final Log LOG = LogFactory.getLog(Oscar.class);
 
     private ChemNameDictRegistry dictionaryRegistry;
     private ITokeniser tokeniser;
@@ -192,10 +187,6 @@ public class Oscar {
 	public void setMemmModel(MEMMModel memmModel) {
 		this.memmModel = memmModel;
 	}
-    
-	
-	
-	
 	
     /**
      * Wrapper method for identification of named entities. It calls the methods
@@ -215,49 +206,35 @@ public class Oscar {
     /**
      * Wrapper method for the identification of chemical named entities
      * and their resolution to connection tables. It calls the methods
-     * {@link #normalise(String)}, {@link #tokenise(String)},
-     * {@link #recogniseNamedEntities(List)}, and {@link #resolveNamedEntities(List)}.
+     * {@link #findNamedEntities(String)} and {@link #resolveNamedEntities(List)}.
      *
      * @param input String with input.
-     * @return the recognised chemical entities as a Map of NamedEntities to InChI strings
+     * @return the recognised chemical entities for which associated structures could be found as a List of ResolvedNamedEntity
      */
-    public Map<NamedEntity,String> findResolvedEntities(String input) {
+    public List<ResolvedNamedEntity> findResolvableNamedEntities(String input) {
         List<NamedEntity> entities = findNamedEntities(input);
-        Map<NamedEntity,String> molecules = resolveNamedEntities(entities);
-        return molecules;
+        List<ResolvedNamedEntity> entitiesWithStructures = new ArrayList<ResolvedNamedEntity>();
+        for (ResolvedNamedEntity resolvedNamedEntity : resolveNamedEntities(entities)) {
+        	if (resolvedNamedEntity.getFirstInChI()!=null || resolvedNamedEntity.getFirstSmiles()!=null){
+        		entitiesWithStructures.add(resolvedNamedEntity);
+        	}
+		}
+        return entitiesWithStructures;
     }
 
     /**
-     * Converts named entities into chemical structures, represented by their
-     * InChIs returned as {@link String}s.
+     * Converts named entities into chemical structures
      *
      * @param  entities a {@link List} of {@link NamedEntity}s.
-     * @return          a {@link Map} linking {@link NamedEntity}s to InChIs 
+     * @return          a {@link List} of {@link ResolvedNamedEntity}s
      */
-    public Map<NamedEntity,String> resolveNamedEntities(List<NamedEntity> entities) {
-        Map<NamedEntity,String> hits = new HashMap<NamedEntity,String>();
+    private List<ResolvedNamedEntity> resolveNamedEntities(List<NamedEntity> entities) {
+    	List<ResolvedNamedEntity> resolvedEntities = new ArrayList<ResolvedNamedEntity>();
+    	ChemNameDictRegistry chemnameDictRegistry = getDictionaryRegistry();
         for (NamedEntity entity : entities) {
-            String inchi = hits.get(entity);
-            if (inchi == null) {
-                inchi = resolveNamedEntity(entity.getSurface());
-                if (inchi != null) {
-                    hits.put(entity, inchi);
-                }
-            }
+        	resolvedEntities.add(new ResolvedNamedEntity(entity, chemnameDictRegistry));
         }
-        return hits;
-    }
-
-    private String resolveNamedEntity(String name) {
-        Set<String> inchis = getDictionaryRegistry().getInChI(name);
-        if (inchis.size() == 0) {
-            return null;
-        }
-        if (inchis.size() > 1) {
-            // TODO - should we handle this in the dictionary registry
-            LOG.warn(name + ": multiple hits, returning only one");
-        }
-        return inchis.iterator().next();
+        return resolvedEntities;
     }
 
     /**

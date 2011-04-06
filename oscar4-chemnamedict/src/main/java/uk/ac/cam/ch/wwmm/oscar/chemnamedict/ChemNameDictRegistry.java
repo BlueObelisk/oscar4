@@ -1,5 +1,11 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +16,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import nu.xom.Document;
+import nu.xom.Element;
+import nu.xom.Serializer;
+
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -212,6 +223,29 @@ public class ChemNameDictRegistry {
 				for (String inchi : inchis) {
 					if (inchi != null) {
 						structures.add(new ChemicalStructure(inchi, FormatType.INCHI, dictionary.getURI()));
+					}
+				}
+			}
+			if (dictionary instanceof ICMLProvider) {
+				Set <Element> cmls = ((ICMLProvider) dictionary).getCML(ne.getSurface());
+				for (Element cml : cmls) {
+					if (cml != null) {
+						ByteArrayOutputStream out = new ByteArrayOutputStream();
+						try {
+							new Serializer(out, "UTF-8").write(new Document((Element) cml.copy()));
+						} catch (UnsupportedEncodingException e) {
+							throw new Error("UTF-8 is not supported on your machine", e);
+						} catch (IOException e) {
+							LOG.warn("failed to serialise CML", e);
+							continue;
+						}
+						String cmlString;
+						try {
+							cmlString = out.toString("UTF-8");
+						} catch (UnsupportedEncodingException e) {
+							throw new Error("UTF-8 is not supported on your machine", e);
+						}
+						structures.add(new ChemicalStructure(cmlString, FormatType.CML, dictionary.getURI()));
 					}
 				}
 			}

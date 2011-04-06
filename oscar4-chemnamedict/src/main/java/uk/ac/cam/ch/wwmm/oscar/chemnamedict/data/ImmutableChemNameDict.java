@@ -144,7 +144,8 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 			for(IChemRecord record : indexByName.get(queryName)) {
 				if (record instanceof IInChIChemRecord) {
 					IInChIChemRecord inchiRecord = (IInChIChemRecord)record;
-					assert(inchiRecord.getInChI() != null); 
+					//TODO check what to do instead of the assert statement
+//					assert(inchiRecord.getInChI() != null); 
 					results.add(inchiRecord.getInChI());
 				}
 			}

@@ -16,6 +16,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.opsin.OpsinDictionary;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
@@ -63,6 +64,7 @@ public class Oscar {
     public synchronized ChemNameDictRegistry getDictionaryRegistry() {
         if (dictionaryRegistry == null) {
         	dictionaryRegistry = new ChemNameDictRegistry();
+        	dictionaryRegistry.register(new OpsinDictionary());
         }
     	return dictionaryRegistry;
     }
@@ -222,6 +224,7 @@ public class Oscar {
      * @return the recognised chemical entities as a Map of NamedEntities to InChI strings
      */
     public Map<NamedEntity,String> findResolvedEntities(String input) {
+    	//TODO either needs a name change or to include named entities without structures
         List<NamedEntity> entities = findNamedEntities(input);
         Map<NamedEntity,String> molecules = resolveNamedEntities(entities);
         return molecules;

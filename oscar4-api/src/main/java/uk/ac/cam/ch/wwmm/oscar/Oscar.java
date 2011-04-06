@@ -1,5 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscar;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -10,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ResolvedNamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -17,6 +19,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.opsin.OpsinDictionary;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
@@ -218,16 +221,24 @@ public class Oscar {
      * Wrapper method for the identification of chemical named entities
      * and their resolution to connection tables. It calls the methods
      * {@link #normalise(String)}, {@link #tokenise(String)},
-     * {@link #recogniseNamedEntities(List)}, and {@link #resolveNamedEntities(List)}.
+     * {@link #recogniseNamedEntities(List)}, and
+     * {@link ChemNameDictRegistry#resolveNamedEntity(NamedEntity)}
      *
      * @param input String with input.
-     * @return the recognised chemical entities as a Map of NamedEntities to InChI strings
+     * @return the recognised chemical entities as a List of {@link ResolvedNamedEntity}s,
+     * containing only those named entities of type {@link NamedEntityType#COMPOUND}
+     * that could be resolved to connection tables using the current dictionary registry.
      */
-    public Map<NamedEntity,String> findResolvedEntities(String input) {
-    	//TODO either needs a name change or to include named entities without structures
-        List<NamedEntity> entities = findNamedEntities(input);
-        Map<NamedEntity,String> molecules = resolveNamedEntities(entities);
-        return molecules;
+    public List<ResolvedNamedEntity> findResolvableEntities(String input) {
+        List <NamedEntity> entities = findNamedEntities(input);
+        List <ResolvedNamedEntity> resolvable = new ArrayList<ResolvedNamedEntity>();
+        for (NamedEntity ne : entities) {
+			ResolvedNamedEntity rne = getDictionaryRegistry().resolveNamedEntity(ne);
+			if (rne.getChemicalStructures().size() > 0) {
+				resolvable.add(rne);
+			}
+		}
+        return resolvable;
     }
 
     /**
@@ -237,7 +248,7 @@ public class Oscar {
      * @param  entities a {@link List} of {@link NamedEntity}s.
      * @return          a {@link Map} linking {@link NamedEntity}s to InChIs 
      */
-    public Map<NamedEntity,String> resolveNamedEntities(List<NamedEntity> entities) {
+    private Map<NamedEntity,String> resolveNamedEntities(List<NamedEntity> entities) {
         Map<NamedEntity,String> hits = new HashMap<NamedEntity,String>();
         for (NamedEntity entity : entities) {
             String inchi = hits.get(entity);

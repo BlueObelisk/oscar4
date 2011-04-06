@@ -4,13 +4,13 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import nu.xom.Element;
 
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ResolvedNamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -67,18 +67,18 @@ public class OscarTest {
 	}
 
 	@Test
-	public void testGetResolvedEntities() {
+	public void findResolvableNamedEntities() {
 		Oscar oscar = new Oscar();
-		Map<NamedEntity,String> entities =
-			oscar.findResolvedEntities("Then we mix benzene with toluene.");
+		List<ResolvedNamedEntity> entities =
+			oscar.findResolvableNamedEntities("Then we mix benzene with toluene.");
 		assertNotNull(entities);
 		assertEquals(2, entities.size());
-		for (NamedEntity ne : entities.keySet()) {
-			if ("benzene".equals(ne.getSurface())) {
-				assertEquals("InChI=1/C6H6/c1-2-4-6-5-3-1/h1-6H", entities.get(ne));
+		for (ResolvedNamedEntity rne : entities) {
+			if ("benzene".equals(rne.getNamedEntity().getSurface())) {
+				assertEquals(true, rne.getFirstInChI().contains("/C6H6/c1-2-4-6-5-3-1/h1-6H"));
 			}
-			else if ("toluene".equals(ne.getSurface())) {
-				assertEquals("InChI=1/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3", entities.get(ne));
+			else if ("toluene".equals(rne.getNamedEntity().getSurface())) {
+				assertEquals(true, rne.getFirstInChI().contains("/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3"));
 			}
 			else {
 				fail();

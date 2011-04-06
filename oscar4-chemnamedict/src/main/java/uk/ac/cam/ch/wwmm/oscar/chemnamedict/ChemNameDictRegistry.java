@@ -30,6 +30,7 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ChemicalStructure;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.FormatType;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ResolvedNamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
 /**
  * Central point of access to query dictionaries.
@@ -109,7 +110,9 @@ public class ChemNameDictRegistry {
 
 	public boolean hasName(String queryName) {
 		for (IChemNameDict dict : dictionaries.values()) {
-			if (dict.hasName(queryName)) return true;
+			if (dict.hasName(queryName)) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -120,8 +123,9 @@ public class ChemNameDictRegistry {
 			if (dict instanceof ISMILESProvider) {
 				ISMILESProvider smiDict = (ISMILESProvider)dict;
 				Set<String> smileses = smiDict.getSMILES(queryName);
-				if (smileses != null)
+				if (smileses != null) {
 					allsmileses.addAll(smiDict.getSMILES(queryName));
+				}
 			}
 		}
 		return allsmileses;
@@ -206,7 +210,18 @@ public class ChemNameDictRegistry {
 		return defaultInstance;
 	}
 
+	/**
+	 * Resolves the given {@link NamedEntity} to a {@link ResolvedNamedEntity}.
+	 * Only named entities of type {@link NamedEntityType#COMPOUND} can
+	 * be resolved.
+	 * 
+	 * @return a {@link ResolvedNamedEntity}, or null if the given named
+	 * entity could not be resolved.
+	 */
 	public ResolvedNamedEntity resolveNamedEntity(NamedEntity ne) {
+		if (!ne.getType().isInstance(NamedEntityType.COMPOUND)) {
+			return null;
+		}
 		List <ChemicalStructure> structures = new ArrayList<ChemicalStructure>();
 		
 		for (IChemNameDict dictionary : dictionaries.values()) {
@@ -251,6 +266,9 @@ public class ChemNameDictRegistry {
 			}
 		}
 		
+		if (structures.size() == 0) {
+			return null;
+		}
 		return new ResolvedNamedEntity(ne, structures);
 	}
 }

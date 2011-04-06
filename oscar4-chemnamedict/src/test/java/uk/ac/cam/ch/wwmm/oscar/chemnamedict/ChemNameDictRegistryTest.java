@@ -276,4 +276,18 @@ public class ChemNameDictRegistryTest {
 			return set;
 		}
 	}
+	
+	@Test
+	public void testResolveNonCmNamedEntity() {
+		NamedEntity cmNamedEntity = new NamedEntity("ethane", 0, 0, NamedEntityType.COMPOUND);
+		assertNotNull(ChemNameDictRegistry.getDefaultInstance().resolveNamedEntity(cmNamedEntity));
+		NamedEntity nonCmNamedEntity = new NamedEntity("ethane", 0, 0, NamedEntityType.ONTOLOGY);
+		assertNull(ChemNameDictRegistry.getDefaultInstance().resolveNamedEntity(nonCmNamedEntity));
+	}
+	
+	@Test
+	public void testResolveUnresolvableNamedEntity() {
+		NamedEntity nonCmNamedEntity = new NamedEntity("unresolvable", 0, 0, NamedEntityType.COMPOUND);
+		assertNull(ChemNameDictRegistry.getDefaultInstance().resolveNamedEntity(nonCmNamedEntity));
+	}
 }

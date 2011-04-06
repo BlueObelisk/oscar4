@@ -49,7 +49,7 @@ public class ResolvedNamedEntity {
 
 	/**
 	 * Returns the first {@link ChemicalStructure} of the given
-	 * {@link FormatType}
+	 * {@link FormatType}, or null if none exists.
 	 * 
 	 */
 	public ChemicalStructure getFirstChemicalStructure(FormatType type) {

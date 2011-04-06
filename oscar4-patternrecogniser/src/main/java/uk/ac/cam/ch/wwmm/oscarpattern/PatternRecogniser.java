@@ -32,7 +32,8 @@ import com.google.common.collect.SetMultimap;
 
 /**
  * Name recognition using patterns
- * @author ptc
+ * 
+ * @author ptc24
  * @author j_robinson
  * @author dmj30
  */

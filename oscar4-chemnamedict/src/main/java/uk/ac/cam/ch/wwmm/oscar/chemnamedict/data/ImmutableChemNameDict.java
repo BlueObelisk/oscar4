@@ -3,6 +3,7 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict.data;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -115,16 +116,14 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 			Set<String> results = new HashSet<String>();
 			for(IChemRecord record : indexByName.get(queryName)) {
 				if (record instanceof ISMILESChemRecord) {
-					ISMILESChemRecord smilesRecord = (ISMILESChemRecord)record;
-					if (smilesRecord.getSMILES() != null) 
-						results.add(smilesRecord.getSMILES());
+					String smiles = ((ISMILESChemRecord) record).getSMILES();
+					if (smiles != null) 
+						results.add(smiles);
 				}
 			}
-			if(results.size() > 0) return results;
-			return null;
-		} else {
-			return null;
+			return results;
 		}
+		return Collections.EMPTY_SET;
 	}
 
 	public String getShortestSMILES(String queryName) {
@@ -143,17 +142,15 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 			Set<String> results = new HashSet<String>();
 			for(IChemRecord record : indexByName.get(queryName)) {
 				if (record instanceof IInChIChemRecord) {
-					IInChIChemRecord inchiRecord = (IInChIChemRecord)record;
-					//TODO check what to do instead of the assert statement
-//					assert(inchiRecord.getInChI() != null); 
-					results.add(inchiRecord.getInChI());
+					String inchi = ((IInChIChemRecord) record).getInChI();
+					if (inchi != null) {
+						results.add(inchi);	
+					}
 				}
 			}
-			if(results.size() > 0) return results;
-			return null;
-		} else {
-			return null;
+			return results;	
 		}
+		return Collections.EMPTY_SET;
 	}
 
 //	public String getInChIforShortestSMILES(String queryName) {

@@ -4,9 +4,12 @@ import static org.junit.Assert.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+
+import nu.xom.Element;
 
 import org.junit.Test;
 
@@ -14,6 +17,7 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ChemicalStructure;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.FormatType;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ResolvedNamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
@@ -244,5 +248,32 @@ public class ChemNameDictRegistryTest {
 			}
 		}
 		return false;
+	}
+	
+	@Test
+	public void testResolveNamedEntityToCml() throws URISyntaxException {
+		CmlProvider cmlDict = new CmlProvider(new URI("http://www.example.org/dictionary"), Locale.ENGLISH);
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
+		registry.register(cmlDict);
+		NamedEntity ne = new NamedEntity("foo", 0, 0, NamedEntityType.COMPOUND);
+		ResolvedNamedEntity rne = registry.resolveNamedEntity(ne);
+		assertEquals(1, rne.getChemicalStructures().size());
+		assertTrue(FormatType.CML == rne.getChemicalStructures().get(0).getType());
+		assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?><foo/>",
+				rne.getChemicalStructures().get(0).getValue().replaceAll("\\r", "").replaceAll("\\n", ""));
+	}
+	
+	class CmlProvider extends MutableChemNameDict implements ICMLProvider {
+
+		public CmlProvider(URI uri, Locale language) {
+			super(uri, language);
+		}
+
+		public Set<Element> getCML(String queryName) {
+			Element elem = new Element("foo");
+			Set <Element> set = new HashSet<Element>();
+			set.add(elem);
+			return set;
+		}
 	}
 }

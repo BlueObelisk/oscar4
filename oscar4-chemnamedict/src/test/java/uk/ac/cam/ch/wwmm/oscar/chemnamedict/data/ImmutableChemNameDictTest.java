@@ -44,4 +44,24 @@ public class ImmutableChemNameDictTest {
 		assertEquals(1, inchis.size());
 		assertTrue(inchis.contains("InChI=1/C5H5N.ClH.Cr.3O/c1-2-4-6-5-3-1;;;;;/h1-5H;1H;;;;/q;;+1;;;-1"));
 	}
+	
+	@Test
+	public void testGetSmiles() throws URISyntaxException, DataFormatException {
+		InputStream in = ClassLoader.getSystemResourceAsStream(
+				"uk/ac/cam/ch/wwmm/oscar/data/testDict.xml");
+		ImmutableChemNameDict dict = new ImmutableChemNameDict(
+				new URI("http://www.example.org"), Locale.ENGLISH,in);
+		assertEquals(1, dict.getSMILES("PCC").size());
+		assertEquals(0, dict.getSMILES("unrecognisedName").size());
+	}
+	
+	@Test
+	public void testGetInchi() throws URISyntaxException, DataFormatException {
+		InputStream in = ClassLoader.getSystemResourceAsStream(
+				"uk/ac/cam/ch/wwmm/oscar/data/testDict.xml");
+		ImmutableChemNameDict dict = new ImmutableChemNameDict(
+				new URI("http://www.example.org"), Locale.ENGLISH,in);
+		assertEquals(1, dict.getInChI("PCC").size());
+		assertEquals(0, dict.getInChI("unrecognisedName").size());
+	}
 }

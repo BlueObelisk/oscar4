@@ -11,6 +11,8 @@ import nu.xom.Element;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.FormatType;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ResolvedNamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -67,36 +69,37 @@ public class OscarTest {
 	}
 
 	@Test
-	public void testFindResolvedEntities() {
+	public void testFindResolvableEntities() {
 		Oscar oscar = new Oscar();
-		Map<NamedEntity,String> entities =
-			oscar.findResolvedEntities("Then we mix benzene with toluene.");
-		assertNotNull(entities);
+		oscar.setDictionaryRegistry(ChemNameDictRegistry.getDefaultInstance());
+		List <ResolvedNamedEntity> entities =
+			oscar.findResolvableEntities("Then we mix benzene with toluene.");
 		assertEquals(2, entities.size());
-		for (NamedEntity ne : entities.keySet()) {
-			if ("benzene".equals(ne.getSurface())) {
-				assertEquals("InChI=1/C6H6/c1-2-4-6-5-3-1/h1-6H", entities.get(ne));
-			}
-			else if ("toluene".equals(ne.getSurface())) {
-				assertEquals("InChI=1/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3", entities.get(ne));
-			}
-			else {
-				fail();
-			}
-		}
+		
+		assertEquals("benzene", entities.get(0).getNamedEntity().getSurface());
+		assertEquals("c1ccccc1", entities.get(0).getFirstChemicalStructure(FormatType.SMILES).getValue());
+		assertEquals("InChI=1/C6H6/c1-2-4-6-5-3-1/h1-6H", entities.get(0).getFirstChemicalStructure(FormatType.INCHI).getValue());
+		assertNull(entities.get(0).getFirstChemicalStructure(FormatType.CML));
+		
+		assertEquals("toluene", entities.get(1).getNamedEntity().getSurface());
+		assertEquals("Cc1ccccc1", entities.get(1).getFirstChemicalStructure(FormatType.SMILES).getValue());
+		assertEquals("InChI=1/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3", entities.get(1).getFirstChemicalStructure(FormatType.INCHI).getValue());
+		assertNull(entities.get(1).getFirstChemicalStructure(FormatType.CML));
 	}
 	
 	@Test
-	public void testFindResolvedNonDictionaryEntities() {
-		String testName = "ethylmethane";
+	public void testFindResolvableNonDictionaryEntities() {
+		//TODO fix reliance on inchi library
+		String testName = "methylethane";
 		Oscar oscar = new Oscar();
 		assertFalse(oscar.getDictionaryRegistry().hasName(testName));
-		Map<NamedEntity,String> entities =
-			oscar.findResolvedEntities("before adding the " + testName);
-		assertNotNull(entities);
+		List <ResolvedNamedEntity> entities =
+			oscar.findResolvableEntities("before adding the " + testName);
 		assertEquals(1, entities.size());
-		assertEquals(testName, entities.keySet().iterator().next().getSurface());
-		assertEquals("InChI=1/C3H8/c1-3-2/h3H2,1-2H3", entities.values().iterator().next());
+		assertEquals(testName, entities.get(0).getNamedEntity().getSurface());
+		assertEquals("CCC", entities.get(0).getFirstChemicalStructure(FormatType.SMILES).getValue());
+		assertEquals("InChI=1/C3H8/c1-3-2/h3H2,1-2H3", entities.get(0).getFirstChemicalStructure(FormatType.INCHI).getValue());
+		assertNotNull(entities.get(0).getFirstChemicalStructure(FormatType.CML));
 	}
 	
 	

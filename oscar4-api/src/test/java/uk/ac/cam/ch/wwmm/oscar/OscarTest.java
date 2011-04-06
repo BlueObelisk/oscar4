@@ -57,7 +57,7 @@ public class OscarTest {
 	}
 
 	@Test
-	public void testGetNamedEntities() {
+	public void testFindNamedEntities() {
 		Oscar oscar = new Oscar();
 		List<NamedEntity> entities =
 			oscar.findNamedEntities("Then we mix benzene with toluene.");
@@ -67,7 +67,7 @@ public class OscarTest {
 	}
 
 	@Test
-	public void testGetResolvedEntities() {
+	public void testFindResolvedEntities() {
 		Oscar oscar = new Oscar();
 		Map<NamedEntity,String> entities =
 			oscar.findResolvedEntities("Then we mix benzene with toluene.");
@@ -84,6 +84,19 @@ public class OscarTest {
 				fail();
 			}
 		}
+	}
+	
+	@Test
+	public void testFindResolvedNonDictionaryEntities() {
+		String testName = "ethylmethane";
+		Oscar oscar = new Oscar();
+		assertFalse(oscar.getDictionaryRegistry().hasName(testName));
+		Map<NamedEntity,String> entities =
+			oscar.findResolvedEntities("before adding the " + testName);
+		assertNotNull(entities);
+		assertEquals(1, entities.size());
+		assertEquals(testName, entities.keySet().iterator().next().getSurface());
+		assertEquals("InChI=1/C3H8/c1-3-2/h3H2,1-2H3", entities.values().iterator().next());
 	}
 	
 	

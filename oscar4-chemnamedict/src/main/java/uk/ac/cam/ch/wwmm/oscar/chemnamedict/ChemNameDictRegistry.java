@@ -15,6 +15,10 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ChemicalStructure;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.FormatType;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ResolvedNamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 
 /**
  * Central point of access to query dictionaries.
@@ -45,7 +49,7 @@ public class ChemNameDictRegistry {
 	
 	/**
 	 * Creates a new ChemNameDictRegistry for the specified
-	 * language.
+	 * language with no registered dictionaries.
 	 */
 	public ChemNameDictRegistry(Locale locale) {
 		this.language = locale;
@@ -189,5 +193,30 @@ public class ChemNameDictRegistry {
 			defaultInstance.dictionaries = Collections.unmodifiableMap(dictionaries);
 		}
 		return defaultInstance;
+	}
+
+	public ResolvedNamedEntity resolveNamedEntity(NamedEntity ne) {
+		List <ChemicalStructure> structures = new ArrayList<ChemicalStructure>();
+		
+		for (IChemNameDict dictionary : dictionaries.values()) {
+			if (dictionary instanceof ISMILESProvider) {
+				Set <String> smilesStrings = ((ISMILESProvider) dictionary).getSMILES(ne.getSurface());
+				for (String smiles : smilesStrings) {
+					if (smiles != null) {
+						structures.add(new ChemicalStructure(smiles, FormatType.SMILES, dictionary.getURI()));	
+					}
+				}
+			}
+			if (dictionary instanceof IInChIProvider) {
+				Set <String> inchis = ((IInChIProvider) dictionary).getInChI(ne.getSurface());
+				for (String inchi : inchis) {
+					if (inchi != null) {
+						structures.add(new ChemicalStructure(inchi, FormatType.INCHI, dictionary.getURI()));
+					}
+				}
+			}
+		}
+		
+		return new ResolvedNamedEntity(ne, structures);
 	}
 }

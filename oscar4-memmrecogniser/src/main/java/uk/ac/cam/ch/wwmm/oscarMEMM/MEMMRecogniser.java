@@ -27,7 +27,9 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
 /**
  * Name recognition using the Maximum Entropy Markov Model
  *
+ * @author ptc24
  * @author j_robinson
+ * @author dmj30
  */
 public class MEMMRecogniser implements ChemicalEntityRecogniser {
 

@@ -24,6 +24,8 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IChemRecord;
  * A class to interface OSCAR name resolution with the Open Parser for
  * Systematic IUPAC Nomenclature (OPSIN). 
  *
+ * @author egonw
+ * @author dmj30
  */
 public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvider, ISMILESProvider {
 
@@ -70,7 +72,7 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 	 * Performs name to structure conversion on the given name
 	 * A set containing 1 or 0 InChIs is returned depending on whether or not the name was interpretable
 	 */
-	public Set<String> getInChI(String queryName) {
+	public Set<String> getInchis(String queryName) {
 		NameToStructure nts;
 		try {
 			nts = NameToStructure.getInstance();
@@ -159,7 +161,7 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 	 * Performs name to structure conversion on the given name
 	 * A set containing 1 or 0 SMILES strings is returned depending on whether or not the name was interpretable
 	 */
-	public Set<String> getSMILES(String queryName) {
+	public Set<String> getAllSmiles(String queryName) {
 		NameToStructure nts;
 		try {
 			nts = NameToStructure.getInstance();
@@ -180,8 +182,8 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 	 * Performs name to structure conversion on the given name
 	 * A SMILES string or null is returned depending on whether or not the name was interpretable
 	 */
-	public String getShortestSMILES(String queryName) {
-		Set<String> smiles = getSMILES(queryName);
+	public String getShortestSmiles(String queryName) {
+		Set<String> smiles = getAllSmiles(queryName);
 		if (smiles.size()>0){
 			return smiles.iterator().next();
 		}

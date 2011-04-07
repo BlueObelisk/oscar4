@@ -16,7 +16,7 @@ public class DefaultDictionaryTest extends AbstractDictionaryTest {
 		// from defaultCompounds.xml
 		assertEquals(
 			"InChI=1/C4H6O3/c1-3(5)7-4(2)6/h1-2H3",
-			dict.getInChI("Ac2O").iterator().next()
+			dict.getInchis("Ac2O").iterator().next()
 		);
 	}
 

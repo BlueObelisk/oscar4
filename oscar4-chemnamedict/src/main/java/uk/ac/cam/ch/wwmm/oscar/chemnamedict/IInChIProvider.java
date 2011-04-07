@@ -7,9 +7,14 @@ import java.util.Set;
  * in InChI.
  *
  * @author egonw
+ * @author dmj30
  */
 public interface IInChIProvider {
 
-	public Set<String> getInChI(String queryName);
+	/**
+	 * Returns a set containing all of the known InChIs for
+	 * the given query name.
+	 */
+	public Set<String> getInchis(String queryName);
 
 }

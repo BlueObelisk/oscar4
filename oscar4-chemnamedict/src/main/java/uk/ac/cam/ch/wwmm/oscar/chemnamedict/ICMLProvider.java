@@ -9,9 +9,14 @@ import nu.xom.Element;
  * in CML format.
  *
  * @author egonw
+ * @author dmj30
  */
 public interface ICMLProvider {
 
+	/**
+	 * Returns a set containing all of the known
+	 * CML representations for the given query name.
+	 */
 	public Set<Element> getCML(String queryName);
 
 }

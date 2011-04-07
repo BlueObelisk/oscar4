@@ -15,7 +15,7 @@ public class ChEBIDictionaryTest extends AbstractDictionaryTest {
 		assertNotNull(dict);
 		assertEquals(
 			"InChI=1/CH4/h1H4",
-			dict.getInChI("methane").iterator().next()
+			dict.getInchis("methane").iterator().next()
 		);
 	}
 	
@@ -27,7 +27,7 @@ public class ChEBIDictionaryTest extends AbstractDictionaryTest {
 		assertNotNull(dict);
 		assertEquals(
 			"InChI=1/H2O4S/c1-5(2,3)4/h(H2,1,2,3,4)/f/h1-2H",
-			dict.getInChI("sulfuric acid").iterator().next()
+			dict.getInchis("sulfuric acid").iterator().next()
 		);
 	}
 

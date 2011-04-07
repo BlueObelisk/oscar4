@@ -6,11 +6,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 import nu.xom.Document;
@@ -22,7 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ImmutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ChemicalStructure;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.FormatType;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ResolvedNamedEntity;
@@ -42,8 +39,7 @@ public class ChemNameDictRegistry {
 	private static ChemNameDictRegistry defaultInstance;
 
 	private Locale language;
-	//TODO kill Map
-	private Map<URI,IChemNameDict> dictionaries = new HashMap<URI,IChemNameDict>();
+	private List <IChemNameDict> dictionaries = new ArrayList<IChemNameDict>();
 
 	/**
 	 * Creates a new ChemNameDictRegistry for the English language.
@@ -70,13 +66,21 @@ public class ChemNameDictRegistry {
 	 * Registers a new dictionary, uniquely identified by its {@link URI}.
 	 *
 	 * @param dictionary
+	 * @throws IllegalArgumentException if a dictionary with
+	 * the same URI is already registered
 	 */
-	//TODO check on uniqueness of URI
 	public void register(IChemNameDict dictionary) {
 		if (!language.getLanguage().equals(dictionary.getLanguage().getLanguage())){
 			LOG.warn("Registry has different language than dictionary");
 		}
-		dictionaries.put(dictionary.getURI(), dictionary);
+		for (IChemNameDict dict : dictionaries) {
+			if (dict.getURI().equals(dictionary.getURI())) {
+				throw new IllegalArgumentException(
+						"ChemNameDictRegistry already contains a dictionary" +
+						"with URI: " + dictionary.getURI());
+			}
+		}
+		dictionaries.add(dictionary);
 	}
 
 	/**
@@ -93,19 +97,26 @@ public class ChemNameDictRegistry {
 	 */
 	public List<URI> listDictionaries() {
 		List<URI> uris = new ArrayList<URI>();
-		uris.addAll(dictionaries.keySet());
+		for (IChemNameDict dict : dictionaries) {
+			uris.add(dict.getURI());
+		}
 		return uris;
 	}
 
 	/**
-	 * Returns the {@link ChemNameDict} identified by the given {@link URI}.
+	 * Returns the {@link ChemNameDict} identified by the given {@link URI},
+	 * or null if there is no such dictionary registered.
 	 *
 	 * @param  uri the unique {@link URI} of the dictionary
 	 * @return     a {@link ChemNameDict}
 	 */
-	//TODO better unit test
 	public IChemNameDict getDictionary(URI uri) {
-		return dictionaries.get(uri);
+		for (IChemNameDict dict : dictionaries) {
+			if(dict.getURI().equals(uri)) {
+				return dict;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -114,7 +125,7 @@ public class ChemNameDictRegistry {
 	 * 
 	 */
 	public boolean hasName(String queryName) {
-		for (IChemNameDict dict : dictionaries.values()) {
+		for (IChemNameDict dict : dictionaries) {
 			if (dict.hasName(queryName)) {
 				return true;
 			}
@@ -129,7 +140,7 @@ public class ChemNameDictRegistry {
 	 */
 	public Set<String> getAllSmiles(String queryName) {
 		Set<String> allSmiles = new HashSet<String>();
-		for (IChemNameDict dict : dictionaries.values()) {
+		for (IChemNameDict dict : dictionaries) {
 			if (dict instanceof ISMILESProvider) {
 				allSmiles.addAll(((ISMILESProvider)dict).getAllSmiles(queryName));
 			}
@@ -147,7 +158,7 @@ public class ChemNameDictRegistry {
 	 */
 	public String getShortestSmiles(String queryName) {
 		String shortestSmiles = null;
-		for (IChemNameDict dict : dictionaries.values()) {
+		for (IChemNameDict dict : dictionaries) {
 			if (dict instanceof ISMILESProvider) {
 				String smiles = ((ISMILESProvider)dict).getShortestSmiles(queryName);
 				if (smiles != null) {
@@ -167,7 +178,7 @@ public class ChemNameDictRegistry {
 	 */
 	public Set<String> getInchis(String queryName) {
 		Set<String> allInchis = new HashSet<String>();
-		for (IChemNameDict dict : dictionaries.values()) {
+		for (IChemNameDict dict : dictionaries) {
 			if (dict instanceof IInChIProvider) {
 				Set<String> inchis = ((IInChIProvider)dict).getInchis(queryName);
 				allInchis.addAll(inchis);
@@ -182,7 +193,7 @@ public class ChemNameDictRegistry {
 	 */
 	public Set<String> getNames(String inchi) {
 		Set<String> allNames = new HashSet<String>();
-		for (IChemNameDict dict : dictionaries.values()) {
+		for (IChemNameDict dict : dictionaries) {
 			allNames.addAll(dict.getNames(inchi));
 		}
 		return allNames;
@@ -195,7 +206,7 @@ public class ChemNameDictRegistry {
 	 * @return
 	 */
 	public boolean hasOntologyIdentifier(String identifier) {
-		for (IChemNameDict dict : dictionaries.values()) {
+		for (IChemNameDict dict : dictionaries) {
 			if (dict.hasOntologyIdentifier(identifier)) {
 				return true;
 			}
@@ -209,7 +220,7 @@ public class ChemNameDictRegistry {
 	 */
 	public Set<String> getAllNames() {
 		Set<String> allNames = new HashSet<String>();
-		for (IChemNameDict dict : dictionaries.values()) {
+		for (IChemNameDict dict : dictionaries) {
 			allNames.addAll(dict.getNames());
 		}
 		return allNames;
@@ -232,8 +243,8 @@ public class ChemNameDictRegistry {
 			//with the correct data - DO NOT CHANGE THIS.
 			defaultInstance.register(ChEBIDictionary.getInstance());
 			defaultInstance.register(new DefaultDictionary());
-			Map<URI, IChemNameDict> dictionaries = defaultInstance.dictionaries;
-			defaultInstance.dictionaries = Collections.unmodifiableMap(dictionaries);
+			List <IChemNameDict> dictionaries = defaultInstance.dictionaries;
+			defaultInstance.dictionaries = Collections.unmodifiableList(dictionaries);
 		}
 		return defaultInstance;
 	}
@@ -252,7 +263,7 @@ public class ChemNameDictRegistry {
 		}
 		List <ChemicalStructure> structures = new ArrayList<ChemicalStructure>();
 		
-		for (IChemNameDict dictionary : dictionaries.values()) {
+		for (IChemNameDict dictionary : dictionaries) {
 			if (dictionary instanceof ISMILESProvider) {
 				Set <String> smilesStrings = ((ISMILESProvider) dictionary).getAllSmiles(ne.getSurface());
 				for (String smiles : smilesStrings) {

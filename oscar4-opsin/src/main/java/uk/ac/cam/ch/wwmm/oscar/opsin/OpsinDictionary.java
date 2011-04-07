@@ -14,11 +14,11 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructureException;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ICMLProvider;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IInChIProvider;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ISMILESProvider;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ICMLProvider;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IInChIProvider;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ISMILESProvider;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IChemRecord;
 
 /**
  * A class to interface OSCAR name resolution with the Open Parser for

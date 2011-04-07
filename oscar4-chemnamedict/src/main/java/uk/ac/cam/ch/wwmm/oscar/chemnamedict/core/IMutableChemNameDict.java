@@ -1,8 +1,8 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
 import java.util.Set;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IChemRecord;
 
 public interface IMutableChemNameDict extends IChemNameDict {
 

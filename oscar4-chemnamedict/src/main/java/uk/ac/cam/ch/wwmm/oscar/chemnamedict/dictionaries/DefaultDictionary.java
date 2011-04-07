@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.dictionaries;
 
 import java.io.IOException;
 import java.net.URI;
@@ -6,8 +6,8 @@ import java.net.URISyntaxException;
 import java.util.Locale;
 
 import nu.xom.ParsingException;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictIO;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictIO;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 

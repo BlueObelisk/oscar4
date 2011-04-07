@@ -13,7 +13,6 @@ import nu.xom.Element;
 
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ChemicalStructure;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.FormatType;
@@ -41,12 +40,22 @@ public class ChemNameDictRegistryTest {
 	public void testRegister() throws Exception {
 		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		assertEquals(0, registry.listDictionaries().size());
-		IMutableChemNameDict dict = new MutableChemNameDict(
-			new URI("http://www.example.org/"),
-			Locale.ENGLISH
-		);
-		registry.register(dict);
+		
+		String uri1 = "http://www.example.org/dict1";
+		String uri2 = "http://www.example.org/dict2";
+		registry.register(new MutableChemNameDict(new URI(uri1), Locale.ENGLISH));
 		assertEquals(1, registry.listDictionaries().size());
+		
+		registry.register(new MutableChemNameDict(new URI(uri2), Locale.ENGLISH));
+		assertEquals(2, registry.listDictionaries().size());
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testRegisterDuplicateDictionary() throws URISyntaxException {
+		String uri = "http://www.example.org/dict";
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
+		registry.register(new MutableChemNameDict(new URI(uri), Locale.ENGLISH));
+		registry.register(new MutableChemNameDict(new URI(uri), Locale.ENGLISH));
 	}
 
 	@Test
@@ -63,11 +72,15 @@ public class ChemNameDictRegistryTest {
 
 	@Test
 	public void testGetDictionary() throws Exception {
-		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
-		URI uri = new URI("http://www.example.org/");
+		String uriLocation = "http://www.example.org/";
+		URI uri = new URI(uriLocation);
 		IMutableChemNameDict dict = new MutableChemNameDict(uri, Locale.ENGLISH);
+		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		registry.register(dict);
-		assertEquals(dict, registry.getDictionary(uri));
+		
+		assertTrue(dict == registry.getDictionary(uri));
+		assertTrue(dict == registry.getDictionary(new URI(uriLocation)));
+		assertNull(registry.getDictionary(new URI("http://www.differentsite.com/")));
 	}
 
 	@Test
@@ -182,8 +195,10 @@ public class ChemNameDictRegistryTest {
 	}
 	
 	@Test (expected = UnsupportedOperationException.class)
-	public void testDefaultInstanceIsImmutable2() {
-		ChemNameDictRegistry.getDefaultInstance().register(new DefaultDictionary());
+	public void testDefaultInstanceIsImmutable2() throws URISyntaxException {
+		String uri = "http://www.example.org/dict";
+		IChemNameDict newDict = new MutableChemNameDict(new URI(uri), Locale.ENGLISH);
+		ChemNameDictRegistry.getDefaultInstance().register(newDict);
 	}
 	
 	

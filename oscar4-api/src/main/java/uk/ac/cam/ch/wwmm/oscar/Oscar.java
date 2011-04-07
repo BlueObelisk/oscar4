@@ -264,7 +264,7 @@ public class Oscar {
     }
 
     private String resolveNamedEntity(String name) {
-        Set<String> inchis = getDictionaryRegistry().getInChI(name);
+        Set<String> inchis = getDictionaryRegistry().getInchis(name);
         if (inchis.size() == 0) {
             return null;
         }

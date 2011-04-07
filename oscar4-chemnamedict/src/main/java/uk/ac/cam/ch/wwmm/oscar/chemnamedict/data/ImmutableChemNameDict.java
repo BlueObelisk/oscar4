@@ -40,6 +40,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  *
  * @author ptc24
  * @author egonw
+ * @author dmj30
  */
 public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISMILESProvider {
 
@@ -110,10 +111,10 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 		return orphanNames.contains(queryName) || indexByName.containsKey(queryName);
 	}
 
-	public Set<String> getSMILES(String queryName) {
+	public Set<String> getAllSmiles(String queryName) {
+		Set<String> results = new HashSet<String>();
 		queryName = StringTools.normaliseName(queryName);
 		if(indexByName.containsKey(queryName)) {
-			Set<String> results = new HashSet<String>();
 			for(IChemRecord record : indexByName.get(queryName)) {
 				if (record instanceof ISMILESChemRecord) {
 					String smiles = ((ISMILESChemRecord) record).getSMILES();
@@ -121,14 +122,13 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 						results.add(smiles);
 				}
 			}
-			return results;
 		}
-		return Collections.EMPTY_SET;
+		return results;
 	}
 
-	public String getShortestSMILES(String queryName) {
+	public String getShortestSmiles(String queryName) {
 		String s = null;
-		Set<String> smiles = getSMILES(queryName);
+		Set<String> smiles = getAllSmiles(queryName);
 		if(smiles == null) return null;
 		for(String smile : smiles) {
 			if(s == null || s.length() > smile.length()) s = smile;
@@ -136,10 +136,10 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 		return s;
 	}
 
-	public Set<String> getInChI(String queryName) {
+	public Set<String> getInchis(String queryName) {
+		Set<String> results = new HashSet<String>();
 		queryName = StringTools.normaliseName(queryName);
 		if(indexByName.containsKey(queryName)) {
-			Set<String> results = new HashSet<String>();
 			for(IChemRecord record : indexByName.get(queryName)) {
 				if (record instanceof IInChIChemRecord) {
 					String inchi = ((IInChIChemRecord) record).getInChI();
@@ -148,9 +148,8 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 					}
 				}
 			}
-			return results;	
 		}
-		return Collections.EMPTY_SET;
+		return results;
 	}
 
 //	public String getInChIforShortestSMILES(String queryName) {
@@ -195,10 +194,13 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 //	}
 
 	public Set<String> getNames(String inchi) {
-		if(!indexByInchi.containsKey(inchi)) return null;
-		Set<String> names = new HashSet<String>(indexByInchi.get(inchi).getNames());
-		if(names.size() == 0) return null;
-		return names;
+		IChemRecord record = indexByInchi.get(inchi);
+		if (record == null) {
+			return new HashSet<String>();
+		}
+		else {
+			return new HashSet<String>(record.getNames());
+		}
 	}
 
 	public Set<String> getNames() {
@@ -215,8 +217,7 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 	}
 
 	public Set<IChemRecord> getChemRecords() {
-		Set<IChemRecord> results = new HashSet<IChemRecord>();
-		results.addAll(chemRecords);
+		Set<IChemRecord> results = new HashSet<IChemRecord>(chemRecords);
 		return results;
 	}
 

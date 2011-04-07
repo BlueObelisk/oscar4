@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ImmutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ChemicalStructure;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.FormatType;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ResolvedNamedEntity;
@@ -41,6 +42,7 @@ public class ChemNameDictRegistry {
 	private static ChemNameDictRegistry defaultInstance;
 
 	private Locale language;
+	//TODO kill Map
 	private Map<URI,IChemNameDict> dictionaries = new HashMap<URI,IChemNameDict>();
 
 	/**
@@ -69,6 +71,7 @@ public class ChemNameDictRegistry {
 	 *
 	 * @param dictionary
 	 */
+	//TODO check on uniqueness of URI
 	public void register(IChemNameDict dictionary) {
 		if (!language.getLanguage().equals(dictionary.getLanguage().getLanguage())){
 			LOG.warn("Registry has different language than dictionary");
@@ -100,10 +103,16 @@ public class ChemNameDictRegistry {
 	 * @param  uri the unique {@link URI} of the dictionary
 	 * @return     a {@link ChemNameDict}
 	 */
+	//TODO better unit test
 	public IChemNameDict getDictionary(URI uri) {
 		return dictionaries.get(uri);
 	}
 
+	/**
+	 * Tests to see if one of the currently-registered dictionaries contains
+	 * the given name.
+	 * 
+	 */
 	public boolean hasName(String queryName) {
 		for (IChemNameDict dict : dictionaries.values()) {
 			if (dict.hasName(queryName)) {
@@ -113,67 +122,90 @@ public class ChemNameDictRegistry {
 		return false;
 	}
 
-	public Set<String> getSMILES(String queryName) {
-		Set<String> allsmileses = new HashSet<String>();
+	/**
+	 * Returns a set containing all the SMILES strings for the given
+	 * query name contained by the currently-registered dictionaries.
+	 * 
+	 */
+	public Set<String> getAllSmiles(String queryName) {
+		Set<String> allSmiles = new HashSet<String>();
 		for (IChemNameDict dict : dictionaries.values()) {
 			if (dict instanceof ISMILESProvider) {
-				ISMILESProvider smiDict = (ISMILESProvider)dict;
-				Set<String> smileses = smiDict.getSMILES(queryName);
-				if (smileses != null) {
-					allsmileses.addAll(smiDict.getSMILES(queryName));
+				allSmiles.addAll(((ISMILESProvider)dict).getAllSmiles(queryName));
+			}
+		}
+		return allSmiles;
+	}
+
+	/**
+	 * Returns the shortest SMILES string for the given query
+	 * name contained by the currently-registered dictionaries.
+	 * 
+	 * @return the shortest SMILES string or null if no SMILES
+	 * string for the given query name are contained in any of
+	 * the currently-registered dictionaries.
+	 */
+	public String getShortestSmiles(String queryName) {
+		String shortestSmiles = null;
+		for (IChemNameDict dict : dictionaries.values()) {
+			if (dict instanceof ISMILESProvider) {
+				String smiles = ((ISMILESProvider)dict).getShortestSmiles(queryName);
+				if (smiles != null) {
+					if (shortestSmiles == null || smiles.length() < shortestSmiles.length()) {
+						shortestSmiles = smiles;	
+					}
 				}
 			}
 		}
-		return allsmileses;
+		return shortestSmiles;
 	}
 
-	public String getShortestSMILES(String queryName) {
-		String shortestSMILES = null;
-		for (IChemNameDict dict : dictionaries.values()) {
-			if (dict instanceof ISMILESProvider) {
-				ISMILESProvider smiDict = (ISMILESProvider)dict;
-				String smiles = smiDict.getShortestSMILES(queryName);
-				if (smiles !=null && (shortestSMILES == null ||
-					smiles.length() < shortestSMILES.length())) {
-					shortestSMILES = smiles;
-				}
-			}
-		}
-		return shortestSMILES;
-	}
-
-	public Set<String> getInChI(String queryName) {
+	/**
+	 * Returns a set containing all the InChI strings for the given
+	 * query name contained by the currently-registered dictionaries.
+	 * 
+	 */
+	public Set<String> getInchis(String queryName) {
 		Set<String> allInchis = new HashSet<String>();
 		for (IChemNameDict dict : dictionaries.values()) {
 			if (dict instanceof IInChIProvider) {
-				IInChIProvider inchiDict = (IInChIProvider)dict;
-				Set<String> inchis = inchiDict.getInChI(queryName);
-				if (inchis != null)
-					allInchis.addAll(inchis);
+				Set<String> inchis = ((IInChIProvider)dict).getInchis(queryName);
+				allInchis.addAll(inchis);
 			}
 		}
 		return allInchis;
 	}
 
+	/**
+	 * Returns a set containing all the chemical names that correspond
+	 * to the given InChI in the currently-registered dictionaries. 
+	 */
 	public Set<String> getNames(String inchi) {
 		Set<String> allNames = new HashSet<String>();
 		for (IChemNameDict dict : dictionaries.values()) {
-			Set<String> names = dict.getNames(inchi);
-			if (names != null)
-				allNames.addAll(dict.getNames(inchi));
+			allNames.addAll(dict.getNames(inchi));
 		}
 		return allNames;
 	}
 
+	/**
+	 * Checks if the given ontology identifier is contained within any
+	 * of the currently-registered dictionaries.
+	 * @param identifier
+	 * @return
+	 */
 	public boolean hasOntologyIdentifier(String identifier) {
 		for (IChemNameDict dict : dictionaries.values()) {
-			if (dict.hasOntologyIdentifier(identifier)) return true;
+			if (dict.hasOntologyIdentifier(identifier)) {
+				return true;
+			}
 		}
 		return false;
 	}
 
 	/**
-	 * Returns a set of all names of all registered dictionaries. Don't do this too often.
+	 * Returns a set of all names contained by the currently-registered
+	 * dictionaries. Don't do this too often.
 	 */
 	public Set<String> getAllNames() {
 		Set<String> allNames = new HashSet<String>();
@@ -222,7 +254,7 @@ public class ChemNameDictRegistry {
 		
 		for (IChemNameDict dictionary : dictionaries.values()) {
 			if (dictionary instanceof ISMILESProvider) {
-				Set <String> smilesStrings = ((ISMILESProvider) dictionary).getSMILES(ne.getSurface());
+				Set <String> smilesStrings = ((ISMILESProvider) dictionary).getAllSmiles(ne.getSurface());
 				for (String smiles : smilesStrings) {
 					if (smiles != null) {
 						structures.add(new ChemicalStructure(smiles, FormatType.SMILES, dictionary.getURI()));	
@@ -230,7 +262,7 @@ public class ChemNameDictRegistry {
 				}
 			}
 			if (dictionary instanceof IInChIProvider) {
-				Set <String> inchis = ((IInChIProvider) dictionary).getInChI(ne.getSurface());
+				Set <String> inchis = ((IInChIProvider) dictionary).getInchis(ne.getSurface());
 				for (String inchi : inchis) {
 					if (inchi != null) {
 						structures.add(new ChemicalStructure(inchi, FormatType.INCHI, dictionary.getURI()));

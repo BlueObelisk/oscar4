@@ -20,9 +20,9 @@ import java.util.Stack;
 
 import org.apache.commons.io.IOUtils;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.dictionaries.ChEBIDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.dictionaries.DefaultDictionary;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.obo.dso.DSOtoOBO;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;

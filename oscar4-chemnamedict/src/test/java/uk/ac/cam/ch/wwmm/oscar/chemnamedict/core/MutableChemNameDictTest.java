@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict.data;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
 import java.net.URI;
 import java.util.Locale;
@@ -6,8 +6,8 @@ import java.util.Locale;
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IMutableChemNameDict;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IMutableChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.MutableChemNameDict;
 
 public class MutableChemNameDictTest {
 

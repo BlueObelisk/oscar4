@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.dictionaries;
 
 import static org.junit.Assert.*;
 
@@ -6,8 +6,9 @@ import java.util.Locale;
 
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.dictionaries.PolymerDictionary;
 
 public class PolymerDictionaryTest extends AbstractDictionaryTest {
 

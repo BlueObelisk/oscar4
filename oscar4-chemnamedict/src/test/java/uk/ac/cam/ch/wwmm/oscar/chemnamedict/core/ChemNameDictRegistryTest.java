@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
 import static org.junit.Assert.*;
 
@@ -13,7 +13,11 @@ import nu.xom.Element;
 
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.MutableChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ICMLProvider;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IMutableChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.MutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ChemicalStructure;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.FormatType;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ResolvedNamedEntity;

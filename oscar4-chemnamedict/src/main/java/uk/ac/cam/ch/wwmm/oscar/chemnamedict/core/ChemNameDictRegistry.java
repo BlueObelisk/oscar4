@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,8 +18,8 @@ import nu.xom.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChEBIDictionary;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.DefaultDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.dictionaries.ChEBIDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.dictionaries.DefaultDictionary;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ChemicalStructure;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.FormatType;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ResolvedNamedEntity;

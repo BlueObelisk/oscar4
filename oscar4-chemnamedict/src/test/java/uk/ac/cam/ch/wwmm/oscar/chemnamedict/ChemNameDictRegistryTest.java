@@ -99,11 +99,11 @@ public class ChemNameDictRegistryTest {
 		registry.register(dict);
 		dict.addChemical("propanol", "C1.C1O", "not relevant");
 
-		assertNotNull(registry.getSMILES("butanol"));
-		assertEquals(0, registry.getSMILES("butanol").size());
+		assertNotNull(registry.getAllSmiles("butanol"));
+		assertEquals(0, registry.getAllSmiles("butanol").size());
 
-		Set<String> smileses = registry.getSMILES("propanol");
-		assertEquals(2, registry.getSMILES("propanol").size());
+		Set<String> smileses = registry.getAllSmiles("propanol");
+		assertEquals(2, registry.getAllSmiles("propanol").size());
 		assertTrue(smileses.contains("CCO"));
 		assertTrue(smileses.contains("C1.C1O"));
 	}
@@ -124,9 +124,9 @@ public class ChemNameDictRegistryTest {
 		registry.register(dict);
 		dict.addChemical("propanol", "C1.C1O", "not relevant");
 
-		assertNull(registry.getShortestSMILES("butanol"));
+		assertNull(registry.getShortestSmiles("butanol"));
 
-		String smiles = registry.getShortestSMILES("propanol");
+		String smiles = registry.getShortestSmiles("propanol");
 		assertEquals("CCO", smiles);
 	}
 
@@ -140,10 +140,10 @@ public class ChemNameDictRegistryTest {
 		dict.addChemical("methane", "C", "InChI=1/CH4/h1H4");
 		registry.register(dict);
 
-		assertNotNull(registry.getInChI("butanol"));
-		assertEquals(0, registry.getInChI("butanol").size());
+		assertNotNull(registry.getInchis("butanol"));
+		assertEquals(0, registry.getInchis("butanol").size());
 
-		Set<String> inchis = registry.getInChI("methane");
+		Set<String> inchis = registry.getInchis("methane");
 		assertEquals(1, inchis.size());
 		assertEquals("InChI=1/CH4/h1H4", inchis.iterator().next());
 	}

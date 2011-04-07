@@ -15,7 +15,7 @@ public class OpsinDictionaryTest {
 		Assert.assertNotNull(dict);
 		Assert.assertEquals(
 			"InChI=1/CH4/h1H4",
-			dict.getInChI("methane").iterator().next()
+			dict.getInchis("methane").iterator().next()
 		);
 	}
 	
@@ -34,7 +34,7 @@ public class OpsinDictionaryTest {
 	public void testMethaneSmiles() {
 		OpsinDictionary dict = new OpsinDictionary();
 		Assert.assertNotNull(dict);
-		Assert.assertEquals("C", dict.getSMILES("methane").iterator().next());
+		Assert.assertEquals("C", dict.getAllSmiles("methane").iterator().next());
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class OpsinDictionaryTest {
 		Assert.assertNotNull(dict);
 		Assert.assertEquals(
 			"InChI=1/C6H6/c1-2-4-6-5-3-1/h1-6H",
-			dict.getInChI("benzene").iterator().next()
+			dict.getInchis("benzene").iterator().next()
 		);
 	}
 	
@@ -62,6 +62,6 @@ public class OpsinDictionaryTest {
 	public void testBenzeneSmiles() {
 		OpsinDictionary dict = new OpsinDictionary();
 		Assert.assertNotNull(dict);
-		Assert.assertEquals("C1=CC=CC=C1", dict.getSMILES("benzene").iterator().next());
+		Assert.assertEquals("C1=CC=CC=C1", dict.getAllSmiles("benzene").iterator().next());
 	}
 }

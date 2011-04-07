@@ -22,15 +22,13 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /**
  * Dictionary with polymer entity related names. Being rather ill-defined,
- * names are not associated with InChIs or SMILESes.
+ * names are not associated with InChIs or SMILES strings.
  *
  * @author egonw
  */
-public class PolymerDictionary
-extends MutableChemNameDict
-implements IChemNameDict {
+public class PolymerDictionary extends MutableChemNameDict implements IChemNameDict {
 
-	private static final URI	POLYMER_DICTIONARY_URL;
+	private static final URI POLYMER_DICTIONARY_URL;
 
 	static {
 		try {

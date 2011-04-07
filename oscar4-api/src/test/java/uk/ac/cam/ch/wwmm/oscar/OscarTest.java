@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import nu.xom.Element;
 
@@ -49,12 +48,12 @@ public class OscarTest {
 		// test loading of the ChEBI dictionary
 		assertEquals(
 			"InChI=1/CH4/h1H4",
-			registry.getInChI("methane").iterator().next()
+			registry.getInchis("methane").iterator().next()
 		);
 		// test loading of the default dictionary
 		assertEquals(
 			"InChI=1/C4H6O3/c1-3(5)7-4(2)6/h1-2H3",
-			registry.getInChI("Ac2O").iterator().next()
+			registry.getInchis("Ac2O").iterator().next()
 		);
 	}
 

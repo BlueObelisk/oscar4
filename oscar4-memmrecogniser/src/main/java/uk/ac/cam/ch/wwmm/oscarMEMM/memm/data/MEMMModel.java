@@ -7,15 +7,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
-
 import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import opennlp.maxent.GISModel;
 import opennlp.maxent.MaxentModel;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarException;
+
+import org.apache.commons.collections.set.UnmodifiableSet;
+
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
@@ -32,6 +32,7 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
  *
  * @author ptc24
  * @author egonw
+ * @author dmj30
  */
 public class MEMMModel {
 
@@ -54,6 +55,9 @@ public class MEMMModel {
         rescorer = null;
 	}
 
+    /**
+     * Creates a MEMM model using the supplied serialised model.
+     */
     public MEMMModel(Element trainedModel) {
 		this();
 		try {
@@ -101,7 +105,6 @@ public class MEMMModel {
             rescorer = new MEMMOutputRescorer();
             rescorer.readElement(rescorerElem);
         } else {
-        	
             rescorer = null;
         }
         Element etdElem = modelRoot.getFirstChildElement("etd");

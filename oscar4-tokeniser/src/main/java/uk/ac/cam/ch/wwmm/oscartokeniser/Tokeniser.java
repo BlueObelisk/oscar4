@@ -80,21 +80,21 @@ public final class Tokeniser implements ITokeniser {
 	/**
 	 * Tokenises a string.
 	 * 
-	 * @param s
-	 *            The string to tokenise.
-	 * @return The TokenSequence for the string.
+	 * @param string The string to tokenise.
+	 * @return A {@link TokenSequence} representing the tokenised string.
 	 */
-	public TokenSequence tokenise(String s) {
-		return tokenise(s, null, 0, null);
+	public TokenSequence tokenise(String string) {
+		return tokenise(string, null, 0, null);
 	}
 
 	/**
 	 * Tokenises a string.
 	 * 
-	 * @param s
+	 * @param string
 	 *            The string to tokenise.
 	 * @param doc
-	 *            The ProcessingDocument for the string.
+	 *            The ProcessingDocument into which to insert the
+	 *            tokenised string.
 	 * @param offset
 	 *            The start offset of the string.
 	 * @param annotations
@@ -109,10 +109,10 @@ public final class Tokeniser implements ITokeniser {
 	 *            become single-token NEs.
 	 * @return The TokenSequence for the string.
 	 */
-	public TokenSequence tokenise(String s, IProcessingDocument doc, int offset,
+	public TokenSequence tokenise(String string, IProcessingDocument doc, int offset,
 			Element annotations) {
 		List<Token> tokens = new LinkedList<Token>();
-		Matcher m = tokenPattern.matcher(s);
+		Matcher m = tokenPattern.matcher(string);
 		/* Initial tokenisation */
 		
 		/*
@@ -173,7 +173,7 @@ public final class Tokeniser implements ITokeniser {
 		}
 		tokens = tmpTokens;
 		
-		TokenSequence tokenSequence = indexTokensAndMakeTokenSequence(s, doc,
+		TokenSequence tokenSequence = indexTokensAndMakeTokenSequence(string, doc,
 				offset, annotations, tokens);
 		
 		return tokenSequence;

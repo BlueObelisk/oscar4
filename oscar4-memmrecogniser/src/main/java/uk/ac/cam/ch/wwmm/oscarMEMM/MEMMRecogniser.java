@@ -34,7 +34,6 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
 public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
 	private MEMMModel model;
-//    private MEMM memm;
     private double memmThreshold = 0.2;
     private DFAONTCPRFinder ontologyAndPrefixTermFinder;
 	private double ontPseudoConfidence = 0.2;
@@ -43,10 +42,23 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 	private boolean deprioritiseOnts = false;
 	private DFASupplementaryTermFinder supplementaryTermFinder;
 
+	/**
+	 * Creates the default MEMMRecogniser, using the {@link ChemPapersModel},
+	 * the default {@link OntologyTerms} (defined in ontology.txt), and no
+	 * supplementary chemical names.
+	 */
     public MEMMRecogniser() {
         this (new ChemPapersModel(), OntologyTerms.getDefaultInstance(), new ChemNameDictRegistry(Locale.ENGLISH));
     }
     
+    /**
+     * Creates a custom MEMMRecogniser.
+     * 
+     * @param model the MEMMModel to be used
+     * @param ontTerms the {@link OntologyTerms} to be identified
+     * @param supplementaryNameRegistry a {@link ChemNameDictRegistry}
+     * defining a set of additional chemical names to be annotated
+     */
     public MEMMRecogniser(MEMMModel model, OntologyTerms ontTerms, ChemNameDictRegistry supplementaryNameRegistry) {
     	this.model = model;
     	this.ontologyAndPrefixTermFinder = new DFAONTCPRFinder(ontTerms);

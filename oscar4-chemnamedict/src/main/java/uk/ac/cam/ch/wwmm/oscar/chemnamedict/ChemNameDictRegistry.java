@@ -2,9 +2,6 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -20,7 +17,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Serializer;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -247,7 +243,7 @@ public class ChemNameDictRegistry {
 					if (cml != null) {
 						ByteArrayOutputStream out = new ByteArrayOutputStream();
 						try {
-							new Serializer(out, "UTF-8").write(new Document((Element) cml.copy()));
+							new Serializer(out, "UTF-8").write(new Document(cml));
 						} catch (UnsupportedEncodingException e) {
 							throw new Error("UTF-8 is not supported on your machine", e);
 						} catch (IOException e) {

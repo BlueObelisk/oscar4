@@ -232,9 +232,10 @@ public class Oscar {
     public List<ResolvedNamedEntity> findResolvableEntities(String input) {
         List <NamedEntity> entities = findNamedEntities(input);
         List <ResolvedNamedEntity> resolvable = new ArrayList<ResolvedNamedEntity>();
+        ChemNameDictRegistry chemnameDictRegistry = getDictionaryRegistry();
         for (NamedEntity ne : entities) {
-			ResolvedNamedEntity rne = getDictionaryRegistry().resolveNamedEntity(ne);
-			if (rne.getChemicalStructures().size() > 0) {
+			ResolvedNamedEntity rne = chemnameDictRegistry.resolveNamedEntity(ne);
+			if (rne != null){
 				resolvable.add(rne);
 			}
 		}

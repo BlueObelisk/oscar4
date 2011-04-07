@@ -10,7 +10,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ResolvedNamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;

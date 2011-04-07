@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict.data;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
 import static org.junit.Assert.*;
 
@@ -11,7 +11,7 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ImmutableChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ImmutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 
 public class ImmutableChemNameDictTest {
@@ -29,7 +29,7 @@ public class ImmutableChemNameDictTest {
 	@Test
 	public void testLoadConstructor() throws URISyntaxException, DataFormatException {
 		InputStream in = ClassLoader.getSystemResourceAsStream(
-				"uk/ac/cam/ch/wwmm/oscar/data/testDict.xml");
+				"uk/ac/cam/ch/wwmm/oscar/core/testDict.xml");
 		ImmutableChemNameDict dict = new ImmutableChemNameDict(
 				new URI("http://www.example.org"), Locale.ENGLISH,in);
 		assertEquals(3, dict.chemRecords.size());
@@ -48,7 +48,7 @@ public class ImmutableChemNameDictTest {
 	@Test
 	public void testGetSmiles() throws URISyntaxException, DataFormatException {
 		InputStream in = ClassLoader.getSystemResourceAsStream(
-				"uk/ac/cam/ch/wwmm/oscar/data/testDict.xml");
+				"uk/ac/cam/ch/wwmm/oscar/core/testDict.xml");
 		ImmutableChemNameDict dict = new ImmutableChemNameDict(
 				new URI("http://www.example.org"), Locale.ENGLISH,in);
 		assertEquals(1, dict.getAllSmiles("PCC").size());
@@ -58,7 +58,7 @@ public class ImmutableChemNameDictTest {
 	@Test
 	public void testGetInchi() throws URISyntaxException, DataFormatException {
 		InputStream in = ClassLoader.getSystemResourceAsStream(
-				"uk/ac/cam/ch/wwmm/oscar/data/testDict.xml");
+				"uk/ac/cam/ch/wwmm/oscar/core/testDict.xml");
 		ImmutableChemNameDict dict = new ImmutableChemNameDict(
 				new URI("http://www.example.org"), Locale.ENGLISH,in);
 		assertEquals(1, dict.getInchis("PCC").size());

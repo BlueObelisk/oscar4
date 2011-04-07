@@ -14,8 +14,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.PolymerDictionary;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.dictionaries.PolymerDictionary;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;

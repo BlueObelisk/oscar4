@@ -9,7 +9,7 @@ import java.util.Set;
 import org.apache.commons.collections.set.UnmodifiableSet;
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;

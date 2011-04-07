@@ -6,7 +6,7 @@ import java.util.Set;
 import org.apache.commons.collections.set.UnmodifiableSet;
 
 import opennlp.maxent.GISModel;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;

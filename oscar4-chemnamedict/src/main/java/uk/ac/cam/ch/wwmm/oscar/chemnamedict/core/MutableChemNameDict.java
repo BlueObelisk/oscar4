@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict.data;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
 import java.net.URI;
 import java.util.HashSet;
@@ -7,10 +7,11 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IChemNameDict;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IInChIProvider;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.IMutableChemNameDict;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ISMILESProvider;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.ChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IInChIChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IOntologyChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.ISMILESChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /**

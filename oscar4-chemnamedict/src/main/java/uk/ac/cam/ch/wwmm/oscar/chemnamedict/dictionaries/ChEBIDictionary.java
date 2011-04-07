@@ -1,11 +1,11 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.dictionaries;
 
 import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ImmutableChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ImmutableChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;

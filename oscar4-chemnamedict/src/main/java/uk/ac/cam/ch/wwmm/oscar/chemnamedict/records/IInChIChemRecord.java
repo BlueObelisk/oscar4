@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict.data;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.records;
 
 /**
  * A {@link IChemRecord} that has support for an InChI identifier.

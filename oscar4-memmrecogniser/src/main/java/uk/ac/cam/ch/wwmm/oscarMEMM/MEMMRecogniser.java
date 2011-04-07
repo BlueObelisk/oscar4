@@ -9,7 +9,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;

@@ -6,7 +6,7 @@ import org.apache.commons.collections.set.UnmodifiableSet;
 
 import nu.xom.Document;
 import nu.xom.ParsingException;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;

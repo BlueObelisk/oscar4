@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.chemnamedict;
+package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,9 +12,9 @@ import nu.xom.Elements;
 import nu.xom.ParsingException;
 import nu.xom.Serializer;
 import nu.xom.ValidityException;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecord;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.ChemRecordIO;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.ChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.ChemRecordIO;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 
 /**

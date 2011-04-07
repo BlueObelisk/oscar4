@@ -39,12 +39,15 @@ public final class OntologyTerms {
 	private ListMultimap<String,String> terms;
 	private Set<String> hyphTokable;
 	
-//	private static Pattern maybeHyphPattern = Pattern.compile("(\\S+)\\s+\\$\\(\\s+\\$HYPH\\s+\\$\\)\\s+\\$\\?\\s+(\\S+)");
-//																foo $( $HYPH $) $? bar
 	private static Pattern maybeHyphPattern = Pattern.compile("(\\S+)(?:\\s+|-)(\\S+)");
 	
 	private static OntologyTerms defaultInstance;
-	
+
+	/**
+	 * Gets the default instance of OntologyTerms, containing the
+	 * ontology terms defined in ontology.txt and derived from
+	 * ChEBI, FIX and REX.
+	 */
 	public static OntologyTerms getDefaultInstance() {
 		if (defaultInstance == null) {
             return createInstance();
@@ -81,7 +84,7 @@ public final class OntologyTerms {
 		this.terms = Multimaps.unmodifiableListMultimap(terms);
 	}
 
-	/**Whether the ontology set contains a given term name or synonym.
+	/**Checks if the ontology set contains a given term name or synonym.
 	 * 
 	 * @param term The term name to query.
 	 * @return Whether the term exists.
@@ -91,7 +94,7 @@ public final class OntologyTerms {
 	}
 	
 	/**Gets all IDs that apply to the term name or synonym , as a
-	 * space-separated list.
+	 * space-separated list. The returned list is read-only.
 	 * 
 	 * @param term The term name or synonym to query.
 	 * @return The IDs, or null.
@@ -100,7 +103,8 @@ public final class OntologyTerms {
 		return terms.get(term);
 	}
 	
-	/**Gets all of the term names and synonyms.
+	/**Gets all of the term names and synonyms. The returned set
+	 * is read-only.
 	 * 
 	 * @return The term names an synonyms.
 	 */
@@ -108,6 +112,10 @@ public final class OntologyTerms {
 		return terms.keySet();
 	}
 	
+	/**
+	 * Returns the {@link ListMultimap} defining the term-id relations.
+	 * The returned ListMultimap is read-only. 
+	 */
 	public ListMultimap<String, String> getOntology() {
 		return terms;
 	}

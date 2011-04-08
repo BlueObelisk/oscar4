@@ -1,21 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>oscar4</artifactId>
-    <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
-    <version>4.0-SNAPSHOT</version>
-  </parent>
-  <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
-  <artifactId>oscar4-formatter</artifactId>
-  <version>4.0-SNAPSHOT</version>
-  <name>oscar4-formatter</name>
-  <description>Provides classes to format Oscar output into a certain format.</description>
-  <dependencies>
-    <dependency>
-      <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
-      <artifactId>oscar4-core</artifactId>
-      <version>4.0-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
+        <artifactId>oscar4</artifactId>
+        <version>4.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>oscar4-formatter</artifactId>
+    <name>oscar4-formatter</name>
+    <description>Provides classes to format Oscar output into a certain format.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-core</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

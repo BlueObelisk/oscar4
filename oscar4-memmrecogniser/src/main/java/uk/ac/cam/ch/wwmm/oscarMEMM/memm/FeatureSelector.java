@@ -9,8 +9,8 @@ import java.util.Set;
 
 import opennlp.maxent.Event;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscarrecogniser.ptcDataStruct.Bag;
 
@@ -21,7 +21,7 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.ptcDataStruct.Bag;
  */
 final class FeatureSelector {
 
-	private static final Log LOG = LogFactory.getLog(FeatureSelector.class);
+	private static final Logger LOG = LoggerFactory.getLogger(FeatureSelector.class);
 	
 	private Bag<String> featureCounts;
 	private Bag<String> outcomeCounts;

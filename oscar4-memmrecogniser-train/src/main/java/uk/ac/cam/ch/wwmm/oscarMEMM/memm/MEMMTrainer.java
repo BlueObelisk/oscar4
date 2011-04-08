@@ -26,7 +26,9 @@ import opennlp.maxent.TwoPassDataIndexer;
 
 import org.apache.commons.collections.set.UnmodifiableSet;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -65,7 +67,7 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  */
 public final class MEMMTrainer {
 
-	private final Logger logger = Logger.getLogger(MEMMTrainer.class);
+	private final Logger logger = LoggerFactory.getLogger(MEMMTrainer.class);
 
 	private MutableMEMMModel model;
 

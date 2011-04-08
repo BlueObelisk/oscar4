@@ -36,25 +36,20 @@
         </dependency>
 
         <dependency>
-            <groupId>openNLP</groupId>
-            <artifactId>openNLP</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-        </dependency>
-        <dependency>
             <groupId>wwmm-expediency</groupId>
             <artifactId>maxent</artifactId>
         </dependency>
-        <dependency>
-            <groupId>dk.brics.automaton</groupId>
-            <artifactId>automaton</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>commons-math</groupId>
             <artifactId>commons-math</artifactId>
         </dependency>
+        <dependency>
+            <!-- needed by commons-maths! -->
+            <groupId>commons-discovery</groupId>
+            <artifactId>commons-discovery</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
@@ -62,10 +57,6 @@
         <dependency>
             <groupId>trove</groupId>
             <artifactId>trove</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-discovery</groupId>
-            <artifactId>commons-discovery</artifactId>
         </dependency>
 
         <dependency>

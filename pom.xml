@@ -247,7 +247,7 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <argLine>-Xms512m -Xmx1024m -verbose:gc</argLine>
+                    <argLine>-Xms512m -Xmx1024m</argLine>
                 </configuration>
             </plugin>
         </plugins>

@@ -8,17 +8,18 @@
         <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
         <artifactId>oscar4</artifactId>
         <version>4.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>oscar4-chemnamedict</artifactId>
     <name>Chemical Name Dictionaries</name>
 
     <dependencies>
+
         <dependency>
             <groupId>${oscar.groupId}</groupId>
             <artifactId>oscar4-core</artifactId>
         </dependency>
+
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
@@ -27,11 +28,13 @@
             <groupId>xom</groupId>
             <artifactId>xom</artifactId>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
 </project>

@@ -1,83 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
-		<artifactId>oscar4</artifactId>
-		<version>4.0-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
+    <parent>
+        <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
+        <artifactId>oscar4</artifactId>
+        <version>4.0-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>oscar4-memmrecogniser</artifactId>
-	<name>oscar4-memmrecogniser</name>
+    <artifactId>oscar4-memmrecogniser</artifactId>
+    <name>oscar4-memmrecogniser</name>
 
-	<dependencies>
+    <dependencies>
 
-		<dependency>
-			<groupId>${oscar.groupId}</groupId>
-			<artifactId>oscar4-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>${oscar.groupId}</groupId>
-			<artifactId>oscar4-chemnamedict</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>${oscar.groupId}</groupId>
-			<artifactId>oscar4-obo</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>${oscar.groupId}</groupId>
-			<artifactId>oscar4-tokenizer</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>${oscar.groupId}</groupId>
-			<artifactId>oscar4-recogniser-core</artifactId>
-			<version>4.0-SNAPSHOT</version>
-		</dependency>
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-chemnamedict</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-obo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-tokenizer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-recogniser-core</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>openNLP</groupId>
-			<artifactId>openNLP</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>wwmm-expediency</groupId>
-			<artifactId>maxent</artifactId>
-		</dependency>
-		<dependency>
+        <dependency>
+            <groupId>openNLP</groupId>
+            <artifactId>openNLP</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>wwmm-expediency</groupId>
+            <artifactId>maxent</artifactId>
+        </dependency>
+        <dependency>
             <groupId>dk.brics.automaton</groupId>
             <artifactId>automaton</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>trove</groupId>
-			<artifactId>trove</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-discovery</groupId>
-			<artifactId>commons-discovery</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-math</groupId>
-			<artifactId>commons-math</artifactId>
-			<version>20040218.045431</version>
-		</dependency>
-		<dependency>
-        	<groupId>commons-collections</groupId>
-        	<artifactId>commons-collections</artifactId>
-        	<version>3.2.1</version>
         </dependency>
-	</dependencies>
+        <dependency>
+            <groupId>commons-math</groupId>
+            <artifactId>commons-math</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>trove</groupId>
+            <artifactId>trove</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-discovery</groupId>
+            <artifactId>commons-discovery</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 
 </project>

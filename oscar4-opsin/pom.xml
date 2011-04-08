@@ -8,13 +8,13 @@
         <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
         <artifactId>oscar4</artifactId>
         <version>4.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>oscar4-opsin</artifactId>
     <name>oscar4-opsin</name>
 
     <dependencies>
+
         <dependency>
             <groupId>${oscar.groupId}</groupId>
             <artifactId>oscar4-chemnamedict</artifactId>
@@ -22,13 +22,14 @@
         <dependency>
             <groupId>uk.ac.cam.ch.opsin</groupId>
             <artifactId>opsin-inchi</artifactId>
-            <version>1.0.0</version>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
     
 </project>

@@ -7,8 +7,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ResolvedNamedEntity;
@@ -36,7 +36,7 @@ import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
  */
 public class Oscar {
 
-    private static final Log LOG = LogFactory.getLog(Oscar.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Oscar.class);
 
     private ChemNameDictRegistry dictionaryRegistry;
     private ITokeniser tokeniser;

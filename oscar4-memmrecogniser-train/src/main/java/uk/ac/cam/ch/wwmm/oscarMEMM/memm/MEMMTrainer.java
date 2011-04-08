@@ -188,7 +188,7 @@ public final class MEMMTrainer {
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			trainOnSentence(ts);
 		}
-		logger.debug(System.currentTimeMillis() - time);
+		logger.debug("Time: {}", System.currentTimeMillis() - time);
 	}
 
 	public void trainOnSbFilesNosplit(List<File> files) throws DataFormatException, IOException {
@@ -356,7 +356,7 @@ public final class MEMMTrainer {
 			model.setUberModel(GIS.trainModel(trainingCycles, di));
 		} else {
 			for(BioType prevTagg : evsByPrev.keySet()) {
-				logger.debug(prevTagg);
+				logger.debug("tag: {}", prevTagg);
 				List<Event> evs = evsByPrev.get(prevTagg);
 				if(featureSel) {
 					evs = new FeatureSelector().selectFeatures(evs);						
@@ -436,7 +436,7 @@ public final class MEMMTrainer {
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			cvFeatures(ts);
 		}
-		logger.debug(System.currentTimeMillis() - time);
+		logger.debug("time: {}", System.currentTimeMillis() - time);
 	}
 
 	

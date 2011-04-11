@@ -15,7 +15,7 @@ import com.google.common.collect.ListMultimap;
 
 /**
  * A class to permit the identification of a small number of additional
- * literal terms.
+ * literal terms. The performance for a large number of terms is currently poor.
  * 
  * @author dmj30
  *
@@ -26,7 +26,6 @@ public class DFASupplementaryTermFinder extends DFAFinder {
 	
 	/**
 	 * Creates a new DFASupplementaryTermFinder to identify the given terms.
-	 * The performance for a large number of terms is currently poor.
 	 * 
 	 * @param supplementaryTerms a {@link ListMultimap} of
 	 * {@link NamedEntityType} to the corresponding literal

@@ -57,7 +57,8 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      * @param model the MEMMModel to be used
      * @param ontTerms the {@link OntologyTerms} to be identified
      * @param supplementaryNameRegistry a {@link ChemNameDictRegistry}
-     * defining a set of additional chemical names to be annotated
+     * defining a set of additional chemical names to be annotated.
+     * The performance for a large number of terms is currently poor.
      */
     public MEMMRecogniser(MEMMModel model, OntologyTerms ontTerms, ChemNameDictRegistry supplementaryNameRegistry) {
     	this.model = model;

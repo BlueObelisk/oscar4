@@ -48,7 +48,7 @@ public class DataAnnotation implements Annotation {
 	}
 
 
-	public void setInternalMarkup(Element internalMarkup) {
+	void setInternalMarkup(Element internalMarkup) {
 		this.internalMarkup = (Element) internalMarkup.copy();
 	}
 

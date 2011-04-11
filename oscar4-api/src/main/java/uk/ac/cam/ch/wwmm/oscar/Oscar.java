@@ -57,6 +57,12 @@ public class Oscar {
      * 
      */
 
+    /**
+     * Creates an instance of the helper class.
+     */
+    public Oscar() {
+    	
+    }
 
     /**
      * Returns the {@link ChemNameDictRegistry} used in this {@link Oscar}

@@ -23,7 +23,7 @@ import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
  */
 public final class TokenSequence {
 
-	private final BioType B_CPR = new BioType(BioTag.B, NamedEntityType.LOCANTPREFIX);
+	private static final BioType B_CPR = new BioType(BioTag.B, NamedEntityType.LOCANTPREFIX);
 
     private String surface;
     private int offset;

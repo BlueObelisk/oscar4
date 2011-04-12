@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import java.util.Locale;
@@ -210,8 +211,73 @@ public class OscarTest {
 		assertTrue(recogniser.getModel() == model);
 		assertTrue(recogniser.getOntologyAndPrefixTermFinder().getOntologyTerms() == ontologyTerms);
 	}
-	
-	
+
+
+    @Test
+    public void testMemmThreadSafety() throws InterruptedException {
+        final Oscar oscar = new Oscar();
+        runThreadSafetyTest(oscar);
+    }
+
+    @Test
+    public void testPatternThreadSafety() throws InterruptedException {
+        final Oscar oscar = new Oscar();
+        oscar.setRecogniser(new PatternRecogniser());
+        runThreadSafetyTest(oscar);
+    }
+
+    private void runThreadSafetyTest(Oscar oscar) throws InterruptedException {
+        OscarThread[] threads = new OscarThread[10];
+        for (int i = 0; i < threads.length; i++) {
+            OscarThread thread = new OscarThread(oscar);
+            threads[i] = thread;
+            thread.start();
+        }
+        for (int i = 0; i < threads.length; i++) {
+            threads[i].join();
+        }
+        for (int i = 0; i < threads.length; i++) {
+            if (threads[i].getError() != null) {
+                fail(threads[i].getError());
+            }
+        }
+    }
+
+    static class OscarThread extends Thread {
+
+        private Oscar oscar;
+        private String error;
+
+        OscarThread(Oscar oscar) {
+            this.oscar = oscar;
+        }
+
+        @Override
+        public void run() {
+            String s = "Then we mix benzene with toluene.";
+		    for (int i = 0; i < 20; i++) {
+                List<NamedEntity> entities = oscar.findNamedEntities(s);
+                if (entities.size() != 2) {
+                    error = "Expected 2 entities; found "+entities.size();
+                    break;
+                }
+                if (!"benzene".equals(entities.get(0).getSurface())) {
+                    error = "Expected 'benzene'; found "+entities.get(0).getSurface();
+                    break;
+                }
+                if (!"toluene".equals(entities.get(1).getSurface())) {
+                    error = "Expected 'toluene'; found "+entities.get(1).getSurface();
+                    break;
+                }
+            }
+        }
+
+        public String getError() {
+            return error;
+        }
+
+    }
+
 	
 	class TokeniserImpl implements ITokeniser {
 

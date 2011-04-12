@@ -59,8 +59,8 @@
 
     <scm>
         <url>http://bitbucket.org/wwmm/oscar4/src</url>
-        <connection>hg:http://bitbucket.org/wwmm/oscar4</connection>
-        <developerConnection>hg:https://bitbucket.org/wwmm/oscar4</developerConnection>
+        <connection>scm:hg:http://bitbucket.org/wwmm/oscar4</connection>
+        <developerConnection>scm:hg:https://bitbucket.org/wwmm/oscar4</developerConnection>
     </scm>
 
     <issueManagement>

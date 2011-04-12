@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import uk.ac.cam.ch.wwmm.oscar.document.Annotation;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 
 /**
  * A class to link a {@link NamedEntity} with its corresponding
@@ -13,7 +15,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
  * @author dmj30
  *
  */
-public class ResolvedNamedEntity {
+public class ResolvedNamedEntity implements Annotation {
 	
 	private NamedEntity namedEntity;
 	private List<ChemicalStructure> structures;
@@ -60,7 +62,22 @@ public class ResolvedNamedEntity {
 		}
 		return null;
 	}
-	
-	
-	
+
+
+    public int getStart() {
+        return namedEntity.getStart();
+    }
+
+    public int getEnd() {
+        return namedEntity.getEnd();
+    }
+
+    public String getSurface() {
+        return namedEntity.getSurface();
+    }
+
+    public NamedEntityType getType() {
+        return namedEntity.getType();
+    }
+
 }

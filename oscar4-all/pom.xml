@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
+        <artifactId>oscar4</artifactId>
+        <version>4.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>oscar4-all</artifactId>
+    <name>oscar4-all</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <shadedClassifierName>with-dependencies</shadedClassifierName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-data</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

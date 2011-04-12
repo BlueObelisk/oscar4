@@ -290,7 +290,7 @@
                 <artifactId>maven-pmd-plugin</artifactId>
                 <configuration>
                     <targetJdk>1.5</targetJdk>
-                    <linkXref>true</linkXref>
+                    <linkXRef>true</linkXRef>
                 </configuration>
             </plugin>
             <plugin>

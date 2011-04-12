@@ -1,5 +1,15 @@
 package uk.ac.cam.ch.wwmm.oscar.ont;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimaps;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
+import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
+import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,17 +20,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
-import uk.ac.cam.ch.wwmm.oscar.obo.OntologyTerm;
-import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
-
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimaps;
 
 /**Holds strings corresponding to ontology terms and their matching IDs, for
  * use during named entity recognition.
@@ -57,31 +56,34 @@ public final class OntologyTerms {
 
     private static synchronized OntologyTerms createInstance() {
         if (defaultInstance == null) {
-            defaultInstance = new OntologyTerms();
+            ListMultimap<String, String> terms = loadTerms();
+            defaultInstance = new OntologyTerms(terms);
         }
         return defaultInstance;    
     }
 
-    private OntologyTerms() {
-    	ListMultimap<String,String> terms;
-    	try {
-    		 terms = loadTerms(ONTOLOGY_TERMS_FILE);
-    	} catch (IOException e) {
-        	throw new OscarInitialisationException("failed to load OntologyTerms", e);
+    private static ListMultimap<String, String> loadTerms() {
+        ListMultimap<String,String> terms;
+        try {
+             terms = loadTerms(ONTOLOGY_TERMS_FILE);
+        } catch (IOException e) {
+            throw new OscarInitialisationException("failed to load OntologyTerms", e);
         } catch (DataFormatException e) {
-        	throw new OscarInitialisationException("failed to load OntologyTerms", e);
-		}
-        this.terms = Multimaps.unmodifiableListMultimap(terms);
-	}
-	
-	
+            throw new OscarInitialisationException("failed to load OntologyTerms", e);
+        }
+        return terms;
+    }
+
+
     /**
      * Constructor for using custom ontologies
      * 
      * @param terms a ListMultimap of ontology terms to corresponding ids
      */
 	public OntologyTerms(ListMultimap<String, String> terms) {
-		this.terms = Multimaps.unmodifiableListMultimap(terms);
+        // Create defensive copy
+        ListMultimap<String,String> copy = ArrayListMultimap.create(terms);
+		this.terms = Multimaps.unmodifiableListMultimap(copy);
 	}
 
 	/**Checks if the ontology set contains a given term name or synonym.
@@ -144,7 +146,7 @@ public final class OntologyTerms {
 		return ht;
 	}
 
-	private ListMultimap<String,String> loadTerms(String path) throws IOException, DataFormatException {
+	private static ListMultimap<String,String> loadTerms(String path) throws IOException, DataFormatException {
         LOG.info("Loading ontology terms: "+path);
         InputStream is = RESOURCE_GETTER.getStream(path);
         try {

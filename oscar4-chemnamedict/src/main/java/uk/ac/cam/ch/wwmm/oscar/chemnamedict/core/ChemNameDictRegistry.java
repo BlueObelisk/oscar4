@@ -216,7 +216,8 @@ public class ChemNameDictRegistry {
 
 	/**
 	 * Returns a set of all names contained by the currently-registered
-	 * dictionaries. Don't do this too often.
+	 * dictionaries. Don't do this too often. The returned set is a copy
+     * of the stored names, so any changes will not affect this object.
 	 */
 	public Set<String> getAllNames() {
 		Set<String> allNames = new HashSet<String>();

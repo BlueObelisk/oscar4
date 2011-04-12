@@ -1,9 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarrecogniser.finder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -112,7 +109,7 @@ public class DFANEFinder extends DFAFinder {
 
     public DFANEFinder(Map<String, NamedEntityType> neTerms, TokenClassifier tokenClassifier, OntologyTerms ontologyTerms, UnmodifiableSet registryNames) {
         logger.debug("Initialising DFA NE Finder...");
-        this.neTerms = neTerms;
+        this.neTerms = new HashMap<String, NamedEntityType>(neTerms);   // defensive copy
         this.tokenClassifier = tokenClassifier;
         this.ontologyTerms = ontologyTerms;
         this.registryNames = registryNames;

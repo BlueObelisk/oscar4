@@ -73,7 +73,7 @@ public class OscarTest {
 		Oscar oscar = new Oscar();
 		oscar.setDictionaryRegistry(ChemNameDictRegistry.getDefaultInstance());
 		List <ResolvedNamedEntity> entities =
-			oscar.findResolvableEntities("Then we mix benzene with toluene.");
+			oscar.findResolvableEntities("Then we mix benzene with napthyridine and toluene.");
 		assertEquals(2, entities.size());
 		
 		assertEquals("benzene", entities.get(0).getNamedEntity().getSurface());
@@ -85,6 +85,30 @@ public class OscarTest {
 		assertEquals("Cc1ccccc1", entities.get(1).getFirstChemicalStructure(FormatType.SMILES).getValue());
 		assertEquals("InChI=1/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3", entities.get(1).getFirstChemicalStructure(FormatType.INCHI).getValue());
 		assertNull(entities.get(1).getFirstChemicalStructure(FormatType.CML));
+	}
+
+    @Test
+	public void testFindAndResolveNamedEntities() {
+		Oscar oscar = new Oscar();
+		oscar.setDictionaryRegistry(ChemNameDictRegistry.getDefaultInstance());
+		List <ResolvedNamedEntity> entities =
+			oscar.findAndResolveNamedEntities("Then we mix benzene with napthyridine and toluene.");
+		assertEquals(3, entities.size());
+
+		assertEquals("benzene", entities.get(0).getNamedEntity().getSurface());
+		assertEquals("c1ccccc1", entities.get(0).getFirstChemicalStructure(FormatType.SMILES).getValue());
+		assertEquals("InChI=1/C6H6/c1-2-4-6-5-3-1/h1-6H", entities.get(0).getFirstChemicalStructure(FormatType.INCHI).getValue());
+		assertNull(entities.get(0).getFirstChemicalStructure(FormatType.CML));
+
+        assertEquals("napthyridine", entities.get(1).getNamedEntity().getSurface());
+        assertNull(entities.get(1).getFirstChemicalStructure(FormatType.SMILES));
+        assertNull(entities.get(1).getFirstChemicalStructure(FormatType.INCHI));
+		assertNull(entities.get(1).getFirstChemicalStructure(FormatType.CML));
+
+		assertEquals("toluene", entities.get(2).getNamedEntity().getSurface());
+		assertEquals("Cc1ccccc1", entities.get(2).getFirstChemicalStructure(FormatType.SMILES).getValue());
+		assertEquals("InChI=1/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3", entities.get(2).getFirstChemicalStructure(FormatType.INCHI).getValue());
+		assertNull(entities.get(2).getFirstChemicalStructure(FormatType.CML));
 	}
 	
 	@Test

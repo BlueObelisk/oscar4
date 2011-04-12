@@ -15,6 +15,7 @@
     <packaging>pom</packaging>
 
     <name>oscar4-parent</name>
+    <url>https://bitbucket.org/wwmm/oscar4</url>
 
     <developers>
         <developer>

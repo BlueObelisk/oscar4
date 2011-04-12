@@ -1,16 +1,12 @@
 package uk.ac.cam.ch.wwmm.oscar;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ChemicalStructure;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ResolvedNamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ITokeniser;
@@ -236,14 +232,45 @@ public class Oscar {
      * that could be resolved to connection tables using the current dictionary registry.
      */
     public List<ResolvedNamedEntity> findResolvableEntities(String input) {
+        return findAndResolveNamedEntities(input, true);
+    }
+
+    /**
+     * Wrapper method for the identification of chemical named entities
+     * and their resolution to connection tables. It calls the methods
+     * {@link #normalise(String)}, {@link #tokenise(String)},
+     * {@link #recogniseNamedEntities(List)}, and
+     * {@link ChemNameDictRegistry#resolveNamedEntity(NamedEntity)}
+     *
+     * @param input String with input.
+     * @return the recognised chemical entities as a List of {@link ResolvedNamedEntity}s.
+     * Unresolvable entities are included in this list, but have no connection table set.
+     */
+    public List<ResolvedNamedEntity> findAndResolveNamedEntities(String input) {
+        return findAndResolveNamedEntities(input, false);
+    }
+
+
+    /**
+     * Identifies chemical named entities and resolves their connection tables, optionally filtering
+     * out those named entities which cannot be resolved.
+     * @param input
+     * @param filter
+     * @return
+     */
+    private List<ResolvedNamedEntity> findAndResolveNamedEntities(String input, boolean filter) {
         List <NamedEntity> entities = findNamedEntities(input);
         List <ResolvedNamedEntity> resolvable = new ArrayList<ResolvedNamedEntity>();
         ChemNameDictRegistry chemnameDictRegistry = getDictionaryRegistry();
         for (NamedEntity ne : entities) {
 			ResolvedNamedEntity rne = chemnameDictRegistry.resolveNamedEntity(ne);
-			if (rne != null){
-				resolvable.add(rne);
+            if (rne == null) {
+                if (filter) {
+                    continue;
+                }
+                rne = new ResolvedNamedEntity(ne, Collections.<ChemicalStructure>emptyList());
 			}
+            resolvable.add(rne);
 		}
         return resolvable;
     }
@@ -313,7 +340,7 @@ public class Oscar {
      * Extracts named entities from a text represented as a {@link List}
      * of {@link TokenSequence}s.
      *
-     * @param  entities a {@link List} of {@link TokenSequence}s.
+     * @param  tokens a {@link List} of {@link TokenSequence}s.
      * @return          a {@link List} of {@link NamedEntity}s.
      */
     public List<NamedEntity> recogniseNamedEntities(List<TokenSequence> tokens) {

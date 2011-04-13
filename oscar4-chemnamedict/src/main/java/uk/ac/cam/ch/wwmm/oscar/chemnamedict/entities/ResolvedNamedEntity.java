@@ -80,4 +80,10 @@ public class ResolvedNamedEntity implements Annotation {
         return namedEntity.getType();
     }
 
+
+    @Override
+    public String toString() {
+        return("[ResolvedNamedEntity:" + getType() + ":" + getStart() + ":" + getEnd() + ":" + getSurface() + "]");
+    }
+
 }

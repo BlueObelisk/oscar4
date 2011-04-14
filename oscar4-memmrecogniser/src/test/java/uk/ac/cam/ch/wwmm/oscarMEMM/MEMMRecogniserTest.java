@@ -360,10 +360,10 @@ public class MEMMRecogniserTest {
     	assertEquals(2, nes.size());
     	assertEquals("ethyl acetate", nes.get(0).getSurface());
     	assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(0).getType()));
-    	assertNull(nes.get(0).getOntIds());
+    	assertEquals(0, nes.get(0).getOntIds().size());
     	assertEquals("acetone", nes.get(1).getSurface());
     	assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(1).getType()));
-    	assertNull(nes.get(1).getOntIds());
+    	assertEquals(0, nes.get(1).getOntIds().size());
 
     	ListMultimap<String, String> ontTerms = ArrayListMultimap.create();
     	ontTerms.put("jumps", "foo:001");
@@ -375,7 +375,7 @@ public class MEMMRecogniserTest {
     	assertEquals(3, customNes.size());
     	assertEquals("ethyl acetate", customNes.get(0).getSurface());
     	assertTrue(NamedEntityType.COMPOUND.isInstance(customNes.get(0).getType()));
-    	assertNull(customNes.get(0).getOntIds());
+    	assertEquals(0, customNes.get(0).getOntIds().size());
     	assertEquals("jumps", customNes.get(1).getSurface());
     	assertTrue(NamedEntityType.ONTOLOGY.isInstance(customNes.get(1).getType()));
     	assertEquals(2, customNes.get(1).getOntIds().size());
@@ -383,7 +383,7 @@ public class MEMMRecogniserTest {
     	assertTrue(customNes.get(1).getOntIds().contains("foo:002"));
     	assertEquals("acetone", customNes.get(2).getSurface());
     	assertTrue(NamedEntityType.COMPOUND.isInstance(customNes.get(2).getType()));
-    	assertNull(customNes.get(2).getOntIds());
+    	assertEquals(0, customNes.get(2).getOntIds().size());
 	}
 	
 	@Test

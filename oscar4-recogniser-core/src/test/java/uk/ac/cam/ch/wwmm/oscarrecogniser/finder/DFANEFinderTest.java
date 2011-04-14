@@ -197,7 +197,7 @@ public class DFANEFinderTest {
 				foundJumps = true;
 			}
 			else {
-				assertNull(ne.getOntIds());
+				assertEquals(0, ne.getOntIds().size());
 			}
 			if (NamedEntityType.ONTOLOGY.isInstance(ne.getType())) {
 				assertEquals("jumps", ne.getSurface());

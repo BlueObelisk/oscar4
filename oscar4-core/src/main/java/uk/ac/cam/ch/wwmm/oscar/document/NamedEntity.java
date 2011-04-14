@@ -22,8 +22,8 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	private NamedEntityType type;
 	private Token endToken;
 	private List<Token> tokens;
-	private Set<String> ontIds;
-	private Set<String> custTypes;
+	private Set<String> ontIds = new HashSet<String>();
+	private Set<String> custTypes = new HashSet<String>();
 	private String leftPunct;
 	private String rightPunct;
 	
@@ -49,8 +49,6 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 		endOffset = endToken.getEnd();
 		this.surface = surface;
 		this.type = type;
-		ontIds = null;
-		custTypes = null;
 		addPunctuation();
 	}
 
@@ -78,8 +76,6 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 		ne.endOffset = ne.startOffset + prefix.length();
 		ne.surface = prefix;
 		ne.type = NamedEntityType.LOCANTPREFIX;
-		ne.ontIds = null;
-		ne.custTypes = null;
 		ne.addPunctuation();
 		return ne;
 	}
@@ -153,13 +149,11 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * 
 	 * @param newOntIds The ontology identifiers to add.
 	 */
-	public synchronized void addOntIds(Set<String> newOntIds) {
-		if (newOntIds == null || newOntIds.isEmpty()) {
+	public void addOntIds(Set<String> newOntIds) {
+		//TODO why might we be passing null in?
+		if (newOntIds == null) {
             return;
         }
-		if(ontIds == null) {
-			ontIds = new HashSet<String>();
-		}
 		ontIds.addAll(newOntIds);
 	}
 	
@@ -176,10 +170,9 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * @param newCustTypes The custom entity types to add.
 	 */
 	public void addCustTypes(Set<String> newCustTypes) {
-		if(newCustTypes == null) return;
-		if(newCustTypes.size() == 0) return;
-		if(custTypes == null) {
-			custTypes = new HashSet<String>();
+		//TODO why might we be passing null in?
+		if(newCustTypes == null) {
+			return;
 		}
 		custTypes.addAll(newCustTypes);
 	}

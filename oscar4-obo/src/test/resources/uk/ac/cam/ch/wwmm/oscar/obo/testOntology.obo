@@ -1,0 +1,104 @@
+format-version: 1.2
+date: 04:11:2009 06:59
+saved-by: pmatos
+default-namespace: chebi_ontology
+remark: ChEBI subsumes and replaces the Chemical Ontology first
+remark: developed by Michael Ashburner & Pankaj Jaiswal.
+remark: Author: ChEBI curation team 
+remark: ChEBI Release version 62
+remark: For any queries contact chebi-help@ebi.ac.uk 
+synonymtypedef: IUPAC_NAME "IUPAC NAME"
+synonymtypedef: FORMULA "FORMULA"
+synonymtypedef: SMILES "SMILES"
+synonymtypedef: InChI "InChI"
+synonymtypedef: InChIKey "InChIKey"
+synonymtypedef: BRAND_NAME "BRAND NAME"
+synonymtypedef: INN "INN"
+
+[Term]
+id: CHEBI:24431
+name: molecular structure
+def: "A description of the molecular entity or part thereof based on its composition and/or the connectivity between its constituent atoms." []
+
+[Term]
+id: CHEBI:23367
+name: molecular entity
+def: "Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity." []
+synonym: "entidades moleculares" RELATED [IUPAC:]
+synonym: "molekulare Entitaet" RELATED [ChEBI:]
+synonym: "entite moleculaire" RELATED [IUPAC:]
+synonym: "entidad molecular" RELATED [IUPAC:]
+synonym: "molecular entity" EXACT IUPAC_NAME [IUPAC:]
+synonym: "molecular entities" RELATED [IUPAC:]
+is_a: CHEBI:24431
+
+[Term]
+id: CHEBI:24870
+name: ion
+def: "A molecular entity having a net electric charge." []
+synonym: "ion" EXACT IUPAC_NAME [IUPAC:]
+synonym: "iones" RELATED [ChEBI:]
+synonym: "ions" RELATED [ChEBI:]
+synonym: "Ion" EXACT [ChEBI:]
+synonym: "ion" EXACT [ChEBI:]
+synonym: "Ionen" RELATED [ChEBI:]
+is_a: CHEBI:23367
+
+[Term]
+id: CHEBI:53439
+name: calcineurin
+is_obsolete: true
+
+[Typedef]
+id: has_part
+name: has part
+is_cyclic: false
+is_transitive: true
+
+[Typedef]
+id: is_conjugate_base_of
+name: is conjugate base of
+is_cyclic: true
+is_transitive: false
+
+[Typedef]
+id: is_conjugate_acid_of
+name: is conjugate acid of
+is_cyclic: true
+is_transitive: false
+
+[Typedef]
+id: is_tautomer_of
+name: is tautomer of
+is_cyclic: true
+is_transitive: true
+
+[Typedef]
+id: is_enantiomer_of
+name: is enantiomer of
+is_cyclic: true
+is_transitive: false
+
+[Typedef]
+id: has_functional_parent
+name: has functional parent
+is_cyclic: false
+is_transitive: false
+
+[Typedef]
+id: has_parent_hydride
+name: has parent hydride
+is_cyclic: false
+is_transitive: false
+
+[Typedef]
+id: is_substituent_group_from
+name: is substituent group from
+is_cyclic: false
+is_transitive: false
+
+[Typedef]
+id: has_role
+name: has role
+is_cyclic: false
+is_transitive: false

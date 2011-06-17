@@ -80,7 +80,7 @@ public class OBOOntology {
 		registry.register(new DefaultDictionary());
 	}
 	
-	private void read(String s) throws IOException {
+	void read(String s) throws IOException {
 		InputStream is = rg.getStream(s);
 		try {
 			read(new BufferedReader(new InputStreamReader(is, "UTF-8")));	
@@ -107,7 +107,7 @@ public class OBOOntology {
 		}
 	}
 	
-	private void read(BufferedReader br) throws IOException {
+	void read(BufferedReader br) throws IOException {
 		List<String> lines = new ArrayList<String>();
 		boolean inTerm = false;
 		String line = br.readLine();

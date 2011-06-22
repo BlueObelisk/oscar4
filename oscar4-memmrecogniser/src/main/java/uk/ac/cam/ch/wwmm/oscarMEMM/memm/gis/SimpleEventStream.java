@@ -1,9 +1,10 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis;
 
+import java.io.IOException;
 import java.util.List;
 
-import opennlp.maxent.Event;
-import opennlp.maxent.EventStream;
+import opennlp.model.Event;
+import opennlp.model.EventStream;
 
 /**An EventStream, for use with opennlp.maxent classes.
  * 
@@ -27,6 +28,11 @@ public final class SimpleEventStream implements EventStream {
 	public Event nextEvent() {
 		if(!hasNext()) return null;
 		return events.get(pointer++);
+	}
+
+	public Event next() throws IOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -15,22 +15,23 @@ public final class StringGISModelReader extends GISModelReader {
 
 	private BufferedReader br;
 	
-	public StringGISModelReader(String s) {
-		 br = new BufferedReader(new StringReader(s));
+	public StringGISModelReader(String s) throws IOException  {
+		 super(new DummyDataReader()); 
+         br = new BufferedReader(new StringReader(s));		
 	}
 	
 	@Override
-	protected int readInt() throws IOException {
+	public int readInt() throws IOException {
         return Integer.parseInt(br.readLine());
 	}
 
 	@Override
-	protected double readDouble() throws IOException {
+	public double readDouble() throws IOException {
         return Double.parseDouble(br.readLine());
 	}
 
 	@Override
-	protected String readUTF() throws IOException {
+	public String readUTF() throws IOException {
 		return br.readLine();
 	}
 

@@ -17,16 +17,15 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 import nu.xom.ParsingException;
-import opennlp.maxent.DataIndexer;
-import opennlp.maxent.Event;
-import opennlp.maxent.EventCollectorAsStream;
 import opennlp.maxent.GIS;
-import opennlp.maxent.MaxentModel;
-import opennlp.maxent.TwoPassDataIndexer;
+import opennlp.model.DataIndexer;
+import opennlp.model.Event;
+import opennlp.model.EventCollectorAsStream;
+import opennlp.model.MaxentModel;
+import opennlp.model.TwoPassDataIndexer;
 
 import org.apache.commons.collections.set.UnmodifiableSet;
 import org.apache.commons.io.IOUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -344,7 +343,7 @@ public final class MEMMTrainer {
 
 	
 	
-	public void finishTraining() {
+	public void finishTraining() throws IOException {
 		model.makeEntityTypesAndZeroProbs();
 		
 		if(useUber) {

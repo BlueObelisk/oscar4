@@ -37,11 +37,10 @@
             <groupId>xom</groupId>
             <artifactId>xom</artifactId>
         </dependency>
-        <dependency>
-            <groupId>wwmm-expediency</groupId>
-            <artifactId>maxent</artifactId>
-        </dependency>
-
+		<dependency>
+			<groupId>org.apache.opennlp</groupId>
+			<artifactId>opennlp-maxent</artifactId>
+		</dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>

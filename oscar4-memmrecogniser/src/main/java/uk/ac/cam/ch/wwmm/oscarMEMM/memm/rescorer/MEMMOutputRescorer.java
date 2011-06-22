@@ -6,13 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
-
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Elements;
-import opennlp.maxent.Event;
 import opennlp.maxent.GISModel;
+import opennlp.model.Event;
+
+import org.apache.commons.collections.set.UnmodifiableSet;
+
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
@@ -107,7 +108,7 @@ public final class MEMMOutputRescorer {
 			Element maxent = maxents.get(i);
 			NamedEntityType namedEntityType = NamedEntityType.valueOf(maxent.getAttributeValue("type"));
 			StringGISModelReader sgmr = new StringGISModelReader(maxent.getValue());
-			GISModel gm = sgmr.getModel();
+			GISModel gm = (GISModel) sgmr.getModel();
 			modelsByNamedEntityType.put(namedEntityType, gm);
 		}		
 	}

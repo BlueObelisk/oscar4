@@ -18,12 +18,11 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 import nu.xom.ParsingException;
-import opennlp.maxent.DataIndexer;
-import opennlp.maxent.Event;
-import opennlp.maxent.EventCollectorAsStream;
 import opennlp.maxent.GIS;
 import opennlp.maxent.GISModel;
-import opennlp.maxent.TwoPassDataIndexer;
+import opennlp.model.DataIndexer;
+import opennlp.model.Event;
+import opennlp.model.EventCollectorAsStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -190,15 +189,16 @@ public final class MEMMOutputRescorerTrainer {
 	
 	/**Generate a new rescoring model. This must be run after calling
 	 * trainOnFile several times.
+	 * @throws IOException 
 	 * 
 	 */
-	public void finishTraining() {
+	public void finishTraining() throws IOException {
 		modelsByNamedEntityType = new HashMap<NamedEntityType,GISModel>();
 		for(NamedEntityType type : eventsByNamedEntityType.keySet()) {
 			DataIndexer di = null;
 			List<Event> evs = eventsByNamedEntityType.get(type);
 			if(evs.size() == 1) evs.add(evs.get(0));
-			di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), 1);
+			di = new opennlp.model.TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), 1);
 			modelsByNamedEntityType.put(type, GIS.trainModel(trainingCycles, di));
 		}
 	}

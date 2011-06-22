@@ -2,8 +2,8 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis;
 
 import java.util.List;
 
-import opennlp.maxent.Event;
-import opennlp.maxent.EventCollector;
+import opennlp.model.Event;
+import opennlp.model.EventCollector;
 
 /**An EventCollector, for use with opennlp.maxent classes.
  * 

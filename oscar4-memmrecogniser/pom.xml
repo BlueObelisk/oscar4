@@ -34,10 +34,7 @@
             <artifactId>oscar4-recogniser-core</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>wwmm-expediency</groupId>
-            <artifactId>maxent</artifactId>
-        </dependency>
+
 
         <dependency>
             <groupId>commons-math</groupId>
@@ -49,6 +46,10 @@
             <artifactId>commons-discovery</artifactId>
         </dependency>
 
+		<dependency>
+			<groupId>org.apache.opennlp</groupId>
+			<artifactId>opennlp-maxent</artifactId>
+		</dependency>
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>

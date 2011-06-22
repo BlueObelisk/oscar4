@@ -22,25 +22,25 @@ public final class StringGISModelWriter extends GISModelWriter {
 	}
 	
 	@Override
-	protected void writeUTF(String arg0) throws IOException {
+	public void writeUTF(String arg0) throws IOException {
 		stringWriter.write(arg0);
 		stringWriter.write("\n");
 	}
 	
 	@Override
-	protected void writeDouble(double arg0) throws IOException {
+	public void writeDouble(double arg0) throws IOException {
 		stringWriter.write(Double.toString(arg0));
 		stringWriter.write("\n");
 	}
 	
 	@Override
-	protected void writeInt(int arg0) throws IOException {
+	public void writeInt(int arg0) throws IOException {
 		stringWriter.write(Integer.toString(arg0));
 		stringWriter.write("\n");
 	}
 	
 	@Override
-	protected void close() throws IOException {
+	public void close() throws IOException {
 		stringWriter.close();
 	}
 	

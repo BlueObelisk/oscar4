@@ -157,12 +157,6 @@
                 <artifactId>icu4j</artifactId>
                 <version>3.8</version>
             </dependency>
-
-            <dependency>
-                <groupId>openNLP</groupId>
-                <artifactId>openNLP</artifactId>
-                <version>1.4.1</version>
-            </dependency>
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi</artifactId>

@@ -12,7 +12,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import opennlp.maxent.GISModel;
-import opennlp.maxent.MaxentModel;
 
 import org.apache.commons.collections.set.UnmodifiableSet;
 
@@ -92,7 +91,7 @@ public class MEMMModel {
             Element maxent = maxents.get(i);
             BioType prev = BioType.fromString(maxent.getAttributeValue("prev"));
             StringGISModelReader sgmr = new StringGISModelReader(maxent.getValue());
-            GISModel gm = sgmr.getModel();
+            GISModel gm = (GISModel) sgmr.getModel();
             gmByPrev.put(prev, gm);
             tagSet.add(prev);
             for (int j = 0; j < gm.getNumOutcomes(); j++) {
@@ -171,7 +170,7 @@ public class MEMMModel {
     	return Collections.unmodifiableMap(zeroProbs);
     }
 
-	public MaxentModel getMaxentModelByPrev(BioType tag) {
+	public opennlp.model.MaxentModel getMaxentModelByPrev(BioType tag) {
 		return gmByPrev.get(tag);
 	}
 

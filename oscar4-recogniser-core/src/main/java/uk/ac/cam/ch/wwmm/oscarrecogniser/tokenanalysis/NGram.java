@@ -184,4 +184,24 @@ public class NGram {
 	short[] getData() {
 		return data;
 	}
+
+	
+	/**
+	 * Compares the n-gram probabilities of the two n-gram models
+	 * 
+	 * @param nGram
+	 * @return true if all of the n-gram probabilities are identical, false otherwise
+	 */
+	public boolean compareTo(NGram nGram) {
+		short [] otherData = nGram.getData();
+		if (!(otherData.length == data.length)) {
+			return false;
+		}
+		for (int i = 0; i < data.length; i++) {
+			if (!(data[i] == otherData[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

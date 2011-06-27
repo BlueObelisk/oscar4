@@ -117,7 +117,6 @@ public final class MEMMTrainer {
 	
 	private void trainOnSentence(TokenSequence tokSeq) {
         List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram(), model.getChemNameDictNames());
-		//extractor.printFeatures();
 		List<Token> tokens = tokSeq.getTokens();
 		BioType prevTag = new BioType(BioTag.O);
 		for (int i = 0; i < tokens.size(); i++) {

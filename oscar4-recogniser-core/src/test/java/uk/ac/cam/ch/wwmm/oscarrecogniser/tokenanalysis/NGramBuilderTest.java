@@ -106,18 +106,12 @@ public class NGramBuilderTest {
 		short [] data3 = customisedNGram.getData();
 		
 		assertEquals(EXPECTED_DATA_LENTH, data1.length);
-		assertEquals(data1.length, data2.length);
-		assertEquals(data1.length, data3.length);
+		assertEquals(EXPECTED_DATA_LENTH, data2.length);
+		assertEquals(EXPECTED_DATA_LENTH, data3.length);
 		
-		boolean identicalData3 = true;
-		for (int i = 0; i < data1.length; i++) {
-			assertEquals(data1[i], data2[i]);
-			if (data1[i] != data3[i]) {
-				identicalData3 = false;
-				break;
-			}
-		}
-		assertFalse(identicalData3);
+		assertTrue(vanillaNGram.compareTo(vanillaNGram2));
+		assertFalse(vanillaNGram.compareTo(customisedNGram));
+		assertFalse(vanillaNGram2.compareTo(customisedNGram));
 	}
 	
 	
@@ -165,9 +159,7 @@ public class NGramBuilderTest {
 		double expectedLength = Math.pow(NGramBuilder.ALPHABET.length(), 4);
 		assertEquals(expectedLength, deserialisedData.length, .001);
 		assertEquals(deserialisedData.length, builtData.length);
-		for (int i = 0; i < builtData.length; i++) {
-			assertEquals(builtData[i], deserialisedData[i]);
-		}
+		assertTrue(deserialised.compareTo(vanillaNGram));
 	}
 	
 	/**
@@ -182,9 +174,7 @@ public class NGramBuilderTest {
 		
 		assertEquals(EXPECTED_DATA_LENTH, deserialisedData.length);
 		assertEquals(EXPECTED_DATA_LENTH, builtData.length);
-		for (int i = 0; i < builtData.length; i++) {
-			assertEquals(builtData[i], deserialisedData[i]);
-		}
+		assertTrue(deserialised.compareTo(pubmedNGram));
 	}
 	
 	/**
@@ -199,9 +189,7 @@ public class NGramBuilderTest {
 		
 		assertEquals(EXPECTED_DATA_LENTH, deserialisedData.length);
 		assertEquals(EXPECTED_DATA_LENTH, builtData.length);
-		for (int i = 0; i < builtData.length; i++) {
-			assertEquals(builtData[i], deserialisedData[i]);
-		}
+		assertTrue(deserialised.compareTo(chempapersNGram));
 	}
 	
 	
@@ -216,9 +204,7 @@ public class NGramBuilderTest {
 		NGram vanilla = NGramBuilder.buildOrDeserialiseModel();
 		assertNotNull(vanilla);
 		assertEquals(EXPECTED_DATA_LENTH, vanilla.getData().length);
-		for (int i = 0; i < EXPECTED_DATA_LENTH; i++) {
-			assertEquals(vanillaNGram.getData()[i], vanilla.getData()[i]);
-		}
+		assertTrue(vanillaNGram.compareTo(vanilla));
 	}
 	
 	@Test
@@ -228,9 +214,7 @@ public class NGramBuilderTest {
 				annotations, defaultRegistryNames);
 		assertNotNull(pubmedModel);
 		assertEquals(EXPECTED_DATA_LENTH, pubmedModel.getData().length);
-		for (int i = 0; i < EXPECTED_DATA_LENTH; i++) {
-			assertEquals(pubmedNGram.getData()[i], pubmedModel.getData()[i]);
-		}
+		assertTrue(pubmedModel.compareTo(pubmedNGram));
 	}
 	
 	@Test
@@ -240,9 +224,7 @@ public class NGramBuilderTest {
 				annotations, defaultRegistryNames);
 		assertNotNull(chempapersModel);
 		assertEquals(EXPECTED_DATA_LENTH, chempapersModel.getData().length);
-		for (int i = 0; i < EXPECTED_DATA_LENTH; i++) {
-			assertEquals(chempapersNGram.getData()[i], chempapersModel.getData()[i]);
-		}
+		assertTrue(chempapersModel.compareTo(chempapersNGram));
 	}
 	
 }

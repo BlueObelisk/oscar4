@@ -146,7 +146,9 @@ public final class MEMMTrainer {
 			throw new DataFormatException("incorrect formatting of training resource");
 		}
 		Nodes n = doc.query("//cmlPile");
-		for (int i = 0; i < n.size(); i++) n.get(i).detach();
+		for (int i = 0; i < n.size(); i++) {
+			n.get(i).detach();
+		}
 		n = doc.query("//ne[@type='CPR']");
 		
 		

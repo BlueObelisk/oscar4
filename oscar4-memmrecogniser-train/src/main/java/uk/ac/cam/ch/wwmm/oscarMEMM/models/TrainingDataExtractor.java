@@ -140,8 +140,7 @@ public final class TrainingDataExtractor {
 	}
 
 	private void init(Collection<File> files) {
-		Set<String> goodPn;
-		goodPn = new HashSet<String>();
+		Set<String> goodPn = new HashSet<String>();
 
 		initSets();
 		HyphenTokeniser.reinitialise();
@@ -224,8 +223,7 @@ public final class TrainingDataExtractor {
 	}
 
 	private void init(Document doc) {
-		Set<String> goodPn;
-		goodPn = new HashSet<String>();
+		Set<String> goodPn = new HashSet<String>();
 
 		initSets();
 		HyphenTokeniser.reinitialise();

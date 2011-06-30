@@ -12,18 +12,21 @@ import java.util.List;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
+import nu.xom.Nodes;
 
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.oscar.tools.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
 public class XOMBasedProcessingDocumentFactoryTest {
 
 	@Test
-	public void testTokeniseOnAnnotationBoundaries() throws Exception {
+	public void testTokeniseOnAnnotationBoundariesFromInline() throws Exception {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/sciXmlPaper.xml");
 		Document sourceDoc = new Builder().build(in);
 //		"the quick methylbrown fox jumps over thechlorinated dog"
@@ -47,15 +50,80 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		
 		assertEquals(10, tokens.size());
 		assertEquals("the", tokens.get(0).getSurface());
+		assertEquals("O", tokens.get(0).getBioType().toString());
 		assertEquals("quick", tokens.get(1).getSurface());
+		assertEquals("O", tokens.get(1).getBioType().toString());
 		assertEquals("methyl", tokens.get(2).getSurface());
+		assertEquals("B-CM", tokens.get(2).getBioType().toString());
 		assertEquals("brown", tokens.get(3).getSurface());
+		assertEquals("O", tokens.get(3).getBioType().toString());
 		assertEquals("fox", tokens.get(4).getSurface());
+		assertEquals("O", tokens.get(4).getBioType().toString());
 		assertEquals("jumps", tokens.get(5).getSurface());
+		assertEquals("O", tokens.get(5).getBioType().toString());
 		assertEquals("over", tokens.get(6).getSurface());
+		assertEquals("O", tokens.get(6).getBioType().toString());
 		assertEquals("the", tokens.get(7).getSurface());
+		assertEquals("O", tokens.get(7).getBioType().toString());
 		assertEquals("chlorinated", tokens.get(8).getSurface());
+		assertEquals("B-RN", tokens.get(8).getBioType().toString());
 		assertEquals("dog", tokens.get(9).getSurface());
+		assertEquals("O", tokens.get(9).getBioType().toString());
+	}
+	
+	
+	@Test
+	public void testTokeniseOnAnnotationBoundariesFromSaf() throws Exception {
+		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/sciXmlPaper.xml");
+		Document inline = new Builder().build(in);
+		Document copy = new Document((Element) XOMTools.safeCopy(inline
+				.getRootElement()));
+		Nodes nes = copy.query("//ne");
+		for (int i = 0; i < nes.size(); i++) {
+			XOMTools.removeElementPreservingText((Element) nes.get(i));
+		}
+		Document safDoc = InlineToSAF.extractSAFs(inline, copy, "foo");
+		
+//		"the quick methylbrown fox jumps over thechlorinated dog"
+		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
+		XOMBasedProcessingDocument procDoc = (XOMBasedProcessingDocument) XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, inline, false, false, false);
+		//empty tokenSequence for the empty HEADER in the sourceDoc
+		assertEquals(2, procDoc.getTokenSequences().size());
+		List <Token> tokens = procDoc.getTokenSequences().get(1).getTokens(); 
+		assertEquals(8, tokens.size());
+		assertEquals("the", tokens.get(0).getSurface());
+		assertEquals("quick", tokens.get(1).getSurface());
+		assertEquals("methylbrown", tokens.get(2).getSurface());
+		assertEquals("fox", tokens.get(3).getSurface());
+		assertEquals("jumps", tokens.get(4).getSurface());
+		assertEquals("over", tokens.get(5).getSurface());
+		assertEquals("thechlorinated", tokens.get(6).getSurface());
+		assertEquals("dog", tokens.get(7).getSurface());
+		
+		String sourceString = "the quick methylbrown fox jumps over thechlorinated dog";
+		XOMBasedProcessingDocumentFactory.getInstance().tokeniseOnAnnotationBoundaries(tokeniser, sourceString, procDoc, 0, safDoc.getRootElement(), tokens);
+		
+		assertEquals(10, tokens.size());
+		assertEquals("the", tokens.get(0).getSurface());
+		assertEquals("O", tokens.get(0).getBioType().toString());
+		assertEquals("quick", tokens.get(1).getSurface());
+		assertEquals("O", tokens.get(1).getBioType().toString());
+		assertEquals("methyl", tokens.get(2).getSurface());
+		assertEquals("B-CM", tokens.get(2).getBioType().toString());
+		assertEquals("brown", tokens.get(3).getSurface());
+		assertEquals("O", tokens.get(3).getBioType().toString());
+		assertEquals("fox", tokens.get(4).getSurface());
+		assertEquals("O", tokens.get(4).getBioType().toString());
+		assertEquals("jumps", tokens.get(5).getSurface());
+		assertEquals("O", tokens.get(5).getBioType().toString());
+		assertEquals("over", tokens.get(6).getSurface());
+		assertEquals("O", tokens.get(6).getBioType().toString());
+		assertEquals("the", tokens.get(7).getSurface());
+		assertEquals("O", tokens.get(7).getBioType().toString());
+		assertEquals("chlorinated", tokens.get(8).getSurface());
+		assertEquals("B-RN", tokens.get(8).getBioType().toString());
+		assertEquals("dog", tokens.get(9).getSurface());
+		assertEquals("O", tokens.get(9).getBioType().toString());
 	}
 	
 

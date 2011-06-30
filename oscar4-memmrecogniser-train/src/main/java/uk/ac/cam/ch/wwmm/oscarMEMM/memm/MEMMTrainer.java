@@ -70,15 +70,29 @@ public final class MEMMTrainer {
 
 	private MutableMEMMModel model;
 
-	private Map<BioType, List<Event>> evsByPrev;
+	//TODO candidate for ArrayListMultimap
+	Map<BioType, List<Event>> evsByPrev;
 	private int trainingCycles;
 	private int featureCutOff;
 
+	// if true, uses a single memm model to predict all BioTypes
+	// if false, uses one memm model per BioType
 	private boolean useUber = false;
+
+	// looks to be intended to control setting the extracted training
+	// data in trainOnSbFilesNosplit
 	private boolean retrain=true;
+	
 	private boolean splitTrain=true;
+	
+	// whether or not to use the FeatureSelector to reduce
+	// the number of events used to train the memm models
 	private boolean featureSel=true;
+	
 	private boolean simpleRescore=true;
+	
+	//if true, uses regexes to recognise identify which 
+	//CM and RN are named reactions / named chemicals
 	private boolean nameTypes=false;
 		
 	private Map<BioType,Map<String,Double>> featureCVScores;
@@ -96,17 +110,26 @@ public final class MEMMTrainer {
 		featureCutOff = 1;
 	}
 
+	/**
+	 * Adds some contextual data to the evsByPrev field
+	 * 
+	 * @param features
+	 * @param thisTag
+	 * @param prevTag
+	 */
 	private void train(FeatureList features, BioType thisTag, BioType prevTag) {
 		if(perniciousFeatures != null && perniciousFeatures.containsKey(prevTag) /*&& !tampering*/) {
 			features.removeFeatures(perniciousFeatures.get(prevTag));
 		}
-		if(features.getFeatureCount() == 0) features.addFeature("EMPTY");
+		if(features.getFeatureCount() == 0) {
+			features.addFeature("EMPTY");
+		}
 		model.getTagSet().add(thisTag);
 		if(useUber) {
 			features.addFeature("$$prevTag=" + prevTag);
 		}
-		String [] c = features.toArray();
-		Event ev = new Event(thisTag.toString(), c);
+		String [] context = features.toArray();
+		Event ev = new Event(thisTag.toString(), context);
 		List<Event> evs = evsByPrev.get(prevTag);
 		if(evs == null) {
 			evs = new ArrayList<Event>();
@@ -115,6 +138,10 @@ public final class MEMMTrainer {
 		evs.add(ev);
 	}
 	
+	/**
+	 * Populates the evsByPrev field with data derived from
+	 * the given {@link TokenSequence}
+	 */
 	private void trainOnSentence(TokenSequence tokSeq) {
         List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, model.getNGram(), model.getChemNameDictNames());
 		List<Token> tokens = tokSeq.getTokens();
@@ -193,6 +220,7 @@ public final class MEMMTrainer {
 
 	public void trainOnSbFilesNosplit(List<File> files) throws DataFormatException, IOException {
 		if(retrain) {
+			//likely overriden by bug in trainOnStream
 			HyphenTokeniser.reinitialise();
 			TrainingDataExtractor extractor = new TrainingDataExtractor(files);
 			model.setExtractedTrainingData(
@@ -232,6 +260,7 @@ public final class MEMMTrainer {
 		
 		for (int split = 0; split < splitNo; split++) {
 			if(retrain) {
+				//does this code change anything?
 				HyphenTokeniser.reinitialise();
 				new TrainingDataExtractor(splitTrainAntiFiles.get(split));
 				HyphenTokeniser.reinitialise();					
@@ -246,6 +275,7 @@ public final class MEMMTrainer {
 
 		finishTraining();
 		if(retrain) {
+			//does this code change anything?
 			HyphenTokeniser.reinitialise();
 			new TrainingDataExtractor(files);
 			HyphenTokeniser.reinitialise();				
@@ -343,7 +373,12 @@ public final class MEMMTrainer {
 	}
 
 	
-	
+	/**
+	 * Builds and stores in MEMMModel.gmByPrev the memm models
+	 * for each BioTag based on the current data stored in evsByPrev
+	 * 
+	 * @throws IOException
+	 */
 	public void finishTraining() throws IOException {
 		model.makeEntityTypesAndZeroProbs();
 		

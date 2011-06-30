@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +20,9 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
@@ -100,12 +103,8 @@ public class MEMMTrainerTest {
 	@Given("testLearning")
 	public void testExtractTrainingData(Element trainedModel) throws Exception{
 		MEMMModel model = new MEMMModel(trainedModel);
-		
-		MEMMRecogniser memm = new MEMMRecogniser(
-				model, OntologyTerms.getDefaultInstance(),
-				new ChemNameDictRegistry(Locale.ENGLISH));		
-		assertEquals("Number of Chemical words in ExtractedTrainingData size",520, model.getExtractedTrainingData().getChemicalWords().size());
-		assertEquals("Number of non-chemical words in ExtractedTrainingData size",1194, model.getExtractedTrainingData().getNonChemicalWords().size());
+		assertEquals("Number of Chemical words in ExtractedTrainingData size",453, model.getExtractedTrainingData().getChemicalWords().size());
+		assertEquals("Number of non-chemical words in ExtractedTrainingData size",1178, model.getExtractedTrainingData().getNonChemicalWords().size());
 	}
 	
 	
@@ -127,6 +126,24 @@ public class MEMMTrainerTest {
 		assertTrue(model1.toXML().equals(model2.toXML()));
 		assertTrue(model1.toXML().equals(model3.toXML()));
 	}
+	
+	
+	@Test
+	public void testEventCollection() throws Exception {
+		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscarMEMM/memm/eventCollectionTest.xml");
+		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());
+		trainer.trainOnStream(in);
+		assertEquals(6, trainer.evsByPrev.keySet().size());
+		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("B-CM")));
+		assertFalse(trainer.evsByPrev.keySet().contains(BioType.fromString("I-CM")));
+		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("B-RN")));
+		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("I-RN")));
+		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("B-ASE")));
+		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("I-ASE")));
+		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("O")));
+	}
+	
+	
 
 	private MEMMModel trainModel() throws Exception {
 		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());

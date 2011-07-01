@@ -59,6 +59,7 @@ public class PatternRecogniserTest {
 	@AfterClass
 	public static void cleanUp() {
 		recogniser = null;
+		recogniserForCustomisation = null;
 	}
 	
 	@Test public void testConstructor() {
@@ -269,8 +270,8 @@ public class PatternRecogniserTest {
 	
 	@Test
 	public void testFindNamedEntitiesIncludesAdHocAcronyms() {
-		String defined = "the quick polystyrene (PY) fox jumps over the PY dog.";
-		String unDefined = "the quick PY fox jumps over the PY dog.";
+		String defined = "the quick bromochlorodimethylhydantoin (BCDMH) fox jumps over the BCDMH dog.";
+		String unDefined = "the quick BCDMH fox jumps over the BCDMH dog.";
 		ProcessingDocument definedDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), defined);
 		ProcessingDocument unDefinedDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
@@ -280,17 +281,17 @@ public class PatternRecogniserTest {
 		List <NamedEntity> nes = recogniser.findNamedEntities(definedDoc);
 		assertEquals(3, nes.size());
 		
-		assertEquals("polystyrene", nes.get(0).getSurface());
+		assertEquals("bromochlorodimethylhydantoin", nes.get(0).getSurface());
 		assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(0).getType()));
 		assertEquals(10, nes.get(0).getStart());
 		
-		assertEquals("PY", nes.get(1).getSurface());
+		assertEquals("BCDMH", nes.get(1).getSurface());
 		assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(1).getType()));
-		assertEquals(23, nes.get(1).getStart());
+		assertEquals(40, nes.get(1).getStart());
 		
-		assertEquals("PY", nes.get(2).getSurface());
+		assertEquals("BCDMH", nes.get(2).getSurface());
 		assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(2).getType()));
-		assertEquals(46, nes.get(2).getStart());
+		assertEquals(66, nes.get(2).getStart());
 	}
 	
 	

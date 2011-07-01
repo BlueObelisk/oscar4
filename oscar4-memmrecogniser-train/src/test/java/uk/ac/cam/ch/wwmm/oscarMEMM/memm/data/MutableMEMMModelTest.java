@@ -2,10 +2,19 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm.data;
 
 import static org.junit.Assert.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
+import java.util.Locale;
 
 import org.apache.commons.collections.set.UnmodifiableSet;
+import org.junit.Ignore;
 import org.junit.Test;
+
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IChemNameDict;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.MutableChemNameDict;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 
 public class MutableMEMMModelTest {
 
@@ -23,4 +32,27 @@ public class MutableMEMMModelTest {
 		assertNotNull(model.getNGram());
 		assertNotNull(model.getChemNameDictNames());
 	}
+    
+    @Ignore
+    // haven't quite worked out the desired functionality here
+    @Test
+    public void testNgramCustomisation() throws URISyntaxException {
+    	MutableMEMMModel vanilla = new MutableMEMMModel(
+    			(UnmodifiableSet) UnmodifiableSet.decorate(
+    					ChemNameDictRegistry.getDefaultInstance().getAllNames()));
+    	
+    	ChemNameDictRegistry customRegistry = new ChemNameDictRegistry();
+    	MutableChemNameDict dict = new MutableChemNameDict(new URI("http://www.example.com"), Locale.ENGLISH);
+    	dict.addName("asparagus");
+    	dict.addName("carrot");
+    	dict.addName("cauliflower");
+    	dict.addName("potato");
+    	customRegistry.register(dict);
+    	
+    	MutableMEMMModel customised = new MutableMEMMModel(
+    			(UnmodifiableSet) UnmodifiableSet.decorate(
+    					customRegistry.getAllNames()));
+    	
+    	assertFalse(customised.getNGram().compareTo(vanilla.getNGram()));
+    }
 }

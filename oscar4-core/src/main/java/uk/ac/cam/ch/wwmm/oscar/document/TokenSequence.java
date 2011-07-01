@@ -192,7 +192,7 @@ public final class TokenSequence {
 	 * Gets all of the named entities in the TokenSequence. This produces a
 	 * map, where the keys are the named entity types. The values are a list
 	 * of all NEs of the corresponding type, which are represented as lists
-	 * of strings.
+	 * of (token surface) strings.
 	 * 
 	 * @return The named entities.
 	 */

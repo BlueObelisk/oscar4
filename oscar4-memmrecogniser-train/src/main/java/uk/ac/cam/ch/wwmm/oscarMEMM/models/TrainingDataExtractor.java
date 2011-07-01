@@ -140,8 +140,7 @@ public final class TrainingDataExtractor {
 	}
 
 	private void init(Collection<File> files) {
-		Set<String> goodPn;
-		goodPn = new HashSet<String>();
+		Set<String> goodPn = new HashSet<String>();
 
 		initSets();
 		HyphenTokeniser.reinitialise();
@@ -224,8 +223,7 @@ public final class TrainingDataExtractor {
 	}
 
 	private void init(Document doc) {
-		Set<String> goodPn;
-		goodPn = new HashSet<String>();
+		Set<String> goodPn = new HashSet<String>();
 
 		initSets();
 		HyphenTokeniser.reinitialise();
@@ -301,14 +299,15 @@ public final class TrainingDataExtractor {
 		Document copy = new Document((Element) XOMTools.safeCopy(doc
 				.getRootElement()));
 		n = copy.query("//ne");
-		for (int i = 0; i < n.size(); i++)
+		for (int i = 0; i < n.size(); i++) {
 			XOMTools.removeElementPreservingText((Element) n.get(i));
+		}
 		Document safDoc = InlineToSAF.extractSAFs(doc, copy, "foo");
-
+		
 		doc = copy;
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory
 				.getInstance().makeTokenisedDocument(
-						Tokeniser.getDefaultInstance(), doc, true, true, safDoc);
+						Tokeniser.getDefaultInstance(), doc, true, false, safDoc);
 		for (TokenSequence tokSeq : procDoc.getTokenSequences()) {
 			afterHyphen.addAll(tokSeq.getAfterHyphens());
 			Map<NamedEntityType, List<List<String>>> neMap = tokSeq
@@ -328,12 +327,14 @@ public final class TrainingDataExtractor {
 			for (List<String> ne : neList) {
 
 				if (ne.size() == 1) {
+					//single-token named entity
 					if (ne.get(0).matches(".*[a-z][a-z].*")) {
 						cwBag.add(ne.get(0));
 					} else if (ne.get(0).matches(".*[A-Z].*")) {
 						cnwBag.add(ne.get(0));
 					}
 				} else {
+					//multi-token named entity
 					if (ne.get(0).matches("[A-Z][a-z][a-z]+")) {
 						goodPn.add(ne.get(0));
 						while (ne.size() > 3

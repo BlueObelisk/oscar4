@@ -82,10 +82,12 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider, ICMLProvi
 		}
 		OpsinResult result = nts.parseChemicalName(queryName);
 		if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
-			Set<String> inchis = new HashSet<String>();
 			String inchi = NameToInchi.convertResultToInChI(result);
-			inchis.add(inchi);
-			return inchis;
+			if (inchi != null){//null if conversion fails e.g. structure is a polymer
+				Set<String> inchis = new HashSet<String>();
+				inchis.add(inchi);
+				return inchis;
+			}
 		}
 		return Collections.emptySet();
 	}

@@ -166,4 +166,12 @@ public final class Token {
     public void setNeElem(Element neElem) {
         this.neElem = neElem;
     }
+    
+	/**A string representation of the token, for debugging and related purposes.
+	 * 
+	 */
+	@Override
+	public String toString() {
+		return("[TOKEN:" + bioType + ":" + start+ ":" + end+ ":" + surface + "]");
+	}
 }

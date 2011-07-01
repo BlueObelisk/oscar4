@@ -136,7 +136,8 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      * @param neList
      */
     private void mergeNamedEntities(List<NamedEntity> neList) {
-        Map<String, Set<String>> posOntIdMap = new HashMap<String, Set<String>>();
+    	//TODO this code is duplicated (and refactored) in PatternRecogniser
+    	Map<String, Set<String>> posOntIdMap = new HashMap<String, Set<String>>();
         Map<String, Set<String>> posCustTypeMap = new HashMap<String, Set<String>>();
 
         for (NamedEntity ne : neList) {

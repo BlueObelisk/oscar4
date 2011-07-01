@@ -248,19 +248,14 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 * @param neList
 	 */
 	static void mergeOntIdsAndCustTypes(List<NamedEntity> neList) {
-	 	// populate the ...ForNePos indexes
+		//TODO this code is duplicated in MEMMRecogniser
+		// populate the ...ForNePos indexes
 		SetMultimap<String, String> ontIdsForNePos = HashMultimap.create();
 		SetMultimap<String, String> custTypesForNePos = HashMultimap.create();
 		for(NamedEntity ne : neList) {
 			String posStr = ne.getStart() + ":" + ne.getEnd();
-			Set<String> ontIds = ne.getOntIds();
-			if(ontIds != null) {
-				ontIdsForNePos.putAll(posStr, ontIds);
-			}
-			Set<String> custTypes = ne.getCustTypes();
-			if(custTypes != null) {
-				custTypesForNePos.putAll(posStr, custTypes);
-			}
+			ontIdsForNePos.putAll(posStr, ne.getOntIds());
+			custTypesForNePos.putAll(posStr, ne.getCustTypes());
 		}
 
 		//set the ontIds and custIds

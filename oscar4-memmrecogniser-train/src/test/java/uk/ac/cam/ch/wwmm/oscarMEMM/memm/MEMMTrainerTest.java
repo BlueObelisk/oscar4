@@ -1,6 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +13,6 @@ import nu.xom.Element;
 import nu.xom.Elements;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -23,6 +22,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
+import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
@@ -36,14 +36,14 @@ public class MEMMTrainerTest {
 	@Test
 	public MEMMTrainer testConstructor() {
 		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());
-		Assert.assertNotNull(trainer);
+		assertNotNull(trainer);
 		return trainer;
 	}
 
 	@Given("testConstructor")
 	public String testUntrainedStatus(MEMMTrainer trainer) throws Exception {
 		String xml = trainer.getModel().writeModel().toXML();
-		Assert.assertEquals("<model />", xml);
+		assertEquals("<model />", xml);
 		return xml;
 	}
 
@@ -55,21 +55,21 @@ public class MEMMTrainerTest {
 				.getClassLoader()
 				.getResourceAsStream(
 						"uk/ac/cam/ch/wwmm/oscarMEMM/memm/paper.xml");
-		Assert.assertNotNull(stream);
+		assertNotNull(stream);
 		trainer.trainOnStream(stream);
 		trainer.finishTraining();
 		Element trainedModel = trainer.getModel().writeModel();
-		Assert.assertNotSame(untrainedXML, trainedModel.toXML());
+		assertNotSame(untrainedXML, trainedModel.toXML());
 
-		Assert.assertEquals("model", trainedModel.getLocalName());
-		Assert.assertEquals(1, trainedModel.getChildElements("etd").size());
-		Assert.assertEquals(1, trainedModel.getChildElements("memm").size());
+		assertEquals("model", trainedModel.getLocalName());
+		assertEquals(1, trainedModel.getChildElements("etd").size());
+		assertEquals(1, trainedModel.getChildElements("memm").size());
 
 		Element memmModel = trainedModel.getFirstChildElement("memm");
-		Assert.assertEquals("memm", memmModel.getLocalName());
+		assertEquals("memm", memmModel.getLocalName());
 		Elements elements = memmModel.getChildElements();
 		for (int i = 0; i < elements.size(); i++)
-			Assert.assertEquals("maxent", elements.get(i).getLocalName());
+			assertEquals("maxent", elements.get(i).getLocalName());
 
 		
 		return trainedModel;
@@ -91,24 +91,20 @@ public class MEMMTrainerTest {
 				.makeTokenisedDocument(Tokeniser.getDefaultInstance(), sentence);
 		List<NamedEntity> neList = memm.findNamedEntities(procdoc.getTokenSequences(), ResolutionMode.MARK_BLOCKED);
 		System.out.println(neList);
-		Assert.assertEquals("Number of recognised entities: ", 26, neList.size());
+		assertEquals("Number of recognised entities: ", 26, neList.size());
 		for (NamedEntity namedEntity : neList) {
 			actualSurfaceList.add(namedEntity.getSurface());
 			actualTypeList.add(namedEntity.getType().getName());
 		}
-		Assert.assertEquals("Chemical Names recognised",expectedSurfaceList,actualSurfaceList);
-		Assert.assertEquals("Chemical Types recognised",expectedTypeList,actualTypeList);
+		assertEquals("Chemical Names recognised",expectedSurfaceList,actualSurfaceList);
+		assertEquals("Chemical Types recognised",expectedTypeList,actualTypeList);
 	}
 	
 	@Given("testLearning")
 	public void testExtractTrainingData(Element trainedModel) throws Exception{
 		MEMMModel model = new MEMMModel(trainedModel);
-		
-		MEMMRecogniser memm = new MEMMRecogniser(
-				model, OntologyTerms.getDefaultInstance(),
-				new ChemNameDictRegistry(Locale.ENGLISH));		
-		Assert.assertEquals("Number of Chemical words in ExtractedTrainingData size",520, model.getExtractedTrainingData().getChemicalWords().size());
-		Assert.assertEquals("Number of non-chemical words in ExtractedTrainingData size",1194, model.getExtractedTrainingData().getNonChemicalWords().size());
+		assertEquals("Number of Chemical words in ExtractedTrainingData size",453, model.getExtractedTrainingData().getChemicalWords().size());
+		assertEquals("Number of non-chemical words in ExtractedTrainingData size",1178, model.getExtractedTrainingData().getNonChemicalWords().size());
 	}
 	
 	
@@ -130,6 +126,24 @@ public class MEMMTrainerTest {
 		assertTrue(model1.toXML().equals(model2.toXML()));
 		assertTrue(model1.toXML().equals(model3.toXML()));
 	}
+	
+	
+	@Test
+	public void testEventCollection() throws Exception {
+		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscarMEMM/memm/eventCollectionTest.xml");
+		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());
+		trainer.trainOnStream(in);
+		assertEquals(6, trainer.evsByPrev.keySet().size());
+		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("B-CM")));
+		assertFalse(trainer.evsByPrev.keySet().contains(BioType.fromString("I-CM")));
+		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("B-RN")));
+		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("I-RN")));
+		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("B-ASE")));
+		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("I-ASE")));
+		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("O")));
+	}
+	
+	
 
 	private MEMMModel trainModel() throws Exception {
 		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());

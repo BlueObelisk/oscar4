@@ -227,10 +227,10 @@ public class PatternRecogniserTest {
     	assertEquals(2, nes.size());
     	assertEquals("ethyl acetate", nes.get(0).getSurface());
     	assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(0).getType()));
-    	assertNull(nes.get(0).getOntIds());
+    	assertEquals(0, nes.get(0).getOntIds().size());
     	assertEquals("acetone", nes.get(1).getSurface());
     	assertTrue(NamedEntityType.COMPOUND.isInstance(nes.get(1).getType()));
-    	assertNull(nes.get(1).getOntIds());
+    	assertEquals(0, nes.get(1).getOntIds().size());
     	
     	ListMultimap<String, String> ontTerms = ArrayListMultimap.create();
     	ontTerms.put("jumps", "foo:001");
@@ -243,7 +243,7 @@ public class PatternRecogniserTest {
     	assertEquals(3, customNes.size());
     	assertEquals("ethyl acetate", customNes.get(0).getSurface());
     	assertTrue(NamedEntityType.COMPOUND.isInstance(customNes.get(0).getType()));
-    	assertNull(customNes.get(0).getOntIds());
+    	assertEquals(0, customNes.get(0).getOntIds().size());
     	assertEquals("jumps", customNes.get(1).getSurface());
     	assertTrue(NamedEntityType.ONTOLOGY.isInstance(customNes.get(1).getType()));
     	assertEquals(2, customNes.get(1).getOntIds().size());
@@ -251,7 +251,7 @@ public class PatternRecogniserTest {
     	assertTrue(customNes.get(1).getOntIds().contains("foo:002"));
     	assertEquals("acetone", customNes.get(2).getSurface());
     	assertTrue(NamedEntityType.COMPOUND.isInstance(customNes.get(2).getType()));
-    	assertNull(customNes.get(2).getOntIds());
+    	assertEquals(0, customNes.get(2).getOntIds().size());
 	}
 	
 	@Test
@@ -326,40 +326,40 @@ public class PatternRecogniserTest {
 		assertTrue(nes.get(0).getOntIds().contains("foo:001"));
 		assertTrue(nes.get(0).getOntIds().contains("foo:002"));
 		assertTrue(nes.get(0).getOntIds().contains("foo:003"));
-		assertNull(nes.get(0).getCustTypes());
+		assertEquals(0, nes.get(0).getCustTypes().size());
 		
 		assertEquals(3, nes.get(1).getOntIds().size());
 		assertTrue(nes.get(1).getOntIds().contains("foo:001"));
 		assertTrue(nes.get(1).getOntIds().contains("foo:002"));
 		assertTrue(nes.get(1).getOntIds().contains("foo:003"));
-		assertNull(nes.get(1).getCustTypes());
+		assertEquals(0, nes.get(1).getCustTypes().size());
 		
 		assertEquals(3, nes.get(2).getOntIds().size());
 		assertTrue(nes.get(2).getOntIds().contains("foo:001"));
 		assertTrue(nes.get(2).getOntIds().contains("foo:002"));
 		assertTrue(nes.get(2).getOntIds().contains("foo:003"));
-		assertNull(nes.get(2).getCustTypes());
+		assertEquals(0, nes.get(2).getCustTypes().size());
 		
-		assertNull(nes.get(3).getOntIds());
-		assertNull(nes.get(3).getCustTypes());
+		assertEquals(0, nes.get(3).getOntIds().size());
+		assertEquals(0, nes.get(3).getCustTypes().size());
 		
 		assertEquals(2, nes.get(4).getCustTypes().size());
 		assertTrue(nes.get(4).getCustTypes().contains("FOO"));
 		assertTrue(nes.get(4).getCustTypes().contains("BAR"));
-		assertNull(nes.get(4).getOntIds());
+		assertEquals(0, nes.get(4).getOntIds().size());
 		
 		assertEquals(2, nes.get(5).getCustTypes().size());
 		assertTrue(nes.get(5).getCustTypes().contains("FOO"));
 		assertTrue(nes.get(5).getCustTypes().contains("BAR"));
-		assertNull(nes.get(5).getOntIds());
+		assertEquals(0, nes.get(5).getOntIds().size());
 
 		assertEquals(2, nes.get(6).getCustTypes().size());
 		assertTrue(nes.get(6).getCustTypes().contains("FOO"));
 		assertTrue(nes.get(6).getCustTypes().contains("BAR"));
-		assertNull(nes.get(6).getOntIds());
+		assertEquals(0, nes.get(6).getOntIds().size());
 		
-		assertNull(nes.get(7).getCustTypes());
-		assertNull(nes.get(7).getOntIds());
+		assertEquals(0, nes.get(7).getCustTypes().size());
+		assertEquals(0, nes.get(7).getOntIds().size());
 	}
 	
 	

@@ -299,6 +299,7 @@ public class XOMBasedProcessingDocumentFactory  {
 							.getAttributeValue("from"));
 					elemEnd = doc.getStandoffTable().getOffsetAtXPoint(currentElem
 							.getAttributeValue("to"));
+					neType = currentElem.query("./slot[@name='type']").get(0).getValue().trim();
 				}
 			}
 		}
@@ -370,6 +371,7 @@ public class XOMBasedProcessingDocumentFactory  {
 								elemEnd = doc.getStandoffTable()
 										.getOffsetAtXPoint(currentElem
 												.getAttributeValue("to"));
+								neType = currentElem.query("./slot[@name='type']").get(0).getValue().trim();
 							}
 						}
 					}

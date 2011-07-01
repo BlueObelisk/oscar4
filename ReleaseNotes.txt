@@ -1,0 +1,10 @@
+Version 4.0.2
+Released 2011-07-01
+Replaces the use of maxent version 2.4.0 with 3.0.1 for compatibility reasons.
+
+Version 4.0.1
+Released 2011-04-12
+First proper release of OSCAR4
+
+Version 4.0
+This version was superseded almost immediately by 4.0.1 and should not be used.

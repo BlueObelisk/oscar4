@@ -4,7 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * The type of a named entity. A {@link NamedEntityType} has a;
+ * <ul><li>name - a unique name for the NamedEntityType, e.g. "CM"
+ * <li>description - an expanded description of what the NamedEntityType
+ * represents, e.g. "Compound"
+ * <li>priority - the priority of the NamedEntityType, for determining
+ * which of two named entities should be discarded where they precisely
+ * share a surface string</ul>
+ * 
  * @author sea36
+ * @author dmj30
  */
 public class NamedEntityType {
 
@@ -43,18 +52,43 @@ public class NamedEntityType {
         return _types;
     }
 
+    /**
+     * Returns a registered named entity with the given name and description
+     * and a priority of 0. Does not overwrite an existing registered
+     * NamedEntityType of the same name.
+     * 
+     * @param name a unique name for the NamedEntityType, e.g. "CM"
+     * @param description an expanded description of what the NamedEntityType
+     * represents, e.g. "Compound"
+     */
     public static synchronized NamedEntityType register(String name, String description) {
         return register(name, description, 0);
     }
 
+    /**
+     * Returns a registered named entity with the given name, description
+     * and priority. Does not overwrite an existing registered NamedEntityType
+     * of the same name.
+     * 
+     * @param name a unique name for the NamedEntityType, e.g. "CM"
+     * @param description an expanded description of what the NamedEntityType
+     * represents, e.g. "Compound"
+     * @param priority the priority of the NamedEntityType, for determining
+     * which of two named entities should be discarded where they precisely
+     * share a surface string
+     */
     public static synchronized NamedEntityType register(String name, String description, int priority) {
-        if (!getTypes().containsKey(description)) {
+        if (!getTypes().containsKey(name)) {
             final NamedEntityType type = new NamedEntityType(name, description, priority);
-            getTypes().put(description, type);
+            getTypes().put(name, type);
         }
-        return getTypes().get(description);
+        return getTypes().get(name);
     }
 
+    /**
+     * Returns a {@link NamedEntityType} with the given name. If the name
+     * has been registered, the registered object will be returned.
+     */
     public static NamedEntityType valueOf(String name) {
         NamedEntityType result = null;
         if ((name != null) && !name.equals("")) {
@@ -95,11 +129,19 @@ public class NamedEntityType {
     }
     
 
+    /**
+     * Returns the parent {@link NamedEntityType} of the current
+     * {@link NamedEntityType}, or null if it has no parent.
+     */
     public NamedEntityType getParent() {
         int i = getName().lastIndexOf('-');
         return i == -1 ? null : valueOf(getName().substring(0, i));
     }
 
+    /**
+     * Tests if the given {@link NamedEntityType} is of the same
+     * type or a subtype of the current {@link NamedEntityType}
+     */
     public boolean isInstance(NamedEntityType type) {
         return getName().equals(type.getName())
                 || type.getName().startsWith(getName()+'-');

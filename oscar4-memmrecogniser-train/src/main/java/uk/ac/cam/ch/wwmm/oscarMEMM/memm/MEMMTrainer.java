@@ -118,7 +118,7 @@ public final class MEMMTrainer {
 	 * @param prevTag
 	 */
 	private void train(FeatureList features, BioType thisTag, BioType prevTag) {
-		if(perniciousFeatures != null && perniciousFeatures.containsKey(prevTag) /*&& !tampering*/) {
+		if(perniciousFeatures != null && perniciousFeatures.containsKey(prevTag)) {
 			features.removeFeatures(perniciousFeatures.get(prevTag));
 		}
 		if(features.getFeatureCount() == 0) {
@@ -312,13 +312,6 @@ public final class MEMMTrainer {
 		
 		findPerniciousFeatures();
 		trainOnSbFiles(files);
-		/*if(tampering) {
-			List<String> prefixesToRemove = new ArrayList<String>();
-			prefixesToRemove.add("anchor=");
-			for(String tag : gmByPrev.keySet()) {
-				gmByPrev.put(tag, Tamperer.tamperModel(gmByPrev.get(tag), perniciousFeatures.get(tag), prefixesToRemove));
-			}			
-		}*/
 	}
 
 	@Deprecated

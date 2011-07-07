@@ -148,7 +148,7 @@ public final class MEMMOutputRescorerTrainer {
 		nr.makeTokenisers(false);*/
 		
 		IProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-				Tokeniser.getDefaultInstance(), doc, true, false, false);
+				Tokeniser.getDefaultInstance(), doc, true, false);
 		/*
 		 * previously, this was using the revised ProcessingDocumentFactory to create a revised ProcessingDocument,
 		 * which was probably a mistake - dmj30
@@ -221,7 +221,7 @@ public final class MEMMOutputRescorerTrainer {
 
 		nr.makeTokenisers(false);*/
 		IProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-			Tokeniser.getDefaultInstance(), doc, true, false, false);
+			Tokeniser.getDefaultInstance(), doc, true, false);
 		/*
 		 * previously, this was using the revised ProcessingDocumentFactory to create a revised ProcessingDocument,
 		 * which was probably a mistake - dmj30

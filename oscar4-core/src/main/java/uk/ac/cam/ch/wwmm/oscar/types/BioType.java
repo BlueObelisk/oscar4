@@ -1,6 +1,9 @@
 package uk.ac.cam.ch.wwmm.oscar.types;
 
 /**
+ * A concatenation of the {@link BioTag} and
+ * {@link NamedEntityType} to which a token belongs.
+ * 
  * @author sea36
  */
 public class BioType {

@@ -67,15 +67,12 @@ public class XOMBasedProcessingDocumentFactory  {
 	 * @param mergeNEs Whether to merge the tokens of named entities, to create
 	 * a state where all named entities are single-token. If this is set to
 	 * true, tokeniseForNEs should be true too.
-	 * @param runGenia Whether to (attempt) to run the Genia tagger once
-	 * tokenisation has taken place.
 	 * @return The ProcessingDocument for the source document.
-	 * 
 	 * 
 	 */
 	public XOMBasedProcessingDocument makeTokenisedDocument(Tokeniser tokeniser,
 			Document sourceDoc, boolean tokeniseForNEs,
-			boolean mergeNEs, boolean runGenia) {
+			boolean mergeNEs) {
 		/****************************
 		 * @lh359 Tokenisation Walkthrough:
 		 * This is the function used to call the tokeniser and tokensequence

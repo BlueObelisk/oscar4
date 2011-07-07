@@ -31,7 +31,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		Document sourceDoc = new Builder().build(in);
 //		"the quick methylbrown fox jumps over thechlorinated dog"
 		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
-		XOMBasedProcessingDocument procDoc = (XOMBasedProcessingDocument) XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, false, false, false);
+		XOMBasedProcessingDocument procDoc = (XOMBasedProcessingDocument) XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, false, false);
 		//empty tokenSequence for the empty HEADER in the sourceDoc
 		assertEquals(2, procDoc.getTokenSequences().size());
 		List <Token> tokens = procDoc.getTokenSequences().get(1).getTokens(); 
@@ -86,7 +86,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		
 //		"the quick methylbrown fox jumps over thechlorinated dog"
 		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
-		XOMBasedProcessingDocument procDoc = (XOMBasedProcessingDocument) XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, inline, false, false, false);
+		XOMBasedProcessingDocument procDoc = (XOMBasedProcessingDocument) XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, inline, false, false);
 		//empty tokenSequence for the empty HEADER in the sourceDoc
 		assertEquals(2, procDoc.getTokenSequences().size());
 		List <Token> tokens = procDoc.getTokenSequences().get(1).getTokens(); 
@@ -159,7 +159,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscar/document/sciXmlPaper.xml");
 		Document sourceDoc = new Builder().build(in);
 		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
-		XOMBasedProcessingDocument procDoc = (XOMBasedProcessingDocument) XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, false, false, false);
+		XOMBasedProcessingDocument procDoc = (XOMBasedProcessingDocument) XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, false, false);
 		List <Token> tokens = procDoc.getTokenSequences().get(1).getTokens(); 
 		assertEquals(8, tokens.size());
 		
@@ -299,7 +299,7 @@ public class XOMBasedProcessingDocumentFactoryTest {
 		Document sourceDoc = new Builder().build(in);
 		Tokeniser tokeniser = Tokeniser.getDefaultInstance();
 
-		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, true, true, false);
+		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(tokeniser, sourceDoc, true, true);
 		TokenSequence tokSeq = procDoc.getTokenSequences().get(1);
 
 		

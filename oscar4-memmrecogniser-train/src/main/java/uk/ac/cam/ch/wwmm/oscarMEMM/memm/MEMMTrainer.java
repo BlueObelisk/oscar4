@@ -72,7 +72,12 @@ public final class MEMMTrainer {
 
 	//TODO candidate for ArrayListMultimap
 	Map<BioType, List<Event>> evsByPrev;
+	
+	//number of training cycles to be passed to GIS.trainModel
 	private int trainingCycles;
+	
+	/* "The minimum number of times a predicate must have been
+	observed in order to be included in the model" */
 	private int featureCutOff;
 
 	// if true, uses a single memm model to predict all BioTypes
@@ -210,7 +215,7 @@ public final class MEMMTrainer {
 		}
 		
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-			Tokeniser.getDefaultInstance(), doc, true, false, false);
+			Tokeniser.getDefaultInstance(), doc, true, false);
 
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			trainOnSentence(ts);
@@ -406,6 +411,7 @@ public final class MEMMTrainer {
 		}
 	}
 	
+	//unreachable method
 	private Map<BioType, Double> runGIS(MaxentModel gm, String [] context) {
 		Map<BioType, Double> results = new HashMap<BioType, Double>();
 		results.putAll(model.getZeroProbs());
@@ -453,7 +459,7 @@ public final class MEMMTrainer {
 		
 		
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
-			Tokeniser.getDefaultInstance(), doc, true, false, false);
+			Tokeniser.getDefaultInstance(), doc, true, false);
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			cvFeatures(ts);
 		}

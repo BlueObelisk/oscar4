@@ -1,22 +1,24 @@
 package uk.ac.cam.ch.wwmm.oscar.types;
 
 /**
+ * A tag to define whether a token occurs inside or outside a named entity
+ * 
  * @author Sam Adams
  */
 public enum BioTag {
 
     /**
-     * The first token in a multiword entity
+     * The first ("begin") token in a named entity
      */
     B,
 
     /**
-     * A non-first token in a multiword entity
+     * A non-first ("inside") token in a named entity
      */
     I,
 
     /**
-     * Unknown whether the token is first/non-first
+     * A token that is not in ("outside") a named entity
      */
     O
 

@@ -454,13 +454,6 @@ public final class MEMMTrainer {
 		
 		XOMBasedProcessingDocument procDoc = XOMBasedProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 			Tokeniser.getDefaultInstance(), doc, true, false, false);
-		//NameRecogniser nr = new NameRecogniser();
-		//nr.halfProcess(doc);
-		//if(patternFeatures) {
-		//	nr.findForReps(true);
-		//} else {
-			//nr.makeTokenisers(true);
-		//}
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			cvFeatures(ts);
 		}

@@ -19,7 +19,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.PubMedModel;
 import uk.ac.cam.ch.wwmm.oscarpattern.PatternRecogniser;

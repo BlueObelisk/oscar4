@@ -34,7 +34,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
@@ -49,7 +49,8 @@ public final class MEMMOutputRescorerTrainer {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MEMMOutputRescorerTrainer.class);
 	
-	private MEMM memm;
+	private MEMMModel memm;
+	private double confidenceThreshold;
 	
 	Map<NamedEntityType,List<Event>> eventsByNamedEntityType;
 	Map<NamedEntityType,GISModel> modelsByNamedEntityType;
@@ -93,8 +94,9 @@ public final class MEMMOutputRescorerTrainer {
 	/**Initialises an empty rescorer. This rescorer must be given data or a
 	 * model for it to work.
 	 */
-	public MEMMOutputRescorerTrainer(MEMM memm) {
+	public MEMMOutputRescorerTrainer(MEMMModel memm, double confidenceThreshold) {
 		this.memm = memm;
+		this.confidenceThreshold = confidenceThreshold;
 		eventsByNamedEntityType = new HashMap<NamedEntityType,List<Event>>();
 		grandTotalGain = 0.0;
 		
@@ -128,7 +130,7 @@ public final class MEMMOutputRescorerTrainer {
 	 * @throws IOException 
 	 * @throws DataFormatException 
 	 */
-	public void trainOnFile(File f, MEMM mexmm) throws IOException, DataFormatException {
+	public void trainOnFile(File f, MEMMModel mexmm) throws IOException, DataFormatException {
 		Document doc;
 		try {
 			doc = new Builder().build(f);
@@ -168,7 +170,7 @@ public final class MEMMOutputRescorerTrainer {
 				String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
 				testNEs.add(neStr);
 			}
-			entities.addAll(memm.findNEs(tokSeq));
+			entities.addAll(memm.findNEs(tokSeq, confidenceThreshold));
 		}
 
 		FeatureExtractor fe = new FeatureExtractor(entities);
@@ -180,7 +182,7 @@ public final class MEMMOutputRescorerTrainer {
 			} else {
 				isEntity = "F";
 			}
-			List<String> features = fe.getFeatures(entity, memm.getModel().getChemNameDictNames());
+			List<String> features = fe.getFeatures(entity, memm.getChemNameDictNames());
 			NamedEntityType namedEntityType = entity.getType();
 			if(!eventsByNamedEntityType.containsKey(namedEntityType)) eventsByNamedEntityType.put(namedEntityType, new ArrayList<Event>());
 			eventsByNamedEntityType.get(namedEntityType).add(new Event(isEntity, features.toArray(new String[0])));
@@ -240,7 +242,7 @@ public final class MEMMOutputRescorerTrainer {
 				String neStr = "[NE:" + neElem.getAttributeValue("type") + ":" + neElem.getAttributeValue("xtspanstart") + ":" + neElem.getAttributeValue("xtspanend") + ":" + neElem.getValue() + "]";
 				testNEs.add(neStr);
 			}
-			entities.addAll(memm.findNEs(tokSeq));
+			entities.addAll(memm.findNEs(tokSeq, confidenceThreshold));
 		}
 		totalRecall += testNEs.size();
 
@@ -249,7 +251,7 @@ public final class MEMMOutputRescorerTrainer {
 		FeatureExtractor fe = new FeatureExtractor(entities);
 		
 		for(NamedEntity entity : entities) {
-			List<String> features = fe.getFeatures(entity, memm.getModel().getChemNameDictNames());
+			List<String> features = fe.getFeatures(entity, memm.getChemNameDictNames());
 			NamedEntityType namedEntityType = entity.getType();
 			if(modelsByNamedEntityType.containsKey(namedEntityType)) {
 				GISModel model = modelsByNamedEntityType.get(namedEntityType);

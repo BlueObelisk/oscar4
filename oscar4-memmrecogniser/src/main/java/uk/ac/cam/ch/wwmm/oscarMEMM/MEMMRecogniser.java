@@ -9,14 +9,16 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.ChemPapersModel;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFAONTCPRFinder;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.finder.DFASupplementaryTermFinder;
@@ -33,6 +35,8 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
  */
 public class MEMMRecogniser implements ChemicalEntityRecogniser {
 
+	 private static final Logger LOG = LoggerFactory.getLogger(MEMMRecogniser.class);
+	
 	private MEMMModel model;
     private double memmThreshold = 0.2;
     private DFAONTCPRFinder ontologyAndPrefixTermFinder;
@@ -187,15 +191,22 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      */
     private List<NamedEntity> generateNamedEntities(List<TokenSequence> tokSeqList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
-        MEMM memm = new MEMM(model, memmThreshold/5);
+//        MEMM memm = new MEMM(model, memmThreshold/5);
         for (TokenSequence tokseq : tokSeqList) {
-            for (NamedEntity ne : memm.findNEs(tokseq)) {
+        	//TODO check divide by five
+            for (NamedEntity ne : model.findNEs(tokseq, memmThreshold/5)) {
                 if (ne.getConfidence() > memmThreshold) {
                     neList.add(ne);
                 }
             }
         }
-        memm.rescore(neList);
+   
+        if (model.getRescorer() != null) {
+    		model.getRescorer().rescore(neList, model.getChemNameDictNames());	
+    	} 
+    	else {
+    		LOG.info("Model does not contain a rescorer");
+    	}
         return neList;
     }
 

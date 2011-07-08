@@ -1,9 +1,11 @@
-package uk.ac.cam.ch.wwmm.oscarMEMM.memm.data;
+package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,14 +14,17 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import opennlp.maxent.GISModel;
+import opennlp.model.MaxentModel;
 
 import org.apache.commons.collections.set.UnmodifiableSet;
 
+import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
+import uk.ac.cam.ch.wwmm.oscar.document.Token;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMM;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelReader;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.StringGISModelWriter;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
@@ -35,6 +40,10 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
  */
 public class MEMMModel {
 
+	private boolean useUber = false;
+	private boolean removeBlocked = false;
+    private boolean filtering=true;
+	
     protected Map<BioType, Double> zeroProbs;
     protected Map<BioType, GISModel> gmByPrev;
     protected GISModel ubermodel;
@@ -197,4 +206,72 @@ public class MEMMModel {
 	public UnmodifiableSet getChemNameDictNames() {
 		return chemNameDictNames;
 	}
+	
+	/**
+     * Finds the named entities in a token sequence.
+     *
+     * @param tokSeq The token sequence.
+     * @return Named entities, with confidences.
+     */
+    public List<NamedEntity> findNEs(TokenSequence tokSeq, double confidenceThreshold) {
+        List<FeatureList> featureLists = FeatureExtractor.extractFeatures(tokSeq, this);
+        List<Token> tokens = tokSeq.getTokens();
+        if (tokens.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Map<BioType,Map<BioType,Double>>> classifierResults = new ArrayList<Map<BioType,Map<BioType,Double>>>();
+        for (int i = 0; i < tokens.size(); i++) {
+            FeatureList featuresForToken = featureLists.get(i);
+            classifierResults.add(classifyToken(featuresForToken));
+        }
+
+        EntityTokeniser lattice = new EntityTokeniser(this, tokSeq, classifierResults);
+        List<NamedEntity> namedEntities = lattice.getEntities(confidenceThreshold);
+        PostProcessor pp = new PostProcessor(tokSeq, namedEntities, getExtractedTrainingData());
+        if (filtering) {
+            pp.filterEntities();
+        }
+        pp.getBlocked();
+        if (removeBlocked) {
+            pp.removeBlocked();
+        }
+        namedEntities = pp.getEntities();
+
+        return namedEntities;
+    }
+    
+    private Map<BioType,Map<BioType,Double>> classifyToken(FeatureList features) {
+        Map<BioType,Map<BioType,Double>> results = new HashMap<BioType,Map<BioType,Double>>();
+        if (useUber) {
+            for (BioType prevTag : getTagSet()) {
+                FeatureList newFeatures = new FeatureList(features);
+                newFeatures.addFeature("$$prevTag=" + prevTag);
+                results.put(prevTag, runGIS(getUberModel(), newFeatures));
+            }
+        } else {
+            for (BioType tag : getTagSet()) {
+                MaxentModel gm = getMaxentModelByPrev(tag);
+                if (gm != null) {
+                    Map<BioType, Double> modelResults = runGIS(gm, features);
+                    results.put(tag, modelResults);
+                }
+            }
+        }
+        return results;
+    }
+    
+    private Map<BioType, Double> runGIS(MaxentModel gm, FeatureList featureList) {
+        Map<BioType, Double> results = new HashMap<BioType, Double>();
+        results.putAll(getZeroProbs());
+        String[] features = featureList.toArray();
+        double [] gisResults = gm.eval(features);
+        for (int i = 0; i < gisResults.length; i++) {
+            results.put(
+            	BioType.fromString(gm.getOutcome(i)),
+            	gisResults[i]
+            );
+        }
+        return results;
+    }
 }

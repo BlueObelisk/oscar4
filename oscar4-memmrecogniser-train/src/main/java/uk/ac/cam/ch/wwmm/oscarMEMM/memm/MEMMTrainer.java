@@ -79,10 +79,6 @@ public final class MEMMTrainer {
 	observed in order to be included in the model" */
 	private int featureCutOff;
 
-	// if true, uses a single memm model to predict all BioTypes
-	// if false, uses one memm model per BioType
-	private boolean useUber = false;
-
 	// looks to be intended to control setting the extracted training
 	// data in trainOnSbFilesNosplit
 	private boolean retrain=true;
@@ -129,9 +125,6 @@ public final class MEMMTrainer {
 			features.addFeature("EMPTY");
 		}
 		model.getTagSet().add(thisTag);
-		if(useUber) {
-			features.addFeature("$$prevTag=" + prevTag);
-		}
 		String [] context = features.toArray();
 		Event ev = new Event(thisTag.toString(), context);
 		List<Event> evs = evsByPrev.get(prevTag);
@@ -379,34 +372,25 @@ public final class MEMMTrainer {
 	public void finishTraining() throws IOException {
 		model.makeEntityTypesAndZeroProbs();
 		
-		if(useUber) {
-			List<Event> evs = new ArrayList<Event>();
-			for(BioType prevTagg : evsByPrev.keySet()) {
-				evs.addAll(evsByPrev.get(prevTagg));
+		for(BioType prevTagg : evsByPrev.keySet()) {
+			logger.debug("tag: {}", prevTagg);
+			List<Event> evs = evsByPrev.get(prevTagg);
+			if(featureSel) {
+				evs = new FeatureSelector().selectFeatures(evs);						
+			}		
+			if(evs.size() == 1) {
+				evs.add(evs.get(0));
 			}
-			DataIndexer di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), featureCutOff);
-			model.setUberModel(GIS.trainModel(trainingCycles, di));
-		} else {
-			for(BioType prevTagg : evsByPrev.keySet()) {
-				logger.debug("tag: {}", prevTagg);
-				List<Event> evs = evsByPrev.get(prevTagg);
-				if(featureSel) {
-					evs = new FeatureSelector().selectFeatures(evs);						
-				}		
-				if(evs.size() == 1) {
-					evs.add(evs.get(0));
-				}
-				DataIndexer di = null;
-				try {
-					//I don't understand what would cause an exception to throw,
-					//but this seems like a bad way to control the logic
-					di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), featureCutOff);
-					model.putGISModel(prevTagg, GIS.trainModel(trainingCycles, di));
-				} catch (Exception e) {
-					di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), 1);				
-					model.putGISModel(prevTagg, GIS.trainModel(trainingCycles, di));
-				}	
-			}
+			DataIndexer di = null;
+			try {
+				//I don't understand what would cause an exception to throw,
+				//but this seems like a bad way to control the logic
+				di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), featureCutOff);
+				model.putGISModel(prevTagg, GIS.trainModel(trainingCycles, di));
+			} catch (Exception e) {
+				di = new TwoPassDataIndexer(new EventCollectorAsStream(new SimpleEventCollector(evs)), 1);				
+				model.putGISModel(prevTagg, GIS.trainModel(trainingCycles, di));
+			}	
 		}
 	}
 	
@@ -423,20 +407,12 @@ public final class MEMMTrainer {
 	
 	private Map<BioType,Map<BioType,Double>> calcResults(FeatureList features) {
 		Map<BioType,Map<BioType,Double>> results = new HashMap<BioType,Map<BioType,Double>>();
-		if(useUber) {
-			for(BioType prevTag : model.getTagSet()) {
-				FeatureList newFeatures = new FeatureList(features);
-				newFeatures.addFeature("$$prevTag=" + prevTag);
-				results.put(prevTag, runGIS(model.getUberModel(), newFeatures.toArray()));
-			}
-		} else {
-			String [] featArray = features.toArray();
-			for(BioType tag : model.getTagSet()) {
-				MaxentModel gm = model.getMaxentModelByPrev(tag);
-				if(gm == null) continue;
-				Map<BioType, Double> modelResults = runGIS(gm, featArray);
-				results.put(tag, modelResults);
-			}
+		String [] featArray = features.toArray();
+		for(BioType tag : model.getTagSet()) {
+			MaxentModel gm = model.getMaxentModelByPrev(tag);
+			if(gm == null) continue;
+			Map<BioType, Double> modelResults = runGIS(gm, featArray);
+			results.put(tag, modelResults);
 		}
 		return results;
 	}

@@ -27,10 +27,6 @@ public class MutableMEMMModel extends MEMMModel {
 		super.makeEntityTypesAndZeroProbs();
 	}
 
-	public void setUberModel(GISModel trainModel) {
-		super.ubermodel = trainModel;
-	}
-	
 	public void putGISModel(BioType prev, GISModel gisModel) {
 		super.gmByPrev.put(prev, gisModel);
 	}

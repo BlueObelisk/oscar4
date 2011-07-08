@@ -40,13 +40,11 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
  */
 public class MEMMModel {
 
-	private boolean useUber = false;
 	private boolean removeBlocked = false;
     private boolean filtering=true;
 	
     protected Map<BioType, Double> zeroProbs;
     protected Map<BioType, GISModel> gmByPrev;
-    protected GISModel ubermodel;
     protected MEMMOutputRescorer rescorer;
     protected Set<BioType> tagSet;
     protected Set<NamedEntityType> namedEntityTypes;
@@ -55,7 +53,7 @@ public class MEMMModel {
     protected UnmodifiableSet chemNameDictNames;
     
 
-    public MEMMModel() {
+    protected MEMMModel() {
         zeroProbs = new HashMap<BioType, Double>();
         gmByPrev = new HashMap<BioType, GISModel>();
         tagSet = new HashSet<BioType>();
@@ -187,10 +185,6 @@ public class MEMMModel {
 		return Collections.unmodifiableSet(gmByPrev.keySet());
 	}
 
-	public GISModel getUberModel() {
-		return ubermodel;
-	}
-
 	public MEMMOutputRescorer getRescorer() {
 		return rescorer;
 	}
@@ -243,19 +237,11 @@ public class MEMMModel {
     
     private Map<BioType,Map<BioType,Double>> classifyToken(FeatureList features) {
         Map<BioType,Map<BioType,Double>> results = new HashMap<BioType,Map<BioType,Double>>();
-        if (useUber) {
-            for (BioType prevTag : getTagSet()) {
-                FeatureList newFeatures = new FeatureList(features);
-                newFeatures.addFeature("$$prevTag=" + prevTag);
-                results.put(prevTag, runGIS(getUberModel(), newFeatures));
-            }
-        } else {
-            for (BioType tag : getTagSet()) {
-                MaxentModel gm = getMaxentModelByPrev(tag);
-                if (gm != null) {
-                    Map<BioType, Double> modelResults = runGIS(gm, features);
-                    results.put(tag, modelResults);
-                }
+        for (BioType tag : getTagSet()) {
+            MaxentModel gm = getMaxentModelByPrev(tag);
+            if (gm != null) {
+                Map<BioType, Double> modelResults = runGIS(gm, features);
+                results.put(tag, modelResults);
             }
         }
         return results;

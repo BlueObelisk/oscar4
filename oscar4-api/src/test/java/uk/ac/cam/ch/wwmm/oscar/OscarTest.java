@@ -226,7 +226,7 @@ public class OscarTest {
 	public void testMemmModelSetup() {
 		ListMultimap<String, String> terms = ArrayListMultimap.create();
 		OntologyTerms ontologyTerms = new OntologyTerms(terms);
-		MEMMModel model = new MEMMModel();
+		MEMMModel model = new ChemPapersModel();
 		
 		Oscar oscar = new Oscar();
 		oscar.setOntologyTerms(ontologyTerms);

@@ -25,7 +25,6 @@ private static MEMMModel model;
 	@Test
 	public void testConstructor() {
 		assertNotNull(model.getZeroProbs());
-		assertNull(model.getUberModel());
 		assertNotNull(model.getRescorer());
 		assertNotNull(model.getTagSet());
 		assertNotNull(model.getNamedEntityTypes());

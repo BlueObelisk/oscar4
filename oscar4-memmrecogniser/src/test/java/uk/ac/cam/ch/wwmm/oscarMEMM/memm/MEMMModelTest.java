@@ -23,7 +23,6 @@ public class MEMMModelTest {
 		assertNotNull(model);
 		// and that the fields are initialised correctly
 		assertNotNull(model.getZeroProbs());
-		assertNull(model.getUberModel());
 		assertNull(model.getRescorer());
 		assertNotNull(model.getTagSet());
 		assertNotNull(model.getNamedEntityTypes());

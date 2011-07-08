@@ -12,9 +12,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.MutableChemNameDict;
-import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 
 public class MutableMEMMModelTest {
 
@@ -23,7 +21,6 @@ public class MutableMEMMModelTest {
 		MutableMEMMModel model = new MutableMEMMModel(
 				(UnmodifiableSet) UnmodifiableSet.decorate(Collections.emptySet()));
 		assertNotNull(model.getZeroProbs());
-		assertNull(model.getUberModel());
 		assertNull(model.getRescorer());
 		assertNotNull(model.getTagSet());
 		assertNotNull(model.getNamedEntityTypes());

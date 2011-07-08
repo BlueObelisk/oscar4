@@ -2,7 +2,6 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,11 +19,9 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 import ch.unibe.jexample.Given;
@@ -160,4 +157,5 @@ public class MEMMTrainerTest {
 		trainer.finishTraining();
 		return trainer.getModel();
 	}
+	
 }

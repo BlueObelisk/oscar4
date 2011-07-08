@@ -41,7 +41,6 @@ import uk.ac.cam.ch.wwmm.oscar.types.BioTag;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
 import uk.ac.cam.ch.wwmm.oscar.xmltools.XOMTools;
-import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.data.MutableMEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.gis.SimpleEventCollector;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
@@ -319,11 +318,11 @@ public final class MEMMTrainer {
 		trainOnSbFiles(files);
 	}
 
-	@Deprecated
-	//TODO this isn't called - do we need it?
-	public void trainOnSbFilesWithRescore(List<File> files, MEMM memm) throws Exception {
+	public void trainOnSbFilesWithRescore(List<File> files, MEMMModel memm,
+			double confidenceThreshold) throws Exception {
+		
 		MEMMOutputRescorerTrainer rescorerTrainer =
-			new MEMMOutputRescorerTrainer(memm);
+			new MEMMOutputRescorerTrainer(memm, confidenceThreshold);
 		List<List<File>> splitTrainFiles = new ArrayList<List<File>>();
 		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();
 		int splitNo = 3;

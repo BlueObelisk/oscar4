@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscarMEMM.memm.data;
+package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,7 @@ import org.junit.Test;
 import uk.ac.cam.ch.wwmm.oscar.tools.ResourceGetter;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
+import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMModel;
 
 public class MEMMModelTest {
 

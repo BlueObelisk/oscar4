@@ -26,7 +26,7 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTraining
  */
 final class PostProcessor {
 
-	private static final Logger LOG = LoggerFactory.getLogger(MEMM.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PostProcessor.class);
 	
 	private List<NamedEntity> entities;
 	private Set<NamedEntity> blocked;

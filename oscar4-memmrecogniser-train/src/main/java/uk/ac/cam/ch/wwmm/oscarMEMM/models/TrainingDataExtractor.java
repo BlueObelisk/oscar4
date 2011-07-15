@@ -1,8 +1,5 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -12,16 +9,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
-import nu.xom.ParsingException;
-import nu.xom.ValidityException;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.XOMBasedProcessingDocumentFactory;
-import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.InlineToSAF;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -113,13 +106,13 @@ public final class TrainingDataExtractor {
 	}
 
 	/**
-	 * Makes a new ExtractTrainingData from a collection of (ScrapBook) files.
+	 * Makes a new ExtractTrainingData from a collection of (ScrapBook) documents.
 	 * 
-	 * @param files
+	 * @param docs
 	 *            The files.
 	 */
-	public TrainingDataExtractor(Collection<File> files) {
-		init(files);
+	public TrainingDataExtractor(Collection<Document> docs) {
+		init(docs);
 	}
 
 	public TrainingDataExtractor(Document doc) {
@@ -139,7 +132,7 @@ public final class TrainingDataExtractor {
 		rnMid = new HashSet<String>();
 	}
 
-	private void init(Collection<File> files) {
+	private void init(Collection<Document> docs) {
 		Set<String> goodPn = new HashSet<String>();
 
 		initSets();
@@ -150,21 +143,8 @@ public final class TrainingDataExtractor {
 		Bag<String> ncnwBag = new Bag<String>();
 
 		int paperCount = 0;
-		for (File file : files) {
-			try {
-				Document doc = new Builder().build(file);
-				loadAnnotations(goodPn, cwBag, cnwBag, ncwBag, ncnwBag, doc);
-			} catch (FileNotFoundException e) {
-				throw new OscarInitialisationException("File not found: " + file.getAbsolutePath(), e);
-			} catch (ValidityException e) {
-				throw new OscarInitialisationException("Invalid XML: " + file.getAbsolutePath(), e);
-			} catch (ParsingException e) {
-				throw new OscarInitialisationException("Failed to parse XML: "
-						+ file.getAbsolutePath(), e);
-			} catch (IOException e) {
-				throw new OscarInitialisationException("Failed to read file: "
-						+ file.getAbsolutePath(), e);
-			}
+		for (Document doc : docs) {
+			loadAnnotations(goodPn, cwBag, cnwBag, ncwBag, ncnwBag, doc);
 			paperCount++;
 		}
 

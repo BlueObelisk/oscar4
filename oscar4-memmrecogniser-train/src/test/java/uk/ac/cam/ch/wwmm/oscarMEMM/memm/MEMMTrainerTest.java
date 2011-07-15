@@ -86,8 +86,8 @@ public class MEMMTrainerTest {
 	
 	@Test
 	public void testRecognising() throws Exception {
-		List<String> expectedSurfaceList = Arrays.asList("ether", "ether", "ether ketone", "ketone", "ketone", "nitrogen", "nitrogen", "bisphthalazinone", "sulfonated difluoride ketone", "difluoride ketone", "ketone", "potassium", "potassium carbonate", "mmol", "DMSO", "toluene", "Nitrogen", "Nitrogen", "water", "toluene", "DMSO", "methanol", "water", "water", "polymer", "7a");
-		List<String> expectedTypeList = Arrays.asList("ONT", "ONT", "CM", "CM", "ONT", "CM", "ONT", "CM", "CM", "CM", "ONT", "ONT", "CM", "CM", "CM", "CM", "CM", "ONT", "CM", "CM", "CM", "CM", "CM", "CM", "ONT", "CM");
+		List<String> expectedSurfaceList = Arrays.asList("ether", "ether", "ether ketone", "ketone", "ketone", "nitrogen", "nitrogen", "bisphthalazinone", "sulfonated difluoride ketone", "difluoride ketone", "ketone", "potassium", "potassium carbonate", "DMSO", "toluene", "Nitrogen", "Nitrogen", "water", "toluene", "DMSO", "methanol", "water", "water", "polymer", "7a");
+		List<String> expectedTypeList = Arrays.asList("ONT", "ONT", "CM", "CM", "ONT", "CM", "ONT", "CM", "CM", "CM", "ONT", "ONT", "CM", "CM", "CM", "CM", "ONT", "CM", "CM", "CM", "CM", "CM", "CM", "ONT", "CM");
 
 		String sentence = "Preparation of Sulfonated Poly(phthalazinone ether ether ketone) 7a. To a 25 mL three-necked round-bottomed flask fitted with a Dean-stark trap, a condenser, a nitrogen inlet/outlet, and magnetic stirrer was added bisphthalazinone monomer 4 (0.6267 g, 1 mmol), sulfonated difluoride ketone 5 (0.4223 g, 1 mmol), anhydrous potassium carbonate (0.1935 g, 1.4 mmol), 5 mL of DMSO, and 6 mL of toluene. Nitrogen was purged through the reaction mixture with stirring for 10 min, and then the mixture was slowly heated to 140 \u00B0C and kept stirring for 2 h. After water generated was azoetroped off with toluene. The temperature was slowly increased to 175 \u00B0C. The temperature was maintained for 20 h, and the viscous solution was cooled to 100 \u00B0C followed by diluting with 2 mL of DMSO and, thereafter, precipitated into 100 mL of 1:  1 (v/v) methanol/water. The precipitates were filtered and washed with water for three times. The fibrous residues were collected and dried at 110 \u00B0C under vacuum for 24 h. A total of 0.9423 g of polymer 7a was obtained in high yield of 93%.";
 		List<String> actualSurfaceList = new ArrayList<String>();
@@ -98,8 +98,7 @@ public class MEMMTrainerTest {
 		ProcessingDocument procdoc = ProcessingDocumentFactory.getInstance()
 				.makeTokenisedDocument(Tokeniser.getDefaultInstance(), sentence);
 		List<NamedEntity> neList = memm.findNamedEntities(procdoc.getTokenSequences(), ResolutionMode.MARK_BLOCKED);
-		System.out.println(neList);
-		assertEquals("Number of recognised entities: ", 26, neList.size());
+		assertEquals("Number of recognised entities: ", 25, neList.size());
 		for (NamedEntity namedEntity : neList) {
 			actualSurfaceList.add(namedEntity.getSurface());
 			actualTypeList.add(namedEntity.getType().getName());
@@ -159,7 +158,7 @@ public class MEMMTrainerTest {
 		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("O")));
 	}
 	
-	@Ignore
+
 	@Test
 	public void testModelReloading() throws Exception {
 		MEMMModel trained = trainModel();
@@ -168,13 +167,29 @@ public class MEMMTrainerTest {
 		reloaded.readModel(serialised);
 		reloaded.chemNameDictNames = (UnmodifiableSet) UnmodifiableSet.decorate(
 				ChemNameDictRegistry.getDefaultInstance().getAllNames());
-		//FIXME fails unless null is passed as etd argument as trained uses the vanilla n-gram model
 		reloaded.nGram = NGramBuilder.buildOrDeserialiseModel(reloaded.etd, reloaded.chemNameDictNames);
 		
 		assertTrue(trained.nGram.compareTo(reloaded.nGram));
 		
-		//TODO more input texts
-		TokenSequence tokSeq = Tokeniser.getDefaultInstance().tokenise("Preparation of Sulfonated Poly(phthalazinone ether ether ketone) 7a. To a 25 mL three-necked round-bottomed flask fitted with a Dean-stark trap, a condenser, a nitrogen inlet/outlet, and magnetic stirrer was added bisphthalazinone monomer 4 (0.6267 g, 1 mmol), sulfonated difluoride ketone 5 (0.4223 g, 1 mmol), anhydrous potassium carbonate (0.1935 g, 1.4 mmol), 5 mL of DMSO, and 6 mL of toluene. Nitrogen was purged through the reaction mixture with stirring for 10 min, and then the mixture was slowly heated to 140 \u00B0C and kept stirring for 2 h. After water generated was azoetroped off with toluene. The temperature was slowly increased to 175 \u00B0C. The temperature was maintained for 20 h, and the viscous solution was cooled to 100 \u00B0C followed by diluting with 2 mL of DMSO and, thereafter, precipitated into 100 mL of 1:  1 (v/v) methanol/water. The precipitates were filtered and washed with water for three times. The fibrous residues were collected and dried at 110 \u00B0C under vacuum for 24 h. A total of 0.9423 g of polymer 7a was obtained in high yield of 93%.");
+		String text1 = "Preparation of Sulfonated Poly(phthalazinone ether ether ketone) 7a. To a 25 mL three-necked round-bottomed flask fitted with a Dean-stark trap, a condenser, a nitrogen inlet/outlet, and magnetic stirrer was added bisphthalazinone monomer 4 (0.6267 g, 1 mmol), sulfonated difluoride ketone 5 (0.4223 g, 1 mmol), anhydrous potassium carbonate (0.1935 g, 1.4 mmol), 5 mL of DMSO, and 6 mL of toluene. Nitrogen was purged through the reaction mixture with stirring for 10 min, and then the mixture was slowly heated to 140 \u00B0C and kept stirring for 2 h. After water generated was azoetroped off with toluene. The temperature was slowly increased to 175 \u00B0C. The temperature was maintained for 20 h, and the viscous solution was cooled to 100 \u00B0C followed by diluting with 2 mL of DMSO and, thereafter, precipitated into 100 mL of 1:  1 (v/v) methanol/water. The precipitates were filtered and washed with water for three times. The fibrous residues were collected and dried at 110 \u00B0C under vacuum for 24 h. A total of 0.9423 g of polymer 7a was obtained in high yield of 93%.";
+		String text2 = "The oxidation step itself is challenging as it involves the formal removal of four hydrogens from a tetrahydropyridine moiety to reach the fully aromatic species. The literature contains scattered reports of the use of oxidants for this transformation: 2,3-Dichloro-5,6-dicyano-1,4-benzoquinone (DDQ), ceric ammonium nitrate (CAN), nitrobenzene, elemental sulfur, palladium and manganese dioxide among others, all of them far from being ideally suited for these substrates.";
+		String text3 = "The Ugi reaction of 2-substituted dihydrobenzoxazepines was found to proceed with unexpectedly good diastereoselectivitiy (diastereoisomeric ratios up to 9:1), despite the large distance between the pre-existing stereogenic centre and the newly generated one. This result represents the first good 1,4 asymmetric induction in an Ugi reaction as well as the first example of diastereoselective Ugi reaction of seven membered cyclic imines. It allows the diversity-oriented synthesis of various tetrahydro[f][1,4]benzoxazepines.";
+		String text4 = "A practical approach to highly functionalized 4-hydroxypyridine derivatives with stereogenic side chains in the 2- and 6-positions is described. The presented two-step process utilizes a multicomponent reaction of alkoxyallenes, nitriles and carboxylic acids to provide β-methoxy-β-ketoenamides which are transformed into 4-hydroxypyridines in a subsequent cyclocondensation. The process shows broad substrate scope and leads to differentially substituted enantiopure pyridines in good to moderate yields. The preparation of diverse substituted lactic acid derived pyrid-4-yl nonaflates is described. Additional evidence for the postulated mechanism of the multicomponent reaction is presented.";
+		String text5 = "While alkynic o-nitrotoluenesulfonamide 4b did not react at all with 0.5 mol % of [Au(NTf2)(L1)] at room temperature (Table 2, entry 1), this substrate underwent 7-exo-dig cyclization upon increasing catalyst loading to 2.5 mol % and heating at 80 °C, giving N-nosylazepine derivative 5b in 76% isolated yield (Table 2, entry 2). N-Benzyloxycarbonyl (Cbz) and N-acetylazepine derivatives 5c and 5d were obtained in low yields through the cyclization of substrates 4c and 4d (Table 2, entries 3 and 4). On the other hand, the reactions of the substrates bearing N-tert-butoxycarbonyl (Boc) or N-p-methoxybenzyl (PMB) groups (4e,f) did not give the desired products at all (Table 2, entries 5 and 6). It seems that the reactivity of the substrates is affected by the balance between nucleophilicity of the nitrogen atom and acidity of the N–H bond as well as a steric factor.";
+		String text6 = "(2-Methoxymethoxynaphthalen-1-yl)propynoic acid naphthalen-2-yl ester (1c): To a stirred solution of 3-[2-(methoxymethoxy)-1-naphthalenyl]-2-propynoic acid [48] (0.256 g, 1.00 mmol), 2-naphthol (0.159 g, 1.10 mmol), and 4-dimethylaminopyridine (12.2 mg, 0.100 mmol) in CH2Cl2 (10 mL) was added a solution of dicyclohexylcarbodiimide (0.248 g, 1.20 mmol) in CH2Cl2 (3 mL) at 0 °C, and the mixture was stirred at 0 °C for 2 h and at room temperature for 18 h. The crude mixture was filtered with CH2Cl2. The filtrate was washed with brine, dried over Na2SO4, and concentrated. The residue was purified by a silica gel column chromatography (hexane/EtOAc = 10:1) to give 1c (0.222 g, 0.580 mmol, 58% yield).";
+		
+		compareModelResults(trained, reloaded, text1);
+		compareModelResults(trained, reloaded, text2);
+		compareModelResults(trained, reloaded, text3);
+		compareModelResults(trained, reloaded, text4);
+		compareModelResults(trained, reloaded, text5);
+		compareModelResults(trained, reloaded, text6);
+	}
+
+	private void compareModelResults(MEMMModel trained, MEMMModel reloaded,
+			String text) {
+
+		TokenSequence tokSeq = Tokeniser.getDefaultInstance().tokenise(text);
 		List <NamedEntity> trainedNes1 = trained.findNEs(tokSeq, 0.04);
 		List <NamedEntity> trainedNes2 = trained.findNEs(tokSeq, 0.04);
 		List <NamedEntity> reloadedNes1 = reloaded.findNEs(tokSeq, 0.04);

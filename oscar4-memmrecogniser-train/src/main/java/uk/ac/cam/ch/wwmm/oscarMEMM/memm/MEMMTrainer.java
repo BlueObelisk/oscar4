@@ -149,7 +149,8 @@ public final class MEMMTrainer {
 		}
 	}
 	
-	public void trainOnFile(File file) throws DataFormatException, IOException {
+	//dmj30 was public
+	private void trainOnFile(File file) throws DataFormatException, IOException {
 		logger.debug("Train on: " + file + "... ");
 		FileInputStream fis = new FileInputStream(file); 
 		try {
@@ -160,7 +161,8 @@ public final class MEMMTrainer {
 	}
 	
 	//all the trainOn methods eventually end up here...
-	public void trainOnStream(InputStream stream) throws DataFormatException, IOException {
+	//dmj30 was public
+	private void trainOnStream(InputStream stream) throws DataFormatException, IOException {
 		long time = System.currentTimeMillis();
 		Document doc;
 		try {
@@ -168,6 +170,11 @@ public final class MEMMTrainer {
 		} catch (ParsingException e) {
 			throw new DataFormatException("incorrect formatting of training resource");
 		}
+		trainOnDoc(doc);
+		logger.debug("Time: {}", System.currentTimeMillis() - time);
+	}
+
+	private void trainOnDoc(Document doc) {
 		Nodes n = doc.query("//cmlPile");
 		for (int i = 0; i < n.size(); i++) {
 			n.get(i).detach();
@@ -212,10 +219,10 @@ public final class MEMMTrainer {
 		for(TokenSequence ts : procDoc.getTokenSequences()) {
 			trainOnSentence(ts);
 		}
-		logger.debug("Time: {}", System.currentTimeMillis() - time);
 	}
 
-	public void trainOnSbFilesNosplit(List<File> files) throws DataFormatException, IOException {
+	//dmj30 was public
+	private void trainOnSbFilesNosplit(List<File> files) throws DataFormatException, IOException {
 		if(retrain) {
 			//likely overriden by bug in trainOnStream
 			HyphenTokeniser.reinitialise();
@@ -231,7 +238,8 @@ public final class MEMMTrainer {
 		finishTraining();
 	}
 	
-	public void trainOnSbFiles(List<File> files) throws DataFormatException, IOException {
+	//dmj30 was public
+	private void trainOnSbFiles(List<File> files) throws DataFormatException, IOException {
 		if(!splitTrain) {
 			trainOnSbFilesNosplit(files);
 			return;
@@ -279,7 +287,8 @@ public final class MEMMTrainer {
 		}
 	}
 
-	public void trainOnSbFilesWithCVFS(List<File> files) throws DataFormatException, IOException {
+	//dmj30 was public
+	private void trainOnSbFilesWithCVFS(List<File> files) throws DataFormatException, IOException {
 		List<List<File>> splitTrainFiles = new ArrayList<List<File>>();
 		List<List<File>> splitTrainAntiFiles = new ArrayList<List<File>>();
 		int splitNo = 3;
@@ -311,7 +320,8 @@ public final class MEMMTrainer {
 		trainOnSbFiles(files);
 	}
 
-	public void trainOnSbFilesWithRescore(List<File> files, MEMMModel memm,
+	//dmj30 was public
+	private void trainOnSbFilesWithRescore(List<File> files, MEMMModel memm,
 			double confidenceThreshold) throws Exception {
 		
 		MEMMOutputRescorerTrainer rescorerTrainer =
@@ -369,7 +379,8 @@ public final class MEMMTrainer {
 	 * 
 	 * @throws IOException
 	 */
-	public void finishTraining() throws IOException {
+	//dmj30 was public
+	private void finishTraining() throws IOException {
 		model.makeEntityTypesAndZeroProbs();
 		
 		for(BioType prevTagg : evsByPrev.keySet()) {
@@ -513,5 +524,13 @@ public final class MEMMTrainer {
 
 	public MEMMModel getModel() {
 		return model;
+	}
+
+	
+	public void trainOnDocs(List<Document> sourceDocs) throws IOException {
+		for (Document doc : sourceDocs) {
+			trainOnDoc(doc);
+		}
+		finishTraining();
 	}
 }

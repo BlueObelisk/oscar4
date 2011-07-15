@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +18,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 import nu.xom.ParsingException;
+import nu.xom.ValidityException;
 import opennlp.maxent.GIS;
 import opennlp.model.DataIndexer;
 import opennlp.model.Event;
@@ -47,6 +49,7 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorerTrainer;
 import uk.ac.cam.ch.wwmm.oscarMEMM.models.TrainingDataExtractor;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTrainingData;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 import uk.ac.cam.ch.wwmm.oscartokeniser.HyphenTokeniser;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 
@@ -188,10 +191,10 @@ public final class MEMMTrainer {
 
 		
 		//FIXME probably a mistake - this method is called per file by trainOnSbFiles
-		TrainingDataExtractor extractor = new TrainingDataExtractor(doc);
-		model.setExtractedTrainingData(
-			new ExtractedTrainingData(extractor.toXML())
-		);
+//		TrainingDataExtractor extractor = new TrainingDataExtractor(doc);
+//		model.setExtractedTrainingData(
+//			new ExtractedTrainingData(extractor.toXML())
+//		);
 
 
 		//another manual code switch?
@@ -226,7 +229,7 @@ public final class MEMMTrainer {
 		if(retrain) {
 			//likely overriden by bug in trainOnStream
 			HyphenTokeniser.reinitialise();
-			TrainingDataExtractor extractor = new TrainingDataExtractor(files);
+			TrainingDataExtractor extractor = new TrainingDataExtractor(filesToDocs(files));
 			model.setExtractedTrainingData(
 				new ExtractedTrainingData(extractor.toXML())
 			);
@@ -238,6 +241,29 @@ public final class MEMMTrainer {
 		finishTraining();
 	}
 	
+	@Deprecated
+	/*
+	 * Temporary adapter method
+	 */
+	private Collection<Document> filesToDocs(Collection <File> files) {
+		List <Document> docs = new ArrayList<Document>();
+		for (File file : files) {
+			try {
+				docs.add(new Builder().build(file));
+			} catch (ValidityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParsingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return docs;
+	}
+
 	//dmj30 was public
 	private void trainOnSbFiles(List<File> files) throws DataFormatException, IOException {
 		if(!splitTrain) {
@@ -267,7 +293,7 @@ public final class MEMMTrainer {
 			if(retrain) {
 				//does this code change anything?
 				HyphenTokeniser.reinitialise();
-				new TrainingDataExtractor(splitTrainAntiFiles.get(split));
+				new TrainingDataExtractor(filesToDocs(splitTrainAntiFiles.get(split)));
 				HyphenTokeniser.reinitialise();					
 			}
 			
@@ -282,7 +308,7 @@ public final class MEMMTrainer {
 		if(retrain) {
 			//does this code change anything?
 			HyphenTokeniser.reinitialise();
-			new TrainingDataExtractor(files);
+			new TrainingDataExtractor(filesToDocs(files));
 			HyphenTokeniser.reinitialise();				
 		}
 	}
@@ -528,9 +554,19 @@ public final class MEMMTrainer {
 
 	
 	public void trainOnDocs(List<Document> sourceDocs) throws IOException {
+		
+		TrainingDataExtractor extractor = new TrainingDataExtractor(sourceDocs);
+		model.setExtractedTrainingData(
+			new ExtractedTrainingData(extractor.toXML())
+		);
+		//FIXME model.nGram was already set once in MutableMemmModel constructor
+		model.nGram = NGramBuilder.buildOrDeserialiseModel(
+				model.etd, model.chemNameDictNames);
+		
 		for (Document doc : sourceDocs) {
-			trainOnDoc(doc);
+			trainOnDoc((Document) doc.copy());
 		}
 		finishTraining();
+		
 	}
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import nu.xom.Builder;
 import nu.xom.Document;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 public class TrainingDataExtractorTest {
@@ -58,13 +59,27 @@ public class TrainingDataExtractorTest {
 	
 	
 	@Test
-	public void testCollectFromFiles() {
-		List<File> files = new ArrayList<File>();
-		files.add(new File("src/test/resources/uk/ac/cam/ch/wwmm/oscarMEMM/models/scrapbook1.xml"));
-		files.add(new File("src/test/resources/uk/ac/cam/ch/wwmm/oscarMEMM/models/scrapbook2.xml"));
-		files.add(new File("src/test/resources/uk/ac/cam/ch/wwmm/oscarMEMM/models/scrapbook3.xml"));
+	public void testCollectFromDocumentList() throws Exception {
+		List<Document> docs = new ArrayList<Document>();
+		InputStream in1 = ClassLoader.getSystemResourceAsStream(
+				"uk/ac/cam/ch/wwmm/oscarMEMM/models/scrapbook1.xml");
+		InputStream in2 = ClassLoader.getSystemResourceAsStream(
+				"uk/ac/cam/ch/wwmm/oscarMEMM/models/scrapbook2.xml");
+		InputStream in3 = ClassLoader.getSystemResourceAsStream(
+				"uk/ac/cam/ch/wwmm/oscarMEMM/models/scrapbook3.xml");
 		
-		TrainingDataExtractor extractor = new TrainingDataExtractor(files);
+		try {
+			docs.add(new Builder().build(in1));
+			docs.add(new Builder().build(in2));
+			docs.add(new Builder().build(in3));
+		}
+		finally {
+			IOUtils.closeQuietly(in1);
+			IOUtils.closeQuietly(in2);
+			IOUtils.closeQuietly(in3);
+		}
+		
+		TrainingDataExtractor extractor = new TrainingDataExtractor(docs);
 		
 		assertEquals(1, extractor.afterHyphen.size());
 		assertTrue(extractor.afterHyphen.contains("based"));

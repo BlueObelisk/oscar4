@@ -53,11 +53,12 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	}
 
     public NamedEntity(String surface, int start, int end, NamedEntityType type) {
-    	//TODO do we want to initialise confidence & pseudoconf to Double.NaN as above?
         this.surface = surface;
         this.startOffset = start;
         this.endOffset = end;
         this.type = type;
+        this.confidence = Double.NaN;
+        this.pseudoConfidence = Double.NaN;
     }
 
     /**Creates a named entity, corresponding to a prefix of a single token,
@@ -457,12 +458,30 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
             return getStart() == that.getStart()
                     && getEnd() == that.getEnd()
                     && getSurface().equals(that.getSurface())
-                    && getType().equals(that.getType());
+                    && getType().equals(that.getType())
+                    && isBlocked() == that.isBlocked()
+                    && compareConf(getConfidence(), that.getConfidence())
+                    && compareConf(getPseudoConfidence(), that.getPseudoConfidence())
+                    && getCustTypes().containsAll(that.getCustTypes()) && that.getCustTypes().containsAll(getCustTypes())
+                    && getOntIds().containsAll(that.getOntIds()) && that.getOntIds().containsAll(getOntIds())
+            ;
         }
         return false;
     }
 
-    @Override
+    /**
+     * Compares two confidence doubles, return true if they are
+     * (floating-point) equal or both are NaN 
+     * @return
+     */
+    private boolean compareConf(double a, double b) {
+		if (Double.isNaN(a) && Double.isNaN(b)) {
+			return true;
+		}
+    	return Math.abs(a - b) < 0.0001;
+	}
+
+	@Override
     public int hashCode() {
         int result = startOffset;
         result = 31 * result + endOffset;

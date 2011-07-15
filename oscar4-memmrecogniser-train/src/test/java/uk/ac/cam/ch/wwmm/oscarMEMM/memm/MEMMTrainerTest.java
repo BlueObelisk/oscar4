@@ -8,10 +8,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import nu.xom.Builder;
+import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 
+import org.apache.commons.collections.set.UnmodifiableSet;
 import org.apache.commons.io.IOUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -19,10 +23,12 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocument;
 import uk.ac.cam.ch.wwmm.oscar.document.ProcessingDocumentFactory;
+import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
 import uk.ac.cam.ch.wwmm.oscar.ont.OntologyTerms;
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
+import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
 import ch.unibe.jexample.Given;
 import ch.unibe.jexample.JExample;
@@ -47,14 +53,19 @@ public class MEMMTrainerTest {
 	@Given("testConstructor,testUntrainedStatus")
 	public Element testLearning(MEMMTrainer trainer, String untrainedXML)
 			throws Exception {
+		List <Document> sourceDocs = new ArrayList<Document>();
 		InputStream stream = this
 				.getClass()
 				.getClassLoader()
 				.getResourceAsStream(
-						"uk/ac/cam/ch/wwmm/oscarMEMM/memm/paper.xml");
-		assertNotNull(stream);
-		trainer.trainOnStream(stream);
-		trainer.finishTraining();
+					"uk/ac/cam/ch/wwmm/oscarMEMM/memm/paper.xml");
+		try {
+			sourceDocs.add(new Builder().build(stream));	
+		}
+		finally {
+			IOUtils.closeQuietly(stream);
+		}
+		trainer.trainOnDocs(sourceDocs);
 		Element trainedModel = trainer.getModel().writeModel();
 		assertNotSame(untrainedXML, trainedModel.toXML());
 
@@ -128,8 +139,16 @@ public class MEMMTrainerTest {
 	@Test
 	public void testEventCollection() throws Exception {
 		InputStream in = ClassLoader.getSystemResourceAsStream("uk/ac/cam/ch/wwmm/oscarMEMM/memm/eventCollectionTest.xml");
+		List <Document> sourceDocs = new ArrayList<Document>();
+		try {
+			sourceDocs.add(new Builder().build(in));
+		}
+		finally {
+			IOUtils.closeQuietly(in);
+		}
 		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());
-		trainer.trainOnStream(in);
+		
+		trainer.trainOnDocs(sourceDocs);
 		assertEquals(6, trainer.evsByPrev.keySet().size());
 		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("B-CM")));
 		assertFalse(trainer.evsByPrev.keySet().contains(BioType.fromString("I-CM")));
@@ -140,21 +159,46 @@ public class MEMMTrainerTest {
 		assertTrue(trainer.evsByPrev.keySet().contains(BioType.fromString("O")));
 	}
 	
+	@Ignore
+	@Test
+	public void testModelReloading() throws Exception {
+		MEMMModel trained = trainModel();
+		Element serialised = trained.writeModel();
+		MEMMModel reloaded = new MEMMModel();
+		reloaded.readModel(serialised);
+		reloaded.chemNameDictNames = (UnmodifiableSet) UnmodifiableSet.decorate(
+				ChemNameDictRegistry.getDefaultInstance().getAllNames());
+		//FIXME fails unless null is passed as etd argument as trained uses the vanilla n-gram model
+		reloaded.nGram = NGramBuilder.buildOrDeserialiseModel(reloaded.etd, reloaded.chemNameDictNames);
+		
+		assertTrue(trained.nGram.compareTo(reloaded.nGram));
+		
+		//TODO more input texts
+		TokenSequence tokSeq = Tokeniser.getDefaultInstance().tokenise("Preparation of Sulfonated Poly(phthalazinone ether ether ketone) 7a. To a 25 mL three-necked round-bottomed flask fitted with a Dean-stark trap, a condenser, a nitrogen inlet/outlet, and magnetic stirrer was added bisphthalazinone monomer 4 (0.6267 g, 1 mmol), sulfonated difluoride ketone 5 (0.4223 g, 1 mmol), anhydrous potassium carbonate (0.1935 g, 1.4 mmol), 5 mL of DMSO, and 6 mL of toluene. Nitrogen was purged through the reaction mixture with stirring for 10 min, and then the mixture was slowly heated to 140 \u00B0C and kept stirring for 2 h. After water generated was azoetroped off with toluene. The temperature was slowly increased to 175 \u00B0C. The temperature was maintained for 20 h, and the viscous solution was cooled to 100 \u00B0C followed by diluting with 2 mL of DMSO and, thereafter, precipitated into 100 mL of 1:  1 (v/v) methanol/water. The precipitates were filtered and washed with water for three times. The fibrous residues were collected and dried at 110 \u00B0C under vacuum for 24 h. A total of 0.9423 g of polymer 7a was obtained in high yield of 93%.");
+		List <NamedEntity> trainedNes1 = trained.findNEs(tokSeq, 0.04);
+		List <NamedEntity> trainedNes2 = trained.findNEs(tokSeq, 0.04);
+		List <NamedEntity> reloadedNes1 = reloaded.findNEs(tokSeq, 0.04);
+		List <NamedEntity> reloadedNes2 = reloaded.findNEs(tokSeq, 0.04);
+		assertEquals(trainedNes1, trainedNes2);
+		assertEquals(reloadedNes1, reloadedNes2);
+		assertEquals(trainedNes1, reloadedNes1);
+	}
 	
 
 	private MEMMModel trainModel() throws Exception {
 		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());
+		List <Document> sourceDocs = new ArrayList<Document>();
 		InputStream stream = this
 				.getClass()
 				.getClassLoader()
 				.getResourceAsStream(
 					"uk/ac/cam/ch/wwmm/oscarMEMM/memm/paper.xml");
 		try {
-			trainer.trainOnStream(stream);
+			sourceDocs.add(new Builder().build(stream));
 		} finally {
 			IOUtils.closeQuietly(stream);
 		}
-		trainer.finishTraining();
+		trainer.trainOnDocs(sourceDocs);
 		return trainer.getModel();
 	}
 	

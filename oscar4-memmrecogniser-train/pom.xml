@@ -52,7 +52,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>ch.unibe.jexample</groupId>
+            <groupId>net.sf.jexample</groupId>
             <artifactId>jexample</artifactId>
             <scope>test</scope>
         </dependency>

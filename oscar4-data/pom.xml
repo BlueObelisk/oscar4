@@ -23,7 +23,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>jregex</groupId>
+			<groupId>net.sourceforge.jregex</groupId>
 			<artifactId>jregex</artifactId>
 		</dependency>
 		<dependency>

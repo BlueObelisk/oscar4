@@ -10,3 +10,4 @@ aq.
 e.g.:
 eq.
 equiv.
+mp.

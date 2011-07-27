@@ -328,12 +328,12 @@
     </record>
     <record>
       <InChI>InChI=1/BH4.Na/h1H4;/q-1;+1</InChI>
-      <SMILES>[BH3-].[Na+]</SMILES>
+      <SMILES>[BH4-].[Na+]</SMILES>
       <name>NaBH4</name>
     </record>
     <record>
       <InChI>InChI=1/Na.H/q+1;-1</InChI>
-      <SMILES>[Na+]</SMILES>
+      <SMILES>[Na+].[H-]</SMILES>
       <name>NaH</name>
     </record>
     <record>

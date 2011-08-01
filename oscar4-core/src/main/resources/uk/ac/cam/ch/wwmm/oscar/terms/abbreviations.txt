@@ -11,3 +11,4 @@ e.g.:
 eq.
 equiv.
 mp.
+conc.

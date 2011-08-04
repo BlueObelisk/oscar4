@@ -118,7 +118,7 @@ public class NGramBuilderTest {
 	@Test
 	public void testCalculateVanillaSourceDataFingerprint() {
 		NGramBuilder builder = new NGramBuilder();
-		assertEquals("430379104_-969383385", builder.calculateSourceDataFingerprint());
+		assertEquals("430379104_-1955161268", builder.calculateSourceDataFingerprint());
 	}
 	
 	@Test
@@ -126,7 +126,7 @@ public class NGramBuilderTest {
 		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("chempapers");
 		NGramBuilder builder = new NGramBuilder(
 				annotations, defaultRegistryNames);
-		assertEquals("1662272140_-167370350", builder.calculateSourceDataFingerprint());
+		assertEquals("1662272140_-671168831", builder.calculateSourceDataFingerprint());
 	}
 	
 	@Test
@@ -134,7 +134,7 @@ public class NGramBuilderTest {
 		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("pubmed");
 		NGramBuilder builder = new NGramBuilder(
 				annotations, defaultRegistryNames);
-		assertEquals("-412073498_-1815304182", builder.calculateSourceDataFingerprint());
+		assertEquals("-412073498_1545702217", builder.calculateSourceDataFingerprint());
 	}
 	
 	@Test
@@ -152,7 +152,7 @@ public class NGramBuilderTest {
 	 */
 	@Test
 	public void testDeserialiseVanillaModel() throws IOException {
-		NGram deserialised = NGramBuilder.deserialiseModel("430379104_-969383385");
+		NGram deserialised = NGramBuilder.deserialiseModel("430379104_-1955161268");
 		short [] deserialisedData = deserialised.getData();
 		short [] builtData = vanillaNGram.getData();
 		
@@ -163,27 +163,12 @@ public class NGramBuilderTest {
 	}
 	
 	/**
-	 * check that the serialised pubmed model can be read and is consistent
-	 * with the current training data
-	 */
-	@Test
-	public void testDeserialisePubmedModel() throws IOException {
-		NGram deserialised = NGramBuilder.deserialiseModel("-412073498_-1815304182");
-		short [] deserialisedData = deserialised.getData();
-		short [] builtData = pubmedNGram.getData();
-		
-		assertEquals(EXPECTED_DATA_LENTH, deserialisedData.length);
-		assertEquals(EXPECTED_DATA_LENTH, builtData.length);
-		assertTrue(deserialised.compareTo(pubmedNGram));
-	}
-	
-	/**
 	 * check that the serialised chempapers model can be read and is consistent
 	 * with the current training data
 	 */
 	@Test
 	public void testDeserialiseChempapersModel() throws IOException {
-		NGram deserialised = NGramBuilder.deserialiseModel("1662272140_-167370350");
+		NGram deserialised = NGramBuilder.deserialiseModel("1662272140_-671168831");
 		short [] deserialisedData = deserialised.getData();
 		short [] builtData = chempapersNGram.getData();
 		
@@ -191,7 +176,21 @@ public class NGramBuilderTest {
 		assertEquals(EXPECTED_DATA_LENTH, builtData.length);
 		assertTrue(deserialised.compareTo(chempapersNGram));
 	}
-	
+
+	/**
+	 * check that the serialised pubmed model can be read and is consistent
+	 * with the current training data
+	 */
+	@Test
+	public void testDeserialisePubmedModel() throws IOException {
+		NGram deserialised = NGramBuilder.deserialiseModel("-412073498_1545702217");
+		short [] deserialisedData = deserialised.getData();
+		short [] builtData = pubmedNGram.getData();
+		
+		assertEquals(EXPECTED_DATA_LENTH, deserialisedData.length);
+		assertEquals(EXPECTED_DATA_LENTH, builtData.length);
+		assertTrue(deserialised.compareTo(pubmedNGram));
+	}
 	
 	@Test (expected = FileNotFoundException.class)
 	public void testDeserialiseNonExistentModel() throws IOException {

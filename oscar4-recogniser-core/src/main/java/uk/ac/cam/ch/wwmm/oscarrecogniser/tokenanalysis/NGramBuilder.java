@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -707,7 +705,8 @@ public class NGramBuilder {
 	 * e) English words from {@link TermSets}
 	 * f) The chemical word and nonChemical word lists from the given {@link ExtractedTrainingData}
 	 * 
-	 * @param etd (additional) extracted training data from a MEMM model file
+	 * @param annotations (additional) extracted training data from a MEMM model file
+	 * @param registryNames chemical names
 	 */
 	public static NGram buildOrDeserialiseModel(ExtractedTrainingData annotations, UnmodifiableSet registryNames) {
 		NGramBuilder builder = new NGramBuilder(annotations, registryNames);

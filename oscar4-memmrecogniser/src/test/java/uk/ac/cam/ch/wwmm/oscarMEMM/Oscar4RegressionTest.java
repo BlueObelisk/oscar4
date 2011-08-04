@@ -146,7 +146,7 @@ public class Oscar4RegressionTest {
 				0.877166645595111, 0.8070202675168012, 0.8771168559135208,
 				0.9430003382163082, 0.7821893198686901, 0.9943684604393002,
 				0.39805870405590443, 0.9726097731082048, 0.9469694587383923,
-				0.5893981910757157);
+				0.768896911785475);
 		List<String> expectedTypeList = Arrays.asList("CM", "CM", "CM", "CM", "CM",
 				"CM", "CM", "CM", "CM", "CM", "CM");
 		evaluateNamedEntities(sentence, ResolutionMode.REMOVE_BLOCKED,
@@ -232,7 +232,7 @@ public class Oscar4RegressionTest {
 				"uk/ac/cam/ch/wwmm/oscar3/test/regressionTest/");
 		String sentence = rg.getString("Sentence6.txt");
 		List<String> expectedSurfaceList = Arrays.asList("8-_1", "8-hydroxyquinoline-7-carboxylic acid_1","acid_1","benzylamine_1","1\u2010_1","1\u2010hydroxybenzotriazole_1","1-_1","1-(3-dimethylaminopropyl)-3-ethylcarbodiimide hydrochloride_1","hydrochloride_1","triethylamine_1","DMF_1","methanol_1","C-_1","C-18_1","water_1","acetonitrile_1","TFA_1");
-		List<Double> expectedProbList = Arrays.asList(0.00, 0.9763876481410927, 0.00, 0.877166645595111, 0.00, 0.8070202675168012, 0.00, 0.8771168559135208, 0.00, 0.9430003382163082, 0.7821893198686901, 0.9943684604393002, 0.00, 0.39805870405590443, 0.9726097731082048, 0.9469694587383923, 0.5893981910757157);
+		List<Double> expectedProbList = Arrays.asList(0.00, 0.9763876481410927, 0.00, 0.877166645595111, 0.00, 0.8070202675168012, 0.00, 0.8771168559135208, 0.00, 0.9430003382163082, 0.7821893198686901, 0.9943684604393002, 0.00, 0.39805870405590443, 0.9726097731082048, 0.9469694587383923, 0.768896911785475);
 		List<String> expectedTypeList = Arrays.asList("CPR","CM","ONT","CM","CPR","CM","CPR","CM","ONT","CM","CM","CM","CPR","CM","CM","CM","CM");
 		evaluateNamedEntities(sentence, ResolutionMode.MARK_BLOCKED,
 				expectedSurfaceList, expectedTypeList, expectedProbList);

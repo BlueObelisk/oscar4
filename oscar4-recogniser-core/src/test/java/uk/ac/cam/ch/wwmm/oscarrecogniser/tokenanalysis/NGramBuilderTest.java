@@ -114,29 +114,6 @@ public class NGramBuilderTest {
 		assertFalse(vanillaNGram2.compareTo(customisedNGram));
 	}
 	
-	
-	@Test
-	public void testCalculateVanillaSourceDataFingerprint() {
-		NGramBuilder builder = new NGramBuilder();
-		assertEquals("430379104_-1955161268", builder.calculateSourceDataFingerprint());
-	}
-	
-	@Test
-	public void testCalculateChempapersSourceDataFingerprint() {
-		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("chempapers");
-		NGramBuilder builder = new NGramBuilder(
-				annotations, defaultRegistryNames);
-		assertEquals("1662272140_-671168831", builder.calculateSourceDataFingerprint());
-	}
-	
-	@Test
-	public void testCalculatePubmedSourceDataFingerprint() {
-		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("pubmed");
-		NGramBuilder builder = new NGramBuilder(
-				annotations, defaultRegistryNames);
-		assertEquals("-412073498_1545702217", builder.calculateSourceDataFingerprint());
-	}
-	
 	@Test
 	public void testCalculatePubmedEmptyChemnamedictFingerprint() {
 		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("pubmed");
@@ -152,7 +129,15 @@ public class NGramBuilderTest {
 	 */
 	@Test
 	public void testDeserialiseVanillaModel() throws IOException {
-		NGram deserialised = NGramBuilder.deserialiseModel("430379104_-1955161268");
+		NGramBuilder builder = new NGramBuilder();
+		NGram deserialised = null;
+		try{
+			deserialised = NGramBuilder.deserialiseModel(builder.calculateSourceDataFingerprint());
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			fail("Deserialisation of vanilla model failed, has NGramBuilder's main method been used to create a new serialisation?");
+		}
 		short [] deserialisedData = deserialised.getData();
 		short [] builtData = vanillaNGram.getData();
 		
@@ -168,7 +153,16 @@ public class NGramBuilderTest {
 	 */
 	@Test
 	public void testDeserialiseChempapersModel() throws IOException {
-		NGram deserialised = NGramBuilder.deserialiseModel("1662272140_-671168831");
+		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("chempapers");
+		NGramBuilder builder = new NGramBuilder(annotations, defaultRegistryNames);
+		NGram deserialised = null;
+		try{
+			deserialised = NGramBuilder.deserialiseModel(builder.calculateSourceDataFingerprint());
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			fail("Deserialisation of chempapers model failed, has NGramBuilder's main method been used to create a new serialisation?");
+		}
 		short [] deserialisedData = deserialised.getData();
 		short [] builtData = chempapersNGram.getData();
 		
@@ -183,7 +177,16 @@ public class NGramBuilderTest {
 	 */
 	@Test
 	public void testDeserialisePubmedModel() throws IOException {
-		NGram deserialised = NGramBuilder.deserialiseModel("-412073498_1545702217");
+		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("pubmed");
+		NGramBuilder builder = new NGramBuilder(annotations, defaultRegistryNames);
+		NGram deserialised = null;
+		try{
+			deserialised = NGramBuilder.deserialiseModel(builder.calculateSourceDataFingerprint());
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			fail("Deserialisation of pubmed model failed, has NGramBuilder's main method been used to create a new serialisation?");
+		}
 		short [] deserialisedData = deserialised.getData();
 		short [] builtData = pubmedNGram.getData();
 		

@@ -33,6 +33,7 @@
       <InChI>InChI=1/C6H18NSi2.Li/c1-8(2,3)7-9(4,5)6;/h1-6H3;/q-1;+1</InChI>
       <SMILES>[Li+].C[Si](C)(C)[N-][Si](C)(C)C</SMILES>
       <name>LiHMDS</name>
+      <name>LHMDS</name>
     </record>
     <record>
       <InChI>InChI=1/C12H10Se2/c1-3-7-11(8-4-1)13-14-12-9-5-2-6-10-12/h1-10H</InChI>
@@ -48,6 +49,7 @@
       <InChI>InChI=1/C13H13IO8/c1-8(15)19-14(20-9(2)16,21-10(3)17)12-7-5-4-6-11(12)13(18)22-14/h4-7H,1-3H3</InChI>
       <SMILES>CC(=O)OI1(OC(=O)C)(OC(=O)C)OC(=O)c2ccccc12</SMILES>
       <name>Dess-Martin periodinane</name>
+      <name>DMP</name>
     </record>
     <record>
       <InChI>InChI=1/C11H6O3/c12-11-2-1-7-5-8-3-4-13-9(8)6-10(7)14-11/h1-6H</InChI>
@@ -149,6 +151,7 @@
       <InChI>InChI=1/C5H11NO2/c1-6(7)2-4-8-5-3-6/h2-5H2,1H3</InChI>
       <SMILES>C[N+]1(CCOCC1)[O-]</SMILES>
       <name>NMO</name>
+      <name>NMMO</name>
       <name>n-methylmorpholine-n-oxide</name>
     </record>
     <record>
@@ -421,6 +424,7 @@
       <InChI>InChI=1/C6H5N3O/c10-9-6-4-2-1-3-5(6)7-8-9/h1-4,10H</InChI>
       <SMILES>On1nnc2ccccc12</SMILES>
       <name>HOBt</name>
+      <name>HOBT</name>
     </record>
     <record>
       <InChI>InChI=1/C20H14O2/c21-17-11-9-13-5-1-3-7-15(13)19(17)20-16-8-4-2-6-14(16)10-12-18(20)22/h1-12,21-22H</InChI>
@@ -431,6 +435,7 @@
       <InChI>InChI=1/C8H16O2Si/c1-8(6-7-9-2)10-11(3,4)5/h6-7H,1H2,2-5H3/b7-6+</InChI>
       <SMILES>CO/C=C/C(=C)O[Si](C)(C)C</SMILES>
       <name>Danishevsky's diene</name>
+      <name>Danishefsky's diene</name>
     </record>
     <record>
       <InChI>InChI=1/C7H8O3S/c1-6-2-4-7(5-3-6)11(8,9)10/h2-5H,1H3,(H,8,9,10)</InChI>
@@ -489,6 +494,9 @@
       <InChI>InChI=1/C8H19N/c1-6-9(7(2)3)8(4)5/h7-8H,6H2,1-5H3</InChI>
       <SMILES>C(C)(C)N(C(C)C)CC</SMILES>
       <name>DIPEA</name>
+      <name>DiPEA</name>
+      <name>Hünig's base</name>
+      <name>Hunig's base</name>
       <name>DIEA</name>
       <name>iPr2NEt</name>
     </record>
@@ -1088,6 +1096,158 @@
       <InChI>InChI=1/Ag.NO3/c;2-1(3)4/q+1;-1</InChI>
       <SMILES>[N+](=O)([O-])[O-].[Ag+]</SMILES>
       <name>AgNO3</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C10H16O4S/c1-9(2)7-3-4-10(9,8(11)5-7)6-15(12,13)14/h7H,3-6H2,1-2H3,(H,12,13,14)</InChI>
+      <SMILES>O=S(CC1(C2(C)C)C(CC2CC1)=O)(O)=O</SMILES>
+      <name>camphorsulfonic acid</name>
+      <name>CSA</name>
+      <name>10-CSA</name>
+      <name>reychler's acid</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C8Cl2N2O2/c9-5-6(10)8(14)4(2-12)3(1-11)7(5)13</InChI>
+      <SMILES>ClC=1C(C(=C(C(C1Cl)=O)C#N)C#N)=O</SMILES>
+      <name>DDQ</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C9H18N.Li/c1-8(2)6-5-7-9(3,4)10-8;/h5-7H2,1-4H3;/q-1;+1</InChI>
+      <SMILES>[Li]N1C(CCCC1(C)C)(C)C</SMILES>
+      <name>Lithium tetramethylpiperidide</name>
+      <name>LiTMP</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C16H36N.HI/c1-5-9-13-17(14-10-6-2,15-11-7-3)16-12-8-4;/h5-16H2,1-4H3;1H/q+1;/p-1/fC16H36N.I/h;1h/qm;-1</InChI>
+      <SMILES>[I-].C(CCC)[N+](CCCC)(CCCC)CCCC</SMILES>
+      <name>TBAI</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C12H24O6/c1-2-14-5-6-16-9-10-18-12-11-17-8-7-15-4-3-13-1/h1-12H2</InChI>
+      <SMILES>O1CCOCCOCCOCCOCCOCC1</SMILES>
+      <name>18-crown-6</name>
+      <name>18-Cr-6</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C12H20N4O2/c17-11(15-7-3-1-4-8-15)13-14-12(18)16-9-5-2-6-10-16/h1-10H2</InChI>
+      <SMILES>N(=NC(=O)N1CCCCC1)C(=O)N1CCCCC1</SMILES>
+      <name>ADDP</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C8H18Si2/c1-9(2,3)7-8-10(4,5)6/h1-6H3</InChI>
+      <SMILES>C[Si](C)(C)C#C[Si](C)(C)C</SMILES>
+      <name>BTMSA</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C19H42N.BrH/c1-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20(2,3)4;/h5-19H2,1-4H3;1H/q+1;/p-1/fC19H42N.Br/h;1h/qm;-1</InChI>
+      <SMILES>[Br-].C(CCCCCCCCCCCCCCC)[N+](C)(C)C</SMILES>
+      <name>Cetrimonium bromide</name>
+      <name>CTAB</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C4H10F3NS/c1-3-8(4-2)9(5,6)7/h3-4H2,1-2H3</InChI>
+      <SMILES>C(C)N(CC)S(F)(F)F</SMILES>
+      <name>DAST</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C16H24N2/c1-12(2)18(13(3)4)10-9-14-11-17-16-8-6-5-7-15(14)16/h5-8,11-13,17H,9-10H2,1-4H3</InChI>
+      <SMILES>C(C)(C)N(CCC1=CNC2=CC=CC=C12)C(C)C</SMILES>
+      <name>DIPT</name>
+      <name>DiPT</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C6H6O4/c1-9-5(7)3-4-6(8)10-2/h1-2H3</InChI>
+      <SMILES>C(#CC(=O)OC)C(=O)OC</SMILES>
+      <name>DMAD</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C3H6O2/c1-3(2)4-5-3/h1-2H3</InChI>
+      <SMILES>CC1(OO1)C</SMILES>
+      <name>DMDO</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C5H10N2O/c1-6-3-4-7(2)5(6)8/h3-4H2,1-2H3</InChI>
+      <SMILES>CN1C(N(CC1)C)=O</SMILES>
+      <name>DMI</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C26H24P2/c1-5-13-23(14-6-1)27(24-15-7-2-8-16-24)21-22-28(25-17-9-3-10-18-25)26-19-11-4-12-20-26/h1-20H,21-22H2</InChI>
+      <SMILES>P(c1ccccc1)(c2ccccc2)CCP(c3ccccc3)c4ccccc4 </SMILES>
+      <name>dppe</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C25H22P2/c1-5-13-22(14-6-1)26(23-15-7-2-8-16-23)21-27(24-17-9-3-10-18-24)25-19-11-4-12-20-25/h1-20H,21H2</InChI>
+      <SMILES>P(c1ccccc1)(c2ccccc2)CP(c3ccccc3)c4ccccc4</SMILES>
+      <name>dppm</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C27H26P2/c1-5-14-24(15-6-1)28(25-16-7-2-8-17-25)22-13-23-29(26-18-9-3-10-19-26)27-20-11-4-12-21-27/h1-12,14-21H,13,22-23H2</InChI>
+      <SMILES>P(c1ccccc1)(c2ccccc2)CCCP(c3ccccc3)c4ccccc4</SMILES>
+      <name>dppp</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C14H23N/c1-10-8-11(13(2,3)4)15-12(9-10)14(5,6)7/h8-9H,1-7H3</InChI>
+      <SMILES>C(C)(C)(C)C1=NC(=CC(=C1)C)C(C)(C)C</SMILES>
+      <name>DTBMP</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C4H10O2S2/c5-3(1-7)4(6)2-8/h3-8H,1-2H2/t3-,4+</InChI>
+      <SMILES>C([C@@H]([C@@H](CS)O)O)S</SMILES>
+      <name>DTE</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C18H10F5O2P/c19-13-14(20)16(22)18(17(23)15(13)21)25-26(24,11-7-3-1-4-8-11)12-9-5-2-6-10-12/h1-10H</InChI>
+      <SMILES>C1(=CC=CC=C1)P(OC1=C(C(=C(C(=C1F)F)F)F)F)(=O)C1=CC=CC=C1</SMILES>
+      <name>FDPP</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C3H2F6O/c4-2(5,6)1(10)3(7,8)9/h1,10H</InChI>
+      <SMILES>FC(C(C(F)(F)F)O)(F)F</SMILES>
+      <name>Hexafluoroisopropanol</name>
+      <name>HFIP</name>
+    </record>
+    <record>
+      <InChI>InChI=1/2C5H5N.2Cr.7O/c2*1-2-4-6-5-3-1;;;;;;;;;/h2*1-5H;;;;;;;;;/q;;;;;;;;;2*-1/p+2/f2C5H6N.2Cr.7O/h2*6H;;;;;;;;;/q2*+1;;;;;;;;2m</InChI>
+      <SMILES>[Cr](=O)(=O)([O-])O[Cr](=O)(=O)[O-].[NH+]1=CC=CC=C1.[NH+]1=CC=CC=C1</SMILES>
+      <name>PDC</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C6H18N3S.C3H9F2Si/c1-7(2)10(8(3)4)9(5)6;1-6(2,3,4)5/h1-6H3;1-3H3/q+1;-1</InChI>
+      <SMILES>CN([S+](N(C)C)N(C)C)C.C[Si-](C)(F)(F)C</SMILES>
+      <name>tris(dimethylamino)sulfonium difluorotrimethylsilicate</name>
+      <name>TASF</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C4H10O2/c1-4(2,3)6-5/h5H,1-3H3</InChI>
+      <SMILES>C(C)(C)(C)OO</SMILES>
+      <name>TBHP</name>
+      <name>tBOOH</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C3Cl3N3O3/c4-7-1(10)8(5)3(12)9(6)2(7)11</InChI>
+      <SMILES>ClN1C(N(C(N(C1=O)Cl)=O)Cl)=O</SMILES>
+      <name>TCCA</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C6N4/c7-1-5(2-8)6(3-9)4-10</InChI>
+      <SMILES>C(#N)C(=C(C#N)C#N)C#N</SMILES>
+      <name>TCNE</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C12H4N4/c13-5-11(6-14)9-1-2-10(4-3-9)12(7-15)8-16/h1-4H</InChI>
+      <SMILES>C1(C=CC(C=C1)=C(C#N)C#N)=C(C#N)C#N</SMILES>
+      <name>Tetracyanoquinodimethane</name>
+      <name>TCNQ</name>
+    </record>
+    <record>
+      <InChI>InChI=1/CN4O8/c6-2(7)1(3(8)9,4(10)11)5(12)13</InChI>
+      <SMILES>[N+](=O)([O-])C([N+](=O)[O-])([N+](=O)[O-])[N+](=O)[O-]</SMILES>
+      <name>TNM</name>
+    </record>
+    <record>
+      <InChI>InChI=1/2C3H7O2.Al.Na.2H/c2*1-5-3-2-4;;;;/h2*2-3H2,1H3;;;;/q2*-1;2*+1;;</InChI>
+      <SMILES>[Na+].COCCO[AlH2-]OCCOC</SMILES>
+      <name>Vitride</name>
+      <name>Red-Al</name>
     </record>
   </records>
 </newchemnamedict>

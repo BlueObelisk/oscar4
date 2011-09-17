@@ -44,6 +44,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 	private double custPseudoConfidence = 0.2;
 	private double cprPseudoConfidence = 0.2;
 	private boolean deprioritiseOnts = false;
+	private boolean useRescorer = true;
 	private DFASupplementaryTermFinder supplementaryTermFinder;
 
 	/**
@@ -191,23 +192,26 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
      */
     private List<NamedEntity> generateNamedEntities(List<TokenSequence> tokSeqList) {
         List<NamedEntity> neList = new ArrayList<NamedEntity>();
-//        MEMM memm = new MEMM(model, memmThreshold/5);
         for (TokenSequence tokseq : tokSeqList) {
-        	//TODO check divide by five
-            for (NamedEntity ne : model.findNEs(tokseq, memmThreshold/5)) {
-                if (ne.getConfidence() > memmThreshold) {
-                    neList.add(ne);
-                }
+        	//TODO check divide by five (this was also in OSCAR3)
+        	neList.addAll(model.findNEs(tokseq, memmThreshold/5));
+        }
+    	if (useRescorer){
+            if (model.getRescorer() != null) {
+        		model.getRescorer().rescore(neList, model.getChemNameDictNames());	
+        	} 
+        	else {
+        		LOG.info("Model does not contain a rescorer");
+        	}
+    	}
+        
+        List<NamedEntity> nesSatisfyingThreshold = new ArrayList<NamedEntity>();
+        for (NamedEntity ne : neList) {
+            if (ne.getConfidence() > memmThreshold) {
+            	nesSatisfyingThreshold.add(ne);
             }
         }
-   
-        if (model.getRescorer() != null) {
-    		model.getRescorer().rescore(neList, model.getChemNameDictNames());	
-    	} 
-    	else {
-    		LOG.info("Model does not contain a rescorer");
-    	}
-        return neList;
+        return nesSatisfyingThreshold;
     }
 
 
@@ -295,9 +299,39 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 		this.cprPseudoConfidence = cprPseudoConfidence;
 	}
 
+	/**
+	 * Is the recogniser set to always prefer other entities to ontology entities
+	 * when finding in REMOVE_BLOCKED mode
+	 * @return
+	 */
+	public boolean isDeprioritiseOnts() {
+		return deprioritiseOnts;
+	}
 
+	/**
+	 * Sets whether the recogniser should always prefer other entities to ontology entities
+	 * when finding in REMOVE_BLOCKED mode
+	 * @param deprioritiseOnts
+	 */
 	public void setDeprioritiseOnts(boolean deprioritiseOnts) {
 		this.deprioritiseOnts  = deprioritiseOnts;
 	}
-    
+	
+	/**
+	 * Is the MEMM rescorer being used
+	 * The rescorer takes into account the occurrence of entities to modify the confidence of other entities
+	 * @return
+	 */
+	public boolean isUseRescorer() {
+		return useRescorer;
+	}
+
+	/**
+	 * Sets whether the MEMM rescorer should be used
+	 * The rescorer takes into account the occurrence of entities to modify the confidence of other entities
+	 * @param useRescorer
+	 */
+	public void setUseRescorer(boolean useRescorer) {
+		this.useRescorer = useRescorer;
+	}
 }

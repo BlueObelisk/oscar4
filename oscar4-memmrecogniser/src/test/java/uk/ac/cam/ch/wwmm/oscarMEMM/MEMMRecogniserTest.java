@@ -397,7 +397,22 @@ public class MEMMRecogniserTest {
 		assertEquals(1, nes.get(0).getOntIds().size());
 		assertTrue(nes.get(0).getOntIds().contains("CHEBI:52538"));
 	}
-	
+
+	@Test
+	public void testRescorerModifiesConfidence() {
+		String text = "THF (50 ml). THF (100 ml)";
+		MEMMRecogniser recog = new MEMMRecogniser();
+		recog.setUseRescorer(false);
+		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
+				Tokeniser.getDefaultInstance(), text);
+		List <NamedEntity> nes = recog.findNamedEntities(procDoc);
+		assertEquals(2, nes.size());
+		recog.setUseRescorer(true);
+		List <NamedEntity> rescoredNes = recog.findNamedEntities(procDoc);
+		assertEquals(2, rescoredNes.size());
+		assertTrue(rescoredNes.get(0).getConfidence() > nes.get(0).getConfidence());
+		assertTrue(rescoredNes.get(1).getConfidence() > nes.get(1).getConfidence());
+	}
 	
 	@Test
 	public void testFindEntitiesMarkBlocked() throws Exception {

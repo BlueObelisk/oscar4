@@ -2,6 +2,7 @@ package uk.ac.cam.ch.wwmm.oscar.ont;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,9 +79,9 @@ public final class OntologyTerms {
     /**
      * Constructor for using custom ontologies
      * 
-     * @param terms a ListMultimap of ontology terms to corresponding ids
+     * @param terms a Multimap of ontology terms to corresponding ids
      */
-	public OntologyTerms(ListMultimap<String, String> terms) {
+	public OntologyTerms(Multimap<String, String> terms) {
         // Create defensive copy
         ListMultimap<String,String> copy = ArrayListMultimap.create(terms);
 		this.terms = Multimaps.unmodifiableListMultimap(copy);

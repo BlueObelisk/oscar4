@@ -178,11 +178,11 @@ public final class HyphenTokeniser {
 			suffix = suffix.substring(m.end());
 		}
 
-		while(suffix.length() >= 3) {//TODO shouldn't split -formyl
-			if(splitSuffixes.contains(suffix)) {
+		if(suffix.length() >= 3) {
+			if(splitSuffixes.contains(suffix) || 
+				(suffix.length() >= 4 && splitSuffixes.contains(suffix.substring(0, suffix.length()-1)))){
 				return true;
 			}
-			suffix = suffix.substring(0, suffix.length()-1);
 		}
 		
 		return false;

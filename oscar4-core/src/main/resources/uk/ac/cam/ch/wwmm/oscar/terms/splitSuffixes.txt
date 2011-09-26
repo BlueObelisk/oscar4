@@ -1,4 +1,4 @@
-# If these strings occur after a hyphen, then the hyphen does indicates
+# If these strings occur after a hyphen, then the hyphen does indicate
 # a word boundary.
 # Copied from the lists in the chempapers and pubmed model files.
 # @dmj30 12/11/2010

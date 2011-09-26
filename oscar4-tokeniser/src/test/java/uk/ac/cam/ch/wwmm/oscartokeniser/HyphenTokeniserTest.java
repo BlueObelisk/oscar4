@@ -43,6 +43,10 @@ public class HyphenTokeniserTest {
 		
 		assertFalse(tokeniser.suffixStartsWithSplitSuffix("foo-monopoisone", 3));
 		assertTrue(tokeniser.suffixStartsWithSplitSuffix("foo-monopoisoned", 3));
+		
+		assertTrue(tokeniser.suffixStartsWithSplitSuffix("foo-form", 3));
+		assertTrue(tokeniser.suffixStartsWithSplitSuffix("foo-forms", 3));
+		assertFalse(tokeniser.suffixStartsWithSplitSuffix("foo-formyl", 3));
 	}
 	
 	@Test

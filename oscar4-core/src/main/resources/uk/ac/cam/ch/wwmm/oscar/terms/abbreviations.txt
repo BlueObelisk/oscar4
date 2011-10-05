@@ -11,7 +11,9 @@ e.g.:
 eq.
 equiv.
 mp.
+m.p.
 conc.
 approx.
 anh.
 sat.
+lit.

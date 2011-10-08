@@ -62,12 +62,11 @@ public class OntologyTermsTest {
 		Set <String> strings = new HashSet<String>();
 		strings.add("foobar");
 		strings.add("foo-bar");
-		strings.add("gay bar");
+		strings.add("foo baz");
 		
 		Set <String> hyphTokable = OntologyTerms.getDefaultInstance().makeHyphTokable(strings);
-		assertEquals(2, hyphTokable.size());
-		assertTrue(hyphTokable.contains("foo bar"));
-		assertTrue(hyphTokable.contains("gay bar"));
+		assertEquals(1, hyphTokable.size());
+		assertTrue(hyphTokable.contains("foo baz"));
 	}
 
 	@Test

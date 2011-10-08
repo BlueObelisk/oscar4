@@ -2,7 +2,6 @@ package uk.ac.cam.ch.wwmm.oscartokeniser;
 
 import static org.junit.Assert.*;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -111,16 +110,14 @@ public class HyphenTokeniserTest {
 	}
 	
 	@Test
-	@Ignore
-	//there appears to be a problem with OntologyTerms.getHyphTokable()
 	public void testOntontologyTerm() {
-		String simple = "halide-ions";
-		String noSplitPrefix = "graft-copolymer";
-		
-		assertEquals(6, HyphenTokeniser.indexOfSplittableHyphen(simple));
-		assertEquals(5, HyphenTokeniser.indexOfSplittableHyphen(noSplitPrefix));
+		HyphenTokeniser tokeniser = HyphenTokeniser.getInstance();
+		String termInOntologyWithSpace = "inorganic-group";
+		assertEquals(true, tokeniser.termContainedInHyphTokable(termInOntologyWithSpace, termInOntologyWithSpace.indexOf('-')));
+		String notInOntology = "foo-bar";
+		assertEquals(false, tokeniser.termContainedInHyphTokable(notInOntology, notInOntology.indexOf('-')));
 	}
-	
+
 	@Test
 	public void testSplitSuffix() {
 		String splitSuffix = "foo-labelled";
@@ -141,7 +138,7 @@ public class HyphenTokeniserTest {
 		String withApostrophe2 = "Baeyer-Villigers'";
 		
 		assertEquals(6, HyphenTokeniser.indexOfSplittableHyphen(simple));
-		assertEquals(4, HyphenTokeniser.indexOfSplittableHyphen(nosplitPrefix));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen(nosplitPrefix));
 		assertEquals(13, HyphenTokeniser.indexOfSplittableHyphen(tripleBarrelled));
 		assertEquals(8, HyphenTokeniser.indexOfSplittableHyphen(withApostrophe1));
 		assertEquals(6, HyphenTokeniser.indexOfSplittableHyphen(withApostrophe2));

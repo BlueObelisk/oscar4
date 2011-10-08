@@ -104,12 +104,8 @@ public final class HyphenTokeniser {
 					return currentIndex;				
 				}
 				
-				// Suffixes?
+				// Suffixes
 				if (suffixContainedInSplitSuffix(tokenValue, currentIndex)) {
-					return currentIndex;
-				}
-				
-				if (termMatchesPropernounPattern(tokenValue)) {
 					return currentIndex;
 				}
 				
@@ -117,7 +113,7 @@ public final class HyphenTokeniser {
 					return currentIndex;
 				}
 				
-				// No suffix? Then don't examine hyphens in position 1
+				// Don't split to give a 1 character prefix
 				if(currentIndex == 1) {
 					continue;
 				}
@@ -127,7 +123,12 @@ public final class HyphenTokeniser {
 					continue;
 				}
 				
-				// Check against OntologyTerms content
+				if (termMatchesPropernounPattern(tokenValue)) {
+					return currentIndex;
+				}
+
+				// Check against OntologyTerms content, if token is present with a space where the hyphen is then split
+				// Due to the broadness of the lowercaseEitherSideOfHyphen rule and termMatchesPropernounPattern rules it is difficult to find cases where this rule is actually required
 				if (termContainedInHyphTokable(tokenValue, currentIndex)) {
 					return currentIndex;
 				}
@@ -136,7 +137,6 @@ public final class HyphenTokeniser {
 				if (lowercaseEitherSideOfHyphen(tokenValue, currentIndex)) {
 					return currentIndex;
 				}
-				
 			}
 		}
 		return -1;
@@ -209,7 +209,7 @@ public final class HyphenTokeniser {
 	 * Checks if the OntologyTerms contains an equivalent term to the tokenValue
 	 * in which the hyphen at the currentIndex has been replaced by a space
 	 */
-	private boolean termContainedInHyphTokable(String tokenValue, int currentIndex) {
+	boolean termContainedInHyphTokable(String tokenValue, int currentIndex) {
 		StringBuilder builder = new StringBuilder(tokenValue.length());
 		builder.append(StringTools.normaliseName(tokenValue.substring(0,currentIndex)));
 		builder.append(" ");

@@ -39,7 +39,7 @@ public final class OntologyTerms {
 	private ListMultimap<String,String> terms;
 	private Set<String> hyphTokable;
 	
-	private static Pattern maybeHyphPattern = Pattern.compile("(\\S+)(?:\\s+|-)(\\S+)");
+	private static Pattern maybeHyphPattern = Pattern.compile("(\\S+)(?:\\s+)(\\S+)");
 	
 	private static OntologyTerms defaultInstance;
 
@@ -123,7 +123,9 @@ public final class OntologyTerms {
 		return terms;
 	}
 	
-	/**Produces some data for the HyphenTokeniser.
+	/**
+	 * From the ontology terms extracts all possible strings of the form:
+	 * word whitespace word
 	 * 
 	 * @return Some data for the HyphenTokeniser, as
 	 * an unmodifiable Set.
@@ -140,7 +142,7 @@ public final class OntologyTerms {
 		Set<String> ht = new HashSet<String>();
 		for (String term : ontologyTerms) {
 			Matcher m = maybeHyphPattern.matcher(term);
-			while(m.find()) {
+			if(m.matches()) {
 				ht.add(m.group(1) + " " + m.group(2));
 			}
 		}

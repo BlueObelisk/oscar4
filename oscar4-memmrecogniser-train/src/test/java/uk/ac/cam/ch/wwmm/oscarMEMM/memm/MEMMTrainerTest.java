@@ -111,7 +111,7 @@ public class MEMMTrainerTest {
 	public void testExtractTrainingData(Element trainedModel) throws Exception{
 		MEMMModel model = new MEMMModel(trainedModel);
 		assertEquals("Number of Chemical words in ExtractedTrainingData size",453, model.getExtractedTrainingData().getChemicalWords().size());
-		assertEquals("Number of non-chemical words in ExtractedTrainingData size",1178, model.getExtractedTrainingData().getNonChemicalWords().size());
+		assertEquals("Number of non-chemical words in ExtractedTrainingData size",1179, model.getExtractedTrainingData().getNonChemicalWords().size());
 	}
 	
 	

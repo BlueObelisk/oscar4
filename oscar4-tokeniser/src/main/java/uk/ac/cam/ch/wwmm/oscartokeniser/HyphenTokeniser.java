@@ -31,8 +31,6 @@ public final class HyphenTokeniser {
 	private static HyphenTokeniser myInstance = null;
 	private Set<String> splitSuffixes;
 	private Set<String> noSplitPrefixes;
-	private int minPrefixLength;
-	private int maxPrefixLength;
 	//splitOnEnDash will become redundant with the normalisation of hyphens
 	private static Pattern suffixPrefixPattern = Pattern.compile("mono|di|tri|tetra|penta|hexa|hepta|un|de|re|pre");
 	static Pattern propernounHyphenPattern = Pattern.compile("((Mc|Mac)?[A-Z]\\p{Ll}\\p{Ll}\\p{Ll}+(s'|'s)?" + StringTools.hyphensRegex + ")+(Mc|Mac)?[A-Z]\\p{Ll}\\p{Ll}\\p{Ll}+(s'|'s)?");
@@ -58,14 +56,6 @@ public final class HyphenTokeniser {
 		splitSuffixes = new HashSet<String>();
 		splitSuffixes.addAll(TermSets.getDefaultInstance().getSplitSuffixes());
 		noSplitPrefixes = TermSets.getDefaultInstance().getNoSplitPrefixes();
-		
-		minPrefixLength = 1000;
-		maxPrefixLength = 0;
-		for(String p : noSplitPrefixes) {
-			minPrefixLength = Math.min(minPrefixLength, p.length());
-			maxPrefixLength = Math.max(maxPrefixLength, p.length());
-		}
-
 		LOG.debug("hyphen tokeniser initialised");
 	}
 	
@@ -155,12 +145,26 @@ public final class HyphenTokeniser {
 	}
 
 	/**
-	 * checks if one of the terms from the noSplitPrefix list occurs before the hyphen 
+	 * Checks if the string before the hyphen up to the beginning of the string or a non-letter
+	 * is described by the set of noSplitPrefixes
+	 * @param tokenValue
+	 * @param currentIndex
+	 * @return
 	 */
 	private boolean precededByNoSplitPrefix(String tokenValue, int currentIndex) {
-		for(int j = minPrefixLength; j <= maxPrefixLength && j <= currentIndex; j++) {
-			String prefix = tokenValue.substring(currentIndex-j, currentIndex).toLowerCase();
-			if(noSplitPrefixes.contains(prefix)) {
+		int startingIndex = 0;
+		for (int i = currentIndex -1; i >=0; i--) {
+			if (!Character.isLetter(tokenValue.charAt(i))){
+				startingIndex = i +1 ;
+				break;
+			}
+		}
+		String prefix = tokenValue.substring(startingIndex, currentIndex).toLowerCase();
+		for (String noSplitPrefix : noSplitPrefixes) {
+			if (noSplitPrefix.startsWith("*") && prefix.endsWith(noSplitPrefix.substring(1))){
+				return true;
+			}
+			else if (noSplitPrefix.equals(prefix)){
 				return true;
 			}
 		}

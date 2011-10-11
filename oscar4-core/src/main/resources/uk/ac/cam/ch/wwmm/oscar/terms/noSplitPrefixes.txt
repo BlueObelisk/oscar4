@@ -1,7 +1,7 @@
-# If these strings occur before a hyphen, then the hyphen does not indicate
-# a word boundary.
+# If the string before a hyphen (stopping at a previous non-letter if application) is contained within this lists
+# then the hyphen does not indicate a word boundary.
+# A * is allowed to indicate that this string need only end in the given string
 # Single letter prefixes are not neccesary as these are implicitly not split off
-# Note: nido and closo are handled by ido and oso respectively
 #
 # Greeks
 alpha
@@ -29,21 +29,21 @@ chi
 psi
 omega
 # Substituent endings and irregular substituents
-yl
-ylidene
-ylidyne
-yliden
-ylidyn
-ylene
-ylen
-ano
-ono
-ino
-eno
-oso
-io
-ato
-ido
+*yl
+*ylidene
+*ylidyne
+*yliden
+*ylidyn
+*ylene
+*ylen
+*ano
+*ono
+*ino
+*eno
+*oso
+*io
+*ato
+*ido
 bromo
 chloro
 fluoro
@@ -59,8 +59,7 @@ oxy
 fmoc
 tms
 cbz
-t-boc
-n-boc
+boc
 #irregular locants
 ortho
 meta
@@ -109,7 +108,6 @@ meso
 de
 non
 hydro
-arachno
 ent
 catena
 epi
@@ -131,5 +129,8 @@ triangulo
 homo
 co
 graft
+closo
+nido
+arachno
 hypho
 conjuncto

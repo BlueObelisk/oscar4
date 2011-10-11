@@ -159,8 +159,11 @@ public class HyphenTokeniserTest {
 	
 	@Test
 	public void testNoSplitPrefix() {
-		String noSplitPrefix = "tert-foo";
-		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen(noSplitPrefix));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("tert-foo"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("2-tert-foo"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("fooyl-bar"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("ter-phenyl"));
+		assertEquals(5, HyphenTokeniser.indexOfSplittableHyphen("water-phenyl"));
 	}
 	
 	@Test

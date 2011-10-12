@@ -167,6 +167,7 @@ public class HyphenTokeniserTest {
 		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("methylazo-bar"));
 		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("fmoc-bar"));
 		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("2fmoc-bar"));
+		assertEquals(-1, HyphenTokeniser.indexOfSplittableHyphen("2,3-dichloro-bar"));
 	}
 	
 	@Test

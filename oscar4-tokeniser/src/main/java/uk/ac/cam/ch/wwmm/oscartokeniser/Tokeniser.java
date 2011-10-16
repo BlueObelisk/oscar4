@@ -32,7 +32,7 @@ public final class Tokeniser implements ITokeniser {
 	private static Pattern trademarkPattern = Pattern
 			.compile(".+?(\\((TM|R)\\)|\\(\\((TM|R)\\)\\))");
 	
-	private static Pattern physicalStatePattern = Pattern.compile(".+(\\((aq|s|l|g)\\))$");
+	private static Pattern physicalStatePattern = Pattern.compile(".*\\D.*(\\((aq|s|l|g)\\))$");
 
 	private static Pattern tokenPattern = Pattern.compile("[^\\s"
 			+ StringTools.whiteSpace + "]+");

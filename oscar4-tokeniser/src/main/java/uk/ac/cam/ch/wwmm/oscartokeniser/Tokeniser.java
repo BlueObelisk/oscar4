@@ -31,6 +31,8 @@ public final class Tokeniser implements ITokeniser {
 			Pattern.CASE_INSENSITIVE);
 	private static Pattern trademarkPattern = Pattern
 			.compile(".+?(\\((TM|R)\\)|\\(\\((TM|R)\\)\\))");
+	
+	private static Pattern physicalStatePattern = Pattern.compile(".+(\\((aq|s|l|g)\\))$");
 
 	private static Pattern tokenPattern = Pattern.compile("[^\\s"
 			+ StringTools.whiteSpace + "]+");
@@ -356,6 +358,11 @@ public final class Tokeniser implements ITokeniser {
 		Matcher m = trademarkPattern.matcher(token.getSurface());
 		if (m.matches() && m.start(1) > 0) {
 			return splitAt(token, token.getStart() + m.start(1));
+		}
+		/* Split physical state off the back of tokens */
+		Matcher physicalStateMatcher = physicalStatePattern.matcher(token.getSurface());
+		if (physicalStateMatcher.matches()) {
+			return splitAt(token, token.getStart() + physicalStateMatcher.start(1));
 		}
 		/* characters to split on */
 		if (middleValue.contains("<")) {

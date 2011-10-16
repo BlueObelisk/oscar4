@@ -48,6 +48,15 @@ public final class TokeniserTest {
 		assertEquals(5, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "( ca. 30 mL )");
 	}
+	
+	@Test
+	public void testBracketedState() {
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
+		String s = "NaOH(aq)";
+		TokenSequence tokseq = tokeniser.tokenise(s);
+		assertEquals(4, tokseq.getTokens().size());
+		checkTokens(tokseq.getTokens(), "NaOH ( aq )");
+	}
 
 	@Test
 	public void testHyphens() {

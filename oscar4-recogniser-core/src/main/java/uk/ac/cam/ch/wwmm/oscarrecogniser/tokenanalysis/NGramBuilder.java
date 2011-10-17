@@ -663,7 +663,15 @@ public class NGramBuilder {
 
 
 	public String calculateSourceDataFingerprint() {
-		return englishWords.hashCode() + "_" + chemWords.hashCode();
+		return calculateOrderInvariantHashCode(englishWords) + "_" + calculateOrderInvariantHashCode(chemWords);
+	}
+	
+	private int calculateOrderInvariantHashCode(List<String> words){
+		int hashCode = 0;
+		for (String word : words) {
+			hashCode ^= word.hashCode();//XOR hash codes
+		}
+		return hashCode;
 	}
 
 	private static String getModelFileLocation(String fingerprint) {
@@ -726,14 +734,15 @@ public class NGramBuilder {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("chempapers");
 		ChemNameDictRegistry registry = ChemNameDictRegistry.getDefaultInstance();
+		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("chempapers");
+		//ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("pubmed");
 		// pass annotations and registry to NGramBuilder constructor to produce a customised NGram model
 		// or pass no arguments to produce a vanilla NGram model
 		System.out.println("building ngrams...");
-//		NGramBuilder builder = new NGramBuilder();
 		UnmodifiableSet registryNames = (UnmodifiableSet) UnmodifiableSet.decorate(registry.getAllNames());
 		NGramBuilder builder = new NGramBuilder(annotations, registryNames);
+		//NGramBuilder builder = new NGramBuilder();
 		builder.train();
 		NGram nGram = builder.toNGram();
 		

@@ -178,13 +178,15 @@
       <name>2,2'-azo-bis(isobutyronitrile)</name>
     </record>
     <record>
-      <InChI>InChI=1/2C2H4O2.Pd/c2*1-2(3)4;/h2*1H3,(H,3,4);/q;;+2/p-2</InChI>
+      <InChI>InChI=1/2C2H4O2.Pd/c2*1-2(3)4;/h2*1H3,(H,3,4);/q;;+2/p-2/f2C2H3O2.Pd/q2*-1;m</InChI>
       <SMILES>[Pd+2].[O-]C(=O)C.[O-]C(=O)C</SMILES>
       <name>Pd(OAc)2</name>
       <name>palladium (II) acetate</name>
       <name>palladium(II) acetate</name>
       <name>palladium (ii) acetate</name>
       <name>palladium(ii) acetate</name>
+      <name>Pd(acetate)2</name>
+      <name>Pd(O2CCH3)2</name>
     </record>
     <record>
       <InChI>InChI=1/C4H8O/c1-2-4-5-3-1/h1-4H2</InChI>
@@ -293,10 +295,14 @@
       <name>DMAP</name>
     </record>
     <record>
-      <InChI>InChI=1/2Na.H2O3S2/c;;1-5(2,3)4/h;;(H2,1,2,3,4)/q2*+1;/p-2</InChI>
+      <InChI>InChI=1/2Na.H2O3S2/c;;1-5(2,3)4/h;;(H2,1,2,3,4)/q2*+1;/p-2/f2Na.O3S2/q2m;-2</InChI>
       <SMILES>[Na+].[Na+].[O-]S(=O)(=S)[O-]</SMILES>
-      <name>Na2SO3</name>
       <name>Na2S2O3</name>
+    </record>
+    <record>
+      <InChI>InChI=1/2Na.H2O3S/c;;1-4(2)3/h;;(H2,1,2,3)/q2*+1;/p-2/f2Na.O3S/q2m;-2</InChI>
+      <SMILES>S(=O)([O-])[O-].[Na+].[Na+]</SMILES>
+      <name>Na2SO3</name>
     </record>
     <record>
       <InChI>InChI=1/N2/c1-2</InChI>
@@ -312,11 +318,6 @@
       <InChI>InChI=1/ClH.H3N/h1H;1H3</InChI>
       <SMILES>[Cl-].[NH4+]</SMILES>
       <name>NH4Cl</name>
-    </record>
-    <record>
-      <InChI>InChI=1/BrH/h1H</InChI>
-      <SMILES>Br</SMILES>
-      <name>HBr</name>
     </record>
     <record>
       <InChI>InChI=1/C4H10O/c1-3-5-4-2/h3-4H2,1-2H3</InChI>
@@ -379,16 +380,6 @@
       <InChI>InChI=1/C14H14O2P2S4/c1-15-11-3-7-13(8-4-11)17(19)21-18(20,22-17)14-9-5-12(16-2)6-10-14/h3-10H,1-2H3</InChI>
       <SMILES>COc1ccc(cc1)P1(=S)SP(=S)(S1)c1ccc(OC)cc1</SMILES>
       <name>Lawesson's reagent</name>
-    </record>
-    <record>
-      <InChI>InChI=1/H2O/h1H2</InChI>
-      <SMILES>O</SMILES>
-      <name>H2O</name>
-    </record>
-    <record>
-      <InChI>InChI=1/ClH/h1H</InChI>
-      <SMILES>Cl</SMILES>
-      <name>HCl</name>
     </record>
     <record>
       <InChI>InChI=1/C18H15As/c1-4-10-16(11-5-1)19(17-12-6-2-7-13-17)18-14-8-3-9-15-18/h1-15H</InChI>
@@ -474,6 +465,7 @@
       <InChI>InChI=1/C2HF3O2/c3-2(4,5)1(6)7/h(H,6,7)/f/h6H</InChI>
       <SMILES>FC(C(=O)O)(F)F</SMILES>
       <name>TFA</name>
+      <name>CF3COOH</name>
     </record>
     <record>
       <InChI>InChI=1/Cl3OP/c1-5(2,3)4</InChI>
@@ -497,6 +489,7 @@
       <name>DiPEA</name>
       <name>Hünig's base</name>
       <name>Hunig's base</name>
+      <name>Huenig's base</name>
       <name>DIEA</name>
       <name>iPr2NEt</name>
     </record>
@@ -526,6 +519,8 @@
       <name>Pd(PPh3)4</name>
       <name>Pd(Ph3P)4</name>
       <name>(PPh3)4Pd</name>
+      <name>tetrakis(triphenylphosphine)palladium</name>
+      <name>tetrakis(triphenylphosphine)palladium(0)</name>
     </record>
     <record>
       <InChI>InChI=1/BBr3/c2-1(3)4</InChI>
@@ -548,6 +543,8 @@
       <name>(PPh3)2PdCl2</name>
       <name>Pd(PPh3)2Cl2</name>
       <name>PdCl2(PPh3)2</name>
+      <name>dichlorobis(triphenylphosphine)palladium(II)</name>
+      <name>bis(triphenylphosphine)palladium(II) dichloride</name>
     </record>
     <record>
       <InChI>InChI=1/CN.Cu/c1-2;</InChI>
@@ -825,6 +822,7 @@
       <SMILES>C(C)(C)(C)[Li]</SMILES>
       <name>t-BuLi</name>
       <name>tBuLi</name>
+      <name>tert-BuLi</name>
     </record>
     <record>
       <InChI>InChI=1/CH3.BrH.Mg/h1H3;1H;/q;;+1/p-1/fCH3.Br.Mg/h;1h;/q;-1;m</InChI>
@@ -1071,13 +1069,6 @@
       <name>KH2PO4</name>
     </record>
     <record>
-      <InChI>InChI=1/2C2H4O2.Pd/c2*1-2(3)4;/h2*1H3,(H,3,4);/q;;+2/p-2/f2C2H3O2.Pd/q2*-1;m</InChI>
-      <SMILES>C(C)(=O)[O-].[Pd+2].C(C)(=O)[O-]</SMILES>
-      <name>Pd(acetate)2</name>
-      <name>Pd(O2CCH3)2</name>
-      <name>Pd(OAc)2</name>
-    </record>
-    <record>
       <InChI>InChI=1/2K.H3O4P/c;;1-5(2,3)4/h;;(H3,1,2,3,4)/q2*+1;/p-2/f2K.HO4P/h;;1H/q2m;-2</InChI>
       <SMILES>P(=O)(O)([O-])[O-].[K+].[K+]</SMILES>
       <name>K2HPO4</name>
@@ -1248,6 +1239,156 @@
       <SMILES>[Na+].COCCO[AlH2-]OCCOC</SMILES>
       <name>Vitride</name>
       <name>Red-Al</name>
+    </record>
+    <record>
+      <InChI>InChI=1/HNO3/c2-1(3)4/h(H,2,3,4)/f/h2H</InChI>
+      <SMILES>O[N+]([O-])=O</SMILES>
+      <name>HNO3</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C4H9.Li/c1-3-4-2;/h3H,4H2,1-2H3;</InChI>
+      <SMILES>C(C)(CC)[Li]</SMILES>
+      <name>sBuLi</name>
+      <name>s-BuLi</name>
+      <name>sec-BuLi</name>
+    </record>
+    <record>
+      <InChI>InChI=1/CH3.Li/h1H3;</InChI>
+      <SMILES>C[Li]</SMILES>
+      <name>MeLi</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C6H5.Li/c1-2-4-6-5-3-1;/h1-5H;</InChI>
+      <SMILES>[Li]c1ccccc1</SMILES>
+      <name>PhLi</name>
+    </record>
+    <record>
+      <InChI>InChI=1/K.NO3/c;2-1(3)4/q+1;-1</InChI>
+      <SMILES>[N+](=O)([O-])[O-].[K+]</SMILES>
+      <name>KNO3</name>
+    </record>
+    <record>
+      <InChI>InChI=1/N2O/c1-2-3</InChI>
+      <SMILES>N#[N+][O-]</SMILES>
+      <name>N2O</name>
+    </record>
+    <record>
+      <InChI>InChI=1/K.Mn.4O/q+1;;;;;-1</InChI>
+      <SMILES>[Mn](=O)(=O)(=O)[O-].[K+]</SMILES>
+      <name>KMnO4</name>
+    </record>
+    <record>
+      <InChI>InChI=1/BH3/h1H3</InChI>
+      <SMILES>B</SMILES>
+      <name>BH3</name>
+    </record>
+    <record>
+      <InChI>InChI=1/Al.3H</InChI>
+      <SMILES>[AlH3]</SMILES>
+      <name>AlH3</name>
+    </record>
+    <record>
+      <InChI>InChI=1/CH4/h1H4</InChI>
+      <SMILES>C</SMILES>
+      <name>CH4</name>
+    </record>
+    <record>
+      <InChI>InChI=1/H3P/h1H3</InChI>
+      <SMILES>P</SMILES>
+      <name>PH3</name>
+    </record>
+    <record>
+      <InChI>InChI=1/AsH3/h1H3</InChI>
+      <SMILES>[AsH3]</SMILES>
+      <name>AsH3</name>
+    </record>
+    <record>
+      <InChI>InChI=1/Sb.3H</InChI>
+      <SMILES>[SbH3]</SMILES>
+      <name>SbH3</name>
+    </record>
+    <record>
+      <InChI>InChI=1/H2O/h1H2</InChI>
+      <SMILES>O</SMILES>
+      <name>H2O</name>
+    </record>
+    <record>
+      <InChI>InChI=1/H2S/h1H2</InChI>
+      <SMILES>S</SMILES>
+      <name>H2S</name>
+      <name>SH2</name>
+    </record>
+    <record>
+      <InChI>InChI=1/H2Se/h1H2</InChI>
+      <SMILES>[SeH2]</SMILES>
+      <name>H2Se</name>
+      <name>SeH2</name>
+    </record>
+    <record>
+      <InChI>InChI=1/FH/h1H</InChI>
+      <SMILES>F</SMILES>
+      <name>HF</name>
+    </record>
+    <record>
+      <InChI>InChI=1/ClH/h1H</InChI>
+      <SMILES>Cl</SMILES>
+      <name>HCl</name>
+    </record>
+    <record>
+      <InChI>InChI=1/BrH/h1H</InChI>
+      <SMILES>Br</SMILES>
+      <name>HBr</name>
+    </record>
+    <record>
+      <InChI>InChI=1/HI/h1H</InChI>
+      <SMILES>I</SMILES>
+      <name>HI</name>
+    </record>
+    <record>
+      <InChI>InChI=1/Mn.2O</InChI>
+      <SMILES>O=[Mn]=O</SMILES>
+      <name>MnO2</name>
+    </record>
+    <record>
+      <InChI>InChI=1/B2H6/c1-3-2-4-1/h1-2H2</InChI>
+      <SMILES>[BH2]1[H][BH2][H]1</SMILES>
+      <name>B2H6</name>
+    </record>
+    <record>
+      <InChI>InChI=1/Li.H/q+1;-1</InChI>
+      <SMILES>[H-].[Li+]</SMILES>
+      <name>LiH</name>
+    </record>
+    <record>
+      <InChI>InChI=1/O3S/c1-4(2)3</InChI>
+      <SMILES>S(=O)(=O)=O</SMILES>
+      <name>SO3</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C4H9NO/c1-4(6)5(2)3/h1-3H3</InChI>
+      <SMILES>CC(=O)N(C)C</SMILES>
+      <name>DMAc</name>
+    </record>
+    <record>
+      <InChI>InChI=1/C4H9NO/c1-4(6)5(2)3/h1-3H3</InChI>
+      <SMILES>CC(=O)N(C)C</SMILES>
+      <name>DMAc</name>
+    </record>
+    <record>
+      <InChI>InChI=1/ClO.Na/c1-2;/q-1;+1</InChI>
+      <SMILES>Cl[O-].[Na+]</SMILES>
+      <name>NaOCl</name>
+      <name>NaClO</name>
+    </record>
+    <record>
+      <InChI>InChI=1/Cl2/c1-2</InChI>
+      <SMILES>ClCl</SMILES>
+      <name>Cl2</name>
+    </record>
+    <record>
+      <InChI>InChI=1/2ClH.Hg/h2*1H;/q;;+2/p-2/f2Cl.Hg/h2*1h;/q2*-1;m</InChI>
+      <SMILES>[Hg](Cl)Cl</SMILES>
+      <name>HgCl2</name>
     </record>
   </records>
 </newchemnamedict>

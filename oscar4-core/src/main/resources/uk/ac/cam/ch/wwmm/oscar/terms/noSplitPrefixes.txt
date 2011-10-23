@@ -91,6 +91,24 @@ septi
 octi
 novi
 deci
+#sugar modifiers
+aldehydo
+chiro
+glycero
+erythro
+threo
+ribo
+#arabino redundant due to *ino
+xylo
+lyxo
+allo
+altro
+gluco
+manno
+gulo
+#ido redundant due to *ido
+galacto
+talo
 #modifiers
 tert
 sec
@@ -113,18 +131,14 @@ catena
 epi
 sym
 unsym
-gluco
-glucono
 as
 cyclo
 keto
-threo
 dl
 sn
 tele
 scyllo
 muco
-allo
 triangulo
 homo
 co
@@ -134,3 +148,4 @@ nido
 arachno
 hypho
 conjuncto
+aci

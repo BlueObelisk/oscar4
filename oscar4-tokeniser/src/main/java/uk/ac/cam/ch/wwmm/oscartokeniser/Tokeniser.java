@@ -251,8 +251,9 @@ public final class Tokeniser implements ITokeniser {
 		}
 
 		String middleValue = "";
-		if (token.getSurface().length() > 2)
+		if (token.getSurface().length() > 2){
 			middleValue = token.getSurface().substring(0, token.getSurface().length() - 1);
+		}
 		/* Don't split special lexicon entries */
 		if (token.getSurface().startsWith("$")) {
 			return null;
@@ -391,8 +392,12 @@ public final class Tokeniser implements ITokeniser {
 			if (index < (token.getSurface().length() - 2)
 					&& StringTools.isHyphen(token.getSurface().substring(
 							index + 1, index + 2))) {
-				return splitAt(token, token.getStart() + index + 1, token.getStart()
-						+ index + 2);
+				if (index >0 && StringTools.isBracketed(token.getSurface().substring(index - 1, index + 3))) {
+					//(+-), probably a description of light rotation
+				}
+				else {
+					return splitAt(token, token.getStart() + index + 1, token.getStart() + index + 2);
+				}
 			}
 			if (index > 0 && index < token.getSurface().length() - 1) {
 				if (token.getSurface().endsWith("-")) {
@@ -419,19 +424,8 @@ public final class Tokeniser implements ITokeniser {
 					token.getStart() + token.getSurface().indexOf("--") + 2);
 		}
 		
-		/*
-		 * @lh359: This function used to call
-		 * HyphenTokeniser but works better when set
-		 * to -1 for somereason. Needs to be investigated
-		 * further
-		 * 
-		 * @dmj30: it appears that subtokenisation of hyphenated words
-		 * has been disabled. In phrases like "alcohol-consuming bacteria",
-		 * this prevents OSCAR from recognising the ne "alcohol".
-		 */
-//		int splittableHyphenIndex = -1;
+		/* Attempts to find the index of a hyphen at which splitting is appropriate */
 		int splittableHyphenIndex = HyphenTokeniser.indexOfSplittableHyphen(token.getSurface());
-		
 		
 		/* Split on appropriate hyphens */
 		if (splittableHyphenIndex != -1

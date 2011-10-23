@@ -237,6 +237,16 @@ public final class TokeniserTest {
 		assertEquals(1, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "1-methyl-2-methylidene-cyclohexane");
 	}
+	
+	@Test
+	public void testLightRotation() {
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
+		assertEquals(1, tokeniser.tokenise("(+)-chiraline").getTokens().size());
+		assertEquals(1, tokeniser.tokenise("(-)-chiraline").getTokens().size());
+		assertEquals(1, tokeniser.tokenise("(+-)-chiraline").getTokens().size());
+		assertEquals(1, tokeniser.tokenise("(+)-chiraline").getTokens().size());
+		assertEquals(1, tokeniser.tokenise("(\u00B1)-chiraline").getTokens().size());
+	}
 
 	@Test
 	public void testTrademark() {

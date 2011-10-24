@@ -34,6 +34,8 @@ public final class Tokeniser implements ITokeniser {
 	
 	private static Pattern physicalStatePattern = Pattern.compile(".*\\D.*(\\((aq|s|l|g)\\))$");
 	
+	private static Pattern arrowUsage = Pattern.compile("[^>]*->.*");
+	
 	private static Pattern chemicalNameColonUsage = Pattern.compile("[^:]*\\d+[a-g]?'*(alpha|beta)?,\\d+[a-g]?'*(alpha|beta)?(-([a-zA-Z]'*)+)?:\\d+[a-g]?'*(alpha|beta)?,\\d+.*");
 
 	private static Pattern tokenPattern = Pattern.compile("[^\\s"
@@ -372,7 +374,7 @@ public final class Tokeniser implements ITokeniser {
 			return splitAt(token, token.getStart() + token.getSurface().indexOf("<"),
 					token.getStart() + token.getSurface().indexOf("<") + 1);
 		}
-		if (middleValue.contains(">")) {
+		if (middleValue.contains(">") && !arrowUsage.matcher(token.getSurface()).matches()) {
 			return splitAt(token, token.getStart() + token.getSurface().indexOf(">"),
 					token.getStart() + token.getSurface().indexOf(">") + 1);
 		}

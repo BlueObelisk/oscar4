@@ -181,6 +181,7 @@ public final class TokeniserTest {
 		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}
+
 	@Test
 	public void testLambdaConvention2() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
@@ -189,10 +190,26 @@ public final class TokeniserTest {
 		assertEquals(1, tokseq.getTokens().size());
 	}
 
-	@Ignore
+	@Test
 	public void testRingAssembly() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
-		String s = "2,2':6',2\"-Terphenyl-1,1',1\"-triol";
+		String s = "2,2':6',2''-Terphenyl-1,1',1''-triol";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		assertEquals(1, tokseq.getTokens().size());
+	}
+	
+	@Test
+	public void testFusedRingSystem1() {
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
+		String s = "phenothiazino[3',4':5,6][1,4]oxazino[2,3-i]benzo[5,6][1,4]thiazino[3,2-c]phenoxazine";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		assertEquals(1, tokseq.getTokens().size());
+	}
+	
+	@Test
+	public void testFusedRingSystem2() {
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
+		String s = "phenanthro[4,5-bcd:1,2-c']difuran";
 		TokenSequence  tokseq = tokeniser.tokenise(s);
 		assertEquals(1, tokseq.getTokens().size());
 	}

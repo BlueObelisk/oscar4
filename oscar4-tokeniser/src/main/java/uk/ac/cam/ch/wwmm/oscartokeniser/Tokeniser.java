@@ -33,6 +33,8 @@ public final class Tokeniser implements ITokeniser {
 			.compile(".+?(\\((TM|R)\\)|\\(\\((TM|R)\\)\\))");
 	
 	private static Pattern physicalStatePattern = Pattern.compile(".*\\D.*(\\((aq|s|l|g)\\))$");
+	
+	private static Pattern chemicalNameColonUsage = Pattern.compile("[^:]*\\d+[a-g]?'*(alpha|beta)?,\\d+[a-g]?'*(alpha|beta)?(-([a-zA-Z]'*)+)?:\\d+[a-g]?'*(alpha|beta)?,\\d+.*");
 
 	private static Pattern tokenPattern = Pattern.compile("[^\\s"
 			+ StringTools.whiteSpace + "]+");
@@ -378,8 +380,8 @@ public final class Tokeniser implements ITokeniser {
 			return splitAt(token, token.getStart() + token.getSurface().indexOf("/"),
 					token.getStart() + token.getSurface().indexOf("/") + 1);
 		}
-		if (middleValue.contains(":")) {
-			// Check to see if : is nestled in brackets, such as in ring systems
+		if (middleValue.contains(":") && !chemicalNameColonUsage.matcher(token.getSurface()).matches()) {
+			// Check to make sure : is not nested in brackets
 			if (StringTools.bracketsAreBalanced(token.getSurface())
 					&& StringTools.bracketsAreBalanced(token.getSurface()
 							.substring(token.getSurface().indexOf(":") + 1))) {

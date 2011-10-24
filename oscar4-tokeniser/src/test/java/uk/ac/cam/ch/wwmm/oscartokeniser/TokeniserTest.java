@@ -239,6 +239,14 @@ public final class TokeniserTest {
 	}
 	
 	@Test
+	public void testSaccharide() {
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
+		String s = "beta-D-Glucopyranosyl-(1->4)-D-glucose";
+		TokenSequence  tokseq = tokeniser.tokenise(s);
+		assertEquals(1, tokseq.getTokens().size());
+	}
+	
+	@Test
 	public void testPolymer() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "poly(2,2'-diamino-5-hexadecylbiphenyl-3,3'-diyl)";

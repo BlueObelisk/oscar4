@@ -7,8 +7,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.collections.set.UnmodifiableSet;
-import org.apache.commons.math.stat.DescriptiveStatistics;
-import org.apache.commons.math.stat.DescriptiveStatisticsImpl;
+import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
@@ -50,7 +49,7 @@ final class FeatureExtractor {
 		averageScores = new HashMap<String,Double>();
 		maxScores = new HashMap<String,Double>();
 		for(String surf : scoresForEntity.keySet()) {
-			DescriptiveStatistics descStats = new DescriptiveStatisticsImpl();
+			DescriptiveStatistics descStats = new DescriptiveStatistics();
 			for(double score : scoresForEntity.get(surf)) {
 				descStats.addValue(score);
 			}

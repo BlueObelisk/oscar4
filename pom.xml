@@ -141,7 +141,6 @@
                 <artifactId>opsin-inchi</artifactId>
                 <version>1.1.0</version>
             </dependency>
-
             <dependency>
                 <groupId>xom</groupId>
                 <artifactId>xom</artifactId>
@@ -150,7 +149,7 @@
             <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
-                <version>1.2.13</version>
+                <version>1.2.16</version>
             </dependency>
             <dependency>
                 <groupId>com.ibm.icu</groupId>
@@ -162,22 +161,21 @@
                 <artifactId>poi</artifactId>
                 <version>3.2-FINAL</version>
             </dependency>
-		<dependency>
-			<groupId>org.apache.opennlp</groupId>
-			<artifactId>opennlp-maxent</artifactId>
-			<version>3.0.1-incubating</version>
-		</dependency>
-				<dependency>
-			<groupId>org.apache.opennlp</groupId>
-			<artifactId>opennlp-tools</artifactId>
-			<version>1.5.1-incubating</version>
-		</dependency>
+            <dependency>
+              <groupId>org.apache.opennlp</groupId>
+              <artifactId>opennlp-maxent</artifactId>
+              <version>3.0.1-incubating</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.opennlp</groupId>
+              <artifactId>opennlp-tools</artifactId>
+              <version>1.5.1-incubating</version>
+            </dependency>
             <dependency>
                 <groupId>dk.brics.automaton</groupId>
                 <artifactId>automaton</artifactId>
                 <version>1.11-4</version>
             </dependency>
-
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
@@ -188,7 +186,6 @@
                 <artifactId>slf4j-simple</artifactId>
                 <version>1.6.1</version>
             </dependency>
-
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
@@ -197,7 +194,7 @@
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>1.4</version>
+                <version>2.1</version>
             </dependency>
             <dependency>
                 <groupId>trove</groupId>
@@ -214,7 +211,6 @@
                 <artifactId>jregex</artifactId>
                 <version>1.2_01</version>
             </dependency>
-
             <dependency>
                 <groupId>commons-math</groupId>
                 <artifactId>commons-math</artifactId>
@@ -225,13 +221,11 @@
                 <artifactId>commons-collections</artifactId>
                 <version>3.2.1</version>
             </dependency>
-
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava-collections</artifactId>
                 <version>r03</version>
             </dependency>
-
             <dependency>
                 <groupId>net.sf.jexample</groupId>
                 <artifactId>jexample</artifactId>
@@ -247,7 +241,6 @@
                 <artifactId>junit</artifactId>
                 <version>4.8.2</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 

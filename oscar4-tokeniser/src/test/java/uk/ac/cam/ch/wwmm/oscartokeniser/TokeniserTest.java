@@ -191,6 +191,15 @@ public final class TokeniserTest {
 	}
 
 	@Test
+	public void testStandardColonUsage() {
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
+		assertEquals(3, tokeniser.tokenise("ethanol:water").getTokens().size());
+		assertEquals(3, tokeniser.tokenise("1:2").getTokens().size());
+		assertEquals(7, tokeniser.tokenise("(foo):(bar)").getTokens().size());
+		assertEquals(5, tokeniser.tokenise("foo):(bar").getTokens().size());
+	}
+	
+	@Test
 	public void testRingAssembly() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		String s = "2,2':6',2''-Terphenyl-1,1',1''-triol";
@@ -262,7 +271,7 @@ public final class TokeniserTest {
 		assertEquals(1, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "1-methyl-2-methylidene-cyclohexane");
 	}
-	
+
 	@Test
 	public void testLightRotation() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());

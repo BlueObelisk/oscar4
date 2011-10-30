@@ -383,13 +383,8 @@ public final class Tokeniser implements ITokeniser {
 					token.getStart() + token.getSurface().indexOf("/") + 1);
 		}
 		if (middleValue.contains(":") && !chemicalNameColonUsage.matcher(token.getSurface()).matches()) {
-			// Check to make sure : is not nested in brackets
-			if (StringTools.bracketsAreBalanced(token.getSurface())
-					&& StringTools.bracketsAreBalanced(token.getSurface()
-							.substring(token.getSurface().indexOf(":") + 1))) {
-				return splitAt(token, token.getStart() + token.getSurface().indexOf(":"),
-						token.getStart() + token.getSurface().indexOf(":") + 1);
-			}
+			return splitAt(token, token.getStart() + token.getSurface().indexOf(":"),
+				token.getStart() + token.getSurface().indexOf(":") + 1);
 		}
 		if (middleValue.contains("+")) {
 			int index = token.getSurface().indexOf("+");

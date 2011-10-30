@@ -273,6 +273,16 @@ public final class TokeniserTest {
 	}
 
 	@Test
+	public void testSplittingOnCommonMathematicalOperators() {
+		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
+		assertEquals(3, tokeniser.tokenise("J=8.8").getTokens().size());
+		assertEquals(1, tokeniser.tokenise("CH2=CH2").getTokens().size());
+		assertEquals(3, tokeniser.tokenise("mL\u00D73").getTokens().size());//multiplication
+		assertEquals(3, tokeniser.tokenise("15\u00F73").getTokens().size());//division
+		assertEquals(3, tokeniser.tokenise("5+3").getTokens().size());//addition
+	}
+	
+	@Test
 	public void testLightRotation() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
 		assertEquals(1, tokeniser.tokenise("(+)-chiraline").getTokens().size());

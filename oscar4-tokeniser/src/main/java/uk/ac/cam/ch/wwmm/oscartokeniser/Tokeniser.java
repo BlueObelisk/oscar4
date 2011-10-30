@@ -38,6 +38,8 @@ public final class Tokeniser implements ITokeniser {
 	
 	private static Pattern chemicalNameColonUsage = Pattern.compile("[^:]*\\d+[a-g]?'*(alpha|beta)?,\\d+[a-g]?'*(alpha|beta)?(-([a-zA-Z]'*)+)?:\\d+[a-g]?'*(alpha|beta)?,\\d+.*");
 
+	private static Pattern chemicalNameEqualsUsage = Pattern.compile("[^=]*[CNHOP]+[0-9]*=[CNOP].*");
+	
 	private static Pattern tokenPattern = Pattern.compile("[^\\s"
 			+ StringTools.whiteSpace + "]+");
 
@@ -385,6 +387,18 @@ public final class Tokeniser implements ITokeniser {
 		if (middleValue.contains(":") && !chemicalNameColonUsage.matcher(token.getSurface()).matches()) {
 			return splitAt(token, token.getStart() + token.getSurface().indexOf(":"),
 				token.getStart() + token.getSurface().indexOf(":") + 1);
+		}
+		if (middleValue.contains("=") && !chemicalNameEqualsUsage.matcher(token.getSurface()).matches()) {
+			return splitAt(token, token.getStart() + token.getSurface().indexOf("="),
+				token.getStart() + token.getSurface().indexOf("=") + 1);
+		}
+		if (middleValue.contains("\u00D7")) {
+			return splitAt(token, token.getStart() + token.getSurface().indexOf("\u00D7"),
+				token.getStart() + token.getSurface().indexOf("\u00D7") + 1);
+		}
+		if (middleValue.contains("\u00F7")) {
+			return splitAt(token, token.getStart() + token.getSurface().indexOf("\u00F7"),
+				token.getStart() + token.getSurface().indexOf("\u00F7") + 1);
 		}
 		if (middleValue.contains("+")) {
 			int index = token.getSurface().indexOf("+");

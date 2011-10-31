@@ -52,10 +52,18 @@ public final class TokeniserTest {
 	@Test
 	public void testBracketedState() {
 		Tokeniser tokeniser = new Tokeniser(TokenClassifier.getDefaultInstance());
-		String s = "NaOH(aq)";
-		TokenSequence tokseq = tokeniser.tokenise(s);
+		TokenSequence tokseq = tokeniser.tokenise("NaOH(aq)");
 		assertEquals(4, tokseq.getTokens().size());
 		checkTokens(tokseq.getTokens(), "NaOH ( aq )");
+		
+		tokseq = tokeniser.tokenise("HCl(g)");
+		assertEquals(4, tokseq.getTokens().size());
+		checkTokens(tokseq.getTokens(), "HCl ( g )");
+		
+		//counter example
+		tokseq = tokeniser.tokenise("5(g)");
+		assertEquals(1, tokseq.getTokens().size());
+		checkTokens(tokseq.getTokens(), "5(g)");
 	}
 
 	@Test

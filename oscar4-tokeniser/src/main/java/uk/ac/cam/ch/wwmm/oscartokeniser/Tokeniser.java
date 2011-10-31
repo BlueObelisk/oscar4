@@ -242,10 +242,6 @@ public final class Tokeniser implements ITokeniser {
 			return null;
 		}
 
-		String middleValue = "";
-		if (tokenSurface.length() > 2){
-			middleValue = tokenSurface.substring(0, tokenSurface.length() - 1);
-		}
 		/* Don't split special lexicon entries */
 		if (tokenSurface.startsWith("$")) {
 			return null;
@@ -358,35 +354,35 @@ public final class Tokeniser implements ITokeniser {
 			return splitAt(token, token.getStart() + indiceOfPhysicalState);
 		}
 		/* characters to split on */
-		if (middleValue.contains("<")) {
+		if (tokenSurface.contains("<")) {
 			return splitAt(token, token.getStart() + tokenSurface.indexOf("<"),
 					token.getStart() + tokenSurface.indexOf("<") + 1);
 		}
-		if (middleValue.contains(">") && !arrowUsage.matcher(tokenSurface).matches()) {
+		if (tokenSurface.contains(">") && !arrowUsage.matcher(tokenSurface).matches()) {
 			return splitAt(token, token.getStart() + tokenSurface.indexOf(">"),
 					token.getStart() + tokenSurface.indexOf(">") + 1);
 		}
-		if (middleValue.contains("/")) {
+		if (tokenSurface.contains("/")) {
 			return splitAt(token, token.getStart() + tokenSurface.indexOf("/"),
 					token.getStart() + tokenSurface.indexOf("/") + 1);
 		}
-		if (middleValue.contains(":") && !chemicalNameColonUsage.matcher(tokenSurface).matches()) {
+		if (tokenSurface.contains(":") && !chemicalNameColonUsage.matcher(tokenSurface).matches()) {
 			return splitAt(token, token.getStart() + tokenSurface.indexOf(":"),
 				token.getStart() + tokenSurface.indexOf(":") + 1);
 		}
-		if (middleValue.contains("=") && !chemicalNameEqualsUsage.matcher(tokenSurface).matches()) {
+		if (tokenSurface.contains("=") && !chemicalNameEqualsUsage.matcher(tokenSurface).matches()) {
 			return splitAt(token, token.getStart() + tokenSurface.indexOf("="),
 				token.getStart() + tokenSurface.indexOf("=") + 1);
 		}
-		if (middleValue.contains("\u00D7")) {
+		if (tokenSurface.contains("\u00D7")) {
 			return splitAt(token, token.getStart() + tokenSurface.indexOf("\u00D7"),
 				token.getStart() + tokenSurface.indexOf("\u00D7") + 1);
 		}
-		if (middleValue.contains("\u00F7")) {
+		if (tokenSurface.contains("\u00F7")) {
 			return splitAt(token, token.getStart() + tokenSurface.indexOf("\u00F7"),
 				token.getStart() + tokenSurface.indexOf("\u00F7") + 1);
 		}
-		if (middleValue.contains("+")) {
+		if (tokenSurface.contains("+")) {
 			int index = tokenSurface.indexOf("+");
 			if (index < (tokenSurface.length() - 2)
 					&& StringTools.isHyphen(tokenSurface.substring(
@@ -412,13 +408,13 @@ public final class Tokeniser implements ITokeniser {
 						+ 1);
 			}
 		}
-		if (middleValue.contains(StringTools.midElipsis)) {
+		if (tokenSurface.contains(StringTools.midElipsis)) {
 			return splitAt(token, token.getStart()
 					+ tokenSurface.indexOf(StringTools.midElipsis), token.getStart()
 					+ tokenSurface.indexOf(StringTools.midElipsis) + 1);
 		}
 		/* Hyphens */
-		if (middleValue.contains("--")) {
+		if (tokenSurface.contains("--")) {
 			return splitAt(token, token.getStart() + tokenSurface.indexOf("--"),
 					token.getStart() + tokenSurface.indexOf("--") + 2);
 		}

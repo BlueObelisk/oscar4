@@ -29,10 +29,6 @@ public final class Tokeniser implements ITokeniser {
 	private static Pattern oxidationStateEndPattern = Pattern.compile(
 			".*\\((o|i{1,4}|i{0,3}[xv]|[xv]i{0,4})\\)",
 			Pattern.CASE_INSENSITIVE);
-	private static Pattern trademarkPattern = Pattern
-			.compile(".+?(\\((TM|R)\\)|\\(\\((TM|R)\\)\\))");
-	
-	private static Pattern physicalStatePattern = Pattern.compile(".*\\D.*(\\((aq|s|l|g)\\))$");
 	
 	private static Pattern arrowUsage = Pattern.compile("[^>]*->.*");
 	
@@ -352,14 +348,14 @@ public final class Tokeniser implements ITokeniser {
 			}
 		}
 		/* Split trademark symbols off the back of tokens */
-		Matcher m = trademarkPattern.matcher(tokenSurface);
-		if (m.matches() && m.start(1) > 0) {
-			return splitAt(token, token.getStart() + m.start(1));
+		int indiceOfTrademark = findIndiceOfTrademarkSymbol(tokenSurface);
+		if (indiceOfTrademark > 0){
+			return splitAt(token, token.getStart() + indiceOfTrademark);
 		}
 		/* Split physical state off the back of tokens */
-		Matcher physicalStateMatcher = physicalStatePattern.matcher(tokenSurface);
-		if (physicalStateMatcher.matches()) {
-			return splitAt(token, token.getStart() + physicalStateMatcher.start(1));
+		int indiceOfPhysicalState = findIndiceOfPhysicalState(tokenSurface);
+		if (indiceOfPhysicalState > 0){
+			return splitAt(token, token.getStart() + indiceOfPhysicalState);
 		}
 		/* characters to split on */
 		if (middleValue.contains("<")) {
@@ -454,6 +450,60 @@ public final class Tokeniser implements ITokeniser {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Returns the indice of a trademark symbol which is at the end of the token
+	 * @param tokenSurface
+	 * @return
+	 */
+	private int findIndiceOfTrademarkSymbol(String tokenSurface) {
+		int indice = -1;
+		if (tokenSurface.endsWith("(TM)")){
+			indice =  tokenSurface.length() -4;
+		}
+		else if (tokenSurface.endsWith("(R)")){
+			indice =  tokenSurface.length() - 3;
+		}
+		else if (tokenSurface.endsWith("((TM))")){
+			indice =  tokenSurface.length() - 6;
+		}
+		else if (tokenSurface.endsWith("((R))")){
+			indice =  tokenSurface.length() - 5;
+		}
+		return indice;
+	}
+
+	/**
+	 * Returns the indice of a physical state symbol which is at the end of the token
+	 * The bracketted symbol MUST be preceded by a non digit to be recognised
+	 * @param tokenSurface
+	 * @return
+	 */
+	private int findIndiceOfPhysicalState(String tokenSurface) {
+		int indice = -1;
+		if (tokenSurface.endsWith("(aq)")){
+			indice =  tokenSurface.length() - 4;
+		}
+		else if (tokenSurface.endsWith("(s)")){
+			indice =  tokenSurface.length() - 3;
+		}
+		else if (tokenSurface.endsWith("(l)")){
+			indice =  tokenSurface.length() - 3;
+		}
+		else if (tokenSurface.endsWith("(g)")){
+			indice =  tokenSurface.length() - 3;
+		}
+		if (indice >= 0){
+			String prefixStr = tokenSurface.substring(0, indice);
+			for (char charac : prefixStr.toCharArray()) {
+				if (!Character.isDigit(charac)){
+					return indice;
+				}
+			}
+			return -1;
+		}
+		return indice;
 	}
 
 	public List<Token> splitAt(Token token, int splitOffset) {

@@ -353,7 +353,7 @@ public final class Tokeniser implements ITokeniser {
 		/* Split some characters off the back of tokens */
 		
 		//This is probably the source of the abbreviation problem.
-		if ((".,;:!?\u2122\u00ae-" + StringTools.quoteMarks)
+		if ((".,;:!?=\u00D7\u00F7\u2122\u00ae-" + StringTools.quoteMarks)//unicode chars are times, divide, (R) and (TM)
 				.indexOf(token.getSurface().codePointAt(token.getSurface().length() - 1)) != -1) {
 			// Careful with Jones' reagent
 			if (!(token.getSurface().substring(token.getSurface().length() - 1).equals("'") && token.getSurface()

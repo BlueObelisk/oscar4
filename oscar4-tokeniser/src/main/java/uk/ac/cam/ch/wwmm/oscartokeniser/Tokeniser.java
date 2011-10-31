@@ -124,11 +124,6 @@ public final class Tokeniser implements ITokeniser {
 		/* Initial tokenisation */
 		
 		/*
-		 * @lh359: The words in 
-		 * "String s" match 
-		 * the regex tokenPattern
-		 * create a Token out of it
-		 * 
 		 * @dmj30: The tokenPattern is; "[^\\s" + StringTools.whiteSpace + "]+"
 		 * creates tokens out of consecutive characters of non-whitespace
 		 */
@@ -144,8 +139,6 @@ public final class Tokeniser implements ITokeniser {
 		// practise.
 		int i = 0;
 		/*
-		 * @lh359: Let the messiness begin
-		 * 
 		 * @dmj30: This loop iterates over the (whitespace separated) tokens we
 		 * just created and subtokenises them using the splitToken(Token) method.
 		 * Newly created tokens are recursively subtokenised.
@@ -168,11 +161,8 @@ public final class Tokeniser implements ITokeniser {
 				 */
 			}
 		}
-		/* Discard empty tokens */
-		
-		/*
-		 * @lh359: Remove empty tokens
-		 */
+	
+		/* Remove empty tokens */
 		List<Token> tmpTokens = new ArrayList<Token>();
 		for (Token t : tokens) {
 			if (t.getSurface() != null && !"".equals(t.getSurface())) {
@@ -221,6 +211,7 @@ public final class Tokeniser implements ITokeniser {
 	 * @lh359: Had difficulty following
 	 * the logic of this one and rawSplitToken .
 	 *  But it seems like a set of cases 
+	 * @dl387: I cannot see why all tokens wouldn't be good tokens and hence why a bad token wouldn't be exceptional behaviour
 	 * for splitting token
 	 * @param token
 	 * @return Subtokenised List or null if no subtokenisation has occurred
@@ -243,32 +234,31 @@ public final class Tokeniser implements ITokeniser {
 	 * @lh359: Splits tokens based on different
 	 * patterns
 	 * 
-	 * @dmj30: Subtokenisation of hyphen-containing tokens
-	 * is currently disabled
-	 * 
+	 * @dmj30:
 	 * Localising citation bit is redundant
 	 * 
 	 * @return Subtokenised List or null if no subtokenisation has occurred
 	 ***********************************/
 	private List<Token> rawSplitToken(Token token) {
+		String tokenSurface = token.getSurface();
 
-		if (TermSets.getDefaultInstance().getAbbreviations().contains(token.getSurface().toLowerCase())) {
+		if (TermSets.getDefaultInstance().getAbbreviations().contains(tokenSurface.toLowerCase())) {
 			return null;
 		}
 
 		String middleValue = "";
-		if (token.getSurface().length() > 2){
-			middleValue = token.getSurface().substring(0, token.getSurface().length() - 1);
+		if (tokenSurface.length() > 2){
+			middleValue = tokenSurface.substring(0, tokenSurface.length() - 1);
 		}
 		/* Don't split special lexicon entries */
-		if (token.getSurface().startsWith("$")) {
+		if (tokenSurface.startsWith("$")) {
 			return null;
 		}
 		/* One-character tokens don't split! */
 		if (token.getEnd() - token.getStart() < 2) {
 			return null;
 		}
-		if (token.getSurface().equals("--")) {
+		if (tokenSurface.equals("--")) {
 			return null;
 		}
 		// /* Pull citation references off the end */
@@ -322,101 +312,101 @@ public final class Tokeniser implements ITokeniser {
 		// / COMMENTED ON 27/1
 
 		/* Preserve oxidation states whole - don't eat for brackets */
-		if (oxidationStatePattern.matcher(token.getSurface()).matches()) {
+		if (oxidationStatePattern.matcher(tokenSurface).matches()) {
 			return null;
 		}
 		/* Split unmatched brackets off the front */
 		// NB: this isn't just unmatched brackets - read the code!
 		//TODO unit tests for the various StringTools methods
-		if ("([{".indexOf(token.getSurface().codePointAt(0)) != -1
-				&& (StringTools.isBracketed(token.getSurface()) || StringTools
-						.isLackingCloseBracket(token.getSurface()))) {
+		if ("([{".indexOf(tokenSurface.codePointAt(0)) != -1
+				&& (StringTools.isBracketed(tokenSurface) || StringTools
+						.isLackingCloseBracket(tokenSurface))) {
 			return splitAt(token, token.getStart() + 1);
 		}
 		/* Split unmatched brackets off the end */
 		// NB: this isn't just unmatched brackets - read the code!
-		if (")]}".indexOf(token.getSurface().codePointAt(token.getSurface().length() - 1)) != -1
-				&& (StringTools.isBracketed(token.getSurface()) || StringTools
-						.isLackingOpenBracket(token.getSurface()))) {
+		if (")]}".indexOf(tokenSurface.codePointAt(tokenSurface.length() - 1)) != -1
+				&& (StringTools.isBracketed(tokenSurface) || StringTools
+						.isLackingOpenBracket(tokenSurface))) {
 			return splitAt(token, token.getEnd() - 1);
 		}
 //		/* Split oxidation state off the end */
 		//TODO disabled, was probably a mistake anyway. But might we want to tokenise non-chemical terms in brackets?
-//		if (oxidationStateEndPattern.matcher(token.getSurface()).matches()) {
-//			return splitAt(token, token.getStart() + token.getSurface().lastIndexOf('('));
+//		if (oxidationStateEndPattern.matcher(tokenSurface).matches()) {
+//			return splitAt(token, token.getStart() + tokenSurface.lastIndexOf('('));
 //		}
 		/* Split some characters off the front of tokens */
 		if ((StringTools.relations + StringTools.quoteMarks)
-				.indexOf(token.getSurface().codePointAt(0)) != -1) {
+				.indexOf(tokenSurface.codePointAt(0)) != -1) {
 			return splitAt(token, token.getStart() + 1);
 		}
 		/* Split some characters off the back of tokens */
 		
 		//This is probably the source of the abbreviation problem.
 		if ((".,;:!?=\u00D7\u00F7\u2122\u00ae-" + StringTools.quoteMarks)//unicode chars are times, divide, (R) and (TM)
-				.indexOf(token.getSurface().codePointAt(token.getSurface().length() - 1)) != -1) {
+				.indexOf(tokenSurface.codePointAt(tokenSurface.length() - 1)) != -1) {
 			// Careful with Jones' reagent
-			if (!(token.getSurface().substring(token.getSurface().length() - 1).equals("'") && token.getSurface()
+			if (!(tokenSurface.substring(tokenSurface.length() - 1).equals("'") && tokenSurface
 					.matches("[A-Z][a-z]+s'"))) {
 				return splitAt(token, token.getEnd() - 1);
 			}
 		}
 		/* Split trademark symbols off the back of tokens */
-		Matcher m = trademarkPattern.matcher(token.getSurface());
+		Matcher m = trademarkPattern.matcher(tokenSurface);
 		if (m.matches() && m.start(1) > 0) {
 			return splitAt(token, token.getStart() + m.start(1));
 		}
 		/* Split physical state off the back of tokens */
-		Matcher physicalStateMatcher = physicalStatePattern.matcher(token.getSurface());
+		Matcher physicalStateMatcher = physicalStatePattern.matcher(tokenSurface);
 		if (physicalStateMatcher.matches()) {
 			return splitAt(token, token.getStart() + physicalStateMatcher.start(1));
 		}
 		/* characters to split on */
 		if (middleValue.contains("<")) {
-			return splitAt(token, token.getStart() + token.getSurface().indexOf("<"),
-					token.getStart() + token.getSurface().indexOf("<") + 1);
+			return splitAt(token, token.getStart() + tokenSurface.indexOf("<"),
+					token.getStart() + tokenSurface.indexOf("<") + 1);
 		}
-		if (middleValue.contains(">") && !arrowUsage.matcher(token.getSurface()).matches()) {
-			return splitAt(token, token.getStart() + token.getSurface().indexOf(">"),
-					token.getStart() + token.getSurface().indexOf(">") + 1);
+		if (middleValue.contains(">") && !arrowUsage.matcher(tokenSurface).matches()) {
+			return splitAt(token, token.getStart() + tokenSurface.indexOf(">"),
+					token.getStart() + tokenSurface.indexOf(">") + 1);
 		}
 		if (middleValue.contains("/")) {
-			return splitAt(token, token.getStart() + token.getSurface().indexOf("/"),
-					token.getStart() + token.getSurface().indexOf("/") + 1);
+			return splitAt(token, token.getStart() + tokenSurface.indexOf("/"),
+					token.getStart() + tokenSurface.indexOf("/") + 1);
 		}
-		if (middleValue.contains(":") && !chemicalNameColonUsage.matcher(token.getSurface()).matches()) {
-			return splitAt(token, token.getStart() + token.getSurface().indexOf(":"),
-				token.getStart() + token.getSurface().indexOf(":") + 1);
+		if (middleValue.contains(":") && !chemicalNameColonUsage.matcher(tokenSurface).matches()) {
+			return splitAt(token, token.getStart() + tokenSurface.indexOf(":"),
+				token.getStart() + tokenSurface.indexOf(":") + 1);
 		}
-		if (middleValue.contains("=") && !chemicalNameEqualsUsage.matcher(token.getSurface()).matches()) {
-			return splitAt(token, token.getStart() + token.getSurface().indexOf("="),
-				token.getStart() + token.getSurface().indexOf("=") + 1);
+		if (middleValue.contains("=") && !chemicalNameEqualsUsage.matcher(tokenSurface).matches()) {
+			return splitAt(token, token.getStart() + tokenSurface.indexOf("="),
+				token.getStart() + tokenSurface.indexOf("=") + 1);
 		}
 		if (middleValue.contains("\u00D7")) {
-			return splitAt(token, token.getStart() + token.getSurface().indexOf("\u00D7"),
-				token.getStart() + token.getSurface().indexOf("\u00D7") + 1);
+			return splitAt(token, token.getStart() + tokenSurface.indexOf("\u00D7"),
+				token.getStart() + tokenSurface.indexOf("\u00D7") + 1);
 		}
 		if (middleValue.contains("\u00F7")) {
-			return splitAt(token, token.getStart() + token.getSurface().indexOf("\u00F7"),
-				token.getStart() + token.getSurface().indexOf("\u00F7") + 1);
+			return splitAt(token, token.getStart() + tokenSurface.indexOf("\u00F7"),
+				token.getStart() + tokenSurface.indexOf("\u00F7") + 1);
 		}
 		if (middleValue.contains("+")) {
-			int index = token.getSurface().indexOf("+");
-			if (index < (token.getSurface().length() - 2)
-					&& StringTools.isHyphen(token.getSurface().substring(
+			int index = tokenSurface.indexOf("+");
+			if (index < (tokenSurface.length() - 2)
+					&& StringTools.isHyphen(tokenSurface.substring(
 							index + 1, index + 2))) {
-				if (index >0 && StringTools.isBracketed(token.getSurface().substring(index - 1, index + 3))) {
+				if (index >0 && StringTools.isBracketed(tokenSurface.substring(index - 1, index + 3))) {
 					//(+-), probably a description of light rotation
 				}
 				else {
 					return splitAt(token, token.getStart() + index + 1, token.getStart() + index + 2);
 				}
 			}
-			if (index > 0 && index < token.getSurface().length() - 1) {
-				if (token.getSurface().endsWith("-")) {
+			if (index > 0 && index < tokenSurface.length() - 1) {
+				if (tokenSurface.endsWith("-")) {
 
-				} else if (StringTools.bracketsAreBalanced(token.getSurface())
-						&& StringTools.bracketsAreBalanced(token.getSurface()
+				} else if (StringTools.bracketsAreBalanced(tokenSurface)
+						&& StringTools.bracketsAreBalanced(tokenSurface
 								.substring(index + 1))) {
 					return splitAt(token, token.getStart() + index, token.getStart()
 							+ index + 1);
@@ -428,32 +418,32 @@ public final class Tokeniser implements ITokeniser {
 		}
 		if (middleValue.contains(StringTools.midElipsis)) {
 			return splitAt(token, token.getStart()
-					+ token.getSurface().indexOf(StringTools.midElipsis), token.getStart()
-					+ token.getSurface().indexOf(StringTools.midElipsis) + 1);
+					+ tokenSurface.indexOf(StringTools.midElipsis), token.getStart()
+					+ tokenSurface.indexOf(StringTools.midElipsis) + 1);
 		}
 		/* Hyphens */
 		if (middleValue.contains("--")) {
-			return splitAt(token, token.getStart() + token.getSurface().indexOf("--"),
-					token.getStart() + token.getSurface().indexOf("--") + 2);
+			return splitAt(token, token.getStart() + tokenSurface.indexOf("--"),
+					token.getStart() + tokenSurface.indexOf("--") + 2);
 		}
 		
 		/* Attempts to find the index of a hyphen at which splitting is appropriate */
-		int splittableHyphenIndex = HyphenTokeniser.indexOfSplittableHyphen(token.getSurface());
+		int splittableHyphenIndex = HyphenTokeniser.indexOfSplittableHyphen(tokenSurface);
 		
 		/* Split on appropriate hyphens */
 		if (splittableHyphenIndex != -1
-				&& !token.getSurface().matches(".*[a-z][a-z].*")
-				&& token.getSurface().matches(".*[A-Z].*")) {
+				&& !tokenSurface.matches(".*[a-z][a-z].*")
+				&& tokenSurface.matches(".*[A-Z].*")) {
 			//FIXME dmj30 I don't see the point of the two String.matches calls above
-			if (tokenClassifier.isTokenLevelRegexMatch(token.getSurface(), "bondRegex")) {
+			if (tokenClassifier.isTokenLevelRegexMatch(tokenSurface, "bondRegex")) {
 				splittableHyphenIndex = -1;
 			}
 		}
 		if (splittableHyphenIndex != -1) {
-			if (token.getSurface().endsWith("NMR")) {
+			if (tokenSurface.endsWith("NMR")) {
 				return splitAt(token, token.getStart() + splittableHyphenIndex,
 						token.getStart() + splittableHyphenIndex + 1);
-			} else if (prefixPattern.matcher(token.getSurface()).matches()) {
+			} else if (prefixPattern.matcher(tokenSurface).matches()) {
 				return splitAt(token, token.getStart() + splittableHyphenIndex + 1);
 
 			} else {

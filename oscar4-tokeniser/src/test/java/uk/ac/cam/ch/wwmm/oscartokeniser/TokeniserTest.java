@@ -287,6 +287,7 @@ public final class TokeniserTest {
 		assertEquals(1, tokeniser.tokenise("CH2=CH2").getTokens().size());
 		assertEquals(3, tokeniser.tokenise("mL\u00D73").getTokens().size());//multiplication
 		assertEquals(2, tokeniser.tokenise("3\u00D7").getTokens().size());
+		assertEquals(2, tokeniser.tokenise("\u00D73").getTokens().size());
 		assertEquals(3, tokeniser.tokenise("15\u00F73").getTokens().size());//division
 		assertEquals(3, tokeniser.tokenise("5+3").getTokens().size());//addition
 	}

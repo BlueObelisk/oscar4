@@ -382,7 +382,7 @@ public final class Tokeniser implements ITokeniser {
 			return splitAt(token, token.getStart() + tokenSurface.indexOf("\u00F7"),
 				token.getStart() + tokenSurface.indexOf("\u00F7") + 1);
 		}
-		if (tokenSurface.contains("+")) {
+		if (tokenSurface.substring(0, tokenSurface.length() - 1).contains("+")) {
 			int index = tokenSurface.indexOf("+");
 			if (index < (tokenSurface.length() - 2)
 					&& StringTools.isHyphen(tokenSurface.substring(

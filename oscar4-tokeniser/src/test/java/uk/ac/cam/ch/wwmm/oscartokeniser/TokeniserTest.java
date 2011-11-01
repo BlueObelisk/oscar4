@@ -290,6 +290,7 @@ public final class TokeniserTest {
 		assertEquals(2, tokeniser.tokenise("\u00D73").getTokens().size());
 		assertEquals(3, tokeniser.tokenise("15\u00F73").getTokens().size());//division
 		assertEquals(3, tokeniser.tokenise("5+3").getTokens().size());//addition
+		assertEquals(1, tokeniser.tokenise("ESI+").getTokens().size());
 	}
 	
 	@Test

@@ -18,3 +18,5 @@ anh.
 sat.
 lit.
 dil.
+sol.
+liq.

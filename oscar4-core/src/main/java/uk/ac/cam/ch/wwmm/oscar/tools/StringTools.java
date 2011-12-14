@@ -521,4 +521,18 @@ public final class StringTools {
         }
         return true;
     }
+    
+	/**
+	 * Tests if this string ends with the specified suffix ignoring case.
+	 * @param str
+	 * @param suffix
+	 * @return
+	 */
+	public static boolean endsWithCaseInsensitive(String str, String suffix) {
+		if (suffix.length() > str.length()) {
+			return false;
+		}
+		int strOffset = str.length() - suffix.length();
+		return str.regionMatches(true, strOffset, suffix, 0, suffix.length());
+	}
 }

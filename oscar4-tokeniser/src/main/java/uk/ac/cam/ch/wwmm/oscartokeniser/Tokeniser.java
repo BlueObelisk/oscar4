@@ -481,6 +481,9 @@ public final class Tokeniser implements ITokeniser {
 		if (tokenSurface.endsWith("(aq)")){
 			indice =  tokenSurface.length() - 4;
 		}
+		else if (tokenSurface.endsWith("(aq.)")){
+			indice =  tokenSurface.length() - 5;
+		}
 		else if (tokenSurface.endsWith("(s)")){
 			indice =  tokenSurface.length() - 3;
 		}

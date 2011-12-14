@@ -223,7 +223,7 @@ public class MEMMRecogniserTest {
 	
 	@Test
 	public void testCuTwoCompound() {
-		String text = "The resultant mixture was added dropwise to Cu(II) nitrate hexahydrate (1.00 mmol ) .";
+		String text = "was added dropwise to Cu(II) nitrate hexahydrate (1.00 mmol ) .";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
@@ -234,7 +234,7 @@ public class MEMMRecogniserTest {
 	
 	@Test
 	public void testCuLowercaseTwoCompound() {
-		String text = "The resultant mixture was added dropwise to Cu(ii) hydroxide (1.00 mmol ) .";
+		String text = "was added dropwise to Cu(ii) hydroxide (1.00 mmol ) .";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
@@ -245,7 +245,7 @@ public class MEMMRecogniserTest {
 
 	@Test
 	public void testCuTwoPlusCompound() {
-		String text = "The resultant mixture was added dropwise to Cu(2+) chloride (1.00 mmol ) .";
+		String text = "was added dropwise to Cu(2+) chloride (1.00 mmol ) .";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
@@ -256,7 +256,7 @@ public class MEMMRecogniserTest {
 
 	@Test
 	public void testCopperTwoCompound() {
-		String text = "The resultant mixture was added dropwise to Copper(II) acetate (1.00 mmol ) .";
+		String text = "was added dropwise to Copper(II) acetate (1.00 mmol ) .";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
@@ -267,7 +267,7 @@ public class MEMMRecogniserTest {
 
 	@Test
 	public void testCopperTwoLowercaseCompound() {
-		String text = "The resultant mixture was added dropwise to Copper(ii) sulfate pentahydrate (1.00 mmol ) .";
+		String text = "was added dropwise to Copper(ii) sulfate pentahydrate (1.00 mmol ) .";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
@@ -278,7 +278,7 @@ public class MEMMRecogniserTest {
 
 	@Test
 	public void testCopperTwoPlusCompound() {
-		String text = "The resultant mixture was added dropwise to Copper(2+) triflate (1.00 mmol ) .";
+		String text = "was added dropwise to Copper(2+) triflate (1.00 mmol ) .";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences());
@@ -333,18 +333,19 @@ public class MEMMRecogniserTest {
 	
 	@Test
 	public void testDeprioritiseOnts() {
-		String text = "Acetone, ethyl acetate and other solvents...";
+		String text = "4-hydroxybenzyl group";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument
 				(Tokeniser.getDefaultInstance(), text);
-		List <NamedEntity> nes = recogniserForCustomisation.findNamedEntities(procDoc.getTokenSequences(), ResolutionMode.MARK_BLOCKED);
-		assertEquals(4, nes.size());
+		List<NamedEntity> nes = recogniserForCustomisation.findNamedEntities(procDoc.getTokenSequences(), ResolutionMode.REMOVE_BLOCKED);
+		assertEquals(1, nes.size());//"4-hydroxybenzyl group" is an ont term and due to its length takes precedence unless deprioritise onts is set
 		for (NamedEntity ne : nes) {
 			assertFalse(ne.getDeprioritiseOnt());
 		}
 		
 		recogniserForCustomisation.setDeprioritiseOnts(true);
-		nes = recogniserForCustomisation.findNamedEntities(procDoc.getTokenSequences(), ResolutionMode.MARK_BLOCKED);
-		assertEquals(4, nes.size());
+		nes = recogniserForCustomisation.findNamedEntities(procDoc.getTokenSequences(), ResolutionMode.REMOVE_BLOCKED);
+
+		assertEquals(2, nes.size());
 		for (NamedEntity ne : nes) {
 			assertTrue(ne.getDeprioritiseOnt());
 		}
@@ -416,20 +417,18 @@ public class MEMMRecogniserTest {
 	
 	@Test
 	public void testFindEntitiesMarkBlocked() throws Exception {
-		String text = "Hello 2-methyl butan-1-ol hydrolysis in ethyl acetate world!";
+		String text = "2-methyl butan-1-ol underwent hydrolysis";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
 				Tokeniser.getDefaultInstance(), text);
 		List<NamedEntity> neList = recogniser.findNamedEntities(procDoc.getTokenSequences(), ResolutionMode.MARK_BLOCKED);
 		
-		//the memmRecogniser finds blocked named entities as well as the one we're expecting, so...
-		assertEquals(7, neList.size());
+		//the memmRecogniser may find multiple entity types for an entity with the non-preferred interpretations being marked as blocked
+		assertEquals(5, neList.size());
 		assertTrue(neListContainsCorrectNe(neList, "2-", NamedEntityType.LOCANTPREFIX, true));
 		assertTrue(neListContainsCorrectNe(neList, "2-methyl butan-1-ol", NamedEntityType.COMPOUND, false));
 		assertTrue(neListContainsCorrectNe(neList, "butan-1-ol", NamedEntityType.COMPOUND, true));
 		assertTrue(neListContainsCorrectNe(neList, "hydrolysis", NamedEntityType.REACTION, false));
 		assertTrue(neListContainsCorrectNe(neList, "hydrolysis", NamedEntityType.ONTOLOGY, true ));
-		assertTrue(neListContainsCorrectNe(neList, "ethyl", NamedEntityType.ONTOLOGY, true));
-		assertTrue(neListContainsCorrectNe(neList, "ethyl acetate", NamedEntityType.COMPOUND, false));
 	}
 	
 	@Test

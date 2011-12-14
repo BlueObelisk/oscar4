@@ -134,7 +134,7 @@ public class DFAFinderTest {
         boolean fail = false;
         for (String term : ontology.keySet()) {
             Finder finder = new Finder(Collections.singletonMap(term, ONT));
-            String s = "I know that "+term+" is a chemical entity!";
+            String s = "I know that "+term+" is in the ontology!";
             List<NamedEntity> neList = finder.findNamedEntities(s);
             StandoffResolver.resolveStandoffs(neList);
             if (neList.size() != 1) {

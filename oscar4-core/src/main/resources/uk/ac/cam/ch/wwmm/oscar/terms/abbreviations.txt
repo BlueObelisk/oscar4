@@ -20,3 +20,4 @@ lit.
 dil.
 sol.
 liq.
+compd.

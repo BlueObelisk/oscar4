@@ -1,4 +1,4 @@
-Version 4.1.0
+Version 4.1
 Released 2012-01-10
 Improvements to tokeniser (hyphen/colon handling, recognition of abbreviations)
 Updated ChEBI dictionary/ontology to the December 2011 release

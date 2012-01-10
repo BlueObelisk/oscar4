@@ -4,7 +4,7 @@
     <parent>
         <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
         <artifactId>oscar4</artifactId>
-        <version>4.1</version>
+        <version>4.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>oscar4-memmrecogniser-train</artifactId>

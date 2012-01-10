@@ -34,6 +34,10 @@
             <name>Sam Adams</name>
         </developer>
         <developer>
+            <id>dl387</id>
+            <name>Daniel Lowe</name>
+        </developer>
+        <developer>
             <id>ptc24</id>
             <name>Peter Corbett</name>
             <roles>

@@ -1,3 +1,12 @@
+Version 4.1.0
+Released 2012-01-10
+Improvements to tokeniser (hyphen/colon handling, recognition of abbreviations)
+Updated ChEBI dictionary/ontology to the December 2011 release
+Significantly increased dictionary of trivial names/chemical formulae and corrected disagreements between InChIs and SMILES
+Updated dependencies (OPSIN --> 1.2.0, commons-io -->2.1, commons-math --> 2.2, dk.brics.automaton -->1.11-8)
+Added option to toggle MEMM rescorer
+Bug fixes
+
 Version 4.0.2
 Released 2011-07-01
 Replaces the use of maxent version 2.4.0 with 3.0.1 for compatibility reasons.

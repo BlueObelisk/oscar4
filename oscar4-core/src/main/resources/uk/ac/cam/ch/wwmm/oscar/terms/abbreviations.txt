@@ -21,3 +21,4 @@ dil.
 sol.
 liq.
 compd.
+fig.

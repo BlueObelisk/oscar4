@@ -10,7 +10,7 @@
 
     <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
     <artifactId>oscar4</artifactId>
-    <version>4.1.2</version>
+    <version>4.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>oscar4-parent</name>

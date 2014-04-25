@@ -65,8 +65,8 @@
         <automaton.version>1.11-8</automaton.version>
         <slf4j-api.version>1.6.1</slf4j-api.version>
         <slf4j-simple.version>1.6.1</slf4j-simple.version>
-        <commons-lang.version>2.5</commons-lang.version>
-        <commons-io.version>2.1</commons-io.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <commons-io.version>2.4</commons-io.version>
         <commons-discovery.version>20040218.194635</commons-discovery.version>
         <jregex.version>1.2_01</jregex.version>
         <commons-math.version>2.2</commons-math.version>

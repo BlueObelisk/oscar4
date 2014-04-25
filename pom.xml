@@ -63,8 +63,8 @@
         <opennlp-maxent.version>3.0.3</opennlp-maxent.version>
         <opennlp-tools.version>1.5.3</opennlp-tools.version>
         <automaton.version>1.11-8</automaton.version>
-        <slf4j-api.version>1.6.1</slf4j-api.version>
-        <slf4j-simple.version>1.6.1</slf4j-simple.version>
+        <slf4j-api.version>1.7.7</slf4j-api.version>
+        <slf4j-simple.version>1.7.7</slf4j-simple.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-discovery.version>20040218.194635</commons-discovery.version>

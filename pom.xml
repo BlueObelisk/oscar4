@@ -70,7 +70,7 @@
         <commons-discovery.version>20040218.194635</commons-discovery.version>
         <jregex.version>1.2_01</jregex.version>
         <commons-math.version>2.2</commons-math.version>
-        <commons-collections.version>3.2.1</commons-collections.version>
+        <commons-collections.version>20040616</commons-collections.version>
         <guava-collections.version>r03</guava-collections.version>
         <jexample.version>4.4-378</jexample.version>
         <mockito-core.version>1.9.5</mockito-core.version>

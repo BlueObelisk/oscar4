@@ -73,7 +73,7 @@
         <commons-collections.version>3.2.1</commons-collections.version>
         <guava-collections.version>r03</guava-collections.version>
         <jexample.version>4.4-378</jexample.version>
-        <mockito-core.version>1.8.5</mockito-core.version>
+        <mockito-core.version>1.9.5</mockito-core.version>
         <junit.version>4.8.2</junit.version>
     </properties>
 

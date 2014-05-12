@@ -296,7 +296,7 @@ public class Oscar4RegressionTest {
 					assertEquals(
 							"Probability for " + namedEntity.getSurface(),
 							expectedProbList.get(index),
-							(Double) namedEntity.getConfidence());
+							(Double) namedEntity.getConfidence(), 1E-15);
 				}
 
 			}

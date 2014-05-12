@@ -48,18 +48,15 @@ import com.google.common.collect.ListMultimap;
 public class PatternRecogniserTest {
 
 	private static PatternRecogniser recogniser;
-	private static PatternRecogniser recogniserForCustomisation;
 
 	@BeforeClass
 	public static void setUp() {
 		recogniser = new PatternRecogniser();
-		recogniserForCustomisation = new PatternRecogniser();
 	}
 	
 	@AfterClass
 	public static void cleanUp() {
 		recogniser = null;
-		recogniserForCustomisation = null;
 	}
 	
 	@Test public void testConstructor() {
@@ -126,6 +123,7 @@ public class PatternRecogniserTest {
 	
 	@Test
 	public void testSetOntPseudoConfidence() {
+		PatternRecogniser recogniserForCustomisation = new PatternRecogniser();
 		assertEquals(0.2, recogniserForCustomisation.getOntPseudoConfidence(), 0.00001);
 		recogniserForCustomisation.setOntPseudoConfidence(0.3);
 		assertEquals(0.3, recogniserForCustomisation.getOntPseudoConfidence(), 0.00001);
@@ -133,6 +131,7 @@ public class PatternRecogniserTest {
 	
 	@Test
 	public void testSetCustPseudoConfidence() {
+		PatternRecogniser recogniserForCustomisation = new PatternRecogniser();
 		assertEquals(0.2, recogniserForCustomisation.getCustPseudoConfidence(), 0.00001);
 		recogniserForCustomisation.setCustPseudoConfidence(0.3);
 		assertEquals(0.3, recogniserForCustomisation.getCustPseudoConfidence(), 0.00001);
@@ -140,6 +139,7 @@ public class PatternRecogniserTest {
 	
 	@Test
 	public void testSetCprPseudoConfidence() {
+		PatternRecogniser recogniserForCustomisation = new PatternRecogniser();
 		assertEquals(0.2, recogniserForCustomisation.getCprPseudoConfidence(), 0.00001);
 		recogniserForCustomisation.setCprPseudoConfidence(0.3);
 		assertEquals(0.3, recogniserForCustomisation.getCprPseudoConfidence(), 0.00001);
@@ -147,6 +147,7 @@ public class PatternRecogniserTest {
 	
 	@Test
 	public void testSetPseudoConfidences() {
+		PatternRecogniser recogniserForCustomisation = new PatternRecogniser();
 		List <NamedEntity> nes = new ArrayList<NamedEntity>();
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument
 				(Tokeniser.getDefaultInstance(), "foo");
@@ -168,6 +169,7 @@ public class PatternRecogniserTest {
 	
 	@Test
 	public void testSetNgramThreshold() {
+		PatternRecogniser recogniserForCustomisation = new PatternRecogniser();
 		assertEquals(-2, recogniserForCustomisation.getNgramThreshold(), 0.00001);
 		recogniserForCustomisation.setNgramThreshold(42);
 		assertEquals(42, recogniserForCustomisation.getNgramThreshold(), 0.00001);

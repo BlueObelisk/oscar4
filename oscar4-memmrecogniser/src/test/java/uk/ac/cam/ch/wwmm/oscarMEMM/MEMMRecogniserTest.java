@@ -40,18 +40,15 @@ import com.google.common.collect.ListMultimap;
 public class MEMMRecogniserTest {
 
 	private static MEMMRecogniser recogniser;
-	private static MEMMRecogniser recogniserForCustomisation;
-	
+
 	@BeforeClass
 	public static void setUp() {
 		recogniser = new MEMMRecogniser();
-		recogniserForCustomisation = new MEMMRecogniser();
 	}
 	
 	@AfterClass
 	public static void cleanUp() {
 		recogniser = null;
-		recogniserForCustomisation = null;
 	}
 	
 	@Test public void testConstructor() {
@@ -290,6 +287,7 @@ public class MEMMRecogniserTest {
 	
 	@Test
 	public void testSetOntPseudoConfidence() {
+		MEMMRecogniser recogniserForCustomisation = new MEMMRecogniser();
 		assertEquals(0.2, recogniserForCustomisation.getOntPseudoConfidence(), 0.00001);
 		recogniserForCustomisation.setOntPseudoConfidence(0.3);
 		assertEquals(0.3, recogniserForCustomisation.getOntPseudoConfidence(), 0.00001);
@@ -297,6 +295,7 @@ public class MEMMRecogniserTest {
 	
 	@Test
 	public void testSetCustPseudoConfidence() {
+		MEMMRecogniser recogniserForCustomisation = new MEMMRecogniser();
 		assertEquals(0.2, recogniserForCustomisation.getCustPseudoConfidence(), 0.00001);
 		recogniserForCustomisation.setCustPseudoConfidence(0.3);
 		assertEquals(0.3, recogniserForCustomisation.getCustPseudoConfidence(), 0.00001);
@@ -304,6 +303,7 @@ public class MEMMRecogniserTest {
 	
 	@Test
 	public void testSetCprPseudoConfidence() {
+		MEMMRecogniser recogniserForCustomisation = new MEMMRecogniser();
 		assertEquals(0.2, recogniserForCustomisation.getCprPseudoConfidence(), 0.00001);
 		recogniserForCustomisation.setCprPseudoConfidence(0.3);
 		assertEquals(0.3, recogniserForCustomisation.getCprPseudoConfidence(), 0.00001);
@@ -311,6 +311,7 @@ public class MEMMRecogniserTest {
 	
 	@Test
 	public void testSetPseudoConfidences() {
+		MEMMRecogniser recogniserForCustomisation = new MEMMRecogniser();
 		List <NamedEntity> nes = new ArrayList<NamedEntity>();
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument
 				(Tokeniser.getDefaultInstance(), "foo");
@@ -333,6 +334,7 @@ public class MEMMRecogniserTest {
 	
 	@Test
 	public void testDeprioritiseOnts() {
+		MEMMRecogniser recogniserForCustomisation = new MEMMRecogniser();
 		String text = "4-hydroxybenzyl group";
 		ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument
 				(Tokeniser.getDefaultInstance(), text);

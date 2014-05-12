@@ -74,7 +74,7 @@
         <guava-collections.version>r03</guava-collections.version>
         <jexample.version>4.4-378</jexample.version>
         <mockito-core.version>1.9.5</mockito-core.version>
-        <junit.version>4.8.2</junit.version>
+        <junit.version>4.11</junit.version>
     </properties>
 
     <repositories>

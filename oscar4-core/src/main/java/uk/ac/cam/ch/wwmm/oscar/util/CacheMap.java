@@ -2,7 +2,6 @@ package uk.ac.cam.ch.wwmm.oscar.util;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /** A HashMap from which the least-recently accessed members are removed
  * if the cache goes over capacity.

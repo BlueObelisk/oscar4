@@ -7,7 +7,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
-import nu.xom.Text;
 
 /** A subclass of Document, contains methods for generating SciXML and extensions.
  * 

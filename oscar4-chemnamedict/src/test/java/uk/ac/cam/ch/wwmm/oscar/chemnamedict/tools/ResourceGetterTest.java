@@ -1,6 +1,5 @@
 package uk.ac.cam.ch.wwmm.oscar.chemnamedict.tools;
 
-import java.io.InputStream;
 
 import nu.xom.Document;
 

@@ -1,13 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscardata;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import nu.xom.Document;
 import nu.xom.Element;
-import nu.xom.Serializer;
-
-import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import uk.ac.cam.ch.wwmm.oscar.document.Annotation;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;

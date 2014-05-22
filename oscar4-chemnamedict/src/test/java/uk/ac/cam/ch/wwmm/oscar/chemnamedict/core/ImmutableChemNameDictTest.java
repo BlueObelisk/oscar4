@@ -8,7 +8,6 @@ import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ImmutableChemNameDict;

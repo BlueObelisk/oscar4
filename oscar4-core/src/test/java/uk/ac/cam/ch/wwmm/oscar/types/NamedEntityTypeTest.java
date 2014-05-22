@@ -2,7 +2,6 @@ package uk.ac.cam.ch.wwmm.oscar.types;
 
 import static org.junit.Assert.*;
 
-import java.util.jar.Attributes.Name;
 
 import org.junit.Test;
 

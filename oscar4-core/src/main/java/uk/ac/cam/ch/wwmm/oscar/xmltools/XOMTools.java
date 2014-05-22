@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Element;
-import nu.xom.Elements;
 import nu.xom.Node;
 import nu.xom.ParentNode;
 import nu.xom.Serializer;

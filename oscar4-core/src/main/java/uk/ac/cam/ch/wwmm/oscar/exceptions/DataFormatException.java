@@ -1,6 +1,5 @@
 package uk.ac.cam.ch.wwmm.oscar.exceptions;
 
-import nu.xom.ParsingException;
 
 /**
  * 

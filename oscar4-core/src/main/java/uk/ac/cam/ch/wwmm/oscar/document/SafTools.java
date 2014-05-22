@@ -1,10 +1,8 @@
 package uk.ac.cam.ch.wwmm.oscar.document;
 
 import nu.xom.Attribute;
-import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
-import nu.xom.Nodes;
 
 /** Generic routines for handling standoff annotations in SAF format.
  * 

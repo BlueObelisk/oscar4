@@ -3,7 +3,6 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict.core;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;

@@ -71,7 +71,7 @@
         <jregex.version>1.2_01</jregex.version>
         <commons-math.version>2.2</commons-math.version>
         <commons-collections.version>20040616</commons-collections.version>
-        <guava-collections.version>r03</guava-collections.version>
+        <guava.version>17.0</guava.version>
         <jexample.version>4.4-378</jexample.version>
         <mockito-core.version>1.9.5</mockito-core.version>
         <junit.version>4.11</junit.version>
@@ -247,8 +247,8 @@
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
-                <artifactId>guava-collections</artifactId>
-                <version>${guava-collections.version}</version>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.sf.jexample</groupId>

@@ -98,13 +98,26 @@ public final class ChemNameDictIO {
 		}
 
 		ChemRecord record = new ChemRecord();
+		
 		Elements inchis = elem.getChildElements("InChI");
-
 		if (inchis.size() != 1) {
 			throw new IllegalStateException("inchis.size() should be exactly 1, but was " + inchis.size());
 		}
-
 		record.setInChI(inchis.get(0).getValue());
+		
+		Elements stdInchis = elem.getChildElements("StdInChI");
+		if (stdInchis.size() != 1) {
+			throw new IllegalStateException("stdInchis.size() should be exactly 1, but was " + stdInchis.size());
+		}
+		record.setStdInChI(stdInchis.get(0).getValue());
+		
+		Elements stdInchiKeys = elem.getChildElements("StdInChIKey");
+		if (stdInchiKeys.size() != 1) {
+			throw new IllegalStateException("stdInchiKeys.size() should be exactly 1, but was " + stdInchiKeys.size());
+		}
+		record.setStdInChIKey(stdInchiKeys.get(0).getValue());
+		
+		
 		Elements smiless = elem.getChildElements("SMILES");
 
 		if (smiless.size() > 1) {

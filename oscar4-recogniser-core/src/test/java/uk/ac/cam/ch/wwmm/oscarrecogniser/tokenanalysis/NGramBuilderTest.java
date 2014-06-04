@@ -24,7 +24,7 @@ public class NGramBuilderTest {
 	private static final int EXPECTED_DATA_LENTH = 7311616;
 	
 	/** the NGram models are used repeatedly in the tests, so to 
-	 *  save on set up time we share one copy of each across the tests 
+	 *  save on set up time we share one copy of each a	cross the tests 
 	 */
 	private static UnmodifiableSet defaultRegistryNames;
 	private static NGram vanillaNGram;

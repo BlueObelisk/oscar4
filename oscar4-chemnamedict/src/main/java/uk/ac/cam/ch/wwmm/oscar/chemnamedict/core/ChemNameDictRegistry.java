@@ -186,6 +186,38 @@ public class ChemNameDictRegistry {
 		}
 		return allInchis;
 	}
+	
+	/**
+	 * Returns a set containing all the Standard InChI strings for the given
+	 * query name contained by the currently-registered dictionaries.
+	 * 
+	 */
+	public Set<String> getStdInchis(String queryName) {
+		Set<String> allStdInchis = new HashSet<String>();
+		for (IChemNameDict dict : dictionaries) {
+			if (dict instanceof IStdInChIProvider) {
+				Set<String> stdInchis = ((IStdInChIProvider)dict).getStdInchis(queryName);
+				allStdInchis.addAll(stdInchis);
+			}
+		}
+		return allStdInchis;
+	}
+	
+	/**
+	 * Returns a set containing all the Standard InChI Key strings for the given
+	 * query name contained by the currently-registered dictionaries.
+	 * 
+	 */
+	public Set<String> getStdInchiKeys(String queryName) {
+		Set<String> allStdInchiKeys = new HashSet<String>();
+		for (IChemNameDict dict : dictionaries) {
+			if (dict instanceof IStdInChIKeyProvider) {
+				Set<String> stdInchiKeys = ((IStdInChIKeyProvider)dict).getStdInchiKeys(queryName);
+				allStdInchiKeys.addAll(stdInchiKeys);
+			}
+		}
+		return allStdInchiKeys;
+	}
 
 	/**
 	 * Returns a set containing all the chemical names that correspond
@@ -278,6 +310,22 @@ public class ChemNameDictRegistry {
 				for (String inchi : inchis) {
 					if (inchi != null) {
 						structures.add(new ChemicalStructure(inchi, FormatType.INCHI, dictionary.getURI()));
+					}
+				}
+			}
+			if (dictionary instanceof IStdInChIProvider) {
+				Set <String> stdInchis = ((IStdInChIProvider) dictionary).getStdInchis(ne.getSurface());
+				for (String stdInchi : stdInchis) {
+					if (stdInchi != null) {
+						structures.add(new ChemicalStructure(stdInchi, FormatType.STD_INCHI, dictionary.getURI()));
+					}
+				}
+			}
+			if (dictionary instanceof IStdInChIKeyProvider) {
+				Set <String> stdInchiKeys = ((IStdInChIKeyProvider) dictionary).getStdInchiKeys(ne.getSurface());
+				for (String stdInchiKey : stdInchiKeys) {
+					if (stdInchiKey != null) {
+						structures.add(new ChemicalStructure(stdInchiKey, FormatType.STD_INCHI_KEY, dictionary.getURI()));
 					}
 				}
 			}

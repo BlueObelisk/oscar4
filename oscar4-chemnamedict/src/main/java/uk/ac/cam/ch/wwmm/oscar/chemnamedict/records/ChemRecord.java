@@ -8,6 +8,8 @@ import java.util.Set;
 public class ChemRecord implements IInChIChemRecord, ISMILESChemRecord, IOntologyChemRecord, IChemRecord {
 
 	private String inchi;
+	private String stdInchi;
+	private String stdInchiKey;
 	private String smiles;
 	private Set<String> names;
 	private Set<String> ontIDs;
@@ -73,6 +75,22 @@ public class ChemRecord implements IInChIChemRecord, ISMILESChemRecord, IOntolog
 	 */
 	public String getInChI() {
 		return inchi;
+	}
+	
+	public void setStdInChI(String stdInchi) {
+		this.stdInchi = stdInchi;
+	}
+
+	public String getStdInChI() {
+		return stdInchi;
+	}
+	
+	public void setStdInChIKey(String stdInchiKey) {
+		this.stdInchiKey = stdInchiKey;
+	}
+
+	public String getStdInChIKey() {
+		return stdInchiKey;
 	}
 
 	/* (non-Javadoc)

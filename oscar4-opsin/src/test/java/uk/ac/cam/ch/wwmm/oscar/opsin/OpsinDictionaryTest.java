@@ -19,6 +19,24 @@ public class OpsinDictionaryTest {
 	}
 	
 	@Test
+	public void testMethaneStdInChI() {
+		OpsinDictionary dict = new OpsinDictionary();
+		Assert.assertEquals(
+			"InChI=1S/CH4/h1H4",
+			dict.getStdInchis("methane").iterator().next()
+		);
+	}
+	
+	@Test
+	public void testMethaneStdInChIKey() {
+		OpsinDictionary dict = new OpsinDictionary();
+		Assert.assertEquals(
+			"VNWKTOKETHGBQD-UHFFFAOYSA-N",
+			dict.getStdInchiKeys("methane").iterator().next()
+		);
+	}
+	
+	@Test
 	public void testMethaneCML() {
 		OpsinDictionary dict = new OpsinDictionary();
 		Element cml = dict.getCML("methane").iterator().next();
@@ -44,6 +62,24 @@ public class OpsinDictionaryTest {
 	}
 	
 	@Test
+	public void testBenzeneStdInChI() {
+		OpsinDictionary dict = new OpsinDictionary();
+		Assert.assertEquals(
+			"InChI=1S/C6H6/c1-2-4-6-5-3-1/h1-6H",
+			dict.getStdInchis("benzene").iterator().next()
+		);
+	}
+	
+	@Test
+	public void testBenzeneStdInChIKey() {
+		OpsinDictionary dict = new OpsinDictionary();
+		Assert.assertEquals(
+			"UHOVQNZJYSORNB-UHFFFAOYSA-N",
+			dict.getStdInchiKeys("benzene").iterator().next()
+		);
+	}
+	
+	@Test
 	public void testBenzeneCML(){
 		OpsinDictionary dict = new OpsinDictionary();
 		Element cml = dict.getCML("benzene").iterator().next();
@@ -64,5 +100,7 @@ public class OpsinDictionaryTest {
 		OpsinDictionary dict = new OpsinDictionary();
 		Assert.assertEquals("Name has a SMILES representation", 1, dict.getAllSmiles("poly(ethylene)").size());
 		Assert.assertEquals("Name does not have an InChI representation", 0, dict.getInchis("poly(ethylene)").size());
+		Assert.assertEquals("Name does not have an StdInChI representation", 0, dict.getStdInchis("poly(ethylene)").size());
+		Assert.assertEquals("Name does not have an StdInChIKey representation", 0, dict.getStdInchiKeys("poly(ethylene)").size());
 	}
 }

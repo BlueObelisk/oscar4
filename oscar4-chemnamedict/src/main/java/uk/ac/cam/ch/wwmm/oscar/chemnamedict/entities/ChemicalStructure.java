@@ -4,7 +4,7 @@ import java.net.URI;
 
 /**
  * A class to hold a chemical structure of a given {@link FormatType},
- * e.g. inchi or SMILES.
+ * e.g. InChI, standard InChI, standard InChI key or SMILES.
  * 
  * @author dmj30
  * 

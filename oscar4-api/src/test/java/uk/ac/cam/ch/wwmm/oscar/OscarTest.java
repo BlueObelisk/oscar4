@@ -1,7 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscar;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import java.util.Locale;
@@ -51,11 +50,27 @@ public class OscarTest {
 			"InChI=1/CH4/h1H4",
 			registry.getInchis("methane").iterator().next()
 		);
+		assertEquals(
+			"InChI=1S/CH4/h1H4",
+			registry.getStdInchis("methane").iterator().next()
+			);
+		assertEquals(
+			"VNWKTOKETHGBQD-UHFFFAOYSA-N",
+			registry.getStdInchiKeys("methane").iterator().next()
+			);
 		// test loading of the default dictionary
 		assertEquals(
 			"InChI=1/C4H6O3/c1-3(5)7-4(2)6/h1-2H3",
 			registry.getInchis("Ac2O").iterator().next()
 		);
+		assertEquals(
+			"InChI=1S/C4H6O3/c1-3(5)7-4(2)6/h1-2H3",
+			registry.getStdInchis("Ac2O").iterator().next()
+			);
+		assertEquals(
+			"WFDIJRYMOXRFFG-UHFFFAOYSA-N",
+			registry.getStdInchiKeys("Ac2O").iterator().next()
+			);
 	}
 
 	@Test

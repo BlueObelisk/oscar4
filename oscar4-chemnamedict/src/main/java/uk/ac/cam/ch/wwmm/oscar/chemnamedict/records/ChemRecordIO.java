@@ -15,6 +15,22 @@ public class ChemRecordIO {
 			elem.appendChild(inchiElem);
 		}
 		
+		if (record instanceof IStdInChIChemRecord) {
+			Element stdInchiElem = new Element("StdInChI");
+			stdInchiElem.appendChild(
+				((IStdInChIChemRecord)record).getStdInChI()
+			);
+			elem.appendChild(stdInchiElem);
+		}
+		
+		if (record instanceof IStdInChiKeyChemRecord) {
+			Element stdInchiKeyElem = new Element("StdInChIKey");
+			stdInchiKeyElem.appendChild(
+				((IStdInChiKeyChemRecord)record).getStdInChiKey()
+			);
+			elem.appendChild(stdInchiKeyElem);
+		}
+		
 		if (record instanceof ISMILESChemRecord) {
 			ISMILESChemRecord smilesRecord = (ISMILESChemRecord)record;
 			if(smilesRecord.getSMILES() != null) {

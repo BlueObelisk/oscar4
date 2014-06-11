@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ChemRecord implements IInChIChemRecord, ISMILESChemRecord, IOntologyChemRecord, IChemRecord {
+public class ChemRecord implements IStdInChIChemRecord, IStdInChiKeyChemRecord, IInChIChemRecord, ISMILESChemRecord, IOntologyChemRecord, IChemRecord {
 
 	private String inchi;
 	private String stdInchi;
@@ -16,6 +16,8 @@ public class ChemRecord implements IInChIChemRecord, ISMILESChemRecord, IOntolog
 
 	public ChemRecord() {
 		setInChI(null);
+		setStdInChI(null);
+		setStdInChiKey(null);
 		setSMILES(null);
 		names = new HashSet<String>();
 		ontIDs = new HashSet<String>();
@@ -85,11 +87,11 @@ public class ChemRecord implements IInChIChemRecord, ISMILESChemRecord, IOntolog
 		return stdInchi;
 	}
 	
-	public void setStdInChIKey(String stdInchiKey) {
+	public void setStdInChiKey(String stdInchiKey) {
 		this.stdInchiKey = stdInchiKey;
 	}
 
-	public String getStdInChIKey() {
+	public String getStdInChiKey() {
 		return stdInchiKey;
 	}
 

@@ -16,6 +16,8 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.ChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IInChIChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.ISMILESChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IStdInChIChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IStdInChiKeyChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -41,10 +43,12 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  * @author egonw
  * @author dmj30
  */
-public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISMILESProvider {
+public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, IStdInChIProvider, IStdInChIKeyProvider, ISMILESProvider {
 
 	protected Set<IChemRecord> chemRecords;
 	protected Map<String,IChemRecord> indexByInchi;
+	protected Map<String,IChemRecord> indexByStdInchi;
+	protected Map<String,IChemRecord> indexByStdInchiKey;
 	protected Map<String,Set<IChemRecord>> indexByName;
 	protected Map<String,Set<IChemRecord>> indexByOntID;
 	protected Set<String> orphanNames;
@@ -58,6 +62,8 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 		this.language = language;
 		chemRecords = new HashSet<IChemRecord>();
 		indexByInchi = new HashMap<String,IChemRecord>();
+		indexByStdInchi = new HashMap<String,IChemRecord>();
+		indexByStdInchiKey = new HashMap<String,IChemRecord>();
 		indexByName = new HashMap<String,Set<IChemRecord>>();
 		indexByOntID = new HashMap<String,Set<IChemRecord>>();
 		orphanNames = new HashSet<String>();
@@ -80,6 +86,8 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 		this.language = language;
 		chemRecords = mutableDict.chemRecords;
 		indexByInchi = mutableDict.indexByInchi;
+		indexByStdInchi = mutableDict.indexByStdInchi;
+		indexByStdInchiKey = mutableDict.indexByStdInchiKey;
 		indexByName = mutableDict.indexByName;
 		indexByOntID = mutableDict.indexByOntID;
 		orphanNames = mutableDict.orphanNames;
@@ -144,6 +152,39 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 					String inchi = ((IInChIChemRecord) record).getInChI();
 					if (inchi != null) {
 						results.add(inchi);	
+					}
+				}
+			}
+		}
+		return results;
+	}
+	
+	public Set<String> getStdInchis(String queryName) {
+		Set<String> results = new HashSet<String>();
+		queryName = StringTools.normaliseName(queryName);
+		if(indexByName.containsKey(queryName)) {
+			for(IChemRecord record : indexByName.get(queryName)) {
+				if (record instanceof IStdInChIChemRecord) {
+					String stdInchi = ((IStdInChIChemRecord) record).getStdInChI();
+					if (stdInchi != null) {
+						results.add(stdInchi);	
+					}
+				}
+			}
+		}
+		return results;
+	}
+	
+	public Set<String> getStdInchiKeys(String queryName) {
+		Set<String> results = new HashSet<String>();
+		queryName = StringTools.normaliseName(queryName);
+		if (indexByName.containsKey(queryName)) {
+			for (IChemRecord record : indexByName.get(queryName)) {
+				if (record instanceof IStdInChiKeyChemRecord) {
+					String stdInchiKey = ((IStdInChiKeyChemRecord) record)
+							.getStdInChiKey();
+					if (stdInchiKey != null) {
+						results.add(stdInchiKey);
 					}
 				}
 			}
@@ -223,4 +264,6 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISM
 	public boolean hasOntologyIdentifier(String identifier) {
 		return indexByOntID.containsKey(identifier);
 	}
+
+
 }

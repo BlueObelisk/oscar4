@@ -59,7 +59,7 @@ public class OpsinResolutionTest {
 		NamedEntity ne = new NamedEntity("methane", 0, 0, NamedEntityType.COMPOUND);
 		ResolvedNamedEntity rne = registry.resolveNamedEntity(ne);
 		
-		assertEquals(7, rne.getChemicalStructures().size());
+		assertEquals(9, rne.getChemicalStructures().size());
 		assertEquals(2, rne.getChemicalStructures(FormatType.SMILES).size());
 		for (ChemicalStructure structure : rne.getChemicalStructures(FormatType.SMILES)) {
 			assertTrue(structure.getValue().equals("C") || structure.getValue().equals("[H]C([H])([H])[H]"));

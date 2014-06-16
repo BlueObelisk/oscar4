@@ -12,6 +12,7 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IInChIChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IOntologyChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.ISMILESChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IStdInChIChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 
 /**
@@ -35,10 +36,10 @@ public class MutableChemNameDict extends ImmutableChemNameDict implements IMutab
 		stopWords.add(StringTools.normaliseName(word));
 	}
 
-	public void addChemRecord(String inchi, String smiles, Set<String> names,
+	public void addChemRecord(String stdInchi, String smiles, Set<String> names,
 			Set<String> ontIDs) {
 		ChemRecord record = new ChemRecord();
-		record.setInChI(inchi);
+		record.setStdInChI(stdInchi);
 		record.setSMILES(smiles);
 		if(names != null) record.addNames(names);
 		if(ontIDs != null) record.addOntologyIdentifiers(ontIDs);
@@ -47,12 +48,12 @@ public class MutableChemNameDict extends ImmutableChemNameDict implements IMutab
 
 	public void addChemRecord(IChemRecord record) {
 		IChemRecord recordToAdd = null;
-		// check if we know this compound already (by InChI)
-		if (record instanceof IInChIChemRecord) {
-			IInChIChemRecord inchiRecord = (IInChIChemRecord)record;
-			String inchi = inchiRecord.getInChI();
-			if(inchi != null && indexByInchi.containsKey(inchi)) {
-				recordToAdd = indexByInchi.get(inchi);
+		// check if we know this compound already (by Standard InChI)
+		if (record instanceof IStdInChIChemRecord) {
+			IStdInChIChemRecord stdInchiRecord = (IStdInChIChemRecord)record;
+			String stdInchi = stdInchiRecord.getStdInChI();
+			if(stdInchi != null && indexByStdInchi.containsKey(stdInchi)) {
+				recordToAdd = indexByStdInchi.get(stdInchi);
 			}
 		}
 		if (recordToAdd == null) { // we do not know it yet
@@ -89,8 +90,8 @@ public class MutableChemNameDict extends ImmutableChemNameDict implements IMutab
 				indexByOntID.get(ontID).add(recordToAdd);
 			}
 		}
-		if (recordToAdd instanceof IInChIChemRecord) {
-			indexByInchi.put(((IInChIChemRecord)recordToAdd).getInChI(), recordToAdd);
+		if (recordToAdd instanceof IStdInChIChemRecord) {
+			indexByStdInchi.put(((IStdInChIChemRecord)recordToAdd).getStdInChI(), recordToAdd);
 		}
 	}
 
@@ -133,9 +134,9 @@ public class MutableChemNameDict extends ImmutableChemNameDict implements IMutab
 		addChemical(name, null, null);
 	}
 
-	public void addChemical(String name, String smiles, String inchi) {
+	public void addChemical(String name, String smiles, String stdInchi) {
 		ChemRecord record = new ChemRecord();
-		record.setInChI(inchi);
+		record.setStdInChI(stdInchi);
 		record.setSMILES(smiles);
 		record.addName(name);
 		addChemRecord(record);

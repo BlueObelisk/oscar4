@@ -1,7 +1,6 @@
 <newchemnamedict>
 	<records>
 		<record>
-			<InChI>InChI=1/C5H5N.ClH.Cr.3O/c1-2-4-6-5-3-1;;;;;/h1-5H;1H;;;;/q;;+1;;;-1</InChI>
 			<StdInChI>InChI=1S/C5H5N.ClH.Cr.3O/c1-2-4-6-5-3-1;;;;;/h1-5H;1H;;;;/q;;+1;;;-1</StdInChI>
 			<StdInChIKey>LEHBURLTIWGHEM-UHFFFAOYSA-N</StdInChIKey>
 			<SMILES>[OH-].O.O.Cl.[Cr+].c1cccnc1</SMILES>
@@ -9,14 +8,12 @@
 			<name>PCC</name>
 		</record>
 		<record>
-			<InChI>InChI=1/Mg.H2O4S/c;1-5(2,3)4/h;(H2,1,2,3,4)/q+2;/p-2/fMg.O4S/qm;-2</InChI>
 			<StdInChI>InChI=1S/Mg.H2O4S/c;1-5(2,3)4/h;(H2,1,2,3,4)/q+2;/p-2</StdInChI>
                         <StdInChIKey>CSNNHWWHGAXBCP-UHFFFAOYSA-L</StdInChIKey>
 			<SMILES>[Mg+2].[O-]S(=O)(=O)[O-]</SMILES>
 			<name>MgSO4</name>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H6O3/c1-3(5)7-4(2)6/h1-2H3</InChI>
 			<StdInChI>InChI=1S/C4H6O3/c1-3(5)7-4(2)6/h1-2H3</StdInChI>
                         <StdInChIKey>WFDIJRYMOXRFFG-UHFFFAOYSA-N</StdInChIKey>
 			<SMILES>CC(=O)OC(=O)C</SMILES>

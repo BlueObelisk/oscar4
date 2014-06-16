@@ -175,7 +175,10 @@ public class ChemNameDictRegistry {
 	 * Returns a set containing all the InChI strings for the given
 	 * query name contained by the currently-registered dictionaries.
 	 * 
+	 * @deprecated Please use getStdInchis instead.
+     *
 	 */
+	@Deprecated
 	public Set<String> getInchis(String queryName) {
 		Set<String> allInchis = new HashSet<String>();
 		for (IChemNameDict dict : dictionaries) {
@@ -221,12 +224,12 @@ public class ChemNameDictRegistry {
 
 	/**
 	 * Returns a set containing all the chemical names that correspond
-	 * to the given InChI in the currently-registered dictionaries. 
+	 * to the given Standard InChI in the currently-registered dictionaries. 
 	 */
-	public Set<String> getNames(String inchi) {
+	public Set<String> getNames(String stdInchi) {
 		Set<String> allNames = new HashSet<String>();
 		for (IChemNameDict dict : dictionaries) {
-			allNames.addAll(dict.getNames(inchi));
+			allNames.addAll(dict.getNames(stdInchi));
 		}
 		return allNames;
 	}

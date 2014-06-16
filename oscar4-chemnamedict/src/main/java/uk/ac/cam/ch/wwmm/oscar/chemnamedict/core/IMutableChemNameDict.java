@@ -8,14 +8,14 @@ public interface IMutableChemNameDict extends IChemNameDict {
 
 	public void addStopWord(String word);
 
-	public void addChemRecord(String inchi, String smiles,
+	public void addChemRecord(String stdInchi, String smiles,
 			Set<String> names, Set<String> ontIDs);
 
 	public void addChemRecord(IChemRecord record);
 
 	public void addName(String name);
 
-	public void addChemical(String name, String smiles, String inchi);
+	public void addChemical(String name, String smiles, String stdInchi);
 
 	public void importChemNameDict(IChemNameDict cnd);
 }

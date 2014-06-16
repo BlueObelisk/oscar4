@@ -47,10 +47,6 @@ public class OscarTest {
 		ChemNameDictRegistry registry = oscar.getDictionaryRegistry();
 		// test loading of the ChEBI dictionary
 		assertEquals(
-			"InChI=1/CH4/h1H4",
-			registry.getInchis("methane").iterator().next()
-		);
-		assertEquals(
 			"InChI=1S/CH4/h1H4",
 			registry.getStdInchis("methane").iterator().next()
 			);
@@ -59,10 +55,6 @@ public class OscarTest {
 			registry.getStdInchiKeys("methane").iterator().next()
 			);
 		// test loading of the default dictionary
-		assertEquals(
-			"InChI=1/C4H6O3/c1-3(5)7-4(2)6/h1-2H3",
-			registry.getInchis("Ac2O").iterator().next()
-		);
 		assertEquals(
 			"InChI=1S/C4H6O3/c1-3(5)7-4(2)6/h1-2H3",
 			registry.getStdInchis("Ac2O").iterator().next()
@@ -93,12 +85,12 @@ public class OscarTest {
 		
 		assertEquals("benzene", entities.get(0).getNamedEntity().getSurface());
 		assertEquals("c1ccccc1", entities.get(0).getFirstChemicalStructure(FormatType.SMILES).getValue());
-		assertEquals("InChI=1/C6H6/c1-2-4-6-5-3-1/h1-6H", entities.get(0).getFirstChemicalStructure(FormatType.INCHI).getValue());
+		assertEquals("InChI=1S/C6H6/c1-2-4-6-5-3-1/h1-6H", entities.get(0).getFirstChemicalStructure(FormatType.STD_INCHI).getValue());
 		assertNull(entities.get(0).getFirstChemicalStructure(FormatType.CML));
 		
 		assertEquals("toluene", entities.get(1).getNamedEntity().getSurface());
 		assertEquals("Cc1ccccc1", entities.get(1).getFirstChemicalStructure(FormatType.SMILES).getValue());
-		assertEquals("InChI=1/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3", entities.get(1).getFirstChemicalStructure(FormatType.INCHI).getValue());
+		assertEquals("InChI=1S/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3", entities.get(1).getFirstChemicalStructure(FormatType.STD_INCHI).getValue());
 		assertNull(entities.get(1).getFirstChemicalStructure(FormatType.CML));
 	}
 
@@ -112,17 +104,17 @@ public class OscarTest {
 
 		assertEquals("benzene", entities.get(0).getNamedEntity().getSurface());
 		assertEquals("c1ccccc1", entities.get(0).getFirstChemicalStructure(FormatType.SMILES).getValue());
-		assertEquals("InChI=1/C6H6/c1-2-4-6-5-3-1/h1-6H", entities.get(0).getFirstChemicalStructure(FormatType.INCHI).getValue());
+		assertEquals("InChI=1S/C6H6/c1-2-4-6-5-3-1/h1-6H", entities.get(0).getFirstChemicalStructure(FormatType.STD_INCHI).getValue());
 		assertNull(entities.get(0).getFirstChemicalStructure(FormatType.CML));
 
         assertEquals("napthyridine", entities.get(1).getNamedEntity().getSurface());
         assertNull(entities.get(1).getFirstChemicalStructure(FormatType.SMILES));
-        assertNull(entities.get(1).getFirstChemicalStructure(FormatType.INCHI));
+        assertNull(entities.get(1).getFirstChemicalStructure(FormatType.STD_INCHI));
 		assertNull(entities.get(1).getFirstChemicalStructure(FormatType.CML));
 
 		assertEquals("toluene", entities.get(2).getNamedEntity().getSurface());
 		assertEquals("Cc1ccccc1", entities.get(2).getFirstChemicalStructure(FormatType.SMILES).getValue());
-		assertEquals("InChI=1/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3", entities.get(2).getFirstChemicalStructure(FormatType.INCHI).getValue());
+		assertEquals("InChI=1S/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3", entities.get(2).getFirstChemicalStructure(FormatType.STD_INCHI).getValue());
 		assertNull(entities.get(2).getFirstChemicalStructure(FormatType.CML));
 	}
 	
@@ -137,7 +129,7 @@ public class OscarTest {
 		assertEquals(1, entities.size());
 		assertEquals(testName, entities.get(0).getNamedEntity().getSurface());
 		assertEquals("CCC", entities.get(0).getFirstChemicalStructure(FormatType.SMILES).getValue());
-		assertEquals("InChI=1/C3H8/c1-3-2/h3H2,1-2H3", entities.get(0).getFirstChemicalStructure(FormatType.INCHI).getValue());
+		assertEquals("InChI=1S/C3H8/c1-3-2/h3H2,1-2H3", entities.get(0).getFirstChemicalStructure(FormatType.STD_INCHI).getValue());
 		assertNotNull(entities.get(0).getFirstChemicalStructure(FormatType.CML));
 	}
 	

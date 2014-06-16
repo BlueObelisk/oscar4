@@ -297,15 +297,15 @@ public class Oscar {
     }
 
     private String resolveNamedEntity(String name) {
-        Set<String> inchis = getDictionaryRegistry().getInchis(name);
-        if (inchis.size() == 0) {
+        Set<String> stdInchis = getDictionaryRegistry().getStdInchis(name);
+        if (stdInchis.size() == 0) {
             return null;
         }
-        if (inchis.size() > 1) {
+        if (stdInchis.size() > 1) {
             // TODO - should we handle this in the dictionary registry
             LOG.warn(name + ": multiple hits, returning only one");
         }
-        return inchis.iterator().next();
+        return stdInchis.iterator().next();
     }
 
     /**

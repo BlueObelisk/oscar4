@@ -150,9 +150,9 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider,
 
 	/**
 	 * Returns {@link Collections#emptySet()}, since OPSIN does not support
-	 * InChI-to-name conversion.
+	 * Standard InChI-to-name conversion.
 	 */
-	public Set<String> getNames(String inchi) {
+	public Set<String> getNames(String stdInchi) {
 		return Collections.emptySet();
 	}
 

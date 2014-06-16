@@ -2,8 +2,6 @@
 <newchemnamedict>
 	<records>
 		<record>
-			<InChI>InChI=1/C5H5N.ClH.Cr.3O/c1-2-4-6-5-3-1;;;;;/h1-5H;1H;;;;/q;;+1;;;-1/fC5H6N.Cl.Cr.3O/h6H;1h;;;;/q+1;-1;m;;;m
-			</InChI>
 			<StdInChI>InChI=1S/C5H5N.ClH.Cr.3O/c1-2-4-6-5-3-1;;;;;/h1-5H;1H;;;;/q;;+1;;;-1
 			</StdInChI>
 			<StdInChIKey>LEHBURLTIWGHEM-UHFFFAOYSA-N</StdInChIKey>
@@ -12,8 +10,6 @@
 			<name>PCC</name>
 		</record>
 		<record>
-			<InChI>InChI=1/Mg.H2O4S/c;1-5(2,3)4/h;(H2,1,2,3,4)/q+2;/p-2/fMg.O4S/qm;-2
-			</InChI>
 			<SMILES>[Mg+2].[O-]S(=O)(=O)[O-]</SMILES>
 			<name>MgSO4</name>
 			<StdInChI>InChI=1S/Mg.H2O4S/c;1-5(2,3)4/h;(H2,1,2,3,4)/q+2;/p-2
@@ -21,14 +17,12 @@
 			<StdInChIKey>CSNNHWWHGAXBCP-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H6O3/c1-3(5)7-4(2)6/h1-2H3</InChI>
 			<StdInChI>InChI=1S/C4H6O3/c1-3(5)7-4(2)6/h1-2H3</StdInChI>
 			<StdInChIKey>WFDIJRYMOXRFFG-UHFFFAOYSA-N</StdInChIKey>
 			<SMILES>CC(=O)OC(=O)C</SMILES>
 			<name>Ac2O</name>
 		</record>
 		<record>
-			<InChI>InChI=1/C9H11Cl/c1-6-4-7(2)9(10)8(3)5-6/h4-5H,1-3H3</InChI>
 			<StdInChI>InChI=1S/C9H11Cl/c1-6-4-7(2)9(10)8(3)5-6/h4-5H,1-3H3
 			</StdInChI>
 			<StdInChIKey>WDZACGWEPQLKOM-UHFFFAOYSA-N</StdInChIKey>
@@ -36,8 +30,6 @@
 			<name>MesCl</name>
 		</record>
 		<record>
-			<InChI>InChI=1/3C17H14O.2Pd/c3*18-17(13-11-15-7-3-1-4-8-15)14-12-16-9-5-2-6-10-16;;/h3*1-14H;;/b3*13-11+,14-12+;;
-			</InChI>
 			<SMILES>[Pd].[Pd].O=C(\C=C\c1ccccc1)\C=C\c2ccccc2.O=C(\C=C\c1ccccc1)\C=C\c2ccccc2.O=C(\C=C\c1ccccc1)\C=C\c2ccccc2
 			</SMILES>
 			<name>pd2(dba)3</name>
@@ -49,8 +41,6 @@
 			<StdInChIKey>CYPYTURSJDMMMP-WVCUSYJESA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H18NSi2.Li/c1-8(2,3)7-9(4,5)6;/h1-6H3;/q-1;+1
-			</InChI>
 			<SMILES>[Li+].C[Si](C)(C)[N-][Si](C)(C)C</SMILES>
 			<name>LiHMDS</name>
 			<name>LHMDS</name>
@@ -59,8 +49,6 @@
 			<StdInChIKey>YNESATAKKCNGOF-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C12H10Se2/c1-3-7-11(8-4-1)13-14-12-9-5-2-6-10-12/h1-10H
-			</InChI>
 			<SMILES>c1ccc(cc1)[Se][Se]c1ccccc1</SMILES>
 			<name>PhSeSePh</name>
 			<StdInChI>InChI=1S/C12H10Se2/c1-3-7-11(8-4-1)13-14-12-9-5-2-6-10-12/h1-10H
@@ -68,15 +56,12 @@
 			<StdInChIKey>YWWZCHLUQSHMCL-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CHCl3/c2-1(3)4/h1H</InChI>
 			<SMILES>ClC(Cl)Cl</SMILES>
 			<name>CHCl3</name>
 			<StdInChI>InChI=1S/CHCl3/c2-1(3)4/h1H</StdInChI>
 			<StdInChIKey>HEDRZPFGACZZDS-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C13H13IO8/c1-8(15)19-14(20-9(2)16,21-10(3)17)12-7-5-4-6-11(12)13(18)22-14/h4-7H,1-3H3
-			</InChI>
 			<SMILES>CC(=O)OI1(OC(=O)C)(OC(=O)C)OC(=O)c2ccccc12</SMILES>
 			<name>Dess-Martin periodinane</name>
 			<name>DMP</name>
@@ -85,8 +70,6 @@
 			<StdInChIKey>NKLCNNUWBJBICK-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C11H6O3/c12-11-2-1-7-5-8-3-4-13-9(8)6-10(7)14-11/h1-6H
-			</InChI>
 			<SMILES>O=c1ccc2cc3ccoc3cc2o1</SMILES>
 			<name>psoralen</name>
 			<StdInChI>InChI=1S/C11H6O3/c12-11-2-1-7-5-8-3-4-13-9(8)6-10(7)14-11/h1-6H
@@ -94,7 +77,6 @@
 			<StdInChIKey>ZCCUUQDIBDJBTK-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2C4H9.Al.H/c2*1-4(2)3;;/h2*4H,1H2,2-3H3;;</InChI>
 			<SMILES>CC(C)C[AlH]CC(C)C</SMILES>
 			<name>DIBAL-H</name>
 			<name>DIBAL</name>
@@ -104,22 +86,18 @@
 			<StdInChIKey>AZWXAPCAJCYGIA-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C2H6OS/c1-4(2)3/h1-2H3</InChI>
 			<SMILES>CS(=O)C</SMILES>
 			<name>DMSO</name>
 			<StdInChI>InChI=1S/C2H6OS/c1-4(2)3/h1-2H3</StdInChI>
 			<StdInChIKey>IAZDPXIOMUYVGZ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CHCl3/c2-1(3)4/h1H/i1D</InChI>
 			<SMILES>ClC([2H])(Cl)Cl</SMILES>
 			<name>CDCl3</name>
 			<StdInChI>InChI=1S/CHCl3/c2-1(3)4/h1H/i1D</StdInChI>
 			<StdInChIKey>HEDRZPFGACZZDS-MICDWDOJSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C3H8N.HI/c1-4(2)3;/h1H2,2-3H3;1H/q+1;/p-1/fC3H8N.I/h;1h/qm;-1
-			</InChI>
 			<SMILES>[I-].C[N+](=C)C</SMILES>
 			<name>eschenmoser salt</name>
 			<name>Eschenmoser's salt</name>
@@ -128,8 +106,6 @@
 			<StdInChIKey>VVDUZZGYBOWDSQ-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH2O3.2K/c2-1(3)4;;/h(H2,2,3,4);;/q;2*+1/p-2/fCO3.2K/q-2;2m
-			</InChI>
 			<SMILES>[K+].[K+].[O-]C(=O)[O-]</SMILES>
 			<name>K2CO3</name>
 			<StdInChI>InChI=1S/CH2O3.2K/c2-1(3)4;;/h(H2,2,3,4);;/q;2*+1/p-2
@@ -137,8 +113,6 @@
 			<StdInChIKey>BWHMMNNQKKPAPP-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C10H9F3O3/c1-16-9(8(14)15,10(11,12)13)7-5-3-2-4-6-7/h2-6H,1H3,(H,14,15)/t9-/m1/s1/f/h14H
-			</InChI>
 			<SMILES>CO[C@@](C(=O)O)(c1ccccc1)C(F)(F)F</SMILES>
 			<name>R-Mosher's acid</name>
 			<name>(-)-mosher's acid</name>
@@ -148,16 +122,12 @@
 			<StdInChIKey>JJYKJUXBWFATTE-SECBINFHSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/4ClH.Sn/h4*1H;/q;;;;+4/p-4/f4Cl.Sn/h4*1h;/q4*-1;m
-			</InChI>
 			<SMILES>Cl[Sn](Cl)(Cl)Cl</SMILES>
 			<name>SnCl4</name>
 			<StdInChI>InChI=1S/4ClH.Sn/h4*1H;/q;;;;+4/p-4</StdInChI>
 			<StdInChIKey>HPGGPRDJHPYFRM-UHFFFAOYSA-J</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C13H12O/c1-3-10-5-4-6-11-9-12(14-2)7-8-13(10)11/h3-9H,1H2,2H3
-			</InChI>
 			<SMILES>COc1ccc2c(C=C)cccc2c1</SMILES>
 			<name>Dane's diene</name>
 			<StdInChI>InChI=1S/C13H12O/c1-3-10-5-4-6-11-9-12(14-2)7-8-13(10)11/h3-9H,1H2,2H3
@@ -165,8 +135,6 @@
 			<StdInChIKey>OMHOUBNKEGKWNI-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C44H32P2/c1-5-19-35(20-6-1)45(36-21-7-2-8-22-36)41-31-29-33-17-13-15-27-39(33)43(41)44-40-28-16-14-18-34(40)30-32-42(44)46(37-23-9-3-10-24-37)38-25-11-4-12-26-38/h1-32H
-			</InChI>
 			<SMILES>c1ccc(cc1)P(c1ccccc1)c1c(c2ccccc2cc1)c1c(ccc2ccccc12)P(c1ccccc1)c1ccccc1
 			</SMILES>
 			<name>BINAP</name>
@@ -175,14 +143,12 @@
 			<StdInChIKey>MUALRAIOVNYAIW-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/BrH.Li/h1H;/q;+1/p-1/fBr.Li/h1h;/q-1;m</InChI>
 			<SMILES>[Br-].[Li+]</SMILES>
 			<name>LiBr</name>
 			<StdInChI>InChI=1S/BrH.Li/h1H;/q;+1/p-1</StdInChI>
 			<StdInChIKey>AMXOYNBUYSYVKV-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C7H5ClO3/c8-6-3-1-2-5(4-6)7(9)11-10/h1-4,10H</InChI>
 			<SMILES>OOC(=O)c1cccc(Cl)c1</SMILES>
 			<name>m-CPBA</name>
 			<name>meta-chloroperbenzoic acid</name>
@@ -198,8 +164,6 @@
 			<StdInChIKey>NHQDETIJWKXCTC-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C10H9F3O3/c1-16-9(8(14)15,10(11,12)13)7-5-3-2-4-6-7/h2-6H,1H3,(H,14,15)/t9-/m0/s1/f/h14H
-			</InChI>
 			<SMILES>CO[C@](C(=O)O)(c1ccccc1)C(F)(F)F</SMILES>
 			<name>(+)-mosher's acid</name>
 			<name>(s)-mosher's acid</name>
@@ -209,8 +173,6 @@
 			<StdInChIKey>JJYKJUXBWFATTE-VIFPVBQESA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H10N2O4/c1-3-11-5(9)7-8-6(10)12-4-2/h3-4H2,1-2H3/b8-7+
-			</InChI>
 			<SMILES>O=C(/N=N/C(=O)OCC)OCC</SMILES>
 			<name>diethyl azodicarboxylate</name>
 			<name>DEAD</name>
@@ -219,7 +181,6 @@
 			<StdInChIKey>FAMRKDQNMBBFBR-BQYQJAHWSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/3C4H9.Sn.H/c3*1-3-4-2;;/h3*1,3-4H2,2H3;;</InChI>
 			<SMILES>CCCC[SnH](CCCC)CCCC</SMILES>
 			<name>Bu3SnH</name>
 			<StdInChI>InChI=1S/3C4H9.Sn.H/c3*1-3-4-2;;/h3*1,3-4H2,2H3;;
@@ -227,8 +188,6 @@
 			<StdInChIKey>DBGVGMSCBYYSLD-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C19H18P.BrH/c1-20(17-11-5-2-6-12-17,18-13-7-3-8-14-18)19-15-9-4-10-16-19;/h2-16H,1H3;1H/q+1;/p-1/fC19H18P.Br/h;1h/qm;-1
-			</InChI>
 			<SMILES>[Br-].C[P+](c1ccccc1)(c1ccccc1)c1ccccc1</SMILES>
 			<name>CH3PPh3Br</name>
 			<StdInChI>InChI=1S/C19H18P.BrH/c1-20(17-11-5-2-6-12-17,18-13-7-3-8-14-18)19-15-9-4-10-16-19;/h2-16H,1H3;1H/q+1;/p-1
@@ -236,7 +195,6 @@
 			<StdInChIKey>LSEFCHWGJNHZNT-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C5H11NO2/c1-6(7)2-4-8-5-3-6/h2-5H2,1H3</InChI>
 			<SMILES>C[N+]1(CCOCC1)[O-]</SMILES>
 			<name>NMO</name>
 			<name>NMMO</name>
@@ -245,8 +203,6 @@
 			<StdInChIKey>LFTLOKWAGJYHHR-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C8H17O5P/c1-4-11-8(9)7-14(10,12-5-2)13-6-3/h4-7H2,1-3H3
-			</InChI>
 			<SMILES>CCOC(=O)CP(=O)(OCC)OCC</SMILES>
 			<name>triethylphosphonoacetate</name>
 			<name>triethyl phosphonoacetate</name>
@@ -255,7 +211,6 @@
 			<StdInChIKey>GGUBFICZYGKNTD-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C2H3N/c1-2-3/h1H3</InChI>
 			<SMILES>CC#N</SMILES>
 			<name>CH3CN</name>
 			<name>acetonitrile</name>
@@ -264,7 +219,6 @@
 			<StdInChIKey>WEVYAHXRMPXWCK-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C8H12N4/c1-7(2,5-9)11-12-8(3,4)6-10/h1-4H3</InChI>
 			<SMILES>N#CC(C)(C)N=NC(C)(C)C#N</SMILES>
 			<name>2,2'-azobisisobutyonitrile</name>
 			<name>azobis(isobutyro)nitrile</name>
@@ -277,8 +231,6 @@
 			<StdInChIKey>OZAIFHULBGXAKX-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2C2H4O2.Pd/c2*1-2(3)4;/h2*1H3,(H,3,4);/q;;+2/p-2/f2C2H3O2.Pd/q2*-1;m
-			</InChI>
 			<SMILES>[Pd+2].[O-]C(=O)C.[O-]C(=O)C</SMILES>
 			<name>Pd(OAc)2</name>
 			<name>palladium (II) acetate</name>
@@ -292,15 +244,12 @@
 			<StdInChIKey>YJVFFLUZDVXJQI-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H8O/c1-2-4-5-3-1/h1-4H2</InChI>
 			<SMILES>C1CCCO1</SMILES>
 			<name>THF</name>
 			<StdInChI>InChI=1S/C4H8O/c1-2-4-5-3-1/h1-4H2</StdInChI>
 			<StdInChIKey>WYURNTSHIVDZCO-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C10H9F3O3/c1-16-9(8(14)15,10(11,12)13)7-5-3-2-4-6-7/h2-6H,1H3,(H,14,15)/f/h14H
-			</InChI>
 			<SMILES>COC(C(=O)O)(c1ccccc1)C(F)(F)F</SMILES>
 			<name>Mosher's acid</name>
 			<StdInChI>InChI=1S/C10H9F3O3/c1-16-9(8(14)15,10(11,12)13)7-5-3-2-4-6-7/h2-6H,1H3,(H,14,15)
@@ -308,7 +257,6 @@
 			<StdInChIKey>JJYKJUXBWFATTE-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C10H8N2/c1-3-7-11-9(5-1)10-6-2-4-8-12-10/h1-8H</InChI>
 			<SMILES>c1ccc(nc1)c1ccccn1</SMILES>
 			<name>bipy</name>
 			<StdInChI>InChI=1S/C10H8N2/c1-3-7-11-9(5-1)10-6-2-4-8-12-10/h1-8H
@@ -316,14 +264,12 @@
 			<StdInChIKey>ROFVEXUMMXZLPA-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Na.H2O/h;1H2/q+1;/p-1/fNa.HO/h;1h/qm;-1</InChI>
 			<SMILES>[OH-].[Na+]</SMILES>
 			<name>NaOH</name>
 			<StdInChI>InChI=1S/Na.H2O/h;1H2/q+1;/p-1</StdInChI>
 			<StdInChIKey>HEMHJVSKTPXQMS-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C8H15B/c1-3-7-5-2-6-8(4-1)9-7/h7-9H,1-6H2</InChI>
 			<SMILES>C1(B2)CCCC2CCC1</SMILES>
 			<name>9-BBN</name>
 			<name>9-borabicyclo[3.3.1]nonane</name>
@@ -333,8 +279,6 @@
 			<StdInChIKey>FEJUGLKDZJDVFY-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C14H14ClN3O2S/c1-18(2)13-7-3-11(4-8-13)16-17-12-5-9-14(10-6-12)21(15,19)20/h3-10H,1-2H3/b17-16+
-			</InChI>
 			<SMILES>ClS(=O)(=O)c2ccc(/N=N/c1ccc(N(C)C)cc1)cc2</SMILES>
 			<name>dabsyl chloride</name>
 			<StdInChI>InChI=1S/C14H14ClN3O2S/c1-18(2)13-7-3-11(4-8-13)16-17-12-5-9-14(10-6-12)21(15,19)20/h3-10H,1-2H3/b17-16+
@@ -342,8 +286,6 @@
 			<StdInChIKey>VTVWTPGLLAELLI-WUKNDPDISA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C2H4O2.K/c1-2(3)4;/h1H3,(H,3,4);/q;+1/p-1/fC2H3O2.K/q-1;m
-			</InChI>
 			<SMILES>[O-]C(=O)C.[K+]</SMILES>
 			<name>KOAc</name>
 			<StdInChI>InChI=1S/C2H4O2.K/c1-2(3)4;/h1H3,(H,3,4);/q;+1/p-1
@@ -351,7 +293,6 @@
 			<StdInChIKey>SCVFZCLFOSHCOH-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H14N.Li/c1-5(2)7-6(3)4;/h5-6H,1-4H3;/q-1;+1</InChI>
 			<SMILES>[Li+].CC(C)[N-]C(C)C</SMILES>
 			<name>LDA</name>
 			<StdInChI>InChI=1S/C6H14N.Li/c1-5(2)7-6(3)4;/h5-6H,1-4H3;/q-1;+1
@@ -359,21 +300,18 @@
 			<StdInChIKey>ZCSHNCUQKCANBX-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/4O.Os</InChI>
 			<SMILES>O=[Os](=O)(=O)=O</SMILES>
 			<name>OsO4</name>
 			<StdInChI>InChI=1S/4O.Os</StdInChI>
 			<StdInChIKey>VUVGYHUDAICLFK-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C2H6O/c1-2-3/h3H,2H2,1H3</InChI>
 			<SMILES>CCO</SMILES>
 			<name>EtOH</name>
 			<StdInChI>InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3</StdInChI>
 			<StdInChIKey>LFQSCWFLJHTTHZ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH3ClO2S/c1-5(2,3)4/h1H3</InChI>
 			<SMILES>CS(Cl)(=O)=O</SMILES>
 			<name>methanesulfonyl chloride</name>
 			<name>MsCl</name>
@@ -381,8 +319,6 @@
 			<StdInChIKey>QARBMVPHQWIHKH-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C12H26O4S.Na/c1-2-3-4-5-6-7-8-9-10-11-12-16-17(13,14)15;/h2-12H2,1H3,(H,13,14,15);/q;+1/p-1/fC12H25O4S.Na/q-1;m
-			</InChI>
 			<SMILES>[Na+].CCCCCCCCCCCCOS(=O)(=O)[O-]</SMILES>
 			<name>SDS</name>
 			<StdInChI>InChI=1S/C12H26O4S.Na/c1-2-3-4-5-6-7-8-9-10-11-12-16-17(13,14)15;/h2-12H2,1H3,(H,13,14,15);/q;+1/p-1
@@ -390,14 +326,12 @@
 			<StdInChIKey>DBMJMQXJHONAFJ-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/K.H2O/h;1H2/q+1;/p-1/fK.HO/h;1h/qm;-1</InChI>
 			<SMILES>[OH-].[K+]</SMILES>
 			<name>KOH</name>
 			<StdInChI>InChI=1S/K.H2O/h;1H2/q+1;/p-1</StdInChI>
 			<StdInChIKey>KWYUFKZDYYNOTN-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H18NSi2.K/c1-8(2,3)7-9(4,5)6;/h1-6H3;/q-1;+1</InChI>
 			<SMILES>[K+].C[Si](C)(C)[N-][Si](C)(C)C</SMILES>
 			<name>KHMDS</name>
 			<StdInChI>InChI=1S/C6H18NSi2.K/c1-8(2,3)7-9(4,5)6;/h1-6H3;/q-1;+1
@@ -405,14 +339,12 @@
 			<StdInChIKey>IUBQJLUDMLPAGT-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H15N/c1-4-7(5-2)6-3/h4-6H2,1-3H3</InChI>
 			<SMILES>CCN(CC)CC</SMILES>
 			<name>Et3N</name>
 			<StdInChI>InChI=1S/C6H15N/c1-4-7(5-2)6-3/h4-6H2,1-3H3</StdInChI>
 			<StdInChIKey>ZMANZCXQSJIPKH-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C3H7NO/c1-4(2)3-5/h3H,1-2H3</InChI>
 			<SMILES>O=CN(C)C</SMILES>
 			<name>dimethyl formamide</name>
 			<name>DMF</name>
@@ -420,7 +352,6 @@
 			<StdInChIKey>ZMXDDKWLCZADIW-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C8H17N3/c1-4-9-8-10-6-5-7-11(2)3/h4-7H2,1-3H3</InChI>
 			<SMILES>CCN=C=NCCCN(C)C</SMILES>
 			<name>EDAC</name>
 			<name>EDCI</name>
@@ -429,8 +360,6 @@
 			<StdInChIKey>LMDZBCPBFSXMTL-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH2O3.Na/c2-1(3)4;/h(H2,2,3,4);/q;+1/p-1/fCHO3.Na/h2H;/q-1;m
-			</InChI>
 			<SMILES>[O-]C(=O)O.[Na+]</SMILES>
 			<name>NaHCO3</name>
 			<StdInChI>InChI=1S/CH2O3.Na/c2-1(3)4;/h(H2,2,3,4);/q;+1/p-1
@@ -438,8 +367,6 @@
 			<StdInChIKey>UIIMBOGNXHQVGW-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H18NSi2.Na/c1-8(2,3)7-9(4,5)6;/h1-6H3;/q-1;+1
-			</InChI>
 			<SMILES>[Na+].C[Si](C)(C)[N-][Si](C)(C)C</SMILES>
 			<name>NaHMDS</name>
 			<name>NaN(TMS)2</name>
@@ -448,7 +375,6 @@
 			<StdInChIKey>WRIKHQLVHPKCJU-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C7H10N2/c1-9(2)7-3-5-8-6-4-7/h3-6H,1-2H3</InChI>
 			<SMILES>CN(C)c1ccncc1</SMILES>
 			<name>DMAP</name>
 			<StdInChI>InChI=1S/C7H10N2/c1-9(2)7-3-5-8-6-4-7/h3-6H,1-2H3
@@ -456,8 +382,6 @@
 			<StdInChIKey>VHYFNPMBLIVWCW-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2Na.H2O3S2/c;;1-5(2,3)4/h;;(H2,1,2,3,4)/q2*+1;/p-2/f2Na.O3S2/q2m;-2
-			</InChI>
 			<SMILES>[Na+].[Na+].[O-]S(=O)(=S)[O-]</SMILES>
 			<name>Na2S2O3</name>
 			<StdInChI>InChI=1S/2Na.H2O3S2/c;;1-5(2,3)4/h;;(H2,1,2,3,4)/q2*+1;/p-2
@@ -465,8 +389,6 @@
 			<StdInChIKey>AKHNMLFCWUSKQB-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2Na.H2O3S/c;;1-4(2)3/h;;(H2,1,2,3)/q2*+1;/p-2/f2Na.O3S/q2m;-2
-			</InChI>
 			<SMILES>S(=O)([O-])[O-].[Na+].[Na+]</SMILES>
 			<name>Na2SO3</name>
 			<StdInChI>InChI=1S/2Na.H2O3S/c;;1-4(2)3/h;;(H2,1,2,3)/q2*+1;/p-2
@@ -474,28 +396,24 @@
 			<StdInChIKey>GEHJYWRUCIMESM-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/N2/c1-2</InChI>
 			<SMILES>N#N</SMILES>
 			<name>N2</name>
 			<StdInChI>InChI=1S/N2/c1-2</StdInChI>
 			<StdInChIKey>IJGRMHOSHXDMSA-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H4BrNO2/c5-6-3(7)1-2-4(6)8/h1-2H2</InChI>
 			<SMILES>O=C1CCC(=O)N1Br</SMILES>
 			<name>NBS</name>
 			<StdInChI>InChI=1S/C4H4BrNO2/c5-6-3(7)1-2-4(6)8/h1-2H2</StdInChI>
 			<StdInChIKey>PCLIMKBDDGJMGD-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/ClH.H3N/h1H;1H3/fCl.H4N/h1h;1H/q-1;+1</InChI>
 			<SMILES>[Cl-].[NH4+]</SMILES>
 			<name>NH4Cl</name>
 			<StdInChI>InChI=1S/ClH.H3N/h1H;1H3</StdInChI>
 			<StdInChIKey>NLXLAEXVIDQMFP-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H10O/c1-3-5-4-2/h3-4H2,1-2H3</InChI>
 			<SMILES>CCOCC</SMILES>
 			<name>(C2H5)2O</name>
 			<name>C2H5OC2H5</name>
@@ -507,28 +425,24 @@
 			<StdInChIKey>RTZKZFJDLAIYFH-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C2Cl2O2/c3-1(5)2(4)6</InChI>
 			<SMILES>ClC(=O)C(=O)Cl</SMILES>
 			<name>oxalyl chloride</name>
 			<StdInChI>InChI=1S/C2Cl2O2/c3-1(5)2(4)6</StdInChI>
 			<StdInChIKey>CTSLXHKWHWQRSH-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/BH4.Na/h1H4;/q-1;+1</InChI>
 			<SMILES>[BH4-].[Na+]</SMILES>
 			<name>NaBH4</name>
 			<StdInChI>InChI=1S/BH4.Na/h1H4;/q-1;+1</StdInChI>
 			<StdInChIKey>YOQDYZUWIQVZSF-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Na.H/q+1;-1</InChI>
 			<SMILES>[Na+].[H-]</SMILES>
 			<name>NaH</name>
 			<StdInChI>InChI=1S/Na.H/q+1;-1</StdInChI>
 			<StdInChIKey>BZKBCQXYZZXSCO-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H10O2/c1-5-3-4-6-2/h3-4H2,1-2H3</InChI>
 			<SMILES>COCCOC</SMILES>
 			<name>monoglyme</name>
 			<name>glyme</name>
@@ -537,14 +451,12 @@
 			<StdInChIKey>XTHFKEDIFFGKHM-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C7H12N2/c1-3-7-8-4-2-6-9(7)5-1/h1-6H2</InChI>
 			<SMILES>C1CN=C2CCCN2C1</SMILES>
 			<name>DBN</name>
 			<StdInChI>InChI=1S/C7H12N2/c1-3-7-8-4-2-6-9(7)5-1/h1-6H2</StdInChI>
 			<StdInChIKey>SGUVLZREKBPKCE-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C5H8O/c1-2-4-6-5-3-1/h2,4H,1,3,5H2</InChI>
 			<SMILES>C1COC=CC1</SMILES>
 			<name>DHP</name>
 			<name>3,4-dihydro-2h-pyran</name>
@@ -552,7 +464,6 @@
 			<StdInChIKey>BUDQDWGNQVEFAC-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H9.Li/c1-3-4-2;/h1,3-4H2,2H3;</InChI>
 			<SMILES>CCCC[Li]</SMILES>
 			<name>nBuLi</name>
 			<name>n-BuLi</name>
@@ -561,7 +472,6 @@
 			<StdInChIKey>MZRVEZGGRBJDDB-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH4O/c1-2/h2H,1H3</InChI>
 			<SMILES>CO</SMILES>
 			<name>MeOH</name>
 			<name>CH3OH</name>
@@ -570,8 +480,6 @@
 			<StdInChIKey>OKKJLVBELUTLKV-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C14H14O2P2S4/c1-15-11-3-7-13(8-4-11)17(19)21-18(20,22-17)14-9-5-12(16-2)6-10-14/h3-10H,1-2H3
-			</InChI>
 			<SMILES>COc1ccc(cc1)P1(=S)SP(=S)(S1)c1ccc(OC)cc1</SMILES>
 			<name>Lawesson's reagent</name>
 			<StdInChI>InChI=1S/C14H14O2P2S4/c1-15-11-3-7-13(8-4-11)17(19)21-18(20,22-17)14-9-5-12(16-2)6-10-14/h3-10H,1-2H3
@@ -579,8 +487,6 @@
 			<StdInChIKey>CFHGBZLNZZVTAY-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C18H15As/c1-4-10-16(11-5-1)19(17-12-6-2-7-13-17)18-14-8-3-9-15-18/h1-15H
-			</InChI>
 			<SMILES>c1ccc(cc1)[As](c1ccccc1)c1ccccc1</SMILES>
 			<name>triphenylarsine</name>
 			<name>AsPh3</name>
@@ -589,8 +495,6 @@
 			<StdInChIKey>BPLUKJNHPBNVQL-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C8H14N2O4/c1-5(2)13-7(11)9-10-8(12)14-6(3)4/h5-6H,1-4H3/b10-9+
-			</InChI>
 			<SMILES>O=C(/N=N/C(=O)OC(C)C)OC(C)C</SMILES>
 			<name>DIAD</name>
 			<name>diisopropyl azodicarboxylate</name>
@@ -599,7 +503,6 @@
 			<StdInChIKey>VVWRJUBEIPHGQF-MDZDMXLPSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C9H16N2/c1-2-5-9-10-6-4-8-11(9)7-3-1/h1-8H2</InChI>
 			<SMILES>C1CCN2CCCN=C2CC1</SMILES>
 			<name>DBU</name>
 			<StdInChI>InChI=1S/C9H16N2/c1-2-5-9-10-6-4-8-11(9)7-3-1/h1-8H2
@@ -607,8 +510,6 @@
 			<StdInChIKey>GQHTUMJGOHRCHB-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2Na.H2O4S/c;;1-5(2,3)4/h;;(H2,1,2,3,4)/q2*+1;/p-2/f2Na.O4S/q2m;-2
-			</InChI>
 			<SMILES>[Na+].[Na+].[O-]S(=O)(=O)[O-]</SMILES>
 			<name>Na2SO4</name>
 			<StdInChI>InChI=1S/2Na.H2O4S/c;;1-5(2,3)4/h;;(H2,1,2,3,4)/q2*+1;/p-2
@@ -616,7 +517,6 @@
 			<StdInChIKey>PMZURENOXWZQFD-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H8O2/c1-3-6-4(2)5/h3H2,1-2H3</InChI>
 			<SMILES>CCOC(=O)C</SMILES>
 			<name>EtOAc</name>
 			<name>AcOEt</name>
@@ -626,7 +526,6 @@
 			<StdInChIKey>XEKOWRVHYACXOJ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H5N3O/c10-9-6-4-2-1-3-5(6)7-8-9/h1-4,10H</InChI>
 			<SMILES>On1nnc2ccccc12</SMILES>
 			<name>HOBt</name>
 			<name>HOBT</name>
@@ -635,8 +534,6 @@
 			<StdInChIKey>ASOKPJOREAFHNY-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C20H14O2/c21-17-11-9-13-5-1-3-7-15(13)19(17)20-16-8-4-2-6-14(16)10-12-18(20)22/h1-12,21-22H
-			</InChI>
 			<SMILES>Oc1ccc2ccccc2c1c1c(O)ccc2ccccc12</SMILES>
 			<name>BINOL</name>
 			<StdInChI>InChI=1S/C20H14O2/c21-17-11-9-13-5-1-3-7-15(13)19(17)20-16-8-4-2-6-14(16)10-12-18(20)22/h1-12,21-22H
@@ -644,8 +541,6 @@
 			<StdInChIKey>PPTXVXKCQZKFBN-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C8H16O2Si/c1-8(6-7-9-2)10-11(3,4)5/h6-7H,1H2,2-5H3/b7-6+
-			</InChI>
 			<SMILES>CO/C=C/C(=C)O[Si](C)(C)C</SMILES>
 			<name>Danishevsky's diene</name>
 			<name>Danishefsky's diene</name>
@@ -654,8 +549,6 @@
 			<StdInChIKey>SHALBPKEGDBVKK-VOTSOKGWSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C7H8O3S/c1-6-2-4-7(5-3-6)11(8,9)10/h2-5H,1H3,(H,8,9,10)/f/h8H
-			</InChI>
 			<SMILES>Cc1ccc(cc1)S(=O)(=O)O</SMILES>
 			<name>TsOH</name>
 			<name>PTSA</name>
@@ -664,7 +557,6 @@
 			<StdInChIKey>JOXIMZWYDAKGHI-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH2Cl2/c2-1-3/h1H2</InChI>
 			<SMILES>ClCCl</SMILES>
 			<name>CH2Cl2</name>
 			<name>DCM</name>
@@ -672,15 +564,12 @@
 			<StdInChIKey>YMWUJEATGCHHMB-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H4INO2/c5-6-3(7)1-2-4(6)8/h1-2H2</InChI>
 			<SMILES>O=C1CCC(=O)N1I</SMILES>
 			<name>NIS</name>
 			<StdInChI>InChI=1S/C4H4INO2/c5-6-3(7)1-2-4(6)8/h1-2H2</StdInChI>
 			<StdInChIKey>LQZMLBORDGWNPD-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C12H28N.4O.Ru/c1-5-9-13(10-6-2,11-7-3)12-8-4;;;;;/h5-12H2,1-4H3;;;;;/q+1;;;;-1;
-			</InChI>
 			<SMILES>CCC[N+](CCC)(CCC)CCC.O=[Ru](=O)([O-])=O</SMILES>
 			<name>TPAP</name>
 			<StdInChI>InChI=1S/C12H28N.4O.Ru/c1-5-9-13(10-6-2,11-7-3)12-8-4;;;;;/h5-12H2,1-4H3;;;;;/q+1;;;;-1;
@@ -688,8 +577,6 @@
 			<StdInChIKey>NQSIKKSFBQCBSI-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C17H18N2/c1-12-3-5-16-14(7-12)9-18-11-19(16)10-15-8-13(2)4-6-17(15)18/h3-8H,9-11H2,1-2H3
-			</InChI>
 			<SMILES>Cc1ccc2c(c1)CN1CN2Cc2cc(C)ccc12</SMILES>
 			<name>troeger's base</name>
 			<name>Troger's base</name>
@@ -698,14 +585,12 @@
 			<StdInChIKey>SXPSZIHEWFTLEQ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H12N2/c1-2-8-5-3-7(1)4-6-8/h1-6H2</InChI>
 			<SMILES>C1CN2CCN1CC2</SMILES>
 			<name>DABCO</name>
 			<StdInChI>InChI=1S/C6H12N2/c1-2-8-5-3-7(1)4-6-8/h1-6H2</StdInChI>
 			<StdInChIKey>IMNIMPAHZVJRPE-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C2HF3O2/c3-2(4,5)1(6)7/h(H,6,7)/f/h6H</InChI>
 			<SMILES>FC(C(=O)O)(F)F</SMILES>
 			<name>TFA</name>
 			<name>CF3COOH</name>
@@ -713,28 +598,24 @@
 			<StdInChIKey>DTQVDTLACAAQTR-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Cl3OP/c1-5(2,3)4</InChI>
 			<SMILES>P(=O)(Cl)(Cl)Cl</SMILES>
 			<name>POCl3</name>
 			<StdInChI>InChI=1S/Cl3OP/c1-5(2,3)4</StdInChI>
 			<StdInChIKey>XHXFXVLFKHQFAL-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/ClH.Na/h1H;/q;+1/p-1/fCl.Na/h1h;/q-1;m</InChI>
 			<SMILES>[Cl-].[Na+]</SMILES>
 			<name>NaCl</name>
 			<StdInChI>InChI=1S/ClH.Na/h1H;/q;+1/p-1</StdInChI>
 			<StdInChIKey>FAPWRFPIFSIZLT-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH3O.Na/c1-2;/h1H3;/q-1;+1</InChI>
 			<SMILES>C[O-].[Na+]</SMILES>
 			<name>NaOMe</name>
 			<StdInChI>InChI=1S/CH3O.Na/c1-2;/h1H3;/q-1;+1</StdInChI>
 			<StdInChIKey>WQDUMFSSJAZKTM-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C8H19N/c1-6-9(7(2)3)8(4)5/h7-8H,6H2,1-5H3</InChI>
 			<SMILES>C(C)(C)N(C(C)C)CC</SMILES>
 			<name>DIPEA</name>
 			<name>DiPEA</name>
@@ -748,8 +629,6 @@
 			<StdInChIKey>JGFZNNIVVJXRND-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH2O3.2Na/c2-1(3)4;;/h(H2,2,3,4);;/q;2*+1/p-2/fCO3.2Na/q-2;2m
-			</InChI>
 			<SMILES>C([O-])([O-])=O.[Na+].[Na+]</SMILES>
 			<name>Na2CO3</name>
 			<StdInChI>InChI=1S/CH2O3.2Na/c2-1(3)4;;/h(H2,2,3,4);;/q;2*+1/p-2
@@ -757,29 +636,24 @@
 			<StdInChIKey>CDBYLPFSWZWCQE-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/H3N.H2O/h1H3;1H2/fH4N.HO/h1H;1h/q+1;-1</InChI>
 			<SMILES>[OH-].[NH4+]</SMILES>
 			<name>NH4OH</name>
 			<StdInChI>InChI=1S/H3N.H2O/h1H3;1H2</StdInChI>
 			<StdInChIKey>VHUUQVKOLVNVRT-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/BrH.K/h1H;/q;+1/p-1/fBr.K/h1h;/q-1;m</InChI>
 			<SMILES>[Br-].[K+]</SMILES>
 			<name>KBr</name>
 			<StdInChI>InChI=1S/BrH.K/h1H;/q;+1/p-1</StdInChI>
 			<StdInChIKey>IOLCXVTUBQKXJR-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H4ClNO2/c5-6-3(7)1-2-4(6)8/h1-2H2</InChI>
 			<SMILES>ClN1C(CCC1=O)=O</SMILES>
 			<name>NCS</name>
 			<StdInChI>InChI=1S/C4H4ClNO2/c5-6-3(7)1-2-4(6)8/h1-2H2</StdInChI>
 			<StdInChIKey>JRNVZBWKYDBUCA-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/4C18H15P.Pd/c4*1-4-10-16(11-5-1)19(17-12-6-2-7-13-17)18-14-8-3-9-15-18;/h4*1-15H;
-			</InChI>
 			<SMILES>c1ccc(cc1)[P](c2ccccc2)(c3ccccc3)[Pd]([P](c4ccccc4)(c5ccccc5)c6ccccc6)([P](c7ccccc7)(c8ccccc8)c9ccccc9)[P](c1ccccc1)(c1ccccc1)c1ccccc1
 			</SMILES>
 			<name>Pd(PPh3)4</name>
@@ -792,22 +666,18 @@
 			<StdInChIKey>NFHFRUOZVGFOOS-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/BBr3/c2-1(3)4</InChI>
 			<SMILES>B(Br)(Br)Br</SMILES>
 			<name>BBr3</name>
 			<StdInChI>InChI=1S/BBr3/c2-1(3)4</StdInChI>
 			<StdInChIKey>ILAHWRKJUDSMFH-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2CN.Zn/c2*1-2;/q2*-1;+2</InChI>
 			<SMILES>[C-]#N.[Zn+2].[C-]#N</SMILES>
 			<name>Zn(CN)2</name>
 			<StdInChI>InChI=1S/2CN.Zn/c2*1-2;/q2*-1;+2</StdInChI>
 			<StdInChIKey>GTLDTDOJJJZVBW-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C13H22N2/c1-3-7-12(8-4-1)14-11-15-13-9-5-2-6-10-13/h12-13H,1-10H2
-			</InChI>
 			<SMILES>C1(CCCCC1)N=C=NC1CCCCC1</SMILES>
 			<name>DCC</name>
 			<StdInChI>InChI=1S/C13H22N2/c1-3-7-12(8-4-1)14-11-15-13-9-5-2-6-10-13/h12-13H,1-10H2
@@ -815,8 +685,6 @@
 			<StdInChIKey>QOSSAOTZNIDXMA-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2C18H15P.2ClH.Pd/c2*1-4-10-16(11-5-1)19(17-12-6-2-7-13-17)18-14-8-3-9-15-18;;;/h2*1-15H;2*1H;/q;;;;+2/p-2/f2C18H15P.2Cl.Pd/h;;2*1h;/q;;2*-1;m
-			</InChI>
 			<SMILES>[Pd](Cl)Cl.C1(=CC=CC=C1)P(C1=CC=CC=C1)C1=CC=CC=C1.C1(=CC=CC=C1)P(C1=CC=CC=C1)C1=CC=CC=C1
 			</SMILES>
 			<name>(PPh3)2PdCl2</name>
@@ -829,14 +697,12 @@
 			<StdInChIKey>YNHIGQDRGKUECZ-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CN.Cu/c1-2;</InChI>
 			<SMILES>[Cu]C#N</SMILES>
 			<name>CuCN</name>
 			<StdInChI>InChI=1S/CN.Cu/c1-2;</StdInChI>
 			<StdInChIKey>DULSAGLWMRMKCQ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C2H5O.Na/c1-2-3;/h2H2,1H3;/q-1;+1</InChI>
 			<SMILES>CC[O-].[Na+]</SMILES>
 			<name>NaOEt</name>
 			<name>NaOC2H5</name>
@@ -845,7 +711,6 @@
 			<StdInChIKey>QDRKDTQENPPHOJ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C3H8O/c1-3(2)4/h3-4H,1-2H3</InChI>
 			<SMILES>C(C)(C)O</SMILES>
 			<name>iPrOH</name>
 			<name>IPA</name>
@@ -853,7 +718,6 @@
 			<StdInChIKey>KFZMGEQAYNKOFK-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Al.Li.4H/q+3;+1;4*-1</InChI>
 			<SMILES>[H-].[Al+3].[Li+].[H-].[H-].[H-]</SMILES>
 			<name>LAH</name>
 			<name>LiAlH4</name>
@@ -861,7 +725,6 @@
 			<StdInChIKey>BJKLPLABXHXMIM-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C2H4O2/c1-2(3)4/h1H3,(H,3,4)/f/h3H</InChI>
 			<SMILES>C(C)(=O)O</SMILES>
 			<name>HOAc</name>
 			<name>AcOH</name>
@@ -869,8 +732,6 @@
 			<StdInChIKey>QTBSBXVTEAMEQO-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2C17H14P.Fe/c2*1-3-9-15(10-4-1)18(17-13-7-8-14-17)16-11-5-2-6-12-16;/h2*1-14H;/q2*-1;+2
-			</InChI>
 			<SMILES>C1=CC=C(C=C1)P([C-]2C=CC=C2)C3=CC=CC=C3.C1=CC=C(C=C1)P([C-]2C=CC=C2)C3=CC=CC=C3.[Fe+2]
 			</SMILES>
 			<name>dppf</name>
@@ -879,15 +740,12 @@
 			<StdInChIKey>KZPYGQFFRCFCPP-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/H3N/h1H3</InChI>
 			<SMILES>N</SMILES>
 			<name>NH3</name>
 			<StdInChI>InChI=1S/H3N/h1H3</StdInChI>
 			<StdInChIKey>QGZKDVFQNNGYKY-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Na.H2O3S/c;1-4(2)3/h;(H2,1,2,3)/q+1;/p-1/fNa.HO3S/h;1H/qm;-1
-			</InChI>
 			<SMILES>S([O-])(O)=O.[Na+]</SMILES>
 			<name>NaHSO3</name>
 			<StdInChI>InChI=1S/Na.H2O3S/c;1-4(2)3/h;(H2,1,2,3)/q+1;/p-1
@@ -895,28 +753,24 @@
 			<StdInChIKey>DWAQJAXMDSEUJJ-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CCl4/c2-1(3,4)5</InChI>
 			<SMILES>ClC(Cl)(Cl)Cl</SMILES>
 			<name>CCl4</name>
 			<StdInChI>InChI=1S/CCl4/c2-1(3,4)5</StdInChI>
 			<StdInChIKey>VZGDMQKNWNREIO-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Li.H2O/h;1H2/q+1;/p-1/fLi.HO/h;1h/qm;-1</InChI>
 			<SMILES>[OH-].[Li+]</SMILES>
 			<name>LiOH</name>
 			<StdInChI>InChI=1S/Li.H2O/h;1H2/q+1;/p-1</StdInChI>
 			<StdInChIKey>WMFOQBRAJBCJND-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/H2O4S/c1-5(2,3)4/h(H2,1,2,3,4)/f/h1-2H</InChI>
 			<SMILES>S(O)(O)(=O)=O</SMILES>
 			<name>H2SO4</name>
 			<StdInChI>InChI=1S/H2O4S/c1-5(2,3)4/h(H2,1,2,3,4)</StdInChI>
 			<StdInChIKey>QAOWNCQODCNURD-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C2H4Cl2/c3-1-2-4/h1-2H2</InChI>
 			<SMILES>C(CCl)Cl</SMILES>
 			<name>EDC</name>
 			<name>ClCH2CH2Cl</name>
@@ -924,14 +778,12 @@
 			<StdInChIKey>WSLDOOZREJYCGB-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Cu.HI/h;1H/q+1;/p-1/fCu.I/h;1h/qm;-1</InChI>
 			<SMILES>[Cu]I</SMILES>
 			<name>CuI</name>
 			<StdInChI>InChI=1S/Cu.HI/h;1H/q+1;/p-1</StdInChI>
 			<StdInChIKey>LSXDOTMGLUJQCM-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C5H4N4O/c10-9-5-4(7-8-9)2-1-3-6-5/h1-3,10H</InChI>
 			<SMILES>ON1N=NC2=C1N=CC=C2</SMILES>
 			<name>HOAt</name>
 			<StdInChI>InChI=1S/C5H4N4O/c10-9-5-4(7-8-9)2-1-3-6-5/h1-3,10H
@@ -939,8 +791,6 @@
 			<StdInChIKey>FPIRBHDGWMWJEP-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C11H16N5O.F6P/c1-14(2)11(15(3)4)17-16-10-8-6-5-7-9(10)12-13-16;1-7(2,3,4,5)6/h5-8H,1-4H3;/q+1;-1
-			</InChI>
 			<SMILES>[P-](F)(F)(F)(F)(F)F.N1(N=NC2=C1C=CC=C2)OC(=[N+](C)C)N(C)C
 			</SMILES>
 			<name>HBTU</name>
@@ -949,8 +799,6 @@
 			<StdInChIKey>UQYZFNUUOSSNKT-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C10H15N6O.F6P/c1-14(2)10(15(3)4)17-16-9-8(12-13-16)6-5-7-11-9;1-7(2,3,4,5)6/h5-7H,1-4H3;/q+1;-1
-			</InChI>
 			<SMILES>[P-](F)(F)(F)(F)(F)F.N1(N=NC2=C1N=CC=C2)OC(=[N+](C)C)N(C)C
 			</SMILES>
 			<name>HATU</name>
@@ -959,8 +807,6 @@
 			<StdInChIKey>JNWBBCNCSMBKNE-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C10H15N6O.F6P/c1-14(2)10(15(3)4)17-16-9-8(12-13-16)6-5-7-11-9;1-7(2,3,4,5)6/h5-7H,1-4H3;/q+1;-1
-			</InChI>
 			<SMILES>[P-](F)(F)(F)(F)(F)F.N1(N=NC2=C1N=CC=C2)OC(=[N+](C)C)N(C)C
 			</SMILES>
 			<name>HCTU</name>
@@ -969,8 +815,6 @@
 			<StdInChIKey>JNWBBCNCSMBKNE-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C11H16N5O.BF4/c1-14(2)11(15(3)4)17-16-10-8-6-5-7-9(10)12-13-16;2-1(3,4)5/h5-8H,1-4H3;/q+1;-1
-			</InChI>
 			<SMILES>[B-](F)(F)(F)F.N1(N=NC2=C1C=CC=C2)OC(=[N+](C)C)N(C)C</SMILES>
 			<name>TBTU</name>
 			<StdInChI>InChI=1S/C11H16N5O.BF4/c1-14(2)11(15(3)4)17-16-10-8-6-5-7-9(10)12-13-16;2-1(3,4)5/h5-8H,1-4H3;/q+1;-1
@@ -978,8 +822,6 @@
 			<StdInChIKey>JKEKMBGUVUKMQB-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C18H28N6OP.F6P/c1-2-10-18-17(9-1)19-20-24(18)25-26(21-11-3-4-12-21,22-13-5-6-14-22)23-15-7-8-16-23;1-7(2,3,4,5)6/h1-2,9-10H,3-8,11-16H2;/q+1;-1
-			</InChI>
 			<SMILES>[P-](F)(F)(F)(F)(F)F.N1(N=NC2=C1C=CC=C2)O[P+](N2CCCC2)(N2CCCC2)N2CCCC2
 			</SMILES>
 			<name>PyBOP</name>
@@ -988,8 +830,6 @@
 			<StdInChIKey>VIAFLMPQBHAMLI-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH2O3.2Cs/c2-1(3)4;;/h(H2,2,3,4);;/q;2*+1/p-2/fCO3.2Cs/q-2;2m
-			</InChI>
 			<SMILES>C([O-])([O-])=O.[Cs+].[Cs+]</SMILES>
 			<name>Cs2CO3</name>
 			<StdInChI>InChI=1S/CH2O3.2Cs/c2-1(3)4;;/h(H2,2,3,4);;/q;2*+1/p-2
@@ -997,8 +837,6 @@
 			<StdInChIKey>FJDQFPXHSGXQBY-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C7H6N4O/c12-7(10-3-1-8-5-10)11-4-2-9-6-11/h1-6H
-			</InChI>
 			<SMILES>C(=O)(N1C=NC=C1)N1C=NC=C1</SMILES>
 			<name>CDI</name>
 			<StdInChI>InChI=1S/C7H6N4O/c12-7(10-3-1-8-5-10)11-4-2-9-6-11/h1-6H
@@ -1006,15 +844,12 @@
 			<StdInChIKey>PFKFTWBEEFSNDU-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/HI.Na/h1H;/q;+1/p-1/fI.Na/h1h;/q-1;m</InChI>
 			<SMILES>[I-].[Na+]</SMILES>
 			<name>NaI</name>
 			<StdInChI>InChI=1S/HI.Na/h1H;/q;+1/p-1</StdInChI>
 			<StdInChIKey>FVAUCKIRQBBSSJ-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C16H36N.FH/c1-5-9-13-17(14-10-6-2,15-11-7-3)16-12-8-4;/h5-16H2,1-4H3;1H/q+1;/p-1/fC16H36N.F/h;1h/qm;-1
-			</InChI>
 			<SMILES>[F-].C(CCC)[N+](CCCC)(CCCC)CCCC</SMILES>
 			<name>TBAF</name>
 			<StdInChI>InChI=1S/C16H36N.FH/c1-5-9-13-17(14-10-6-2,15-11-7-3)16-12-8-4;/h5-16H2,1-4H3;1H/q+1;/p-1
@@ -1022,8 +857,6 @@
 			<StdInChIKey>FPGGTKZVZWFYPV-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/3K.H3O4P/c;;;1-5(2,3)4/h;;;(H3,1,2,3,4)/q3*+1;/p-3/f3K.O4P/q3m;-3
-			</InChI>
 			<SMILES>P(=O)([O-])([O-])[O-].[K+].[K+].[K+]</SMILES>
 			<name>K3PO4</name>
 			<StdInChI>InChI=1S/3K.H3O4P/c;;;1-5(2,3)4/h;;;(H3,1,2,3,4)/q3*+1;/p-3
@@ -1031,8 +864,6 @@
 			<StdInChIKey>LWIHDJKSTIGBAC-UHFFFAOYSA-K</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2Na.H2O8S2/c;;1-9(2,3)7-8-10(4,5)6/h;;(H,1,2,3)(H,4,5,6)/q2*+1;/p-2/f2Na.O8S2/q2m;-2
-			</InChI>
 			<SMILES>S(=O)(=O)([O-])OOS(=O)(=O)[O-].[Na+].[Na+]</SMILES>
 			<name>Na2S2O8</name>
 			<StdInChI>InChI=1S/2Na.H2O8S2/c;;1-9(2,3)7-8-10(4,5)6/h;;(H,1,2,3)(H,4,5,6)/q2*+1;/p-2
@@ -1040,8 +871,6 @@
 			<StdInChIKey>CHQMHPLRPQMAMX-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2C2H4O2.Cu/c2*1-2(3)4;/h2*1H3,(H,3,4);/q;;+2/p-2/f2C2H3O2.Cu/q2*-1;m
-			</InChI>
 			<SMILES>C(C)(=O)[O-].[Cu+2].C(C)(=O)[O-]</SMILES>
 			<name>Cu(OAc)2</name>
 			<StdInChI>InChI=1S/2C2H4O2.Cu/c2*1-2(3)4;/h2*1H3,(H,3,4);/q;;+2/p-2
@@ -1049,22 +878,18 @@
 			<StdInChIKey>OPQARKPSCNTWTJ-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/FH.K/h1H;/q;+1/p-1/fF.K/h1h;/q-1;m</InChI>
 			<SMILES>[F-].[K+]</SMILES>
 			<name>KF</name>
 			<StdInChI>InChI=1S/FH.K/h1H;/q;+1/p-1</StdInChI>
 			<StdInChIKey>NROKBHXJSPEDAR-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH2O2/c2-1-3/h1H,(H,2,3)/f/h2H</InChI>
 			<SMILES>C(=O)O</SMILES>
 			<name>HCOOH</name>
 			<StdInChI>InChI=1S/CH2O2/c2-1-3/h1H,(H,2,3)</StdInChI>
 			<StdInChIKey>BDAGIHXWWSANSR-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/O10P4/c1-11-5-12(2)8-13(3,6-11)10-14(4,7-11)9-12
-			</InChI>
 			<SMILES>O=P13OP2(=O)OP(=O)(O1)OP(=O)(O2)O3</SMILES>
 			<name>P2O5</name>
 			<StdInChI>InChI=1S/O10P4/c1-11-5-12(2)8-13(3,6-11)10-14(4,7-11)9-12
@@ -1072,14 +897,12 @@
 			<StdInChIKey>DLYUQMMRRRQYAE-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C5H9NO/c1-6-4-2-3-5(6)7/h2-4H2,1H3</InChI>
 			<SMILES>CN1C(CCC1)=O</SMILES>
 			<name>NMP</name>
 			<StdInChI>InChI=1S/C5H9NO/c1-6-4-2-3-5(6)7/h2-4H2,1H3</StdInChI>
 			<StdInChIKey>SECXISVLQFMRJM-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H10O/c1-4(2,3)5/h5H,1-3H3</InChI>
 			<SMILES>C(C)(C)(C)O</SMILES>
 			<name>t-BuOH</name>
 			<name>tBuOH</name>
@@ -1087,35 +910,30 @@
 			<StdInChIKey>DKGAVHZHDRPRBM-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CO2/c2-1-3</InChI>
 			<SMILES>C(=O)=O</SMILES>
 			<name>CO2</name>
 			<StdInChI>InChI=1S/CO2/c2-1-3</StdInChI>
 			<StdInChIKey>CURLTUGMZLYLDI-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Br2/c1-2</InChI>
 			<SMILES>BrBr</SMILES>
 			<name>Br2</name>
 			<StdInChI>InChI=1S/Br2/c1-2</StdInChI>
 			<StdInChIKey>GDTBXPJZTBHREO-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/H2O2/c1-2/h1-2H</InChI>
 			<SMILES>OO</SMILES>
 			<name>H2O2</name>
 			<StdInChI>InChI=1S/H2O2/c1-2/h1-2H</StdInChI>
 			<StdInChIKey>MHAJPDPJQMAIIY-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/N3.Na/c1-3-2;/q-1;+1</InChI>
 			<SMILES>[N-]=[N+]=[N-].[Na+]</SMILES>
 			<name>NaN3</name>
 			<StdInChI>InChI=1S/N3.Na/c1-3-2;/q-1;+1</StdInChI>
 			<StdInChIKey>PXIPVTKHYLBLMZ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H16N2/c1-7(2)5-6-8(3)4/h5-6H2,1-4H3</InChI>
 			<SMILES>CN(CCN(C)C)C</SMILES>
 			<name>TMEDA</name>
 			<name>TEMED</name>
@@ -1123,23 +941,18 @@
 			<StdInChIKey>KWYHDKDOAIKMQN-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH3BN.Na/c2-1-3;/h2H3;/q-1;+1</InChI>
 			<SMILES>C(#N)[BH3-].[Na+]</SMILES>
 			<name>NaBH3CN</name>
 			<StdInChI>InChI=1S/CH3BN.Na/c2-1-3;/h2H3;/q-1;+1</StdInChI>
 			<StdInChIKey>CVDUGUOQTVTBJH-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2ClH.Sn/h2*1H;/q;;+2/p-2/f2Cl.Sn/h2*1h;/q2*-1;m
-			</InChI>
 			<SMILES>[Sn](Cl)Cl</SMILES>
 			<name>SnCl2</name>
 			<StdInChI>InChI=1S/2ClH.Sn/h2*1H;/q;;+2/p-2</StdInChI>
 			<StdInChIKey>AXZWODMDQAVCJE-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH2O3.Ca/c2-1(3)4;/h(H2,2,3,4);/q;+2/p-2/fCO3.Ca/q-2;m
-			</InChI>
 			<SMILES>C([O-])([O-])=O.[Ca+2]</SMILES>
 			<name>CaCO3</name>
 			<StdInChI>InChI=1S/CH2O3.Ca/c2-1(3)4;/h(H2,2,3,4);/q;+2/p-2
@@ -1147,22 +960,18 @@
 			<StdInChIKey>VTYYLEPIZMXCLO-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H10N2Si/c1-7(2,3)4-6-5/h4H,1-3H3</InChI>
 			<SMILES>[Si](C)(C)(C)C=[N+]=[N-]</SMILES>
 			<name>TMSCH2N2</name>
 			<StdInChI>InChI=1S/C4H10N2Si/c1-7(2,3)4-6-5/h4H,1-3H3</StdInChI>
 			<StdInChIKey>ONDSBJMLAHVLMI-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C3H9BrSi/c1-5(2,3)4/h1-3H3</InChI>
 			<SMILES>[Si](C)(C)(C)Br</SMILES>
 			<name>TMSBr</name>
 			<StdInChI>InChI=1S/C3H9BrSi/c1-5(2,3)4/h1-3H3</StdInChI>
 			<StdInChIKey>IYYIVELXUANFED-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C18H15P/c1-4-10-16(11-5-1)19(17-12-6-2-7-13-17)18-14-8-3-9-15-18/h1-15H
-			</InChI>
 			<SMILES>C1(=CC=CC=C1)P(C1=CC=CC=C1)C1=CC=CC=C1</SMILES>
 			<name>PPh3</name>
 			<name>Ph3P</name>
@@ -1171,24 +980,18 @@
 			<StdInChIKey>RIOQSEWOXXDEQQ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2ClH.Mg/h2*1H;/q;;+2/p-2/f2Cl.Mg/h2*1h;/q2*-1;m
-			</InChI>
 			<SMILES>[Cl-].[Mg+2].[Cl-]</SMILES>
 			<name>MgCl2</name>
 			<StdInChI>InChI=1S/2ClH.Mg/h2*1H;/q;;+2/p-2</StdInChI>
 			<StdInChIKey>TWRXJAOTZQYOKJ-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/HNO2.Na/c2-1-3;/h(H,2,3);/q;+1/p-1/fNO2.Na/q-1;m
-			</InChI>
 			<SMILES>N(=O)[O-].[Na+]</SMILES>
 			<name>NaNO2</name>
 			<StdInChI>InChI=1S/HNO2.Na/c2-1-3;/h(H,2,3);/q;+1/p-1</StdInChI>
 			<StdInChIKey>LPXPTNMVRIOKMN-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H10O2S2/c5-3(1-7)4(6)2-8/h3-8H,1-2H2/t3-,4-/m1/s1
-			</InChI>
 			<SMILES>SC[C@H]([C@@H](CS)O)O</SMILES>
 			<name>DTT</name>
 			<StdInChI>InChI=1S/C4H10O2S2/c5-3(1-7)4(6)2-8/h3-8H,1-2H2/t3-,4-/m1/s1
@@ -1196,14 +999,12 @@
 			<StdInChIKey>VHJLVAABSRFDPM-QWWZWVQMSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Cl2OS/c1-4(2)3</InChI>
 			<SMILES>S(=O)(Cl)Cl</SMILES>
 			<name>SOCl2</name>
 			<StdInChI>InChI=1S/Cl2OS/c1-4(2)3</StdInChI>
 			<StdInChIKey>FYSNRJHAOHDILO-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH3I/c1-2/h1H3</InChI>
 			<SMILES>CI</SMILES>
 			<name>MeI</name>
 			<name>CH3I</name>
@@ -1211,22 +1012,18 @@
 			<StdInChIKey>INQOMBQAUSQDDS-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2ClH.Pd/h2*1H;/q;;+2/p-2/f2Cl.Pd/h2*1h;/q2*-1;m
-			</InChI>
 			<SMILES>[Pd](Cl)Cl</SMILES>
 			<name>PdCl2</name>
 			<StdInChI>InChI=1S/2ClH.Pd/h2*1H;/q;;+2/p-2</StdInChI>
 			<StdInChIKey>PIBWKRNGBLPSSY-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H12O/c1-5(2)4-6(3)7/h5H,4H2,1-3H3</InChI>
 			<SMILES>C(C(C)C)C(=O)C</SMILES>
 			<name>MIBK</name>
 			<StdInChI>InChI=1S/C6H12O/c1-5(2)4-6(3)7/h5H,4H2,1-3H3</StdInChI>
 			<StdInChIKey>NTIZESTWPVYFNL-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH5N/c1-2/h2H2,1H3</InChI>
 			<SMILES>CN</SMILES>
 			<name>MeNH2</name>
 			<name>CH3NH2</name>
@@ -1234,8 +1031,6 @@
 			<StdInChIKey>BAVYZALUXZFZLV-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C7H8O3S.C5H5N/c1-6-2-4-7(5-3-6)11(8,9)10;1-2-4-6-5-3-1/h2-5H,1H3,(H,8,9,10);1-5H/fC7H7O3S.C5H6N/h;6H/q-1;+1
-			</InChI>
 			<SMILES>C1(=CC=C(C=C1)S(=O)(=O)[O-])C.[NH+]1=CC=CC=C1</SMILES>
 			<name>PPTS</name>
 			<StdInChI>InChI=1S/C7H8O3S.C5H5N/c1-6-2-4-7(5-3-6)11(8,9)10;1-2-4-6-5-3-1/h2-5H,1H3,(H,8,9,10);1-5H
@@ -1243,14 +1038,12 @@
 			<StdInChIKey>ZDYVRSLAEXCVBX-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/ClH.Li/h1H;/q;+1/p-1/fCl.Li/h1h;/q-1;m</InChI>
 			<SMILES>[Cl-].[Li+]</SMILES>
 			<name>LiCl</name>
 			<StdInChI>InChI=1S/ClH.Li/h1H;/q;+1/p-1</StdInChI>
 			<StdInChIKey>KWGKDLIKAYFUFQ-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H9.Li/c1-4(2)3;/h1-3H3;</InChI>
 			<SMILES>C(C)(C)(C)[Li]</SMILES>
 			<name>t-BuLi</name>
 			<name>tBuLi</name>
@@ -1259,8 +1052,6 @@
 			<StdInChIKey>BKDLGMUIXWPYGD-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH3.BrH.Mg/h1H3;1H;/q;;+1/p-1/fCH3.Br.Mg/h;1h;/q;-1;m
-			</InChI>
 			<SMILES>[Br-].C[Mg+]</SMILES>
 			<name>MeMgBr</name>
 			<name>CH3MgBr</name>
@@ -1268,8 +1059,6 @@
 			<StdInChIKey>AVFUHBJCUUTGCD-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C2H5.BrH.Mg/c1-2;;/h1H2,2H3;1H;/q;;+1/p-1/fC2H5.Br.Mg/h;1h;/q;-1;m
-			</InChI>
 			<SMILES>[Br-].C(C)[Mg+]</SMILES>
 			<name>EtMgBr</name>
 			<StdInChI>InChI=1S/C2H5.BrH.Mg/c1-2;;/h1H2,2H3;1H;/q;;+1/p-1
@@ -1277,8 +1066,6 @@
 			<StdInChIKey>TWTWFMUQSOFTRN-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2C7H5N.2ClH.Pd/c2*8-6-7-4-2-1-3-5-7;;;/h2*1-5H;2*1H;/q;;;;+2/p-2/f2C7H5N.2Cl.Pd/h;;2*1h;/q;;2*-1;m
-			</InChI>
 			<SMILES>Cl[Pd]Cl.C(#N)C1=CC=CC=C1.C(#N)C1=CC=CC=C1</SMILES>
 			<name>PdCl2(PhCN)2</name>
 			<StdInChI>InChI=1S/2C7H5N.2ClH.Pd/c2*8-6-7-4-2-1-3-5-7;;;/h2*1-5H;2*1H;/q;;;;+2/p-2
@@ -1286,8 +1073,6 @@
 			<StdInChIKey>WXNOJTUTEXAZLD-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2Na.H2O4S2/c;;1-5(2)6(3)4/h;;(H,1,2)(H,3,4)/q2*+1;/p-2/f2Na.O4S2/q2m;-2
-			</InChI>
 			<SMILES>S(=O)([O-])S(=O)[O-].[Na+].[Na+]</SMILES>
 			<name>Na2S2O4</name>
 			<StdInChI>InChI=1S/2Na.H2O4S2/c;;1-5(2)6(3)4/h;;(H,1,2)(H,3,4)/q2*+1;/p-2
@@ -1295,8 +1080,6 @@
 			<StdInChIKey>JVBXVOWTABLYPX-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C8H18N2O4S/c11-7-5-9-1-3-10(4-2-9)6-8-15(12,13)14/h11H,1-8H2,(H,12,13,14)/f/h12H
-			</InChI>
 			<SMILES>OCCN1CCN(CC1)CCS(=O)(=O)O</SMILES>
 			<name>HEPES</name>
 			<StdInChI>InChI=1S/C8H18N2O4S/c11-7-5-9-1-3-10(4-2-9)6-8-15(12,13)14/h11H,1-8H2,(H,12,13,14)
@@ -1304,7 +1087,6 @@
 			<StdInChIKey>JKMHFZQWWAIEOD-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C7H7FO2S/c8-11(9,10)6-7-4-2-1-3-5-7/h1-5H,6H2</InChI>
 			<SMILES>C1(=CC=CC=C1)CS(=O)(=O)F</SMILES>
 			<name>PMSF</name>
 			<StdInChI>InChI=1S/C7H7FO2S/c8-11(9,10)6-7-4-2-1-3-5-7/h1-5H,6H2
@@ -1312,72 +1094,60 @@
 			<StdInChIKey>YBYRMVIVWMBXKQ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/HI.Li/h1H;/q;+1/p-1/fI.Li/h1h;/q-1;m</InChI>
 			<SMILES>[I-].[Li+]</SMILES>
 			<name>LiI</name>
 			<StdInChI>InChI=1S/HI.Li/h1H;/q;+1/p-1</StdInChI>
 			<StdInChIKey>HSZCZNFXUDYRKD-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Al.3ClH/h;3*1H/q+3;;;/p-3/fAl.3Cl/h;3*1h/qm;3*-1
-			</InChI>
 			<SMILES>[Cl-].[Al+3].[Cl-].[Cl-]</SMILES>
 			<name>AlCl3</name>
 			<StdInChI>InChI=1S/Al.3ClH/h;3*1H/q+3;;;/p-3</StdInChI>
 			<StdInChIKey>VSCWAEJMTAWNJL-UHFFFAOYSA-K</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CN.Na/c1-2;/q-1;+1</InChI>
 			<SMILES>[C-]#N.[Na+]</SMILES>
 			<name>NaCN</name>
 			<StdInChI>InChI=1S/CN.Na/c1-2;/q-1;+1</StdInChI>
 			<StdInChIKey>MNWBNISUBARLIT-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Br3P/c1-4(2)3</InChI>
 			<SMILES>P(Br)(Br)Br</SMILES>
 			<name>PBr3</name>
 			<StdInChI>InChI=1S/Br3P/c1-4(2)3</StdInChI>
 			<StdInChIKey>IPNPIHIZVLFAFP-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2HI.Zn/h2*1H;/q;;+2/p-2/f2I.Zn/h2*1h;/q2*-1;m</InChI>
 			<SMILES>[I-].[Zn+2].[I-]</SMILES>
 			<name>ZnI2</name>
 			<StdInChI>InChI=1S/2HI.Zn/h2*1H;/q;;+2/p-2</StdInChI>
 			<StdInChIKey>UAYWVJHJZHQCIE-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C7H7Br/c8-6-7-4-2-1-3-5-7/h1-5H,6H2</InChI>
 			<SMILES>C(C1=CC=CC=C1)Br</SMILES>
 			<name>BnBr</name>
 			<StdInChI>InChI=1S/C7H7Br/c8-6-7-4-2-1-3-5-7/h1-5H,6H2</StdInChI>
 			<StdInChIKey>AGEZXYOZHKGVCM-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/FH.Na/h1H;/q;+1/p-1/fF.Na/h1h;/q-1;m</InChI>
 			<SMILES>[F-].[Na+]</SMILES>
 			<name>NaF</name>
 			<StdInChI>InChI=1S/FH.Na/h1H;/q;+1/p-1</StdInChI>
 			<StdInChIKey>PUZPDOWCWNUUKD-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CN.K/c1-2;/q-1;+1</InChI>
 			<SMILES>[C-]#N.[K+]</SMILES>
 			<name>KCN</name>
 			<StdInChI>InChI=1S/CN.K/c1-2;/q-1;+1</StdInChI>
 			<StdInChIKey>NNFCIKHAZHQZJG-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4F6O3/c5-3(6,7)1(11)13-2(12)4(8,9)10</InChI>
 			<SMILES>FC(C(=O)OC(C(F)(F)F)=O)(F)F</SMILES>
 			<name>TFAA</name>
 			<StdInChI>InChI=1S/C4F6O3/c5-3(6,7)1(11)13-2(12)4(8,9)10</StdInChI>
 			<StdInChIKey>QAEDZJGFFMLHHQ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C16H36N.BrH/c1-5-9-13-17(14-10-6-2,15-11-7-3)16-12-8-4;/h5-16H2,1-4H3;1H/q+1;/p-1/fC16H36N.Br/h;1h/qm;-1
-			</InChI>
 			<SMILES>[Br-].C(CCC)[N+](CCCC)(CCCC)CCCC</SMILES>
 			<name>TBAB</name>
 			<StdInChI>InChI=1S/C16H36N.BrH/c1-5-9-13-17(14-10-6-2,15-11-7-3)16-12-8-4;/h5-16H2,1-4H3;1H/q+1;/p-1
@@ -1385,21 +1155,18 @@
 			<StdInChIKey>JRMUNVKIHCOMHV-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CBr4/c2-1(3,4)5</InChI>
 			<SMILES>BrC(Br)(Br)Br</SMILES>
 			<name>CBr4</name>
 			<StdInChI>InChI=1S/CBr4/c2-1(3,4)5</StdInChI>
 			<StdInChIKey>HJUGFYREWKUQJT-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/ClH.K/h1H;/q;+1/p-1/fCl.K/h1h;/q-1;m</InChI>
 			<SMILES>[Cl-].[K+]</SMILES>
 			<name>KCl</name>
 			<StdInChI>InChI=1S/ClH.K/h1H;/q;+1/p-1</StdInChI>
 			<StdInChIKey>WCUXLLCKKVVCTQ-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H9O.Na/c1-4(2,3)5;/h1-3H3;/q-1;+1</InChI>
 			<SMILES>CC(C)([O-])C.[Na+]</SMILES>
 			<name>tBuONa</name>
 			<name>NaOtBu</name>
@@ -1407,8 +1174,6 @@
 			<StdInChIKey>MFRIHAYPQRLWNB-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/3CHF3O3S.La/c3*2-1(3,4)8(5,6)7;/h3*(H,5,6,7);/q;;;+3/p-3/f3CF3O3S.La/q3*-1;m
-			</InChI>
 			<SMILES>FC(S(=O)(=O)[O-])(F)F.[La+3].FC(S(=O)(=O)[O-])(F)F.FC(S(=O)(=O)[O-])(F)F
 			</SMILES>
 			<name>La(CF3SO3)3</name>
@@ -1417,15 +1182,12 @@
 			<StdInChIKey>WGJJZRVGLPOKQT-UHFFFAOYSA-K</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H10O/c1-2-3-4-5/h5H,2-4H2,1H3</InChI>
 			<SMILES>C(CCC)O</SMILES>
 			<name>n-BuOH</name>
 			<StdInChI>InChI=1S/C4H10O/c1-2-3-4-5/h5H,2-4H2,1H3</StdInChI>
 			<StdInChIKey>LRHPLDYGYMQRHN-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C10H16N2O8/c13-7(14)3-11(4-8(15)16)1-2-12(5-9(17)18)6-10(19)20/h1-6H2,(H,13,14)(H,15,16)(H,17,18)(H,19,20)/f/h13,15,17,19H
-			</InChI>
 			<SMILES>C(CN(CC(=O)O)CC(=O)O)N(CC(=O)O)CC(=O)O</SMILES>
 			<name>EDTA</name>
 			<StdInChI>InChI=1S/C10H16N2O8/c13-7(14)3-11(4-8(15)16)1-2-12(5-9(17)18)6-10(19)20/h1-6H2,(H,13,14)(H,15,16)(H,17,18)(H,19,20)
@@ -1433,15 +1195,12 @@
 			<StdInChIKey>KCXVZYZYPLLWCC-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CBr2F2/c2-1(3,4)5</InChI>
 			<SMILES>BrC(F)(F)Br</SMILES>
 			<name>CF2Br2</name>
 			<StdInChI>InChI=1S/CBr2F2/c2-1(3,4)5</StdInChI>
 			<StdInChIKey>AZSZCFSOHXEJQE-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Na.H2O4S/c;1-5(2,3)4/h;(H2,1,2,3,4)/q+1;/p-1/fNa.HO4S/h;1H/qm;-1
-			</InChI>
 			<SMILES>S([O-])(O)(=O)=O.[Na+]</SMILES>
 			<name>NaHSO4</name>
 			<StdInChI>InChI=1S/Na.H2O4S/c;1-5(2,3)4/h;(H2,1,2,3,4)/q+1;/p-1
@@ -1449,29 +1208,24 @@
 			<StdInChIKey>WBHQBSYUUJJSRZ-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/ClH.Cu/h1H;/q;+1/p-1/fCl.Cu/h1h;/q-1;m</InChI>
 			<SMILES>[Cu]Cl</SMILES>
 			<name>CuCl</name>
 			<StdInChI>InChI=1S/ClH.Cu/h1H;/q;+1/p-1</StdInChI>
 			<StdInChIKey>OXBLHERUFWYNTN-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH2O/c1-2/h1H2</InChI>
 			<SMILES>C=O</SMILES>
 			<name>HCHO</name>
 			<StdInChI>InChI=1S/CH2O/c1-2/h1H2</StdInChI>
 			<StdInChIKey>WSFSSNUMVMOOMR-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CHNS.K/c2-1-3;/h3H;/q;+1/p-1/fCNS.K/h3h;/q-1;m</InChI>
 			<SMILES>[S-]C#N.[K+]</SMILES>
 			<name>KSCN</name>
 			<StdInChI>InChI=1S/CHNS.K/c2-1-3;/h3H;/q;+1/p-1</StdInChI>
 			<StdInChIKey>ZNNZYHKDIALBAK-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/K.H2O4S/c;1-5(2,3)4/h;(H2,1,2,3,4)/q+1;/p-1/fK.HO4S/h;1H/qm;-1
-			</InChI>
 			<SMILES>S([O-])(O)(=O)=O.[K+]</SMILES>
 			<name>KHSO4</name>
 			<StdInChI>InChI=1S/K.H2O4S/c;1-5(2,3)4/h;(H2,1,2,3,4)/q+1;/p-1
@@ -1479,8 +1233,6 @@
 			<StdInChIKey>CHKVPAROMQMJNQ-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C2H4O2.Na/c1-2(3)4;/h1H3,(H,3,4);/q;+1/p-1/fC2H3O2.Na/q-1;m
-			</InChI>
 			<SMILES>C(C)(=O)[O-].[Na+]</SMILES>
 			<name>NaOAc</name>
 			<StdInChI>InChI=1S/C2H4O2.Na/c1-2(3)4;/h1H3,(H,3,4);/q;+1/p-1
@@ -1488,7 +1240,6 @@
 			<StdInChIKey>VMHLLURERBWHNL-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H9O.K/c1-4(2,3)5;/h1-3H3;/q-1;+1</InChI>
 			<SMILES>CC(C)([O-])C.[K+]</SMILES>
 			<name>t-BuOK</name>
 			<name>KOtBu</name>
@@ -1496,7 +1247,6 @@
 			<StdInChIKey>LPNYRYFBWFDTMA-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H12N2O/c1-7-4-3-5-8(2)6(7)9/h3-5H2,1-2H3</InChI>
 			<SMILES>CN1C(N(CCC1)C)=O</SMILES>
 			<name>DMPU</name>
 			<StdInChI>InChI=1S/C6H12N2O/c1-7-4-3-5-8(2)6(7)9/h3-5H2,1-2H3
@@ -1504,7 +1254,6 @@
 			<StdInChIKey>GUVUOGQBMYCBQP-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H18N3OP/c1-7(2)11(10,8(3)4)9(5)6/h1-6H3</InChI>
 			<SMILES>CN(P(=O)(N(C)C)N(C)C)C</SMILES>
 			<name>HMPA</name>
 			<StdInChI>InChI=1S/C6H18N3OP/c1-7(2)11(10,8(3)4)9(5)6/h1-6H3
@@ -1512,52 +1261,42 @@
 			<StdInChIKey>GNOIPBMMFNIUFM-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2ClH.Ni/h2*1H;/q;;+2/p-2/f2Cl.Ni/h2*1h;/q2*-1;m
-			</InChI>
 			<SMILES>[Ni](Cl)Cl</SMILES>
 			<name>NiCl2</name>
 			<StdInChI>InChI=1S/2ClH.Ni/h2*1H;/q;;+2/p-2</StdInChI>
 			<StdInChIKey>QMMRZOWCJAIUJA-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Ca.2ClH/h;2*1H/q+2;;/p-2/fCa.2Cl/h;2*1h/qm;2*-1
-			</InChI>
 			<SMILES>[Cl-].[Ca+2].[Cl-]</SMILES>
 			<name>CaCl2</name>
 			<StdInChI>InChI=1S/Ca.2ClH/h;2*1H/q+2;;/p-2</StdInChI>
 			<StdInChIKey>UXVMQQNJUSDDNG-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CS2/c2-1-3</InChI>
 			<SMILES>C(=S)=S</SMILES>
 			<name>CS2</name>
 			<StdInChI>InChI=1S/CS2/c2-1-3</StdInChI>
 			<StdInChIKey>QGJOPFRUJISHPQ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2H2O.Pd/h2*1H2;/q;;+2/p-2/f2HO.Pd/h2*1h;/q2*-1;m
-			</InChI>
 			<SMILES>[OH-].[OH-].[Pd+2]</SMILES>
 			<name>Pd(OH)2</name>
 			<StdInChI>InChI=1S/2H2O.Pd/h2*1H2;/q;;+2/p-2</StdInChI>
 			<StdInChIKey>NXJCBFBQEVOTOW-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/H2O/h1H2/i/hD2/f/i1D2</InChI>
 			<SMILES>[2H]O[2H]</SMILES>
 			<name>D2O</name>
 			<StdInChI>InChI=1S/H2O/h1H2/i/hD2</StdInChI>
 			<StdInChIKey>XLYOFNOQVPJJNP-ZSJDYOACSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/H3NO/c1-2/h2H,1H2</InChI>
 			<SMILES>NO</SMILES>
 			<name>NH2OH</name>
 			<StdInChI>InChI=1S/H3NO/c1-2/h2H,1H2</StdInChI>
 			<StdInChIKey>AVXURJPOCDRRFD-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C8H7ClO2/c9-8(10)11-6-7-4-2-1-3-5-7/h1-5H,6H2</InChI>
 			<SMILES>ClC(=O)OCC1=CC=CC=C1</SMILES>
 			<name>Cbz-Cl</name>
 			<StdInChI>InChI=1S/C8H7ClO2/c9-8(10)11-6-7-4-2-1-3-5-7/h1-5H,6H2
@@ -1565,15 +1304,12 @@
 			<StdInChIKey>HSDAJNMJOMSNEV-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/ClHO2.Na/c2-1-3;/h(H,2,3);/q;+1/p-1/fClO2.Na/q-1;m
-			</InChI>
 			<SMILES>Cl(=O)[O-].[Na+]</SMILES>
 			<name>NaClO2</name>
 			<StdInChI>InChI=1S/ClHO2.Na/c2-1-3;/h(H,2,3);/q;+1/p-1</StdInChI>
 			<StdInChIKey>UKLNMMHNWFDKNT-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C5H12O/c1-5(2,3)6-4/h1-4H3</InChI>
 			<SMILES>C(C)(C)(C)OC</SMILES>
 			<name>MTBE</name>
 			<name>TBME</name>
@@ -1581,51 +1317,42 @@
 			<StdInChIKey>BZLVMXJERCGZMT-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H8O/c1-3-4(2)5/h3H2,1-2H3</InChI>
 			<SMILES>C(C)C(=O)C</SMILES>
 			<name>MEK</name>
 			<StdInChI>InChI=1S/C4H8O/c1-3-4(2)5/h3H2,1-2H3</StdInChI>
 			<StdInChIKey>ZWEHNKRNPOVVGH-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H10O3/c5-1-3-7-4-2-6/h5-6H,1-4H2</InChI>
 			<SMILES>C(COCCO)O</SMILES>
 			<name>DEG</name>
 			<StdInChI>InChI=1S/C4H10O3/c5-1-3-7-4-2-6/h5-6H,1-4H2</StdInChI>
 			<StdInChIKey>MTHSVFCYNBDYFN-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C7H5N/c8-6-7-4-2-1-3-5-7/h1-5H</InChI>
 			<SMILES>C(C1=CC=CC=C1)#N</SMILES>
 			<name>PhCN</name>
 			<StdInChI>InChI=1S/C7H5N/c8-6-7-4-2-1-3-5-7/h1-5H</StdInChI>
 			<StdInChIKey>JFDZBHWFFUWGJE-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H4Cl2/c7-5-3-1-2-4-6(5)8/h1-4H</InChI>
 			<SMILES>ClC1=C(C=CC=C1)Cl</SMILES>
 			<name>ODCB</name>
 			<StdInChI>InChI=1S/C6H4Cl2/c7-5-3-1-2-4-6(5)8/h1-4H</StdInChI>
 			<StdInChIKey>RFFLAFLAYFXFSW-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C2H6S/c1-2-3/h3H,2H2,1H3</InChI>
 			<SMILES>C(C)S</SMILES>
 			<name>EtSH</name>
 			<StdInChI>InChI=1S/C2H6S/c1-2-3/h3H,2H2,1H3</StdInChI>
 			<StdInChIKey>DNJIEGIFACGWOD-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/4ClH.Zr/h4*1H;/q;;;;+4/p-4/f4Cl.Zr/h4*1h;/q4*-1;m
-			</InChI>
 			<SMILES>[Cl-].[Zr+4].[Cl-].[Cl-].[Cl-]</SMILES>
 			<name>ZrCl4</name>
 			<StdInChI>InChI=1S/4ClH.Zr/h4*1H;/q;;;;+4/p-4</StdInChI>
 			<StdInChIKey>DUNKXUFBGCUVQW-UHFFFAOYSA-J</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/K.H3O4P/c;1-5(2,3)4/h;(H3,1,2,3,4)/q+1;/p-1/fK.H2O4P/h;1-2H/qm;-1
-			</InChI>
 			<SMILES>P(=O)(O)(O)[O-].[K+]</SMILES>
 			<name>KH2PO4</name>
 			<StdInChI>InChI=1S/K.H3O4P/c;1-5(2,3)4/h;(H3,1,2,3,4)/q+1;/p-1
@@ -1633,8 +1360,6 @@
 			<StdInChIKey>GNSKLFRGEWLPPA-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2K.H3O4P/c;;1-5(2,3)4/h;;(H3,1,2,3,4)/q2*+1;/p-2/f2K.HO4P/h;;1H/q2m;-2
-			</InChI>
 			<SMILES>P(=O)(O)([O-])[O-].[K+].[K+]</SMILES>
 			<name>K2HPO4</name>
 			<StdInChI>InChI=1S/2K.H3O4P/c;;1-5(2,3)4/h;;(H3,1,2,3,4)/q2*+1;/p-2
@@ -1642,15 +1367,12 @@
 			<StdInChIKey>ZPWVASYFFYYZEW-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/H3NO4S/c1-5-6(2,3)4/h1H2,(H,2,3,4)/f/h2H</InChI>
 			<SMILES>NOS(=O)(=O)O</SMILES>
 			<name>H2NOSO3H</name>
 			<StdInChI>InChI=1S/H3NO4S/c1-5-6(2,3)4/h1H2,(H,2,3,4)</StdInChI>
 			<StdInChIKey>DQPBABKTKYNPMH-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C10H18O5/c1-9(2,3)14-7(11)13-8(12)15-10(4,5)6/h1-6H3
-			</InChI>
 			<SMILES>C(=O)(OC(C)(C)C)OC(=O)OC(C)(C)C</SMILES>
 			<name>(Boc)2O</name>
 			<StdInChI>InChI=1S/C10H18O5/c1-9(2,3)14-7(11)13-8(12)15-10(4,5)6/h1-6H3
@@ -1658,15 +1380,12 @@
 			<StdInChIKey>DYHSDKLCOJIUFX-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Ag.NO3/c;2-1(3)4/q+1;-1</InChI>
 			<SMILES>[N+](=O)([O-])[O-].[Ag+]</SMILES>
 			<name>AgNO3</name>
 			<StdInChI>InChI=1S/Ag.NO3/c;2-1(3)4/q+1;-1</StdInChI>
 			<StdInChIKey>SQGYOTSLMSWVJD-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C10H16O4S/c1-9(2)7-3-4-10(9,8(11)5-7)6-15(12,13)14/h7H,3-6H2,1-2H3,(H,12,13,14)/f/h12H
-			</InChI>
 			<SMILES>O=S(CC1(C2(C)C)C(CC2CC1)=O)(O)=O</SMILES>
 			<name>camphorsulfonic acid</name>
 			<name>CSA</name>
@@ -1677,7 +1396,6 @@
 			<StdInChIKey>MIOPJNTWMNEORI-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C8Cl2N2O2/c9-5-6(10)8(14)4(2-12)3(1-11)7(5)13</InChI>
 			<SMILES>ClC=1C(C(=C(C(C1Cl)=O)C#N)C#N)=O</SMILES>
 			<name>DDQ</name>
 			<StdInChI>InChI=1S/C8Cl2N2O2/c9-5-6(10)8(14)4(2-12)3(1-11)7(5)13
@@ -1685,8 +1403,6 @@
 			<StdInChIKey>HZNVUJQVZSTENZ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C9H18N.Li/c1-8(2)6-5-7-9(3,4)10-8;/h5-7H2,1-4H3;/q-1;+1
-			</InChI>
 			<SMILES>[Li]N1C(CCCC1(C)C)(C)C</SMILES>
 			<name>Lithium tetramethylpiperidide</name>
 			<name>LiTMP</name>
@@ -1695,8 +1411,6 @@
 			<StdInChIKey>ANYSGBYRTLOUPO-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C16H36N.HI/c1-5-9-13-17(14-10-6-2,15-11-7-3)16-12-8-4;/h5-16H2,1-4H3;1H/q+1;/p-1/fC16H36N.I/h;1h/qm;-1
-			</InChI>
 			<SMILES>[I-].C(CCC)[N+](CCCC)(CCCC)CCCC</SMILES>
 			<name>TBAI</name>
 			<StdInChI>InChI=1S/C16H36N.HI/c1-5-9-13-17(14-10-6-2,15-11-7-3)16-12-8-4;/h5-16H2,1-4H3;1H/q+1;/p-1
@@ -1704,8 +1418,6 @@
 			<StdInChIKey>DPKBAXPHAYBPRL-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C12H24O6/c1-2-14-5-6-16-9-10-18-12-11-17-8-7-15-4-3-13-1/h1-12H2
-			</InChI>
 			<SMILES>O1CCOCCOCCOCCOCCOCC1</SMILES>
 			<name>18-crown-6</name>
 			<name>18-Cr-6</name>
@@ -1714,8 +1426,6 @@
 			<StdInChIKey>XEZNGIUYQVAUSS-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C12H20N4O2/c17-11(15-7-3-1-4-8-15)13-14-12(18)16-9-5-2-6-10-16/h1-10H2
-			</InChI>
 			<SMILES>N(=NC(=O)N1CCCCC1)C(=O)N1CCCCC1</SMILES>
 			<name>ADDP</name>
 			<StdInChI>InChI=1S/C12H20N4O2/c17-11(15-7-3-1-4-8-15)13-14-12(18)16-9-5-2-6-10-16/h1-10H2
@@ -1723,15 +1433,12 @@
 			<StdInChIKey>OQJBFFCUFALWQL-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C8H18Si2/c1-9(2,3)7-8-10(4,5)6/h1-6H3</InChI>
 			<SMILES>C[Si](C)(C)C#C[Si](C)(C)C</SMILES>
 			<name>BTMSA</name>
 			<StdInChI>InChI=1S/C8H18Si2/c1-9(2,3)7-8-10(4,5)6/h1-6H3</StdInChI>
 			<StdInChIKey>ZDWYFWIBTZJGOR-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C19H42N.BrH/c1-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20(2,3)4;/h5-19H2,1-4H3;1H/q+1;/p-1/fC19H42N.Br/h;1h/qm;-1
-			</InChI>
 			<SMILES>[Br-].C(CCCCCCCCCCCCCCC)[N+](C)(C)C</SMILES>
 			<name>Cetrimonium bromide</name>
 			<name>CTAB</name>
@@ -1740,7 +1447,6 @@
 			<StdInChIKey>LZZYPRNAOMGNLH-UHFFFAOYSA-M</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H10F3NS/c1-3-8(4-2)9(5,6)7/h3-4H2,1-2H3</InChI>
 			<SMILES>C(C)N(CC)S(F)(F)F</SMILES>
 			<name>DAST</name>
 			<StdInChI>InChI=1S/C4H10F3NS/c1-3-8(4-2)9(5,6)7/h3-4H2,1-2H3
@@ -1748,8 +1454,6 @@
 			<StdInChIKey>CSJLBAMHHLJAAS-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C16H24N2/c1-12(2)18(13(3)4)10-9-14-11-17-16-8-6-5-7-15(14)16/h5-8,11-13,17H,9-10H2,1-4H3
-			</InChI>
 			<SMILES>C(C)(C)N(CCC1=CNC2=CC=CC=C12)C(C)C</SMILES>
 			<name>DIPT</name>
 			<name>DiPT</name>
@@ -1758,21 +1462,18 @@
 			<StdInChIKey>ZRVAAGAZUWXRIP-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H6O4/c1-9-5(7)3-4-6(8)10-2/h1-2H3</InChI>
 			<SMILES>C(#CC(=O)OC)C(=O)OC</SMILES>
 			<name>DMAD</name>
 			<StdInChI>InChI=1S/C6H6O4/c1-9-5(7)3-4-6(8)10-2/h1-2H3</StdInChI>
 			<StdInChIKey>VHILMKFSCRWWIJ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C3H6O2/c1-3(2)4-5-3/h1-2H3</InChI>
 			<SMILES>CC1(OO1)C</SMILES>
 			<name>DMDO</name>
 			<StdInChI>InChI=1S/C3H6O2/c1-3(2)4-5-3/h1-2H3</StdInChI>
 			<StdInChIKey>FFHWGQQFANVOHV-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C5H10N2O/c1-6-3-4-7(2)5(6)8/h3-4H2,1-2H3</InChI>
 			<SMILES>CN1C(N(CC1)C)=O</SMILES>
 			<name>DMI</name>
 			<StdInChI>InChI=1S/C5H10N2O/c1-6-3-4-7(2)5(6)8/h3-4H2,1-2H3
@@ -1780,8 +1481,6 @@
 			<StdInChIKey>CYSGHNMQYZDMIA-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C26H24P2/c1-5-13-23(14-6-1)27(24-15-7-2-8-16-24)21-22-28(25-17-9-3-10-18-25)26-19-11-4-12-20-26/h1-20H,21-22H2
-			</InChI>
 			<SMILES>P(c1ccccc1)(c2ccccc2)CCP(c3ccccc3)c4ccccc4 </SMILES>
 			<name>dppe</name>
 			<StdInChI>InChI=1S/C26H24P2/c1-5-13-23(14-6-1)27(24-15-7-2-8-16-24)21-22-28(25-17-9-3-10-18-25)26-19-11-4-12-20-26/h1-20H,21-22H2
@@ -1789,8 +1488,6 @@
 			<StdInChIKey>QFMZQPDHXULLKC-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C25H22P2/c1-5-13-22(14-6-1)26(23-15-7-2-8-16-23)21-27(24-17-9-3-10-18-24)25-19-11-4-12-20-25/h1-20H,21H2
-			</InChI>
 			<SMILES>P(c1ccccc1)(c2ccccc2)CP(c3ccccc3)c4ccccc4</SMILES>
 			<name>dppm</name>
 			<StdInChI>InChI=1S/C25H22P2/c1-5-13-22(14-6-1)26(23-15-7-2-8-16-23)21-27(24-17-9-3-10-18-24)25-19-11-4-12-20-25/h1-20H,21H2
@@ -1798,8 +1495,6 @@
 			<StdInChIKey>XGCDBGRZEKYHNV-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C27H26P2/c1-5-14-24(15-6-1)28(25-16-7-2-8-17-25)22-13-23-29(26-18-9-3-10-19-26)27-20-11-4-12-21-27/h1-12,14-21H,13,22-23H2
-			</InChI>
 			<SMILES>P(c1ccccc1)(c2ccccc2)CCCP(c3ccccc3)c4ccccc4</SMILES>
 			<name>dppp</name>
 			<StdInChI>InChI=1S/C27H26P2/c1-5-14-24(15-6-1)28(25-16-7-2-8-17-25)22-13-23-29(26-18-9-3-10-19-26)27-20-11-4-12-21-27/h1-12,14-21H,13,22-23H2
@@ -1807,8 +1502,6 @@
 			<StdInChIKey>LVEYOSJUKRVCCF-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C14H23N/c1-10-8-11(13(2,3)4)15-12(9-10)14(5,6)7/h8-9H,1-7H3
-			</InChI>
 			<SMILES>C(C)(C)(C)C1=NC(=CC(=C1)C)C(C)(C)C</SMILES>
 			<name>DTBMP</name>
 			<StdInChI>InChI=1S/C14H23N/c1-10-8-11(13(2,3)4)15-12(9-10)14(5,6)7/h8-9H,1-7H3
@@ -1816,7 +1509,6 @@
 			<StdInChIKey>HVHZEKKZMFRULH-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H10O2S2/c5-3(1-7)4(6)2-8/h3-8H,1-2H2/t3-,4+</InChI>
 			<SMILES>C([C@@H]([C@@H](CS)O)O)S</SMILES>
 			<name>DTE</name>
 			<StdInChI>InChI=1S/C4H10O2S2/c5-3(1-7)4(6)2-8/h3-8H,1-2H2/t3-,4+
@@ -1824,8 +1516,6 @@
 			<StdInChIKey>VHJLVAABSRFDPM-ZXZARUISSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C18H10F5O2P/c19-13-14(20)16(22)18(17(23)15(13)21)25-26(24,11-7-3-1-4-8-11)12-9-5-2-6-10-12/h1-10H
-			</InChI>
 			<SMILES>C1(=CC=CC=C1)P(OC1=C(C(=C(C(=C1F)F)F)F)F)(=O)C1=CC=CC=C1
 			</SMILES>
 			<name>FDPP</name>
@@ -1834,7 +1524,6 @@
 			<StdInChIKey>OOWSDKUFKGVADH-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C3H2F6O/c4-2(5,6)1(10)3(7,8)9/h1,10H</InChI>
 			<SMILES>FC(C(C(F)(F)F)O)(F)F</SMILES>
 			<name>Hexafluoroisopropanol</name>
 			<name>HFIP</name>
@@ -1842,8 +1531,6 @@
 			<StdInChIKey>BYEAHWXPCBROCE-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2C5H5N.2Cr.7O/c2*1-2-4-6-5-3-1;;;;;;;;;/h2*1-5H;;;;;;;;;/q;;;;;;;;;2*-1/p+2/f2C5H6N.2Cr.7O/h2*6H;;;;;;;;;/q2*+1;;;;;;;;2m
-			</InChI>
 			<SMILES>[Cr](=O)(=O)([O-])O[Cr](=O)(=O)[O-].[NH+]1=CC=CC=C1.[NH+]1=CC=CC=C1
 			</SMILES>
 			<name>PDC</name>
@@ -1852,8 +1539,6 @@
 			<StdInChIKey>LMYWWPCAXXPJFF-UHFFFAOYSA-P</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H18N3S.C3H9F2Si/c1-7(2)10(8(3)4)9(5)6;1-6(2,3,4)5/h1-6H3;1-3H3/q+1;-1
-			</InChI>
 			<SMILES>CN([S+](N(C)C)N(C)C)C.C[Si-](C)(F)(F)C</SMILES>
 			<name>tris(dimethylamino)sulfonium difluorotrimethylsilicate</name>
 			<name>TASF</name>
@@ -1862,7 +1547,6 @@
 			<StdInChIKey>JMGVTLYEFSBAGJ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H10O2/c1-4(2,3)6-5/h5H,1-3H3</InChI>
 			<SMILES>C(C)(C)(C)OO</SMILES>
 			<name>TBHP</name>
 			<name>tBOOH</name>
@@ -1870,22 +1554,18 @@
 			<StdInChIKey>CIHOLLKRGTVIJN-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C3Cl3N3O3/c4-7-1(10)8(5)3(12)9(6)2(7)11</InChI>
 			<SMILES>ClN1C(N(C(N(C1=O)Cl)=O)Cl)=O</SMILES>
 			<name>TCCA</name>
 			<StdInChI>InChI=1S/C3Cl3N3O3/c4-7-1(10)8(5)3(12)9(6)2(7)11</StdInChI>
 			<StdInChIKey>YRIZYWQGELRKNT-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6N4/c7-1-5(2-8)6(3-9)4-10</InChI>
 			<SMILES>C(#N)C(=C(C#N)C#N)C#N</SMILES>
 			<name>TCNE</name>
 			<StdInChI>InChI=1S/C6N4/c7-1-5(2-8)6(3-9)4-10</StdInChI>
 			<StdInChIKey>NLDYACGHTUPAQU-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C12H4N4/c13-5-11(6-14)9-1-2-10(4-3-9)12(7-15)8-16/h1-4H
-			</InChI>
 			<SMILES>C1(C=CC(C=C1)=C(C#N)C#N)=C(C#N)C#N</SMILES>
 			<name>Tetracyanoquinodimethane</name>
 			<name>TCNQ</name>
@@ -1894,7 +1574,6 @@
 			<StdInChIKey>PCCVSPMFGIFTHU-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CN4O8/c6-2(7)1(3(8)9,4(10)11)5(12)13</InChI>
 			<SMILES>[N+](=O)([O-])C([N+](=O)[O-])([N+](=O)[O-])[N+](=O)[O-]
 			</SMILES>
 			<name>TNM</name>
@@ -1902,8 +1581,6 @@
 			<StdInChIKey>NYTOUQBROMCLBJ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2C3H7O2.Al.Na.2H/c2*1-5-3-2-4;;;;/h2*2-3H2,1H3;;;;/q2*-1;2*+1;;
-			</InChI>
 			<SMILES>[Na+].COCCO[AlH2-]OCCOC</SMILES>
 			<name>Vitride</name>
 			<name>Red-Al</name>
@@ -1913,14 +1590,12 @@
 			<StdInChIKey>XJIQVZMZXHEYOY-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/HNO3/c2-1(3)4/h(H,2,3,4)/f/h2H</InChI>
 			<SMILES>O[N+]([O-])=O</SMILES>
 			<name>HNO3</name>
 			<StdInChI>InChI=1S/HNO3/c2-1(3)4/h(H,2,3,4)</StdInChI>
 			<StdInChIKey>GRYLNZFGIOXLOG-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H9.Li/c1-3-4-2;/h3H,4H2,1-2H3;</InChI>
 			<SMILES>C(C)(CC)[Li]</SMILES>
 			<name>sBuLi</name>
 			<name>s-BuLi</name>
@@ -1929,91 +1604,78 @@
 			<StdInChIKey>VATDYQWILMGLEW-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH3.Li/h1H3;</InChI>
 			<SMILES>C[Li]</SMILES>
 			<name>MeLi</name>
 			<StdInChI>InChI=1S/CH3.Li/h1H3;</StdInChI>
 			<StdInChIKey>DVSDBMFJEQPWNO-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H5.Li/c1-2-4-6-5-3-1;/h1-5H;</InChI>
 			<SMILES>[Li]c1ccccc1</SMILES>
 			<name>PhLi</name>
 			<StdInChI>InChI=1S/C6H5.Li/c1-2-4-6-5-3-1;/h1-5H;</StdInChI>
 			<StdInChIKey>NHKJPPKXDNZFBJ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/K.NO3/c;2-1(3)4/q+1;-1</InChI>
 			<SMILES>[N+](=O)([O-])[O-].[K+]</SMILES>
 			<name>KNO3</name>
 			<StdInChI>InChI=1S/K.NO3/c;2-1(3)4/q+1;-1</StdInChI>
 			<StdInChIKey>FGIUAXJPYTZDNR-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/N2O/c1-2-3</InChI>
 			<SMILES>N#[N+][O-]</SMILES>
 			<name>N2O</name>
 			<StdInChI>InChI=1S/N2O/c1-2-3</StdInChI>
 			<StdInChIKey>GQPLMRYTRLFLPF-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/K.Mn.4O/q+1;;;;;-1</InChI>
 			<SMILES>[Mn](=O)(=O)(=O)[O-].[K+]</SMILES>
 			<name>KMnO4</name>
 			<StdInChI>InChI=1S/K.Mn.4O/q+1;;;;;-1</StdInChI>
 			<StdInChIKey>VZJVWSHVAAUDKD-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/BH3/h1H3</InChI>
 			<SMILES>B</SMILES>
 			<name>BH3</name>
 			<StdInChI>InChI=1S/BH3/h1H3</StdInChI>
 			<StdInChIKey>UORVGPXVDQYIDP-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Al.3H</InChI>
 			<SMILES>[AlH3]</SMILES>
 			<name>AlH3</name>
 			<StdInChI>InChI=1S/Al.3H</StdInChI>
 			<StdInChIKey>AZDRQVAHHNSJOQ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/CH4/h1H4</InChI>
 			<SMILES>C</SMILES>
 			<name>CH4</name>
 			<StdInChI>InChI=1S/CH4/h1H4</StdInChI>
 			<StdInChIKey>VNWKTOKETHGBQD-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/H3P/h1H3</InChI>
 			<SMILES>P</SMILES>
 			<name>PH3</name>
 			<StdInChI>InChI=1S/H3P/h1H3</StdInChI>
 			<StdInChIKey>XYFCBTPGUUZFHI-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/AsH3/h1H3</InChI>
 			<SMILES>[AsH3]</SMILES>
 			<name>AsH3</name>
 			<StdInChI>InChI=1S/AsH3/h1H3</StdInChI>
 			<StdInChIKey>RBFQJDQYXXHULB-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Sb.3H</InChI>
 			<SMILES>[SbH3]</SMILES>
 			<name>SbH3</name>
 			<StdInChI>InChI=1S/Sb.3H</StdInChI>
 			<StdInChIKey>OUULRIDHGPHMNQ-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/H2O/h1H2</InChI>
 			<SMILES>O</SMILES>
 			<name>H2O</name>
 			<StdInChI>InChI=1S/H2O/h1H2</StdInChI>
 			<StdInChIKey>XLYOFNOQVPJJNP-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/H2S/h1H2</InChI>
 			<SMILES>S</SMILES>
 			<name>H2S</name>
 			<name>SH2</name>
@@ -2021,7 +1683,6 @@
 			<StdInChIKey>RWSOTUBLDIXVET-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/H2Se/h1H2</InChI>
 			<SMILES>[SeH2]</SMILES>
 			<name>H2Se</name>
 			<name>SeH2</name>
@@ -2029,77 +1690,66 @@
 			<StdInChIKey>SPVXKVOXSXTJOY-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/FH/h1H</InChI>
 			<SMILES>F</SMILES>
 			<name>HF</name>
 			<StdInChI>InChI=1S/FH/h1H</StdInChI>
 			<StdInChIKey>KRHYYFGTRYWZRS-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/ClH/h1H</InChI>
 			<SMILES>Cl</SMILES>
 			<name>HCl</name>
 			<StdInChI>InChI=1S/ClH/h1H</StdInChI>
 			<StdInChIKey>VEXZGXHMUGYJMC-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/BrH/h1H</InChI>
 			<SMILES>Br</SMILES>
 			<name>HBr</name>
 			<StdInChI>InChI=1S/BrH/h1H</StdInChI>
 			<StdInChIKey>CPELXLSAUQHCOX-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/HI/h1H</InChI>
 			<SMILES>I</SMILES>
 			<name>HI</name>
 			<StdInChI>InChI=1S/HI/h1H</StdInChI>
 			<StdInChIKey>XMBWDFGMSWQBCA-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Mn.2O</InChI>
 			<SMILES>O=[Mn]=O</SMILES>
 			<name>MnO2</name>
 			<StdInChI>InChI=1S/Mn.2O</StdInChI>
 			<StdInChIKey>NUJOXMJBOLGQSY-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/B2H6/c1-3-2-4-1/h1-2H2</InChI>
 			<SMILES>[BH2]1[H][BH2][H]1</SMILES>
 			<name>B2H6</name>
 			<StdInChI>InChI=1S/B2H6/c1-3-2-4-1/h1-2H2/q-2</StdInChI>
 			<StdInChIKey>XTHHQYJDAMCIOL-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Li.H/q+1;-1</InChI>
 			<SMILES>[H-].[Li+]</SMILES>
 			<name>LiH</name>
 			<StdInChI>InChI=1S/Li.H/q+1;-1</StdInChI>
 			<StdInChIKey>SRTHRWZAMDZJOS-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/O3S/c1-4(2)3</InChI>
 			<SMILES>S(=O)(=O)=O</SMILES>
 			<name>SO3</name>
 			<StdInChI>InChI=1S/O3S/c1-4(2)3</StdInChI>
 			<StdInChIKey>AKEJUJNQAAGONA-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H9NO/c1-4(6)5(2)3/h1-3H3</InChI>
 			<SMILES>CC(=O)N(C)C</SMILES>
 			<name>DMAc</name>
 			<StdInChI>InChI=1S/C4H9NO/c1-4(6)5(2)3/h1-3H3</StdInChI>
 			<StdInChIKey>FXHOOIRPVKKKFG-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C4H9NO/c1-4(6)5(2)3/h1-3H3</InChI>
 			<SMILES>CC(=O)N(C)C</SMILES>
 			<name>DMAc</name>
 			<StdInChI>InChI=1S/C4H9NO/c1-4(6)5(2)3/h1-3H3</StdInChI>
 			<StdInChIKey>FXHOOIRPVKKKFG-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/ClO.Na/c1-2;/q-1;+1</InChI>
 			<SMILES>Cl[O-].[Na+]</SMILES>
 			<name>NaOCl</name>
 			<name>NaClO</name>
@@ -2107,23 +1757,18 @@
 			<StdInChIKey>SUKJFIGYRHOWBL-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/Cl2/c1-2</InChI>
 			<SMILES>ClCl</SMILES>
 			<name>Cl2</name>
 			<StdInChI>InChI=1S/Cl2/c1-2</StdInChI>
 			<StdInChIKey>KZBUYRJDOAKODT-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/2ClH.Hg/h2*1H;/q;;+2/p-2/f2Cl.Hg/h2*1h;/q2*-1;m
-			</InChI>
 			<SMILES>[Hg](Cl)Cl</SMILES>
 			<name>HgCl2</name>
 			<StdInChI>InChI=1S/2ClH.Hg/h2*1H;/q;;+2/p-2</StdInChI>
 			<StdInChIKey>LWJROJCJINYWOX-UHFFFAOYSA-L</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C6H3FN2O4/c7-5-2-1-4(8(10)11)3-6(5)9(12)13/h1-3H
-			</InChI>
 			<SMILES>O=[N+]([O-])c1cc(ccc1F)[N+]([O-])=O</SMILES>
 			<name>DNFB</name>
 			<StdInChI>InChI=1S/C6H3FN2O4/c7-5-2-1-4(8(10)11)3-6(5)9(12)13/h1-3H
@@ -2131,8 +1776,6 @@
 			<StdInChIKey>LOTKRQAVGJMPNV-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C7H6N4S/c12-7(10-3-1-8-5-10)11-4-2-9-6-11/h1-6H
-			</InChI>
 			<SMILES>C(=S)(N1C=NC=C1)N1C=NC=C1</SMILES>
 			<name>TCDI</name>
 			<StdInChI>InChI=1S/C7H6N4S/c12-7(10-3-1-8-5-10)11-4-2-9-6-11/h1-6H
@@ -2140,7 +1783,6 @@
 			<StdInChIKey>RAFNCPHFRHZCPS-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C3H9ClSi/c1-5(2,3)4/h1-3H3</InChI>
 			<SMILES>C[Si](C)(C)Cl</SMILES>
 			<name>TMSCl</name>
 			<name>TMCS</name>
@@ -2148,8 +1790,6 @@
 			<StdInChIKey>IJOOHPMOJXWVHK-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C7H5N3O6/c1-4-6(9(13)14)2-5(8(11)12)3-7(4)10(15)16/h2-3H,1H3
-			</InChI>
 			<SMILES>[N+](=O)([O-])C1=C(C(=CC(=C1)[N+](=O)[O-])[N+](=O)[O-])C
 			</SMILES>
 			<name>TNT</name>
@@ -2159,8 +1799,6 @@
 			<StdInChIKey>SPSSULHKWOKEEL-UHFFFAOYSA-N</StdInChIKey>
 		</record>
 		<record>
-			<InChI>InChI=1/C18H15OP/c19-20(16-10-4-1-5-11-16,17-12-6-2-7-13-17)18-14-8-3-9-15-18/h1-15H
-			</InChI>
 			<SMILES>c1(ccccc1)P(=O)(c1ccccc1)c1ccccc1</SMILES>
 			<name>TPPO</name>
 			<StdInChI>InChI=1S/C18H15OP/c19-20(16-10-4-1-5-11-16,17-12-6-2-7-13-17)18-14-8-3-9-15-18/h1-15H
@@ -2169,4 +1807,3 @@
 		</record>
 	</records>
 </newchemnamedict>
-

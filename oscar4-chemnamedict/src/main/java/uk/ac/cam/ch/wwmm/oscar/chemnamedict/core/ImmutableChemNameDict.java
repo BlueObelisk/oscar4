@@ -143,6 +143,10 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISt
 		return s;
 	}
 
+	/**
+	 * Deprecated "Use getStdInchis instead."
+	 */
+	@Deprecated
 	public Set<String> getInchis(String queryName) {
 		Set<String> results = new HashSet<String>();
 		queryName = StringTools.normaliseName(queryName);
@@ -233,8 +237,8 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISt
 //		}
 //	}
 
-	public Set<String> getNames(String inchi) {
-		IChemRecord record = indexByInchi.get(inchi);
+	public Set<String> getNames(String stdInchi) {
+		IChemRecord record = indexByStdInchi.get(stdInchi);
 		if (record == null) {
 			return new HashSet<String>();
 		}

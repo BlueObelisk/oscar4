@@ -196,46 +196,6 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISt
 		return results;
 	}
 
-//	public String getInChIforShortestSMILES(String queryName) {
-//		queryName = StringTools.normaliseName(queryName);
-//		if(indexByName.containsKey(queryName)) {
-//			String currentInchi = null;
-//			String currentSmiles = null;
-//			for(IChemRecord record : indexByName.get(queryName)) {
-//				assert(record.getInChI() != null); 
-//				if(currentInchi == null) {
-//					currentInchi = record.getInChI();
-//					currentSmiles = record.getSMILES();
-//				} else if(record.getSMILES() == null && currentSmiles == null) {
-//					if(currentInchi.compareTo(record.getInChI()) > 0) {
-//						currentInchi = record.getInChI();
-//						currentSmiles = record.getSMILES();															
-//					}						
-//				} else if(record.getSMILES() == null) {
-//					// Do nothing, we prefer InChIs with associated smiles
-//				} else if(currentSmiles == null) {
-//					currentInchi = record.getInChI();
-//					currentSmiles = record.getSMILES();																					
-//				} else if(currentSmiles.length() == record.getSMILES().length()) {
-//					if(currentSmiles.equals(record.getSMILES())) {
-//						if(currentInchi.compareTo(record.getInChI()) > 0) {
-//							currentInchi = record.getInChI();
-//							currentSmiles = record.getSMILES();															
-//						}
-//					} else if(currentSmiles.compareTo(record.getSMILES()) > 0) {
-//						currentInchi = record.getInChI();
-//						currentSmiles = record.getSMILES();							
-//					}
-//				} else if(currentSmiles.length() > record.getSMILES().length()) {
-//					currentInchi = record.getInChI();
-//					currentSmiles = record.getSMILES();
-//				} //Otherwise do nothing
-//			}
-//			return currentInchi;
-//		} else {
-//			return null;
-//		}
-//	}
 
 	public Set<String> getNames(String stdInchi) {
 		IChemRecord record = indexByStdInchi.get(stdInchi);

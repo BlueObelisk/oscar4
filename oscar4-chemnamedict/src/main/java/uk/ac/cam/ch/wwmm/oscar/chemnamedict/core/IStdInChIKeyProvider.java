@@ -6,8 +6,7 @@ import java.util.Set;
  * Extension of the {@link IChemNameDict} interface to return hits
  * in InChI.
  *
- * @author egonw
- * @author dmj30
+ * @author mjw
  */
 public interface IStdInChIKeyProvider {
 

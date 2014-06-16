@@ -5,20 +5,20 @@ package uk.ac.cam.ch.wwmm.oscar.chemnamedict.records;
  *
  * @author mjw
  */
-public interface IStdInChiKeyChemRecord extends IChemRecord {
+public interface IStdInChIKeyChemRecord extends IChemRecord {
 
 	/**
 	 * Sets the Standard InChIKey for this chemical compound.
 	 *
-	 * @param stdInchiKey
+	 * @param stdInchIKey
 	 */
-	public abstract void setStdInChiKey(String stdInchiKey);
+	public abstract void setStdInChIKey(String stdInchIKey);
 
 	/**
 	 * Returns the Standard stdInchiKey for this compound.
 	 *
 	 * @return A {@link String} representation of the Standard InChIKey.
 	 */
-	public abstract String getStdInChiKey();
+	public abstract String getStdInChIKey();
 
 }

@@ -23,10 +23,10 @@ public class ChemRecordIO {
 			elem.appendChild(stdInchiElem);
 		}
 		
-		if (record instanceof IStdInChiKeyChemRecord) {
+		if (record instanceof IStdInChIKeyChemRecord) {
 			Element stdInchiKeyElem = new Element("StdInChIKey");
 			stdInchiKeyElem.appendChild(
-				((IStdInChiKeyChemRecord)record).getStdInChiKey()
+				((IStdInChIKeyChemRecord)record).getStdInChIKey()
 			);
 			elem.appendChild(stdInchiKeyElem);
 		}

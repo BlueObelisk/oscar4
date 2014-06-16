@@ -67,14 +67,20 @@ public class ChemRecord implements IStdInChIChemRecord, IStdInChiKeyChemRecord, 
 
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IInChIChemRecord#setInChI(java.lang.String)
+	 * 
+	 * @deprecated Please use setStdInChI instead.
 	 */
+	@Deprecated
 	public void setInChI(String inchi) {
 		this.inchi = inchi;
 	}
 
 	/* (non-Javadoc)
 	 * @see uk.ac.cam.ch.wwmm.oscar.chemnamedict.data.IInChIChemRecord#getInChI()
+	 * 
+	 * @deprecated Please use getStdInChI instead.
 	 */
+	@Deprecated
 	public String getInChI() {
 		return inchi;
 	}

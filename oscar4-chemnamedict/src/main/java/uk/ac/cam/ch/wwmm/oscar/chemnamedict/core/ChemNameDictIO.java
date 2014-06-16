@@ -97,14 +97,8 @@ public final class ChemNameDictIO {
 			throw new IllegalArgumentException("Tag name should be 'record' but was '" + elem.getLocalName() + "'");
 		}
 
-		ChemRecord record = new ChemRecord();
-		
-		Elements inchis = elem.getChildElements("InChI");
-		if (inchis.size() != 1) {
-			throw new IllegalStateException("inchis.size() should be exactly 1, but was " + inchis.size());
-		}
-		record.setInChI(inchis.get(0).getValue());
-		
+		ChemRecord record = new ChemRecord();		
+
 		Elements stdInchis = elem.getChildElements("StdInChI");
 		if (stdInchis.size() != 1) {
 			throw new IllegalStateException("stdInchis.size() should be exactly 1, but was " + stdInchis.size());

@@ -34,9 +34,9 @@ public interface IChemNameDict {
 	/**
 	 * Returns a set containing all of the names in the
 	 * dictionary that define a chemical structure
-	 * corresponding to the given InChI.
+	 * corresponding to the given Standard InChI.
 	 */
-	public Set<String> getNames(String inchi);
+	public Set<String> getNames(String stdInchi);
 
 	/**
 	 * Returns a set containing all of the names contained

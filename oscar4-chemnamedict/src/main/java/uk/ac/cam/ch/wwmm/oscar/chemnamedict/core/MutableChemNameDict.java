@@ -9,7 +9,6 @@ import org.apache.commons.lang.StringUtils;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.ChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IChemRecord;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IInChIChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IOntologyChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.ISMILESChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IStdInChIChemRecord;
@@ -90,9 +89,16 @@ public class MutableChemNameDict extends ImmutableChemNameDict implements IMutab
 				indexByOntID.get(ontID).add(recordToAdd);
 			}
 		}
+			
 		if (recordToAdd instanceof IStdInChIChemRecord) {
-			indexByStdInchi.put(((IStdInChIChemRecord)recordToAdd).getStdInChI(), recordToAdd);
+			String stdInChi = ((IStdInChIChemRecord) recordToAdd).getStdInChI();
+			if (stdInChi != null) {
+				indexByStdInchi.put(stdInChi, recordToAdd);
+			}else{
+				throw new IllegalArgumentException("recordToAdd.getStdInChI is null");
+			}
 		}
+
 	}
 
 	/**

@@ -109,7 +109,7 @@ public final class ChemNameDictIO {
 		if (stdInchiKeys.size() != 1) {
 			throw new IllegalStateException("stdInchiKeys.size() should be exactly 1, but was " + stdInchiKeys.size());
 		}
-		record.setStdInChiKey(stdInchiKeys.get(0).getValue());
+		record.setStdInChIKey(stdInchiKeys.get(0).getValue());
 		
 		
 		Elements smiless = elem.getChildElements("SMILES");

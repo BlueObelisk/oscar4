@@ -17,7 +17,7 @@ import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IInChIChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.ISMILESChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IStdInChIChemRecord;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IStdInChiKeyChemRecord;
+import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IStdInChIKeyChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.DataFormatException;
 import uk.ac.cam.ch.wwmm.oscar.exceptions.OscarInitialisationException;
 import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
@@ -184,9 +184,9 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISt
 		queryName = StringTools.normaliseName(queryName);
 		if (indexByName.containsKey(queryName)) {
 			for (IChemRecord record : indexByName.get(queryName)) {
-				if (record instanceof IStdInChiKeyChemRecord) {
-					String stdInchiKey = ((IStdInChiKeyChemRecord) record)
-							.getStdInChiKey();
+				if (record instanceof IStdInChIKeyChemRecord) {
+					String stdInchiKey = ((IStdInChIKeyChemRecord) record)
+							.getStdInChIKey();
 					if (stdInchiKey != null) {
 						results.add(stdInchiKey);
 					}

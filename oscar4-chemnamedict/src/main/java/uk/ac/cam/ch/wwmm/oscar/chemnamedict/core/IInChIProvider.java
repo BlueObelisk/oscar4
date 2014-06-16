@@ -8,7 +8,10 @@ import java.util.Set;
  *
  * @author egonw
  * @author dmj30
+ * 
+ * @deprecated "Use {@link IStdInChIProvider} instead"
  */
+@Deprecated
 public interface IInChIProvider {
 
 	/**

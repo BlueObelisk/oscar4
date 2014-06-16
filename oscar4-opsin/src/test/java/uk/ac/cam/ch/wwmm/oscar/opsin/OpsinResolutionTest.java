@@ -40,7 +40,6 @@ public class OpsinResolutionTest {
 
 		assertEquals(5, rne.getChemicalStructures().size());
 		assertEquals("C", rne.getFirstChemicalStructure(FormatType.SMILES).getValue());
-		assertEquals("InChI=1/CH4/h1H4", rne.getFirstChemicalStructure(FormatType.INCHI).getValue());
 		assertEquals("InChI=1S/CH4/h1H4", rne.getFirstChemicalStructure(FormatType.STD_INCHI).getValue());
 		assertEquals("VNWKTOKETHGBQD-UHFFFAOYSA-N", rne.getFirstChemicalStructure(FormatType.STD_INCHI_KEY).getValue());
 		Element cmlElement = new Builder().build(
@@ -59,15 +58,12 @@ public class OpsinResolutionTest {
 		NamedEntity ne = new NamedEntity("methane", 0, 0, NamedEntityType.COMPOUND);
 		ResolvedNamedEntity rne = registry.resolveNamedEntity(ne);
 		
-		assertEquals(9, rne.getChemicalStructures().size());
+		assertEquals(8, rne.getChemicalStructures().size());
 		assertEquals(2, rne.getChemicalStructures(FormatType.SMILES).size());
 		for (ChemicalStructure structure : rne.getChemicalStructures(FormatType.SMILES)) {
 			assertTrue(structure.getValue().equals("C") || structure.getValue().equals("[H]C([H])([H])[H]"));
 		}
-		assertEquals(2, rne.getChemicalStructures(FormatType.INCHI).size());
-		for (ChemicalStructure structure : rne.getChemicalStructures(FormatType.INCHI)) {
-			assertTrue(structure.getValue().equals("InChI=1/CH4/h1H4"));
-		}
+		assertEquals(2, rne.getChemicalStructures(FormatType.STD_INCHI).size());
 		for (ChemicalStructure structure : rne.getChemicalStructures(FormatType.STD_INCHI)) {
 			assertTrue(structure.getValue().equals("InChI=1S/CH4/h1H4"));
 		}

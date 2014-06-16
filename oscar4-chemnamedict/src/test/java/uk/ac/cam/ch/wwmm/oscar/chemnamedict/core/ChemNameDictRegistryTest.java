@@ -148,39 +148,39 @@ public class ChemNameDictRegistryTest {
 	}
 
 	@Test
-	public void testGetInChI() throws Exception {
+	public void testGetStdInChI() throws Exception {
 		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		IMutableChemNameDict dict = new MutableChemNameDict(
 			new URI("http://www.example.org/1/"),
 			Locale.ENGLISH
 		);
-		dict.addChemical("methane", "C", "InChI=1/CH4/h1H4");
+		dict.addChemical("methane", "C", "InChI=1S/CH4/h1H4");
 		registry.register(dict);
 
-		assertNotNull(registry.getInchis("butanol"));
-		assertEquals(0, registry.getInchis("butanol").size());
+		assertNotNull(registry.getStdInchis("butanol"));
+		assertEquals(0, registry.getStdInchis("butanol").size());
 
-		Set<String> inchis = registry.getInchis("methane");
+		Set<String> inchis = registry.getStdInchis("methane");
 		assertEquals(1, inchis.size());
-		assertEquals("InChI=1/CH4/h1H4", inchis.iterator().next());
+		assertEquals("InChI=1S/CH4/h1H4", inchis.iterator().next());
 	}
 
 	@Test
-	public void testGetNames_InChI() throws Exception {
+	public void testGetNames_StdInChI() throws Exception {
 		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 		IMutableChemNameDict dict = new MutableChemNameDict(
 			new URI("http://www.example.org/1/"),
 			Locale.ENGLISH
 		);
-		dict.addChemical("methane", "C", "InChI=1/CH4/h1H4");
-		dict.addChemical("methaan", "C", "InChI=1/CH4/h1H4");
+		dict.addChemical("methane", "C", "InChI=1S/CH4/h1H4");
+		dict.addChemical("methaan", "C", "InChI=1S/CH4/h1H4");
 		registry.register(dict);
 
-		Set<String> names = registry.getNames("InChI=1/CH5/h1H5");
+		Set<String> names = registry.getNames("InChI=1S/CH5/h1H5");
 		assertNotNull(names);
 		assertEquals(0, names.size());
 
-		names = registry.getNames("InChI=1/CH4/h1H4");
+		names = registry.getNames("InChI=1S/CH4/h1H4");
 		assertNotNull(names);
 		assertEquals(2, names.size());
 		assertTrue(names.contains("methaan"));
@@ -231,8 +231,8 @@ public class ChemNameDictRegistryTest {
 		assertTrue(structuresListContains(resolvedPropane.getChemicalStructures(), "CCC", FormatType.SMILES, uri1));
 		assertTrue(structuresListContains(resolvedPropane.getChemicalStructures(), "C(C)C", FormatType.SMILES, uri2));
 		
-		assertEquals(1, resolvedPropane.getChemicalStructures(FormatType.INCHI).size());
-		assertTrue(structuresListContains(resolvedPropane.getChemicalStructures(), "InChI=1S/C3H8/c1-3-2/h3H2,1-2H3", FormatType.INCHI, uri1));
+		assertEquals(1, resolvedPropane.getChemicalStructures(FormatType.STD_INCHI).size());
+		assertTrue(structuresListContains(resolvedPropane.getChemicalStructures(), "InChI=1S/C3H8/c1-3-2/h3H2,1-2H3", FormatType.STD_INCHI, uri1));
 		
 		
 		NamedEntity methane = new NamedEntity("methane", 0, 0, NamedEntityType.COMPOUND);
@@ -244,9 +244,9 @@ public class ChemNameDictRegistryTest {
 		assertTrue(structuresListContains(resolvedMethane.getChemicalStructures(), "C", FormatType.SMILES, uri1));
 		assertTrue(structuresListContains(resolvedMethane.getChemicalStructures(), "C", FormatType.SMILES, uri2));
 		
-		assertEquals(2, resolvedMethane.getChemicalStructures(FormatType.INCHI).size());
-		assertTrue(structuresListContains(resolvedMethane.getChemicalStructures(), "InChI=1S/CH4/h1H4", FormatType.INCHI, uri1));
-		assertTrue(structuresListContains(resolvedMethane.getChemicalStructures(), "InChI=1S/CH4/h1H4", FormatType.INCHI, uri2));
+		assertEquals(2, resolvedMethane.getChemicalStructures(FormatType.STD_INCHI).size());
+		assertTrue(structuresListContains(resolvedMethane.getChemicalStructures(), "InChI=1S/CH4/h1H4", FormatType.STD_INCHI, uri1));
+		assertTrue(structuresListContains(resolvedMethane.getChemicalStructures(), "InChI=1S/CH4/h1H4", FormatType.STD_INCHI, uri2));
 	}
 
 	/**

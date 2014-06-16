@@ -39,9 +39,9 @@ public class ImmutableChemNameDictTest {
 		Set <String> smiles = dict.getAllSmiles("PCC");
 		assertEquals(1, smiles.size());
 		assertTrue(smiles.contains("[OH-].O.O.Cl.[Cr+].c1cccnc1"));
-		Set <String> inchis = dict.getInchis("PCC");
+		Set <String> inchis = dict.getStdInchis("PCC");
 		assertEquals(1, inchis.size());
-		assertTrue(inchis.contains("InChI=1/C5H5N.ClH.Cr.3O/c1-2-4-6-5-3-1;;;;;/h1-5H;1H;;;;/q;;+1;;;-1"));
+		assertTrue(inchis.contains("InChI=1S/C5H5N.ClH.Cr.3O/c1-2-4-6-5-3-1;;;;;/h1-5H;1H;;;;/q;;+1;;;-1"));
 	}
 	
 	@Test
@@ -55,12 +55,12 @@ public class ImmutableChemNameDictTest {
 	}
 	
 	@Test
-	public void testGetInchi() throws URISyntaxException, DataFormatException {
+	public void testGetStdInchi() throws URISyntaxException, DataFormatException {
 		InputStream in = ClassLoader.getSystemResourceAsStream(
 				"uk/ac/cam/ch/wwmm/oscar/core/testDict.xml");
 		ImmutableChemNameDict dict = new ImmutableChemNameDict(
 				new URI("http://www.example.org"), Locale.ENGLISH,in);
-		assertEquals(1, dict.getInchis("PCC").size());
-		assertEquals(0, dict.getInchis("unrecognisedName").size());
+		assertEquals(1, dict.getStdInchis("PCC").size());
+		assertEquals(0, dict.getStdInchis("unrecognisedName").size());
 	}
 }

@@ -5,10 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IChemNameDict;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IInChIProvider;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IStdInChIProvider;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.dictionaries.ChEBIDictionary;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IStdInChIChemRecord;
 
 public class ChEBIDictionaryTest extends AbstractDictionaryTest {
 

@@ -92,11 +92,7 @@ public class MutableChemNameDict extends ImmutableChemNameDict implements IMutab
 			
 		if (recordToAdd instanceof IStdInChIChemRecord) {
 			String stdInChi = ((IStdInChIChemRecord) recordToAdd).getStdInChI();
-			if (stdInChi != null) {
-				indexByStdInchi.put(stdInChi, recordToAdd);
-			}else{
-				throw new IllegalArgumentException("recordToAdd.getStdInChI is null");
-			}
+			indexByStdInchi.put(stdInChi, recordToAdd);
 		}
 
 	}

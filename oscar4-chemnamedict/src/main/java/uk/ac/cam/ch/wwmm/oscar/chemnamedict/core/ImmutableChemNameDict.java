@@ -25,17 +25,17 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 /**
  * An immutable name-to-structure dictionary which holds active data in memory.
  * It stores chemical records ({@link ChemRecord}), orphan names (see below),
- * and stop words.  records must have an InChI identifier, may have a SMILES
+ * and stop words.  Records must have an Standard InChI identifier, may have a SMILES
  * string, and an unlimited number of names and ontology identifiers. The InChI
  * identifiers are unique; it is not possible to have two records with the same
  * identifier.
  * 
- * <p>Orphan Names are names which have no InChI; a name can only be an Orphan
+ * <p>Orphan Names are names which have no Standard InChI; a name can only be an Orphan
  * Name if it does not appear as a name in any chemical record. Stopwords are
  * things that the system should not recognise as chemical names.
  * 
  * <p>Note that in chemical records, the aim is to associate names with InChIs,
- * and ontology identifiers with InChIs, rather than to directly associate names
+ * and ontology identifiers with Standard InChIs, rather than to directly associate names
  * with ontology identifiers. If you need to associate names directly with
  * ontology identifiers, list them as orphan names here.
  *

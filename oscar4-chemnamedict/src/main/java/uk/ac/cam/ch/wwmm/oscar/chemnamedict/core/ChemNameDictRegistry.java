@@ -175,7 +175,7 @@ public class ChemNameDictRegistry {
 	 * Returns a set containing all the InChI strings for the given
 	 * query name contained by the currently-registered dictionaries.
 	 * 
-	 * @deprecated Please use getStdInchis instead.
+	 * @deprecated Please use {@link #getStdInchis} instead.
      *
 	 */
 	@Deprecated

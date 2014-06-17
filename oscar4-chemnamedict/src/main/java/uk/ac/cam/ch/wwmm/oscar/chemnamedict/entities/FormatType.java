@@ -4,7 +4,7 @@ public enum FormatType {
 
 	SMILES,
 	/**
-     * @deprecated Please use STD_INCHI instead.
+     * @deprecated Please use {@link #STD_INCHI} instead.
      */
 	@Deprecated
 	INCHI,

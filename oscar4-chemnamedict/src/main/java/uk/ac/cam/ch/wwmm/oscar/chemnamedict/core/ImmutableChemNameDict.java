@@ -26,7 +26,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  * An immutable name-to-structure dictionary which holds active data in memory.
  * It stores chemical records ({@link ChemRecord}), orphan names (see below),
  * and stop words.  Records must have an Standard InChI identifier, may have a SMILES
- * string, and an unlimited number of names and ontology identifiers. The InChI
+ * string, and an unlimited number of names and ontology identifiers. The Standard InChI
  * identifiers are unique; it is not possible to have two records with the same
  * identifier.
  * 
@@ -34,7 +34,7 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
  * Name if it does not appear as a name in any chemical record. Stopwords are
  * things that the system should not recognise as chemical names.
  * 
- * <p>Note that in chemical records, the aim is to associate names with InChIs,
+ * <p>Note that in chemical records, the aim is to associate names with Standard InChIs,
  * and ontology identifiers with Standard InChIs, rather than to directly associate names
  * with ontology identifiers. If you need to associate names directly with
  * ontology identifiers, list them as orphan names here.
@@ -46,6 +46,10 @@ import uk.ac.cam.ch.wwmm.oscar.tools.StringTools;
 public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, IStdInChIProvider, IStdInChIKeyProvider, ISMILESProvider {
 
 	protected Set<IChemRecord> chemRecords;
+	/**
+	 * @deprecated Please use {@link #indexByStdInchi} instead.
+	 */
+	@Deprecated
 	protected Map<String,IChemRecord> indexByInchi;
 	protected Map<String,IChemRecord> indexByStdInchi;
 	protected Map<String,IChemRecord> indexByStdInchiKey;

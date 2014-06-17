@@ -144,7 +144,7 @@ public class ImmutableChemNameDict implements IChemNameDict, IInChIProvider, ISt
 	}
 
 	/**
-	 * Deprecated "Use getStdInchis instead."
+	 * Deprecated "Use {@link #getStdInchis} instead."
 	 */
 	@Deprecated
 	public Set<String> getInchis(String queryName) {

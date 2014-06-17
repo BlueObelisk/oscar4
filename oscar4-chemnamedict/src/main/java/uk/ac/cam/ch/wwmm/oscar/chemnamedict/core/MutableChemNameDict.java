@@ -66,14 +66,15 @@ public class MutableChemNameDict extends ImmutableChemNameDict implements IMutab
 
 	/**
 	 * Adds the record to the various indices.
-	 *
-	 * @param recordToAdd the {@link IChemRecord} to add to the indices.
+	 * 
+	 * @param recordToAdd
+	 *            the {@link IChemRecord} to add to the indices.
 	 */
 	private void addToIndices(IChemRecord recordToAdd) {
 		// add the names to the index
-		for(String name : recordToAdd.getNames()) {
+		for (String name : recordToAdd.getNames()) {
 			name = StringTools.normaliseName(name);
-			if(!indexByName.containsKey(name)) {
+			if (!indexByName.containsKey(name)) {
 				indexByName.put(name, new HashSet<IChemRecord>());
 			}
 			indexByName.get(name).add(recordToAdd);
@@ -81,18 +82,20 @@ public class MutableChemNameDict extends ImmutableChemNameDict implements IMutab
 		}
 		if (recordToAdd instanceof IOntologyChemRecord) {
 			// add the ontology identifiers to the index
-			IOntologyChemRecord ontoRecord = (IOntologyChemRecord)recordToAdd;
-			for(String ontID : ontoRecord.getOntologyIdentifiers()) {
-				if(!indexByOntID.containsKey(ontID)) {
+			IOntologyChemRecord ontoRecord = (IOntologyChemRecord) recordToAdd;
+			for (String ontID : ontoRecord.getOntologyIdentifiers()) {
+				if (!indexByOntID.containsKey(ontID)) {
 					indexByOntID.put(ontID, new HashSet<IChemRecord>());
 				}
 				indexByOntID.get(ontID).add(recordToAdd);
 			}
 		}
-			
+
 		if (recordToAdd instanceof IStdInChIChemRecord) {
 			String stdInChi = ((IStdInChIChemRecord) recordToAdd).getStdInChI();
-			indexByStdInchi.put(stdInChi, recordToAdd);
+			if (stdInChi != null) {
+				indexByStdInchi.put(stdInChi, recordToAdd);
+			}
 		}
 
 	}

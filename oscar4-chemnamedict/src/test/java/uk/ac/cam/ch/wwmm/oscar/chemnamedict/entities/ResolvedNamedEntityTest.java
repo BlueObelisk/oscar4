@@ -46,7 +46,7 @@ public class ResolvedNamedEntityTest {
 		List<ChemicalStructure> res = new ArrayList<ChemicalStructure>();
 		res.add(new ChemicalStructure("CCC", FormatType.SMILES,
 				new URI("http://www.example.org/dictionary")));
-		res.add(new ChemicalStructure("InChI=1S/C3H8/c1-3-2/h3H2,1-2H3", FormatType.INCHI,
+		res.add(new ChemicalStructure("InChI=1S/C3H8/c1-3-2/h3H2,1-2H3", FormatType.STD_INCHI,
 				new URI("http://www.example.org/dictionary")));
 		
 		ResolvedNamedEntity rne = new ResolvedNamedEntity(ne, res);
@@ -61,13 +61,13 @@ public class ResolvedNamedEntityTest {
 		List<ChemicalStructure> res = new ArrayList<ChemicalStructure>();
 		res.add(new ChemicalStructure("CCC", FormatType.SMILES,
 				new URI("http://www.example.org/dictionary")));
-		res.add(new ChemicalStructure("InChI=1S/C3H8/c1-3-2/h3H2,1-2H3", FormatType.INCHI,
+		res.add(new ChemicalStructure("InChI=1S/C3H8/c1-3-2/h3H2,1-2H3", FormatType.STD_INCHI,
 				new URI("http://www.example.org/dictionary")));
 		res.add(new ChemicalStructure("C(C)C", FormatType.SMILES,
 				new URI("http://www.example.org/dictionary")));
 		ResolvedNamedEntity rne = new ResolvedNamedEntity(ne, res);
 		assertEquals(2, rne.getChemicalStructures(FormatType.SMILES).size());
-		assertEquals(1, rne.getChemicalStructures(FormatType.INCHI).size());
+		assertEquals(1, rne.getChemicalStructures(FormatType.STD_INCHI).size());
 	}
 	
 	
@@ -77,15 +77,15 @@ public class ResolvedNamedEntityTest {
 		List<ChemicalStructure> res = new ArrayList<ChemicalStructure>();
 		res.add(new ChemicalStructure("CCC", FormatType.SMILES,
 				new URI("http://www.example.org/dictionary")));
-		res.add(new ChemicalStructure("InChI=1S/C3H8/c1-3-2/h3H2,1-2H3", FormatType.INCHI,
+		res.add(new ChemicalStructure("InChI=1S/C3H8/c1-3-2/h3H2,1-2H3", FormatType.STD_INCHI,
 				new URI("http://www.example.org/dictionary")));
 		res.add(new ChemicalStructure("C(C)C", FormatType.SMILES,
 				new URI("http://www.example.org/dictionary")));
 		ResolvedNamedEntity rne = new ResolvedNamedEntity(ne, res);
 		assertEquals("CCC", rne.getFirstChemicalStructure(FormatType.SMILES).getValue());
 		assertTrue(FormatType.SMILES == rne.getFirstChemicalStructure(FormatType.SMILES).getType());
-		assertEquals("InChI=1S/C3H8/c1-3-2/h3H2,1-2H3", rne.getFirstChemicalStructure(FormatType.INCHI).getValue());
-		assertTrue(FormatType.INCHI == rne.getFirstChemicalStructure(FormatType.INCHI).getType());
+		assertEquals("InChI=1S/C3H8/c1-3-2/h3H2,1-2H3", rne.getFirstChemicalStructure(FormatType.STD_INCHI).getValue());
+		assertTrue(FormatType.STD_INCHI == rne.getFirstChemicalStructure(FormatType.STD_INCHI).getType());
 		assertNull(rne.getFirstChemicalStructure(FormatType.CML));
 	}
 	

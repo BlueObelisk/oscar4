@@ -5,9 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IChemNameDict;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IInChIProvider;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IStdInChIProvider;
-import uk.ac.cam.ch.wwmm.oscar.chemnamedict.dictionaries.DefaultDictionary;
 
 public class DefaultDictionaryTest extends AbstractDictionaryTest {
 

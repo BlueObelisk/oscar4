@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,7 +14,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
 import org.apache.commons.io.IOUtils;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -165,8 +165,9 @@ public class MEMMTrainerTest {
 		Element serialised = trained.writeModel();
 		MEMMModel reloaded = new MEMMModel();
 		reloaded.readModel(serialised);
-		reloaded.chemNameDictNames = (UnmodifiableSet) UnmodifiableSet.decorate(
-				ChemNameDictRegistry.getDefaultInstance().getAllNames());
+		reloaded.chemNameDictNames = Collections
+				.unmodifiableSet(ChemNameDictRegistry.getDefaultInstance()
+						.getAllNames());
 		reloaded.nGram = NGramBuilder.buildOrDeserialiseModel(reloaded.etd, reloaded.chemNameDictNames);
 		
 		assertTrue(trained.nGram.compareTo(reloaded.nGram));

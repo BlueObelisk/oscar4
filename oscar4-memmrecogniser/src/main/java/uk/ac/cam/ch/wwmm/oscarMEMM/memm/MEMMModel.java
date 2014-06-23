@@ -16,8 +16,6 @@ import nu.xom.Elements;
 import opennlp.maxent.GISModel;
 import opennlp.model.MaxentModel;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
-
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -50,7 +48,7 @@ public class MEMMModel {
     protected Set<NamedEntityType> namedEntityTypes;
     protected ExtractedTrainingData etd;
     protected NGram nGram;
-    protected UnmodifiableSet chemNameDictNames;
+    protected Set<String> chemNameDictNames;
     
 
     protected MEMMModel() {
@@ -197,7 +195,7 @@ public class MEMMModel {
 		return nGram;
 	}
 
-	public UnmodifiableSet getChemNameDictNames() {
+	public Set<String> getChemNameDictNames() {
 		return chemNameDictNames;
 	}
 	

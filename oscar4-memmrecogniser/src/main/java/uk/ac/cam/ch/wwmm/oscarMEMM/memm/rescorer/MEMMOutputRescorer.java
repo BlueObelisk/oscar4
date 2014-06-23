@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -12,7 +13,7 @@ import nu.xom.Elements;
 import opennlp.maxent.GISModel;
 import opennlp.model.Event;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
+
 
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 import uk.ac.cam.ch.wwmm.oscar.types.NamedEntityType;
@@ -58,7 +59,7 @@ public final class MEMMOutputRescorer {
 	 * @param entities The named entities to rescore.
 	 *  
 	 */
-	public void rescore(List<NamedEntity> entities, UnmodifiableSet chemNameDictNames) {
+	public void rescore(List<NamedEntity> entities, Set<String> chemNameDictNames) {
 
 		FeatureExtractor fe = new FeatureExtractor(entities);
 

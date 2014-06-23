@@ -4,8 +4,6 @@ import java.util.Set;
 
 import opennlp.maxent.GISModel;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
-
 import uk.ac.cam.ch.wwmm.oscar.types.BioType;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.MEMMModel;
 import uk.ac.cam.ch.wwmm.oscarMEMM.memm.rescorer.MEMMOutputRescorer;
@@ -14,7 +12,7 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 
 public class MutableMEMMModel extends MEMMModel {
 
-	public MutableMEMMModel(UnmodifiableSet chemNameDictNames) {
+	public MutableMEMMModel(Set<String> chemNameDictNames) {
 		super.nGram = NGramBuilder.buildOrDeserialiseModel();
 		super.chemNameDictNames = chemNameDictNames;
 	}

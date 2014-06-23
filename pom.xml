@@ -70,7 +70,6 @@
         <commons-discovery.version>20040218.194635</commons-discovery.version>
         <jregex.version>1.2_01</jregex.version>
         <commons-math.version>2.2</commons-math.version>
-        <commons-collections.version>20040616</commons-collections.version>
         <guava.version>17.0</guava.version>
         <jexample.version>4.4-378</jexample.version>
         <mockito-core.version>1.9.5</mockito-core.version>
@@ -239,11 +238,6 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-math</artifactId>
                 <version>${commons-math.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-collections</groupId>
-                <artifactId>commons-collections</artifactId>
-                <version>${commons-collections.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>

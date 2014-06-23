@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,11 +67,11 @@ public class NGramBuilder {
 	private static final Pattern matchTwoOrMoreAdjacentLetters = Pattern.compile(".*[a-z][a-z].*");
 
 	private ExtractedTrainingData etd;
-	private UnmodifiableSet registryNames;
+	private Set<String> registryNames;
 	
 	
 	/** Creates a new instance of nGram */
-	NGramBuilder(ExtractedTrainingData etd, UnmodifiableSet registryNames) {
+	NGramBuilder(ExtractedTrainingData etd, Set<String> registryNames) {
 		this.etd = etd;
 		this.registryNames = registryNames;
 		this.chemWords = new ArrayList<String>();
@@ -80,7 +80,7 @@ public class NGramBuilder {
 	}
 	
     NGramBuilder() {
-		this(null, (UnmodifiableSet) UnmodifiableSet.decorate(ChemNameDictRegistry.getDefaultInstance().getAllNames()));
+		this(null, Collections.unmodifiableSet(ChemNameDictRegistry.getDefaultInstance().getAllNames()));
 	}
 
 
@@ -586,7 +586,7 @@ public class NGramBuilder {
 	 * 
 	 */
 	public static NGram buildModel() {
-		return buildModel(null, (UnmodifiableSet) UnmodifiableSet.decorate(ChemNameDictRegistry.getDefaultInstance().getAllNames()));
+		return buildModel(null, Collections.unmodifiableSet(ChemNameDictRegistry.getDefaultInstance().getAllNames()));
 	}
 
 	/**
@@ -603,7 +603,7 @@ public class NGramBuilder {
 	 * 
 	 * @param etd (additional) extracted training data from a MEMM model file
 	 */
-	public static NGram buildModel(ExtractedTrainingData etd, UnmodifiableSet registryNames) {
+	public static NGram buildModel(ExtractedTrainingData etd, Set<String> registryNames) {
 		NGramBuilder builder = new NGramBuilder(etd, registryNames);
 		builder.train();
 		return builder.toNGram();
@@ -698,7 +698,7 @@ public class NGramBuilder {
 	 * 
 	 */
 	public static NGram buildOrDeserialiseModel() {
-		return buildOrDeserialiseModel(null, (UnmodifiableSet) UnmodifiableSet.decorate(ChemNameDictRegistry.getDefaultInstance().getAllNames()));
+		return buildOrDeserialiseModel(null, Collections.unmodifiableSet(ChemNameDictRegistry.getDefaultInstance().getAllNames()));
 	}
 
 	/**
@@ -716,7 +716,7 @@ public class NGramBuilder {
 	 * @param annotations (additional) extracted training data from a MEMM model file
 	 * @param registryNames chemical names
 	 */
-	public static NGram buildOrDeserialiseModel(ExtractedTrainingData annotations, UnmodifiableSet registryNames) {
+	public static NGram buildOrDeserialiseModel(ExtractedTrainingData annotations, Set<String> registryNames) {
 		NGramBuilder builder = new NGramBuilder(annotations, registryNames);
 		try {
 			return deserialiseModel(builder.calculateSourceDataFingerprint());
@@ -740,7 +740,7 @@ public class NGramBuilder {
 		// pass annotations and registry to NGramBuilder constructor to produce a customised NGram model
 		// or pass no arguments to produce a vanilla NGram model
 		System.out.println("building ngrams...");
-		UnmodifiableSet registryNames = (UnmodifiableSet) UnmodifiableSet.decorate(registry.getAllNames());
+		Set<String> registryNames = Collections.unmodifiableSet(registry.getAllNames());
 		NGramBuilder builder = new NGramBuilder(annotations, registryNames);
 		//NGramBuilder builder = new NGramBuilder();
 		builder.train();

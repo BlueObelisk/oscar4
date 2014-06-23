@@ -5,11 +5,11 @@ import static org.junit.Assert.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,7 +35,7 @@ import com.google.common.collect.ListMultimap;
  */
 public class DFANEFinderTest {
 
-	private static UnmodifiableSet defaultRegistryNames;
+	private static Set<String> defaultRegistryNames;
 	private static DFANEFinder finder;
 	private static Tokeniser tokeniser;
 	
@@ -43,7 +43,7 @@ public class DFANEFinderTest {
 
 	@BeforeClass
 	public static void setup() {
-		defaultRegistryNames = (UnmodifiableSet) UnmodifiableSet.decorate(ChemNameDictRegistry.getDefaultInstance().getAllNames());
+		defaultRegistryNames = Collections.unmodifiableSet(ChemNameDictRegistry.getDefaultInstance().getAllNames());
 		finder = DFANEFinder.getDefaultInstance();
 		tokeniser = Tokeniser.getDefaultInstance();
 	}
@@ -153,7 +153,7 @@ public class DFANEFinderTest {
         registry.register(new PolymerDictionary());
         DFANEFinder finder = new DFANEFinder(TermMaps.getInstance().getNeTerms(),
         		TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance(),
-        		(UnmodifiableSet) UnmodifiableSet.decorate(registry.getAllNames()));
+        		Collections.unmodifiableSet(registry.getAllNames()));
         List<NamedEntity> neList = finder.findNamedEntities(ts, NGram.getInstance(), DEFAULT_NGRAM_THRESHOLD);
         assertTrue(namedEntityListContainsNamedEntity(neList, NamedEntityType.COMPOUND, "HPEI25K", 81, 88));
     }
@@ -212,7 +212,7 @@ public class DFANEFinderTest {
     	registryNames.add("foobar");
     	DFANEFinder finder = new DFANEFinder(
     			TermMaps.getInstance().getNeTerms(), TokenClassifier.getDefaultInstance(),
-    			OntologyTerms.getDefaultInstance(),	(UnmodifiableSet) UnmodifiableSet.decorate(registryNames));
+    			OntologyTerms.getDefaultInstance(),	Collections.unmodifiableSet(registryNames));
     	String text = "The word 'foobar' in some English text";
     	ProcessingDocument procDoc = ProcessingDocumentFactory.getInstance().makeTokenisedDocument(
     			tokeniser, text);

@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,7 +25,7 @@ public class NGramBuilderTest {
 	/** the NGram models are used repeatedly in the tests, so to 
 	 *  save on set up time we share one copy of each a	cross the tests 
 	 */
-	private static UnmodifiableSet defaultRegistryNames;
+	private static Set<String> defaultRegistryNames;
 	private static NGram vanillaNGram;
 	private static NGram pubmedNGram;
 	private static NGram chempapersNGram;
@@ -34,8 +33,8 @@ public class NGramBuilderTest {
 	
 	@BeforeClass
 	public static void buildSharedNGrams() {
-		defaultRegistryNames = (UnmodifiableSet) UnmodifiableSet.decorate(
-				ChemNameDictRegistry.getDefaultInstance().getAllNames());
+		defaultRegistryNames = Collections.unmodifiableSet(ChemNameDictRegistry
+				.getDefaultInstance().getAllNames());
 		vanillaNGram = NGramBuilder.buildModel();
 		pubmedNGram = NGramBuilder.buildModel(
 				ExtractedTrainingData.loadExtractedTrainingData("pubmed"),
@@ -44,7 +43,7 @@ public class NGramBuilderTest {
 				ExtractedTrainingData.loadExtractedTrainingData("chempapers"),
 				defaultRegistryNames);
 	}
-	
+
 	@AfterClass
 	public static void releaseMemory() {
 		defaultRegistryNames = null;
@@ -82,8 +81,7 @@ public class NGramBuilderTest {
 //		ChemNameDictRegistry registry = new ChemNameDictRegistry(Locale.ENGLISH);
 //		registry.register(dictionary);
 		
-		NGramBuilder builder = new NGramBuilder(
-				annotations, (UnmodifiableSet) UnmodifiableSet.decorate(registryNames));
+		NGramBuilder builder = new NGramBuilder(annotations, registryNames);
 		assertNotNull(builder.getEnglishWords());
 		assertNotNull(builder.getChemicalWords());
 		assertTrue(builder.getEnglishWords().contains("cactus"));
@@ -118,7 +116,7 @@ public class NGramBuilderTest {
 	public void testCalculatePubmedEmptyChemnamedictFingerprint() {
 		ExtractedTrainingData annotations = ExtractedTrainingData.loadExtractedTrainingData("pubmed");
 		NGramBuilder builder = new NGramBuilder(annotations,
-				(UnmodifiableSet) UnmodifiableSet.decorate(Collections.emptySet()));
+				Collections.unmodifiableSet(Collections.<String> emptySet()));
 		assertFalse("-412073498_-1815304182".equals(builder.calculateSourceDataFingerprint()));
 	}
 	

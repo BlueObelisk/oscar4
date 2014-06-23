@@ -1,12 +1,11 @@
 package uk.ac.cam.ch.wwmm.oscarpattern;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.collections.set.UnmodifiableSet;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.IProcessingDocument;
@@ -47,7 +46,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	private double cprPseudoConfidence = 0.2;
 	private double ngramThreshold = -2;
 	private boolean deprioritiseOnts = false;
-	private UnmodifiableSet registryNames;
+	private Set<String> registryNames;
 
 
 	/**
@@ -75,7 +74,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 	 */
 	public PatternRecogniser(ExtractedTrainingData etd, Map<String, NamedEntityType> neTerms,
 			TokenClassifier classifier, OntologyTerms ontologyTerms, ChemNameDictRegistry registry) {
-		this.registryNames = (UnmodifiableSet) UnmodifiableSet.decorate(registry.getAllNames());
+		this.registryNames = Collections.unmodifiableSet(registry.getAllNames());
 		this.nGram = NGramBuilder.buildOrDeserialiseModel(etd, registryNames);
 		this.finder = new DFANEFinder(neTerms, classifier, ontologyTerms, registryNames);
 	}
@@ -356,7 +355,7 @@ public class PatternRecogniser implements ChemicalEntityRecogniser {
 		this.deprioritiseOnts  = deprioritiseOnts;
 	}
 
-	public UnmodifiableSet getRegistryNames() {
+	public Set<String> getRegistryNames() {
 		return registryNames;
 	}
 

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +27,6 @@ import opennlp.model.EventCollectorAsStream;
 import opennlp.model.MaxentModel;
 import opennlp.model.TwoPassDataIndexer;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,9 +103,10 @@ public final class MEMMTrainer {
 	private Map<BioType,Set<String>> perniciousFeatures;
 	
 
+	
 	public MEMMTrainer(ChemNameDictRegistry registry) {
-		Set <String> chemNameDictNames = registry.getAllNames();
-		model = new MutableMEMMModel((UnmodifiableSet) UnmodifiableSet.decorate(chemNameDictNames));
+		Set<String> chemNameDictNames = Collections.unmodifiableSet(registry.getAllNames());
+		model = new MutableMEMMModel(chemNameDictNames);
 		evsByPrev = new HashMap<BioType, List<Event>>();
 		perniciousFeatures = null;
 		

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -121,7 +121,7 @@ final class FeatureExtractor {
 		}
 	}
 	
-	public List<String> getFeatures(NamedEntity ne, UnmodifiableSet chemNameDictNames) {
+	public List<String> getFeatures(NamedEntity ne, Set<String> chemNameDictNames) {
 		double conf = ne.getConfidence();
 		double confLog = Math.log(conf) - Math.log(1 - conf);
 

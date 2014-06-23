@@ -1,11 +1,11 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.memm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.collections.set.UnmodifiableSet;
 
 import uk.ac.cam.ch.wwmm.oscar.document.Token;
 import uk.ac.cam.ch.wwmm.oscar.document.TokenSequence;
@@ -103,7 +103,7 @@ public final class FeatureExtractor {
 	private boolean newSuffixes = false;
 	private NGram ngram;
 	private ExtractedTrainingData etd;
-	private UnmodifiableSet chemNameDictNames;
+	private Set<String> chemNameDictNames;
 	
 	
 	public static List<FeatureList> extractFeatures(TokenSequence tokSeq, MEMMModel model) {
@@ -111,12 +111,12 @@ public final class FeatureExtractor {
 	}
 	
 	public static List<FeatureList> extractFeatures(TokenSequence tokSeq,
-			NGram ngram, UnmodifiableSet chemNameDictNames) {
+			NGram ngram, Set<String> chemNameDictNames) {
 		return extractFeatures(tokSeq, ngram, new ExtractedTrainingData(), chemNameDictNames);
 	}
 	
     static List<FeatureList> extractFeatures(TokenSequence tokSeq, NGram ngram,
-    		ExtractedTrainingData annotations, UnmodifiableSet chemNameDictNames) {
+    		ExtractedTrainingData annotations, Set<String> chemNameDictNames) {
         FeatureExtractor featureExtractor = new FeatureExtractor(tokSeq, ngram, annotations, chemNameDictNames);
         return featureExtractor.getFeatureLists();
     }
@@ -129,11 +129,11 @@ public final class FeatureExtractor {
         return features;
     }
 
-    private FeatureExtractor(TokenSequence tokSeq, NGram ngram, ExtractedTrainingData annotations, UnmodifiableSet chemNameDictNames) {
+    private FeatureExtractor(TokenSequence tokSeq, NGram ngram, ExtractedTrainingData annotations, Set<String> chemNameDictNames) {
 		this.tokSeq = tokSeq;
 		this.ngram = ngram;
 		this.etd = annotations;
-		this.chemNameDictNames = chemNameDictNames;
+		this.chemNameDictNames = Collections.unmodifiableSet(chemNameDictNames);
 		makeFeatures();
 	}
 

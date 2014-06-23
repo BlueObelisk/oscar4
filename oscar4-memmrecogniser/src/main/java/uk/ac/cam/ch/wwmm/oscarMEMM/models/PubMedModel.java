@@ -1,8 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 
 import java.io.IOException;
-
-import org.apache.commons.collections.set.UnmodifiableSet;
+import java.util.Collections;
 
 import nu.xom.Document;
 import nu.xom.ParsingException;
@@ -28,8 +27,8 @@ public class PubMedModel extends MEMMModel {
 		} catch (ParsingException e) {
 			throw new OscarInitialisationException("failed to load the PubMed model", e);
 		}
-		chemNameDictNames = (UnmodifiableSet) UnmodifiableSet.decorate(
-				ChemNameDictRegistry.getDefaultInstance().getAllNames());
+		chemNameDictNames = Collections.unmodifiableSet(ChemNameDictRegistry
+				.getDefaultInstance().getAllNames());
 		nGram = NGramBuilder.buildOrDeserialiseModel(etd, chemNameDictNames);
 	}
 }

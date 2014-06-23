@@ -6,8 +6,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Locale;
-
-import org.apache.commons.collections.set.UnmodifiableSet;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -19,7 +17,7 @@ public class MutableMEMMModelTest {
     @Test
 	public void testConstructor() {
 		MutableMEMMModel model = new MutableMEMMModel(
-				(UnmodifiableSet) UnmodifiableSet.decorate(Collections.emptySet()));
+				Collections.unmodifiableSet(Collections.<String> emptySet()));
 		assertNotNull(model.getZeroProbs());
 		assertNull(model.getRescorer());
 		assertNotNull(model.getTagSet());
@@ -34,9 +32,9 @@ public class MutableMEMMModelTest {
     // haven't quite worked out the desired functionality here
     @Test
     public void testNgramCustomisation() throws URISyntaxException {
-    	MutableMEMMModel vanilla = new MutableMEMMModel(
-    			(UnmodifiableSet) UnmodifiableSet.decorate(
-    					ChemNameDictRegistry.getDefaultInstance().getAllNames()));
+        MutableMEMMModel vanilla = new MutableMEMMModel(
+				Collections.unmodifiableSet(ChemNameDictRegistry
+						.getDefaultInstance().getAllNames()));
     	
     	ChemNameDictRegistry customRegistry = new ChemNameDictRegistry();
     	MutableChemNameDict dict = new MutableChemNameDict(new URI("http://www.example.com"), Locale.ENGLISH);
@@ -46,9 +44,7 @@ public class MutableMEMMModelTest {
     	dict.addName("potato");
     	customRegistry.register(dict);
     	
-    	MutableMEMMModel customised = new MutableMEMMModel(
-    			(UnmodifiableSet) UnmodifiableSet.decorate(
-    					customRegistry.getAllNames()));
+    	MutableMEMMModel customised = new MutableMEMMModel(Collections.unmodifiableSet(customRegistry.getAllNames()));
     	
     	assertFalse(customised.getNGram().compareTo(vanilla.getNGram()));
     }

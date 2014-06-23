@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.collections.set.UnmodifiableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +39,7 @@ public class DFANEFinder extends DFAFinder {
 
 	private TokenClassifier tokenClassifier;
 	private Map<String, NamedEntityType> neTerms;
-	private UnmodifiableSet registryNames;
+	private Set<String> registryNames;
 
     private static final long serialVersionUID = -3307600610608772402L;
     private static DFANEFinder defaultInstance;
@@ -72,7 +71,7 @@ public class DFANEFinder extends DFAFinder {
         	Set <String> registryNames = ChemNameDictRegistry.getDefaultInstance().getAllNames();
             defaultInstance = new DFANEFinder(TermMaps.getInstance().getNeTerms(),
             		TokenClassifier.getDefaultInstance(), OntologyTerms.getDefaultInstance(),
-            		(UnmodifiableSet) UnmodifiableSet.decorate(registryNames));
+            		Collections.unmodifiableSet(registryNames));
         }
         return defaultInstance;
     }
@@ -107,7 +106,7 @@ public class DFANEFinder extends DFAFinder {
         if (ts.getTokens().size() > 1) defaultInstance = null;
     }
 
-    public DFANEFinder(Map<String, NamedEntityType> neTerms, TokenClassifier tokenClassifier, OntologyTerms ontologyTerms, UnmodifiableSet registryNames) {
+    public DFANEFinder(Map<String, NamedEntityType> neTerms, TokenClassifier tokenClassifier, OntologyTerms ontologyTerms, Set<String> registryNames) {
         logger.debug("Initialising DFA NE Finder...");
         this.neTerms = new HashMap<String, NamedEntityType>(neTerms);   // defensive copy
         this.tokenClassifier = tokenClassifier;

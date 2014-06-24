@@ -18,14 +18,24 @@
             <artifactId>oscar4-chemnamedict</artifactId>
         </dependency>
         <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xom</groupId>
+            <artifactId>xom</artifactId>
+        </dependency>
+        <dependency>
             <groupId>uk.ac.cam.ch.opsin</groupId>
             <artifactId>opsin-inchi</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <scope>test</scope>
+            <groupId>uk.ac.cam.ch.opsin</groupId>
+            <artifactId>opsin-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

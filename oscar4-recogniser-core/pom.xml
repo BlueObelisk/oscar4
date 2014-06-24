@@ -22,7 +22,26 @@
             <groupId>${oscar.groupId}</groupId>
             <artifactId>oscar4-tokenizer</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-chemnamedict</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-obo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xom</groupId>
+            <artifactId>xom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -30,11 +49,6 @@
         <dependency>
             <groupId>dk.brics.automaton</groupId>
             <artifactId>automaton</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>

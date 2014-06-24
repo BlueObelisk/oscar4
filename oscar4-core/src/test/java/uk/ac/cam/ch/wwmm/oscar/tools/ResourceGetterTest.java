@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -91,8 +91,8 @@ public class ResourceGetterTest {
     	assertTrue(lines.get(1).startsWith("line "));
     }
     
-    @Test (expected = UnsupportedEncodingException.class)
-    public void testGetStringsUnsupportedEncoding() throws Exception {
+    @Test (expected = UnsupportedCharsetException.class)
+    public void testGetStringsUnsupportedCharsetException() throws Exception {
     	ResourceGetter rg = new ResourceGetter("/");
     	rg.getStrings("utf-8.txt", "sdfsgsodighsdoig");
     }

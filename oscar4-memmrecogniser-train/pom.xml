@@ -25,6 +25,22 @@
             <artifactId>oscar4-recogniser-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
+            <artifactId>oscar4-chemnamedict</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
+            <artifactId>oscar4-obo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
+            <artifactId>oscar4-tokenizer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
@@ -32,15 +48,10 @@
             <groupId>xom</groupId>
             <artifactId>xom</artifactId>
         </dependency>
-		<dependency>
-			<groupId>org.apache.opennlp</groupId>
-			<artifactId>opennlp-maxent</artifactId>
-		</dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <scope>test</scope>
-        </dependency>
+	<dependency>
+	    <groupId>org.apache.opennlp</groupId>
+	     <artifactId>opennlp-maxent</artifactId>
+	</dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

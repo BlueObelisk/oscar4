@@ -51,11 +51,28 @@
             <groupId>${oscar.groupId}</groupId>
             <artifactId>oscar4-opsin</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-obo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${oscar.groupId}</groupId>
+            <artifactId>oscar4-recogniser-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xom</groupId>
+            <artifactId>xom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
+
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

@@ -23,7 +23,7 @@
             <artifactId>commons-lang</artifactId>
         </dependency>
         <dependency>
-            <groupId>xom</groupId>
+            <groupId>com.io7m.xom</groupId>
             <artifactId>xom</artifactId>
         </dependency>
         <dependency>

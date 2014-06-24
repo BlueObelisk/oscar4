@@ -57,7 +57,7 @@
         -->
         <opsin-core.version>1.6.0</opsin-core.version>
         <opsin-inchi.version>${opsin-core.version}</opsin-inchi.version>
-        <xom.version>1.2.5</xom.version>
+        <xom.version>1.2.10</xom.version>
         <log4j.version>1.2.17</log4j.version>
         <icu4j.version>53.1</icu4j.version>
         <poi.version>3.10-FINAL</poi.version>
@@ -175,7 +175,7 @@
                 <version>${opsin-core.version}</version>
             </dependency>
             <dependency>
-                <groupId>xom</groupId>
+                <groupId>com.io7m.xom</groupId>
                 <artifactId>xom</artifactId>
                 <version>${xom.version}</version>
             </dependency>

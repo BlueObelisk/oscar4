@@ -2,7 +2,6 @@ package uk.ac.cam.ch.wwmm.oscarMEMM.models;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;

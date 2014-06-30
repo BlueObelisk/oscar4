@@ -1,6 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscar.document;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;

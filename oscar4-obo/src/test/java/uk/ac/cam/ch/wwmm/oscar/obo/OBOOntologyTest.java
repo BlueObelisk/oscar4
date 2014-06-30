@@ -1,6 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscar.obo;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

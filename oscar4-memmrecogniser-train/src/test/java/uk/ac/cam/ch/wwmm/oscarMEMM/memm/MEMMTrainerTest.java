@@ -15,7 +15,6 @@ import nu.xom.Element;
 import nu.xom.Elements;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

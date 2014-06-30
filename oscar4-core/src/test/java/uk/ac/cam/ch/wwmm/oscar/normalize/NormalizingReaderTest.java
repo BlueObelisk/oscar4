@@ -2,7 +2,7 @@ package uk.ac.cam.ch.wwmm.oscar.normalize;
 
 import java.io.IOException;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Ignore;
 import org.junit.Test;

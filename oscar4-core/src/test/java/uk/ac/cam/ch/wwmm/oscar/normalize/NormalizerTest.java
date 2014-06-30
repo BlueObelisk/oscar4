@@ -9,7 +9,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Test;
 

@@ -51,6 +51,8 @@
     </developers>
 
     <properties>
+        <maven.min-version>3.0.4</maven.min-version>
+
         <oscar.groupId>${project.groupId}</oscar.groupId>
         <oscar.version>${project.version}</oscar.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -94,6 +96,10 @@
         <connection>scm:hg:http://bitbucket.org/wwmm/oscar4</connection>
         <developerConnection>scm:hg:https://bitbucket.org/wwmm/oscar4</developerConnection>
     </scm>
+
+    <prerequisites>
+        <maven>${maven.min-version}</maven>
+    </prerequisites>
 
     <issueManagement>
         <url>https://bitbucket.org/wwmm/oscar4/issues</url>

@@ -32,6 +32,12 @@
         <dependency>
             <groupId>uk.ac.cam.ch.opsin</groupId>
             <artifactId>opsin-core</artifactId>
+            <exclusions>
+                <exclusion>
+                   <groupId>xom</groupId>
+                   <artifactId>xom</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

@@ -1,3 +1,23 @@
+Version 4.2
+Support for Standard InChI and Standard InChI Keys; InChI marked as deprecated.
+Updated dependencies (mvn versions:display-dependency-updates)
+	Guava --> 17.0
+	maven-shade-plugin --> 2.3
+	wwmm-parent --> 4
+	commons-io --> 2.4
+	xom --> 1.2.10
+	poi --> 3.10-FINAL
+	opsin-{core,inchi} --> 1.6.0
+	junit --> 4.11
+	mockito-core --> 1.9.5
+	icu4j --> 53.1
+	slf4j --> 1.7.7
+	opennlp-tools --> 1.5.3
+
+Add Standard InChI and Standard InChI Keys to chemnamedict.xml
+Fixed a range of intra maven dependency issues with mvn clean dependency:analyze (using maven2)
+Use java.util.Collections.unmodifiableSet() instead of org.apache.commons.collections.set.UnmodifiableSet (commons-collections)
+
 Version 4.1
 Released 2012-01-10
 Improvements to tokeniser (hyphen/colon handling, recognition of abbreviations)

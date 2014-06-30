@@ -183,6 +183,12 @@
                 <groupId>uk.ac.cam.ch.opsin</groupId>
                 <artifactId>opsin-core</artifactId>
                 <version>${opsin-core.version}</version>
+                <exclusions>
+                   <exclusion>
+                     <groupId>xom</groupId>
+                     <artifactId>xom</artifactId>
+                   </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.io7m.xom</groupId>

@@ -1,4 +1,9 @@
-Version 4.2
+Version 4.2.1
+Bug fix for whitespace in defaultCompounds.xml
+Released 14/07/2014
+
+Version 4.2.0
+Released 01/07/2014
 Support for Standard InChI and Standard InChI Keys; InChI marked as deprecated.
 Updated dependencies (mvn versions:display-dependency-updates)
 	Guava --> 17.0

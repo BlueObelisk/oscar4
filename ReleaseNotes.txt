@@ -1,3 +1,7 @@
+Version 4.2.2
+Removed  <repositories> in parent pom, see;
+  http://blog.sonatype.com/2010/03/why-external-repos-are-being-phased-out-of-central/
+
 Version 4.2.1
 Bug fix for whitespace in defaultCompounds.xml
 Released 14/07/2014

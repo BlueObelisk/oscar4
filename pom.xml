@@ -83,14 +83,6 @@
         <junit.version>4.11</junit.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>ucc-repo</id>
-            <name>UCC Repository</name>
-            <url>http://maven.ch.cam.ac.uk/m2repo</url>
-        </repository>
-    </repositories>
-
     <scm>
         <url>http://bitbucket.org/wwmm/oscar4/src</url>
         <connection>scm:hg:http://bitbucket.org/wwmm/oscar4</connection>

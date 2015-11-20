@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import nu.xom.Builder;
+import nu.xom.Document;
 import nu.xom.Element;
 
 import uk.ac.cam.ch.wwmm.opsin.NameToInchi;
@@ -203,9 +205,15 @@ public class OpsinDictionary implements IChemNameDict, IInChIProvider,
 		OpsinResult result = nts.parseChemicalName(queryName);
 		if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
 			Set<Element> cmls = new HashSet<Element>();
-			Element cml = result.getCml();
-			cmls.add(cml);
-			return cmls;
+			try {
+				Document doc = new Builder().build(result.getCml(), null);
+				Element rootEl = doc.getRootElement();
+				doc.setRootElement(new Element("dummy"));
+				cmls.add(rootEl);				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return cmls;			
 		}
 		return Collections.emptySet();
 	}

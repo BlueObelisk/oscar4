@@ -81,6 +81,7 @@
         <jexample.version>4.4-378</jexample.version>
         <mockito-core.version>1.9.5</mockito-core.version>
         <junit.version>4.12</junit.version>
+        <slf4j-log4j12.version>1.7.12</slf4j-log4j12.version>
     </properties>
 
     <scm>
@@ -187,6 +188,11 @@
                 <artifactId>xom</artifactId>
                 <version>${xom.version}</version>
             </dependency>
+            <dependency>
+            <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>${slf4j-log4j12.version}</version>
+        </dependency>
             <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>

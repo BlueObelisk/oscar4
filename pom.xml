@@ -65,23 +65,23 @@
         <opsin-inchi.version>${opsin-core.version}</opsin-inchi.version>
         <xom.version>1.2.10</xom.version>
         <log4j.version>1.2.17</log4j.version>
-        <icu4j.version>56.1</icu4j.version>
+        <icu4j.version>58.2</icu4j.version>
         <poi.version>3.13</poi.version>
         <opennlp-maxent.version>3.0.3</opennlp-maxent.version>
-        <opennlp-tools.version>1.6.0</opennlp-tools.version>
+        <opennlp-tools.version>1.7.2</opennlp-tools.version>
         <automaton.version>1.11-8</automaton.version>
-        <slf4j-api.version>1.7.13</slf4j-api.version>
-        <slf4j-simple.version>1.7.13</slf4j-simple.version>
+        <slf4j-api.version>1.7.24</slf4j-api.version>
+        <slf4j-simple.version>1.7.24</slf4j-simple.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <commons-io.version>2.4</commons-io.version>
+        <commons-io.version>2.5</commons-io.version>
         <commons-discovery.version>20040218.194635</commons-discovery.version>
         <jregex.version>1.2_01</jregex.version>
         <commons-math.version>2.2</commons-math.version>
-        <guava.version>17.0</guava.version>
+        <guava.version>21.0</guava.version>
         <jexample.version>4.4-378</jexample.version>
-        <mockito-core.version>1.9.5</mockito-core.version>
+        <mockito-core.version>1.10.19</mockito-core.version>
         <junit.version>4.12</junit.version>
-        <slf4j-log4j12.version>1.7.12</slf4j-log4j12.version>
+        <slf4j-log4j12.version>1.7.24</slf4j-log4j12.version>
     </properties>
 
     <scm>

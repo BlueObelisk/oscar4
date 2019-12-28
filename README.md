@@ -5,7 +5,7 @@ OSCAR (Open Source Chemistry Analysis Routines) is an open source extensible sys
 
 OSCAR has been under development since 2002. The current version, OSCAR4, focuses on providing a core library that facilitates integration with other tools. Its simple to use API is modularised to promote extension into other domains and allows for its use within workflow systems like Taverna and U-Compare.
 
-OSCAR is developed by the Murray-Rust research group at the Unilever Centre for Molecular Science Informatics, University of Cambridge. The corresponding publication can be found here and the authors would appreciate it if this is cited in any work that makes use of the code.
+OSCAR is developed by the [Murray-Rust](http://www-pmr.ch.cam.ac.uk) research group at the [Unilever Centre for Molecular Science Informatics](https://www-cmi.ch.cam.ac.uk/), [University of Cambridge](https://www.cam.ac.uk/). The corresponding publication can be found [here](http://dx.doi.org/10.1186/1758-2946-3-41) and the authors would appreciate it if this is cited in any work that makes use of the code.
 
 ## Examples
 

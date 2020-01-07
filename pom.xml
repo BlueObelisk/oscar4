@@ -64,7 +64,7 @@
         <opsin-core.version>2.4.0</opsin-core.version>
         <opsin-inchi.version>${opsin-core.version}</opsin-inchi.version>
         <xom.version>1.2.10</xom.version>
-        <log4j.version>1.2.17</log4j.version>
+        <log4j2.version>2.13.0</log4j2.version>
         <icu4j.version>64.2</icu4j.version>
         <poi.version>3.13</poi.version>
         <opennlp-maxent.version>3.0.3</opennlp-maxent.version>
@@ -193,12 +193,12 @@
             <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
         <version>${slf4j-log4j12.version}</version>
-        </dependency>
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>${log4j.version}</version>
-            </dependency>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.logging.log4j</groupId>
+		<artifactId>log4j-1.2-api</artifactId>
+		<version>${log4j2.version}</version>
+	</dependency>
             <dependency>
                 <groupId>com.ibm.icu</groupId>
                 <artifactId>icu4j</artifactId>

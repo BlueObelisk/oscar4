@@ -72,8 +72,8 @@
 		<opennlp-maxent.version>3.0.3</opennlp-maxent.version>
 		<opennlp-tools.version>1.9.3</opennlp-tools.version>
 		<automaton.version>1.11-8</automaton.version>
-		<slf4j-api.version>1.7.28</slf4j-api.version>
-		<slf4j-simple.version>1.7.28</slf4j-simple.version>
+		<slf4j-api.version>1.7.30</slf4j-api.version>
+		<slf4j-simple.version>1.7.30</slf4j-simple.version>
 		<commons-lang.version>2.6</commons-lang.version>
 		<commons-io.version>2.8.0</commons-io.version>
 		<commons-discovery.version>20040218.194635</commons-discovery.version>
@@ -83,7 +83,7 @@
 		<jexample.version>4.4-378</jexample.version>
 		<mockito-core.version>3.5.13</mockito-core.version>
 		<junit.version>4.13</junit.version>
-		<slf4j-log4j12.version>1.7.28</slf4j-log4j12.version>
+		<slf4j-log4j12.version>1.7.30</slf4j-log4j12.version>
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 	</properties>
 

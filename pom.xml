@@ -75,7 +75,7 @@
 		<slf4j-api.version>1.7.28</slf4j-api.version>
 		<slf4j-simple.version>1.7.28</slf4j-simple.version>
 		<commons-lang.version>2.6</commons-lang.version>
-		<commons-io.version>2.6</commons-io.version>
+		<commons-io.version>2.8.0</commons-io.version>
 		<commons-discovery.version>20040218.194635</commons-discovery.version>
 		<jregex.version>1.2_01</jregex.version>
 		<commons-math.version>2.2</commons-math.version>

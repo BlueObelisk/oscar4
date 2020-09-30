@@ -70,7 +70,7 @@
 		<icu4j.version>67.1</icu4j.version>
 		<poi.version>4.1.2</poi.version>
 		<opennlp-maxent.version>3.0.3</opennlp-maxent.version>
-		<opennlp-tools.version>1.9.1</opennlp-tools.version>
+		<opennlp-tools.version>1.9.3</opennlp-tools.version>
 		<automaton.version>1.11-8</automaton.version>
 		<slf4j-api.version>1.7.28</slf4j-api.version>
 		<slf4j-simple.version>1.7.28</slf4j-simple.version>

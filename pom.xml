@@ -93,10 +93,6 @@
 		<developerConnection>scm:git:https://github.com/blueobelisk/oscar4</developerConnection>
 	</scm>
 
-	<prerequisites>
-		<maven>${maven.min-version}</maven>
-	</prerequisites>
-
 	<issueManagement>
 		<url>https://github.com/blueobelisk/oscar4/issues</url>
 	</issueManagement>

@@ -66,7 +66,7 @@
 		<opsin-core.version>2.4.0</opsin-core.version>
 		<opsin-inchi.version>${opsin-core.version}</opsin-inchi.version>
 		<xom.version>1.2.10</xom.version>
-		<log4j2.version>2.13.0</log4j2.version>
+		<log4j2.version>2.13.3</log4j2.version>
 		<icu4j.version>67.1</icu4j.version>
 		<poi.version>4.1.2</poi.version>
 		<opennlp-maxent.version>3.0.3</opennlp-maxent.version>

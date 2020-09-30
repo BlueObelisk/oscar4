@@ -70,8 +70,8 @@ public class NGramBuilderTest {
 		Set <String> chemical = new HashSet<String>();
 		english.add("foo");
 		chemical.add("bar");
-		stub(annotations.getNonChemicalWords()).toReturn(english);
-		stub(annotations.getChemicalWords()).toReturn(chemical);
+		when(annotations.getNonChemicalWords()).thenReturn(english);
+		when(annotations.getChemicalWords()).thenReturn(chemical);
 		
 		Set <String> registryNames = new HashSet<String>();
 		registryNames.add("registryname");

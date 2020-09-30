@@ -3,7 +3,7 @@ package uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.stub;
+import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,7 +35,7 @@ public class PrefixFinderTest {
 	public void testDontGetEtdNotForPrefix() {
 		ExtractedTrainingData mockAnnotations = mock(ExtractedTrainingData.class);
 		Set <String> notForPrefix = new HashSet<String>();
-		stub(mockAnnotations.getNotForPrefix()).toReturn(notForPrefix);
+		when(mockAnnotations.getNotForPrefix()).thenReturn(notForPrefix);
 		
 		assertEquals("m-", PrefixFinder.getPrefix("m-chlorotoluene", mockAnnotations));
 		

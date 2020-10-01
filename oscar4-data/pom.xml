@@ -14,11 +14,11 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>${oscar.groupId}</groupId>
+			<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 			<artifactId>oscar4-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>${oscar.groupId}</groupId>
+			<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 			<artifactId>oscar4-tokenizer</artifactId>
 		</dependency>
 

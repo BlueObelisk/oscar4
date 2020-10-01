@@ -12,9 +12,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>${oscar.groupId}</groupId>
+            <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
             <artifactId>oscar4-core</artifactId>
-            <version>${oscar.version}</version>
+            <version>4.3.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

@@ -31,7 +31,7 @@
             <artifactId>oscar4-obo</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.io7m.xom</groupId>
+            <groupId>xom</groupId>
             <artifactId>xom</artifactId>
         </dependency>
         <dependency>

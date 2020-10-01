@@ -31,13 +31,13 @@ public class ProcessingDocumentFactory {
 	/**
 	 * @deprecated
 	 * This method is (hopefully) only used when training memm models and will never be called here
-	 * @param instance
-	 * @param doc
-	 * @param b
-	 * @param c
-	 * @param d
-	 * @param safDoc
-	 * @return
+	 * @param instance Unknown
+	 * @param doc Unknown
+	 * @param b Unknown
+	 * @param c Unknown
+	 * @param d Unknown
+	 * @param safDoc Unknown
+	 * @return Tokenised ProcessingDocument
 	 */
 	@Deprecated
 	public IProcessingDocument makeTokenisedDocument(ITokeniser instance,
@@ -50,6 +50,7 @@ public class ProcessingDocumentFactory {
 	 * 
 	 * @param tokeniser the tokeniser to be used
 	 * @param sciXmlDoc the document to be tokenised
+	 * @return Tokenised ProcessingDocument
 	 */
 	public ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser,
 			Document sciXmlDoc) {
@@ -62,6 +63,7 @@ public class ProcessingDocumentFactory {
 	 * @param tokeniser the tokeniser to be used
 	 * @param sciXmlDoc the document to be tokenised
 	 * @param xmlStrings the {@link XMLStrings} for the sciXmlDoc's schema
+	 * @return Tokenised ProcessingDocument
 	 */
 	public ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser,
 			Document sciXmlDoc, XMLStrings xmlStrings) {
@@ -82,8 +84,12 @@ public class ProcessingDocumentFactory {
 	}
 
 	/**
-	 * Creates a tokenised ProcessingDocument from a string, using the supplied tokeniser 
+	 * Creates a tokenised ProcessingDocument from a string, using the supplied
+	 * tokeniser
 	 * 
+	 * @param tokeniser Supplied tokeniser
+	 * @param source String source
+	 * @return Tokenised ProcessingDocument
 	 */
 	public ProcessingDocument makeTokenisedDocument(ITokeniser tokeniser,
 			String source) {

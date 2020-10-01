@@ -77,6 +77,7 @@ public final class StringTools {
     /**Converts a list of objects into a string.
      *
      * @param l A list of characters.
+     * @param separator separator value.
      * @return The corresponding string.
      */
     public static String objectListToString(List<?> l, String separator) {
@@ -441,7 +442,7 @@ public final class StringTools {
     /** Expands a string consisting of digits, whitespace and regex characters
      * into a finite set of digits/whitespace only strings if possible.
      *
-     * A?BC? >>
+     * A?BC? &gt;&gt;
      *          B
      *          AB
      *          BC
@@ -471,12 +472,15 @@ public final class StringTools {
         return Collections.singleton(regex);
     }
 
-    /**
-     * Removes all instances of a specified char from a given string, returning
-     * the original string if no instances exist
-     *
-     * @author dmj30
-     */
+	/**
+	 * Removes all instances of a specified char from a given string, returning the
+	 * original string if no instances exist
+	 *
+	 * @author dmj30
+	 * @param c Character to be removed.
+	 * @param string Input string.
+	 * @return The original string if no instances exist.
+	 */
     public static String removeCharFromString(char c, String string) {
         char[] oldChars = string.toCharArray();
         StringBuilder builder = new StringBuilder();
@@ -523,10 +527,10 @@ public final class StringTools {
     }
     
 	/**
-	 * Tests if this string ends with the specified suffix ignoring case.
-	 * @param str
-	 * @param suffix
-	 * @return
+	 * Tests if this string ends with the specified suffix, ignoring case.
+	 * @param str String to test.
+	 * @param suffix The specified suffix.
+	 * @return True if string ends with the specified suffix, ignoring case.
 	 */
 	public static boolean endsWithCaseInsensitive(String str, String suffix) {
 		if (suffix.length() > str.length()) {

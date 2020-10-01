@@ -223,6 +223,8 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * with that of another named entity, for use when deciding which of two
 	 * overlapping named entities to discard. Psuedo confidences are not used
 	 * 
+	 * @param otherNe Other named entity
+	 * @return 
 	 */
 	public int compareCalculatedConfidenceTo(NamedEntity otherNe) {
         double myConf = confidence;
@@ -242,6 +244,8 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * with that of another named entity, for use when deciding which of two
 	 * overlapping named entities to discard.
 	 * 
+	 * @param otherNe Other named entity
+	 * @return 
 	 */
 	public int comparePseudoOrCalculatedConfidenceTo(NamedEntity otherNe) {
         double myConf = confidence;
@@ -263,6 +267,8 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * that has the same string, for use when deciding which of two overlapping
 	 * named entities to discard.
 	 * 
+	 * @param otherNe Other named entity
+	 * @return 
 	 */
 	public int compareTypeTo(NamedEntity otherNe) {
         return Integer.valueOf(getType().getPriority()).compareTo(otherNe.getType().getPriority());
@@ -273,6 +279,8 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * entity, for use when deciding which of two overlapping named entities to
 	 * discard.
 	 * 
+	 * @param otherNe Other named entity
+	 * @return 
 	 */	
 	public int compareEnd(NamedEntity otherNe) {
         return new Integer(endOffset).compareTo(otherNe.endOffset);
@@ -281,6 +289,8 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	/**Compares the end offset of the named entity with the start offset
 	 * of another named entity, to see whether the two might overlap.
 	 * 
+	 * @param otherNe Other named entity
+	 * @return 
 	 */
 	public int compareEndToStart(NamedEntity otherNe) {
         return new Integer(endOffset).compareTo(otherNe.startOffset);
@@ -290,6 +300,8 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * entity, for use when deciding which of two overlapping named entities to
 	 * discard.
 	 * 
+	 * @param otherNe Other named entity
+	 * @return 
 	 */	
 	public int compareStart(NamedEntity otherNe) {
         return new Integer(startOffset).compareTo(otherNe.startOffset);
@@ -298,6 +310,8 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	/**Compares the start offset of the named entity with the end offset
 	 * of another named entity, to see whether the two might overlap.
 	 * 
+	 * @param otherNe Other named entity
+	 * @return 
 	 */
 	public int compareStartToEnd(NamedEntity other) {
         return new Integer(startOffset).compareTo(other.endOffset);
@@ -305,6 +319,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	
 	/**A string representation of the NE, for debugging and related purposes.
 	 * 
+	 * @return 
 	 */
 	@Override
 	public String toString() {
@@ -404,7 +419,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	
 	/**
 	 * If deprioritiseOnt is true will sort such that a non ontological term is prioritised
-	 * @param otherNe
+	 * @param otherNe Other named entity
 	 * @return int indicating sort order
 	 */
 	public int comparePropertiesSpecifiedPrioritisation(NamedEntity otherNe) {
@@ -469,16 +484,20 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
         return false;
     }
 
-    /**
-     * Compares two confidence doubles, return true if they are
-     * (floating-point) equal or both are NaN 
-     * @return
-     */
-    private boolean compareConf(double a, double b) {
+	/**
+	 * Compares two confidence doubles, return true if they are (floating-point)
+	 * equal or both are NaN
+	 * 
+	 * 
+	 * @param a confidence double a
+	 * @param b confidence double b
+	 * @return true if they are (floating-point) equal or both are NaN
+	 */
+	private boolean compareConf(double a, double b) {
 		if (Double.isNaN(a) && Double.isNaN(b)) {
 			return true;
 		}
-    	return Math.abs(a - b) < 0.0001;
+		return Math.abs(a - b) < 0.0001;
 	}
 
 	@Override

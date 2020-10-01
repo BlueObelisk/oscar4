@@ -67,6 +67,8 @@ public final class Token {
 
 	/**
 	 * Sets the surface string (i.e. text content) of the token.
+	 *
+	 * @param surface surface string
 	 */
     public void setSurface(String surface) {
         this.surface = surface;
@@ -84,6 +86,7 @@ public final class Token {
     /**
      * Sets the index of the token in its TokenSequence.
      * 
+     * @param index The index of token in its TokenSequence.
      */
     public void setIndex(int index) {
         this.index = index;
@@ -119,6 +122,7 @@ public final class Token {
 
     /**
      * Sets the end offset of the token.
+     * @param end The end offset of the token.
      */
     public void setEnd(int end) {
         this.end = end;
@@ -136,6 +140,8 @@ public final class Token {
 	
 	/**
 	 * Sets the {@link BioType} of the token.
+	 *
+	 * @param bioType The BioType of the token.
 	 */
 	public void setBioType(BioType bioType) {
 		this.bioType = bioType;
@@ -153,6 +159,8 @@ public final class Token {
     /**
      * Sets the internal reference to the {@link TokenSequence} that
      * contains this token.
+     * 
+     *  @param tokenSequence The internal reference to the tokenSequence.
      */
     public void setTokenSequence(TokenSequence tokenSequence) {
         this.tokenSequence = tokenSequence;

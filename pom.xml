@@ -356,7 +356,6 @@
                                 <configuration>
                                         <source>8</source>
 					<detectJavaApiLink>false</detectJavaApiLink>
-					<failOnWarnings>false</failOnWarnings>
                                 </configuration>
                         </plugin>
 		</plugins>

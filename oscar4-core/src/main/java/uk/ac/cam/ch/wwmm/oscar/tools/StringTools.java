@@ -442,7 +442,7 @@ public final class StringTools {
     /** Expands a string consisting of digits, whitespace and regex characters
      * into a finite set of digits/whitespace only strings if possible.
      *
-     * A?BC? &gt;&gt;
+     * A?BC? >>
      *          B
      *          AB
      *          BC

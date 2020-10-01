@@ -30,7 +30,7 @@ public final class TextToSciXML {
 	/**Builds a new SciXML document from the given text string.
 	 * 
 	 * @param s The string.
-	 * @param the {@link XMLStrings} for the output document's schema
+	 * @param xmlStrings the {@link XMLStrings} for the output document's schema
 	 * @return The resulting SciXML document.
 	 */
 	public static SciXMLDocument textToSciXML(String s, XMLStrings xmlStrings) {

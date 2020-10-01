@@ -29,7 +29,15 @@ public class ProcessingDocumentFactory {
 	}
 
 	/**
+	 * @deprecated
 	 * This method is (hopefully) only used when training memm models and will never be called here
+	 * @param instance
+	 * @param doc
+	 * @param b
+	 * @param c
+	 * @param d
+	 * @param safDoc
+	 * @return
 	 */
 	@Deprecated
 	public IProcessingDocument makeTokenisedDocument(ITokeniser instance,

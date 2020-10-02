@@ -224,7 +224,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * overlapping named entities to discard. Psuedo confidences are not used
 	 * 
 	 * @param otherNe Other named entity
-	 * @return 
+	 * @return The confidence comparison.
 	 */
 	public int compareCalculatedConfidenceTo(NamedEntity otherNe) {
         double myConf = confidence;
@@ -245,7 +245,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * overlapping named entities to discard.
 	 * 
 	 * @param otherNe Other named entity
-	 * @return 
+	 * @return The confidence comparison.
 	 */
 	public int comparePseudoOrCalculatedConfidenceTo(NamedEntity otherNe) {
         double myConf = confidence;
@@ -280,7 +280,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * discard.
 	 * 
 	 * @param otherNe Other named entity
-	 * @return 
+	 * @return The offset comparision.
 	 */	
 	public int compareEnd(NamedEntity otherNe) {
         return new Integer(endOffset).compareTo(otherNe.endOffset);
@@ -290,7 +290,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * of another named entity, to see whether the two might overlap.
 	 * 
 	 * @param otherNe Other named entity
-	 * @return 
+	 * @return The offset comparision.
 	 */
 	public int compareEndToStart(NamedEntity otherNe) {
         return new Integer(endOffset).compareTo(otherNe.startOffset);
@@ -301,7 +301,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * discard.
 	 * 
 	 * @param otherNe Other named entity
-	 * @return 
+	 * @return The offset comparision.
 	 */	
 	public int compareStart(NamedEntity otherNe) {
         return new Integer(startOffset).compareTo(otherNe.startOffset);
@@ -311,7 +311,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * of another named entity, to see whether the two might overlap.
 	 * 
 	 * @param otherNe Other named entity
-	 * @return 
+	 * @return The offset comparision.
 	 */
 	public int compareStartToEnd(NamedEntity other) {
         return new Integer(startOffset).compareTo(other.endOffset);
@@ -319,7 +319,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	
 	/**A string representation of the NE, for debugging and related purposes.
 	 * 
-	 * @return 
+	 * @return The string representation of the named Entity.
 	 */
 	@Override
 	public String toString() {
@@ -353,6 +353,8 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	
 	/**
 	 * Gets the pseudoConfidence score (from 1.0 to 0.0, or NaN) for the named entity.
+	 *
+	 * @returns The pseudoConfidence score (from 1.0 to 0.0, or NaN) for the named entity.
 	 */
 	public double getPseudoConfidence() {
 		return pseudoConfidence;
@@ -373,7 +375,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * over other named entities when working out which entity to discard when
 	 * resolving overlaps. Default is false.
 	 * 
-	 * @param deprioritiseOnt
+	 * @param deprioritiseOnt The deprioritise boolean.
 	 */
 	public void setDeprioritiseOnt(boolean deprioritiseOnt) {
 		this.deprioritiseOnt = deprioritiseOnt;

@@ -14,7 +14,7 @@ public class DataFormatException extends OscarException {
 	/**
 	 * Creates a new DataFormatException with the specified message
 	 * 
-	 * @param message
+	 * @param message The specified message.
 	 */
 	public DataFormatException(String message) {
 		super(message);

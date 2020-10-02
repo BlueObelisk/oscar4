@@ -231,7 +231,7 @@ public final class ResourceGetter {
 	 * 
 	 * @param name The file to fetch.
 	 * @return The string.
-	 * @throws IOException
+	 * @throws IOException The IOException.
 	 */
 	public String getString(String name) throws IOException {
         InputStream is = getStream(name);

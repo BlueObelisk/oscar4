@@ -268,7 +268,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * named entities to discard.
 	 * 
 	 * @param otherNe Other named entity
-	 * @return 
+	 * @return The offset comparison.
 	 */
 	public int compareTypeTo(NamedEntity otherNe) {
         return Integer.valueOf(getType().getPriority()).compareTo(otherNe.getType().getPriority());
@@ -280,7 +280,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * discard.
 	 * 
 	 * @param otherNe Other named entity
-	 * @return The offset comparision.
+	 * @return The offset comparison.
 	 */	
 	public int compareEnd(NamedEntity otherNe) {
         return new Integer(endOffset).compareTo(otherNe.endOffset);
@@ -290,7 +290,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * of another named entity, to see whether the two might overlap.
 	 * 
 	 * @param otherNe Other named entity
-	 * @return The offset comparision.
+	 * @return The offset comparison.
 	 */
 	public int compareEndToStart(NamedEntity otherNe) {
         return new Integer(endOffset).compareTo(otherNe.startOffset);
@@ -301,7 +301,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	 * discard.
 	 * 
 	 * @param otherNe Other named entity
-	 * @return The offset comparision.
+	 * @return The offset comparison.
 	 */	
 	public int compareStart(NamedEntity otherNe) {
         return new Integer(startOffset).compareTo(otherNe.startOffset);
@@ -310,8 +310,8 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	/**Compares the start offset of the named entity with the end offset
 	 * of another named entity, to see whether the two might overlap.
 	 * 
-	 * @param otherNe Other named entity
-	 * @return The offset comparision.
+	 * @param other Other named entity
+	 * @return The offset comparison.
 	 */
 	public int compareStartToEnd(NamedEntity other) {
         return new Integer(startOffset).compareTo(other.endOffset);
@@ -354,7 +354,7 @@ public final class NamedEntity implements Annotation, Comparable<NamedEntity> {
 	/**
 	 * Gets the pseudoConfidence score (from 1.0 to 0.0, or NaN) for the named entity.
 	 *
-	 * @returns The pseudoConfidence score (from 1.0 to 0.0, or NaN) for the named entity.
+	 * @return The pseudoConfidence score (from 1.0 to 0.0, or NaN) for the named entity.
 	 */
 	public double getPseudoConfidence() {
 		return pseudoConfidence;

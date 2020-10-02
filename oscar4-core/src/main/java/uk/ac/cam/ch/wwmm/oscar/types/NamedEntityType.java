@@ -60,6 +60,7 @@ public class NamedEntityType {
      * @param name a unique name for the NamedEntityType, e.g. "CM"
      * @param description an expanded description of what the NamedEntityType
      * represents, e.g. "Compound"
+     * @return The registered named entity.
      */
     public static synchronized NamedEntityType register(String name, String description) {
         return register(name, description, 0);
@@ -76,6 +77,7 @@ public class NamedEntityType {
      * @param priority the priority of the NamedEntityType, for determining
      * which of two named entities should be discarded where they precisely
      * share a surface string
+     * @return The registered named entity.
      */
     public static synchronized NamedEntityType register(String name, String description, int priority) {
         if (!getTypes().containsKey(name)) {
@@ -88,6 +90,9 @@ public class NamedEntityType {
     /**
      * Returns a {@link NamedEntityType} with the given name. If the name
      * has been registered, the registered object will be returned.
+     *
+     * @param name The name of the named entity.
+     * @return The named entity type.
      */
     public static NamedEntityType valueOf(String name) {
         NamedEntityType result = null;
@@ -132,6 +137,8 @@ public class NamedEntityType {
     /**
      * Returns the parent {@link NamedEntityType} of the current
      * {@link NamedEntityType}, or null if it has no parent.
+     *
+     * @return The parent named entity type.
      */
     public NamedEntityType getParent() {
         int i = getName().lastIndexOf('-');
@@ -141,6 +148,8 @@ public class NamedEntityType {
     /**
      * Tests if the given {@link NamedEntityType} is of the same
      * type or a subtype of the current {@link NamedEntityType}
+     *
+     * @return Value of the comparison.
      */
     public boolean isInstance(NamedEntityType type) {
         return getName().equals(type.getName())

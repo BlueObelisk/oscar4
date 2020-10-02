@@ -149,6 +149,7 @@ public class NamedEntityType {
      * Tests if the given {@link NamedEntityType} is of the same
      * type or a subtype of the current {@link NamedEntityType}
      *
+     * @param The named entity type to compare to.
      * @return Value of the comparison.
      */
     public boolean isInstance(NamedEntityType type) {

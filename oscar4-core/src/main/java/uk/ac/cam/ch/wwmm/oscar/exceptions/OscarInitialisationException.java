@@ -13,7 +13,7 @@ public class OscarInitialisationException extends RuntimeException {
 	/**
 	 * Creates a new ResourceInitialisationException with the specified message
 	 * 
-	 * @param message
+	 * @param message The message of the exception.
 	 */
 	public OscarInitialisationException(String message) {
 		super(message);
@@ -23,8 +23,8 @@ public class OscarInitialisationException extends RuntimeException {
 	 * Creates a new ResourceInitialisationException with the specified message
 	 * and cause
 	 * 
-	 * @param message
-	 * @param cause
+	 * @param message The message of the exception.
+	 * @param cause The cause of the the exception.
 	 */
 	public OscarInitialisationException(String message, Exception cause) {
 		super(message, cause);

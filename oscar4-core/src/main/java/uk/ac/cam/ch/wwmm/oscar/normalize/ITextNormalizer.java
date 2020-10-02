@@ -15,8 +15,8 @@ public interface ITextNormalizer {
 	 * Returns an expanded version of the character, or null if there is no
 	 * expansion.
 	 *
-	 * @param character
-	 * @return
+	 * @param character Character to be normalized
+	 * @return The expanded version of the character.
 	 */
 	public String normalize(char character);
 
@@ -25,7 +25,7 @@ public interface ITextNormalizer {
 	 * no expansion.
 	 *
 	 * @param string String to be normalized.
-	 * @return
+	 * @return The expanded version of the string.
 	 */
 	public String normalizable(String string);
 

@@ -13,7 +13,7 @@ public class OscarException extends Exception {
 	/**
 	 * Creates a new OscarException with the specified message
 	 * 
-	 * @param message
+	 * @param message The message of the exception.
 	 */
 	public OscarException(String message) {
 		super(message);
@@ -22,8 +22,8 @@ public class OscarException extends Exception {
 	/**
 	 * Creates a new OscarException with the specified message and cause
 	 * 
-	 * @param message
-	 * @param cause
+	 * @param message The message of the exception.
+	 * @param cause The cause of the exception.
 	 */
 	public OscarException(String message, Exception cause) {
 		super(message, cause);

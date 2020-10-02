@@ -154,6 +154,10 @@ public final class TokenSequence {
      * Returns the substring of the tokenSequence surface between
      * the specified offsets, which need not correspond to token
      * boundaries.
+     *
+     * @param start The start offset.
+     * @param end The end offset.
+     * @return The substring of the tokenSequence surface between start and end.
      */
     public String getStringAtOffsets(int start, int end) {
         return surface.substring(start - offset, end - offset);
@@ -253,6 +257,9 @@ public final class TokenSequence {
 	/**
 	 * Returns the token that starts at the given index, or null if no such
 	 * token exists. 
+	 *
+	 * @param index The index of the token.
+	 * @return The token starting at the index.
 	 */
 	public Token getTokenByStartIndex(int index) {
 		checkIndex(index);
@@ -275,7 +282,10 @@ public final class TokenSequence {
 
 	/**
 	 * Returns the token that ends at the given index, or null if no such
-	 * token exists. 
+	 * token exists.
+	 *
+	 * @param index The index of the token.
+	 * @return The token ending at the index.
 	 */
 	public Token getTokenByEndIndex(int index) {
 		checkIndex(index);

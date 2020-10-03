@@ -24,7 +24,7 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTraining
  *
  * Singleton pattern avoids time-consuming reinitialisation
  * and smoothing of nGram counts. Code should instance via static
- * &lt;code&gt;getInstance&lt/code&gt method.
+ * &lt;code&gt;getInstance&lt;/code&gt; method.
  * @author caw47, annexed by ptc24
  */
 public class NGramBuilder {

@@ -105,12 +105,6 @@ public final class Tokeniser implements ITokeniser {
 	 *            An XML element, corresponding to either the inline-annotated
 	 *            SciXML for the string, or to the root element of a SAF
 	 *            document with the named entities.
-	 * @param tokeniseForNEs
-	 *            Whether to ensure that named entity boundaries always result
-	 *            in token boundaries.
-	 * @param mergeNEs
-	 *            Whether to merge tokens to make sure that multi-token NEs
-	 *            become single-token NEs.
 	 * @return The TokenSequence for the string.
 	 */
 	public TokenSequence tokenise(String string, IProcessingDocument doc, int offset,

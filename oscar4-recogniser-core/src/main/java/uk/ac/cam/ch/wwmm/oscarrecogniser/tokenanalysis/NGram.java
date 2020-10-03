@@ -107,7 +107,7 @@ public class NGram {
     /**
      * Test a word against training data.
      * Returned score represents relative log probabilities of chemical vs
-     * english; i.e. scores > 0 are probably chemical.
+     * english; i.e. scores &gt; 0 are probably chemical.
      * @param word String to be tested
      * @return <PRE>ln(P(chemical|word)/P(english|word))</PRE>
      */

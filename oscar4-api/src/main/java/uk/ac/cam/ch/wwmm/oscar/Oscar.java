@@ -164,7 +164,7 @@ public class Oscar {
 	 * Sets the ({@link OntologyTerms} to be used by the default {@link MEMMRecogniser}
 	 * during named entity recognition. Will not override the behaviour of a
 	 * {@link ChemicalEntityRecogniser} injected using the
-	 * {@link #setRecogniser(ChemicalEntityRecogniser) method.
+	 * {@link #setRecogniser(ChemicalEntityRecogniser)} method.
 	 * 
 	 * @param ontologyTerms
 	 * @see Oscar#getOntologyTerms()

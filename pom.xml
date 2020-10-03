@@ -348,7 +348,6 @@
                                 <configuration>
                                         <source>8</source>
 					<detectJavaApiLink>false</detectJavaApiLink>
-                                        <doclint>none</doclint>
                                 </configuration>
                         </plugin>
 		</plugins>

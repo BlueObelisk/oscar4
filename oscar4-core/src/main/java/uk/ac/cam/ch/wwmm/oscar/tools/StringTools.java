@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 /**Static routines for string manipulation.
  *
  * @author ptc24
+ * @author dmj30
  *
  */
 public final class StringTools {
@@ -476,7 +477,6 @@ public final class StringTools {
 	 * Removes all instances of a specified char from a given string, returning the
 	 * original string if no instances exist
 	 *
-	 * @author dmj30
 	 * @param c Character to be removed.
 	 * @param string Input string.
 	 * @return The original string if no instances exist.

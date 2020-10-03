@@ -126,7 +126,7 @@ public final class MEMMOutputRescorerTrainer {
 	 * finishTraining() method must be called to do that.
 	 * 
 	 * @param f The file to train on.
-	 * @param memm The MEMM to be used to to generate the input potential NEs.
+	 * @param mexmm The MEMM to be used to to generate the input potential NEs.
 	 * @throws IOException 
 	 * @throws DataFormatException 
 	 */

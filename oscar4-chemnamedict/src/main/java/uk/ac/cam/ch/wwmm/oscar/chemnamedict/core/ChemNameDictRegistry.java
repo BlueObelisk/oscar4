@@ -104,11 +104,11 @@ public class ChemNameDictRegistry {
 	}
 
 	/**
-	 * Returns the {@link ChemNameDict} identified by the given {@link URI},
+	 * Returns the {@link IChemNameDict} identified by the given {@link URI},
 	 * or null if there is no such dictionary registered.
 	 *
 	 * @param  uri the unique {@link URI} of the dictionary
-	 * @return     a {@link ChemNameDict}
+	 * @return     a {@link IChemNameDict}
 	 */
 	public IChemNameDict getDictionary(URI uri) {
 		for (IChemNameDict dict : dictionaries) {

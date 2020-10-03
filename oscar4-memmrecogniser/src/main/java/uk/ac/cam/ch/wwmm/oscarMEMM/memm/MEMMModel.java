@@ -30,7 +30,7 @@ import uk.ac.cam.ch.wwmm.oscarrecogniser.extractedtrainingdata.ExtractedTraining
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGram;
 
 /**
- * Data model for {@link MEMM}.
+ * Data model for MEMM
  *
  * @author ptc24
  * @author egonw

@@ -93,7 +93,7 @@ public class OBOOntology {
 	/**Read a .obo file
 	 * 
 	 * @param f The .obo file to read.
-	 * @throws Exception
+	 * @throws IOException
 	 */
 	@Deprecated
 	//TODO this isn't called - do we need it?

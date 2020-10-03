@@ -320,7 +320,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 	/**
 	 * Is the MEMM rescorer being used
 	 * The rescorer takes into account the occurrence of entities to modify the confidence of other entities
-	 * @return
+	 * @return True if the MEMM rescorer is being used.
 	 */
 	public boolean isUseRescorer() {
 		return useRescorer;

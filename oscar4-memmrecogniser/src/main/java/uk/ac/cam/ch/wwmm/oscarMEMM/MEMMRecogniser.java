@@ -302,7 +302,7 @@ public class MEMMRecogniser implements ChemicalEntityRecogniser {
 	/**
 	 * Is the recogniser set to always prefer other entities to ontology entities
 	 * when finding in REMOVE_BLOCKED mode
-	 * @return
+	 * @return True if recogniser set to always prefer other entities to ontology entities.
 	 */
 	public boolean isDeprioritiseOnts() {
 		return deprioritiseOnts;

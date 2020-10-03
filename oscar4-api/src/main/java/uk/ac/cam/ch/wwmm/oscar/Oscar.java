@@ -177,7 +177,7 @@ public class Oscar {
 	 * Gets the {@link MEMMModel} to be used by the {@link MEMMRecogniser}
 	 * during named entity recognition. Defaults to the {@link ChemPapersModel}.
 	 *  
-	 * @return
+	 * @return The MEMMModel to be used.
 	 * @see Oscar#setMemmModel(MEMMModel)
 	 */
 	public synchronized MEMMModel getMemmModel() {

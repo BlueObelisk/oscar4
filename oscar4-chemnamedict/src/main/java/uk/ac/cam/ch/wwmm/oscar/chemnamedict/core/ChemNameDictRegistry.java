@@ -238,7 +238,7 @@ public class ChemNameDictRegistry {
 	 * Checks if the given ontology identifier is contained within any
 	 * of the currently-registered dictionaries.
 	 * @param identifier
-	 * @return
+	 * @return True if ontology identifier is contained.
 	 */
 	public boolean hasOntologyIdentifier(String identifier) {
 		for (IChemNameDict dict : dictionaries) {

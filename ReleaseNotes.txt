@@ -1,3 +1,25 @@
+Version 5.0.0
+Released 05/10/2020
+OSCAR4 now requires Java 8 (or higher)
+Javadoc fixes
+Maven-enforcer checks that dependencies are compatible with the project's JDK target
+Migrated to GitHub
+Enabled GitHub CI using Travis
+OPSIN 2.0 API fixes
+Updated dependencies (mvn versions:display-dependency-updates)
+        Guava --> 29.0-jre (CVE-2018-10237 fix)
+        wwmm-parent --> 7
+        commons-io --> 2.8.0
+        xom --> 1.3.5
+        poi --> 4.1.2
+        opsin-{core,inchi} --> 2.5.0
+        junit --> 4.13
+        mockito-core --> 3.5.13
+        icu4j --> 67.1
+        slf4j --> 1.7.30
+        opennlp-tools --> 1.9.3
+	log4j --> log4j2 2.13.3 (CVE-2019-17571 fix)
+
 Version 4.2.2
 Removed  <repositories> in parent pom, see;
   http://blog.sonatype.com/2010/03/why-external-repos-are-being-phased-out-of-central/

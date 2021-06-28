@@ -1,6 +1,6 @@
 
 # OSCAR4
-[![Build Status](https://travis-ci.org/BlueObelisk/oscar4.svg?branch=master)](https://travis-ci.org/BlueObelisk/oscar4) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/uk.ac.cam.ch.wwmm.oscar/oscar4/badge.svg)](https://maven-badges.herokuapp.com/maven-central/uk.ac.cam.ch.wwmm.oscar/oscar4)
+![Java CI with Maven](https://github.com/BlueObelisk/oscar4/workflows/Java%20CI%20with%20Maven/badge.svg) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/uk.ac.cam.ch.wwmm.oscar/oscar4/badge.svg)](https://maven-badges.herokuapp.com/maven-central/uk.ac.cam.ch.wwmm.oscar/oscar4)
 
 OSCAR (Open Source Chemistry Analysis Routines) is an open source extensible system for the automated annotation of chemistry in scientific articles. It can be used to identify chemical names, reaction names, ontology terms, enzymes and chemical prefixes and adjectives, and chemical data such as state, yield, IR, NMR and mass spectra and elemental analyses. In addition, where possible, any chemical names detected will be annotated with structures derived either by lookup, or name-to-structure parsing using [OPSIN](https://opsin.ch.cam.ac.uk/) or with identifiers from the [ChEBI](https://www.ebi.ac.uk/chebi/) (`Chemical Entities of Biological Interest’) ontology.
 

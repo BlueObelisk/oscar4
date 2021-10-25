@@ -57,11 +57,5 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>net.sf.jexample</groupId>
-            <artifactId>jexample</artifactId>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 </project>

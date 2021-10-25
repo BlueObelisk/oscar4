@@ -16,7 +16,6 @@ import nu.xom.Elements;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictRegistry;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -29,29 +28,29 @@ import uk.ac.cam.ch.wwmm.oscarMEMM.MEMMRecogniser;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.saf.StandoffResolver.ResolutionMode;
 import uk.ac.cam.ch.wwmm.oscarrecogniser.tokenanalysis.NGramBuilder;
 import uk.ac.cam.ch.wwmm.oscartokeniser.Tokeniser;
-import ch.unibe.jexample.Given;
-import ch.unibe.jexample.JExample;
 
-@RunWith(JExample.class)
 public class MEMMTrainerTest {
 
 	@Test
-	public MEMMTrainer testConstructor() {
+	public void testConstructor() {
 		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());
 		assertNotNull(trainer);
-		return trainer;
 	}
 
-	@Given("testConstructor")
-	public String testUntrainedStatus(MEMMTrainer trainer) throws Exception {
+	@Test
+	public void testUntrainedStatus() throws Exception {
+		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());
 		String xml = trainer.getModel().writeModel().toXML();
 		assertEquals("<model />", xml);
-		return xml;
 	}
 
-	@Given("testConstructor,testUntrainedStatus")
-	public Element testLearning(MEMMTrainer trainer, String untrainedXML)
+	@Test
+	public void testLearning()
 			throws Exception {
+
+		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());
+		String untrainedXML = trainer.getModel().writeModel().toXML();
+
 		List <Document> sourceDocs = new ArrayList<Document>();
 		InputStream stream = this
 				.getClass()
@@ -77,9 +76,6 @@ public class MEMMTrainerTest {
 		Elements elements = memmModel.getChildElements();
 		for (int i = 0; i < elements.size(); i++)
 			assertEquals("maxent", elements.get(i).getLocalName());
-
-		
-		return trainedModel;
 	}
 
 	
@@ -106,8 +102,25 @@ public class MEMMTrainerTest {
 		assertEquals("Chemical Types recognised",expectedTypeList,actualTypeList);
 	}
 	
-	@Given("testLearning")
-	public void testExtractTrainingData(Element trainedModel) throws Exception{
+	@Test
+	public void testExtractTrainingData() throws Exception{
+		MEMMTrainer trainer = new MEMMTrainer(ChemNameDictRegistry.getDefaultInstance());
+
+		List <Document> sourceDocs = new ArrayList<Document>();
+		InputStream stream = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+					"uk/ac/cam/ch/wwmm/oscarMEMM/memm/paper.xml");
+		try {
+			sourceDocs.add(new Builder().build(stream));
+		}
+		finally {
+			IOUtils.closeQuietly(stream);
+		}
+		trainer.trainOnDocs(sourceDocs);
+		Element trainedModel = trainer.getModel().writeModel();
+
 		MEMMModel model = new MEMMModel(trainedModel);
 		assertEquals("Number of Chemical words in ExtractedTrainingData size",453, model.getExtractedTrainingData().getChemicalWords().size());
 		assertEquals("Number of non-chemical words in ExtractedTrainingData size",1175, model.getExtractedTrainingData().getNonChemicalWords().size());

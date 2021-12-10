@@ -86,7 +86,7 @@
 	<scm>
 		<url>https://github.com/blueobelisk/oscar4</url>
 		<connection>scm:git:https://github.com/blueobelisk/oscar4</connection>
-		<developerConnection>scm:git:https://github.com/blueobelisk/oscar4</developerConnection>
+		<developerConnection>scm:git:git@github.com:BlueObelisk/oscar4.git</developerConnection>
 	  <tag>HEAD</tag>
   </scm>
 

@@ -3,7 +3,7 @@
     <parent>
         <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
         <artifactId>oscar4</artifactId>
-        <version>5.0-SNAPSHOT</version>
+        <version>5.1.0</version>
     </parent>
 
     <artifactId>oscar4-formatter</artifactId>
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
             <artifactId>oscar4-core</artifactId>
-            <version>5.0-SNAPSHOT</version>
+            <version>5.1.0</version>
         </dependency>
     </dependencies>
 

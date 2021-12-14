@@ -1,3 +1,32 @@
+Version 5.1.0
+Released 11/12/2021
+Update slf4j to 1.7.32
+Update mockito to 4.1.0
+Update poi to 5.1.0
+Update guava to 31.0.1
+Update opennlp-tools to 1.9.4
+Update to icu4j 70.1
+
+
+Version 5.0.1
+Released 11/12/2021
+log4j security fix
+JDK17 jexample fix
+Update maven-enforcer-plugin to 3.0.0
+Update to commons-io 2.11.0
+Update actions/setup-java to 2
+Update mockito to 3.11.2
+Update slf4j to 1.7.31
+Switch to Actions CI
+Update poi to 5.0.0
+Update commons-io to 2.10.0
+Update log4j to 2.14.1
+Update mockito to 3.11.1
+Update icu44j to 69.1
+Update xom to 1.3.7
+Update JUnit to 4.13.2
+Fix for CVE-2020-8908
+
 Version 5.0.0
 Released 05/10/2020
 OSCAR4 now requires Java 8 (or higher)

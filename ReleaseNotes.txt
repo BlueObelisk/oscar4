@@ -1,3 +1,8 @@
+Version 5.1.2
+Released 30/12/2021
+Ensure we are using the log4j implementation that we think we are
+Update log4j to 2.17.1
+
 Version 5.1.1
 Released 14/12/2021
 Update log4j to 2.16.0

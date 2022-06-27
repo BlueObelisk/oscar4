@@ -66,7 +66,7 @@
 		<icu4j.version>71.1</icu4j.version>
 		<poi.version>5.2.2</poi.version>
 		<opennlp-maxent.version>3.0.3</opennlp-maxent.version>
-		<opennlp-tools.version>1.9.4</opennlp-tools.version>
+		<opennlp-tools.version>2.0.0</opennlp-tools.version>
 		<automaton.version>1.11-8</automaton.version>
 		<commons-lang.version>2.6</commons-lang.version>
 		<commons-io.version>2.11.0</commons-io.version>

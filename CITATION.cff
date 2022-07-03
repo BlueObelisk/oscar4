@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: Please cite the following works when using this software.
+type: software
+authors:
+  - family-names: Jessop
+    given-names: David M
+  - family-names: Adams
+    given-names: Sam E.
+  - family-names: Willighagen
+    given-names: Egon
+  - family-names: Hawizy
+    given-names: Lezan
+  - family-names: Murray-Rust
+    given-names: Peter
+doi: 10.1186/1758-2946-3-41
+identifiers:
+  - type: doi
+    value: 10.1186/1758-2946-3-41
+keywords:
+  - chemistry
+  - text mining
+title: 'OSCAR4: a flexible architecture for chemical text-mining'

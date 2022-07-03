@@ -37,4 +37,4 @@ for (ResolvedNamedEntity ne : entities) {
 
 OSCAR4 is available for download:
 
-[OSCAR4-5.1.2 JAR with dependencies](https://repo.maven.apache.org/maven2/uk/ac/cam/ch/wwmm/oscar/oscar4-all/5.1.2/oscar4-all-5.1.2-with-dependencies.jar)
+[OSCAR4-5.2.0 JAR with dependencies](https://repo.maven.apache.org/maven2/uk/ac/cam/ch/wwmm/oscar/oscar4-all/5.2.0/oscar4-all-5.2.0-with-dependencies.jar)

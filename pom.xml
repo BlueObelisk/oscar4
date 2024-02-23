@@ -73,7 +73,7 @@
 		<commons-discovery.version>20040218.194635</commons-discovery.version>
 		<jregex.version>1.2_01</jregex.version>
 		<commons-math.version>2.2</commons-math.version>
-		<guava.version>32.1.2-jre</guava.version>
+		<guava.version>33.0.0-jre</guava.version>
 		<jexample.version>4.4-378</jexample.version>
 		<mockito-core.version>4.11.0</mockito-core.version>
 		<junit.version>4.13.2</junit.version>

@@ -62,18 +62,18 @@
 		<opsin-core.version>2.8.0</opsin-core.version>
 		<opsin-inchi.version>${opsin-core.version}</opsin-inchi.version>
 		<xom.version>1.3.9</xom.version>
-		<log4j2.version>2.23.0</log4j2.version>
+		<log4j2.version>2.25.1</log4j2.version>
 		<icu4j.version>74.2</icu4j.version>
-		<poi.version>5.2.5</poi.version>
+		<poi.version>5.4.1</poi.version>
 		<opennlp-maxent.version>3.0.3</opennlp-maxent.version>
 		<opennlp-tools.version>2.3.2</opennlp-tools.version>
 		<automaton.version>1.11-8</automaton.version>
 		<commons-lang.version>2.6</commons-lang.version>
-		<commons-io.version>2.15.1</commons-io.version>
+		<commons-io.version>2.20.0</commons-io.version>
 		<commons-discovery.version>20040218.194635</commons-discovery.version>
 		<jregex.version>1.2_01</jregex.version>
 		<commons-math.version>2.2</commons-math.version>
-		<guava.version>33.0.0-jre</guava.version>
+		<guava.version>33.4.8-jre</guava.version>
 		<jexample.version>4.4-378</jexample.version>
 		<mockito-core.version>4.11.0</mockito-core.version>
 		<junit.version>4.13.2</junit.version>
@@ -323,7 +323,7 @@
 					<dependency>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>extra-enforcer-rules</artifactId>
-						<version>1.7.0</version>
+						<version>1.10.0</version>
 					</dependency>
 				</dependencies>
 			</plugin>

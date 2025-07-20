@@ -8,9 +8,6 @@ import java.util.Locale;
 
 import nu.xom.Document;
 import nu.xom.ParsingException;
-
-import org.apache.commons.lang.StringUtils;
-
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.ChemNameDictIO;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.IChemNameDict;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.core.MutableChemNameDict;
@@ -57,7 +54,7 @@ public class PolymerDictionary extends MutableChemNameDict implements IChemNameD
 
 	@Override
 	public void addName(String name) {
-		if (StringUtils.isEmpty(name)) {
+		if (name != null && name.isEmpty()) {
 			throw new IllegalArgumentException("The name cannot be null or empty, but was '" + String.valueOf(name)
 						+ "'");
 		}

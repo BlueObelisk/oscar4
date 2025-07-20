@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
-
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.ChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IChemRecord;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.records.IOntologyChemRecord;
@@ -27,7 +25,7 @@ public class MutableChemNameDict extends ImmutableChemNameDict implements IMutab
 	}
 
 	public void addStopWord(String word) {
-		if (StringUtils.isEmpty(word)) {
+		if (word != null && word.isEmpty()) {
 			throw new IllegalArgumentException("The word cannot be null or empty, but was '" + String.valueOf(word)
 						+ "'");
 		}
@@ -130,7 +128,7 @@ public class MutableChemNameDict extends ImmutableChemNameDict implements IMutab
 	}
 
 	public void addName(String name) {
-		if (StringUtils.isEmpty(name)) {
+		if (name != null && name.isEmpty()) {
 			throw new IllegalArgumentException("The name cannot be null or empty, but was '" + String.valueOf(name)
 						+ "'");
 		}

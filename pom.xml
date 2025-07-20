@@ -68,7 +68,6 @@
 		<opennlp-maxent.version>3.0.3</opennlp-maxent.version>
 		<opennlp-tools.version>2.5.4</opennlp-tools.version>
 		<automaton.version>1.11-8</automaton.version>
-		<commons-lang.version>2.6</commons-lang.version>
 		<commons-io.version>2.20.0</commons-io.version>
 		<commons-discovery.version>20040218.194635</commons-discovery.version>
 		<jregex.version>1.2_01</jregex.version>
@@ -220,11 +219,6 @@
 				<groupId>dk.brics.automaton</groupId>
 				<artifactId>automaton</artifactId>
 				<version>${automaton.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-lang</groupId>
-				<artifactId>commons-lang</artifactId>
-				<version>${commons-lang.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>

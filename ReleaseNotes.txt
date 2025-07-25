@@ -1,4 +1,4 @@
-Version 5.1.3
+Version 5.2.1
 Update OPSIN to 2.8.0
 Update xom to 1.3.9
 Update log4j2 2.25.1

@@ -27,6 +27,61 @@ for (ResolvedNamedEntity ne : entities) {
 }
 ```
 
+## Deployment to the Maven central repository
+1) Create a gpg key
+``` 
+gpg --full-generate-key --pinentry-mode=loopback
+```
+Note, I think it must be RSA and the largest you can create. Remember to protect it with a password.
+
+2) Upload it to http://keyserver.ubuntu.com/
+```
+gpg --armor --export mjw@mjw.name
+```
+Take the output from the above command and paste it into that URL.
+
+3) Create an account on https://central.sonatype.com/
+
+4) Log in and make sure you have access to the Namespace you want to deploy to:
+   https://central.sonatype.com/publishing/namespaces
+   
+For this repo, it will be uk.ac.cam.ch.wwmm; if you do not, you will need to request access via someone else, who does have access.
+
+5) You will need to create a token for deployment via https://central.sonatype.com/account
+This needs to be pasted into your ~/.m2/settings.xml, e.g.:
+```
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+	https://maven.apache.org/xsd/settings-1.0.0.xsd">
+<servers>
+  <server>
+	<id>central</id>
+	<username>foo</username>
+	<password>bar</password>
+  </server>
+</servers>
+</settings>
+```
+
+6) Note, this assumes you have a ssh key to access github. Build, package and sign: 
+```
+mvn -Dusername=git release:prepare -DautoVersionSubmodules=true -DreleaseVersion=5.2.1 -DdevelopmentVersion=5.3-SNAPSHOT
+```
+
+- Set the tag label as 5.2.1 when requested
+- Enter your GPG password
+
+7) Upload it to central.sonatype.com
+```
+mvn release:perform -DconnectionUrl=scm:git:https://github.com/BlueObelisk/oscar4 -Dtag=5.2.1
+```
+- Enter your GPG password
+
+8) Log into https://central.sonatype.com/publishing/deployments
+The deployment should be here, pending to go; if everything is green, hit publish.
+
+
 ## Support
 
 [Issue/Feature Request Tracker](https://github.com/blueobelisk/oscar4/issues)

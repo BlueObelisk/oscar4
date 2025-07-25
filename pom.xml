@@ -10,7 +10,7 @@
 
 	<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 	<artifactId>oscar4</artifactId>
-	<version>5.2.1</version>
+	<version>5.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>oscar4-parent</name>
@@ -83,7 +83,7 @@
 		<url>https://github.com/blueobelisk/oscar4</url>
 		<connection>scm:git:https://github.com/blueobelisk/oscar4</connection>
 		<developerConnection>scm:git:git@github.com:BlueObelisk/oscar4.git</developerConnection>
-	  <tag>5.2.1</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<issueManagement>
@@ -112,52 +112,52 @@
 			<dependency>
 				<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 				<artifactId>oscar4-core</artifactId>
-				<version>5.2.1</version>
+				<version>5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 				<artifactId>oscar4-tokenizer</artifactId>
-				<version>5.2.1</version>
+				<version>5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 				<artifactId>oscar4-recogniser-core</artifactId>
-				<version>5.2.1</version>
+				<version>5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 				<artifactId>oscar4-memmrecogniser</artifactId>
-				<version>5.2.1</version>
+				<version>5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 				<artifactId>oscar4-patternrecogniser</artifactId>
-				<version>5.2.1</version>
+				<version>5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 				<artifactId>oscar4-chemnamedict</artifactId>
-				<version>5.2.1</version>
+				<version>5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 				<artifactId>oscar4-obo</artifactId>
-				<version>5.2.1</version>
+				<version>5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 				<artifactId>oscar4-opsin</artifactId>
-				<version>5.2.1</version>
+				<version>5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 				<artifactId>oscar4-api</artifactId>
-				<version>5.2.1</version>
+				<version>5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
 				<artifactId>oscar4-data</artifactId>
-				<version>5.2.1</version>
+				<version>5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>uk.ac.cam.ch.opsin</groupId>

@@ -66,7 +66,7 @@ This needs to be pasted into your ~/.m2/settings.xml, e.g.:
 
 6) Note, this assumes you have a ssh key to access github. Build, package and sign: 
 ```
-mvn -Dusername=git release:prepare -DautoVersionSubmodules=true -DreleaseVersion=5.2.1 -DdevelopmentVersion=5.3-SNAPSHOT
+mvn -Dusername=git release:prepare -DautoVersionSubmodules=true -DreleaseVersion=5.3.0 -DdevelopmentVersion=5.4-SNAPSHOT
 ```
 
 - Set the tag label as 5.2.1 when requested
@@ -74,7 +74,7 @@ mvn -Dusername=git release:prepare -DautoVersionSubmodules=true -DreleaseVersion
 
 7) Upload it to central.sonatype.com
 ```
-mvn release:perform -DconnectionUrl=scm:git:https://github.com/BlueObelisk/oscar4 -Dtag=5.2.1
+mvn -Psonatype-oss-release  release:perform -DconnectionUrl=scm:git:https://github.com/BlueObelisk/oscar4 -Dtag=5.3.0
 ```
 - Enter your GPG password
 

@@ -69,7 +69,7 @@ This needs to be pasted into your ~/.m2/settings.xml, e.g.:
 mvn -Dusername=git release:prepare -DautoVersionSubmodules=true -DreleaseVersion=5.3.0 -DdevelopmentVersion=5.4-SNAPSHOT
 ```
 
-- Set the tag label as 5.2.1 when requested
+- Set the tag label as 5.3.0 when requested
 - Enter your GPG password
 
 7) Upload it to central.sonatype.com
@@ -88,8 +88,3 @@ The deployment should be here, pending to go; if everything is green, hit publis
 
 [Mailing List (Google Group)](https://groups.google.com/forum/#!forum/oscar4-users)
 
-## Downloads
-
-OSCAR4 is available for download:
-
-[OSCAR4-5.2.0 JAR with dependencies](https://repo.maven.apache.org/maven2/uk/ac/cam/ch/wwmm/oscar/oscar4-all/5.2.0/oscar4-all-5.2.0-with-dependencies.jar)

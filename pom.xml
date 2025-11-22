@@ -68,7 +68,7 @@
 		<opennlp-maxent.version>3.0.3</opennlp-maxent.version>
 		<opennlp-tools.version>2.5.4</opennlp-tools.version>
 		<automaton.version>1.11-8</automaton.version>
-		<commons-io.version>2.20.0</commons-io.version>
+		<commons-io.version>2.21.0</commons-io.version>
 		<commons-discovery.version>20040218.194635</commons-discovery.version>
 		<jregex.version>1.2_01</jregex.version>
 		<commons-math.version>2.2</commons-math.version>
